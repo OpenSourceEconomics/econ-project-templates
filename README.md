@@ -14,25 +14,27 @@ Getting started (Stata-based project)
 
         C:\Projects\returns-to-education\
 
+2. Use the "find in project"-functionality of your editor to search and replace the following terms:
 
-2. Make sure that [Python](http://python.org/), [Stata](http://www.stata.com/), and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) can be found on your path. Your Python distribution needs to have the package [sphinx](http://sphinx-doc.org/) installed; the [Anaconda Python distribution](https://store.continuum.io/cshop/anaconda/) is recommended.
+        NNN -> Your name
+        UUU -> Your affiliation
+        TTT -> The title of the project
+
+3. Make sure that [Python](http://python.org/), [Stata](http://www.stata.com/), and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) can be found on your path. Your Python distribution needs to have the package [sphinx](http://sphinx-doc.org/) installed; the [Anaconda Python distribution](https://store.continuum.io/cshop/anaconda/) is recommended.
 
 
-3. Navigate to the folder in a shell. Type the following commands to see whether the examples are working:
+4. Navigate to the folder in a shell. Type the following commands to see whether the examples are working:
 
         python waf.py configure
         python waf.py build
         python waf.py install
 
-   The first command will fail if the required programs cannot be found. You may now
-   find some information on how to use the project template in "project_documentation/index.html".
+   The first command will fail if the required programs cannot be found. 
 
    If the second step fails, try the following to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
 
         python waf.py build -j1
 
-4. Use the "find in project"-functionality of your editor to search and replace the following terms:
+    If everything worked without error, you may now find more information on how to use the project template in "project_documentation/index.html".
 
-        NNN -> Your name
-        UUU -> Your affiliation
-        TTT -> The title of the project
+
