@@ -1,0 +1,2 @@
+def build(ctx):
+    ctx(features='write_project_paths', target='project_paths.do')

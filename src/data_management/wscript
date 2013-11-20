@@ -1,0 +1,18 @@
+def build(ctx):
+
+    def out_data(*args):
+        return ctx.path_to(ctx, 'OUT_DATA', *args)
+
+    targets = [
+        out_data('streg_example_data.dta'),
+        out_data('streg_example_data.signature'),
+        out_data('log', 'streg_example_prep.log')
+    ]
+
+    ctx(
+        features='run_do_script',
+        source='streg_example_prep.do',
+        target=targets,
+        deps='../library/stata/project_paths.do',
+        name='streg_example_prep'
+    )

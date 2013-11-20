@@ -1,0 +1,3 @@
+def build(ctx):
+    # See ../analysis/wscript for some examples of usage.
+    pass

@@ -1,0 +1,3 @@
+def build(ctx):
+    ctx.recurse('python')
+    ctx.recurse('stata')
