@@ -25,7 +25,7 @@
 *.pyc
 *.run.xml
 *.snm
-*.sublime-workspace
+*.sublime-*
 *.svn
 *.tmproj
 *.toc
