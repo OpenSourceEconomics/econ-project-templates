@@ -12,12 +12,12 @@ This is a collection of templates where much of this automation is pre-configure
 The branch names follow the main language used in a particular example. You should base your project on the branch that specifies the language that you will use most (you can easily add in support for more languages, just a single line if it is supported).
 
 
-Getting started (Stata-based project)
+Getting started (Python-based project)
 ---------------------------------------------
 
 1. Clone the project template repository and copy its contents to the place on your machine where you want the resulting project to live, e.g.
 
-        C:\Projects\returns-to-education\
+        C:\Projects\structural-retirement-model\
 
 2. Use the "find in project"-functionality of your editor to search and replace the following terms:
 
@@ -25,8 +25,7 @@ Getting started (Stata-based project)
         UUU -> Your affiliation
         TTT -> The title of the project
 
-3. Make sure that [Python](http://python.org/), [Stata](http://www.stata.com/), and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) can be found on your path. Your Python distribution needs to have the package [sphinx](http://sphinx-doc.org/) installed; the [Anaconda Python distribution](https://store.continuum.io/cshop/anaconda/) is recommended.
-
+3. Make sure that [Python](http://python.org/) and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) can be found on your path. Your Python distribution needs to have the package [sphinx](http://sphinx-doc.org/) installed; the [Anaconda Python distribution](https://store.continuum.io/cshop/anaconda/) is recommended.
 
 4. Navigate to the folder in a shell. Type the following commands to see whether the examples are working:
 

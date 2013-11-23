@@ -11,30 +11,19 @@ def set_project_paths(ctx):
 
     pp = {}
     pp['PROJECT_ROOT'] = '.'
-    pp['IN_DATASET_1'] = 'src/original_data/dataset_1'
-    pp['IN_LIBRARY'] = 'src/library'
+    pp['IN_DATA'] = 'src/original_data'
     pp['IN_MODELS'] = 'src/models'
     pp['OUT_DATA'] = '{}/out/data'.format(out)
     pp['OUT_ANALYSIS'] = '{}/out/analysis'.format(out)
     pp['OUT_FINAL'] = '{}/out/final'.format(out)
-    pp['OUT_MODELS'] = '{}/src/models'.format(out)
     pp['OUT_FIGURES'] = '{}/out/figures'.format(out)
     pp['OUT_TABLES'] = '{}/out/tables'.format(out)
-
-    # Stata's adopaths get special treatment.
-    lib = pp['IN_LIBRARY']
-    pp['ADO'] = {}
-    pp['ADO']['PERSONAL'] = os.path.join(lib, 'stata/ado_ext/personal')
-    pp['ADO']['PLUS'] = os.path.join(lib, 'stata/ado_ext/plus')
-    pp['ADO']['LOCAL'] = os.path.join(lib, 'stata')
+    # No need to distinguish between in/out for library (just Waf-internal)
+    pp['LIBRARY'] = 'src/library'
 
     # Convert the directories into Waf nodes.
     for key, val in pp.items():
-        if not key == 'ADO':
-            pp[key] = ctx.path.make_node(val)
-        else:
-            for adokey, adoval in val.items():
-                pp[key][adokey] = ctx.path.make_node(adoval)
+        pp[key] = ctx.path.make_node(val)
 
     return pp
 
@@ -70,7 +59,6 @@ def configure(ctx):
     ctx.load('why')
     ctx.load('biber')
     ctx.load('run_py_script')
-    ctx.load('run_do_script')
     ctx.load('sphinx_build')
     ctx.load('write_project_headers')
 

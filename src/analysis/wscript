@@ -6,18 +6,6 @@ def build(ctx):
     def out_data(*args):
         return ctx.path_to(ctx, 'OUT_DATA', *args)
 
-    # Illustrate simple use of run_do_script.
-    ctx(
-        features='run_do_script',
-        source='descriptives.do',
-        target=out_analysis('log', 'descriptives.log'),
-        deps=[
-            '../library/stata/project_paths.do',
-            out_data('streg_example_data.signature')
-        ],
-        name='descriptives_example'
-    )
-
     # Illustrate simple use of run_py_script
     ctx(
         features='run_py_script',
@@ -25,17 +13,19 @@ def build(ctx):
         target=out_analysis('simulation_results.txt')
     )
 
-    # Illustrate use of run_do_script with automatic model specification.
+    return
+
+    # Illustrate use of run_py_script with automatic model specification.
     model = 'baseline'
     source = 'streg_example'
     ctx(
-        features='run_do_script',
+        features='run_py_script',
         source='{}.do'.format(source),
         target=out_analysis('log', '{}_{}.log'.format(source, model)),
         deps=[
-            ctx.path_to(ctx, 'IN_MODELS', '{}.do'.format(model)),
-            ctx.path_to(ctx, 'IN_LIBRARY', 'stata', 'project_paths.do'),
-            out_data('streg_example_data.signature')
+            ctx.path_to(ctx, 'IN_MODELS', '{}.json'.format(model)),
+            ctx.path_to(ctx, 'LIBRARY', 'python', 'project_paths.py'),
+            out_data('streg_example_data.pickle')
         ],
         append='baseline',
         name='{}_{}'.format(source, model)
