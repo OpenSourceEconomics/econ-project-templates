@@ -12,7 +12,6 @@ def set_project_paths(ctx):
     pp = {}
     pp['PROJECT_ROOT'] = '.'
     pp['IN_DATASET_1'] = 'src/original_data/dataset_1'
-    pp['IN_LIBRARY'] = 'src/library'
     pp['IN_MODELS'] = 'src/models'
     pp['OUT_DATA'] = '{}/out/data'.format(out)
     pp['OUT_ANALYSIS'] = '{}/out/analysis'.format(out)
@@ -20,9 +19,11 @@ def set_project_paths(ctx):
     pp['OUT_MODELS'] = '{}/src/models'.format(out)
     pp['OUT_FIGURES'] = '{}/out/figures'.format(out)
     pp['OUT_TABLES'] = '{}/out/tables'.format(out)
+    # No need to distinguish between in/out for library (just Waf-internal)
+    pp['LIBRARY'] = 'src/library'
 
     # Stata's adopaths get special treatment.
-    lib = pp['IN_LIBRARY']
+    lib = pp['LIBRARY']
     pp['ADO'] = {}
     pp['ADO']['PERSONAL'] = os.path.join(lib, 'stata/ado_ext/personal')
     pp['ADO']['PLUS'] = os.path.join(lib, 'stata/ado_ext/plus')

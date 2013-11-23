@@ -33,8 +33,8 @@ def build(ctx):
         source='{}.do'.format(source),
         target=out_analysis('log', '{}_{}.log'.format(source, model)),
         deps=[
-            ctx.path_to(ctx, 'IN_MODELS', '{}.do'.format(model)),
-            ctx.path_to(ctx, 'IN_LIBRARY', 'stata', 'project_paths.do'),
+            ctx.path_to(ctx, 'OUT_MODELS', '{}.do'.format(model)),
+            ctx.path_to(ctx, 'LIBRARY', 'stata', 'project_paths.do'),
             out_data('streg_example_data.signature')
         ],
         append='baseline',
