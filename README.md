@@ -5,9 +5,9 @@ An empirical or computational research project only becomes a useful building bl
 
 This is a collection of templates where much of this automation is pre-configured via describing the research workflow as a dependent acyclic graph (DAG) using [Waf](https://code.google.com/p/waf/). You just need to:
 
-* Download the template for the main language in your project (Stata, Matlab, Python, R, ...)
-* Move your programs to the right places and change the placeholder scripts
-* Run Waf, which will automatically figure out which parts of the project need to be rebuilt
+* Download the template for the main language in your project (Stata, Matlab, Python, R, ...).
+* Move your programs to the right places and change the placeholder scripts.
+* Run Waf, which will built your entire project the first time you run it. Later, it will automatically figure out which parts of the project need to be rebuilt.
 
 The branch names follow the main language used in a particular example. You should base your project on the branch that specifies the language that you will use most (you can easily add in support for more languages, just a single line if it is supported).
 
