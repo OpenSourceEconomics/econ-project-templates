@@ -26,8 +26,6 @@ def build(ctx):
     )
 
     # Illustrate use of run_do_script with automatic model specification.
-
-    # Now create a task for the just-created do-file.
     model = 'baseline'
     source = 'streg_example'
     ctx(
