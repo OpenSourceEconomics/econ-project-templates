@@ -1,6 +1,8 @@
 Templates for Reproducible Research Projects in Economics
 ===========================================================
 
+*See* http://hmgaudecker.github.io/econ-project-templates/ *for the full documentation.*
+
 An empirical or computational research project only becomes a useful building block for science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse.
 
 This is a collection of templates where much of this automation is pre-configured via describing the research workflow as a dependent acyclic graph (DAG) using [Waf](https://code.google.com/p/waf/). You just need to:
