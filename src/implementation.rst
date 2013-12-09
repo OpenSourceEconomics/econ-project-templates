@@ -4,8 +4,7 @@
 Implementation
 **************
 
-Some implementation details
-
+(TBD)
 
 .. _project_paths:
 

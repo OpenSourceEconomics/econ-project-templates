@@ -4,6 +4,8 @@
 Getting started
 ***************
 
+(TBD)
+
 This is a collection of templates where much of this automation is pre-configured via describing the research workflow as a dependent acyclic graph (DAG) using [Waf](https://code.google.com/p/waf/). You just need to:
 
 * Download the template for the main language in your project (Stata, Matlab, Python, R, ...)
