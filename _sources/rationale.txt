@@ -7,7 +7,7 @@ Design rationale
 Main thoughts:
 
 * Separation of logical chunks: A minimal requirement for a project to scale.
-* Run only required parts: Again required for scalability. It means that the machine needs to know what is required.
+* Run only required parts: Again required for scalability. It means that the machine needs to know what is meant by a "required part".
 * Re-use of code and data instead of copying and pasting: Else you will forget the copy & paste step at some point down the road.
 * Be as language-agnostic as possible: Make it easy to use the best tool for a particular problem and to mix them in a project.
 
@@ -23,6 +23,7 @@ To fix ideas, say you embark on a research project that has three different **mo
 3. Check robustness against a particular alternative (probably more to follow as the project matures)
 
 For each model, you need to perform various steps:
+
 1. Manage the data ("cleaning" in empirical work, drawing a sample in computational work) 
 2. Run the actual estimations/simulations/?, 
 3. Visualisation and format the results (e.g. export of LaTeX tables)

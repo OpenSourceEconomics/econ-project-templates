@@ -56,7 +56,7 @@
 <p>Main thoughts:</p>
 <ul class="simple">
 <li>Separation of logical chunks: A minimal requirement for a project to scale.</li>
-<li>Run only required parts: Again required for scalability. It means that the machine needs to know what is required.</li>
+<li>Run only required parts: Again required for scalability. It means that the machine needs to know what is meant by a &#8220;required part&#8221;.</li>
 <li>Re-use of code and data instead of copying and pasting: Else you will forget the copy &amp; paste step at some point down the road.</li>
 <li>Be as language-agnostic as possible: Make it easy to use the best tool for a particular problem and to mix them in a project.</li>
 </ul>
@@ -69,11 +69,13 @@
 <li>Compute your baseline specification</li>
 <li>Check robustness against a particular alternative (probably more to follow as the project matures)</li>
 </ol>
-<p>For each model, you need to perform various steps:
-1. Manage the data (&#8220;cleaning&#8221; in empirical work, drawing a sample in computational work)
-2. Run the actual estimations/simulations/?,
-3. Visualisation and format the results (e.g. export of LaTeX tables)
-4. Finally, you need to pull everything together in whatever you use to dissemninate your findings: A paper and a presentation, usually.</p>
+<p>For each model, you need to perform various steps:</p>
+<ol class="arabic simple">
+<li>Manage the data (&#8220;cleaning&#8221; in empirical work, drawing a sample in computational work)</li>
+<li>Run the actual estimations/simulations/?,</li>
+<li>Visualisation and format the results (e.g. export of LaTeX tables)</li>
+<li>Finally, you need to pull everything together in whatever you use to dissemninate your findings: A paper and a presentation, usually.</li>
+</ol>
 <p>It is usually very useful to explictly distinguish between steps 2. and 3. because often computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes.</p>
 </div>
 <div class="section" id="how-to-organise-the-workflow">

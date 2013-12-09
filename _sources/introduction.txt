@@ -27,7 +27,7 @@ It is sad if not the substance, but controversies about the replicability of res
 
 
 .. figure:: examples/McCullough09Fig1.jpg
-   :width: 50em
+   :width: 35em
    
    *Economic Journals with Mandatory Data + Code Archives, Figure 1 in* :cite:`McCullough09`
 
