@@ -1,0 +1,97 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Templates for reproducible research projects in economics  documentation</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Templates for reproducible research projects in economics  documentation" href="index.html" />
+    <link rel="next" title="Design rationale" href="rationale.html" />
+    <link rel="prev" title="Table of Contents" href="index.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Templates for reproducible research projects in economics  documentation</span></a></h1>
+        <h2 class="heading"><span>Introduction</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Table of Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="rationale.html">Design rationale</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="introduction">
+<span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>An empirical or computational research project only becomes a useful building block for science when <strong>all</strong> steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse. This code base aims to help on two issues in the quest for this goal:</p>
+<ol class="arabic simple">
+<li>Saving you from a bunch of repetitive steps that need to be done sooner or later when starting a new project</li>
+<li>Helping you on ensuring reproducibility of your research findings from the beginning to the end</li>
+</ol>
+<p>The first should lure you in quickly, the second convince you to stick to it in the long run&#8212;unless you are familiar with the tools already, there will be times where you think that all this is overkill and far more difficult than necessary. It is not [although I am always happy to hear about easier alternatives].</p>
+<p>The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by <a class="reference external" href="https://code.google.com/p/waf/">Waf</a>, which is written in <a class="reference external" href="http://www.python.org/">Python</a>. You do not need to know much Python to get going, though. If you are a complete novice, you should read through the entire documents instead of jumping directly to the <a class="reference internal" href="getting_started.html#getting-started"><em>Getting started</em></a> section. Please let me know about any sections you think would merit more explanation; this is all work in progress.</p>
+<p>First, let me expand on the reproducibility part, though.</p>
+<div class="section" id="the-case-for-reproducibility">
+<h2>The case for reproducibility<a class="headerlink" href="#the-case-for-reproducibility" title="Permalink to this headline">¶</a></h2>
+<p>The credibility of (economic) research is undermined if erroneous results appear in respected journals. To quote McCullough and Vinod <a class="reference internal" href="references.html#mcculloughvinod03">[11]</a>:</p>
+<blockquote>
+<div><em>Replication is the cornerstone of science. Research that cannot be replicated is not science, and cannot be trusted either as part of the profession’s accumulated body of knowledge or as a basis for policy. Authors may think they have written perfect code for their bug-free software package and correctly transcribed each data point, but readers cannot safely assume that these error-prone activities have been executed flawlessly until the authors’ efforts have been independently verified. A researcher who does not openly allow independent verification of his results puts those results in the same class as the results of a researcher who does share his data and code but whose results cannot be replicated: the class of results that cannot be verified, i.e., the class of results that cannot be trusted.</em></div></blockquote>
+<p>It is sad if not the substance, but controversies about the replicability of results make it to the first page of the Wall Street Journal <a class="reference internal" href="references.html#wsj05">[12]</a>, covering the exchange between Hoxby and Rothstein (<a class="reference internal" href="references.html#hoxby00">[1]</a> &#8211; <a class="reference internal" href="references.html#rothstein07comment">[5]</a> &#8211; <a class="reference internal" href="references.html#hoxby07">[2]</a> &#8211; <a class="reference internal" href="references.html#rothstein07rejoinder">[6]</a>). There are some other well-known cases from top journals, see for example Levitt and McCrary (<a class="reference internal" href="references.html#levitt97">[3]</a> &#8211; <a class="reference internal" href="references.html#mccrary02">[9]</a> &#8211; <a class="reference internal" href="references.html#levitt02">[4]</a>) or the experiences reported in McCullough and Vinod <a class="reference internal" href="references.html#mcculloughvinod03">[11]</a>. The Reinhart and Rogoff controversy is another case in point, google is your friend in case you do not remember it. Assuming that the incentives for replication are much smaller in lower-ranked journals, this is probably just the tip of the iceberg. As a consequence of such issues, many journals have implemented relatively strict replication policies, see this figure taken from <a class="reference internal" href="references.html#mccullough09">[10]</a>:</p>
+<div class="figure">
+<img alt="_images/McCullough09Fig1.jpg" src="_images/McCullough09Fig1.jpg" style="width: 50em;" />
+<p class="caption"><em>Economic Journals with Mandatory Data + Code Archives, Figure 1 in</em> <a class="reference internal" href="references.html#mccullough09">[10]</a></p>
+</div>
+<p>Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project &#8212; much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience <a class="reference internal" href="references.html#gaudeckersoestwengstrom11prefhet">[8]</a>, I can confirm that replication policies are enforced nowadays &#8212; and that it is rather painful to ensure <em>ex-post</em> that you can follow them. The number of journals implementing replication policies is likely to grow further &#8212; if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not get started on research ethics ldots</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Table of Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="rationale.html">Design rationale</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2013-, Hans-Martin von Gaudecker.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

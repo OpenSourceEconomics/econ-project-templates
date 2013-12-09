@@ -1,0 +1,144 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting started &mdash; Templates for reproducible research projects in economics  documentation</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Templates for reproducible research projects in economics  documentation" href="index.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="Implementation" href="implementation.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Templates for reproducible research projects in economics  documentation</span></a></h1>
+        <h2 class="heading"><span>Getting started</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="implementation.html">Implementation</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="references.html">References</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="getting-started">
+<span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>(TBD)</p>
+<p>This is a collection of templates where much of this automation is pre-configured via describing the research workflow as a dependent acyclic graph (DAG) using [Waf](<a class="reference external" href="https://code.google.com/p/waf/">https://code.google.com/p/waf/</a>). You just need to:</p>
+<ul class="simple">
+<li>Download the template for the main language in your project (Stata, Matlab, Python, R, ...)</li>
+<li>Move your programs to the right places and change the placeholder scripts</li>
+<li>Run Waf, which will automatically figure out which parts of the project need to be rebuilt</li>
+</ul>
+<p>The branch names follow the main language used in a particular example. You should base your project on the branch that specifies the language that you will use most (you can easily add in support for more languages, just a single line if it is supported).</p>
+<div class="section" id="getting-started-python-based-project">
+<h2>Getting started (Python-based project)<a class="headerlink" href="#getting-started-python-based-project" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Clone the project template repository and copy its contents to the place on your machine where you want the resulting project to live, e.g.</p>
+<blockquote>
+<div><p>C:Projectsstructural-retirement-model</p>
+</div></blockquote>
+</li>
+<li><p class="first">Use the &#8220;find in project&#8221;-functionality of your editor to search and replace the following terms:</p>
+<blockquote>
+<div><p>NNN -&gt; Your name
+UUU -&gt; Your affiliation
+TTT -&gt; The title of the project</p>
+</div></blockquote>
+</li>
+<li><p class="first">Make sure that [Python](<a class="reference external" href="http://python.org/">http://python.org/</a>) and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](<a class="reference external" href="http://tug.org/mactex/">http://tug.org/mactex/</a>), or [MikTex](<a class="reference external" href="http://miktex.org/">http://miktex.org/</a>)) can be found on your path. Your Python distribution needs to have the package [sphinx](<a class="reference external" href="http://sphinx-doc.org/">http://sphinx-doc.org/</a>) installed; the [Anaconda Python distribution](<a class="reference external" href="https://store.continuum.io/cshop/anaconda/">https://store.continuum.io/cshop/anaconda/</a>) is recommended.</p>
+</li>
+<li><p class="first">Navigate to the folder in a shell. Type the following commands to see whether the examples are working:</p>
+<blockquote>
+<div><p>python waf.py configure
+python waf.py build
+python waf.py install</p>
+</div></blockquote>
+<p>The first command will fail if the required programs cannot be found.</p>
+<p>If the second step fails, try the following to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):</p>
+<blockquote>
+<div><blockquote>
+<div><p>python waf.py build -j1</p>
+</div></blockquote>
+<p>If everything worked without error, you may now find more information on how to use the project template in &#8220;project_documentation/index.html&#8221;.</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="how-to-use-the-project-template">
+<h2>How to use the project template<a class="headerlink" href="#how-to-use-the-project-template" title="Permalink to this headline">¶</a></h2>
+<p>Most things should work automatically and you will not have to worry about them. This should be a brief guide on what does need to be changed.</p>
+<p>The logic of the project template works by step of the analysis: First comes data management, then the actual estimations/simulations/?, then visualisation and results formatting (e.g. exporting of LaTeX tables), then the writing of the research paper and presentations. It can be useful to have some (model) parameters available to more than one of these steps, in that case see section model_specifications, when it becomes necessary.</p>
+<p>First of all, think about whether this structure fits your needs &#8211; if it does not, you need to adjust (delete/add/rename) directories and files in the following locations:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Directories in <strong>src/</strong>;</li>
+<li>The list of included wscript files in <strong>src/wscript</strong>;</li>
+<li>The documentation source files in <strong>src/documentation/</strong> (Note: These should follow the directories in <strong>src</strong> exactly);</li>
+<li>The list of included documentation source files in <strong>src/documentation/index.rst</strong></li>
+</ul>
+</div></blockquote>
+<p>Later adjustments should be painlessly possible, so things won&#8217;t be set in stone.</p>
+<p>A variety of project paths are defined in the top-level wscript file. These are exported to be used in header files in other languages (currently, Stata and Python are implemented, see library below). So in case you require different paths (e.g. <strong>dataset_1</strong> should get a meaningful name instead before you place your data there), adjust them in the top-level wscript file. The <a class="reference internal" href="implementation.html#project-paths"><em>next</em></a> sub-section has more information on this.</p>
+<p>To get a bit of a feeling for how Waf works, rename the pre-defined generic templates to your specific project&#8217;s definitions. These should be:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The names <strong>research_paper.tex</strong> and <strong>research_pres_30min.tex</strong> in <strong>src/paper/</strong> and the corresponding actions in <strong>src/paper/wscript</strong>.</li>
+<li>The project title, your name, the title of the documentation output, etc. in <strong>src/documentation/conf.py</strong> and <strong>src/documentation/index.rst</strong>.</li>
+<li>Please remove my name and address from these files...</li>
+</ul>
+</div></blockquote>
+<p>Now you should move your source data to <strong>src/original_data/</strong> and start filling up the actual steps of the project workflow (data management, analysis, final steps, paper). All you should need to worry about is to call the correct task generators in the wscript files. Always specify the actions in the wscript that lives in the same directory as your main source file. Make sure you understand how the paths work in Waf and in your particular language (see the <a class="reference internal" href="implementation.html#project-paths"><em>next</em></a> sub-section and library below).</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="implementation.html">Implementation</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="references.html">References</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2013-, Hans-Martin von Gaudecker.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Design rationale &mdash; Templates for reproducible research projects in economics  documentation</title>
+    
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Templates for reproducible research projects in economics  documentation" href="index.html" />
+    <link rel="next" title="Introduction to Waf" href="waf.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Templates for reproducible research projects in economics  documentation</span></a></h1>
+        <h2 class="heading"><span>Design rationale</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="introduction.html">Introduction</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="waf.html">Introduction to Waf</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="design-rationale">
+<span id="rationale"></span><h1>Design rationale<a class="headerlink" href="#design-rationale" title="Permalink to this headline">¶</a></h1>
+<p>Main thoughts:</p>
+<ul class="simple">
+<li>Separation of logical chunks: A minimal requirement for a project to scale.</li>
+<li>Run only required parts: Again required for scalability. It means that the machine needs to know what is required.</li>
+<li>Re-use of code and data instead of copying and pasting: Else you will forget the copy &amp; paste step at some point down the road.</li>
+<li>Be as language-agnostic as possible: Make it easy to use the best tool for a particular problem and to mix them in a project.</li>
+</ul>
+<p>(TBC)</p>
+<div class="section" id="running-example">
+<h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">¶</a></h2>
+<p>To fix ideas, say you embark on a research project that has three different <strong>models</strong> for the moment:</p>
+<ol class="arabic simple">
+<li>Replicate the findings of a paper that you build on</li>
+<li>Compute your baseline specification</li>
+<li>Check robustness against a particular alternative (probably more to follow as the project matures)</li>
+</ol>
+<p>For each model, you need to perform various steps:
+1. Manage the data (&#8220;cleaning&#8221; in empirical work, drawing a sample in computational work)
+2. Run the actual estimations/simulations/?,
+3. Visualisation and format the results (e.g. export of LaTeX tables)
+4. Finally, you need to pull everything together in whatever you use to dissemninate your findings: A paper and a presentation, usually.</p>
+<p>It is usually very useful to explictly distinguish between steps 2. and 3. because often computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes.</p>
+</div>
+<div class="section" id="how-to-organise-the-workflow">
+<h2>How to organise the workflow?<a class="headerlink" href="#how-to-organise-the-workflow" title="Permalink to this headline">¶</a></h2>
+<p>A naïve way to ensure reproducibility is to have a <strong>master-script</strong> (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over the three specifications:</p>
+<div class="figure">
+<img alt="_images/steps_only_full.png" src="_images/steps_only_full.png" style="width: 25em;" />
+</div>
+<p>Equivalently, you may have code that runs one step after the other for each model:</p>
+<div class="figure">
+<img alt="_images/model_steps_full.png" src="_images/model_steps_full.png" style="width: 25em;" />
+</div>
+<p>Ideally though, you want to be more fine-grained: ...</p>
+<div class="figure">
+<img alt="_images/model_steps_select.png" src="_images/model_steps_select.png" style="width: 25em;" />
+</div>
+<p>The problem is that when you set your <em>master-script</em> to run, you will run the entire code, from beginning to end, for each model. This is a bit too much when you change just one parameter in a single model.</p>
+<p>(TBC)</p>
+</div>
+<div class="section" id="directed-acyclic-graphs-dags">
+<h2>Directed Acyclic Graphs (DAGs)<a class="headerlink" href="#directed-acyclic-graphs-dags" title="Permalink to this headline">¶</a></h2>
+<p>A serious example is the DAG for an early version of <a class="reference internal" href="references.html#gaudecker14">[7]</a>:</p>
+<div class="figure">
+<img alt="_images/pfefficiency.jpg" src="_images/pfefficiency.jpg" style="width: 35em;" />
+<p class="caption"><em>Organising the workflow &#8212; By model?</em></p>
+</div>
+<p>(TBC)</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="introduction.html">Introduction</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="waf.html">Introduction to Waf</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2013-, Hans-Martin von Gaudecker.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
