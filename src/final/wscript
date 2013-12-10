@@ -1,7 +1,6 @@
 def build(ctx):
 
-    for model in 'baseline', :
-        # Illustrate use of run_py_script with automatic model specification.
+    for model in 'baseline', 'max_moves_2':
         source = 'plot_locations'
         ctx(
             features='run_py_script',
@@ -11,6 +10,6 @@ def build(ctx):
                 ctx.path_to(ctx, 'OUT_ANALYSIS', 'schelling_{}.pickle'.format(model)),
                 ctx.path_to(ctx, 'IN_MODELS', '{}.json'.format(model))
             ],
-            append='baseline',
+            append=model,
             name='{}_{}'.format(source, model)
         )

@@ -7,11 +7,12 @@ class Agent:
 
     """
 
-    def __init__(self, typ, initial_location, n_neighbours, require_same_type):
+    def __init__(self, typ, initial_location, n_neighbours, require_same_type, max_moves):
         self.type = typ
         self.location = np.asarray(initial_location)
         self._n_neighbours = n_neighbours
         self._require_same_type = require_same_type
+        self._max_moves = max_moves
 
     def _draw_new_location(self):
         self.location = np.random.uniform(size=self.location.shape)
@@ -33,5 +34,11 @@ class Agent:
 
     def move_until_happy(self, agents):
         """If not happy, then randomly choose new locations until happy."""
-        while not self._happy(agents):
-            self._draw_new_location()
+
+        if self._happy(agents):
+            return
+        else:
+            for m in range(self._max_moves):
+                self._draw_new_location()
+                if self._happy(agents):
+                    return

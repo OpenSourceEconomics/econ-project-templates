@@ -24,7 +24,8 @@ def setup_agents(model):
                     typ=typ,
                     initial_location=initial_locations[typ, :, i],
                     n_neighbours=model["n_neighbours"],
-                    require_same_type=model["require_same_type"]
+                    require_same_type=model["require_same_type"],
+                    max_moves=model['max_moves']
                 )
             )
 

@@ -4,7 +4,7 @@ def build(ctx):
         "Just a simple wrapper for quick access"
         return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 
-    for model in 'baseline', :
+    for model in 'baseline', 'max_moves_2':
         # Illustrate use of run_py_script with automatic model specification.
         source = 'schelling'
         ctx(
@@ -19,6 +19,6 @@ def build(ctx):
                 ctx.path_to(ctx, 'OUT_DATA', 'sample.npy'),
                 ctx.path_to(ctx, 'LIBRARY', 'agent.py'),
             ],
-            append='baseline',
+            append=model,
             name='{}_{}'.format(source, model)
         )

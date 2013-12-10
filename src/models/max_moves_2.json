@@ -5,5 +5,5 @@
     "require_same_type": 4,
     "rng_seed": 54321,
     "max_iterations": 10,
-    "max_moves": 3000
+    "max_moves": 2
 }
