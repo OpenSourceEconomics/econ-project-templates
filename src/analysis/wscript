@@ -1,32 +1,24 @@
 def build(ctx):
 
     def out_analysis(*args):
+        "Just a simple wrapper for quick access"
         return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 
-    def out_data(*args):
-        return ctx.path_to(ctx, 'OUT_DATA', *args)
-
-    # Illustrate simple use of run_py_script
-    ctx(
-        features='run_py_script',
-        source='simulation.py',
-        target=out_analysis('simulation_results.txt')
-    )
-
-    return
-
-    # Illustrate use of run_py_script with automatic model specification.
-    model = 'baseline'
-    source = 'streg_example'
-    ctx(
-        features='run_py_script',
-        source='{}.do'.format(source),
-        target=out_analysis('log', '{}_{}.log'.format(source, model)),
-        deps=[
-            ctx.path_to(ctx, 'IN_MODELS', '{}.json'.format(model)),
-            ctx.path_to(ctx, 'LIBRARY', 'python', 'project_paths.py'),
-            out_data('streg_example_data.pickle')
-        ],
-        append='baseline',
-        name='{}_{}'.format(source, model)
-    )
+    for model in 'baseline', :
+        # Illustrate use of run_py_script with automatic model specification.
+        source = 'schelling'
+        ctx(
+            features='run_py_script',
+            source='{}.py'.format(source),
+            target=[
+                out_analysis('{}_{}.pickle'.format(source, model)),
+                out_analysis('log', '{}_{}.log'.format(source, model))
+            ],
+            deps=[
+                ctx.path_to(ctx, 'IN_MODELS', '{}.json'.format(model)),
+                ctx.path_to(ctx, 'OUT_DATA', 'sample.npy'),
+                ctx.path_to(ctx, 'LIBRARY', 'agent.py'),
+            ],
+            append='baseline',
+            name='{}_{}'.format(source, model)
+        )

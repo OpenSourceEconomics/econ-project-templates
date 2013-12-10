@@ -1,3 +1,16 @@
 def build(ctx):
-    # See ../analysis/wscript for some examples of usage.
-    pass
+
+    for model in 'baseline', :
+        # Illustrate use of run_py_script with automatic model specification.
+        source = 'plot_locations'
+        ctx(
+            features='run_py_script',
+            source='{}.py'.format(source),
+            target=ctx.path_to(ctx, 'OUT_FIGURES', 'schelling_{}.png'.format(model)),
+            deps=[
+                ctx.path_to(ctx, 'OUT_ANALYSIS', 'schelling_{}.pickle'.format(model)),
+                ctx.path_to(ctx, 'IN_MODELS', '{}.json'.format(model))
+            ],
+            append='baseline',
+            name='{}_{}'.format(source, model)
+        )

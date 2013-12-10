@@ -14,13 +14,12 @@ from bld.src.library.project_paths import project_paths_join as ppj
 
 np.random.seed(12345)
 
-n_dims = 2
 n_types = 2
 n_draws = 30000
 
 
 def draw_sample():
-    shape = (n_dims, n_types, n_draws)
+    shape = (2, n_types, n_draws)
     s = np.random.uniform(size=np.product(shape))
     return s.reshape(shape)
 

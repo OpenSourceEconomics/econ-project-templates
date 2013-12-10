@@ -18,7 +18,7 @@
 
 \usepackage[backend=biber, natbib=true, bibencoding=inputenc, bibstyle=authoryear-ibid, citestyle=authoryear-comp, maxcitenames=3, maxbibnames=10]{biblatex}
 \setlength{\bibitemsep}{1.5ex}
-\addbibresource{citation_econ_project_template.bib}
+\addbibresource{refs.bib}
 
 \usepackage[unicode=true]{hyperref}
 \hypersetup{colorlinks=true, linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black, menucolor=black, runcolor=black, urlcolor=black}
@@ -78,6 +78,18 @@ Some text here. Example for a formula inclusion:
     \footnotesize
     \emph{Note:} One could also define commands in {\LaTeX} for the paths to the graphics and tables directories. I prefer not to do so since the Waf scanner won't find them automatically (I believe), but in the end it's a matter of taste where you want to do manual work (i.e. in the {\LaTeX} files or in the wscript files).
 \end{table}
+
+
+Some text here. Example for a formula inclusion:
+
+\begin{figure}
+    \caption{Segregation by cycle in the baseline \citet{Schelling69} model as in the \citet{StachurskiSargent13} example}
+    
+    \includegraphics[width=\textwidth]{../../out/figures/schelling_baseline}
+
+\end{figure}
+
+
 
 % section introduction (end)
 
