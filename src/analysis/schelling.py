@@ -10,7 +10,7 @@ import logging
 import pickle
 import numpy as np
 
-from src.library.agent import Agent
+from src.model_code.agent import Agent
 from bld.src.library.project_paths import project_paths_join as ppj
 
 
@@ -84,7 +84,7 @@ def run_analysis(agents, model):
 
 if __name__ == "__main__":
     model_name = sys.argv[1]
-    model = json.load(open(ppj("IN_MODELS", model_name + ".json"), encoding="utf-8"))
+    model = json.load(open(ppj("IN_MODEL_SPECS", model_name + ".json"), encoding="utf-8"))
 
     logging.basicConfig(
         filename=ppj("OUT_ANALYSIS", "log", "schelling_{}.log".format(model_name)),

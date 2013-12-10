@@ -8,7 +8,7 @@ def build(ctx):
             target=ctx.path_to(ctx, 'OUT_FIGURES', 'schelling_{}.png'.format(model)),
             deps=[
                 ctx.path_to(ctx, 'OUT_ANALYSIS', 'schelling_{}.pickle'.format(model)),
-                ctx.path_to(ctx, 'IN_MODELS', '{}.json'.format(model))
+                ctx.path_to(ctx, 'IN_MODEL_SPECS', '{}.json'.format(model))
             ],
             append=model,
             name='{}_{}'.format(source, model)

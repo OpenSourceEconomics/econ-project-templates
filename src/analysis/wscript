@@ -15,9 +15,9 @@ def build(ctx):
                 out_analysis('log', '{}_{}.log'.format(source, model))
             ],
             deps=[
-                ctx.path_to(ctx, 'IN_MODELS', '{}.json'.format(model)),
+                ctx.path_to(ctx, 'IN_MODEL_SPECS', '{}.json'.format(model)),
+                ctx.path_to(ctx, 'IN_MODEL_CODE', 'agent.py'),
                 ctx.path_to(ctx, 'OUT_DATA', 'sample.npy'),
-                ctx.path_to(ctx, 'LIBRARY', 'agent.py'),
             ],
             append=model,
             name='{}_{}'.format(source, model)

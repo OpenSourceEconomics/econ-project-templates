@@ -41,7 +41,7 @@ def plot_locations(locations_by_round, model_name):
 
 if __name__ == "__main__":
     model_name = sys.argv[1]
-    model = json.load(open(ppj("IN_MODELS", model_name + ".json"), encoding="utf-8"))
+    model = json.load(open(ppj("IN_MODEL_SPECS", model_name + ".json"), encoding="utf-8"))
 
     # Load locations after each round
     with open(ppj("OUT_ANALYSIS", "schelling_{}.pickle".format(model_name)), "rb") as in_file:

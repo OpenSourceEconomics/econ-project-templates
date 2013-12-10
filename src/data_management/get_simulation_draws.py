@@ -3,7 +3,7 @@
 them in a 3-dimensional NumPy array.
 
 *Note:* In principle, one would read the number of dimensions etc.
-from the "IN_MODELS" file, this is to demonstrate the most basic
+from the "IN_MODEL_SPECS" file, this is to demonstrate the most basic
 use of *run_py_script* only.
 
 """
