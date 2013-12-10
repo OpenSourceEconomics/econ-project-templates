@@ -1,4 +1,5 @@
-"""Store a list of locations at each round.
+"""Run a Schelling (1969, :cite:`Schelling69`) segregation
+model and store a list with locations by type at each cycle.
 
 """
 
@@ -25,7 +26,7 @@ def setup_agents(model):
                     initial_location=initial_locations[typ, :, i],
                     n_neighbours=model["n_neighbours"],
                     require_same_type=model["require_same_type"],
-                    max_moves=model['max_moves']
+                    max_moves=model["max_moves"]
                 )
             )
 
