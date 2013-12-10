@@ -3,7 +3,13 @@ import numpy as np
 
 class Agent:
 
-    """All files that are re-used in various steps of the project.
+    """An Agent as in the Schelling (1969, :cite:`Schelling69`)
+    segregation model. Move each period until enough neighbours
+    of the same type are found or the maximum number of moves
+    is reached.
+
+    Code is based on the example in the Stachurski and Sargent
+    Online Course :cite:`StachurskiSargent13`.
 
     """
 

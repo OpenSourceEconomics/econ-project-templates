@@ -27,7 +27,7 @@ Getting started (Python-based project)
         UUU -> Your affiliation
         TTT -> The title of the project
 
-3. Make sure that [Python](http://python.org/) and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) can be found on your path. Your Python distribution needs to have the package [sphinx](http://sphinx-doc.org/) installed; the [Anaconda Python distribution](https://store.continuum.io/cshop/anaconda/) is recommended.
+3. Make sure that [Python](http://python.org/) and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) can be found on your path. Your Python distribution needs to have the packages [sphinx](http://sphinx-doc.org/) and [sphinxcontrib.bibtex](https://pypi.python.org/pypi/sphinxcontrib-bibtex/) installed; the [Anaconda Python distribution](https://store.continuum.io/cshop/anaconda/) is recommended.
 
 4. Navigate to the folder in a shell. Type the following commands to see whether the examples are working:
 
@@ -42,5 +42,3 @@ Getting started (Python-based project)
         python waf.py build -j1
 
     If everything worked without error, you may now find more information on how to use the project template in "project_documentation/index.html".
-
-

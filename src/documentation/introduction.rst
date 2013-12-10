@@ -2,17 +2,31 @@
    
     \pagebreak
 
+.. _introduction:
 
 Introduction
 ===============
 
+Documentation on the rationale, Waf, and more background is at http://hmgaudecker.github.io/econ-project-templates/
 
-How to use the project template
---------------------------------
+The Python version of the template uses a modified version of Stachurski's and Sargent's code accompanying their Online Course :cite:`StachurskiSargent13` for Schelling's (1969, :cite:`Schelling69`) segregation model as the running exmaple.
 
-Most things should work automatically and you will not have to worry about them. This should be a brief guide on what does need to be changed.
 
-The logic of the project template works by step of the analysis: First comes data management, then the actual estimations/simulations/?, then visualisation and results formatting (e.g. exporting of LaTeX tables), then the writing of the research paper and presentations. It can be useful to have some (model) parameters available to more than one of these steps, in that case see section :ref:`model_specifications`, when it becomes necessary.
+.. _getting_started:
+
+Getting started
+---------------
+
+**This assumes you have completed the steps in the** `README.md file <https://github.com/hmgaudecker/econ-project-templates/tree/python#templates-for-reproducible-research-projects-in-economics>`_ **and everything worked.**
+
+The logic of the project template works by step of the analysis: 
+
+1. Data management
+2. The actual estimations / simulations / ?
+3. Visualisation and results formatting (e.g. exporting of LaTeX tables)
+4. Research paper and presentations. 
+   
+It can be useful to have code and model parameters available to more than one of these steps, in that case see sections :ref:`model_specifications`, :ref:`model_code`, and :ref:`library`.
 
 First of all, think about whether this structure fits your needs -- if it does not, you need to adjust (delete/add/rename) directories and files in the following locations:
 
@@ -23,34 +37,5 @@ First of all, think about whether this structure fits your needs -- if it does n
 
 Later adjustments should be painlessly possible, so things won't be set in stone.
 
-A variety of project paths are defined in the top-level wscript file. These are exported to be used in header files in other languages (currently, Stata and Python are implemented, see :ref:`library` below). So in case you require different paths (e.g. **dataset_1** should get a meaningful name instead before you place your data there), adjust them in the top-level wscript file. The :ref:`next <project_paths>` sub-section has more information on this.
-
-To get a bit of a feeling for how Waf works, rename the pre-defined generic templates to your specific project's definitions. These should be:
-
-    * The names **research_paper.tex** and **research_pres_30min.tex** in **src/paper/** and the corresponding actions in **src/paper/wscript**.
-    * The project title, your name, the title of the documentation output, etc. in **src/documentation/conf.py** and **src/documentation/index.rst**.
-    * Please remove my name and address from these files... 
-
-Now you should move your source data to **src/original_data/** and start filling up the actual steps of the project workflow (data management, analysis, final steps, paper). All you should need to worry about is to call the correct task generators in the wscript files. Always specify the actions in the wscript that lives in the same directory as your main source file. Make sure you understand how the paths work in Waf and in your particular language (see the :ref:`next <project_paths>` sub-section and :ref:`library` below).
-
-
-.. _project_paths:
-
-Project paths
---------------
-
-The following is taken from the top-level wscript file. Modify any project-wide path settings there.
-
-.. literalinclude:: ../../wscript
-    :start-after: out = 'bld'
-    :end-before:     # Convert the directories into Waf nodes
-
-
-As should be evident from the similarity of the names, the paths follow the steps of the analysis in the :file:`src` directory:
-
-    1. **data_management** → **OUT_DATA**
-    2. **analysis** → **OUT_ANALYSIS**
-    3. **final** → **OUT_FINAL**, **OUT_FIGURES**, **OUT_TABLES**
-
-These paths should re-appear in automatically generated header files for all languages.
+Once you have done that, move your source data to **src/original_data/** and start filling up the actual steps of the project workflow (data management, analysis, final steps, paper). All you should need to worry about is to call the correct task generators in the wscript files. Always specify the actions in the wscript that lives in the same directory as your main source file. Make sure you understand how the paths work in Waf and how to use the auto-generated files in the language you are using particular language (see the section :ref:`project_paths` in the code library).
 
