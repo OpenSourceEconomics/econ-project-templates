@@ -26,74 +26,65 @@ AXIS_MAX = 100
 X_LABEL_TEXT = 'Steps to be performed'
 Y_LABEL_TEXT = 'Model specification'
 
-STEP_CATEGORIES = ['Data\nmanagement', 'Analysis', 'Final', 'Paper']
-MODEL_CATEGORIES = [
-    'Replication\nprevious paper',
-    'Robustness\ncheck 1',
-    'Baseline'
-]
+STEP_CATEGORIES = ['Data mgmt.', 'Analysis', 'Final', 'Paper']
+N_STEPS = len(STEP_CATEGORIES)
+MODEL_CATEGORIES = ['Max. Moves = 2', 'Baseline']
+N_MODELS = len(MODEL_CATEGORIES)
 
-X_UNIT = AXIS_MAX / float(len(STEP_CATEGORIES))
+X_UNIT = AXIS_MAX / N_STEPS
 X_START_LOC = 7.5
-Y_UNIT = (AXIS_MAX - 15) / float(len(MODEL_CATEGORIES))
-Y_START_LOC = 7.5 + 20.0 / 3.0
+Y_UNIT = (AXIS_MAX - 20) / N_MODELS
+Y_START_LOC = 7.5 + 20 / 3
 
 x_ticks = []
 y_ticks = []
+
 
 # Generate ordered dictionaries with different shapes.
 step_shapes = {
     'None': OrderedDict(),
     'full': OrderedDict(),
-    'full 2': OrderedDict(),
-    'part': OrderedDict(),
     'select': OrderedDict()
 }
 model_shapes = {
     'None': OrderedDict(),
     'full': OrderedDict(),
-    'part': OrderedDict()
 }
 
 
 for i, item in enumerate(STEP_CATEGORIES):
     x_loc = i * X_UNIT + X_START_LOC
-    y_loc = 7.5
+    y_loc = Y_START_LOC
     width = 10
-    height = 85
-    x_ticks.append(x_loc + width / 2.0)
-    for graph_type in list(step_shapes.keys()):
+    x_ticks.append(x_loc + width / 2)
+    for graph_type in step_shapes.keys():
         if graph_type == 'select' or graph_type == 'None':
             step_shapes[graph_type][item] = None
             continue
-        elif not graph_type.startswith('full') and (
-            item.startswith('Final') or item.startswith('Paper')
-        ):
-            y_loc = 7.5 + 85 / 3.0
-            height = 85 - 85 / 3.0
+        elif not graph_type.startswith('full') and item.startswith('Paper'):
+            height = 60 * (1 - 1 / N_MODELS)
         else:
-            y_loc = 7.5
-            height = 85
+            height = 60
         step_shapes[graph_type][item] = mpatches.FancyBboxPatch(
             (x_loc, y_loc), width, height,
-            boxstyle=mpatches.BoxStyle("Round",
-                                       pad=2.5),
+            boxstyle=mpatches.BoxStyle("Round", pad=2.5),
             facecolor='DarkSeaGreen',
             edgecolor='none',
-            alpha=.75)
+            alpha=.75
+        )
 
 # Add stuff 'manually' to select graph.
 step_shapes['select']['single boxes'] = []
-for x_count in range(len(STEP_CATEGORIES)):
+for x_count in range(N_STEPS):
     x_loc = x_count * X_UNIT + X_START_LOC
-    for y_count in range(len(MODEL_CATEGORIES)):
-        if x_count > 1 and (y_count == 0 or y_count == 2):
-            continue
+    for y_count in range(N_MODELS):
         y_loc = y_count * Y_UNIT + Y_START_LOC
-        if x_count <= 1:
-            height = 15
+        if x_count <= 2:
+            height = 20
         else:
-            height = 2 * (15 + 20.0 / 3.0)
+            if y_count == 1:
+                continue
+            height = 2 * (20 + 20 / N_MODELS)
 
         step_shapes['select']['single boxes'].append(
             mpatches.FancyBboxPatch(
@@ -111,8 +102,8 @@ for i, item in enumerate(MODEL_CATEGORIES):
     x_loc = 7.5
     y_loc = i * Y_UNIT + Y_START_LOC
     width = 85
-    height = 15
-    y_ticks.append(y_loc + height / 2.0)
+    height = 20
+    y_ticks.append(y_loc + height / 2)
     for graph_type in list(model_shapes.keys()):
         if graph_type == 'None':
             model_shapes[graph_type][item] = None
@@ -145,6 +136,8 @@ def create_fig(out_file, x_items, y_items):
     plt.figure(figsize=(7.5, 5))
     ax = plt.subplot(1, 1, 1)
 
+    plt.subplots_adjust(left=0.2, bottom=.2)
+
     # Set the size of the plot region.
     plt.axis([0, AXIS_MAX, 0, AXIS_MAX])
 
@@ -156,26 +149,28 @@ def create_fig(out_file, x_items, y_items):
     # Set axis labels.
     ax.set_xlabel(
         X_LABEL_TEXT,
+        labelpad=40,
         rotation='horizontal',
         ha='right',
-        position=(1.1, -0.2)
+        va='bottom',
+        position=(1.14, 0.0)
     )
     ax.set_ylabel(
         Y_LABEL_TEXT,
         rotation='horizontal',
         ha='left',
-        position=(-.3, 1.1)
+        position=(-0.3, 1.05)
     )
     ax.tick_params(color='white')
 
     ax.xaxis.set_ticks(x_ticks)
-    ax.set_xticklabels(list(x_items.keys()))
+    ax.set_xticklabels(list(x_items.keys()), position=(0, -0.01))
 
     ax.yaxis.set_ticks(y_ticks)
     ax.set_yticklabels(
         list(y_items.keys()),
         horizontalalignment='left',
-        position=(-0.225, 0)
+        position=(-0.25, 0)
     )
 
     for k, v in list(x_items.items()):
@@ -189,9 +184,6 @@ def create_fig(out_file, x_items, y_items):
     if 'single boxes' in list(x_items.keys()):
         for box in x_items['single boxes']:
             ax.add_patch(box)
-
-    plt.subplots_adjust(left=.25, bottom=.2)
-
     plt.draw()
     plt.savefig('{}.{}'.format(out_file, EXPORT_TYPE))
 
@@ -205,11 +197,6 @@ create_fig(
     path_to('model_steps_full'),
     x_items=step_shapes['None'],
     y_items=model_shapes['full']
-)
-create_fig(
-    path_to('model_steps_part'),
-    x_items=step_shapes['part'],
-    y_items=model_shapes['part']
 )
 create_fig(
     path_to('model_steps_select'),
