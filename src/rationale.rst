@@ -8,6 +8,7 @@ Main thoughts:
 
 * Separation of logical chunks: A minimal requirement for a project to scale.
 * Run only required parts: Again required for scalability. It means that the machine needs to know what is meant by a "required part".
+* Clear separation of inputs and outputs: Required to find your way around in 
 * Re-use of code and data instead of copying and pasting: Else you will forget the copy & paste step at some point down the road.
 * Be as language-agnostic as possible: Make it easy to use the best tool for a particular problem and to mix them in a project.
 
@@ -16,20 +17,19 @@ Main thoughts:
 Running example
 ---------------
 
-To fix ideas, say you embark on a research project that has three different **models** for the moment:
+To fix ideas, let's look at the example of Schelling's (1969, :cite:`Schelling69`) segregation model, as outlined `here <http://quant-econ.net/schelling.html#schelling-s-segregation-model>`_ in Stachurski's and Sargent's online course :cite:`StachurskiSargent13`. Please look at their description of the model. Say we are thinking of two **models** for the moment:
 
-1. Replicate the findings of a paper that you build on
-2. Compute your baseline specification
-3. Check robustness against a particular alternative (probably more to follow as the project matures)
+1. Replicate the `figures <http://quant-econ.net/schelling.html#results>`_ from Stachurski's and Sargent's course.
+2. Check what happens when agents are restricted to two random moves per period; after that they have to stop regardless whether they are happy or not.
 
 For each model, you need to perform various steps:
 
-1. Manage the data ("cleaning" in empirical work, drawing a sample in computational work) 
-2. Run the actual estimations/simulations/?, 
-3. Visualisation and format the results (e.g. export of LaTeX tables)
-4. Finally, you need to pull everything together in whatever you use to dissemninate your findings: A paper and a presentation, usually.
+1. Draw a simulated sample with initial locations (this is taken to be the same across specifications, partly for demonstration purposes, partly because it keeps the initial distribution the same across both specifications)
+2. Run the actual simulation
+3. Visualise the results
+4. Pull everything together in a paper.
 
-It is usually very useful to explictly distinguish between steps 2. and 3. because often computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes.
+It is very useful to explictly distinguish between steps 2. and 3. because computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes or 30 seconds as in this example.
 
 
 How to organise the workflow?
@@ -40,25 +40,32 @@ A naïve way to ensure reproducibility is to have a **master-script** (do-file, 
 .. figure:: ../bld/src/examples/steps_only_full.png
    :width: 25em
    
-
-Equivalently, you may have code that runs one step after the other for each model:
+You will still need to manually keep track of whether you need to run a paricular step after making changes, though. Or you run everything at once, all the time. Equivalently, you may have code that runs one step after the other for each model:
 
 .. figure:: ../bld/src/examples/model_steps_full.png
    :width: 25em
    
+The equivalent comment applies here: Either keep track of which model needs to be run after making changes manually, or run everything at once.
 
-Ideally though, you want to be more fine-grained: ... 
+Ideally though, you want to be more even more filofg lnbvyne-grained than this and only run individual elements. This is particularly true when your entire computations take some time -- running all steps every time via the *master-script* simply is not an option. All my research projects ended up running for a long time, no matter how simple they were... The figure shows you that even in this simple example, there are now quite a few parts to remember:
 
 .. figure:: ../bld/src/examples/model_steps_select.png
    :width: 25em
 
+This figure assumes that your data management is being done for all models at once, which is usually a good choice for me. Even with only two models, we need to remember 6 ways to start different programs and how the different tasks depend on each other. **This does not scale to serious projects!**
 
-The problem is that when you set your *master-script* to run, you will run the entire code, from beginning to end, for each model. This is a bit too much when you change just one parameter in a single model. 
-
-(TBC)
 
 Directed Acyclic Graphs (DAGs)
 ------------------------------
+
+The way to specify dependencies between data, code and tasks to perform for a computer is a directed acyclic graph. A graph is simply a pair of nodes (files, in our case) and edges that connect pairs of nodes (tasks to perform). Directed means that the order of how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means that there are no directed cycles: When you traverse a graph in the direction of the arrows, there may not be a way to end up at the same node again.
+
+This is the dependency graph for the modified Schelling example from Stachurski and Sargent, as implemented in the Python branch of the project template:
+
+.. figure:: ../bld/src/examples/schelling_dependencies.png
+   :width: 50em
+
+Bluish nodes are pure source files -- they do not depend on any other file and hence no arrow points at any of them. In contrast, brownish nodes are targets, they are generated by the code. They may serve mostly as intermediate targets -- e.g. there is not much you would want to do with the ... 
 
 A serious example is the DAG for an early version of :cite:`Gaudecker14`:
 

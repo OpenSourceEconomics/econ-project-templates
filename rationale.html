@@ -57,26 +57,26 @@
 <ul class="simple">
 <li>Separation of logical chunks: A minimal requirement for a project to scale.</li>
 <li>Run only required parts: Again required for scalability. It means that the machine needs to know what is meant by a &#8220;required part&#8221;.</li>
+<li>Clear separation of inputs and outputs: Required to find your way around in</li>
 <li>Re-use of code and data instead of copying and pasting: Else you will forget the copy &amp; paste step at some point down the road.</li>
 <li>Be as language-agnostic as possible: Make it easy to use the best tool for a particular problem and to mix them in a project.</li>
 </ul>
 <p>(TBC)</p>
 <div class="section" id="running-example">
 <h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">¶</a></h2>
-<p>To fix ideas, say you embark on a research project that has three different <strong>models</strong> for the moment:</p>
+<p>To fix ideas, let&#8217;s look at the example of Schelling&#8217;s (1969, <a class="reference internal" href="references.html#schelling69">[7]</a>) segregation model, as outlined <a class="reference external" href="http://quant-econ.net/schelling.html#schelling-s-segregation-model">here</a> in Stachurski&#8217;s and Sargent&#8217;s online course <a class="reference internal" href="references.html#stachurskisargent13">[8]</a>. Please look at their description of the model. Say we are thinking of two <strong>models</strong> for the moment:</p>
 <ol class="arabic simple">
-<li>Replicate the findings of a paper that you build on</li>
-<li>Compute your baseline specification</li>
-<li>Check robustness against a particular alternative (probably more to follow as the project matures)</li>
+<li>Replicate the <a class="reference external" href="http://quant-econ.net/schelling.html#results">figures</a> from Stachurski&#8217;s and Sargent&#8217;s course.</li>
+<li>Check what happens when agents are restricted to two random moves per period; after that they have to stop regardless whether they are happy or not.</li>
 </ol>
 <p>For each model, you need to perform various steps:</p>
 <ol class="arabic simple">
-<li>Manage the data (&#8220;cleaning&#8221; in empirical work, drawing a sample in computational work)</li>
-<li>Run the actual estimations/simulations/?,</li>
-<li>Visualisation and format the results (e.g. export of LaTeX tables)</li>
-<li>Finally, you need to pull everything together in whatever you use to dissemninate your findings: A paper and a presentation, usually.</li>
+<li>Draw a simulated sample with initial locations (this is taken to be the same across specifications, partly for demonstration purposes, partly because it keeps the initial distribution the same across both specifications)</li>
+<li>Run the actual simulation</li>
+<li>Visualise the results</li>
+<li>Pull everything together in a paper.</li>
 </ol>
-<p>It is usually very useful to explictly distinguish between steps 2. and 3. because often computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes.</p>
+<p>It is very useful to explictly distinguish between steps 2. and 3. because computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes or 30 seconds as in this example.</p>
 </div>
 <div class="section" id="how-to-organise-the-workflow">
 <h2>How to organise the workflow?<a class="headerlink" href="#how-to-organise-the-workflow" title="Permalink to this headline">¶</a></h2>
@@ -84,20 +84,26 @@
 <div class="figure">
 <img alt="_images/steps_only_full.png" src="_images/steps_only_full.png" style="width: 25em;" />
 </div>
-<p>Equivalently, you may have code that runs one step after the other for each model:</p>
+<p>You will still need to manually keep track of whether you need to run a paricular step after making changes, though. Or you run everything at once, all the time. Equivalently, you may have code that runs one step after the other for each model:</p>
 <div class="figure">
 <img alt="_images/model_steps_full.png" src="_images/model_steps_full.png" style="width: 25em;" />
 </div>
-<p>Ideally though, you want to be more fine-grained: ...</p>
+<p>The equivalent comment applies here: Either keep track of which model needs to be run after making changes manually, or run everything at once.</p>
+<p>Ideally though, you want to be more even more filofg lnbvyne-grained than this and only run individual elements. This is particularly true when your entire computations take some time &#8211; running all steps every time via the <em>master-script</em> simply is not an option. All my research projects ended up running for a long time, no matter how simple they were... The figure shows you that even in this simple example, there are now quite a few parts to remember:</p>
 <div class="figure">
 <img alt="_images/model_steps_select.png" src="_images/model_steps_select.png" style="width: 25em;" />
 </div>
-<p>The problem is that when you set your <em>master-script</em> to run, you will run the entire code, from beginning to end, for each model. This is a bit too much when you change just one parameter in a single model.</p>
-<p>(TBC)</p>
+<p>This figure assumes that your data management is being done for all models at once, which is usually a good choice for me. Even with only two models, we need to remember 6 ways to start different programs and how the different tasks depend on each other. <strong>This does not scale to serious projects!</strong></p>
 </div>
 <div class="section" id="directed-acyclic-graphs-dags">
 <h2>Directed Acyclic Graphs (DAGs)<a class="headerlink" href="#directed-acyclic-graphs-dags" title="Permalink to this headline">¶</a></h2>
-<p>A serious example is the DAG for an early version of <a class="reference internal" href="references.html#gaudecker14">[7]</a>:</p>
+<p>The way to specify dependencies between data, code and tasks to perform for a computer is a directed acyclic graph. A graph is simply a pair of nodes (files, in our case) and edges that connect pairs of nodes (tasks to perform). Directed means that the order of how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means that there are no directed cycles: When you traverse a graph in the direction of the arrows, there may not be a way to end up at the same node again.</p>
+<p>This is the dependency graph for the modified Schelling example from Stachurski and Sargent, as implemented in the Python branch of the project template:</p>
+<div class="figure">
+<img alt="_images/schelling_dependencies.png" src="_images/schelling_dependencies.png" style="width: 50em;" />
+</div>
+<p>Bluish nodes are pure source files &#8211; they do not depend on any other file and hence no arrow points at any of them. In contrast, brownish nodes are targets, they are generated by the code. They may serve mostly as intermediate targets &#8211; e.g. there is not much you would want to do with the ...</p>
+<p>A serious example is the DAG for an early version of <a class="reference internal" href="references.html#gaudecker14">[9]</a>:</p>
 <div class="figure">
 <img alt="_images/pfefficiency.jpg" src="_images/pfefficiency.jpg" style="width: 35em;" />
 <p class="caption"><em>Organising the workflow &#8212; By model?</em></p>

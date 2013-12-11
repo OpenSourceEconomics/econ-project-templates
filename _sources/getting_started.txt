@@ -18,9 +18,10 @@ The branch names follow the main language used in a particular example. You shou
 Getting started (Python-based project)
 ---------------------------------------------
 
-1. Clone the project template repository and copy its contents to the place on your machine where you want the resulting project to live, e.g.
+1. Clone the project template repository (or download the `zip file <https://github.com/hmgaudecker/econ-project-templates/archive/python.zip>`_) and copy its contents to the place on your machine where you want the resulting project to live, e.g.
 
         C:\Projects\structural-retirement-model\
+
 
 2. Use the "find in project"-functionality of your editor to search and replace the following terms:
 

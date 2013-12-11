@@ -79,12 +79,12 @@ for x_count in range(N_STEPS):
     x_loc = x_count * X_UNIT + X_START_LOC
     for y_count in range(N_MODELS):
         y_loc = y_count * Y_UNIT + Y_START_LOC
-        if x_count <= 2:
+        if x_count in {1, 2}:
             height = 20
-        else:
-            if y_count == 1:
-                continue
+        elif x_count in {0, 3} and y_count == 0:
             height = 2 * (20 + 20 / N_MODELS)
+        else:
+            continue
 
         step_shapes['select']['single boxes'].append(
             mpatches.FancyBboxPatch(

@@ -3,7 +3,6 @@ def build(ctx):
     model_graphs = [
         'steps_only_full.png',
         'model_steps_full.png',
-        'model_steps_part.png',
         'model_steps_select.png'
     ]
 
@@ -11,4 +10,10 @@ def build(ctx):
         features='run_py_script',
         source='organisation_model_steps.py',
         target=model_graphs
+    )
+
+    ctx(
+        features='tex',
+        source='schelling_dependencies.tex',
+        target='schelling_dependencies.png'
     )
