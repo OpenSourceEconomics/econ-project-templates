@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# encoding: ISO8859-1
-# Thomas Nagy, 2005-2012
+# Thomas Nagy, 2005-2013
+# Modifications by Hans-Martin von Gaudecker for econ-project-templates
 
 """
 Redistribution and use in source and binary forms, with or without
@@ -30,68 +30,18 @@ IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
 
-import os, sys
+import os
+import sys
 
-VERSION="1.7.13"
-REVISION="adea09bccb360e1c5dc9b905e340584a"
-INSTALL=''
-C1='#,'
-C2='#)'
+VERSION = "1.7.13"
 cwd = os.getcwd()
 join = os.path.join
 
-
-WAF='waf'
-def b(x):
-	return x
-if sys.hexversion>0x300000f:
-	WAF='waf3'
-	def b(x):
-		return x.encode()
-
-def err(m):
-	print(('\033[91mError: %s\033[0m' % m))
-	sys.exit(1)
-
-def test(dir):
-	try:
-		os.stat(join(dir, 'waflib'))
-		return os.path.abspath(dir)
-	except OSError:
-		pass
-
-def find_lib():
-	name = sys.argv[0]
-	base = os.path.dirname(os.path.abspath(name))
-
-	#devs use $WAFDIR
-	w=test(os.environ.get('WAFDIR', ''))
-	if w: return w
-
-	#waf-light
-	if name.endswith('waf-light'):
-		w = test(base)
-		if w: return w
-		err('waf-light requires waflib -> export WAFDIR=/folder')
-
-	dirname = '%s-%s-%s' % (WAF, VERSION, REVISION)
-	for i in [INSTALL,'/usr','/usr/local','/opt']:
-		w = test(i + '/lib/' + dirname)
-		if w: return w
-
-	#waf-local
-	dir = join(base, (sys.platform != 'win32' and '.' or '') + dirname)
-	w = test(dir)
-	if w: return w
-
-	#unpack
-	unpack_wafdir(dir)
-	return dir
-
-wafdir = find_lib()
+name = sys.argv[0]
+base = os.path.dirname(os.path.abspath(name))
+wafdir = join(base, '.waflib')
 sys.path.insert(0, wafdir)
 
 if __name__ == '__main__':
-
-	from waflib import Scripting
-	Scripting.waf_entry_point(cwd, VERSION, wafdir)
+    from waflib import Scripting
+    Scripting.waf_entry_point(cwd, VERSION, wafdir)
