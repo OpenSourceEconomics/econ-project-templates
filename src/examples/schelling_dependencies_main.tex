@@ -1,0 +1,45 @@
+\documentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows,positioning,snakes,shapes,shapes.multipart,patterns,mindmap,shadows}
+\usepackage{xcolor}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\begin{document}
+
+\footnotesize
+\begin{tikzpicture}[every node/.style={
+    rectangle,
+    rounded corners,
+    inner sep=3pt,
+    draw,
+    fill=brown!25
+}]
+    \node (sample_npy) [shift={(-3, 0)}]
+    {
+        sample.npy
+    };
+    \node (schelling_py) [fill=blue!15, shift={(-1, 0)}]
+    {
+        schelling.py
+    };
+    \node (agent_py) [fill=blue!15, shift={(1, 0)}]
+    {
+        agent.py
+    };
+    \node (baseline_json) [fill=blue!15, shift={(3, 0)}]
+    {
+        baseline.json
+    };
+    \node (schelling_baseline_pickle) [shift={(0, 2)}]
+    {
+        schelling\_baseline.pickle
+    };
+    \draw[->, orange, thick] (schelling_baseline_pickle) to (sample_npy);
+    \draw[->, orange, thick] (schelling_baseline_pickle) to (schelling_py);
+    \draw[->, orange, thick] (schelling_baseline_pickle) to (agent_py);    
+    \draw[->, orange, thick] (schelling_baseline_pickle) to (baseline_json);
+\end{tikzpicture}
+
+\end{document}

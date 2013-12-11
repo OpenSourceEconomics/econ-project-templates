@@ -1,0 +1,40 @@
+\documentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows,positioning,snakes,shapes,shapes.multipart,patterns,mindmap,shadows}
+\usepackage{xcolor}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\begin{document}
+
+\footnotesize
+\begin{tikzpicture}[every node/.style={
+    rectangle,
+    rounded corners,
+    inner sep=3pt,
+    draw,
+    fill=brown!25
+}]
+    \node (baseline_json) [fill=blue!15, shift={(1, 0)}]
+    {
+        baseline.json
+    };
+    \node (schelling_baseline_pickle) [shift={(0, 2)}]
+    {
+        schelling\_baseline.pickle
+    };
+    \node (plot_locations_py) [fill=blue!15, shift={(4.5, 0)}]
+    {
+        plot\_locations.py
+    };
+    \node (schelling_baseline_png) [shift={(4.5, 2)}]
+    {
+        schelling\_baseline.png
+    };
+    \draw[->, teal, thick] (schelling_baseline_png) to (schelling_baseline_pickle);
+    \draw[->, teal, thick] (schelling_baseline_png) to (plot_locations_py);
+    \draw[->, teal, thick] (schelling_baseline_png) to (baseline_json);
+\end{tikzpicture}
+
+\end{document}

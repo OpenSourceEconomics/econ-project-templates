@@ -12,8 +12,16 @@ def build(ctx):
         target=model_graphs
     )
 
-    ctx(
-        features='tex',
-        source='schelling_dependencies.tex',
-        target='schelling_dependencies.png'
-    )
+    file_trunks = [
+        'schelling_dependencies',
+        'schelling_dependencies_data_mgmt',
+        'schelling_dependencies_main',
+        'schelling_dependencies_final',
+        'schelling_dependencies_paper'
+    ]
+    for ft in file_trunks:
+        ctx(
+            features='tex',
+            source='{}.tex'.format(ft),
+            target='{}.png'.format(ft)
+        )

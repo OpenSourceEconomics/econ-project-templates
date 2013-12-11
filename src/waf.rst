@@ -5,5 +5,32 @@
 Introduction to Waf
 *******************
 
-(TBD)
+.. figure:: ../bld/src/examples/schelling_dependencies.png
+   :width: 50em
 
+xxx
+
+.. figure:: ../bld/src/examples/schelling_dependencies_data_mgmt.png
+   :width: 15em
+
+xxx
+
+.. figure:: ../bld/src/examples/schelling_dependencies_main.png
+   :width: 40em
+
+xxx
+
+.. figure:: ../bld/src/examples/schelling_dependencies_final.png
+   :width: 40em
+
+xxx
+
+.. figure:: ../bld/src/examples/schelling_dependencies_paper.png
+   :width: 40em
+
+xxx
+
+.. figure:: ../bld/src/examples/schelling_dependencies.png
+   :width: 50em
+
+xxx
