@@ -30,9 +30,13 @@
     {
         sample.npy
     };
-    \node (schelling_py) [fill=blue!15, shift={(0, 0)}]
+    \node (schelling_py) [fill=blue!15, shift={(-1, 0)}]
     {
         schelling.py
+    };
+    \node (agent_py) [fill=blue!15, shift={(1, 0)}]
+    {
+        agent.py
     };
     \node (baseline_json) [fill=blue!15, shift={(2, 4)}]
     {
@@ -73,9 +77,11 @@
     \draw[->, blue, thick] (sample_npy) to (get_simulation_draws_py);
     \draw[->, orange, thick] (schelling_baseline_pickle) to (sample_npy);
     \draw[->, orange, thick] (schelling_baseline_pickle) to (schelling_py);
+    \draw[->, orange, thick] (schelling_baseline_pickle) to (agent_py);    
     \draw[->, orange, thick] (schelling_baseline_pickle) to (baseline_json);
     \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (sample_npy);
     \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (schelling_py);
+    \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (agent_py);    
     \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (max_moves_2_json);
     \draw[->, teal, thick] (schelling_baseline_png) to (schelling_baseline_pickle);
     \draw[->, teal, thick] (schelling_baseline_png) to (plot_locations_py);
