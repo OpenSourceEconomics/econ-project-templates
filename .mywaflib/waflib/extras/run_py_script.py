@@ -15,7 +15,7 @@ PYTHONPATH environmetal variable; strings supplied to the **prepend** and
 Usage::
 
 	ctx(
-		features='run_py_script', version=3,
+		features='run_py_script',
 		source='some_script.py',
 		target=['some_table.tex', 'some_figure.eps'],
 		deps='some_data.csv',
@@ -31,8 +31,8 @@ from waflib import Task, TaskGen, Logs
 
 
 def configure(conf):
-	conf.find_program('python', var='PYCMD', mandatory=False)
-	if not conf.env.PYCMD:
+	conf.find_program('python', var='RUN_PY_SCRIPT_CMD', mandatory=False)
+	if not conf.env.RUN_PY_SCRIPT_CMD:
 		conf.fatal("No Python interpreter found!")
 
 
@@ -40,7 +40,7 @@ def configure(conf):
 class run_py_script(Task.Task):
 	"""Run a Python script."""
 
-	run_str = '${PREPEND} ${PYCMD} ${SRC[0].abspath()} ${APPEND}'
+	run_str = '${PREPEND} ${RUN_PY_SCRIPT_CMD} ${SRC[0].abspath()} ${APPEND}'
 	shell = True
 
 	def exec_command(self, cmd, **kw):
