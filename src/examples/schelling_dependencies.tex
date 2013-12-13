@@ -16,13 +16,13 @@
     draw,
     fill=brown!25
 }]
-    \node (get_simulation_draws_py) [fill=blue!15, shift={(-4, 2)}]
+    \node (get_simulation_draws_py) [fill=blue!15, shift={(-4, -2)}]
     {
         get\_simulation\_draws.py
     };
-    \node (sample_npy) [shift={(-4, 0)}]
+    \node (initial_locations_npy) [shift={(-4, 0)}]
     {
-        sample.npy
+        initial\_locations.npy
     };
     \node (schelling_py) [fill=blue!15, shift={(-1, 0)}]
     {
@@ -68,12 +68,12 @@
     {
         research\_paper.pdf
     };
-    \draw[->, blue, thick] (sample_npy) to (get_simulation_draws_py);
-    \draw[->, orange, thick] (schelling_baseline_pickle) to (sample_npy);
+    \draw[->, blue, thick] (initial_locations_npy) to (get_simulation_draws_py);
+    \draw[->, orange, thick] (schelling_baseline_pickle) to (initial_locations_npy);
     \draw[->, orange, thick] (schelling_baseline_pickle) to (schelling_py);
     \draw[->, orange, thick] (schelling_baseline_pickle) to (agent_py);    
     \draw[->, orange, thick] (schelling_baseline_pickle) to (baseline_json);
-    \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (sample_npy);
+    \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (initial_locations_npy);
     \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (schelling_py);
     \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (agent_py);    
     \draw[->, orange, thick] (schelling_max_moves_2_pickle) to (max_moves_2_json);

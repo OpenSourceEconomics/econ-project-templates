@@ -16,15 +16,15 @@
     draw,
     fill=brown!25
 }]
-    \node (get_simulation_draws_py) [fill=blue!15, shift={(-4, 2)}]
+    \node (get_simulation_draws_py) [fill=blue!15, shift={(-4, 0)}]
     {
         get\_simulation\_draws.py
     };
-    \node (sample_npy) [shift={(-4, 0)}]
+    \node (initial_locations_npy) [shift={(0, 0)}]
     {
-        sample.npy
+        initial\_locations.npy
     };
-    \draw[->, blue, thick] (sample_npy) to (get_simulation_draws_py);
+    \draw[->, blue, thick] (initial_locations_npy) to (get_simulation_draws_py);
 \end{tikzpicture}
 
 \end{document}

@@ -11,7 +11,7 @@ Introduction to Waf
 xxx
 
 .. figure:: ../bld/src/examples/schelling_dependencies_data_mgmt.png
-   :width: 15em
+   :width: 40em
 
 xxx
 
@@ -34,3 +34,12 @@ xxx
    :width: 50em
 
 xxx
+
+Some important Waf internals
+----------------------------
+
+.. figure:: examples/waf_build_phase.png
+   :width: 35em
+
+
+
