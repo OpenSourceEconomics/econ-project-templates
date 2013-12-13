@@ -17,7 +17,7 @@ def build(ctx):
             deps=[
                 ctx.path_to(ctx, 'IN_MODEL_SPECS', '{}.json'.format(model)),
                 ctx.path_to(ctx, 'IN_MODEL_CODE', 'agent.py'),
-                ctx.path_to(ctx, 'OUT_DATA', 'sample.npy'),
+                ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy'),
             ],
             append=model,
             name='{}_{}'.format(source, model)

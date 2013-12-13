@@ -19,7 +19,12 @@ from bld.src.library.project_paths import project_paths_join as ppj
 
 
 def setup_agents(model):
-    initial_locations = np.load(ppj("OUT_DATA", "sample.npy"))
+    """Load the simulated initial locations and return a list
+    that holds all agents.
+
+    """
+
+    initial_locations = np.load(ppj("OUT_DATA", "initial_locations.npy"))
 
     agents = []
     for typ in range(model["n_types"]):
@@ -60,6 +65,11 @@ def _store_locations_by_round(loc, agents):
 
 
 def run_analysis(agents, model):
+    """Given an initial set of *agents* and the *model*'s parameters,
+    return a list of dictionaries with *type: N x 2* items.
+
+    """
+
     locations_by_round = [_get_locations_by_round_dict(model)]
     _store_locations_by_round(locations_by_round[-1], agents)
 
@@ -98,10 +108,10 @@ if __name__ == "__main__":
     np.random.seed(model["rng_seed"])
     logging.info(model["rng_seed"])
 
-    # Setup agents and run analysis
+    # Load initial locations and setup agents
     agents = setup_agents(model)
+    # Run the main analysis
     locations_by_round = run_analysis(agents, model)
-
-    # Store locations after each round
+    # Store list with locations after each round
     with open(ppj("OUT_ANALYSIS", "schelling_{}.pickle".format(model_name)), "wb") as out_file:
         pickle.dump(locations_by_round, out_file)
