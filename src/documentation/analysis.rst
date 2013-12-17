@@ -3,7 +3,9 @@
 Main model estimations / simulations
 =====================================
 
-Documentation of the code in **analysis**. Here's the core of the project. In case this step is very extensive, it may be useful to further break it up.
+Documentation of the code in **analysis**. This is the
+core of the project. In case this step is very extensive,
+it may be useful to further break the step up.
 
 
 Schelling example:
