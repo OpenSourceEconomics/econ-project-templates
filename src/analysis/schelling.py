@@ -1,8 +1,8 @@
 """Run a Schelling (1969, :cite:`Schelling69`) segregation
 model and store a list with locations by type at each cycle.
 
-The scripts expects a model name to be passed on the command
-line that needs to correspond to a file called
+The scripts expects that a model name is passed as an
+argument. The model name must correspond to a file called
 ``[model_name].json`` in the "IN_MODEL_SPECS" directory.
 
 """

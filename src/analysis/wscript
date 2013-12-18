@@ -1,24 +1,20 @@
 def build(ctx):
 
-    def out_analysis(*args):
-        "Just a simple wrapper for quick access"
-        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
-
     for model in 'baseline', 'max_moves_2':
+
         # Illustrate use of run_py_script with automatic model specification.
-        source = 'schelling'
         ctx(
             features='run_py_script',
-            source='{}.py'.format(source),
-            target=[
-                out_analysis('{}_{}.pickle'.format(source, model)),
-                out_analysis('log', '{}_{}.log'.format(source, model))
-            ],
+            source='schelling.py',
             deps=[
-                ctx.path_to(ctx, 'IN_MODEL_SPECS', '{}.json'.format(model)),
-                ctx.path_to(ctx, 'IN_MODEL_CODE', 'agent.py'),
                 ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy'),
+                ctx.path_to(ctx, 'IN_MODEL_CODE', 'agent.py'),
+                ctx.path_to(ctx, 'IN_MODEL_SPECS', '{}.json'.format(model)),
+            ],
+            target=[
+                ctx.path_to(ctx, 'OUT_ANALYSIS', 'schelling_{}.pickle'.format(model)),
+                ctx.path_to(ctx, 'OUT_ANALYSIS', 'log', 'schelling_{}.log'.format(model))
             ],
             append=model,
-            name='{}_{}'.format(source, model)
+            name='schelling_{}'.format(model)
         )
