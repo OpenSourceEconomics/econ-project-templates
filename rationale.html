@@ -64,14 +64,14 @@
 <p>(TBC)</p>
 <div class="section" id="running-example">
 <h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">¶</a></h2>
-<p>To fix ideas, let&#8217;s look at the example of Schelling&#8217;s (1969, <a class="reference internal" href="references.html#schelling69">[7]</a>) segregation model, as outlined <a class="reference external" href="http://quant-econ.net/schelling.html#schelling-s-segregation-model">here</a> in Stachurski&#8217;s and Sargent&#8217;s online course <a class="reference internal" href="references.html#stachurskisargent13">[8]</a>. Please look at their description of the model. Say we are thinking of two <strong>models</strong> for the moment:</p>
+<p>To fix ideas, let&#8217;s look at the example of Schelling&#8217;s (1969, <a class="reference internal" href="zreferences.html#schelling69">[8]</a>) segregation model, as outlined <a class="reference external" href="http://quant-econ.net/schelling.html#schelling-s-segregation-model">here</a> in Stachurski&#8217;s and Sargent&#8217;s online course <a class="reference internal" href="zreferences.html#stachurskisargent13">[9]</a>. Please look at their <a class="reference external" href="http://quant-econ.net/schelling.html#schelling-s-segregation-model">description</a> of the Schelling model. Say we are thinking of two variants for the moment:</p>
 <ol class="arabic simple">
 <li>Replicate the <a class="reference external" href="http://quant-econ.net/schelling.html#results">figures</a> from Stachurski&#8217;s and Sargent&#8217;s course.</li>
 <li>Check what happens when agents are restricted to two random moves per period; after that they have to stop regardless whether they are happy or not.</li>
 </ol>
-<p>For each model, you need to perform various steps:</p>
+<p>For each of these variants (called <strong>models</strong> in the project template and the remainder of this document), you need to perform various steps:</p>
 <ol class="arabic simple">
-<li>Draw a simulated sample with initial locations (this is taken to be the same across specifications, partly for demonstration purposes, partly because it keeps the initial distribution the same across both specifications)</li>
+<li>Draw a simulated sample with initial locations (this is taken to be the same across models, partly for demonstration purposes, partly because it assures that the initial distribution is the same across both models)</li>
 <li>Run the actual simulation</li>
 <li>Visualise the results</li>
 <li>Pull everything together in a paper.</li>
@@ -80,7 +80,7 @@
 </div>
 <div class="section" id="how-to-organise-the-workflow">
 <h2>How to organise the workflow?<a class="headerlink" href="#how-to-organise-the-workflow" title="Permalink to this headline">¶</a></h2>
-<p>A naïve way to ensure reproducibility is to have a <strong>master-script</strong> (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over the three specifications:</p>
+<p>A naïve way to ensure reproducibility is to have a <strong>master-script</strong> (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over both models for each of them:</p>
 <div class="figure">
 <img alt="_images/steps_only_full.png" src="_images/steps_only_full.png" style="width: 25em;" />
 </div>
@@ -96,22 +96,22 @@
 <p>This figure assumes that your data management is being done for all models at once, which is usually a good choice for me. Even with only two models, we need to remember 6 ways to start different programs and how the different tasks depend on each other. <strong>This does not scale to serious projects!</strong></p>
 </div>
 <div class="section" id="directed-acyclic-graphs-dags">
-<h2>Directed Acyclic Graphs (DAGs)<a class="headerlink" href="#directed-acyclic-graphs-dags" title="Permalink to this headline">¶</a></h2>
+<span id="dag-s"></span><h2>Directed Acyclic Graphs (DAGs)<a class="headerlink" href="#directed-acyclic-graphs-dags" title="Permalink to this headline">¶</a></h2>
 <p>The way to specify dependencies between data, code and tasks to perform for a computer is a directed acyclic graph. A graph is simply a pair of nodes (files, in our case) and edges that connect pairs of nodes (tasks to perform). Directed means that the order of how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means that there are no directed cycles: When you traverse a graph in the direction of the arrows, there may not be a way to end up at the same node again.</p>
 <p>This is the dependency graph for the modified Schelling example from Stachurski and Sargent, as implemented in the Python branch of the project template:</p>
 <div class="figure">
 <img alt="_images/schelling_dependencies.png" src="_images/schelling_dependencies.png" style="width: 50em;" />
 </div>
-<p>The arrows have different colors in order to distinguish the steps of the analysis:</p>
+<p>The arrows have different colors in order to distinguish the steps of the analysis, from left to right:</p>
 <ul class="simple">
 <li>Blue for data management (=drawing a simulated sample, in this case)</li>
 <li>Orange for the main simulation</li>
 <li>Teal for the visualisation of results</li>
 <li>Red for compiling the pdf of the paper</li>
 </ul>
-<p>Bluish nodes are pure source files &#8211; they do not depend on any other file and hence no arrow points at any of them. In contrast, brownish nodes are targets, they are generated by the code. Some may serve as intermediate targets only &#8211; e.g. there is not much you would want to do with the binary file of the simulated sample (<tt class="docutils literal"><span class="pre">initial_locations.npy</span></tt>) except for processing it further.</p>
-<p>In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct <strong>dependencies</strong> changes. E.g. when we make changes to <tt class="docutils literal"><span class="pre">baseline.json</span></tt>, we will need to build <tt class="docutils literal"><span class="pre">schelling_baseline.pickle</span></tt> and  <tt class="docutils literal"><span class="pre">schelling_baseline.png</span></tt> anew. Depending on whether <tt class="docutils literal"><span class="pre">schelling_baseline.png</span></tt> actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section, the only important thing at this point is to understand the general idea.</p>
-<p>Of course this is overkill for a textbook example &#8211; we could easily keep the code closer together than this. But this strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of <a class="reference internal" href="references.html#gaudecker14">[9]</a>:</p>
+<p>Bluish nodes are pure source files &#8211; they do not depend on any other file and hence no arrow points towards any of them. In contrast, brownish nodes are targets, they are generated by the code. Some may serve as intermediate targets only &#8211; e.g. there is not much you would want to do with the binary file of the simulated sample (<em>initial_locations.npy</em>) except for processing it further.</p>
+<p>In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct <strong>dependencies</strong> changes. E.g. when we make changes to <em>baseline.json</em>, we will need to build <em>schelling_baseline.pickle</em> and  <em>schelling_baseline.png</em> anew. Depending on whether <em>schelling_baseline.png</em> actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section, the only important thing at this point is to understand the general idea.</p>
+<p>Of course this is overkill for a textbook example &#8211; we could easily keep the code closer together than this. But this strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of <a class="reference internal" href="zreferences.html#gaudecker14">[10]</a>:</p>
 <div class="figure">
 <img alt="_images/pfefficiency.jpg" src="_images/pfefficiency.jpg" style="width: 35em;" />
 </div>

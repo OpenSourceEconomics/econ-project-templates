@@ -9,9 +9,11 @@ An empirical or computational research project only becomes a useful building bl
 1. Saving you from a bunch of repetitive steps that need to be done sooner or later when starting a new project
 2. Helping you on ensuring reproducibility of your research findings from the beginning to the end
 
-The first should lure you in quickly, the second convince you to stick to it in the long run---unless you are familiar with the tools already, there will be times where you think that all this is overkill and far more difficult than necessary. It is not [although I am always happy to hear about easier alternatives].
+The first should lure you in quickly, the second convince you to stick to it in the long run---unless you are familiar with the tools already, there will be times where you think that all of this is overkill and far more difficult than necessary. It is not. *[although I am always happy to hear about easier alternatives]*
 
-The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by `Waf <https://code.google.com/p/waf/>`_, which is written in `Python <http://www.python.org/>`_. You do not need to know much Python to get going, though. If you are a complete novice, you should read through the entire documents instead of jumping directly to the :ref:`getting_started` section. Please let me know about any sections you think would merit more explanation; this is all work in progress.
+The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by `Waf <https://code.google.com/p/waf/>`_, which is written in `Python <http://www.python.org/>`_. You do not need to know much Python to get going, though.
+
+If you are a complete novice, you should read through the entire documents instead of jumping directly to the :ref:`getting_started` section. Please let me know about any sections you think would merit more explanation; this is all work in progress.
 
 First, let me expand on the reproducibility part, though.
 
@@ -32,6 +34,6 @@ It is sad if not the substance, but controversies about the replicability of res
    *Economic Journals with Mandatory Data + Code Archives, Figure 1 in* :cite:`McCullough09`
 
 
-Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project --- much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience :cite:`GaudeckerSoestWengstrom11prefhet`, I can confirm that replication policies are enforced nowadays --- and that it is rather painful to ensure *ex-post* that you can follow them. The number of journals implementing replication policies is likely to grow further --- if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not get started on research ethics \ldots
+Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project --- much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience :cite:`GaudeckerSoestWengstrom11prefhet`, I can confirm that replication policies are enforced nowadays --- and that it is rather painful to ensure *ex-post* that you can follow them. The number of journals implementing replication policies is likely to grow further --- if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not get started on research ethics...
 
 

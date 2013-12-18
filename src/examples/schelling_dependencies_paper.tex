@@ -16,13 +16,21 @@
     draw,
     fill=brown!25
 }]
-    \node (schelling_baseline_png) [shift={(5, 1)}]
+    \node (schelling_baseline_png) [shift={(5, 1.4)}]
     {
         schelling\_baseline.png
     };
-    \node (schelling_max_moves_2_png) [shift={(5, -1)}]
+    \node (decision_rule_tex) [fill=blue!15, shift={(5, 0.7)}]
+    {
+        decision\_rule.tex
+    };
+    \node (schelling_max_moves_2_png) [shift={(5, -1.4)}]
     {
         schelling\_max\_moves\_2.png
+    };
+    \node (refs_bib) [fill=blue!15, shift={(5, -0.7)}]
+    {
+        refs.bib
     };
     \node (research_paper_tex) [fill=blue!15, shift={(5, 0)}]
     {
@@ -32,8 +40,10 @@
     {
         research\_paper.pdf
     };
-    \draw[->, red, thick] (research_paper_pdf) to (research_paper_tex);
     \draw[->, red, thick] (research_paper_pdf) to (schelling_baseline_png.east);
+    \draw[->, red, thick] (research_paper_pdf) to (decision_rule_tex.east);
+    \draw[->, red, thick] (research_paper_pdf) to (research_paper_tex);
+    \draw[->, red, thick] (research_paper_pdf) to (refs_bib.east);
     \draw[->, red, thick] (research_paper_pdf) to (schelling_max_moves_2_png.east);
 \end{tikzpicture}
 

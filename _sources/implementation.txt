@@ -6,6 +6,14 @@ Implementation
 
 (TBD)
 
+.. _directory_structure:
+
+Directory structure
+-------------------
+
+(Inc)
+
+
 .. _project_paths:
 
 Project paths

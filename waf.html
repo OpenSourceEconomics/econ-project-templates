@@ -52,36 +52,268 @@
         
         
   <div class="section" id="introduction-to-waf">
-<span id="waf"></span><h1>Introduction to Waf<a class="headerlink" href="#introduction-to-waf" title="Permalink to this headline">¶</a></h1>
+<span id="waf-intro"></span><h1>Introduction to Waf<a class="headerlink" href="#introduction-to-waf" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://code.google.com/p/waf/">Waf</a> is our tool of choice to automate the dependency tracking via a DAG structure. Originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file <em>waf.py</em> and the hidden folder <em>.mywaflib</em>). The settings for a particular project are controlled via files called <em>wscript</em>, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.</p>
+<p>There are three phases to building a project:</p>
+<ul class="simple">
+<li><strong>configure</strong>: Set the project and build directories, find required programs on a particular machine</li>
+<li><strong>build</strong>: Build the targets (intermediate and final: cleaned datasets, graphs, tables, paper, presentation, documentation)</li>
+<li><strong>install</strong>: Copy a selection of targets to places where you find them more easily.</li>
+</ul>
+<p>The project directory is always the root directory of the project, the build directory is usually called <em>bld</em>. This is how we implement it in the main <em>wscript</em> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># The project root directory and the build directory.</span>
+<span class="n">top</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
+<span class="n">out</span> <span class="o">=</span> <span class="s">&#39;bld&#39;</span>
+</pre></div>
+</div>
+<p>We will have more to say about the directory structure in the <a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a> section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed &#8211; everything in it will be reconstructed automatically the next time Waf is run.</p>
+<div class="section" id="the-configure-phase">
+<h2>The configure phase<a class="headerlink" href="#the-configure-phase" title="Permalink to this headline">¶</a></h2>
+<p>The first time you fire up a project you need to invoke Waf by typing:</p>
+<div class="highlight-python"><pre>python waf.py configure</pre>
+</div>
+<p>in a command prompt. You only need to do this once, or when the location of the programs that your project requires changes (say, you installed a new version of LaTeX). Because of the <tt class="docutils literal"><span class="pre">configure</span></tt> argument Waf will call the function by the same name, which lives in the main <em>wscript</em> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PYTHONPATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;why&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;biber&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;run_py_script&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;sphinx_build&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;write_project_headers&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let us dissect this function line-by-line:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">ctx.env.PYTHONPATH</span> <span class="pre">=</span> <span class="pre">os.getcwd()</span></tt> sets the PYTHONPATH environmental variable to the project root folder so we can use hierarchical imports in our Python scripts</li>
+<li><tt class="docutils literal"><span class="pre">ctx.load('why')</span></tt> loads a tool that helps in debugging dependencies, very useful in complicated situations.</li>
+<li><tt class="docutils literal"><span class="pre">ctx.load('biber')</span></tt> loads a <a class="reference external" href="http://biblatex-biber.sourceforge.net/">modern replacement</a> for BibTeX and the entire LaTeX machinery with it.</li>
+<li><tt class="docutils literal"><span class="pre">ctx.load('run_py_script')</span></tt> loads a little tool for running Python scripts. Similar tools exist for Matlab, Stata, R, and Perl. More can be easily created.</li>
+<li><tt class="docutils literal"><span class="pre">ctx.load('sphinx_build')</span></tt> loads the tool required to build the project&#8217;s documentation.</li>
+<li><tt class="docutils literal"><span class="pre">ctx.load('write_project_headers')</span></tt> loads a tool for handling project paths. We postpone the discussion until the <a class="reference internal" href="implementation.html#project-paths"><em>section</em></a> by the same name.</li>
+</ul>
+<p>Waf know nows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.</p>
+</div>
+<div class="section" id="specifying-dependencies-and-the-build-phase">
+<h2>Specifying dependencies and the build phase<a class="headerlink" href="#specifying-dependencies-and-the-build-phase" title="Permalink to this headline">¶</a></h2>
+<p>Let us go step-by-step through the entire dependency graph of the project from the section on <a class="reference internal" href="rationale.html#dag-s"><em>DAG&#8217;s</em></a>, which is reproduced here for convenience:</p>
 <div class="figure">
 <img alt="_images/schelling_dependencies.png" src="_images/schelling_dependencies.png" style="width: 50em;" />
 </div>
-<p>xxx</p>
-<div class="figure">
-<img alt="_images/schelling_dependencies_data_mgmt.png" src="_images/schelling_dependencies_data_mgmt.png" style="width: 40em;" />
+<p>Remember the colors of the edges follow the step of the analysis; we will split  our description along the same lines. First, we need to show how to keep the Waf code in separate directories (else it would become quickly unmanageable).</p>
+<div class="section" id="distributing-the-dependencies-by-step-of-the-analysis">
+<h3>Distributing the dependencies by step of the analysis<a class="headerlink" href="#distributing-the-dependencies-by-step-of-the-analysis" title="Permalink to this headline">¶</a></h3>
+<p>Waf makes it easy to proceed in a step-wise manner by letting the user distribute <em>wscript</em> files across a directory hierarchy. This is an exerpt from the <tt class="docutils literal"><span class="pre">build</span></tt> function in the main <em>wscript</em> file:</p>
+<div class="code highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
-<p>xxx</p>
+<p>When this function is called, it will descend into a subfolder <em>src</em>, look for a file called <em>wscript</em> and invoke the <tt class="docutils literal"><span class="pre">build</span></tt> function defined therein. If any of the three does not exist, it will fail. In the file <em>src/wscript</em>, you will find (among other calls), the following statements:</p>
+<div class="code highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s">&#39;data_management&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s">&#39;analysis&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s">&#39;final&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s">&#39;paper&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The same comments as before apply to what the <tt class="docutils literal"><span class="pre">ctx.recurse</span></tt> calls do. Hence you can specify the dependencies separately for each step of the analysis.</p>
+</div>
+<div class="section" id="the-data-management-step">
+<h3>The &#8220;data management&#8221; step<a class="headerlink" href="#the-data-management-step" title="Permalink to this headline">¶</a></h3>
+<p>The dependency structure at this step of the analysis is particularly simple, as we have one source and one target:</p>
+<div class="figure">
+<img alt="_images/schelling_dependencies_data_mgmt.png" src="_images/schelling_dependencies_data_mgmt.png" style="width: 30em;" />
+</div>
+<p>This is the entire content of the file <em>src/data_management/wscript</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+
+    <span class="c"># Illustrate simple use of run_py_script</span>
+    <span class="n">ctx</span><span class="p">(</span>
+        <span class="n">features</span><span class="o">=</span><span class="s">&#39;run_py_script&#39;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="s">&#39;get_simulation_draws.py&#39;</span><span class="p">,</span>
+        <span class="n">target</span><span class="o">=</span><span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s">&#39;initial_locations.npy&#39;</span><span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;get_simulation_draws&#39;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">ctx()</span></tt> call is a shortcut for creating a <strong>task generator</strong>, we will be more specific about that below in the section <a class="reference internal" href="#build-phase"><em>A closer look at the build phase</em></a>. Let us look at the lines one-by-one again:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">features='run_py_script'</span></tt> tells Waf what <strong>action</strong> it needs to perform. In this case, it should run a Python script.</li>
+<li><tt class="docutils literal"><span class="pre">source='get_simulation_draws.py'</span></tt> tells Waf that it should perform the action on the file <em>get_simulation_draws.py</em> in the current directory.</li>
+<li><tt class="docutils literal"><span class="pre">target=ctx.path_to(ctx,</span> <span class="pre">'OUT_DATA',</span> <span class="pre">'initial_locations.npy')</span></tt> tells Waf that the specified action will produce a file called <em>initial_locations.npy</em> in a directory that is determined in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt>. We will examine this in detail in the <a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a> section, for now we abstract from it beyond noting that the <tt class="docutils literal"><span class="pre">OUT_DATA</span></tt> keyword refers to the directory where output data are stored.</li>
+<li><tt class="docutils literal"><span class="pre">name='get_simulation_draws'</span></tt> gives this task generator a name, which can be useful if we only want to produce a subset of all targets.</li>
+</ul>
+<p>And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.</p>
+</div>
+<div class="section" id="the-analysis-step">
+<h3>The &#8220;analysis&#8221; step<a class="headerlink" href="#the-analysis-step" title="Permalink to this headline">¶</a></h3>
+<p>We concentrate our discussion the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:</p>
 <div class="figure">
 <img alt="_images/schelling_dependencies_main.png" src="_images/schelling_dependencies_main.png" style="width: 40em;" />
 </div>
-<p>xxx</p>
+<p>Just a reminder on the purpose of each of these files:</p>
+<ul class="simple">
+<li><em>schelling_baseline.pickle</em> is the file that contains the locations of agents after each round</li>
+<li><em>initial_locations.npy</em> is the file we produced before</li>
+<li><em>schelling.py</em> is the file with the main code to run the analysis</li>
+<li><em>agent.py</em> contains a class <tt class="docutils literal"><span class="pre">Agent</span></tt> that specifies how a Schelling-agent behaves in given circumstances (i.e. move or stay)</li>
+<li><em>baseline.json</em> contains the specification for the baseline model.</li>
+</ul>
+<p>In addition to this, we keep a <em>log-file</em>, which is omitted from the graph for legibility. We specify this dependency structure in the file <em>src/analysis/wscript</em>, which has the following contents:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="s">&#39;baseline&#39;</span><span class="p">,</span> <span class="s">&#39;max_moves_2&#39;</span><span class="p">:</span>
+
+        <span class="c"># Illustrate use of run_py_script with automatic model specification.</span>
+        <span class="n">ctx</span><span class="p">(</span>
+            <span class="n">features</span><span class="o">=</span><span class="s">&#39;run_py_script&#39;</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="s">&#39;schelling.py&#39;</span><span class="p">,</span>
+            <span class="n">deps</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s">&#39;initial_locations.npy&#39;</span><span class="p">),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;IN_MODEL_CODE&#39;</span><span class="p">,</span> <span class="s">&#39;agent.py&#39;</span><span class="p">),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;IN_MODEL_SPECS&#39;</span><span class="p">,</span> <span class="s">&#39;{}.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span>
+            <span class="p">],</span>
+            <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_ANALYSIS&#39;</span><span class="p">,</span> <span class="s">&#39;schelling_{}.pickle&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_ANALYSIS&#39;</span><span class="p">,</span> <span class="s">&#39;log&#39;</span><span class="p">,</span> <span class="s">&#39;schelling_{}.log&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+            <span class="p">],</span>
+            <span class="n">append</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s">&#39;schelling_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>Some points to note about this:</p>
+<ul>
+<li><p class="first">The loop over both models allows us to specify the code in one go; we focus on the case where the variable <tt class="docutils literal"><span class="pre">model</span></tt> takes on the value <tt class="docutils literal"><span class="pre">'baseline'</span></tt>.</p>
+</li>
+<li><p class="first">Note the difference between the <tt class="docutils literal"><span class="pre">source</span></tt> and the <tt class="docutils literal"><span class="pre">deps</span></tt>: Even though the dependency graph above neglects the difference, Waf needs to know which file it needs to run the task on. This is done via the <tt class="docutils literal"><span class="pre">source</span></tt> keyword. The other files will only be used for setting the dependencies.</p>
+</li>
+<li><p class="first">The first item in the list of <tt class="docutils literal"><span class="pre">deps</span></tt> is <strong>exactly</strong> the same as the target in the data management step.</p>
+</li>
+<li><p class="first">Don&#8217;t worry about the directories in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt> calls until the section &#8220;<a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a>&#8221; below</p>
+</li>
+<li><p class="first">We keep a log-file calle <em>schelling_baseline.log</em>, which we left out of the dependency tree.</p>
+</li>
+<li><p class="first">The <tt class="docutils literal"><span class="pre">append</span></tt> keyword allows us to pass arguments to the Python script. In particular, <em>schelling.py</em> will be invoked as follows:</p>
+<div class="highlight-python"><pre>python /path/to/project/src/analysis/schelling.py baseline</pre>
+</div>
+<p>In <em>schelling.py</em>, the model name is then read in using:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">model_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>and we can load the correct model specification (i.e., <em>baseline.json</em>). This works similarly in other languages; see the respective project template as an example.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="the-final-step">
+<h3>The &#8220;final&#8221; step<a class="headerlink" href="#the-final-step" title="Permalink to this headline">¶</a></h3>
+<p>Again, we concentrate on the baseline model.</p>
 <div class="figure">
 <img alt="_images/schelling_dependencies_final.png" src="_images/schelling_dependencies_final.png" style="width: 40em;" />
 </div>
-<p>xxx</p>
+<p>This step is shown here mostly for completeness, there is nothing really new in the <em>wscript</em> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="s">&#39;baseline&#39;</span><span class="p">,</span> <span class="s">&#39;max_moves_2&#39;</span><span class="p">:</span>
+
+        <span class="n">ctx</span><span class="p">(</span>
+            <span class="n">features</span><span class="o">=</span><span class="s">&#39;run_py_script&#39;</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="s">&#39;plot_locations.py&#39;</span><span class="p">,</span>
+            <span class="n">deps</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_ANALYSIS&#39;</span><span class="p">,</span> <span class="s">&#39;schelling_{}.pickle&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;IN_MODEL_SPECS&#39;</span><span class="p">,</span> <span class="s">&#39;{}.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+            <span class="p">],</span>
+            <span class="n">target</span><span class="o">=</span><span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_FIGURES&#39;</span><span class="p">,</span> <span class="s">&#39;schelling_{}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span>
+            <span class="n">append</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s">&#39;plot_locations_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>Everything works just as before: We set <em>plot_locations.py</em> as the source, specify additional dependencies (among them the relevant target from the <strong>analysis</strong> step), and append the model name on the command line.</p>
+</div>
+<div class="section" id="the-paper-step">
+<h3>The &#8220;paper&#8221; step<a class="headerlink" href="#the-paper-step" title="Permalink to this headline">¶</a></h3>
+<p>The pdf with the final &#8220;paper&#8221; depends on two additional files that were not shown in the full dependency graph for legibility reasons, a reference bibliography, and a LaTeX-file with the formula for the agents&#8217; decision rule (specified in a separate file so it can be re-used in the presentation, which is omitted from the graph as well):</p>
 <div class="figure">
 <img alt="_images/schelling_dependencies_paper.png" src="_images/schelling_dependencies_paper.png" style="width: 40em;" />
 </div>
-<p>xxx</p>
-<div class="figure">
-<img alt="_images/schelling_dependencies.png" src="_images/schelling_dependencies.png" style="width: 50em;" />
+<p>The corresponding file <em>src/paper/wscript</em> is particularly simple:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="s">&#39;research_paper&#39;</span><span class="p">,</span> <span class="s">&#39;research_pres_30min&#39;</span><span class="p">:</span>
+        <span class="n">ctx</span><span class="p">(</span>
+            <span class="n">features</span><span class="o">=</span><span class="s">&#39;tex&#39;</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="n">s</span> <span class="o">+</span> <span class="s">&#39;.tex&#39;</span><span class="p">,</span>
+            <span class="n">prompt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">s</span>
+        <span class="p">)</span>
+</pre></div>
 </div>
-<p>xxx</p>
-<div class="section" id="some-important-waf-internals">
-<h2>Some important Waf internals<a class="headerlink" href="#some-important-waf-internals" title="Permalink to this headline">¶</a></h2>
+<p>Note that we only request Waf to execute the <em>tex</em> machinery the name of the source file (<em>research_paper.tex</em>).</p>
+<p>The line <tt class="docutils literal"><span class="pre">prompt=1</span></tt> only tells Waf to invoke pdflatex in such a way that the log-file is printed to the screen. You can shut this off (it is often very long and obfuscates the remaining output from Waf) by setting it to 0.</p>
+<p>So how does Waf know about the additional four dependencies? The <em>tex</em> tool is smart enough to find out by itself! In particular, it parses the contents of <em>research_paper.tex</em> and looks for lines such as:</p>
+<div class="highlight-latex"><div class="highlight"><pre><span class="k">\input</span><span class="nb">{</span>formulas/decision<span class="nb">_</span>rule<span class="nb">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="invoking-the-build">
+<h3>Invoking the build<a class="headerlink" href="#invoking-the-build" title="Permalink to this headline">¶</a></h3>
+<p>You start building the project by typing:</p>
+<div class="highlight-python"><pre>python waf.py build</pre>
+</div>
+<p>at a command prompt. Because this is the most frequent command to execute,</p>
+<blockquote>
+<div>python waf.py</div></blockquote>
+<p>actually has the same effect.</p>
+</div>
+</div>
+<div class="section" id="the-installation-phase">
+<h2>The installation phase<a class="headerlink" href="#the-installation-phase" title="Permalink to this headline">¶</a></h2>
+<p>Some targets you want to have easily accessible. This is particularly true for the paper and the presentation. Instead of having to plow through lots of byproducts of the LaTeX compilation in <em>bld/src/paper</em>, it would be nice to have the two pdf&#8217;s in the project root folder.</p>
+<p>In order to achieve this, the following code is found in <em>src/paper/wscript</em> (still in the loop where <tt class="docutils literal"><span class="pre">s</span></tt> takes on the values <tt class="docutils literal"><span class="pre">'research_paper'</span></tt> or <tt class="docutils literal"><span class="pre">'research_pres_30min'</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre>        <span class="n">ctx</span><span class="o">.</span><span class="n">install_files</span><span class="p">(</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PROJECT_PATHS</span><span class="p">[</span><span class="s">&#39;PROJECT_ROOT&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">abspath</span><span class="p">(),</span>
+            <span class="n">s</span> <span class="o">+</span> <span class="s">&#39;.pdf&#39;</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>This installation of targets can be triggered by typing either of the following commands in a shell:</p>
+<div class="highlight-python"><pre>python waf.py build install
+python waf.py install</pre>
+</div>
+<p>Conversely, you can remove all installed targets by:</p>
+<div class="highlight-python"><pre>python waf.py uninstall</pre>
+</div>
+</div>
+<div class="section" id="a-closer-look-at-the-build-phase">
+<span id="build-phase"></span><h2>A closer look at the build phase<a class="headerlink" href="#a-closer-look-at-the-build-phase" title="Permalink to this headline">¶</a></h2>
 <div class="figure">
 <img alt="_images/waf_build_phase.png" src="_images/waf_build_phase.png" style="width: 35em;" />
+<p class="caption">The build phase of a project, reproduced from <a class="reference internal" href="zreferences.html#nagy13">[5]</a>, section 4.1.4</p>
 </div>
+</div>
+<div class="section" id="concluding-notes-on-waf">
+<span id="waf-conclusions"></span><h2>Concluding notes on Waf<a class="headerlink" href="#concluding-notes-on-waf" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Waf reads your instructions and sets the build order</p>
+<blockquote>
+<div><ul class="simple">
+<li>Think dependency graph</li>
+<li>Breaks off when it detects a circular dependency ...</li>
+<li>... or ambiguous ways to build a target, ...</li>
+<li>... which are major advantages over a “master.sh” file</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Waf decides what needs to be rebuilt based on the nodes’ signatures</p>
+<blockquote>
+<div><ul class="simple">
+<li>≈ A sufficient statistic for file contents</li>
+<li>A huge speedup compared to a “master.sh” file</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>We have just touched the tip of the iceberg here; Waf has many more goodies to offer. The Waf book <a class="reference internal" href="zreferences.html#nagy13">[5]</a> is an excellent source &#8211; you just have to understand programmer jargon and background a little bit.</p>
 </div>
 </div>
 

@@ -23,5 +23,5 @@ def build(ctx):
         ctx(
             features='tex',
             source='{}.tex'.format(ft),
-            target='{}.png'.format(ft)
+            outs='pdf png'
         )
