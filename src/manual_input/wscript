@@ -1,9 +1,0 @@
-def build(ctx):
-
-    ctx(
-        features='subst',
-        source='some_table.tex',
-        target=ctx.path_to(ctx, 'OUT_TABLES', 'some_table.tex'),
-        is_copy=True,
-        update_outputs=True
-    )
