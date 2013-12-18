@@ -9,13 +9,12 @@
 \usepackage{eurosym, calc, chngcntr}
 \usepackage{amsmath, amssymb, amsfonts, amsthm, bm} 
 
-% \usepackage[backend=biber, natbib=true, bibencoding=inputenc, bibstyle=authoryear-ibid, citestyle=authoryear-comp, maxcitenames=3, maxbibnames=10]{biblatex}
-% \setlength{\bibitemsep}{1.5ex}
-% \addbibresource{bib/hmg.bib}
+\usepackage[backend=biber, natbib=true, bibencoding=inputenc, bibstyle=authoryear-ibid, citestyle=authoryear-comp, maxcitenames=3, maxbibnames=10]{biblatex}
+\setlength{\bibitemsep}{1.5ex}
+\addbibresource{refs.bib}
 
 \hypersetup{colorlinks=true, linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black, menucolor=black, runcolor=black, urlcolor=black}
 
-\usefonttheme{serif}
 \setbeamertemplate{footline}[frame number]
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{frametitle}{\centering\vspace{1ex}\insertframetitle\par}
@@ -48,9 +47,9 @@
 \begin{frame}[t]
     \frametitle{heading here}
     \begin{itemize}
-        \item<+-> first piece of text here
-        \item<+-> second piece of text here
-        \item<+-> Re-use formuals: \input{formulas/some_formula}
+        \item<+-> Please cite this template as: \citet{Gaudecker13}
+        \item<+-> \citet{Schelling69} example in the code is taken from \citet{StachurskiSargent13}.
+        \item<+-> The decision rule of an agent is \input{formulas/decision_rule}
     \end{itemize}
     \note{~}
 \end{frame}
@@ -66,11 +65,10 @@
     \beamersetaveragebackground{white}
 }
 
-% Include bibliography if desired
-% \begin{frame}[allowframebreaks]
-%     \frametitle{References}
-%     \renewcommand{\bibfont}{\normalfont\footnotesize}
-%     \printbibliography
-% \end{frame}
+\begin{frame}[allowframebreaks]
+    \frametitle{References}
+    \renewcommand{\bibfont}{\normalfont\footnotesize}
+    \printbibliography
+\end{frame}
 
 \end{document}

@@ -65,22 +65,10 @@
 
 If you are using this template, please cite this item from the references: \citet{Gaudecker13}
 
-Some text here. Example for a formula inclusion:
+\citet{Schelling69} example in the code is taken from \citet{StachurskiSargent13}
 
-\input{formulas/some_formula}
-
-\begin{table}[h!]
-    \caption{Demonstrating inclusion of files}
-    \label{tab:demonstrating_inclusion_of_files}
-    \begin{center}
-        \input{../../out/tables/some_table}
-    \end{center}
-    \footnotesize
-    \emph{Note:} One could also define commands in {\LaTeX} for the paths to the graphics and tables directories. I prefer not to do so since the Waf scanner won't find them automatically (I believe), but in the end it's a matter of taste where you want to do manual work (i.e. in the {\LaTeX} files or in the wscript files).
-\end{table}
-
-
-Some text here. Example for a formula inclusion:
+The decision rule of an agent is the following:
+\input{formulas/decision_rule}
 
 \begin{figure}
     \caption{Segregation by cycle in the baseline \citet{Schelling69} model as in the \citet{StachurskiSargent13} example}
@@ -90,15 +78,12 @@ Some text here. Example for a formula inclusion:
 \end{figure}
 
 
-
 \begin{figure}
     \caption{Segregation by cycle in the baseline \citet{Schelling69} model, limiting the number of potential moves per period to two}
     
     \includegraphics[width=\textwidth]{../../out/figures/schelling_max_moves_2}
 
 \end{figure}
-
-
 
 % section introduction (end)
 
