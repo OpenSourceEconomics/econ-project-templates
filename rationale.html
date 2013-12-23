@@ -57,13 +57,13 @@
 <blockquote>
 <div><ol class="arabic simple">
 <li><strong>Separation of logical chunks</strong> A minimal requirement for a project to scale.</li>
-<li><strong>Only execute the required tasks</strong> Again required for scalability. It means that the machine needs to know what is meant by a &#8220;required task&#8221;.</li>
+<li><strong>Only execute required tasks, automatically</strong> Again required for scalability. It means that the machine needs to know what is meant by a &#8220;required task&#8221;.</li>
 <li><strong>Re-use of code and data instead of copying and pasting</strong> Else you will forget the copy &amp; paste step at some point down the road. At best, this leads to errors; at worst to misinterpreting the results.</li>
-<li><strong>Be as language-agnostic as possible</strong> Make it easy to use the best tool for a particular problem and to mix them in a project.</li>
+<li><strong>Be as language-agnostic as possible</strong> Make it easy to use the best tool for a particular task and to mix tools in a project.</li>
 <li><strong>Clear separation of inputs and outputs</strong> Required to find your way around in a complex project.</li>
 </ol>
 </div></blockquote>
-<p>I will not touch upon the last point until the <a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a> section below. The remainder of this page introduces an example and the general concept of how to think about the first four points.</p>
+<p>I will not touch upon the last point until the <a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a> section below. The remainder of this page introduces an example and a general concept of how to think about the first four points.</p>
 <div class="section" id="running-example">
 <h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">¶</a></h2>
 <p>To fix ideas, let&#8217;s look at the example of Schelling&#8217;s (1969, <a class="reference internal" href="zreferences.html#schelling69">[8]</a>) segregation model, as outlined <a class="reference external" href="http://quant-econ.net/schelling.html#schelling-s-segregation-model">here</a> in Stachurski&#8217;s and Sargent&#8217;s online course <a class="reference internal" href="zreferences.html#stachurskisargent13">[9]</a>. Please look at their <a class="reference external" href="http://quant-econ.net/schelling.html#schelling-s-segregation-model">description</a> of the Schelling model. Say we are thinking of two variants for the moment:</p>
@@ -86,7 +86,7 @@
 </div>
 <div class="section" id="how-to-organise-the-workflow">
 <h2>How to organise the workflow?<a class="headerlink" href="#how-to-organise-the-workflow" title="Permalink to this headline">¶</a></h2>
-<p>A naïve way to ensure reproducibility is to have a <strong>master-script</strong> (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over both models for each of them:</p>
+<p>A naïve way to ensure reproducibility is to have a <em>master-script</em> (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over both models for each of them:</p>
 <div class="figure">
 <img alt="_images/steps_only_full.png" src="_images/steps_only_full.png" style="width: 25em;" />
 </div>

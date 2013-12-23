@@ -217,10 +217,33 @@ Conversely, you can remove all installed targets by::
 A closer look at the build phase
 ================================
 
+The following figure shows a little bit of how Waf works internally during the build phase:
+
 .. figure:: examples/waf_build_phase.png
-   :width: 35em
+   :width: 30em
 
    The build phase of a project, reproduced from :cite:`Nagy13`, section 4.1.4
+
+The important part to remember is that there is a logical and temporal separation between 
+
+  * the execution of the functions we discussed above;
+  * and Waf's execution of the tasks. 
+
+In between, it has to set the order in which it would execute the tasks and whether a target is up-to-date or not (hence the reading from and writing to an internal cache).
+
+While developing your code, errors will usually show up in the last step: The task returns an error and Waf breaks off. However, the errors do not have anything to do with Waf, it simply runs the code you wrote on your behalf.
+
+"Genuine" Waf errors will occur only if you made errors in writing the *wscript* files (e.g., syntax errors) or specify the dependencies in a way that is not compatible with a DAG (e.g., circular dependencies or multiple ways to build a target). A hybrid error will occur, for example, if a task did not produce one of the targets you told Waf about. Waf will stop with an error again and it lies in your best judgement of whether you misspecified things in your *wscript* file or in your research code.
+
+By default, Waf will execute tasks in parallel if your computer is sufficiently powerful and if the dependency graphs allows for it. This often leads to a major speed gain, which comes as a free lunch. However, it can be annoying during the development phase because error messages from different tasks get into each others' way. You can force execution of a single task at a time by starting Waf with the ``-j1`` switch::
+
+  python waf -j1
+
+Other useful options are:
+
+  * ``-v`` or ``-vv`` or ``-vvv`` for making Waf's output ever more **verbose** -- this is helpful for diagnosing problems with what you specified in your *wscript* files. Verbose output is especially useful when combined with the following options.
+  * ``--zones=deps`` tells you about the dependencies that Waf finds for a particular task
+  * ``--zones=task`` tells you why a target needs to be rebuilt (i.e. which dependency changed)
 
 
 .. _waf_conclusions:
@@ -228,17 +251,18 @@ A closer look at the build phase
 Concluding notes on Waf
 =======================
 
+To conclude, Waf roughly works in the following way:
 
-* Waf reads your instructions and sets the build order
+  #. Waf reads your instructions and sets the build order.
+  
+      * Think of a dependency graph here.
+      * It breaks off when it detects a circular dependency or ambiguous ways to build a target.
+      * Both are major advantages over a *master-script*, let alone doing the dependency tracking in your mind.
+  
+  #. Waf decides which tasks need to be executed based on the nodes' signatures and performs the required actions.
+  
+      * A signature roughly is a sufficient statistic for file contents.
+      * Minimal rebuilds are a huge speed gain compared to a *master-script*.
+      * These gains are large enought to make projects break or succeed.
 
-    * Think dependency graph
-    * Breaks off when it detects a circular dependency ... 
-    * ... or ambiguous ways to build a target, ...
-    * ... which are major advantages over a “master.sh” file
-
-* Waf decides what needs to be rebuilt based on the nodes’ signatures
-
-    * ≈ A sufficient statistic for file contents
-    * A huge speedup compared to a “master.sh” file
-
-We have just touched the tip of the iceberg here; Waf has many more goodies to offer. The Waf book :cite:`Nagy13` is an excellent source -- you just have to understand programmer jargon and background a little bit.
+We have just touched upon the tip of the iceberg here; Waf has many more goodies to offer. The Waf book :cite:`Nagy13` is an excellent source -- you just need to get used to the programmer jargon a little bit and develop a feeling for its background in building software.

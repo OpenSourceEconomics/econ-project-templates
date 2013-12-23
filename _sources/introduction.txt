@@ -4,18 +4,16 @@
 Introduction
 ************
 
-An empirical or computational research project only becomes a useful building block for science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse. This code base aims to help on two issues in the quest for this goal:
+An empirical or computational research project only becomes a useful building block for science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse. This code base aims to provide two stepping stones to assist you in achieving goal:
 
-    1. Saving you from a bunch of repetitive steps that need to be done sooner or later when starting a new project
-    2. Helping you on ensuring reproducibility of your research findings from the beginning to the end
+    1. Provide a sensible directory structure that saves you from a bunch of annoying steps and thoughts that need to be performed sooner or later when starting a new project
+    2. Facilitate the reproducibility of your research findings from the beginning to the end by letting the computer handle the dependency management
 
-The first should lure you in quickly, the second convince you to stick to it in the long run---unless you are familiar with the tools already, there will be times where you think that all of this is overkill and far more difficult than necessary. It is not. *[although I am always happy to hear about easier alternatives]*
+The first should lure you in quickly, the second convince you to stick to the tools in the long run---unless you are familiar with the programs already, there will be times where you think that all of this is overkill and far more difficult than necessary. It is not. *[although I am always* `happy to hear <mailto:hmgaudecker@gmail.com>`_ *about easier alternatives]*
 
-The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by `Waf <https://code.google.com/p/waf/>`_, which is written in `Python <http://www.python.org/>`_. You do not need to know much Python to get going, though.
+The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by `Waf <https://code.google.com/p/waf/>`_, which is written in `Python <http://www.python.org/>`_. You do not need to know Python to use these tools, though.
 
-If you are a complete novice, you should read through the entire documents instead of jumping directly to the :ref:`getting_started` section. Please let me know about any sections you think would merit more explanation; this is all work in progress.
-
-First, let me expand on the reproducibility part, though.
+If you are a complete novice, you should read through the entire documents instead of jumping directly to the :ref:`getting_started` section. First, let me expand on the reproducibility part, though.
 
 
 The case for reproducibility

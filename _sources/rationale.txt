@@ -7,12 +7,12 @@ Design rationale
 The design of the project templates is guided by the following main thoughts:
 
     #. **Separation of logical chunks** A minimal requirement for a project to scale.
-    #. **Only execute the required tasks** Again required for scalability. It means that the machine needs to know what is meant by a "required task".
+    #. **Only execute required tasks, automatically** Again required for scalability. It means that the machine needs to know what is meant by a "required task".
     #. **Re-use of code and data instead of copying and pasting** Else you will forget the copy & paste step at some point down the road. At best, this leads to errors; at worst to misinterpreting the results.
-    #. **Be as language-agnostic as possible** Make it easy to use the best tool for a particular problem and to mix them in a project.
+    #. **Be as language-agnostic as possible** Make it easy to use the best tool for a particular task and to mix tools in a project.
     #. **Clear separation of inputs and outputs** Required to find your way around in a complex project.
 
-I will not touch upon the last point until the :ref:`implementation` section below. The remainder of this page introduces an example and the general concept of how to think about the first four points.
+I will not touch upon the last point until the :ref:`implementation` section below. The remainder of this page introduces an example and a general concept of how to think about the first four points.
 
 
 Running example
@@ -36,7 +36,7 @@ It is very useful to explictly distinguish between steps 2. and 3. because compu
 How to organise the workflow?
 -----------------------------
 
-A naïve way to ensure reproducibility is to have a **master-script** (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over both models for each of them:
+A naïve way to ensure reproducibility is to have a *master-script* (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over both models for each of them:
    
 .. figure:: ../bld/src/examples/steps_only_full.png
    :width: 25em
