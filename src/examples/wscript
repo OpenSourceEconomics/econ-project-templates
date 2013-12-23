@@ -12,16 +12,33 @@ def build(ctx):
         target=model_graphs
     )
 
-    file_trunks = [
+    project_hierarchies_keys = [
+        'big_pic',
+        'analysis'
+    ]
+    project_hierarchies_trunks = []
+    for key in project_hierarchies_keys:
+        project_hierarchies_trunks.append('project_hierarchies_' + key)
+        ctx(
+            features='run_py_script',
+            source='project_hierarchies.py',
+            target='{}.tex'.format(project_hierarchies_trunks[-1]),
+            append=key
+        )
+
+    ctx.add_group()
+
+    schelling_trunks = [
         'schelling_dependencies',
         'schelling_dependencies_data_mgmt',
         'schelling_dependencies_main',
         'schelling_dependencies_final',
-        'schelling_dependencies_paper'
+        'schelling_dependencies_paper',
     ]
-    for ft in file_trunks:
+
+    for f in schelling_trunks + project_hierarchies_trunks:
         ctx(
             features='tex',
-            source='{}.tex'.format(ft),
+            source='{}.tex'.format(f),
             outs='pdf png'
         )

@@ -18,7 +18,7 @@ The project directory is always the root directory of the project, the build dir
     :start-after: import os
     :end-before: def set_project_paths
 
-We will have more to say about the directory structure in the :ref:`implementation` section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed -- everything in it will be reconstructed automatically the next time Waf is run.
+We will have more to say about the directory structure in the :ref:`organisation` section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed -- everything in it will be reconstructed automatically the next time Waf is run.
 
 
 The configure phase
@@ -96,7 +96,7 @@ The ``ctx()`` call is a shortcut for creating a **task generator**, we will be m
 
   * ``features='run_py_script'`` tells Waf what **action** it needs to perform. In this case, it should run a Python script. 
   * ``source='get_simulation_draws.py'`` tells Waf that it should perform the action on the file *get_simulation_draws.py* in the current directory.
-  * ``target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy')`` tells Waf that the specified action will produce a file called *initial_locations.npy* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`implementation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored. 
+  * ``target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy')`` tells Waf that the specified action will produce a file called *initial_locations.npy* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`organisation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored. 
   * ``name='get_simulation_draws'`` gives this task generator a name, which can be useful if we only want to produce a subset of all targets. 
 
 And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.
@@ -126,7 +126,7 @@ Some points to note about this:
   * The loop over both models allows us to specify the code in one go; we focus on the case where the variable ``model`` takes on the value ``'baseline'``.
   * Note the difference between the ``source`` and the ``deps``: Even though the dependency graph above neglects the difference, Waf needs to know which file it needs to run the task on. This is done via the ``source`` keyword. The other files will only be used for setting the dependencies.
   * The first item in the list of ``deps`` is **exactly** the same as the target in the data management step.
-  * Don't worry about the directories in the ``ctx.path_to()`` calls until the section ":ref:`implementation`" below
+  * Don't worry about the directories in the ``ctx.path_to()`` calls until the section ":ref:`organisation`" below
   * We keep a log-file calle *schelling_baseline.log*, which we left out of the dependency tree.
   * The ``append`` keyword allows us to pass arguments to the Python script. In particular, *schelling.py* will be invoked as follows::
   

@@ -29,7 +29,7 @@
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/theme_extras.js"></script>
     <link rel="top" title="Templates for reproducible research projects in economics  documentation" href="index.html" />
-    <link rel="next" title="Implementation" href="implementation.html" />
+    <link rel="next" title="Organisation" href="organisation.html" />
     <link rel="prev" title="Design rationale" href="rationale.html" /> 
   </head>
   <body>
@@ -44,7 +44,7 @@
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="implementation.html">Implementation</a>&#160;&#160;»
+        <a href="organisation.html">Organisation</a>&#160;&#160;»
         </p>
 
       </div>
@@ -68,7 +68,7 @@
 <span class="n">out</span> <span class="o">=</span> <span class="s">&#39;bld&#39;</span>
 </pre></div>
 </div>
-<p>We will have more to say about the directory structure in the <a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a> section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed &#8211; everything in it will be reconstructed automatically the next time Waf is run.</p>
+<p>We will have more to say about the directory structure in the <a class="reference internal" href="organisation.html#organisation"><em>Organisation</em></a> section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed &#8211; everything in it will be reconstructed automatically the next time Waf is run.</p>
 <div class="section" id="the-configure-phase">
 <h2>The configure phase<a class="headerlink" href="#the-configure-phase" title="Permalink to this headline">¶</a></h2>
 <p>The first time you fire up a project you need to invoke Waf by typing:</p>
@@ -92,7 +92,7 @@
 <li><tt class="docutils literal"><span class="pre">ctx.load('biber')</span></tt> loads a <a class="reference external" href="http://biblatex-biber.sourceforge.net/">modern replacement</a> for BibTeX and the entire LaTeX machinery with it.</li>
 <li><tt class="docutils literal"><span class="pre">ctx.load('run_py_script')</span></tt> loads a little tool for running Python scripts. Similar tools exist for Matlab, Stata, R, and Perl. More can be easily created.</li>
 <li><tt class="docutils literal"><span class="pre">ctx.load('sphinx_build')</span></tt> loads the tool required to build the project&#8217;s documentation.</li>
-<li><tt class="docutils literal"><span class="pre">ctx.load('write_project_headers')</span></tt> loads a tool for handling project paths. We postpone the discussion until the <a class="reference internal" href="implementation.html#project-paths"><em>section</em></a> by the same name.</li>
+<li><tt class="docutils literal"><span class="pre">ctx.load('write_project_headers')</span></tt> loads a tool for handling project paths. We postpone the discussion until the <a class="reference internal" href="organisation.html#project-paths"><em>section</em></a> by the same name.</li>
 </ul>
 </div></blockquote>
 <p>Waf know nows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.</p>
@@ -144,7 +144,7 @@
 <div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">features='run_py_script'</span></tt> tells Waf what <strong>action</strong> it needs to perform. In this case, it should run a Python script.</li>
 <li><tt class="docutils literal"><span class="pre">source='get_simulation_draws.py'</span></tt> tells Waf that it should perform the action on the file <em>get_simulation_draws.py</em> in the current directory.</li>
-<li><tt class="docutils literal"><span class="pre">target=ctx.path_to(ctx,</span> <span class="pre">'OUT_DATA',</span> <span class="pre">'initial_locations.npy')</span></tt> tells Waf that the specified action will produce a file called <em>initial_locations.npy</em> in a directory that is determined in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt>. We will examine this in detail in the <a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a> section, for now we abstract from it beyond noting that the <tt class="docutils literal"><span class="pre">OUT_DATA</span></tt> keyword refers to the directory where output data are stored.</li>
+<li><tt class="docutils literal"><span class="pre">target=ctx.path_to(ctx,</span> <span class="pre">'OUT_DATA',</span> <span class="pre">'initial_locations.npy')</span></tt> tells Waf that the specified action will produce a file called <em>initial_locations.npy</em> in a directory that is determined in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt>. We will examine this in detail in the <a class="reference internal" href="organisation.html#organisation"><em>Organisation</em></a> section, for now we abstract from it beyond noting that the <tt class="docutils literal"><span class="pre">OUT_DATA</span></tt> keyword refers to the directory where output data are stored.</li>
 <li><tt class="docutils literal"><span class="pre">name='get_simulation_draws'</span></tt> gives this task generator a name, which can be useful if we only want to produce a subset of all targets.</li>
 </ul>
 </div></blockquote>
@@ -198,7 +198,7 @@
 </li>
 <li><p class="first">The first item in the list of <tt class="docutils literal"><span class="pre">deps</span></tt> is <strong>exactly</strong> the same as the target in the data management step.</p>
 </li>
-<li><p class="first">Don&#8217;t worry about the directories in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt> calls until the section &#8220;<a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a>&#8221; below</p>
+<li><p class="first">Don&#8217;t worry about the directories in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt> calls until the section &#8220;<a class="reference internal" href="organisation.html#organisation"><em>Organisation</em></a>&#8221; below</p>
 </li>
 <li><p class="first">We keep a log-file calle <em>schelling_baseline.log</em>, which we left out of the dependency tree.</p>
 </li>
@@ -361,7 +361,7 @@ python waf.py install</pre>
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="implementation.html">Implementation</a>&#160;&#160;»
+        <a href="organisation.html">Organisation</a>&#160;&#160;»
         </p>
 
       </div>

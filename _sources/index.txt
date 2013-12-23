@@ -9,6 +9,6 @@ Table of Contents
     introduction
     rationale
     waf
-    implementation
+    organisation
     getting_started
     zreferences

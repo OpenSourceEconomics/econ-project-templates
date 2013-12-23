@@ -10,9 +10,9 @@ The design of the project templates is guided by the following main thoughts:
     #. **Only execute required tasks, automatically** Again required for scalability. It means that the machine needs to know what is meant by a "required task".
     #. **Re-use of code and data instead of copying and pasting** Else you will forget the copy & paste step at some point down the road. At best, this leads to errors; at worst to misinterpreting the results.
     #. **Be as language-agnostic as possible** Make it easy to use the best tool for a particular task and to mix tools in a project.
-    #. **Clear separation of inputs and outputs** Required to find your way around in a complex project.
+    #. **Separation of inputs and outputs** Required to find your way around in a complex project.
 
-I will not touch upon the last point until the :ref:`implementation` section below. The remainder of this page introduces an example and a general concept of how to think about the first four points.
+I will not touch upon the last point until the :ref:`organisation` section below. The remainder of this page introduces an example and a general concept of how to think about the first four points.
 
 
 Running example
@@ -32,6 +32,8 @@ For each of these variants (called **models** in the project template and the re
 
 It is very useful to explictly distinguish between steps 2. and 3. because computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes or 30 seconds as in this example.
 
+
+.. _workflow:
 
 How to organise the workflow?
 -----------------------------
