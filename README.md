@@ -1,8 +1,6 @@
 Templates for Reproducible Research Projects in Economics
 ===========================================================
 
-*See* http://hmgaudecker.github.io/econ-project-templates/ *for the full documentation.*
-
 An empirical or computational research project only becomes a useful building block for science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse or, more generally, keeping track yourself of what needs to be done.
 
 This is a collection of templates where much of this automation is pre-configured via describing the research workflow as a dependent acyclic graph ([DAG](http://en.wikipedia.org/wiki/Directed_acyclic_graph)) using [Waf](https://code.google.com/p/waf/). You just need to:
@@ -12,6 +10,8 @@ This is a collection of templates where much of this automation is pre-configure
 * Run Waf, which will build your entire project the first time you run it. Later, it will automatically figure out which parts of the project need to be rebuilt.
 
 The branch names follow the main language used in a particular example. You should base your project on the branch that specifies the language that you will use most. So the first thing to do is to switch branches using the button above, unless you plan on using Python mainly. You can easily add more languages to your projects, this is just a single line if the language is supported.
+
+*See* http://hmgaudecker.github.io/econ-project-templates/ *for the full documentation (in the context of a Python-based project, but this is easy enough to abstract from). Please read it before continuing with instructions that follow.*
 
 
 Getting started (Stata-based project)
