@@ -3,14 +3,7 @@
 Main model estimations / simulations
 =====================================
 
-Documentation of the code in **analysis**.
-
-
-**Example for automatically documenting Python code**
-
-.. automodule:: src.analysis.simulation
-    :members:
-
+Documentation of the code in *src.analysis*. This is the core of the project. 
 
 **Example for documenting Stata code**
 

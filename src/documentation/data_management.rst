@@ -3,6 +3,6 @@
 Data management
 ===============
 
-Documentation of the code in **data_management**.
+Documentation of the code in *src.data_management*.
 
 

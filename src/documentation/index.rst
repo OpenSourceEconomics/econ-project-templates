@@ -16,5 +16,6 @@ Welcome to the TTT project's documentation!
     analysis
     final
     paper
-    models
+    model_code
+    model_specs
     library
