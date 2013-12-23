@@ -4,7 +4,7 @@
 Model specifications
 ======================
 
-The directory **src.model_specs** contains `JSON <http://www.json.org/>`_ files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages[#]_.
+The directory *src.model_specs* contains `JSON <http://www.json.org/>`_ files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages[#]_.
 
 The best way to use this is to save a model as ``[model_name].json`` and then pass ``[model_name]`` to your code using the ``append`` keyword of the ``run_[xx]_script`` task generators.
 

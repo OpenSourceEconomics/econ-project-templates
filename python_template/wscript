@@ -19,8 +19,6 @@ def set_project_paths(ctx):
     pp['OUT_FINAL'] = '{}/out/final'.format(out)
     pp['OUT_FIGURES'] = '{}/out/figures'.format(out)
     pp['OUT_TABLES'] = '{}/out/tables'.format(out)
-    # No need to distinguish between in/out for library (just Waf-internal)
-    pp['LIBRARY'] = 'src/library'
 
     # Convert the directories into Waf nodes.
     for key, val in pp.items():
