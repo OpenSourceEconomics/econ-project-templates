@@ -67,7 +67,7 @@
 </li>
 <li><p class="first">All outputs are constructed in the <em>[bld]</em> directory.</p>
 </li>
-<li><p class="first">The remaining files and directory in square brackets are put there during Waf&#8217;s install phase, so that they can be found easily (paper, presentation, documentation).</p>
+<li><p class="first">The remaining objects in square brackets are put there during Waf&#8217;s install phase, so that they can be opened easily (paper, presentation, documentation).</p>
 </li>
 <li><p class="first">The remainder are objects related to Waf:</p>
 <blockquote>
@@ -81,7 +81,7 @@
 </ul>
 </div></blockquote>
 <p>The contents of both the <em>root/bld/out</em> and the <em>root/src</em> directories directly follow the steps of the analysis from the <a class="reference internal" href="rationale.html#workflow"><em>workflow</em></a> section (you can usually ignore the <em>root/bld/src</em> directory, except when you need to take a look at LaTeX log-files).</p>
-<p>The idea is that everything that needs to be run during the, say, <strong>analysis</strong> step, is specified in <em>root/src/analysis</em> and all its output is placed in <em>bld/out/analysis</em>. Etc.</p>
+<p>The idea is that everything that needs to be run during the, say, <strong>analysis</strong> step, is specified in <em>root/src/analysis</em> and all its output is placed in <em>root/bld/out/analysis</em>. Etc.</p>
 <p>Some differences:</p>
 <blockquote>
 <div><ul>
@@ -91,21 +91,49 @@
 <blockquote>
 <div><ul class="simple">
 <li><em>original_data</em> is the place to store the data in its raw form, as downloaded / transcribed / ... This should never be changed.</li>
-<li><em>model_code</em> contain§</li>
-<li><em>library</em> provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction to the <em>model_code</em> directory is a bit arbitrary, but I have found it useful in the past.</li>
+<li><em>model_code</em> contains source files that might differ by model and that are potentially used at various steps of the analysis.</li>
+<li><em>model_specs</em> contains <a class="reference external" href="http://www.json.org/">JSON</a> files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages (for Stata there is a converter in the <em>wscript</em> file)</li>
+<li><em>library</em> provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction from the <em>model_code</em> directory is a bit arbitrary, but I have found it useful in the past.</li>
 </ul>
 </div></blockquote>
 </li>
 </ul>
 </div></blockquote>
+<p>As an example of how things look further down in the hierarchy, consider the <em>analysis</em> step that was described <a class="reference internal" href="waf.html#waf-analysis"><em>here</em></a>:</p>
 <div class="figure">
 <img alt="_images/project_hierarchies_analysis.png" src="_images/project_hierarchies_analysis.png" style="width: 30em;" />
 </div>
+<p>Remember that the script <em>root/src/analysis/schelling.py</em> is run with an argument <em>baseline</em> or <em>max_moves_2</em>. The code then accesses the respective file in <em>root/src/model_specs</em>, <em>root/src/model_code/agent.py</em>, and <em>bld/out/data/initial_locations.npy</em> (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.</p>
 </div>
 <div class="section" id="project-paths">
 <span id="id3"></span><h2>Project paths<a class="headerlink" href="#project-paths" title="Permalink to this headline">¶</a></h2>
+<p>The first question to ask is whether we should be working with absolute or relative paths. Let us first consider the pros and cons of each.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>Relative paths</strong> (e.g., <em>..model_codeagent.py</em> or <em>../model_code/agent.py</em>)</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>Pro</strong>: Portable across machines</li>
+<li><strong>Con</strong>: Paths are relative to where your program / interpreter started (e.g., Stata starts in some default directory, Python where you launched the interpreter, ...). This introduces <em>state</em>, which is bad for maintainability and reproducibility.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Absolute paths</strong> (e.g., <em>C:projectsschellingsrcmodel_codeagent.py</em> or <em>/Users/xxx/projects/schelling/src/model_code/agent.py</em>)</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>Pro</strong>: Any file or directory is unambiguously specified.</li>
+<li><strong>Con</strong>: Not portable across machines.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>The project template combines the best of both worlds by requiring you to specify relative paths for all often-accessed locations in the main <em>wscript</em> file. These are then used throughout the project template &#8211; both in the <em>wscript</em> files and in any substantial code. The next sections show how to specify them and how to use them in different circumstances.</p>
+</div>
+<div class="section" id="specifying-project-paths-in-the-main-wscript-file">
+<h2>Specifying project paths in the main <em>wscript</em> file<a class="headerlink" href="#specifying-project-paths-in-the-main-wscript-file" title="Permalink to this headline">¶</a></h2>
 <p>The following is taken from the top-level wscript file. Modify any project-wide path settings there.</p>
-<p>As should be evident from the similarity of the names, the paths follow the steps of the analysis in the <tt class="file docutils literal"><span class="pre">src</span></tt> directory:</p>
+<p>As should be evident from the similarity of the names, the paths follow the steps of the analysis in the <em>src</em> directory:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><strong>data_management</strong> → <strong>OUT_DATA</strong></li>

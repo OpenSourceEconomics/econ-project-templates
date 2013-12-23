@@ -1,0 +1,15 @@
+def build(ctx):
+    ctx.recurse('library')
+    # Adding the build group is required because the project
+    # paths have to be generated first. It should not entail
+    # any performance penalties -- all tasks before this
+    # point generally run very fast.
+    ctx.add_group()
+    ctx.recurse('data_management')
+    ctx.recurse('analysis')
+    ctx.recurse('final')
+    # Safety measure -- else the LaTeX scanner might fail because some
+    # '.tex'-source file has not been generated.
+    ctx.add_group()
+    ctx.recurse('paper')
+    ctx.recurse('documentation')

@@ -14,7 +14,7 @@ There are three phases to building a project:
 
 The project directory is always the root directory of the project, the build directory is usually called *bld*. This is how we implement it in the main *wscript* file:
 
-.. literalinclude:: ../../econ-project-templates/wscript
+.. literalinclude:: ../python_template/wscript
     :start-after: import os
     :end-before: def set_project_paths
 
@@ -30,7 +30,7 @@ The first time you fire up a project you need to invoke Waf by typing::
 
 in a command prompt. You only need to do this once, or when the location of the programs that your project requires changes (say, you installed a new version of LaTeX). Because of the ``configure`` argument Waf will call the function by the same name, which lives in the main *wscript* file:
 
-.. literalinclude:: ../../econ-project-templates/wscript
+.. literalinclude:: ../python_template/wscript
     :start-after: return os.path.join(path_to_dir, args[-1])
     :end-before: def build
 
@@ -90,7 +90,7 @@ The dependency structure at this step of the analysis is particularly simple, as
 
 This is the entire content of the file *src/data_management/wscript*:
 
-.. literalinclude:: ../../econ-project-templates/src/data_management/wscript
+.. literalinclude:: ../python_template/src/data_management/wscript
 
 The ``ctx()`` call is a shortcut for creating a **task generator**, we will be more specific about that below in the section :ref:`build_phase`. Let us look at the lines one-by-one again:
 
@@ -100,6 +100,8 @@ The ``ctx()`` call is a shortcut for creating a **task generator**, we will be m
   * ``name='get_simulation_draws'`` gives this task generator a name, which can be useful if we only want to produce a subset of all targets. 
 
 And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.
+
+.. _waf_analysis:
 
 The "analysis" step
 -------------------
@@ -119,7 +121,7 @@ Just a reminder on the purpose of each of these files:
 
 In addition to this, we keep a *log-file*, which is omitted from the graph for legibility. We specify this dependency structure in the file *src/analysis/wscript*, which has the following contents:
 
-.. literalinclude:: ../../econ-project-templates/src/analysis/wscript
+.. literalinclude:: ../python_template/src/analysis/wscript
 
 Some points to note about this:
 
@@ -149,7 +151,7 @@ Again, we concentrate on the baseline model.
 
 This step is shown here mostly for completeness, there is nothing really new in the *wscript* file:
 
-.. literalinclude:: ../../econ-project-templates/src/final/wscript
+.. literalinclude:: ../python_template/src/final/wscript
 
 Everything works just as before: We set *plot_locations.py* as the source, specify additional dependencies (among them the relevant target from the **analysis** step), and append the model name on the command line.
 
@@ -164,7 +166,7 @@ The pdf with the final "paper" depends on two additional files that were not sho
 
 The corresponding file *src/paper/wscript* is particularly simple: 
 
-.. literalinclude:: ../../econ-project-templates/src/paper/wscript
+.. literalinclude:: ../python_template/src/paper/wscript
     :end-before: # Install to the project root.
 
 Note that we only request Waf to execute the *tex* machinery the name of the source file (*research_paper.tex*).
@@ -199,7 +201,7 @@ Some targets you want to have easily accessible. This is particularly true for t
 
 In order to achieve this, the following code is found in *src/paper/wscript* (still in the loop where ``s`` takes on the values ``'research_paper'`` or ``'research_pres_30min'``):
 
-.. literalinclude:: ../../econ-project-templates/src/paper/wscript
+.. literalinclude:: ../python_template/src/paper/wscript
     :start-after: # Install to the project root.
 
 This installation of targets can be triggered by typing either of the following commands in a shell::
