@@ -58,12 +58,12 @@ Project paths
 
 The first question to ask is whether we should be working with absolute or relative paths. Let us first consider the pros and cons of each. 
 
-    * **Relative paths** (e.g., *..\model_code\agent.py* or *../model_code/agent.py*)
+    * **Relative paths** (e.g., *..\\model_code\\agent.py* or *../model_code/agent.py*)
     
         * **Pro**: Portable across machines
         * **Con**: Paths are relative to where your program / interpreter started (e.g., Stata starts in some default directory, Python where you launched the interpreter, ...). This introduces *state*, which is bad for maintainability and reproducibility.
     
-    * **Absolute paths** (e.g., *C:\projects\schelling\src\model_code\agent.py* or */Users/xxx/projects/schelling/src/model_code/agent.py*)
+    * **Absolute paths** (e.g., *C:\\projects\\schelling\\src\\model_code\\agent.py* or */Users/xxx/projects/schelling/src/model_code/agent.py*)
     
         * **Pro**: Any file or directory is unambiguously specified.
         * **Con**: Not portable across machines.
@@ -74,15 +74,74 @@ The project template combines the best of both worlds by requiring you to specif
 Specifying project paths in the main *wscript* file
 ---------------------------------------------------
 
+This is how the project paths are specified in the main wscript file:
 
-The following is taken from the top-level wscript file. Modify any project-wide path settings there.
+.. literalinclude:: ../python_template/wscript
+    :start-after: # The project root directory and the build directory.
+    :end-before: def path_to
 
+All these paths are relative to the project root, so you can directly use them on many different machines. Note the distinction between *IN* and *OUT* in the keys and that we prefix all of the latter by *bld*.
 
-As should be evident from the similarity of the names, the paths follow the steps of the analysis in the *src* directory:
+The mappings from input to output by step of the analysis should be easy enough from the names:
 
-    1. **data_management** → **OUT_DATA**
+    1. **data_management**, **original_data** → **OUT_DATA**
     2. **analysis** → **OUT_ANALYSIS**
     3. **final** → **OUT_FINAL**, **OUT_FIGURES**, **OUT_TABLES**
 
-These paths should re-appear in automatically generated header files for all languages.
+In addition, there are the "special" input directories *library*, *model_code*, and *model_specs*, of course.
 
+
+Usage of the project paths within *wscript* files
+-------------------------------------------------
+
+The first thing to do is to make these project paths available in *wscript* files further down the directory hierarcy. We do so in the *build* function of *root/wscript*, which we did not show in full before:
+
+.. literalinclude:: ../python_template/wscript
+    :start-after: out = 'bld'
+    :end-before: def path_to
+
+The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. But you do not need to care about its internals, only about its interface:
+
+.. function:: ctx.path_to(ctx, pp_key, *args)
+    
+    Return the relative path to os.path.join(*args*) in the directory
+    PROJECT_PATHS[pp_key] as seen from ctx.path (i.e. the directory of the
+    current wscript).
+
+    Use this to get the relative path---as needed by Waf---to a file in one
+    of the directory trees defined in the PROJECT_PATHS dictionary above.
+
+This description may be a bit cryptic, but it says it all: Waf needs paths relative to the *wscript* where you define a task generator. This function returns it. You always need to supply three arguments:
+
+    #. The build context (completely mechanical, always the same)
+    #. The name of the directory you want to access.
+    #. The name of the file in the directory. If there is a further hierarchy of directories, separate directory and file names by commas.
+
+Let us look at *root/src/analysis/wscript* as an example again:
+
+.. literalinclude:: ../python_template/src/analysis/wscript
+
+Note that the order of the arguments is the same in each of the five calls of ``ctx.path_to()``. The last one has an example of a nested directory structure: We do not need the log-files very often and they only clutter up the *OUT_ANALYSIS* directory, so we put them in a subdirectory.
+
+
+Usage of the project paths in substantial code
+----------------------------------------------
+
+The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the ``write_project_paths`` feature, the following line is taken from the ``build`` function in *root/src/library/wscript*:
+
+.. literalinclude:: ../python_template/src/library/wscript
+    :start-after: dirs.remove('.git')
+
+The ``write_project_paths`` feature is smart: It will recognise by the extension you add to the target, which language it should use. Currently supported: *.py*, *.do*, *.m*, *.r*, *.pm*.
+
+The paths contained in the resulting file (*root/bld/src/library/project_paths.py*) are **absolute** paths, so you do not need to worry about the location of your interpreter etc. 
+
+The exact usage varies a little bit by language, see the respective template for examples. In Python, you first import a function called *project_paths_join*::
+
+    from bld.src.library.project_paths import project_paths_join as ppj
+
+You can then use it to obtain absolute paths to any location within your project. E.g., for the log-file in the analysis step, you would use::
+
+    ppj("OUT_ANALYSIS", "log", "schelling_{}.log".format(model_name))
+
+When you need to change the paths for whatever reason, you just need to updated them once in the main *wscript* file; everything else will work automatically. Even if you need to change the keys -- e.g. because you want to break the *analysis* step into two -- you can easiliy search and replace *OUT_ANALYSIS* in the entire project.
