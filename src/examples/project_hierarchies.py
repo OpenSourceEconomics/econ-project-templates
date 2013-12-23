@@ -193,7 +193,7 @@ model_specs = r"""
             \nodepart{two}
                 baseline.json
             \nodepart{three}
-                robust\_unobs\_het.json
+                max\_moves\_2.json
         };
 """
 

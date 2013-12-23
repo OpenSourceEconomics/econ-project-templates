@@ -21,7 +21,7 @@ Files and directories in square brackets are constructed by Waf. You immediately
 
     * All source code is in the *src* directory.
     * All outputs are constructed in the *[bld]* directory.
-    * The remaining files and directory in square brackets are put there during Waf's install phase, so that they can be found easily (paper, presentation, documentation).
+    * The remaining objects in square brackets are put there during Waf's install phase, so that they can be opened easily (paper, presentation, documentation).
     * The remainder are objects related to Waf:
         
         * *waf.py* is the file that starts up Waf (you will never need to change it).
@@ -30,7 +30,7 @@ Files and directories in square brackets are constructed by Waf. You immediately
 
 The contents of both the *root/bld/out* and the *root/src* directories directly follow the steps of the analysis from the :ref:`workflow <workflow>` section (you can usually ignore the *root/bld/src* directory, except when you need to take a look at LaTeX log-files).
 
-The idea is that everything that needs to be run during the, say, **analysis** step, is specified in *root/src/analysis* and all its output is placed in *bld/out/analysis*. Etc.
+The idea is that everything that needs to be run during the, say, **analysis** step, is specified in *root/src/analysis* and all its output is placed in *root/bld/out/analysis*. Etc.
 
 Some differences:
 
@@ -38,13 +38,17 @@ Some differences:
     * The directory *root/src* contains many more subdirectories:
         
         * *original_data* is the place to store the data in its raw form, as downloaded / transcribed / ... This should never be changed.
-        * *model_code* contain§
-        * *library* provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction to the *model_code* directory is a bit arbitrary, but I have found it useful in the past. 
+        * *model_code* contains source files that might differ by model and that are potentially used at various steps of the analysis.
+        * *model_specs* contains `JSON <http://www.json.org/>`_ files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages (for Stata there is a converter in the *wscript* file)
+        * *library* provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction from the *model_code* directory is a bit arbitrary, but I have found it useful in the past.
+
+
+As an example of how things look further down in the hierarchy, consider the *analysis* step that was described :ref:`here <waf_analysis>`:
 
 .. figure:: ../bld/src/examples/project_hierarchies_analysis.png
    :width: 30em
 
-
+Remember that the script *root/src/analysis/schelling.py* is run with an argument *baseline* or *max_moves_2*. The code then accesses the respective file in *root/src/model_specs*, *root/src/model_code/agent.py*, and *bld/out/data/initial_locations.npy* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
 
 
 .. _project_paths:
@@ -52,12 +56,29 @@ Some differences:
 Project paths
 --------------
 
+The first question to ask is whether we should be working with absolute or relative paths. Let us first consider the pros and cons of each. 
+
+    * **Relative paths** (e.g., *..\model_code\agent.py* or *../model_code/agent.py*)
+    
+        * **Pro**: Portable across machines
+        * **Con**: Paths are relative to where your program / interpreter started (e.g., Stata starts in some default directory, Python where you launched the interpreter, ...). This introduces *state*, which is bad for maintainability and reproducibility.
+    
+    * **Absolute paths** (e.g., *C:\projects\schelling\src\model_code\agent.py* or */Users/xxx/projects/schelling/src/model_code/agent.py*)
+    
+        * **Pro**: Any file or directory is unambiguously specified.
+        * **Con**: Not portable across machines.
+
+The project template combines the best of both worlds by requiring you to specify relative paths for all often-accessed locations in the main *wscript* file. These are then used throughout the project template -- both in the *wscript* files and in any substantial code. The next sections show how to specify them and how to use them in different circumstances.
+
+
+Specifying project paths in the main *wscript* file
+---------------------------------------------------
 
 
 The following is taken from the top-level wscript file. Modify any project-wide path settings there.
 
 
-As should be evident from the similarity of the names, the paths follow the steps of the analysis in the :file:`src` directory:
+As should be evident from the similarity of the names, the paths follow the steps of the analysis in the *src* directory:
 
     1. **data_management** → **OUT_DATA**
     2. **analysis** → **OUT_ANALYSIS**

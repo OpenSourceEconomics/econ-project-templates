@@ -101,6 +101,8 @@ The ``ctx()`` call is a shortcut for creating a **task generator**, we will be m
 
 And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.
 
+.. _waf_analysis:
+
 The "analysis" step
 -------------------
 
