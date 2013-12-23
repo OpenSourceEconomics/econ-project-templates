@@ -55,11 +55,13 @@
 <span id="waf-intro"></span><h1>Introduction to Waf<a class="headerlink" href="#introduction-to-waf" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://code.google.com/p/waf/">Waf</a> is our tool of choice to automate the dependency tracking via a DAG structure. Originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file <em>waf.py</em> and the hidden folder <em>.mywaflib</em>). The settings for a particular project are controlled via files called <em>wscript</em>, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.</p>
 <p>There are three phases to building a project:</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><strong>configure</strong>: Set the project and build directories, find required programs on a particular machine</li>
 <li><strong>build</strong>: Build the targets (intermediate and final: cleaned datasets, graphs, tables, paper, presentation, documentation)</li>
 <li><strong>install</strong>: Copy a selection of targets to places where you find them more easily.</li>
 </ul>
+</div></blockquote>
 <p>The project directory is always the root directory of the project, the build directory is usually called <em>bld</em>. This is how we implement it in the main <em>wscript</em> file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># The project root directory and the build directory.</span>
 <span class="n">top</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
@@ -83,7 +85,8 @@
 </pre></div>
 </div>
 <p>Let us dissect this function line-by-line:</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">ctx.env.PYTHONPATH</span> <span class="pre">=</span> <span class="pre">os.getcwd()</span></tt> sets the PYTHONPATH environmental variable to the project root folder so we can use hierarchical imports in our Python scripts</li>
 <li><tt class="docutils literal"><span class="pre">ctx.load('why')</span></tt> loads a tool that helps in debugging dependencies, very useful in complicated situations.</li>
 <li><tt class="docutils literal"><span class="pre">ctx.load('biber')</span></tt> loads a <a class="reference external" href="http://biblatex-biber.sourceforge.net/">modern replacement</a> for BibTeX and the entire LaTeX machinery with it.</li>
@@ -91,6 +94,7 @@
 <li><tt class="docutils literal"><span class="pre">ctx.load('sphinx_build')</span></tt> loads the tool required to build the project&#8217;s documentation.</li>
 <li><tt class="docutils literal"><span class="pre">ctx.load('write_project_headers')</span></tt> loads a tool for handling project paths. We postpone the discussion until the <a class="reference internal" href="implementation.html#project-paths"><em>section</em></a> by the same name.</li>
 </ul>
+</div></blockquote>
 <p>Waf know nows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.</p>
 </div>
 <div class="section" id="specifying-dependencies-and-the-build-phase">
@@ -136,12 +140,14 @@
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">ctx()</span></tt> call is a shortcut for creating a <strong>task generator</strong>, we will be more specific about that below in the section <a class="reference internal" href="#build-phase"><em>A closer look at the build phase</em></a>. Let us look at the lines one-by-one again:</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">features='run_py_script'</span></tt> tells Waf what <strong>action</strong> it needs to perform. In this case, it should run a Python script.</li>
 <li><tt class="docutils literal"><span class="pre">source='get_simulation_draws.py'</span></tt> tells Waf that it should perform the action on the file <em>get_simulation_draws.py</em> in the current directory.</li>
 <li><tt class="docutils literal"><span class="pre">target=ctx.path_to(ctx,</span> <span class="pre">'OUT_DATA',</span> <span class="pre">'initial_locations.npy')</span></tt> tells Waf that the specified action will produce a file called <em>initial_locations.npy</em> in a directory that is determined in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt>. We will examine this in detail in the <a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a> section, for now we abstract from it beyond noting that the <tt class="docutils literal"><span class="pre">OUT_DATA</span></tt> keyword refers to the directory where output data are stored.</li>
 <li><tt class="docutils literal"><span class="pre">name='get_simulation_draws'</span></tt> gives this task generator a name, which can be useful if we only want to produce a subset of all targets.</li>
 </ul>
+</div></blockquote>
 <p>And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.</p>
 </div>
 <div class="section" id="the-analysis-step">
@@ -151,13 +157,15 @@
 <img alt="_images/schelling_dependencies_main.png" src="_images/schelling_dependencies_main.png" style="width: 40em;" />
 </div>
 <p>Just a reminder on the purpose of each of these files:</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><em>schelling_baseline.pickle</em> is the file that contains the locations of agents after each round</li>
 <li><em>initial_locations.npy</em> is the file we produced before</li>
 <li><em>schelling.py</em> is the file with the main code to run the analysis</li>
 <li><em>agent.py</em> contains a class <tt class="docutils literal"><span class="pre">Agent</span></tt> that specifies how a Schelling-agent behaves in given circumstances (i.e. move or stay)</li>
 <li><em>baseline.json</em> contains the specification for the baseline model.</li>
 </ul>
+</div></blockquote>
 <p>In addition to this, we keep a <em>log-file</em>, which is omitted from the graph for legibility. We specify this dependency structure in the file <em>src/analysis/wscript</em>, which has the following contents:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
 
@@ -182,7 +190,8 @@
 </pre></div>
 </div>
 <p>Some points to note about this:</p>
-<ul>
+<blockquote>
+<div><ul>
 <li><p class="first">The loop over both models allows us to specify the code in one go; we focus on the case where the variable <tt class="docutils literal"><span class="pre">model</span></tt> takes on the value <tt class="docutils literal"><span class="pre">'baseline'</span></tt>.</p>
 </li>
 <li><p class="first">Note the difference between the <tt class="docutils literal"><span class="pre">source</span></tt> and the <tt class="docutils literal"><span class="pre">deps</span></tt>: Even though the dependency graph above neglects the difference, Waf needs to know which file it needs to run the task on. This is done via the <tt class="docutils literal"><span class="pre">source</span></tt> keyword. The other files will only be used for setting the dependencies.</p>
@@ -203,6 +212,7 @@
 <p>and we can load the correct model specification (i.e., <em>baseline.json</em>). This works similarly in other languages; see the respective project template as an example.</p>
 </li>
 </ul>
+</div></blockquote>
 </div>
 <div class="section" id="the-final-step">
 <h3>The &#8220;final&#8221; step<a class="headerlink" href="#the-final-step" title="Permalink to this headline">¶</a></h3>

@@ -6,8 +6,8 @@ Introduction
 
 An empirical or computational research project only becomes a useful building block for science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse. This code base aims to help on two issues in the quest for this goal:
 
-1. Saving you from a bunch of repetitive steps that need to be done sooner or later when starting a new project
-2. Helping you on ensuring reproducibility of your research findings from the beginning to the end
+    1. Saving you from a bunch of repetitive steps that need to be done sooner or later when starting a new project
+    2. Helping you on ensuring reproducibility of your research findings from the beginning to the end
 
 The first should lure you in quickly, the second convince you to stick to it in the long run---unless you are familiar with the tools already, there will be times where you think that all of this is overkill and far more difficult than necessary. It is not. *[although I am always happy to hear about easier alternatives]*
 

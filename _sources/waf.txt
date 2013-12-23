@@ -8,9 +8,9 @@ Introduction to Waf
 
 There are three phases to building a project:
 
-* **configure**: Set the project and build directories, find required programs on a particular machine
-* **build**: Build the targets (intermediate and final: cleaned datasets, graphs, tables, paper, presentation, documentation)
-* **install**: Copy a selection of targets to places where you find them more easily.
+  * **configure**: Set the project and build directories, find required programs on a particular machine
+  * **build**: Build the targets (intermediate and final: cleaned datasets, graphs, tables, paper, presentation, documentation)
+  * **install**: Copy a selection of targets to places where you find them more easily.
 
 The project directory is always the root directory of the project, the build directory is usually called *bld*. This is how we implement it in the main *wscript* file:
 
@@ -36,12 +36,12 @@ in a command prompt. You only need to do this once, or when the location of the 
 
 Let us dissect this function line-by-line:
 
-* ``ctx.env.PYTHONPATH = os.getcwd()`` sets the PYTHONPATH environmental variable to the project root folder so we can use hierarchical imports in our Python scripts
-* ``ctx.load('why')`` loads a tool that helps in debugging dependencies, very useful in complicated situations.
-* ``ctx.load('biber')`` loads a `modern replacement <http://biblatex-biber.sourceforge.net/>`_ for BibTeX and the entire LaTeX machinery with it.
-* ``ctx.load('run_py_script')`` loads a little tool for running Python scripts. Similar tools exist for Matlab, Stata, R, and Perl. More can be easily created.
-* ``ctx.load('sphinx_build')`` loads the tool required to build the project's documentation.
-* ``ctx.load('write_project_headers')`` loads a tool for handling project paths. We postpone the discussion until the :ref:`section <project_paths>` by the same name.
+  * ``ctx.env.PYTHONPATH = os.getcwd()`` sets the PYTHONPATH environmental variable to the project root folder so we can use hierarchical imports in our Python scripts
+  * ``ctx.load('why')`` loads a tool that helps in debugging dependencies, very useful in complicated situations.
+  * ``ctx.load('biber')`` loads a `modern replacement <http://biblatex-biber.sourceforge.net/>`_ for BibTeX and the entire LaTeX machinery with it.
+  * ``ctx.load('run_py_script')`` loads a little tool for running Python scripts. Similar tools exist for Matlab, Stata, R, and Perl. More can be easily created.
+  * ``ctx.load('sphinx_build')`` loads the tool required to build the project's documentation.
+  * ``ctx.load('write_project_headers')`` loads a tool for handling project paths. We postpone the discussion until the :ref:`section <project_paths>` by the same name.
 
 Waf know nows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.
 
@@ -94,10 +94,10 @@ This is the entire content of the file *src/data_management/wscript*:
 
 The ``ctx()`` call is a shortcut for creating a **task generator**, we will be more specific about that below in the section :ref:`build_phase`. Let us look at the lines one-by-one again:
 
-* ``features='run_py_script'`` tells Waf what **action** it needs to perform. In this case, it should run a Python script. 
-* ``source='get_simulation_draws.py'`` tells Waf that it should perform the action on the file *get_simulation_draws.py* in the current directory.
-* ``target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy')`` tells Waf that the specified action will produce a file called *initial_locations.npy* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`implementation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored. 
-* ``name='get_simulation_draws'`` gives this task generator a name, which can be useful if we only want to produce a subset of all targets. 
+  * ``features='run_py_script'`` tells Waf what **action** it needs to perform. In this case, it should run a Python script. 
+  * ``source='get_simulation_draws.py'`` tells Waf that it should perform the action on the file *get_simulation_draws.py* in the current directory.
+  * ``target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy')`` tells Waf that the specified action will produce a file called *initial_locations.npy* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`implementation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored. 
+  * ``name='get_simulation_draws'`` gives this task generator a name, which can be useful if we only want to produce a subset of all targets. 
 
 And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.
 
@@ -111,11 +111,11 @@ We concentrate our discussion the top part of the graph, i.e. the baseline model
 
 Just a reminder on the purpose of each of these files:
 
-* *schelling_baseline.pickle* is the file that contains the locations of agents after each round
-* *initial_locations.npy* is the file we produced before
-* *schelling.py* is the file with the main code to run the analysis
-* *agent.py* contains a class ``Agent`` that specifies how a Schelling-agent behaves in given circumstances (i.e. move or stay)
-* *baseline.json* contains the specification for the baseline model.
+  * *schelling_baseline.pickle* is the file that contains the locations of agents after each round
+  * *initial_locations.npy* is the file we produced before
+  * *schelling.py* is the file with the main code to run the analysis
+  * *agent.py* contains a class ``Agent`` that specifies how a Schelling-agent behaves in given circumstances (i.e. move or stay)
+  * *baseline.json* contains the specification for the baseline model.
 
 In addition to this, we keep a *log-file*, which is omitted from the graph for legibility. We specify this dependency structure in the file *src/analysis/wscript*, which has the following contents:
 
@@ -123,21 +123,20 @@ In addition to this, we keep a *log-file*, which is omitted from the graph for l
 
 Some points to note about this:
 
-* The loop over both models allows us to specify the code in one go; we focus on the case where the variable ``model`` takes on the value ``'baseline'``.
-* Note the difference between the ``source`` and the ``deps``: Even though the dependency graph above neglects the difference, Waf needs to know which file it needs to run the task on. This is done via the ``source`` keyword. The other files will only be used for setting the dependencies.
-* The first item in the list of ``deps`` is **exactly** the same as the target in the data management step.
-* Don't worry about the directories in the ``ctx.path_to()`` calls until the section ":ref:`implementation`" below
-* We keep a log-file calle *schelling_baseline.log*, which we left out of the dependency tree.
-* The ``append`` keyword allows us to pass arguments to the Python script. In particular, *schelling.py* will be invoked as follows::
-  
+  * The loop over both models allows us to specify the code in one go; we focus on the case where the variable ``model`` takes on the value ``'baseline'``.
+  * Note the difference between the ``source`` and the ``deps``: Even though the dependency graph above neglects the difference, Waf needs to know which file it needs to run the task on. This is done via the ``source`` keyword. The other files will only be used for setting the dependencies.
+  * The first item in the list of ``deps`` is **exactly** the same as the target in the data management step.
+  * Don't worry about the directories in the ``ctx.path_to()`` calls until the section ":ref:`implementation`" below
+  * We keep a log-file calle *schelling_baseline.log*, which we left out of the dependency tree.
+  * The ``append`` keyword allows us to pass arguments to the Python script. In particular, *schelling.py* will be invoked as follows::
   
         python /path/to/project/src/analysis/schelling.py baseline
   
-  In *schelling.py*, the model name is then read in using::
+    In *schelling.py*, the model name is then read in using::
 
-        model_name = sys.argv[1]
+          model_name = sys.argv[1]
 
-  and we can load the correct model specification (i.e., *baseline.json*). This works similarly in other languages; see the respective project template as an example.
+    and we can load the correct model specification (i.e., *baseline.json*). This works similarly in other languages; see the respective project template as an example.
 
 
 The "final" step

@@ -53,29 +53,35 @@
         
   <div class="section" id="design-rationale">
 <span id="rationale"></span><h1>Design rationale<a class="headerlink" href="#design-rationale" title="Permalink to this headline">¶</a></h1>
-<p>Main thoughts:</p>
-<ul class="simple">
-<li>Separation of logical chunks: A minimal requirement for a project to scale.</li>
-<li>Run only required parts: Again required for scalability. It means that the machine needs to know what is meant by a &#8220;required part&#8221;.</li>
-<li>Clear separation of inputs and outputs: Required to find your way around in</li>
-<li>Re-use of code and data instead of copying and pasting: Else you will forget the copy &amp; paste step at some point down the road.</li>
-<li>Be as language-agnostic as possible: Make it easy to use the best tool for a particular problem and to mix them in a project.</li>
-</ul>
-<p>(TBC)</p>
+<p>The design of the project templates is guided by the following main thoughts:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><strong>Separation of logical chunks</strong> A minimal requirement for a project to scale.</li>
+<li><strong>Only execute the required tasks</strong> Again required for scalability. It means that the machine needs to know what is meant by a &#8220;required task&#8221;.</li>
+<li><strong>Re-use of code and data instead of copying and pasting</strong> Else you will forget the copy &amp; paste step at some point down the road. At best, this leads to errors; at worst to misinterpreting the results.</li>
+<li><strong>Be as language-agnostic as possible</strong> Make it easy to use the best tool for a particular problem and to mix them in a project.</li>
+<li><strong>Clear separation of inputs and outputs</strong> Required to find your way around in a complex project.</li>
+</ol>
+</div></blockquote>
+<p>I will not touch upon the last point until the <a class="reference internal" href="implementation.html#implementation"><em>Implementation</em></a> section below. The remainder of this page introduces an example and the general concept of how to think about the first four points.</p>
 <div class="section" id="running-example">
 <h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">¶</a></h2>
 <p>To fix ideas, let&#8217;s look at the example of Schelling&#8217;s (1969, <a class="reference internal" href="zreferences.html#schelling69">[8]</a>) segregation model, as outlined <a class="reference external" href="http://quant-econ.net/schelling.html#schelling-s-segregation-model">here</a> in Stachurski&#8217;s and Sargent&#8217;s online course <a class="reference internal" href="zreferences.html#stachurskisargent13">[9]</a>. Please look at their <a class="reference external" href="http://quant-econ.net/schelling.html#schelling-s-segregation-model">description</a> of the Schelling model. Say we are thinking of two variants for the moment:</p>
-<ol class="arabic simple">
+<blockquote>
+<div><ol class="arabic simple">
 <li>Replicate the <a class="reference external" href="http://quant-econ.net/schelling.html#results">figures</a> from Stachurski&#8217;s and Sargent&#8217;s course.</li>
 <li>Check what happens when agents are restricted to two random moves per period; after that they have to stop regardless whether they are happy or not.</li>
 </ol>
+</div></blockquote>
 <p>For each of these variants (called <strong>models</strong> in the project template and the remainder of this document), you need to perform various steps:</p>
-<ol class="arabic simple">
+<blockquote>
+<div><ol class="arabic simple">
 <li>Draw a simulated sample with initial locations (this is taken to be the same across models, partly for demonstration purposes, partly because it assures that the initial distribution is the same across both models)</li>
 <li>Run the actual simulation</li>
 <li>Visualise the results</li>
 <li>Pull everything together in a paper.</li>
 </ol>
+</div></blockquote>
 <p>It is very useful to explictly distinguish between steps 2. and 3. because computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes or 30 seconds as in this example.</p>
 </div>
 <div class="section" id="how-to-organise-the-workflow">
@@ -103,12 +109,14 @@
 <img alt="_images/schelling_dependencies.png" src="_images/schelling_dependencies.png" style="width: 50em;" />
 </div>
 <p>The arrows have different colors in order to distinguish the steps of the analysis, from left to right:</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li>Blue for data management (=drawing a simulated sample, in this case)</li>
 <li>Orange for the main simulation</li>
 <li>Teal for the visualisation of results</li>
 <li>Red for compiling the pdf of the paper</li>
 </ul>
+</div></blockquote>
 <p>Bluish nodes are pure source files &#8211; they do not depend on any other file and hence no arrow points towards any of them. In contrast, brownish nodes are targets, they are generated by the code. Some may serve as intermediate targets only &#8211; e.g. there is not much you would want to do with the binary file of the simulated sample (<em>initial_locations.npy</em>) except for processing it further.</p>
 <p>In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct <strong>dependencies</strong> changes. E.g. when we make changes to <em>baseline.json</em>, we will need to build <em>schelling_baseline.pickle</em> and  <em>schelling_baseline.png</em> anew. Depending on whether <em>schelling_baseline.png</em> actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section, the only important thing at this point is to understand the general idea.</p>
 <p>Of course this is overkill for a textbook example &#8211; we could easily keep the code closer together than this. But this strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of <a class="reference internal" href="zreferences.html#gaudecker14">[10]</a>:</p>
