@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -16,7 +14,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -30,7 +28,19 @@
     <script type="text/javascript" src="_static/theme_extras.js"></script>
     <link rel="top" title="Templates for reproducible research projects in economics  documentation" href="index.html" />
     <link rel="next" title="Organisation" href="organisation.html" />
-    <link rel="prev" title="Design rationale" href="rationale.html" /> 
+    <link rel="prev" title="Design rationale" href="rationale.html" />
+ 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24904064-4', 'hmgaudecker.github.io');
+  ga('send', 'pageview');
+
+</script>
+
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
@@ -101,7 +111,7 @@
 <h2>Specifying dependencies and the build phase<a class="headerlink" href="#specifying-dependencies-and-the-build-phase" title="Permalink to this headline">¶</a></h2>
 <p>Let us go step-by-step through the entire dependency graph of the project from the section on <a class="reference internal" href="rationale.html#dag-s"><em>DAG&#8217;s</em></a>, which is reproduced here for convenience:</p>
 <div class="figure">
-<img alt="_images/schelling_dependencies.png" src="_images/schelling_dependencies.png" style="width: 50em;" />
+<a class="reference internal image-reference" href="_images/schelling_dependencies.png"><img alt="_images/schelling_dependencies.png" src="_images/schelling_dependencies.png" style="width: 50em;" /></a>
 </div>
 <p>Remember the colors of the edges follow the step of the analysis; we will split  our description along the same lines. First, we need to show how to keep the Waf code in separate directories (else it would become quickly unmanageable).</p>
 <div class="section" id="distributing-the-dependencies-by-step-of-the-analysis">
@@ -125,7 +135,7 @@
 <h3>The &#8220;data management&#8221; step<a class="headerlink" href="#the-data-management-step" title="Permalink to this headline">¶</a></h3>
 <p>The dependency structure at this step of the analysis is particularly simple, as we have one source and one target:</p>
 <div class="figure">
-<img alt="_images/schelling_dependencies_data_mgmt.png" src="_images/schelling_dependencies_data_mgmt.png" style="width: 30em;" />
+<a class="reference internal image-reference" href="_images/schelling_dependencies_data_mgmt.png"><img alt="_images/schelling_dependencies_data_mgmt.png" src="_images/schelling_dependencies_data_mgmt.png" style="width: 30em;" /></a>
 </div>
 <p>This is the entire content of the file <em>src/data_management/wscript</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
@@ -154,7 +164,7 @@
 <span id="waf-analysis"></span><h3>The &#8220;analysis&#8221; step<a class="headerlink" href="#the-analysis-step" title="Permalink to this headline">¶</a></h3>
 <p>We concentrate our discussion the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:</p>
 <div class="figure">
-<img alt="_images/schelling_dependencies_main.png" src="_images/schelling_dependencies_main.png" style="width: 40em;" />
+<a class="reference internal image-reference" href="_images/schelling_dependencies_main.png"><img alt="_images/schelling_dependencies_main.png" src="_images/schelling_dependencies_main.png" style="width: 40em;" /></a>
 </div>
 <p>Just a reminder on the purpose of each of these files:</p>
 <blockquote>
@@ -218,7 +228,7 @@
 <h3>The &#8220;final&#8221; step<a class="headerlink" href="#the-final-step" title="Permalink to this headline">¶</a></h3>
 <p>Again, we concentrate on the baseline model.</p>
 <div class="figure">
-<img alt="_images/schelling_dependencies_final.png" src="_images/schelling_dependencies_final.png" style="width: 40em;" />
+<a class="reference internal image-reference" href="_images/schelling_dependencies_final.png"><img alt="_images/schelling_dependencies_final.png" src="_images/schelling_dependencies_final.png" style="width: 40em;" /></a>
 </div>
 <p>This step is shown here mostly for completeness, there is nothing really new in the <em>wscript</em> file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
@@ -244,7 +254,7 @@
 <h3>The &#8220;paper&#8221; step<a class="headerlink" href="#the-paper-step" title="Permalink to this headline">¶</a></h3>
 <p>The pdf with the final &#8220;paper&#8221; depends on two additional files that were not shown in the full dependency graph for legibility reasons, a reference bibliography, and a LaTeX-file with the formula for the agents&#8217; decision rule (specified in a separate file so it can be re-used in the presentation, which is omitted from the graph as well):</p>
 <div class="figure">
-<img alt="_images/schelling_dependencies_paper.png" src="_images/schelling_dependencies_paper.png" style="width: 40em;" />
+<a class="reference internal image-reference" href="_images/schelling_dependencies_paper.png"><img alt="_images/schelling_dependencies_paper.png" src="_images/schelling_dependencies_paper.png" style="width: 40em;" /></a>
 </div>
 <p>The corresponding file <em>src/paper/wscript</em> is particularly simple:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
@@ -298,8 +308,8 @@ python waf.py install</pre>
 <span id="build-phase"></span><h2>A closer look at the build phase<a class="headerlink" href="#a-closer-look-at-the-build-phase" title="Permalink to this headline">¶</a></h2>
 <p>The following figure shows a little bit of how Waf works internally during the build phase:</p>
 <div class="figure">
-<img alt="_images/waf_build_phase.png" src="_images/waf_build_phase.png" style="width: 30em;" />
-<p class="caption">The build phase of a project, reproduced from <a class="reference internal" href="zreferences.html#nagy13">[5]</a>, section 4.1.4</p>
+<a class="reference internal image-reference" href="_images/waf_build_phase.png"><img alt="_images/waf_build_phase.png" src="_images/waf_build_phase.png" style="width: 30em;" /></a>
+<p class="caption">The build phase of a project, reproduced from <a class="reference internal" href="zreferences.html#nagy13" id="id1">[5]</a>, section 4.1.4</p>
 </div>
 <p>The important part to remember is that there is a logical and temporal separation between</p>
 <blockquote>
@@ -348,7 +358,7 @@ python waf.py install</pre>
 </li>
 </ol>
 </div></blockquote>
-<p>We have just touched upon the tip of the iceberg here; Waf has many more goodies to offer. The Waf book <a class="reference internal" href="zreferences.html#nagy13">[5]</a> is an excellent source &#8211; you just need to get used to the programmer jargon a little bit and develop a feeling for its background in building software.</p>
+<p>We have just touched upon the tip of the iceberg here; Waf has many more goodies to offer. The Waf book <a class="reference internal" href="zreferences.html#nagy13" id="id2">[5]</a> is an excellent source &#8211; you just need to get used to the programmer jargon a little bit and develop a feeling for its background in building software.</p>
 </div>
 </div>
 
@@ -366,9 +376,24 @@ python waf.py install</pre>
 
       </div>
 
+
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
+<div class="footer">This page uses <a href="http://analytics.google.com/">
+Google Analytics</a> to collect statistics. You can disable it by blocking
+the JavaScript coming from www.google-analytics.com.
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+
   </body>
 </html>

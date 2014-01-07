@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -16,7 +14,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -30,7 +28,19 @@
     <script type="text/javascript" src="_static/theme_extras.js"></script>
     <link rel="top" title="Templates for reproducible research projects in economics  documentation" href="index.html" />
     <link rel="next" title="Design rationale" href="rationale.html" />
-    <link rel="prev" title="Table of Contents" href="index.html" /> 
+    <link rel="prev" title="Table of Contents" href="index.html" />
+ 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24904064-4', 'hmgaudecker.github.io');
+  ga('send', 'pageview');
+
+</script>
+
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
@@ -65,15 +75,15 @@
 <p>If you are a complete novice, you should read through the entire documents instead of jumping directly to the <a class="reference internal" href="getting_started.html#getting-started"><em>Getting started</em></a> section. First, let me expand on the reproducibility part, though.</p>
 <div class="section" id="the-case-for-reproducibility">
 <h2>The case for reproducibility<a class="headerlink" href="#the-case-for-reproducibility" title="Permalink to this headline">¶</a></h2>
-<p>The credibility of (economic) research is undermined if erroneous results appear in respected journals. To quote McCullough and Vinod <a class="reference internal" href="zreferences.html#mcculloughvinod03">[14]</a>:</p>
+<p>The credibility of (economic) research is undermined if erroneous results appear in respected journals. To quote McCullough and Vinod <a class="reference internal" href="zreferences.html#mcculloughvinod03" id="id2">[14]</a>:</p>
 <blockquote>
 <div><em>Replication is the cornerstone of science. Research that cannot be replicated is not science, and cannot be trusted either as part of the profession’s accumulated body of knowledge or as a basis for policy. Authors may think they have written perfect code for their bug-free software package and correctly transcribed each data point, but readers cannot safely assume that these error-prone activities have been executed flawlessly until the authors’ efforts have been independently verified. A researcher who does not openly allow independent verification of his results puts those results in the same class as the results of a researcher who does share his data and code but whose results cannot be replicated: the class of results that cannot be verified, i.e., the class of results that cannot be trusted.</em></div></blockquote>
-<p>It is sad if not the substance, but controversies about the replicability of results make it to the first page of the Wall Street Journal <a class="reference internal" href="zreferences.html#wsj05">[15]</a>, covering the exchange between Hoxby and Rothstein (<a class="reference internal" href="zreferences.html#hoxby00">[1]</a> &#8211; <a class="reference internal" href="zreferences.html#rothstein07comment">[6]</a> &#8211; <a class="reference internal" href="zreferences.html#hoxby07">[2]</a> &#8211; <a class="reference internal" href="zreferences.html#rothstein07rejoinder">[7]</a>). There are some other well-known cases from top journals, see for example Levitt and McCrary (<a class="reference internal" href="zreferences.html#levitt97">[3]</a> &#8211; <a class="reference internal" href="zreferences.html#mccrary02">[12]</a> &#8211; <a class="reference internal" href="zreferences.html#levitt02">[4]</a>) or the experiences reported in McCullough and Vinod <a class="reference internal" href="zreferences.html#mcculloughvinod03">[14]</a>. The Reinhart and Rogoff controversy is another case in point, google is your friend in case you do not remember it. Assuming that the incentives for replication are much smaller in lower-ranked journals, this is probably just the tip of the iceberg. As a consequence of such issues, many journals have implemented relatively strict replication policies, see this figure taken from <a class="reference internal" href="zreferences.html#mccullough09">[13]</a>:</p>
+<p>It is sad if not the substance, but controversies about the replicability of results make it to the first page of the Wall Street Journal <a class="reference internal" href="zreferences.html#wsj05" id="id3">[15]</a>, covering the exchange between Hoxby and Rothstein (<a class="reference internal" href="zreferences.html#hoxby00" id="id4">[1]</a> &#8211; <a class="reference internal" href="zreferences.html#rothstein07comment" id="id5">[6]</a> &#8211; <a class="reference internal" href="zreferences.html#hoxby07" id="id6">[2]</a> &#8211; <a class="reference internal" href="zreferences.html#rothstein07rejoinder" id="id7">[7]</a>). There are some other well-known cases from top journals, see for example Levitt and McCrary (<a class="reference internal" href="zreferences.html#levitt97" id="id8">[3]</a> &#8211; <a class="reference internal" href="zreferences.html#mccrary02" id="id9">[12]</a> &#8211; <a class="reference internal" href="zreferences.html#levitt02" id="id10">[4]</a>) or the experiences reported in McCullough and Vinod <a class="reference internal" href="zreferences.html#mcculloughvinod03" id="id11">[14]</a>. The Reinhart and Rogoff controversy is another case in point, google is your friend in case you do not remember it. Assuming that the incentives for replication are much smaller in lower-ranked journals, this is probably just the tip of the iceberg. As a consequence of such issues, many journals have implemented relatively strict replication policies, see this figure taken from <a class="reference internal" href="zreferences.html#mccullough09" id="id12">[13]</a>:</p>
 <div class="figure">
-<img alt="_images/McCullough09Fig1.jpg" src="_images/McCullough09Fig1.jpg" style="width: 35em;" />
-<p class="caption"><em>Economic Journals with Mandatory Data + Code Archives, Figure 1 in</em> <a class="reference internal" href="zreferences.html#mccullough09">[13]</a></p>
+<a class="reference internal image-reference" href="_images/McCullough09Fig1.jpg"><img alt="_images/McCullough09Fig1.jpg" src="_images/McCullough09Fig1.jpg" style="width: 35em;" /></a>
+<p class="caption"><em>Economic Journals with Mandatory Data + Code Archives, Figure 1 in</em> <a class="reference internal" href="zreferences.html#mccullough09" id="id13">[13]</a></p>
 </div>
-<p>Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project &#8212; much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience <a class="reference internal" href="zreferences.html#gaudeckersoestwengstrom11prefhet">[11]</a>, I can confirm that replication policies are enforced nowadays &#8212; and that it is rather painful to ensure <em>ex-post</em> that you can follow them. The number of journals implementing replication policies is likely to grow further &#8212; if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not get started on research ethics...</p>
+<p>Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project &#8212; much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience <a class="reference internal" href="zreferences.html#gaudeckersoestwengstrom11prefhet" id="id14">[11]</a>, I can confirm that replication policies are enforced nowadays &#8212; and that it is rather painful to ensure <em>ex-post</em> that you can follow them. The number of journals implementing replication policies is likely to grow further &#8212; if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not get started on research ethics...</p>
 </div>
 </div>
 
@@ -91,9 +101,24 @@
 
       </div>
 
+
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
+<div class="footer">This page uses <a href="http://analytics.google.com/">
+Google Analytics</a> to collect statistics. You can disable it by blocking
+the JavaScript coming from www.google-analytics.com.
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+
   </body>
 </html>
