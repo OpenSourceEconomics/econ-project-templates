@@ -56,7 +56,7 @@ Else:\n
 class run_m_script_base(Task.Task):
 	"""Run a Matlab script."""
 
-	run_str = '${PREPEND} "${MATLABCMD}" ${MATLABFLAGS} -logfile "${LOGFILEPATH}" -r "try, ${MSCRIPTTRUNK} ${APPEND}, exit(0), catch err, disp(err.getReport()), exit(1), end"'
+	run_str = '''${PREPEND} "${MATLABCMD}" ${MATLABFLAGS} -logfile "${LOGFILEPATH}" -r "try, append='${APPEND}'; ${MSCRIPTTRUNK}, exit(0), catch err, disp(err.getReport()), exit(1), end"'''
 	shell = True
 
 	def exec_command(self, cmd, **kw):
