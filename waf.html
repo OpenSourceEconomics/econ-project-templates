@@ -63,7 +63,7 @@
         
   <div class="section" id="introduction-to-waf">
 <span id="waf-intro"></span><h1>Introduction to Waf<a class="headerlink" href="#introduction-to-waf" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://code.google.com/p/waf/">Waf</a> is our tool of choice to automate the dependency tracking via a DAG structure. Originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file <em>waf.py</em> and the hidden folder <em>.mywaflib</em>). The settings for a particular project are controlled via files called <em>wscript</em>, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.</p>
+<p><a class="reference external" href="https://code.google.com/p/waf/">Waf</a> is our tool of choice to automate the dependency tracking via a DAG (directed acyclic graph) structure. Originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file <em>waf.py</em> and the hidden folder <em>.mywaflib</em>). The settings for a particular project are controlled via files called <em>wscript</em>, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.</p>
 <p>There are three phases to building a project:</p>
 <blockquote>
 <div><ul class="simple">
@@ -72,6 +72,14 @@
 <li><strong>install</strong>: Copy a selection of targets to places where you find them more easily.</li>
 </ul>
 </div></blockquote>
+<dl class="docutils">
+<dt>Additionally, there are two phases for cleanup which are useful to enforce a rebuild of the project:</dt>
+<dd><ul class="first last simple">
+<li><strong>clean</strong>: Cleans up project so that all tasks will be performed anew upon the next build.</li>
+<li><strong>distclean</strong>: Cleans up more thoroughly (by deleting the build directory), requiring configure again.</li>
+</ul>
+</dd>
+</dl>
 <p>The project directory is always the root directory of the project, the build directory is usually called <em>bld</em>. This is how we implement it in the main <em>wscript</em> file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># The project root directory and the build directory.</span>
 <span class="n">top</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
@@ -84,7 +92,7 @@
 <p>The first time you fire up a project you need to invoke Waf by typing:</p>
 <div class="highlight-python"><pre>python waf.py configure</pre>
 </div>
-<p>in a command prompt. You only need to do this once, or when the location of the programs that your project requires changes (say, you installed a new version of LaTeX). Because of the <tt class="docutils literal"><span class="pre">configure</span></tt> argument Waf will call the function by the same name, which lives in the main <em>wscript</em> file:</p>
+<p>in a command prompt. You only need to do this once, or if the location of the programs that your project requires changes (say, you installed a new version of LaTeX), you performed a distclean, or manually removed the entire build directory. Because of the <tt class="docutils literal"><span class="pre">configure</span></tt> argument Waf will call the function by the same name, which lives in the main <em>wscript</em> file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PYTHONPATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;why&#39;</span><span class="p">)</span>
@@ -204,13 +212,13 @@
 <div><ul>
 <li><p class="first">The loop over both models allows us to specify the code in one go; we focus on the case where the variable <tt class="docutils literal"><span class="pre">model</span></tt> takes on the value <tt class="docutils literal"><span class="pre">'baseline'</span></tt>.</p>
 </li>
-<li><p class="first">Note the difference between the <tt class="docutils literal"><span class="pre">source</span></tt> and the <tt class="docutils literal"><span class="pre">deps</span></tt>: Even though the dependency graph above neglects the difference, Waf needs to know which file it needs to run the task on. This is done via the <tt class="docutils literal"><span class="pre">source</span></tt> keyword. The other files will only be used for setting the dependencies.</p>
+<li><p class="first">Note the difference between the <tt class="docutils literal"><span class="pre">source</span></tt> and the <tt class="docutils literal"><span class="pre">deps</span></tt>: Even though the dependency graph above neglects the difference, Waf needs to know on which file it needs to run the task. This is done via the <tt class="docutils literal"><span class="pre">source</span></tt> keyword. The other files will only be used for setting the dependencies.</p>
 </li>
 <li><p class="first">The first item in the list of <tt class="docutils literal"><span class="pre">deps</span></tt> is <strong>exactly</strong> the same as the target in the data management step.</p>
 </li>
 <li><p class="first">Don&#8217;t worry about the directories in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt> calls until the section &#8220;<a class="reference internal" href="organisation.html#organisation"><em>Organisation</em></a>&#8221; below</p>
 </li>
-<li><p class="first">We keep a log-file calle <em>schelling_baseline.log</em>, which we left out of the dependency tree.</p>
+<li><p class="first">We keep a log-file called <em>schelling_baseline.log</em>, which we left out of the dependency tree.</p>
 </li>
 <li><p class="first">The <tt class="docutils literal"><span class="pre">append</span></tt> keyword allows us to pass arguments to the Python script. In particular, <em>schelling.py</em> will be invoked as follows:</p>
 <div class="highlight-python"><pre>python /path/to/project/src/analysis/schelling.py baseline</pre>
@@ -283,7 +291,7 @@
 <p>at a command prompt. Because this is the most frequent command to execute,</p>
 <blockquote>
 <div>python waf.py</div></blockquote>
-<p>actually has the same effect.</p>
+<p>can be used as a shortcut and actually has the same effect.</p>
 </div>
 </div>
 <div class="section" id="the-installation-phase">

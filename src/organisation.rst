@@ -60,8 +60,8 @@ The first question to ask is whether we should be working with absolute or relat
 
     * **Relative paths** (e.g., *..\\model_code\\agent.py* or *../model_code/agent.py*)
     
-        * **Pro**: Portable across machines
-        * **Con**: Paths are relative to where your program / interpreter started (e.g., Stata starts in some default directory, Python where you launched the interpreter, ...). This introduces *state*, which is bad for maintainability and reproducibility.
+        * **Pro**: Portable across machines; provide abstraction from irrelevant parts of underlying directory structure.
+        * **Con**: Introduction of *state* (the directory used as starting point), which is bad for maintainability and reproducibility.
     
     * **Absolute paths** (e.g., *C:\\projects\\schelling\\src\\model_code\\agent.py* or */Users/xxx/projects/schelling/src/model_code/agent.py*)
     
@@ -94,7 +94,7 @@ In addition, there are the "special" input directories *library*, *model_code*, 
 Usage of the project paths within *wscript* files
 -------------------------------------------------
 
-The first thing to do is to make these project paths available in *wscript* files further down the directory hierarcy. We do so in the *build* function of *root/wscript*, which we did not show in full before:
+The first thing to do is to make these project paths available in *wscript* files further down the directory hierarcy. We do so in the *build* function of *root/wscript*, which we have not shown completely so far:
 
 .. literalinclude:: ../python_template/wscript
     :start-after: out = 'bld'

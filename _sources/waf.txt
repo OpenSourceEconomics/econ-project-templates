@@ -4,13 +4,17 @@
 Introduction to Waf
 *******************
 
-`Waf <https://code.google.com/p/waf/>`_ is our tool of choice to automate the dependency tracking via a DAG structure. Originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file *waf.py* and the hidden folder *.mywaflib*). The settings for a particular project are controlled via files called *wscript*, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.
+`Waf <https://code.google.com/p/waf/>`_ is our tool of choice to automate the dependency tracking via a DAG (directed acyclic graph) structure. Originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file *waf.py* and the hidden folder *.mywaflib*). The settings for a particular project are controlled via files called *wscript*, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.
 
 There are three phases to building a project:
 
   * **configure**: Set the project and build directories, find required programs on a particular machine
   * **build**: Build the targets (intermediate and final: cleaned datasets, graphs, tables, paper, presentation, documentation)
   * **install**: Copy a selection of targets to places where you find them more easily.
+
+Additionally, there are two phases for cleanup which are useful to enforce a rebuild of the project:
+  * **clean**: Cleans up project so that all tasks will be performed anew upon the next build.
+  * **distclean**: Cleans up more thoroughly (by deleting the build directory), requiring configure again.
 
 The project directory is always the root directory of the project, the build directory is usually called *bld*. This is how we implement it in the main *wscript* file:
 
@@ -28,7 +32,7 @@ The first time you fire up a project you need to invoke Waf by typing::
     
     python waf.py configure
 
-in a command prompt. You only need to do this once, or when the location of the programs that your project requires changes (say, you installed a new version of LaTeX). Because of the ``configure`` argument Waf will call the function by the same name, which lives in the main *wscript* file:
+in a command prompt. You only need to do this once, or if the location of the programs that your project requires changes (say, you installed a new version of LaTeX), you performed a distclean, or manually removed the entire build directory. Because of the ``configure`` argument Waf will call the function by the same name, which lives in the main *wscript* file:
 
 .. literalinclude:: ../python_template/wscript
     :start-after: return os.path.join(path_to_dir, args[-1])
@@ -126,10 +130,10 @@ In addition to this, we keep a *log-file*, which is omitted from the graph for l
 Some points to note about this:
 
   * The loop over both models allows us to specify the code in one go; we focus on the case where the variable ``model`` takes on the value ``'baseline'``.
-  * Note the difference between the ``source`` and the ``deps``: Even though the dependency graph above neglects the difference, Waf needs to know which file it needs to run the task on. This is done via the ``source`` keyword. The other files will only be used for setting the dependencies.
+  * Note the difference between the ``source`` and the ``deps``: Even though the dependency graph above neglects the difference, Waf needs to know on which file it needs to run the task. This is done via the ``source`` keyword. The other files will only be used for setting the dependencies.
   * The first item in the list of ``deps`` is **exactly** the same as the target in the data management step.
   * Don't worry about the directories in the ``ctx.path_to()`` calls until the section ":ref:`organisation`" below
-  * We keep a log-file calle *schelling_baseline.log*, which we left out of the dependency tree.
+  * We keep a log-file called *schelling_baseline.log*, which we left out of the dependency tree.
   * The ``append`` keyword allows us to pass arguments to the Python script. In particular, *schelling.py* will be invoked as follows::
   
         python /path/to/project/src/analysis/schelling.py baseline
@@ -191,7 +195,7 @@ at a command prompt. Because this is the most frequent command to execute,
 
     python waf.py
 
-actually has the same effect.
+can be used as a shortcut and actually has the same effect.
 
 
 The installation phase

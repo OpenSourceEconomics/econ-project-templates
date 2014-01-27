@@ -123,8 +123,8 @@
 <li><p class="first"><strong>Relative paths</strong> (e.g., <em>..\model_code\agent.py</em> or <em>../model_code/agent.py</em>)</p>
 <blockquote>
 <div><ul class="simple">
-<li><strong>Pro</strong>: Portable across machines</li>
-<li><strong>Con</strong>: Paths are relative to where your program / interpreter started (e.g., Stata starts in some default directory, Python where you launched the interpreter, ...). This introduces <em>state</em>, which is bad for maintainability and reproducibility.</li>
+<li><strong>Pro</strong>: Portable across machines; provide abstraction from irrelevant parts of underlying directory structure.</li>
+<li><strong>Con</strong>: Introduction of <em>state</em> (the directory used as starting point), which is bad for maintainability and reproducibility.</li>
 </ul>
 </div></blockquote>
 </li>
@@ -181,7 +181,7 @@
 </div>
 <div class="section" id="usage-of-the-project-paths-within-wscript-files">
 <h2>Usage of the project paths within <em>wscript</em> files<a class="headerlink" href="#usage-of-the-project-paths-within-wscript-files" title="Permalink to this headline">¶</a></h2>
-<p>The first thing to do is to make these project paths available in <em>wscript</em> files further down the directory hierarcy. We do so in the <em>build</em> function of <em>root/wscript</em>, which we did not show in full before:</p>
+<p>The first thing to do is to make these project paths available in <em>wscript</em> files further down the directory hierarcy. We do so in the <em>build</em> function of <em>root/wscript</em>, which we have not shown completely so far:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">set_project_paths</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a dictionary with project paths represented by Waf nodes.&quot;&quot;&quot;</span>
 
