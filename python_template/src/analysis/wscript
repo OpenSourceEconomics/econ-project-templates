@@ -7,7 +7,7 @@ def build(ctx):
             features='run_py_script',
             source='schelling.py',
             deps=[
-                ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy'),
+                ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.csv'),
                 ctx.path_to(ctx, 'IN_MODEL_CODE', 'agent.py'),
                 ctx.path_to(ctx, 'IN_MODEL_SPECS', '{}.json'.format(model)),
             ],
