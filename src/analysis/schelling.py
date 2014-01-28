@@ -24,7 +24,8 @@ def setup_agents(model):
 
     """
 
-    initial_locations = np.load(ppj("OUT_DATA", "initial_locations.npy"))
+    initial_locations = np.loadtxt(ppj("OUT_DATA", "initial_locations.csv"), delimiter=",")
+    initial_locations = initial_locations.reshape(2, model["n_types"], 30000)
 
     agents = []
     for typ in range(model["n_types"]):

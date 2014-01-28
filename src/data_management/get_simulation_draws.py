@@ -25,7 +25,7 @@ def draw_sample():
 
 
 def save_data(sample):
-    np.save(ppj("OUT_DATA", "initial_locations.npy"), sample)
+    sample.tofile(ppj("OUT_DATA", "initial_locations.csv"), sep=",")
 
 
 if __name__ == "__main__":
