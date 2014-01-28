@@ -33,7 +33,7 @@ def build(ctx):
         'schelling_dependencies_data_mgmt',
         'schelling_dependencies_main',
         'schelling_dependencies_final',
-        'schelling_dependencies_paper',
+        'schelling_dependencies_paper'
     ]
 
     for f in schelling_trunks + project_hierarchies_trunks:
