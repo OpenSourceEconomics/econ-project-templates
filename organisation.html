@@ -113,7 +113,7 @@
 <div class="figure">
 <a class="reference internal image-reference" href="_images/project_hierarchies_analysis.png"><img alt="_images/project_hierarchies_analysis.png" src="_images/project_hierarchies_analysis.png" style="width: 30em;" /></a>
 </div>
-<p>Remember that the script <em>root/src/analysis/schelling.py</em> is run with an argument <em>baseline</em> or <em>max_moves_2</em>. The code then accesses the respective file in <em>root/src/model_specs</em>, <em>root/src/model_code/agent.py</em>, and <em>bld/out/data/initial_locations.npy</em> (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.</p>
+<p>Remember that the script <em>root/src/analysis/schelling.py</em> is run with an argument <em>baseline</em> or <em>max_moves_2</em>. The code then accesses the respective file in <em>root/src/model_specs</em>, <em>root/src/model_code/agent.py</em>, and <em>bld/out/data/initial_locations.csv</em> (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.</p>
 </div>
 <div class="section" id="project-paths">
 <span id="id3"></span><h2>Project paths<a class="headerlink" href="#project-paths" title="Permalink to this headline">¶</a></h2>
@@ -232,7 +232,7 @@ of the directory trees defined in the PROJECT_PATHS dictionary above.</p>
             <span class="n">features</span><span class="o">=</span><span class="s">&#39;run_py_script&#39;</span><span class="p">,</span>
             <span class="n">source</span><span class="o">=</span><span class="s">&#39;schelling.py&#39;</span><span class="p">,</span>
             <span class="n">deps</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s">&#39;initial_locations.npy&#39;</span><span class="p">),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s">&#39;initial_locations.csv&#39;</span><span class="p">),</span>
                 <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;IN_MODEL_CODE&#39;</span><span class="p">,</span> <span class="s">&#39;agent.py&#39;</span><span class="p">),</span>
                 <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;IN_MODEL_SPECS&#39;</span><span class="p">,</span> <span class="s">&#39;{}.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span>
             <span class="p">],</span>
@@ -284,7 +284,7 @@ of the directory trees defined in the PROJECT_PATHS dictionary above.</p>
 
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking

@@ -152,7 +152,7 @@
     <span class="n">ctx</span><span class="p">(</span>
         <span class="n">features</span><span class="o">=</span><span class="s">&#39;run_py_script&#39;</span><span class="p">,</span>
         <span class="n">source</span><span class="o">=</span><span class="s">&#39;get_simulation_draws.py&#39;</span><span class="p">,</span>
-        <span class="n">target</span><span class="o">=</span><span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s">&#39;initial_locations.npy&#39;</span><span class="p">),</span>
+        <span class="n">target</span><span class="o">=</span><span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s">&#39;initial_locations.csv&#39;</span><span class="p">),</span>
         <span class="n">name</span><span class="o">=</span><span class="s">&#39;get_simulation_draws&#39;</span>
     <span class="p">)</span>
 </pre></div>
@@ -162,7 +162,7 @@
 <div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">features='run_py_script'</span></tt> tells Waf what <strong>action</strong> it needs to perform. In this case, it should run a Python script.</li>
 <li><tt class="docutils literal"><span class="pre">source='get_simulation_draws.py'</span></tt> tells Waf that it should perform the action on the file <em>get_simulation_draws.py</em> in the current directory.</li>
-<li><tt class="docutils literal"><span class="pre">target=ctx.path_to(ctx,</span> <span class="pre">'OUT_DATA',</span> <span class="pre">'initial_locations.npy')</span></tt> tells Waf that the specified action will produce a file called <em>initial_locations.npy</em> in a directory that is determined in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt>. We will examine this in detail in the <a class="reference internal" href="organisation.html#organisation"><em>Organisation</em></a> section, for now we abstract from it beyond noting that the <tt class="docutils literal"><span class="pre">OUT_DATA</span></tt> keyword refers to the directory where output data are stored.</li>
+<li><tt class="docutils literal"><span class="pre">target=ctx.path_to(ctx,</span> <span class="pre">'OUT_DATA',</span> <span class="pre">'initial_locations.csv')</span></tt> tells Waf that the specified action will produce a file called <em>initial_locations.csv</em> in a directory that is determined in the <tt class="docutils literal"><span class="pre">ctx.path_to()</span></tt>. We will examine this in detail in the <a class="reference internal" href="organisation.html#organisation"><em>Organisation</em></a> section, for now we abstract from it beyond noting that the <tt class="docutils literal"><span class="pre">OUT_DATA</span></tt> keyword refers to the directory where output data are stored.</li>
 <li><tt class="docutils literal"><span class="pre">name='get_simulation_draws'</span></tt> gives this task generator a name, which can be useful if we only want to produce a subset of all targets.</li>
 </ul>
 </div></blockquote>
@@ -178,7 +178,7 @@
 <blockquote>
 <div><ul class="simple">
 <li><em>schelling_baseline.pickle</em> is the file that contains the locations of agents after each round</li>
-<li><em>initial_locations.npy</em> is the file we produced before</li>
+<li><em>initial_locations.csv</em> is the file we produced before</li>
 <li><em>schelling.py</em> is the file with the main code to run the analysis</li>
 <li><em>agent.py</em> contains a class <tt class="docutils literal"><span class="pre">Agent</span></tt> that specifies how a Schelling-agent behaves in given circumstances (i.e. move or stay)</li>
 <li><em>baseline.json</em> contains the specification for the baseline model.</li>
@@ -194,7 +194,7 @@
             <span class="n">features</span><span class="o">=</span><span class="s">&#39;run_py_script&#39;</span><span class="p">,</span>
             <span class="n">source</span><span class="o">=</span><span class="s">&#39;schelling.py&#39;</span><span class="p">,</span>
             <span class="n">deps</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s">&#39;initial_locations.npy&#39;</span><span class="p">),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s">&#39;initial_locations.csv&#39;</span><span class="p">),</span>
                 <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;IN_MODEL_CODE&#39;</span><span class="p">,</span> <span class="s">&#39;agent.py&#39;</span><span class="p">),</span>
                 <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s">&#39;IN_MODEL_SPECS&#39;</span><span class="p">,</span> <span class="s">&#39;{}.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span>
             <span class="p">],</span>
@@ -387,7 +387,7 @@ python waf.py install</pre>
 
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking
