@@ -100,7 +100,7 @@ The ``ctx()`` call is a shortcut for creating a **task generator**, we will be m
 
   * ``features='run_py_script'`` tells Waf what **action** it needs to perform. In this case, it should run a Python script. 
   * ``source='get_simulation_draws.py'`` tells Waf that it should perform the action on the file *get_simulation_draws.py* in the current directory.
-  * ``target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy')`` tells Waf that the specified action will produce a file called *initial_locations.npy* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`organisation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored. 
+  * ``target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.csv')`` tells Waf that the specified action will produce a file called *initial_locations.csv* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`organisation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored. 
   * ``name='get_simulation_draws'`` gives this task generator a name, which can be useful if we only want to produce a subset of all targets. 
 
 And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.
@@ -118,7 +118,7 @@ We concentrate our discussion the top part of the graph, i.e. the baseline model
 Just a reminder on the purpose of each of these files:
 
   * *schelling_baseline.pickle* is the file that contains the locations of agents after each round
-  * *initial_locations.npy* is the file we produced before
+  * *initial_locations.csv* is the file we produced before
   * *schelling.py* is the file with the main code to run the analysis
   * *agent.py* contains a class ``Agent`` that specifies how a Schelling-agent behaves in given circumstances (i.e. move or stay)
   * *baseline.json* contains the specification for the baseline model.
