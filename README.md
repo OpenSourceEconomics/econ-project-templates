@@ -11,6 +11,11 @@ This is a collection of templates where much of this automation is pre-configure
 
 The branch names follow the main language used in a particular example. You should base your project on the branch that specifies the language that you will use most. So the first thing to do is to switch branches using the button above, unless you plan on using Python mainly. You can easily add more languages to your projects, this is just a single line if the language is supported.
 
+
+
+Full documentation
+------------------
+
 *See* http://hmgaudecker.github.io/econ-project-templates/ *for the full documentation (in the context of a Python-based project, but this is easy enough to abstract from). Please read it before continuing with instructions that follow.*
 
 
