@@ -1,0 +1,127 @@
+\documentclass[11pt,a4paper,leqno]{article}
+\usepackage{a4wide}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{float, afterpage, rotating, graphicx}
+\usepackage{longtable, booktabs, tabularx}
+\usepackage{verbatim}
+\usepackage{eurosym, calc, chngcntr}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, bm, delarray} 
+\usepackage{caption}
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows,positioning,snakes,shapes,shapes.multipart,patterns,mindmap,shadows}
+
+% \usepackage[backend=biber, natbib=true, bibencoding=inputenc, bibstyle=authoryear-ibid, citestyle=authoryear-comp, maxnames=10]{biblatex}
+% \bibliography{bib/hmg}
+
+\usepackage[unicode=true]{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black, menucolor=black, runcolor=black, urlcolor=black}
+\setlength{\parskip}{.5ex}
+\setlength{\parindent}{0ex}
+
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}
+\renewcommand{\theenumi}{\roman{enumi}}
+
+% Set this counter to "first exercise of the week minus one".
+\setcounter{exercise}{0}
+
+\begin{document}
+
+\begin{center}
+    \begin{large}
+        \textbf{
+        Effective programming practices for economists\\
+        Universität Bonn, Winter 2013/14 \\[2ex]
+        Exercise 3 solution\\[2ex]
+        Group XXXX\\[2ex]
+        Your names here
+        }
+    \end{large}
+\end{center}
+
+	
+
+\input{example3.tex}
+
+
+
+
+
+% Example for inheritance diagram from the lecture.
+%
+% \begin{tiny}
+%     \begin{tikzpicture}
+%         \node (1) [
+%             rectangle split,
+%             rectangle split parts=6,
+%             draw,
+%             text width=6.00cm,
+%             shift={(-1.25,2.0)}
+%         ]
+%         {
+%             \nodepart{one}
+%             \begin{small}
+%             \textbf{AgentRiskyProspectsWithGambles}
+%             \end{small}
+%             \nodepart{two}
+%             certainty\_equivalent\_gambles()
+%             \nodepart{three}
+%             gambles \textcolor{red}{[tuple]}
+%             \nodepart{four}
+%             certainty\_equivalent(prospects, probabilities)
+%             \nodepart{five}
+%             expected\_utility(prospects, probabilities)
+%             \nodepart{six}
+%             \_\_init\_\_(gambles)
+%         };
+%         \node (2) [
+%             rectangle split,
+%             rectangle split parts=5,
+%             draw,
+%             text width=4.5cm,
+%             shift={(-3,-2.0)}
+%         ]
+%         {
+%             \nodepart{one}
+%             \begin{small}
+%             \textbf{AgentKinkedWithGambles}
+%             \end{small}
+%             \nodepart{two}
+%             utility(z)
+%             \nodepart{three}
+%             utility\_inverse(x)
+%             \nodepart{four}
+%             lambda\_ \textcolor{red}{[float]}
+%             \nodepart{five}
+%             \_\_init\_\_(lambda\_, gambles)
+%         };
+%         \node (3) [
+%             rectangle split,
+%             rectangle split parts=5,
+%             draw,
+%             text width=3.5cm,
+%             shift={(4.25,1.0)}
+%         ]
+%         {
+%             \nodepart{one}
+%             \begin{small}
+%             \textbf{Gamble}
+%             \end{small}
+%             \nodepart{two}
+%             prospects()
+%             \nodepart{three}
+%             probabilities()
+%             \nodepart{four}
+%             name \textcolor{red}{[str]}
+%             \nodepart{five}
+%             \_\_init\_\_(gamble\_dict, name)
+%         };
+%         \draw[->] (2) to [out=150, in=162] (1);
+%         \draw[->] (1) to [in=140, out=2] (3);
+%     \end{tikzpicture}
+% \end{tiny}
+
+% \printbibliography 
+
+\end{document}

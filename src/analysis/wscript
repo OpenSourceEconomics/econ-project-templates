@@ -9,11 +9,11 @@ def build(ctx):
     # Illustrate simple use of run_do_script.
     ctx(
         features='run_do_script',
-        source='descriptives.do',
-        target=out_analysis('log', 'descriptives.log'),
+        source='table2.do',
+        target=out_analysis('log', 'table2.log'),
         deps=[
             '../library/stata/project_paths.do',
-            out_data('streg_example_data.signature')
+            out_data('table2_temp_{}')
         ],
         name='descriptives_example'
     )
