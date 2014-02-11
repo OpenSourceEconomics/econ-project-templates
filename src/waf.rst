@@ -47,7 +47,7 @@ Let us dissect this function line-by-line:
   * ``ctx.load('sphinx_build')`` loads the tool required to build the project's documentation.
   * ``ctx.load('write_project_headers')`` loads a tool for handling project paths. We postpone the discussion until the :ref:`section <project_paths>` by the same name.
 
-Waf know nows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.
+Waf now knows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.
 
 
 Specifying dependencies and the build phase
@@ -96,7 +96,7 @@ This is the entire content of the file *src/data_management/wscript*:
 
 .. literalinclude:: ../python_template/src/data_management/wscript
 
-The ``ctx()`` call is a shortcut for creating a **task generator**, we will be more specific about that below in the section :ref:`build_phase`. Let us look at the lines one-by-one again:
+The ``ctx()`` call is a shortcut for creating a **task generator**. We will be more specific about that below in the section :ref:`build_phase`. Let us look at the lines one-by-one again:
 
   * ``features='run_py_script'`` tells Waf what **action** it needs to perform. In this case, it should run a Python script. 
   * ``source='get_simulation_draws.py'`` tells Waf that it should perform the action on the file *get_simulation_draws.py* in the current directory.
@@ -110,7 +110,7 @@ And this is it! The rest are slight variations on this procedure and straightfor
 The "analysis" step
 -------------------
 
-We concentrate our discussion the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:
+We concentrate our discussion on the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:
 
 .. figure:: ../bld/src/examples/schelling_dependencies_main.png
    :width: 40em
@@ -173,7 +173,7 @@ The corresponding file *src/paper/wscript* is particularly simple:
 .. literalinclude:: ../python_template/src/paper/wscript
     :end-before: # Install to the project root.
 
-Note that we only request Waf to execute the *tex* machinery the name of the source file (*research_paper.tex*).
+Note that we only request Waf to execute the *tex* machinery for the source file (*research_paper.tex*).
 
 The line ``prompt=1`` only tells Waf to invoke pdflatex in such a way that the log-file is printed to the screen. You can shut this off (it is often very long and obfuscates the remaining output from Waf) by setting it to 0.
 
@@ -237,7 +237,7 @@ The important part to remember is that there is a logical and temporal separatio
 
 In between, it has to set the order in which it would execute the tasks and whether a target is up-to-date or not (hence the reading from and writing to an internal cache).
 
-While developing your code, errors will usually show up in the last step: The task returns an error and Waf breaks off. However, the errors do not have anything to do with Waf, it simply runs the code you wrote on your behalf.
+While developing your code, errors will usually show up in the last step: The task returns an error and Waf stops. However, the errors do not have anything to do with Waf, it simply runs the code you wrote on your behalf.
 
 "Genuine" Waf errors will occur only if you made errors in writing the *wscript* files (e.g., syntax errors) or specify the dependencies in a way that is not compatible with a DAG (e.g., circular dependencies or multiple ways to build a target). A hybrid error will occur, for example, if a task did not produce one of the targets you told Waf about. Waf will stop with an error again and it lies in your best judgement of whether you misspecified things in your *wscript* file or in your research code.
 
@@ -262,7 +262,7 @@ To conclude, Waf roughly works in the following way:
   #. Waf reads your instructions and sets the build order.
   
       * Think of a dependency graph here.
-      * It breaks off when it detects a circular dependency or ambiguous ways to build a target.
+      * It stops when it detects a circular dependency or ambiguous ways to build a target.
       * Both are major advantages over a *master-script*, let alone doing the dependency tracking in your mind.
   
   #. Waf decides which tasks need to be executed based on the nodes' signatures and performs the required actions.
