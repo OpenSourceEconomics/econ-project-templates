@@ -8,7 +8,7 @@ The design of the project templates is guided by the following main thoughts:
 
     #. **Separation of logical chunks** A minimal requirement for a project to scale.
     #. **Only execute required tasks, automatically** Again required for scalability. It means that the machine needs to know what is meant by a "required task".
-    #. **Re-use of code and data instead of copying and pasting** Else you will forget the copy & paste step at some point down the road. At best, this leads to errors; at worst to misinterpreting the results.
+    #. **Re-use of code and data instead of copying and pasting** Else you will forget the copy & paste step at some point down the road. At best, this leads to errors; at worst, to misinterpreting the results.
     #. **Be as language-agnostic as possible** Make it easy to use the best tool for a particular task and to mix tools in a project.
     #. **Separation of inputs and outputs** Required to find your way around in a complex project.
 
@@ -38,19 +38,19 @@ It is very useful to explictly distinguish between steps 2. and 3. because compu
 How to organise the workflow?
 -----------------------------
 
-A naïve way to ensure reproducibility is to have a *master-script* (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over both models for each of them:
+A naïve way to ensure reproducibility is to have a *master-script* (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup would be to have code for each step of the analysis and a loop over both models within each step:
    
 .. figure:: ../bld/src/examples/steps_only_full.png
    :width: 25em
    
-You will still need to manually keep track of whether you need to run a paricular step after making changes, though. Or you run everything at once, all the time. Equivalently, you may have code that runs one step after the other for each model:
+You will still need to manually keep track of whether you need to run a particular step after making changes, though. Or you run everything at once, all the time. Alternatively, you may have code that runs one step after the other for each model:
 
 .. figure:: ../bld/src/examples/model_steps_full.png
    :width: 25em
    
 The equivalent comment applies here: Either keep track of which model needs to be run after making changes manually, or run everything at once.
 
-Ideally though, you want to be more even more fine-grained than this and only run individual elements. This is particularly true when your entire computations take some time -- running all steps every time via the *master-script* simply is not an option. All my research projects ended up running for a long time, no matter how simple they were... The figure shows you that even in this simple example, there are now quite a few parts to remember:
+Ideally though, you want to be even more fine-grained than this and only run individual elements. This is particularly true when your entire computations take some time. In this case, running all steps every time via the *master-script* simply is not an option. All my research projects ended up running for a long time, no matter how simple they were... The figure shows you that even in this simple example, there are now quite a few parts to remember:
 
 .. figure:: ../bld/src/examples/model_steps_select.png
    :width: 25em
@@ -63,7 +63,7 @@ This figure assumes that your data management is being done for all models at on
 Directed Acyclic Graphs (DAGs)
 ------------------------------
 
-The way to specify dependencies between data, code and tasks to perform for a computer is a directed acyclic graph. A graph is simply a pair of nodes (files, in our case) and edges that connect pairs of nodes (tasks to perform). Directed means that the order of how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means that there are no directed cycles: When you traverse a graph in the direction of the arrows, there may not be a way to end up at the same node again.
+The way to specify dependencies between data, code and tasks to perform for a computer is a directed acyclic graph. A graph is simply a set of nodes (files, in our case) and edges that connect pairs of nodes (tasks to perform). Directed means that the order of how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means that there are no directed cycles: When you traverse a graph in the direction of the arrows, there may not be a way to end up at the same node again.
 
 This is the dependency graph for the modified Schelling example from Stachurski and Sargent, as implemented in the Python branch of the project template:
 
@@ -79,7 +79,7 @@ The arrows have different colors in order to distinguish the steps of the analys
 
 Bluish nodes are pure source files -- they do not depend on any other file and hence no arrow points towards any of them. In contrast, brownish nodes are targets, they are generated by the code. Some may serve as intermediate targets only -- e.g. there is not much you would want to do with the binary file of the simulated sample (*initial_locations.csv*) except for processing it further.
 
-In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct **dependencies** changes. E.g. when we make changes to *baseline.json*, we will need to build *schelling_baseline.pickle* and  *schelling_baseline.png* anew. Depending on whether *schelling_baseline.png* actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section, the only important thing at this point is to understand the general idea.
+In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct **dependencies** changes. E.g. when we make changes to *baseline.json*, we will need to build *schelling_baseline.pickle* and  *schelling_baseline.png* anew. Depending on whether *schelling_baseline.png* actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section. The only important thing at this point is to understand the general idea.
 
 Of course this is overkill for a textbook example -- we could easily keep the code closer together than this. But this strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of :cite:`Gaudecker14`:
 
