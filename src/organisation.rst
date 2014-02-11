@@ -30,11 +30,11 @@ Files and directories in square brackets are constructed by Waf. You immediately
 
 The contents of both the *root/bld/out* and the *root/src* directories directly follow the steps of the analysis from the :ref:`workflow <workflow>` section (you can usually ignore the *root/bld/src* directory, except when you need to take a look at LaTeX log-files).
 
-The idea is that everything that needs to be run during the, say, **analysis** step, is specified in *root/src/analysis* and all its output is placed in *root/bld/out/analysis*. Etc.
+The idea is that everything that needs to be run during the, say, **analysis** step, is specified in *root/src/analysis* and all its output is placed in *root/bld/out/analysis*. 
 
 Some differences:
 
-    * Because they are accessed frequently, the *figures* and *tables* get extra directories in *root/bld/out* next to *final*
+    * Because they are accessed frequently, *figures* and *tables* get extra directories in *root/bld/out* next to *final*
     * The directory *root/src* contains many more subdirectories:
         
         * *original_data* is the place to store the data in its raw form, as downloaded / transcribed / ... This should never be changed.
@@ -94,7 +94,7 @@ In addition, there are the "special" input directories *library*, *model_code*, 
 Usage of the project paths within *wscript* files
 -------------------------------------------------
 
-The first thing to do is to make these project paths available in *wscript* files further down the directory hierarcy. We do so in the *build* function of *root/wscript*, which we have not shown completely so far:
+The first thing to do is to make these project paths available in *wscript* files further down the directory hierarchy. We do so in the *build* function of *root/wscript*, which we have not shown completely so far:
 
 .. literalinclude:: ../python_template/wscript
     :start-after: out = 'bld'
@@ -127,16 +127,16 @@ Note that the order of the arguments is the same in each of the five calls of ``
 Usage of the project paths in substantial code
 ----------------------------------------------
 
-The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the ``write_project_paths`` feature, the following line is taken from the ``build`` function in *root/src/library/wscript*:
+The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the ``write_project_paths`` feature. The following line is taken from the ``build`` function in *root/src/library/wscript*:
 
 .. literalinclude:: ../python_template/src/library/wscript
     :start-after: dirs.remove('.git')
 
-The ``write_project_paths`` feature is smart: It will recognise by the extension you add to the target, which language it should use. Currently supported: *.py*, *.do*, *.m*, *.r*, *.pm*.
+The ``write_project_paths`` feature is smart: It will recognise which language it should use by the extension you add to the target. Currently supported: *.py*, *.do*, *.m*, *.r*, *.pm*.
 
 The paths contained in the resulting file (*root/bld/src/library/project_paths.py*) are **absolute** paths, so you do not need to worry about the location of your interpreter etc. 
 
-The exact usage varies a little bit by language, see the respective template for examples. In Python, you first import a function called *project_paths_join*::
+The exact usage varies a little bit by language; see the respective template for examples. In Python, you first import a function called *project_paths_join*::
 
     from bld.src.library.project_paths import project_paths_join as ppj
 
