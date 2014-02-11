@@ -1,22 +1,30 @@
 def build(ctx):
 
+    def in_data(*args):
+        return ctx.path_to(ctx, 'IN_DATA', *args)
+    
     def out_analysis(*args):
         return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 
     def out_data(*args):
         return ctx.path_to(ctx, 'OUT_DATA', *args)
-
-    # Illustrate simple use of run_do_script.
-    ctx(
-        features='run_do_script',
-        source='table2.do',
-        target=out_analysis('log', 'table2.log'),
-        deps=[
-            '../library/stata/project_paths.do',
-            out_data('table2_temp_{}')
-        ],
-        name='descriptives_example'
-    )
+	
+	# Illustrate simple use of run_do_script.
+	
+	for panel in '1','2','3','4','5':
+	    ctx(
+	        features='run_do_script',
+	        source='table2.do',
+	        target=[
+	        		out_analysis('log', 'table2.log'),
+	        		out_data('table2_temp_{}'.format(panel))	
+	        deps=[
+	            '../library/stata/project_paths.do',
+	            in_data('ajrcomment.dta')
+	        ],
+			append=panel,
+            name='table2_temp_{}'.format(panel)
+	    )
 
     # Illustrate simple use of run_py_script
     ctx(

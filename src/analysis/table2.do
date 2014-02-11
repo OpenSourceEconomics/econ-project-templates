@@ -1,18 +1,15 @@
 /*** This file computes the first stage estimates for table 2 and stores the 
 results in "table2_temp_i.dta" ***/
 
-/*
-	local PATH C:\Dropbox\PhD_Bonn\WS_2013_14\Effective_Programming\stata_project\AER20041216_data\ ;
-	
-	local IN_DATA = "src\original_data\" ;
-	local IN_MODEL_CODE = "src\model_code\" ;
-	local IN_MODEL_SPECS = "src\model_specs\" ;
-	local OUT_DATA = "bld\out\data\" ;
-	local OUT_ANALYSIS = "bld\out\analysis\" ;
-	local OUT_FINAL = "bld\out\final\" ;
-	local OUT_FIGURES = "bld\out\figures\" ;
-	local OUT_TABLES = "bld\out\tables\" ;
-*/
+
+// Header do-file with path definitions, those end up in global macros.
+include src/library/stata/project_paths
+log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
+
+// Delete these lines -- just to check whether everything caught correctly.
+adopath
+macro list
+
 set output error
 
 # delimit ;
@@ -49,11 +46,9 @@ set mat 800;
 set mem 10m;
 set more off;
 
-cd /Users/benjaminhartung/Documents/Dropbox/PhD_Bonn/WS_2013_14/Effective_Programming/stata_project/AER20041216_data;
-
 /*** Define panel specific input ***/
-
-	use ajrcomment,replace; 
+	
+	use `"${PATH_IN_DATASET_1}/ajrcomment"',replace; 
 	replace `logmort' = . if source0==0 & inlist(`K',2,4,5);
 	if inlist(`K',3,4,5) local dummies = "campaign slave" ;  
 
@@ -166,7 +161,7 @@ format coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 %5.
 	
 keep colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 ;
 
-save table2_temp_`K',replace ;
+save `"${PATH_OUT_DATA}/table2_temp_`K'"',replace ;
 
 
 };
