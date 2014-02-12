@@ -132,7 +132,7 @@ The first thing to do is to specify a task generator that writes a header with p
 .. literalinclude:: ../python_template/src/library/wscript
     :start-after: dirs.remove('.git')
 
-The ``write_project_paths`` feature is smart: It will recognise which language it should use by the extension you add to the target. Currently supported: *.py*, *.do*, *.m*, *.r*, *.pm*.
+The ``write_project_paths`` feature is smart: It will recognise the syntax for its target by the extension you add to the latter. Currently supported: *.py*, *.do*, *.m*, *.r*, *.pm*.
 
 The paths contained in the resulting file (*root/bld/src/library/project_paths.py*) are **absolute** paths, so you do not need to worry about the location of your interpreter etc. 
 

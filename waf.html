@@ -113,7 +113,7 @@
 <li><tt class="docutils literal"><span class="pre">ctx.load('write_project_headers')</span></tt> loads a tool for handling project paths. We postpone the discussion until the <a class="reference internal" href="organisation.html#project-paths"><em>section</em></a> by the same name.</li>
 </ul>
 </div></blockquote>
-<p>Waf know nows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.</p>
+<p>Waf now knows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.</p>
 </div>
 <div class="section" id="specifying-dependencies-and-the-build-phase">
 <h2>Specifying dependencies and the build phase<a class="headerlink" href="#specifying-dependencies-and-the-build-phase" title="Permalink to this headline">¶</a></h2>
@@ -157,7 +157,7 @@
     <span class="p">)</span>
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">ctx()</span></tt> call is a shortcut for creating a <strong>task generator</strong>, we will be more specific about that below in the section <a class="reference internal" href="#build-phase"><em>A closer look at the build phase</em></a>. Let us look at the lines one-by-one again:</p>
+<p>The <tt class="docutils literal"><span class="pre">ctx()</span></tt> call is a shortcut for creating a <strong>task generator</strong>. We will be more specific about that below in the section <a class="reference internal" href="#build-phase"><em>A closer look at the build phase</em></a>. Let us look at the lines one-by-one again:</p>
 <blockquote>
 <div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">features='run_py_script'</span></tt> tells Waf what <strong>action</strong> it needs to perform. In this case, it should run a Python script.</li>
@@ -170,7 +170,7 @@
 </div>
 <div class="section" id="the-analysis-step">
 <span id="waf-analysis"></span><h3>The &#8220;analysis&#8221; step<a class="headerlink" href="#the-analysis-step" title="Permalink to this headline">¶</a></h3>
-<p>We concentrate our discussion the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:</p>
+<p>We concentrate our discussion on the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/schelling_dependencies_main.png"><img alt="_images/schelling_dependencies_main.png" src="_images/schelling_dependencies_main.png" style="width: 40em;" /></a>
 </div>
@@ -276,7 +276,7 @@
         <span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that we only request Waf to execute the <em>tex</em> machinery the name of the source file (<em>research_paper.tex</em>).</p>
+<p>Note that we only request Waf to execute the <em>tex</em> machinery for the source file (<em>research_paper.tex</em>).</p>
 <p>The line <tt class="docutils literal"><span class="pre">prompt=1</span></tt> only tells Waf to invoke pdflatex in such a way that the log-file is printed to the screen. You can shut this off (it is often very long and obfuscates the remaining output from Waf) by setting it to 0.</p>
 <p>So how does Waf know about the additional four dependencies? The <em>tex</em> tool is smart enough to find out by itself! In particular, it parses the contents of <em>research_paper.tex</em> and looks for lines such as:</p>
 <div class="highlight-latex"><div class="highlight"><pre><span class="k">\input</span><span class="nb">{</span>formulas/decision<span class="nb">_</span>rule<span class="nb">}</span>
@@ -327,7 +327,7 @@ python waf.py install</pre>
 </ul>
 </div></blockquote>
 <p>In between, it has to set the order in which it would execute the tasks and whether a target is up-to-date or not (hence the reading from and writing to an internal cache).</p>
-<p>While developing your code, errors will usually show up in the last step: The task returns an error and Waf breaks off. However, the errors do not have anything to do with Waf, it simply runs the code you wrote on your behalf.</p>
+<p>While developing your code, errors will usually show up in the last step: The task returns an error and Waf stops. However, the errors do not have anything to do with Waf, it simply runs the code you wrote on your behalf.</p>
 <p>&#8220;Genuine&#8221; Waf errors will occur only if you made errors in writing the <em>wscript</em> files (e.g., syntax errors) or specify the dependencies in a way that is not compatible with a DAG (e.g., circular dependencies or multiple ways to build a target). A hybrid error will occur, for example, if a task did not produce one of the targets you told Waf about. Waf will stop with an error again and it lies in your best judgement of whether you misspecified things in your <em>wscript</em> file or in your research code.</p>
 <p>By default, Waf will execute tasks in parallel if your computer is sufficiently powerful and if the dependency graphs allows for it. This often leads to a major speed gain, which comes as a free lunch. However, it can be annoying during the development phase because error messages from different tasks get into each others&#8217; way. You can force execution of a single task at a time by starting Waf with the <tt class="docutils literal"><span class="pre">-j1</span></tt> switch:</p>
 <div class="highlight-python"><pre>python waf -j1</pre>
@@ -350,7 +350,7 @@ python waf.py install</pre>
 <blockquote>
 <div><ul class="simple">
 <li>Think of a dependency graph here.</li>
-<li>It breaks off when it detects a circular dependency or ambiguous ways to build a target.</li>
+<li>It stops when it detects a circular dependency or ambiguous ways to build a target.</li>
 <li>Both are major advantages over a <em>master-script</em>, let alone doing the dependency tracking in your mind.</li>
 </ul>
 </div></blockquote>
@@ -387,7 +387,7 @@ python waf.py install</pre>
 
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking

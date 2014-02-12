@@ -68,7 +68,7 @@
 <div><ol class="arabic simple">
 <li><strong>Separation of logical chunks</strong> A minimal requirement for a project to scale.</li>
 <li><strong>Only execute required tasks, automatically</strong> Again required for scalability. It means that the machine needs to know what is meant by a &#8220;required task&#8221;.</li>
-<li><strong>Re-use of code and data instead of copying and pasting</strong> Else you will forget the copy &amp; paste step at some point down the road. At best, this leads to errors; at worst to misinterpreting the results.</li>
+<li><strong>Re-use of code and data instead of copying and pasting</strong> Else you will forget the copy &amp; paste step at some point down the road. At best, this leads to errors; at worst, to misinterpreting the results.</li>
 <li><strong>Be as language-agnostic as possible</strong> Make it easy to use the best tool for a particular task and to mix tools in a project.</li>
 <li><strong>Separation of inputs and outputs</strong> Required to find your way around in a complex project.</li>
 </ol>
@@ -96,16 +96,16 @@
 </div>
 <div class="section" id="how-to-organise-the-workflow">
 <span id="workflow"></span><h2>How to organise the workflow?<a class="headerlink" href="#how-to-organise-the-workflow" title="Permalink to this headline">¶</a></h2>
-<p>A naïve way to ensure reproducibility is to have a <em>master-script</em> (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup, would be to have code for each step of the analysis and a loop over both models for each of them:</p>
+<p>A naïve way to ensure reproducibility is to have a <em>master-script</em> (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup would be to have code for each step of the analysis and a loop over both models within each step:</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/steps_only_full.png"><img alt="_images/steps_only_full.png" src="_images/steps_only_full.png" style="width: 25em;" /></a>
 </div>
-<p>You will still need to manually keep track of whether you need to run a paricular step after making changes, though. Or you run everything at once, all the time. Equivalently, you may have code that runs one step after the other for each model:</p>
+<p>You will still need to manually keep track of whether you need to run a particular step after making changes, though. Or you run everything at once, all the time. Alternatively, you may have code that runs one step after the other for each model:</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/model_steps_full.png"><img alt="_images/model_steps_full.png" src="_images/model_steps_full.png" style="width: 25em;" /></a>
 </div>
 <p>The equivalent comment applies here: Either keep track of which model needs to be run after making changes manually, or run everything at once.</p>
-<p>Ideally though, you want to be more even more fine-grained than this and only run individual elements. This is particularly true when your entire computations take some time &#8211; running all steps every time via the <em>master-script</em> simply is not an option. All my research projects ended up running for a long time, no matter how simple they were... The figure shows you that even in this simple example, there are now quite a few parts to remember:</p>
+<p>Ideally though, you want to be even more fine-grained than this and only run individual elements. This is particularly true when your entire computations take some time. In this case, running all steps every time via the <em>master-script</em> simply is not an option. All my research projects ended up running for a long time, no matter how simple they were... The figure shows you that even in this simple example, there are now quite a few parts to remember:</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/model_steps_select.png"><img alt="_images/model_steps_select.png" src="_images/model_steps_select.png" style="width: 25em;" /></a>
 </div>
@@ -113,7 +113,7 @@
 </div>
 <div class="section" id="directed-acyclic-graphs-dags">
 <span id="dag-s"></span><h2>Directed Acyclic Graphs (DAGs)<a class="headerlink" href="#directed-acyclic-graphs-dags" title="Permalink to this headline">¶</a></h2>
-<p>The way to specify dependencies between data, code and tasks to perform for a computer is a directed acyclic graph. A graph is simply a pair of nodes (files, in our case) and edges that connect pairs of nodes (tasks to perform). Directed means that the order of how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means that there are no directed cycles: When you traverse a graph in the direction of the arrows, there may not be a way to end up at the same node again.</p>
+<p>The way to specify dependencies between data, code and tasks to perform for a computer is a directed acyclic graph. A graph is simply a set of nodes (files, in our case) and edges that connect pairs of nodes (tasks to perform). Directed means that the order of how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means that there are no directed cycles: When you traverse a graph in the direction of the arrows, there may not be a way to end up at the same node again.</p>
 <p>This is the dependency graph for the modified Schelling example from Stachurski and Sargent, as implemented in the Python branch of the project template:</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/schelling_dependencies.png"><img alt="_images/schelling_dependencies.png" src="_images/schelling_dependencies.png" style="width: 50em;" /></a>
@@ -128,7 +128,7 @@
 </ul>
 </div></blockquote>
 <p>Bluish nodes are pure source files &#8211; they do not depend on any other file and hence no arrow points towards any of them. In contrast, brownish nodes are targets, they are generated by the code. Some may serve as intermediate targets only &#8211; e.g. there is not much you would want to do with the binary file of the simulated sample (<em>initial_locations.csv</em>) except for processing it further.</p>
-<p>In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct <strong>dependencies</strong> changes. E.g. when we make changes to <em>baseline.json</em>, we will need to build <em>schelling_baseline.pickle</em> and  <em>schelling_baseline.png</em> anew. Depending on whether <em>schelling_baseline.png</em> actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section, the only important thing at this point is to understand the general idea.</p>
+<p>In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct <strong>dependencies</strong> changes. E.g. when we make changes to <em>baseline.json</em>, we will need to build <em>schelling_baseline.pickle</em> and  <em>schelling_baseline.png</em> anew. Depending on whether <em>schelling_baseline.png</em> actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section. The only important thing at this point is to understand the general idea.</p>
 <p>Of course this is overkill for a textbook example &#8211; we could easily keep the code closer together than this. But this strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of <a class="reference internal" href="zreferences.html#gaudecker14" id="id3">[10]</a>:</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/pfefficiency.jpg"><img alt="_images/pfefficiency.jpg" src="_images/pfefficiency.jpg" style="width: 35em;" /></a>
@@ -154,7 +154,7 @@
 
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking
