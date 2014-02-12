@@ -1,0 +1,347 @@
+{smcl}
+{* 07jan2009}{...}
+{hi:help eststo}{right:also see: {helpb esttab}, {helpb estout}, {helpb estadd}, {helpb estpost}}
+{right: {browse "http://repec.org/bocode/e/estout"}}
+{hline}
+
+{title:Title}
+
+{p 4 4 2}{hi:eststo} {hline 2} Store estimates
+
+
+{title:Syntax}{smcl}
+
+{p 8 15 2}
+[{cmd:_}]{cmd:eststo} [{it:name}]
+[{cmd:,} {it:{help eststo##options:options}} ]
+[ {cmd::} {it:{help estimation_command}} ]
+
+{p 8 15 2}
+[{cmd:_}]{cmd:eststo dir}
+
+{p 8 15 2}
+[{cmd:_}]{cmd:eststo drop} {{it:#}|{it:name}} [ {{it:#}|{it:name}} ... ]
+
+{p 8 15 2}
+[{cmd:_}]{cmd:eststo clear}
+
+{marker options}
+    {it:options}{col 23}description
+    {hline 56}
+    [{ul:{cmd:no}}]{cmdab:e:sample}{col 23}{...}
+do not/do store {cmd:e(sample)}
+    {cmdab:t:itle:(}{it:string}{cmd:)}{col 23}{...}
+specify a title for the stored set
+    {cmdab:p:refix:(}{it:prefix}{cmd:)}{col 23}{...}
+specify a name prefix; default is {cmd:est}
+    {cmdab:add:scalars(}{it:...}{cmd:)}{col 23}{...}
+add scalar statistics
+    {cmdab:r:efresh}[{cmd:(}{it:#}{cmd:)}]{col 23}{...}
+overwrite a previously stored set
+    {cmdab:noc:opy}{col 23}{...}
+clear {cmd:e()} after storing the set
+    {cmdab:mis:sing}{col 23}{...}
+use missing values in the {cmd:by} groups
+    {hline 56}
+        
+{p 4 4 2}
+{cmd:by} is allowed with {cmd:eststo} if {cmd:eststo} 
+is used as a prefix command, i.e. specify
+
+        {cmd:by} {it:...} {cmd::} {cmd:eststo} {it:...} {cmd::} {it:estimation_command}
+        
+{p 4 4 2}
+to apply {it:estimation_command} to each {cmd:by} group and store an estimation
+set for each group; see help {help by}. Note that the implementation of {cmd:by} 
+with {cmd:eststo} requires {it:estimation_command} 
+to follow {help language:standard Stata syntax} and 
+allow the {it:{help if}} qualifier. Do not use the 
+{bind:{cmd:by} {it:...}{cmd:: eststo:}} construct with
+{cmd:svy} commands.   
+
+
+{title:Description}
+
+{p 4 4 2}
+{cmd:eststo} stores a  copy of the active estimation results for later
+tabulation. If {it:name} is provided, the estimation set is stored
+under {it:name}. If {it:name} is not provided, the estimation set is
+stored under {cmd:est}{it:#}, where {it:#} is a counter for the
+number of stored estimation sets.  
+
+{p 4 4 2}
+{cmd:eststo} may be used in two ways: Either after fitting a model as
+in
+
+        {com}. regress y x
+        . eststo{txt}
+
+{p 4 4 2}
+or as a prefix command (see help {help prefix}):
+
+        {com}. eststo: regress y x{txt}
+
+{p 4 4 2}
+{cmd:_eststo} is a variant on {cmd:eststo} that, by default, does not
+store the estimation sample information contained in {cmd:e(sample)}.
+Essentially, {cmd:_eststo} is a shortcut to {cmd:eststo, noesample}.
+
+{p 4 4 2}
+{cmd:eststo dir} displays a list of the stored estimates.
+
+{p 4 4 2}
+{cmd:eststo drop} drops estimation sets stored by {cmd:eststo}. If {it:name} is
+provided, the estimation set stored under {it:name}
+is dropped (if {cmd:*} or {cmd:?} wildcards are used {it:name}, 
+all matching sets are dropped). Alternatively, if {it:#} is provided, 
+the estimation set stored as {cmd:est}{it:#} is dropped.
+
+{p 4 4 2}
+{cmd:eststo clear} drops all estimation sets stored by {cmd:eststo} (and clears
+{cmd:eststo}'s global macros).
+
+{p 4 4 2}
+{cmd:eststo} is an alternative to official Stata's
+{helpb estimates store}. The main differences are:
+
+{p 8 12 2}
+{space 1}o{space 2}{cmd:eststo} does not require the user to specify a
+name for the stored estimation set.
+
+{p 8 12 2}
+{space 1}o{space 2}{cmd:eststo} may be used as a prefix command (see
+help {help prefix}).
+
+{p 8 12 2}
+{space 1}o{space 2}{cmd:eststo} provides the possibility to store
+estimates without the {cmd:e(sample)} function (either specify the
+{cmd:noesample} option or use the {cmd:_eststo} command). Omitting
+{cmd:e(sample)} saves memory and also speeds up tabulation programs
+such as {helpb estimates table}, {helpb estout} or {helpb esttab}.
+{hi:Warning:} Some post-estimation commands may not work with
+estimation sets that do not contain the {cmd:e(sample)}.
+
+{p 8 12 2}
+{space 1}o{space 2}{cmd:eststo} can add additional scalar statistics to
+be stored with the estimation set.
+
+
+{title:Options}
+{marker esample}
+{p 4 8 2}
+{cmd:esample} causes the information in {cmd:e(sample)} to be stored
+with the estimates. This is the default in {cmd:eststo}. Type
+{cmd:noesample} or use the {cmd:_eststo} command to omit the
+{cmd:e(sample)}. Note that some post-estimation commands may not be
+working correctly with estimation sets that have been stored without
+{cmd:e(sample)}.
+
+{p 4 8 2}
+{cmd:title(}{it:string}{cmd:)} specifies a title for the stored
+estimation set.
+{p_end}
+{marker addscalars}
+{p 4 8 2}
+{cmd:addscalars(}{it:name exp} [{it:...}] [{cmd:,} {cmdab:r:eplace}]{cmd:)}
+may be used to add additional results to the {cmd:e()}-scalars of the
+estimation set before storing it. Specify the names and values of the
+scalars in pairs. For example, {cmd:addscalars(one 1 two 2)} would
+add {cmd:e(one)} = {cmd:1} and {cmd:e(two)} = {cmd:2}. See below for
+an example. The {cmd:replace} suboption permits overwriting existing
+{cmd:e()}-returns. Not allowed as names are "b", "V", or "sample".
+See {helpb estadd} for a more sophisticated tool to add additional
+results to {cmd:e()}-returns.
+
+{p 4 8 2}
+{cmd:prefix(}{it:prefix}{cmd:)} specifies a custom prefix for the 
+automatic names of the stored estimation sets. The default prefix 
+is {cmd:est}. 
+
+{p 4 8 2}
+{cmd:refresh}[{cmd:(}{it:#}{cmd:)}] may be used to overwrite a
+previously stored estimation set instead of storing the estimates
+under a new name. {cmd:refresh}, specified without argument, will
+overwrite the last saved set. Alternatively,
+{cmd:refresh(}{it:#}{cmd:)} will overwrite the set named
+{cmd:est}{it:#} if it exists. If {it:name} is provided to {cmd:eststo},
+existing sets of the same name will always be overwritten whether or
+not {cmd:refresh} is specified. {cmd:refresh()} with argument is not
+allowed in this case.
+
+{p 4 8 2}
+{cmd:nocopy} specifies that after the estimation set has been stored,
+it no longer be available as the active estimation set.
+
+{p 4 8 2}
+{cmd:missing} is for use of {cmd:eststo} with the {cmd:by} prefix command and 
+causes missing values to be treated like any other values in the {cmd:by} 
+variables. The default is to discard observations with missing values in the 
+{cmd:by} variables.
+
+
+{title:Examples}
+
+{p 4 4 2}
+Applying {cmd:eststo} after fiting a model to store the model's results, 
+as in the following example:
+
+        {com}. sysuse auto
+        {txt}(1978 Automobile Data)
+        
+        {com}. quietly regress price weight
+        {txt}
+        {com}. eststo model1
+        {txt}
+        {com}. quietly regress turn weight foreign
+        {txt}
+        {com}. eststo model2
+        {txt}
+        {com}. estout
+        {res}
+        {txt}{hline 38}
+        {txt}                   model1       model2
+        {txt}                        b            b
+        {txt}{hline 38}
+        {txt}weight      {res}     2.044063     .0042183{txt}
+        {txt}foreign     {res}                 -1.809802{txt}
+        {txt}_cons       {res}    -6.707353     27.44963{txt}
+        {txt}{hline 38}
+
+
+{p 4 4 2}
+Applying {cmd:eststo} as a prefix commmand to fit and store a model in one step:
+
+        {com}. eststo model1: quietly regress price weight
+        {txt}
+        {com}. eststo model2: quietly regress turn weight foreign
+        {txt}
+        {com}. estout
+        {res}
+        {txt}{hline 38}
+        {txt}                   model1       model2
+        {txt}                        b            b
+        {txt}{hline 38}
+        {txt}weight      {res}     2.044063     .0042183{txt}
+        {txt}foreign     {res}                 -1.809802{txt}
+        {txt}_cons       {res}    -6.707353     27.44963{txt}
+        {txt}{hline 38}
+        
+        
+{p 4 4 2}
+Using {cmd:eststo} with automatic names:
+
+        {com}. eststo clear
+        {txt}
+        {com}. eststo: quietly regress price weight
+        {txt}({res}est1{txt} stored)
+        
+        {com}. eststo: quietly regress turn weight foreign
+        {txt}({res}est2{txt} stored)
+        
+        {com}. estout
+        {res}
+        {txt}{hline 38}
+        {txt}                     est1         est2
+        {txt}                        b            b
+        {txt}{hline 38}
+        {txt}weight      {res}     2.044063     .0042183{txt}
+        {txt}foreign     {res}                 -1.809802{txt}
+        {txt}_cons       {res}    -6.707353     27.44963{txt}
+        {txt}{hline 38}
+        
+
+{p 4 4 2}
+Adding ancillary statistics:
+
+        {com}. eststo clear
+        {txt}
+        {com}. quietly regress price weight mpg
+        {txt}
+        {com}. test weight = mpg
+        
+        {txt} ( 1)  {res}weight - mpg = 0
+        
+        {txt}       F(  1,    71) ={res}    0.36
+        {txt}{col 13}Prob > F ={res}    0.5514
+        {txt}
+        {com}. eststo, add(p_diff r(p))
+        {txt}(e({res}p_diff{txt}) = {res}.55138216{txt} added)
+        ({res}est1{txt} stored)
+        
+        {com}. estout, stat(p_diff)
+        {res}
+        {txt}{hline 25}
+        {txt}                     est1
+        {txt}                        b
+        {txt}{hline 25}
+        {txt}weight      {res}     1.746559{txt}
+        {txt}mpg         {res}    -49.51222{txt}
+        {txt}_cons       {res}     1946.069{txt}
+        {txt}{hline 25}
+        {txt}p_diff      {res}     .5513822{txt}
+        {txt}{hline 25}
+        
+
+{p 4 4 2}
+Using the {cmd:by} prefix to store subbroup models:
+
+        {com}. eststo clear
+        {txt}
+        {com}. quietly by foreign: eststo: quietly reg price weight mpg
+        {txt}
+        {com}. esttab, label nodepvar nonumber
+        {res}
+        {txt}{hline 52}
+        {txt}                         Domestic         Foreign   
+        {txt}{hline 52}
+        {txt}Weight (lbs.)       {res}        4.415***        5.156***{txt}
+                            {res} {ralign 12:{txt:(}4.66{txt:)}}    {ralign 12:{txt:(}5.85{txt:)}}   {txt}
+        
+        {txt}Mileage (mpg)       {res}        237.7          -19.78   {txt}
+                            {res} {ralign 12:{txt:(}1.71{txt:)}}    {ralign 12:{txt:(}-0.34{txt:)}}   {txt}
+        
+        {txt}Constant            {res}     -13285.4*        -5065.8   {txt}
+                            {res} {ralign 12:{txt:(}-2.32{txt:)}}    {ralign 12:{txt:(}-1.58{txt:)}}   {txt}
+        {txt}{hline 52}
+        {txt}Observations        {res}           52              22   {txt}
+        {txt}{hline 52}
+        {txt}t statistics in parentheses
+        {txt}* p<0.05, ** p<0.01, *** p<0.001
+
+
+{title:Returned results}
+
+{p 4 4 2}
+The name under which an estimation set is stored, is added to the set in 
+{cmd:e(_estimates_name)}.
+
+{p 4 4 2}
+In addition, {cmd:eststo} maintains two global macros. {cmd:$eststo} contains a list
+of the names of the stored estimation sets. {cmd:$eststo_counter}
+contains the count of stored estimation sets.
+
+
+{title:Acknowledgements}
+
+{p 4 4 2}
+Bill Gould suggested to make {cmd:eststo} "byable". 
+
+
+{title:Author}
+
+{p 4 4 2}
+Ben Jann, ETH Zurich, jannb@ethz.ch
+
+
+{title:Also see}
+
+    Manual:  {hi:[R] estimates}
+
+{p 4 13 2}Online:  help for
+ {helpb estimates},
+ {helpb esttab},
+ {helpb estout},
+ {helpb estadd},
+ {helpb estpost}
+{p_end}
+

@@ -1,0 +1,905 @@
+{smcl}
+{* 08oct2009}{...}
+{hi:help esttab}{right:also see: {helpb estout}, {helpb eststo}, {helpb estadd}, {helpb estpost}}
+{right: {browse "http://repec.org/bocode/e/estout"}}
+{hline}
+
+{title:Title}
+
+{p 4 4 2}{hi:esttab} {hline 2} Display formatted regression table
+
+
+{title:Table of contents}
+
+    {help esttab##syn:Syntax}
+    {help esttab##des:Description}
+    {help esttab##opt:Options}
+    {help esttab##exa:Examples}
+    {help esttab##aut:Backmatter}
+
+{marker syn}
+{title:Syntax}
+
+{p 8 15 2}
+{cmd:esttab} [ {it:namelist} ] [ {cmd:using} {it:filename} ] [ {cmd:,}
+{it:options} ]
+
+
+{p 4 4 2}where {it:namelist} is a name, a list of names, or {cmd:_all}. The 
+{cmd:*} and {cmd:?} wildcards are allowed in {it:namelist}. A name may also be {cmd:.}, 
+meaning the current (active) estimates.
+
+
+    {it:options}{col 26}description
+    {hline 70}
+    {help esttab##main:Main}
+      {cmd:b(}{it:{help esttab##fmt:fmt}}{cmd:)}{col 26}{...}
+specify format for point estimates
+      {cmd:beta}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]{col 26}{...}
+display beta coefficients instead of point est's
+      {cmd:main(}{it:name} [{it:{help esttab##fmt:fmt}}]{cmd:)}{col 26}{...}
+display contents of {cmd:e(}{it:name}{cmd:)} instead of point e's
+      {cmd:t(}{it:{help esttab##fmt:fmt}}{cmd:)}{col 26}{...}
+specify format for t-statistics
+      {cmd:abs}{col 26}{...}
+use absolute value of t-statistics
+      {cmd:not}{col 26}{...}
+suppress t-statistics
+      {cmd:z}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]{col 26}{...}
+display z-statistics (affects label only)
+      {cmd:se}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]{col 26}{...}
+display standard errors instead of t-statistics
+      {cmd:p}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]{col 26}{...}
+display p-values instead of t-statistics
+      {cmd:ci}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]{col 26}{...}
+display confidence intervals instead of t-stat's
+      {cmd:aux(}{it:name} [{it:{help esttab##fmt:fmt}}]{cmd:)}{col 26}{...}
+display contents of {cmd:e(}{it:name}{cmd:)} instead of t-stat's
+      [{ul:{cmd:no}}]{cmdab:con:stant}{col 26}{...}
+do not/do report the intercept
+
+    {help esttab##stars:Significance stars}
+      [{cmd:no}]{cmd:star}[{cmd:(}{it:list}{cmd:)}]{col 26}{...}
+do not/do report significance stars
+      {cmd:staraux}{col 26}{...}
+attach stars to t-stat's instead of point est's
+
+    {help esttab##stat:Summary statistics}
+      {cmd:r2}|{cmd:ar2}|{cmd:pr2}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]{col 26}{...}
+display (adjusted, pseudo) R-squared
+      {cmd:aic}|{cmd:bic}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]{col 26}{...}
+display Akaike's or Schwarz's information crit.
+      {cmdab:sca:lars:(}{it:list}{cmd:)}{col 26}{...}
+display any other scalars contained in {cmd:e()}
+      {cmd:sfmt(}{it:{help esttab##fmt:fmt}} [{it:...}]{cmd:)}{col 26}{...}
+set format(s) for {cmd:scalars()}
+      {cmd:noobs}{col 26}{...}
+do not display the number of observations
+      {cmd:obslast}{col 26}{...}
+place the number of observations last
+
+    {help esttab##layout:Layout}
+      {cmd:wide}{col 26}{...}
+place point est's and t-stat's beside one another
+      {cmdab:one:cell}{col 26}{...}
+combine point est's and t-stat's in a single cell
+      [{ul:{cmd:no}}]{cmdab:pa:rentheses}{col 26}{...}
+do not/do print parentheses around t-statistics
+      {cmdab:br:ackets}{col 26}{...}
+use brackets instead of parentheses
+      [{ul:{cmd:no}}]{cmdab:gap:s}{col 26}{...}
+suppress/add vertical spacing
+      [{ul:{cmd:no}}]{cmdab:li:nes}{col 26}{...}
+suppress/add horizontal lines
+      {cmdab:noeqli:nes}{col 26}{...}
+suppress lines between equations
+      {cmd:compress}{col 26}{...}
+reduce horizontal spacing
+      {cmd:plain}{col 26}{...}
+produce a minimally formatted table
+
+    {help esttab##label:Labeling}
+      {cmdab:l:abel}{col 26}{...}
+make use of variable labels
+      {cmdab:ti:tle:(}{it:string}{cmd:)}{col 26}{...}
+specify a title for the table
+      {cmdab:mti:tles}[{cmd:(}{it:list}{cmd:)}]{col 26}{...}
+specify model titles to appear in table header
+      {cmdab:nomti:tles}{col 26}{...}
+disable model titles
+      [{ul:{cmd:no}}]{cmdab:dep:vars}{col 26}{...}
+do not/do use dependent variables as model titles
+      [{ul:{cmd:no}}]{cmdab:num:bers}{col 26}{...}
+do not/do print model numbers in table header
+      {cmdab:coef:labels:(}{it:list}{cmd:)}{col 26}{...}
+specify labels for coefficients
+      [{ul:{cmd:no}}]{cmdab:note:s}{col 26}{...}
+suppress/add notes in the table footer
+      {cmdab:addn:otes:(}{it:list}{cmd:)}{col 26}{...}
+add lines at the end of the table
+
+    {help esttab##format:Document format}
+      {cmd:smcl} | {cmdab:fix:ed} | {cmd:tab} | {cmd:csv} | {cmdab:sc:sv} | {cmd:rtf} | {cmdab:htm:l} | {cmd:tex} | {cmdab:bookt:abs}
+      {col 26}{...}
+set the document format ({cmd:smcl} is the default)
+      {cmdab:f:ragment}{col 26}{...}
+suppress table opening and closing (LaTeX, HTML)
+      {cmd:page}[{cmd:(}{it:packages}{cmd:)}]{col 26}{...}
+add page opening and closing (LaTeX, HTML)
+      {cmdab:align:ment(}{it:string}{cmd:)}{col 26}{...}
+set alignment within columns (LaTeX, HTML, RTF)
+      {cmdab:width(}{it:string}{cmd:)}{col 26}{...}
+set width of table (LaTeX, HTML)
+      {cmdab:long:table}{col 26}{...}
+multi-page table (LaTeX)
+
+    {help esttab##output:Output}
+      {cmdab:r:eplace}{col 26}{...}
+overwrite an existing file
+      {cmdab:a:ppend}{col 26}{...}
+append the output to an existing file
+      {cmdab:ty:pe}{col 26}{...}
+force prining the table in the results window
+      {cmdab:n:oisily}{col 26}{...}
+display the executed {helpb estout} command
+
+    {help esttab##advanced:Advanced}
+      {cmdab:d:rop:(}{it:list}{cmd:)}{col 26}{...}
+drop individual coefficients
+      {cmdab:k:eep:(}{it:list}{cmd:)}{col 26}{...}
+keep individual coefficients
+      {cmdab:o:rder:(}{it:list}{cmd:)}{col 26}{...}
+change order of coefficients
+      {cmdab:eq:uations:(}{it:list}{cmd:)}{col 26}{...}
+match the models' equations
+      {cmd:eform}{col 26}{...}
+report exponentiated coefficients
+      {cmdab:m:argin}{col 26}{...}
+report marginal effects/elasticities
+      {cmdab:uns:tack}{col 26}{...}
+place multiple equations in separate columns
+      {it:estout_options}{col 26}{...}
+any other {helpb estout} options
+    {hline 70}
+
+{marker des}
+{title:Description}
+
+{p 4 4 2}
+{cmd:esttab} is a wrapper for {helpb estout}. It produces a
+pretty-looking publication-style regression table from stored
+estimates without much typing. The compiled table is displayed in the
+Stata results window or, optionally, written to a text file specified
+by {cmd:using} {it:filename}. If {it:filename} is specified without
+suffix, a default suffix is added depending on the specified document
+format (".smcl" for {cmd:smcl}, ".txt" for {cmd:fixed} and {cmd:tab}, ".csv" for {cmd:csv}
+and {cmd:scsv}, ".rtf" for {cmd:rft}, ".html" for {cmd:html}, and
+".tex" for {cmd:tex} and {cmd:booktabs}).
+
+{p 4 4 2}
+{it:namelist} provides the names of the stored estimation sets to be
+tabulated. You may use the {cmd:*} and {cmd:?} wildcards in
+{it:namelist}. If {it:namelist} is omitted, {cmd:esttab} tabulates the
+estimation sets stored by {cmd:eststo} (see help {helpb eststo})
+or, if no such estimates are present, the currently active
+estimates (i.e. the model fit last).
+
+{p 4 4 2}
+See help {helpb estimates} for information about storing estimation
+results. An alternative to the {cmd:estimates store} command is
+provided by {helpb eststo}.
+
+{p 4 4 2}
+{cmd:esttab} can also be used to tabulate a Stata matrix applying syntax 
+{bind:{cmd:esttab} {cmdab:m:atrix:(}{it:name}{cmd:)}}, where {it:name} 
+is the name of the matrix. Furthermore, an {cmd:e()}-matrix or {cmd:r()}-matrix
+can be tabulated specifying {cmd:esttab e(}{it:name}{cmd:)} or 
+{cmd:esttab r(}{it:name}{cmd:)}. Most options under the headings  
+'Main', 'Significance stars', and 'Summary statistics' are irrelevant 
+in this case. See help {helpb estout} for further details on tabulating matrices.
+
+{marker opt}
+{title:Options}
+{marker main}
+{dlgtab:Main}
+
+{p 4 8 2}
+{cmd:b(}{it:{help esttab##fmt:fmt}}{cmd:)} sets the numerical display format
+for the point estimates. The default format is {cmd:a3}. (See
+{help esttab##fmt:Numerical formats} below for details on available
+formats.)
+
+{p 4 8 2}
+{cmd:beta}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}] requests that
+standardized beta coefficients be displayed in place of the raw point
+estimates and, optionally, sets the display format (the default is to
+print three decimal places). Note that {cmd:beta} causes the
+intercept to be dropped from the table (unless {cmd:constant} is
+specified).{p_end}
+{marker main}
+{p 4 8 2}
+{cmd:main(}{it:name} [{it:{help esttab##fmt:fmt}}]{cmd:)} requests that
+the statistics stored in {cmd:e(}{it:name}{cmd:)} be displayed in
+place of the point estimates and, optionally, sets the display format
+(the default is to use the display format for point estimates). For
+example, {cmd:e(}{it:name}{cmd:)} may contain statistics added by
+{cmd:estadd} (see help {helpb estadd}).
+
+{p 4 8 2}
+{cmd:t(}{it:{help esttab##fmt:fmt}}{cmd:)} sets the display format for
+t-statistics. The default is to display two decimal places.
+
+{p 4 8 2}
+{cmd:abs} causes absolute values of t-statistics to be reported.
+
+{p 4 8 2}
+{cmd:not} suppresses the printing of t-statistics.
+
+{p 4 8 2}
+{cmd:z}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}] requests that
+z-statistics be displayed. z-statistics are the same as t-statistics. Hence, 
+specifying {cmd:z} does not change the table contents, it only changes the 
+label.
+
+{p 4 8 2}
+{cmd:se}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}] requests that
+standard errors be displayed in place of t-statistics and,
+optionally, sets the display format (the default is to use the
+display format for point estimates).
+
+{p 4 8 2}
+{cmd:p}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}] requests that
+p-values be displayed in place of t-statistics and, optionally, sets
+the display format (the default is to print three decimal places)
+
+{p 4 8 2}
+{cmd:ci}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}] requests that
+confidence intervals be displayed in place of t-statistics and,
+optionally, sets the display format (the default is to use the
+display format for point estimates). {cmd:level(}{it:#}{cmd:)}
+assigns the confidence level, in percent. The default is
+{cmd:level(95)} or as set by {helpb set level}.{p_end}
+{marker aux}
+{p 4 8 2}
+{cmd:aux(}{it:name} [{it:{help esttab##fmt:fmt}}]{cmd:)} requests that
+the statistics stored in {cmd:e(}{it:name}{cmd:)} be displayed in
+place of t-statistics and, optionally, sets the display format (the
+default is to use the display format for point estimates). For
+example, {cmd:e(}{it:name}{cmd:)} may contain statistics added by
+{cmd:estadd} (see help {helpb estadd}, if installed).
+
+{p 4 8 2}
+{cmd:noconstant} causes the intercept be dropped from the table.
+Specify {cmd:constant} to include the constant in situations where it
+is dropped by default.
+
+{marker stars}
+{dlgtab:Significance stars}
+
+{p 4 8 2}
+{cmd:star}[{cmd:(}{it:symbol} {it:level} [{it:...}]{cmd:)}] causes
+stars denoting the significance of the coefficients to be printed
+next to the point estimates. This is the default. Type {cmd:nostar}
+to suppress the stars. The default symbols and thresholds are:
+{cmd:*} for p<.05, {cmd:**} for p<.01, and {cmd:***} for p<.001.
+Alternatively, for example, type {bind:{cmd:star(+ 0.10 * 0.05)}} to
+set the following thresholds: {cmd:+} for p<.10 and {cmd:*} for
+p<.05. Note that the thresholds must lie in the (0,1] interval and
+must be specified in descending order.
+
+{p 4 8 2}
+{cmd:staraux} causes the significance stars be printed next to the
+t-statistics (or standard errors, etc.) instead of the point estimates.
+
+{marker stat}
+{dlgtab:Summary statistics}
+
+{p 4 8 2}
+{cmd:r2}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}],
+{cmd:ar2}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}], and
+{cmd:pr2}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]
+include the R-squared, the adjusted R-squared, and the
+pseudo-R-squared in the table footer and, optionally, set the
+corresponding display formats (the default is to display three
+decimal places).
+
+{p 4 8 2}
+{cmd:aic}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}] and
+{cmd:bic}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}]
+include Akaike's and Schwarz's information criterion in the table
+footer and, optionally, set the corresponding display formats (the
+default is to use the display format for point estimates).{p_end}
+{marker scalars}
+{p 4 8 2}
+{cmd:scalars(}{it:list}{cmd:)} may be used to add other
+{cmd:e()}-scalars to the table footer (type {cmd:ereturn list} to
+display a list of available {cmd:e()}-scalars after fitting a model;
+see help {helpb ereturn}). For example, {cmd:scalars(df_m)} would
+report the model degrees of freedom for each model. {it:list} may be
+a simple list of names of {cmd:e()}-scalars, e.g.
+
+            {com}. esttab, scalars(ll_0 ll chi2){txt}
+
+{p 8 8 2}
+or, alternatively, a list of quoted name-label pairs, e.g.
+
+            {com}. esttab, scalars({bind:"ll Log lik."} {bind:"chi2 Chi-squared"}){txt}
+
+{p 4 8 2}
+{cmd:sfmt(}{it:{help esttab##fmt:fmt}} [{it:...}]{cmd:)} sets the
+display format(s) for the statistics specified in {cmd:scalars()}
+(the default is to use the display format for point estimates). If
+{cmd:sfmt()} contains less elements than {cmd:scalars()}, the last
+specified format is used for the remaining scalars. That is, only one
+format needs to be specified if the same format be used for all
+scalars.
+
+{p 4 8 2}
+{cmd:noobs} suppresses displaying information on the number of
+observations. The default is to report the number of observations for
+each model in the table footer.
+
+{p 4 8 2}
+{cmd:obslast} displays the number of observations in the last row of
+the table footer. The default is to use the first row.
+
+{marker layout}
+{dlgtab:Layout}
+{marker wide}
+{p 4 8 2}
+{cmd:wide} causes point estimates and t-statistics (or standard errors,
+etc.) to be printed beside one another instead of beneath one another.
+{p_end}
+{marker onecell}
+{p 4 8 2}
+{cmd:onecell} causes point estimates and t-statistics (or standard errors,
+etc.) to be combined in a single table cell. This option is useful primarily 
+in {cmd:rtf} or {cmd:html} mode. In these modes a line break is 
+inserted between the two statistics. The benefit from using {cmd:onecell} 
+in {cmd:rtf} or {cmd:html} mode is that long coefficients labels do not 
+derange the table layout. The default for other modes is to insert
+a blank between the statistics. Use {cmd:estout}'s 
+{helpb estout##incelldel:incelldelimiter()} option to change this.
+
+{p 4 8 2}
+{cmd:parentheses} encloses t-statistics (or standard errors, etc.) in
+parentheses. This is the default. Specify {cmd:noparentheses} to
+suppress the parentheses.
+
+{p 4 8 2}
+{cmd:brackets} uses square brackets, [], instead of parentheses. Note
+that brackets are the default for confidence intervals.
+
+{p 4 8 2}
+{cmd:gaps} adds empty rows (or, more generally, additional vertical
+space) between coefficients to increase readability (empty rows are
+also inserted between the table's header, body, and footer, unless
+{cmd:lines} is activated). This is the default unless {cmd:wide} or
+{cmd:not} is specified. Type {cmd:nogaps} to suppress the extra
+spacing.
+
+{p 4 8 2}
+{cmd:lines} adds horizontal lines to the table separating the table's
+header, body, and footer and, in the case of multiple 
+equation models, the equations. This is the default. Specify {cmd:nolines}
+to suppress the lines. Lines are always suppressed in the {cmd:tab}
+and {cmd:csv} modes. 
+
+{p 4 8 2}
+{cmd:noeqlines} suppresses the horizontal lines between equations 
+in the case of multiple equation models.{p_end}
+{marker compress}
+{p 4 8 2}
+{cmd:compress} reduces the amount of horizontal spacing (so that more
+models fit on screen without line breaking). The option has no effect
+in the {cmd:tab} and {cmd:csv} modes. Furthermore, note that in the
+TeX and HTML modes the {cmd:compress} option only changes the
+arrangement the table's code, but not the look of the compiled
+end-product. In {cmd:rtf}, however, {cmd:compress} changes the look
+of the formatted table.{p_end}
+{marker plain}
+{p 4 8 2}
+{cmd:plain} produces a minimally formatted table. It is a shorthand
+to specifying {cmd:nostar}, {cmd:nodepvars}, {cmd:nonumbers},
+{cmd:noparentheses}, {cmd:nogaps}, {cmd:nolines} and {cmd:nonotes}
+and setting all formats to {cmd:%9.0g}. Note that the disabled
+options can be switched on again. For example, type
+
+            {com}. esttab, plain star{txt}
+
+{p 8 8 2}
+to produce a plain table including significance stars.
+
+{marker label}
+{dlgtab:Labeling}
+
+{p 4 8 2}
+{cmd:label} specifies that variable labels be used instead of
+variable names (and estimation set titles be used instead of
+estimation set names). Furthermore, {cmd:label} prints "Constant"
+instead of "_cons".
+{p_end}
+{marker title}
+{p 4 8 2}
+{cmd:title(}{it:string}{cmd:)} may be used to provide a title for the
+table. If specified, {it:string} is printed at the top of the table.
+Note that specifying a title causes the table to be set up as a
+floating object in LaTeX mode. You may want to set a label for
+referencing in this case. For example, if you type
+{cmd:title(...\label{tab1})}, then "\ref{tab1}" could be used in the
+LaTeX document to point to the table.
+
+{p 4 8 2} 
+{cmd:mtitles}, without argument, specifies that for each model the title 
+(or, if empty, the name) of the stored estimation set be printed as the model's 
+title in the table header. If {cmd:mtitles} is omitted, the default is to 
+use name or label of the dependent variable as the model's title (see the 
+{cmd:depvar} option). Alternatively, use {cmd:mtitles(}{it:list}{cmd:)} 
+specifies a list of model titles. Enclose the titles
+in double quotes if they contain spaces,
+e.g. {bind:{cmd:mtitles("Model 1" "Model 2")}}. 
+
+{p 4 8 2}
+{cmd:nomtitles} suppresses printing of model titles.
+
+{p 4 8 2}
+{cmd:depvars} prints the name (or label) of the (first) dependent
+variable of a model as the model's title in the table header. This is
+the default. Specify {cmd:nodepvars} to use the names of
+the stored estimation sets as titles.
+
+{p 4 8 2}
+{cmd:numbers} includes a row containing consecutive model numbers in
+the table header. This is the default. Specify {cmd:nonumbers} to
+suppress printing the model numbers.
+
+{p 4 8 2}
+{cmd:coeflabels(}{it:name} {it:label} [...]{cmd:)} specifies labels
+for the coefficients. Specify names and labels in pairs and, if
+necessary, enclose labels in double quotes,
+e.g. {cmd:coeflabels(mpg Milage rep78 {bind:"Repair Record"})}.
+
+{p 4 8 2}
+{cmd:notes} prints notes at the end of the table explaining the
+significance symbols and the type of displayed statistics. This is
+the default. Specify {cmd:nonotes} to suppress the notes.
+
+{p 4 8 2}
+{cmd:addnotes(}{it:list}{cmd:)} may be used to add further lines of
+text at the bottom of the table. Lines containing blanks must be
+enclosed in double quotes,
+e.g. {cmd:addnotes({bind:"Line 1"} {bind:"Line 2"})}.
+
+{marker format}
+{dlgtab:Document format}
+
+{p 4 8 2}
+{cmd:smcl}, {cmd:fixed}, {cmd:tab}, {cmd:csv},  {cmd:scsv}, {cmd:rtf},
+{cmd:html}, {cmd:tex}, and {cmd:booktabs} choose the table's basic
+output format. The default format is {cmd:smcl} unless 
+{cmd:using} is specified, in which case the default format
+depends on the filename's suffix ({cmd:smcl} for ".smcl", {cmd:csv} 
+for ".csv", {cmd:rtf} for ".rtf", 
+{cmd:html} for ".htm" or ".html", {cmd:tex} for ".tex", and {cmd:fixed}
+for all other filenames).
+
+{p 8 8 2}
+{cmd:smcl} produces a {help SMCL} formatted table to be displayed in the 
+Stata results window or the Stata viewer.
+
+{p 8 8 2}
+{cmd:fixed} produces a fixed-format ASCII table. This is suitable,
+for example, if the table be displayed in a text editor.
+
+{p 8 8 2}
+{cmd:tab} produces a tab-delimited ASCII table.
+{p_end}
+{marker csv}
+{p 8 8 2}
+{cmd:csv} produces a CSV ({ul:C}omma {ul:S}eparated {ul:V}alue
+format) table for use with Microsoft Excel. Delimiter is a comma. In
+order to prevent Excel from interpreting the contents of the table
+cells, they are enclosed double quotes preceded by an equal sign
+(i.e. ="..."). However, if the {cmd:plain} option is specified, the
+table cells are enclosed in double quotes without the leading equal
+sign. The first method is appropriate if you want to preserve the
+table's formatting. The second method is appropriate if you want to
+use the table's contents for further computations in Excel.
+{p_end}
+{marker scsv}
+{p 8 8 2}
+{cmd:scsv} is a variant on the CSV format that uses a semicolon as
+the delimiter. This is appropriate for some non-English versions of
+Excel (e.g. the German version).
+{p_end}
+{marker rtf}
+{p 8 8 2}
+{cmd:rtf} produces a Rich Text Format table for use with word
+processors.
+
+{p 8 8 2}
+{cmd:html} produces a simple HTML formatted table.
+
+{p 8 8 2}
+{cmd:tex} produces a LaTeX formatted table.
+{p_end}
+{marker booktabs}
+{p 8 8 2}
+{cmd:booktabs} produces a LaTeX formatted table for use with LaTeX's
+{it:booktabs} package.
+{p_end}
+{marker fragment}
+{p 4 8 2}
+{cmd:fragment} causes the table's opening and closing specifications
+to be suppressed. This is relevant primarily in LaTeX and HTML mode.
+
+{p 4 8 2}
+{cmd:page}[{cmd:(}{it:packages}{cmd:)}] adds opening and closing code
+to define a whole LaTeX or HTML document. The default is to produce a
+raw table that can then be included into an existing LaTeX or HTML
+document. Specifying {it:packages} in parentheses causes
+{cmd:\usepackage{c -(}}{it:packages}{cmd:{c )-}} to be added to the
+preamble of the LaTeX document (note that the {it:booktabs} package
+is automatically loaded if {cmd:booktabs} is specified).
+
+{p 4 8 2}
+{cmd:alignment(}{it:string}{cmd:)} may be used to specify the
+alignment of the models' columns in LaTeX, HTML, or RTF mode.
+
+{p 8 8 2}
+In LaTeX mode {it:string} should be a LaTeX column specifier. The
+default is to center the columns. To produce right-aligned columns,
+for example, type {cmd:alignment(r)}. If the table contains multiple
+columns per model/equation, the alignment specification should define
+all columns. For example, if the {cmd:wide} option is specified, you
+could type {cmd:alignment(cr)} to, say, center the point estimates
+and right-align the t-statistics. Note that more sophisticated column
+definitions are often needed to produce appealing results. In
+particular, LaTeX's {it:dcolumn} package proves useful to align
+columns on the decimal point.
+
+{p 8 8 2}
+In HTML mode {it:string} should be a HTML alignment specifier. The
+default is to omit alignment specification, which results in left
+aligned columns. To center the columns in HTML, for example, specify
+{cmd:alignment(center)}. Other than in LaTeX mode, the same alignment
+is used for all columns if the table contains multiple columns per
+model/equation in the HTML mode.
+
+{p 8 8 2}
+In RTF mode {it:string} should be one of {cmd:l}, {cmd:c}, {cmd:r},
+and {cmd:j}. The default is to center the columns. To produce
+right-aligned columns, for example, type {cmd:alignment(r)}. The same
+alignment is used for all columns if the table contains multiple
+columns per model/equation in the RTF mode.
+
+{p 8 8 2}
+Note that {cmd:alignment()} does not change the alignment of the
+variable names/labels in the left stub of the table. They are always
+left-aligned.
+
+{p 4 8 2}
+{cmd:width(}{it:string}{cmd:)} sets the overall width of the table in
+LaTeX or HTML. {it:string} should be LaTeX or HTML literal. For
+example, specify {cmd:width(\hsize)} in LaTeX or {cmd:width(100%)} in
+HTML to span the whole page. The table columns will spread regularly
+over the specified width. Note that in RTF mode {helpb estout}'s
+{cmd:varwidth()} and {cmd:modelwidth()} options may be used to change
+the width of the table columns.
+
+{p 4 8 2}
+{cmdab:longtable} causes the {it:longtable} environment to be used in
+LaTeX. Use {cmdab:longtable} for tables that are too
+long to fit on a single page. {cmdab:longtable} cannot be combined
+with {cmd:width()}. Make sure to load the {it:longtable} package 
+in the LaTeX document, i.e. include {cmd:\usepackage{longtable}} in the 
+document's preamble.
+
+{marker output}
+{dlgtab:Output}
+
+{p 4 8 2}
+{cmd:replace} permits {cmd:esttab} to overwrite an existing file.
+
+{p 4 8 2}
+{cmd:append} specifies that the output be appended to an existing
+file. It may be used even if the file does not yet exist. Specifying
+{cmd:append} together with {cmd:page} in TeX or HTML mode causes the
+new table to be inserted at the end of the body of an existing
+document ({cmd:esttab} seeks a line reading "\end{document}" or
+"</body>", respectively, and starts appending from there;
+contents after this line will be overwritten). In RTF mode, existing
+documents are assumed to end with a line containing a single "}".
+
+{p 4 8 2}
+{cmd:type} specifies that the assembled table be printed in the
+results window and the log file. This is the default unless
+{cmd:using} is specified.
+
+{p 4 8 2}
+{cmd:noisily} displays the executed {helpb estout} command.
+
+{marker advanced}
+{dlgtab:Advanced}
+
+{p 4 8 2}
+{cmd:drop(}{it:droplist}{cmd:)} identifies the coefficients to be
+dropped from the table. A {it:droplist} comprises one or more
+specifications, separated by white space. A specification can be
+either a parameter name (e.g. {cmd:price}), an equation name followed
+by a colon (e.g. {cmd:mean:}), or a full name
+(e.g. {cmd:mean:price}). You may use the {cmd:*} and {cmd:?} wildcards
+in equation names and parameter names. Be sure to refer to the matched
+equation names, and not to the original equation names in the models,
+when using the {cmd:equations()} option to match equations.
+
+{p 4 8 2}
+{cmd:keep(}{it:keeplist}{cmd:)} selects the coefficients to be
+included in the table. {it:keeplist} is specified analogous to
+{it:droplist} in {cmd:drop()} (see above).
+
+{p 4 8 2}
+{cmd:order(}{it:orderlist}{cmd:)} changes the order of the
+coefficients and equations within the table. {it:orderlist} is
+specified analogous to {it:droplist} in {cmd:drop()} (see above).
+Coefficients and equations that do not appear in {it:orderlist} are
+placed last (in their original order).
+
+{p 4 8 2}
+{cmd:equations(}{it:eqmatchlist}{cmd:)} specifies how the models'
+equations are to be matched. This option is passed to the internal
+call of {cmd:estimates table}. See help {helpb estimates} on how to
+specify this option. The most common usage is {cmd:equations(1)} to
+match all the first equations in the models.
+
+{p 4 8 2}
+{cmd:eform} displays the regression table in exponentiated form. The
+exponent of a coefficient is displayed in lieu of the untransformed
+coefficient; standard errors and confidence intervals are transformed
+as well. Note that the intercept is dropped in eform-mode, unless
+{cmd:constant} is specified.
+
+{p 4 8 2}
+{cmd:margin} indicates that the marginal effects or elasticities be
+reported instead of the raw coefficients. A prerequisite for this
+option to work correctly is that {cmd:mfx} has been applied to a
+model prior to storing its results (see help {helpb mfx}). Note that
+the standard errors, etc. are transformed as well. Furthermore, the
+intercept is dropped, unless {cmd:constant} is specified.
+
+{p 4 8 2}
+{cmd:unstack} specifies that the individual equations from
+multiple-equation models (e.g. {cmd:mlogit}, {cmd:reg3},
+{cmd:heckman}) be placed in separate columns. The default is to place
+the equations below one another in a single column.
+
+{p 4 8 2}
+{it:estout_options} are any other {cmd:estout} options (see help
+{helpb estout}). Note that {cmd:estout} options take precedence over
+{cmd:esttab} options. For example,
+
+{p 8 20 2}
+{cmd:cells()}{space 5}disables {cmd:b()}, {cmd:beta()}, {cmd:main()},
+{cmd:t()}, {cmd:abs}, {cmd:not}, {cmd:se()}, {cmd:p()}, {cmd:ci()},
+{cmd:aux()}, {cmd:star}, {cmd:staraux}, {cmd:wide}, {cmd:onecell}, 
+{cmd:parentheses}, and {cmd:brackets},
+
+{p 8 20 2}
+{cmd:stats()}{space 5}disables {cmd:r2()}, {cmd:ar2()}, {cmd:pr2()},
+{cmd:aic()}, {cmd:bic()}, {cmd:scalars()}, {cmd:sfmt()}, {cmd:noobs},
+and {cmd:obslast}.
+
+{p 8 8 2}
+Other {cmd:estout} options that should be used with care are
+{cmd:begin()}, {cmd:delimiter()}, {cmd:end()}, {cmd:prehead()},
+{cmd:posthead()}, {cmd:prefoot()}, {cmd:postfoot()}, {cmd:mlabels()},
+and {cmd:varlabels()}.
+
+{marker fmt}
+{dlgtab:Numerical formats}
+
+{p 4 4 2}
+Numerical display formats may be specified in {cmd:esttab} as follows:
+
+{p 5 8 2}
+1. Official Stata's display formats: You may specify formats, such as
+{cmd:%9.0g} or {cmd:%8.2f}. See help {help format} for a list
+of available formats. {cmd:%g} or {cmd:g} may be used as a
+synonym for {cmd:%9.0g}.
+
+{p 5 8 2}
+2. Fixed format: You may specify an integer value such as {cmd:0},
+{cmd:1}, {cmd:2}, etc. to request a display format with a fixed number
+of decimal places. For example, {cmd:t(3)} would display t-statistics
+with three decimal places.
+
+{p 5 8 2}
+3. Automatic format: You may specify {cmd:a1}, {cmd:a2}, ..., or
+{cmd:a9} to cause {cmd:esttab} to choose a reasonable display format for
+each number depending on the number's value. {cmd:a} may be used as a 
+synonym for {cmd:a3}. The {it:#} in
+{cmd:a}{it:#} determines the minimum precision according to the
+following rules:
+
+{p 10 12 2}
+o Absolute numbers smaller than 1 are displayed with {it:#}
+significant decimal places (i.e. with {it:#} decimal places ignoring
+any leading zeros after the decimal point). For example,
+{cmd:0.00123456} is displayed as {cmd:0.00123} if the format is
+{cmd:a3}.
+
+{p 10 12 2}
+o Absolute numbers greater than 1 are displayed with as many digits
+required to retain at least one decimal place and are displayed with
+a minimum of ({it:#} + 1) digits. For example, if the format is
+{cmd:a3}, {cmd:1.23456} is displayed as {cmd:1.235}, {cmd:12.3456} is
+displayed as {cmd:12.35}, and {cmd:1234.56} is displayed as
+{cmd:1234.6}.
+
+{p 10 12 2}
+o In any case, integers are displayed with zero decimal places, and
+very large or very small absolute numbers are displayed in
+exponential format.
+
+{marker exa}
+{title:Examples}
+
+{p 4 4 2}
+The following examples are intended to illustrate the basic usage of
+{cmd:esttab}.  Additional examples can be found at
+{browse "http://repec.org/bocode/e/estout"}. 
+
+{p 4 4 2} The procedure is to first fit and store some models (see {helpb eststo}) and then apply 
+{cmd:esttab} to these stored estimates:
+
+        {com}. eststo clear
+        {txt}
+        {com}. sysuse auto
+        {txt}(1978 Automobile Data)
+        
+        {com}. eststo: quietly regress price weight mpg
+        {txt}({res}est1{txt} stored)
+        
+        {com}. eststo: quietly regress price weight mpg foreign
+        {txt}({res}est2{txt} stored)
+        
+        {com}. esttab, ar2
+        {res}
+        {txt}{hline 44}
+        {txt}                      (1)             (2)   
+        {txt}                    price           price   
+        {txt}{hline 44}
+        {txt}weight      {res}        1.747**         3.465***{txt}
+                    {res} {ralign 12:{txt:(}2.72{txt:)}}    {ralign 12:{txt:(}5.49{txt:)}}   {txt}
+        
+        {txt}mpg         {res}       -49.51           21.85   {txt}
+                    {res} {ralign 12:{txt:(}-0.57{txt:)}}    {ralign 12:{txt:(}0.29{txt:)}}   {txt}
+        
+        {txt}foreign     {res}                       3673.1***{txt}
+                    {res}                 {ralign 12:{txt:(}5.37{txt:)}}   {txt}
+        
+        {txt}_cons       {res}       1946.1         -5853.7   {txt}
+                    {res} {ralign 12:{txt:(}0.54{txt:)}}    {ralign 12:{txt:(}-1.73{txt:)}}   {txt}
+        {txt}{hline 44}
+        {txt}N           {res}           74              74   {txt}
+        {txt}adj. R-sq   {res}        0.273           0.478   {txt}
+        {txt}{hline 44}
+        {txt}t statistics in parentheses
+        {txt}* p<0.05, ** p<0.01, *** p<0.001
+
+
+{p 4 4 2}
+The same table using labels:
+
+        {com}. esttab, ar2 label
+        {res}
+        {txt}{hline 52}
+        {txt}                              (1)             (2)   
+        {txt}                            Price           Price   
+        {txt}{hline 52}
+        {txt}Weight (lbs.)       {res}        1.747**         3.465***{txt}
+                            {res} {ralign 12:{txt:(}2.72{txt:)}}    {ralign 12:{txt:(}5.49{txt:)}}   {txt}
+        
+        {txt}Mileage (mpg)       {res}       -49.51           21.85   {txt}
+                            {res} {ralign 12:{txt:(}-0.57{txt:)}}    {ralign 12:{txt:(}0.29{txt:)}}   {txt}
+        
+        {txt}Car type            {res}                       3673.1***{txt}
+                            {res}                 {ralign 12:{txt:(}5.37{txt:)}}   {txt}
+        
+        {txt}Constant            {res}       1946.1         -5853.7   {txt}
+                            {res} {ralign 12:{txt:(}0.54{txt:)}}    {ralign 12:{txt:(}-1.73{txt:)}}   {txt}
+        {txt}{hline 52}
+        {txt}Observations        {res}           74              74   {txt}
+        {txt}Adjusted R-squared  {res}        0.273           0.478   {txt}
+        {txt}{hline 52}
+        {txt}t statistics in parentheses
+        {txt}* p<0.05, ** p<0.01, *** p<0.001
+
+
+{p 4 4 2}
+Plain table:
+
+        {com}. esttab, ar2 plain
+        {res}
+        {txt}                     est1         est2
+        {txt}                      b/t          b/t
+        {txt}weight      {res}     1.746559     3.464706{txt}
+                    {res}     2.723238     5.493003{txt}
+        {txt}mpg         {res}    -49.51222      21.8536{txt}
+                    {res}    -.5746808     .2944391{txt}
+        {txt}foreign     {res}                   3673.06{txt}
+                    {res}                  5.370142{txt}
+        {txt}_cons       {res}     1946.069    -5853.696{txt}
+                    {res}      .541018    -1.733408{txt}
+        {txt}N           {res}           74           74{txt}
+        {txt}adj. R-sq   {res}     .2734846     .4781119{txt}
+
+
+{p 4 4 2}
+Using standard errors in brackets and suppress significance stars:
+
+        {com}. esttab, se nostar brackets
+        {res}
+        {txt}{hline 38}
+        {txt}                      (1)          (2)
+        {txt}                    price        price
+        {txt}{hline 38}
+        {txt}weight      {res}        1.747        3.465{txt}
+                    {res} {ralign 12:{txt:[}0.641{txt:]}} {ralign 12:{txt:[}0.631{txt:]}}{txt}
+        
+        {txt}mpg         {res}       -49.51        21.85{txt}
+                    {res} {ralign 12:{txt:[}86.16{txt:]}} {ralign 12:{txt:[}74.22{txt:]}}{txt}
+        
+        {txt}foreign     {res}                    3673.1{txt}
+                    {res}              {ralign 12:{txt:[}684.0{txt:]}}{txt}
+        
+        {txt}_cons       {res}       1946.1      -5853.7{txt}
+                    {res} {ralign 12:{txt:[}3597.0{txt:]}} {ralign 12:{txt:[}3377.0{txt:]}}{txt}
+        {txt}{hline 38}
+        {txt}N           {res}           74           74{txt}
+        {txt}{hline 38}
+        {txt}Standard errors in brackets
+
+
+{p 4 4 2}
+Printing beta coefficients:
+
+        {com}. esttab, beta
+        {res}
+        {txt}{hline 44}
+        {txt}                      (1)             (2)   
+        {txt}                    price           price   
+        {txt}{hline 44}
+        {txt}weight      {res}        0.460**         0.913***{txt}
+                    {res} {ralign 12:{txt:(}2.72{txt:)}}    {ralign 12:{txt:(}5.49{txt:)}}   {txt}
+        
+        {txt}mpg         {res}       -0.097           0.043   {txt}
+                    {res} {ralign 12:{txt:(}-0.57{txt:)}}    {ralign 12:{txt:(}0.29{txt:)}}   {txt}
+        
+        {txt}foreign     {res}                        0.573***{txt}
+                    {res}                 {ralign 12:{txt:(}5.37{txt:)}}   {txt}
+        {txt}{hline 44}
+        {txt}N           {res}           74              74   {txt}
+        {txt}{hline 44}
+        {txt}Standardized beta coefficients; t statistics in parentheses
+        {txt}* p<0.05, ** p<0.01, *** p<0.001
+
+{marker aut}
+{title:Author}
+
+{p 4 4 2}
+Ben Jann, ETH Zurich, jannb@ethz.ch
+
+{marker als}
+{title:Also see}
+
+    Manual:  {hi:[R] estimates}
+
+{p 4 13 2}Online:  help for
+ {helpb estimates},
+ {help estcom},
+ {helpb estout},
+ {helpb eststo},
+ {helpb estadd},
+ {helpb estpost}
+{p_end}

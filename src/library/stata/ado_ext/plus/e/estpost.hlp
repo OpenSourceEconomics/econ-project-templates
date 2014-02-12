@@ -1,0 +1,1322 @@
+{smcl}
+{* 08oct2009}{...}
+{hi:help estpost}{right:also see: {helpb esttab}, {helpb estout}, {helpb eststo}, {helpb estadd}}
+{right: {browse "http://repec.org/bocode/e/estout"}}
+{hline}
+
+{title:Title}
+
+{p 4 4 2}{hi:estpost} {hline 2} Post results from various commands in {cmd:e()}
+
+
+{title:Syntax}
+
+{p 8 15 2}
+{cmd:estpost} {it:{help estpost##commands:command}} [...]
+
+{marker commands}
+    {it:command}{col 26}description
+    {hline 64}
+    {helpb estpost##summarize:{ul:su}mmarize}{col 26}{...}
+post summary statistics
+    {helpb estpost##tabstat:tabstat}{col 26}{...}
+post summary statistics
+    {helpb estpost##ttest:ttest}{col 26}{...}
+post two-group mean-comparison tests
+    {helpb estpost##prtest:prtest}{col 26}{...}
+post two-group tests of proportions
+    {helpb estpost##tabulate:{ul:ta}bulate}{col 26}{...}
+post one-way or two-way frequency table
+    {helpb estpost##svy_tabulate:svy: {ul:ta}bulate}{col 26}{...}
+post frequency table for survey data
+    {helpb estpost##correlate:{ul:cor}relate}{col 26}{...}
+post correlations
+    {helpb estpost##ci:ci}{col 26}{...}
+post confidence intervals for means,
+    {col 26}{...}
+    proportions, or counts
+    {helpb estpost##stci:stci}{col 26}{...}
+post confidence intervals for means
+    {col 26}{...}
+    and percentiles of survival time
+    {helpb estpost##margins:margins}{col 26}{...}
+post results from {cmd:margins} (Stata 11)
+    {hline 64}
+
+
+{title:Description}
+
+{p 4 4 2}
+{cmd:estpost} posts results from various Stata commands in {cmd:e()}
+so that they can be tabulated using {helpb esttab} or {helpb estout}. Type
+{helpb ereturn:ereturn list} after {cmd:estpost} to list the elements saved
+in {cmd:e()}.
+
+
+{title:Commands}
+{marker summarize}
+{dlgtab:summarize}
+
+{p 4 15 2}
+{cmd:estpost} {cmdab:su:mmarize}
+    [{it:{help varlist}}] [{it:{help if}}] [{it:{help in}}] [{it:{help weight}}]
+    [{cmd:,}
+        {cmdab:d:etail}
+        {cmdab:mean:only}
+        {cmdab:list:wise}
+        {cmdab:case:wise}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}
+    posts summary statistics computed by {helpb summarize}. If no
+    {it:varlist} is specified, summary statistics are calculated for all
+    variables in the dataset.
+
+{p 4 4 2}
+    {cmd:aweight}s, {cmd:fweight}s, and {cmd:iweight}s are allowed
+    (however, {cmd:iweight}s may not be used with the {cmd:detail} option);
+    see {help weight}.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:detail} and {cmd:meanonly} as described in help {helpb summarize}.
+
+{p 8 12 2}
+        {cmd:listwise} to handle missing values through listwise deletion,
+        meaning that an observation is omitted from the estimation
+        sample if any of the variables in {it:varlist} is missing for that
+        observation. The default is to determine the used observations for
+        each variable separately without regard to whether other variables
+        are missing. {cmd:casewise} is a synonym for {cmd:listwise}.
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}The following results vectors are saved in {cmd:e()}:
+
+        {lalign 13:{cmd:e(count)}}number of observations
+        {lalign 13:{cmd:e(mean)}}mean
+        {lalign 13:{cmd:e(min)}}minimum
+        {lalign 13:{cmd:e(max)}}maximum
+        {lalign 13:{cmd:e(sum)}}sum of variable
+        {lalign 13:{cmd:e(sum_w)}}sum of the weights
+        {lalign 13:{cmd:e(Var)}}variance (unless {cmd:meanonly})
+        {lalign 13:{cmd:e(sd)}}standard deviation (unless {cmd:meanonly})
+        {lalign 13:{cmd:e(p1)}}1st percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(p5)}}5th percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(p10)}}10th percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(p25)}}25th percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(p50)}}50th percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(p75)}}75th percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(p90)}}90th percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(p95)}}95th percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(p99)}}99th percentile ({cmd:detail} only)
+        {lalign 13:{cmd:e(skewness)}}skewness ({cmd:detail} only)
+        {lalign 13:{cmd:e(kurtosis)}}kurtosis ({cmd:detail} only)
+
+{p 4 4 2}
+    Example:
+
+{* begin example summarize }{...}
+        {com}. sysuse auto, clear
+        {txt}(1978 Automobile Data)
+
+        {com}. estpost summarize price mpg rep78 foreign
+
+        {txt}{ralign 12:} {c |} {ralign 9:e(count)}  {ralign 9:e(sum_w)}  {ralign 9:e(mean)}  {ralign 9:e(Var)}  {ralign 9:e(sd)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf: 6165.257}}}  {ralign 9:{res:{sf:  8699526}}}  {ralign 9:{res:{sf: 2949.496}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf:  21.2973}}}  {ralign 9:{res:{sf: 33.47205}}}  {ralign 9:{res:{sf: 5.785503}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf:       69}}}  {ralign 9:{res:{sf:       69}}}  {ralign 9:{res:{sf: 3.405797}}}  {ralign 9:{res:{sf: .9799659}}}  {ralign 9:{res:{sf: .9899323}}}
+        {ralign 12:foreign} {c |} {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf: .2972973}}}  {ralign 9:{res:{sf: .2117734}}}  {ralign 9:{res:{sf: .4601885}}}
+
+        {ralign 12:} {c |} {ralign 9:e(min)}  {ralign 9:e(max)}  {ralign 9:e(sum)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf:     3291}}}  {ralign 9:{res:{sf:    15906}}}  {ralign 9:{res:{sf:   456229}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf:       12}}}  {ralign 9:{res:{sf:       41}}}  {ralign 9:{res:{sf:     1576}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:        5}}}  {ralign 9:{res:{sf:      235}}}
+        {ralign 12:foreign} {c |} {ralign 9:{res:{sf:        0}}}  {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:       22}}}
+
+        {com}. esttab ., cells("mean sd count") noobs
+        {res}
+        {txt}{hline 51}
+        {txt}                      (1)
+        {txt}
+        {txt}                     mean           sd        count
+        {txt}{hline 51}
+        {txt}price       {res}     6165.257     2949.496           74{txt}
+        {txt}mpg         {res}      21.2973     5.785503           74{txt}
+        {txt}rep78       {res}     3.405797     .9899323           69{txt}
+        {txt}foreign     {res}     .2972973     .4601885           74{txt}
+        {txt}{hline 51}
+{* end example }{txt}{...}
+
+{marker tabstat}
+{dlgtab:tabstat}
+
+{p 4 15 2}
+{cmd:estpost} {cmdab:tabstat}
+    {it:{help varlist}} [{it:{help if}}] [{it:{help in}}] [{it:{help weight}}]
+    [{cmd:,}
+        {cmdab:s:tatistics:(}{it:{help tabstat##statname:statname}} [{it:...}]{cmd:)}
+        {cmdab:c:olumns:(}{cmdab:v:ariables}|{cmdab:s:tatistics:)}
+        {cmd:by(}{it:varname}{cmd:)}
+        {cmdab:not:otal}
+        {cmdab:m:issing}
+        {cmdab:list:wise}
+        {cmdab:case:wise}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}
+    posts summary statistics computed by {helpb tabstat}. {cmd:aweight}s and
+    {cmd:fweight}s are allowed; see {help weight}.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:statistics()}, {cmd:columns()}, {cmd:by()}, {cmd:nototal},
+        and {cmd:missing} as described in help {helpb tabstat}.
+
+{p 8 12 2}
+        {cmd:listwise} to handle missing values through listwise deletion,
+        meaning that an observation is omitted from the estimation
+        sample if any of the variables in {it:varlist} is missing for that
+        observation. The default is to determine the used observations for
+        each variable separately without regard to whether other variables
+        are missing. {cmd:casewise} is a synonym for {cmd:listwise}.
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}A vector of results is saved in {cmd:e()} for each specified
+variable or statistic, depending on {cmd:columns()}.
+
+{p 4 4 2}
+    Examples:
+
+{* begin example tabstat }{...}
+        {com}. sysuse auto, clear
+        {txt}(1978 Automobile Data)
+
+        {com}. estpost tabstat price mpg rep78, listwise ///
+        >     statistics(mean sd)
+
+        {txt}Summary statistics: mean sd
+             for variables: price mpg rep78
+
+        {ralign 12:} {c |} {ralign 9:e(price)}  {ralign 9:e(mpg)}  {ralign 9:e(rep78)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+        {ralign 12:mean} {c |} {ralign 9:{res:{sf: 6146.043}}}  {ralign 9:{res:{sf: 21.28986}}}  {ralign 9:{res:{sf: 3.405797}}}
+        {ralign 12:sd} {c |} {ralign 9:{res:{sf:  2912.44}}}  {ralign 9:{res:{sf: 5.866408}}}  {ralign 9:{res:{sf: .9899323}}}
+
+        {com}. esttab ., cells("price mpg rep78")
+        {res}
+        {txt}{hline 51}
+        {txt}                      (1)
+        {txt}
+        {txt}                    price          mpg        rep78
+        {txt}{hline 51}
+        {txt}mean        {res}     6146.043     21.28986     3.405797{txt}
+        {txt}sd          {res}      2912.44     5.866408     .9899323{txt}
+        {txt}{hline 51}
+        {txt}N           {res}           69                          {txt}
+        {txt}{hline 51}
+
+        {com}. estpost tabstat price mpg rep78, listwise ///
+        >     statistics(mean sd) columns(statistics)
+
+        {txt}Summary statistics: mean sd
+             for variables: price mpg rep78
+
+        {ralign 12:} {c |} {ralign 9:e(mean)}  {ralign 9:e(sd)}
+        {hline 13}{c   +}{hline 11}{hline 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf: 6146.043}}}  {ralign 9:{res:{sf:  2912.44}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf: 21.28986}}}  {ralign 9:{res:{sf: 5.866408}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf: 3.405797}}}  {ralign 9:{res:{sf: .9899323}}}
+
+        {com}. esttab ., cells("mean(fmt(a3)) sd")
+        {res}
+        {txt}{hline 38}
+        {txt}                      (1)
+        {txt}
+        {txt}                     mean           sd
+        {txt}{hline 38}
+        {txt}price       {res}       6146.0       2912.4{txt}
+        {txt}mpg         {res}        21.29        5.866{txt}
+        {txt}rep78       {res}        3.406        0.990{txt}
+        {txt}{hline 38}
+        {txt}N           {res}           69             {txt}
+        {txt}{hline 38}
+
+        {com}. estpost tabstat price mpg rep78, by(foreign) ///
+        >     statistics(mean sd) columns(statistics) listwise
+
+        {txt}Summary statistics: mean sd
+             for variables: price mpg rep78
+          by categories of: foreign
+
+        {ralign 12:foreign} {c |} {ralign 9:e(mean)}  {ralign 9:e(sd)}
+        {hline 13}{c   +}{hline 11}{hline 11}
+        {res:{lalign 13:Domestic}}{c |}{space 11}{space 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf:  6179.25}}}  {ralign 9:{res:{sf: 3188.969}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf: 19.54167}}}  {ralign 9:{res:{sf: 4.753312}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf: 3.020833}}}  {ralign 9:{res:{sf:  .837666}}}
+        {hline 13}{c   +}{hline 11}{hline 11}
+        {res:{lalign 13:Foreign}}{c |}{space 11}{space 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf: 6070.143}}}  {ralign 9:{res:{sf: 2220.984}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf: 25.28571}}}  {ralign 9:{res:{sf: 6.309856}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf: 4.285714}}}  {ralign 9:{res:{sf: .7171372}}}
+        {hline 13}{c   +}{hline 11}{hline 11}
+        {res:{lalign 13:Total}}{c |}{space 11}{space 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf: 6146.043}}}  {ralign 9:{res:{sf:  2912.44}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf: 21.28986}}}  {ralign 9:{res:{sf: 5.866408}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf: 3.405797}}}  {ralign 9:{res:{sf: .9899323}}}
+
+        {com}. esttab ., main(mean) aux(sd) nostar unstack ///
+        >     noobs nonote label
+        {res}
+        {txt}{hline 59}
+        {txt}                              (1)
+        {txt}
+        {txt}                         Domestic      Foreign        Total
+        {txt}{hline 59}
+        {txt}Price               {res}       6179.3       6070.1       6146.0{txt}
+                            {res} {ralign 12:{txt:(}3189.0{txt:)}} {ralign 12:{txt:(}2221.0{txt:)}} {ralign 12:{txt:(}2912.4{txt:)}}{txt}
+
+        {txt}Mileage (mpg)       {res}        19.54        25.29        21.29{txt}
+                            {res} {ralign 12:{txt:(}4.753{txt:)}} {ralign 12:{txt:(}6.310{txt:)}} {ralign 12:{txt:(}5.866{txt:)}}{txt}
+
+        {txt}Repair Record 1978  {res}        3.021        4.286        3.406{txt}
+                            {res} {ralign 12:{txt:(}0.838{txt:)}} {ralign 12:{txt:(}0.717{txt:)}} {ralign 12:{txt:(}0.990{txt:)}}{txt}
+        {txt}{hline 59}
+{* end example }{txt}{...}
+
+{marker ttest}
+{dlgtab:ttest}
+
+{p 4 15 2}
+{cmd:estpost} {cmdab:ttest}
+    {it:{help varlist}} [{it:{help if}}] [{it:{help in}}]{cmd:,}
+    {cmd:by(}{it:groupvar}{cmd:)}
+    [
+        {cmdab:une:qual} {cmdab:w:elch}
+        {cmdab:list:wise}
+        {cmdab:case:wise}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}
+    posts two-group mean-comparison tests computed by {helpb ttest}.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:by()}, {cmd:unequal}, and {cmd:welch} as described in
+        help {helpb ttest}.
+
+{p 8 12 2}
+        {cmd:listwise} to handle missing values through listwise deletion,
+        meaning that an observation is omitted from the estimation
+        sample if any of the variables in {it:varlist} is missing for that
+        observation. The default is to determine the used observations for
+        each variable separately without regard to whether other variables
+        are missing. {cmd:casewise} is a synonym for {cmd:listwise}.
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}The following results vectors are saved in {cmd:e()}:
+
+        {lalign 13:{cmd:e(b)}}mean difference
+        {lalign 13:{cmd:e(count)}}number of observations
+        {lalign 13:{cmd:e(se)}}standard error of difference
+        {lalign 13:{cmd:e(t)}}t statistic
+        {lalign 13:{cmd:e(df_t)}}degrees of freedom
+        {lalign 13:{cmd:e(p_l)}}lower one-sided p-value
+        {lalign 13:{cmd:e(p)}}two-sided p-value
+        {lalign 13:{cmd:e(p_u)}}upper one-sided p-value
+        {lalign 13:{cmd:e(N_1)}}number of observations in group 1
+        {lalign 13:{cmd:e(mu_1)}}mean in group 1
+        {lalign 13:{cmd:e(N_2)}}number of observations in group 2
+        {lalign 13:{cmd:e(mu_2)}}mean in group 2
+
+{p 4 4 2}
+    Example:
+
+{* begin example ttest }{...}
+        {com}. sysuse auto, clear
+        {txt}(1978 Automobile Data)
+
+        {com}. estpost ttest price mpg headroom trunk, by(foreign)
+
+        {txt}{ralign 12:} {c |} {ralign 9:e(b)}  {ralign 9:e(count)}  {ralign 9:e(se)}  {ralign 9:e(t)}  {ralign 9:e(df_t)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf:-312.2587}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf: 754.4488}}}  {ralign 9:{res:{sf:-.4138899}}}  {ralign 9:{res:{sf:       72}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf:-4.945804}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf: 1.362162}}}  {ralign 9:{res:{sf:-3.630848}}}  {ralign 9:{res:{sf:       72}}}
+        {ralign 12:headroom} {c |} {ralign 9:{res:{sf: .5402098}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf: .2070884}}}  {ralign 9:{res:{sf: 2.608596}}}  {ralign 9:{res:{sf:       72}}}
+        {ralign 12:trunk} {c |} {ralign 9:{res:{sf: 3.340909}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf: 1.022208}}}  {ralign 9:{res:{sf: 3.268327}}}  {ralign 9:{res:{sf:       72}}}
+
+        {ralign 12:} {c |} {ralign 9:e(p_l)}  {ralign 9:e(p)}  {ralign 9:e(p_u)}  {ralign 9:e(N_1)}  {ralign 9:e(mu_1)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf: .3400925}}}  {ralign 9:{res:{sf: .6801851}}}  {ralign 9:{res:{sf: .6599075}}}  {ralign 9:{res:{sf:       52}}}  {ralign 9:{res:{sf: 6072.423}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf: .0002627}}}  {ralign 9:{res:{sf: .0005254}}}  {ralign 9:{res:{sf: .9997373}}}  {ralign 9:{res:{sf:       52}}}  {ralign 9:{res:{sf: 19.82692}}}
+        {ralign 12:headroom} {c |} {ralign 9:{res:{sf: .9944757}}}  {ralign 9:{res:{sf: .0110486}}}  {ralign 9:{res:{sf: .0055243}}}  {ralign 9:{res:{sf:       52}}}  {ralign 9:{res:{sf: 3.153846}}}
+        {ralign 12:trunk} {c |} {ralign 9:{res:{sf:   .99917}}}  {ralign 9:{res:{sf:   .00166}}}  {ralign 9:{res:{sf:   .00083}}}  {ralign 9:{res:{sf:       52}}}  {ralign 9:{res:{sf:    14.75}}}
+
+        {ralign 12:} {c |} {ralign 9:e(N_2)}  {ralign 9:e(mu_2)}
+        {hline 13}{c   +}{hline 11}{hline 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf:       22}}}  {ralign 9:{res:{sf: 6384.682}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf:       22}}}  {ralign 9:{res:{sf: 24.77273}}}
+        {ralign 12:headroom} {c |} {ralign 9:{res:{sf:       22}}}  {ralign 9:{res:{sf: 2.613636}}}
+        {ralign 12:trunk} {c |} {ralign 9:{res:{sf:       22}}}  {ralign 9:{res:{sf: 11.40909}}}
+
+        {com}. esttab ., wide
+        {res}
+        {txt}{hline 41}
+        {txt}                      (1)
+        {txt}
+        {txt}{hline 41}
+        {txt}price       {res}       -312.3    {ralign 12:{txt:(}-0.41{txt:)}}{txt}
+        {txt}mpg         {res}       -4.946*** {ralign 12:{txt:(}-3.63{txt:)}}{txt}
+        {txt}headroom    {res}        0.540*   {ralign 12:{txt:(}2.61{txt:)}}{txt}
+        {txt}trunk       {res}        3.341**  {ralign 12:{txt:(}3.27{txt:)}}{txt}
+        {txt}{hline 41}
+        {txt}N           {res}           74                {txt}
+        {txt}{hline 41}
+        {txt}t statistics in parentheses
+        {txt}* p<0.05, ** p<0.01, *** p<0.001
+{* end example }{txt}{...}
+
+{marker prtest}
+{dlgtab:prtest}
+
+{p 4 15 2}
+{cmd:estpost} {cmdab:prtest}
+    {it:{help varlist}} [{it:{help if}}] [{it:{help in}}]{cmd:,}
+    {cmd:by(}{it:groupvar}{cmd:)}
+    [
+        {cmdab:list:wise}
+        {cmdab:case:wise}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}
+    posts two-group tests of proportions computed by {helpb prtest}.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:by()} as described in
+        help {helpb prtest}.
+
+{p 8 12 2}
+        {cmd:listwise} to handle missing values through listwise deletion,
+        meaning that an observation is omitted from the estimation
+        sample if any of the variables in {it:varlist} is missing for that
+        observation. The default is to determine the used observations for
+        each variable separately without regard to whether other variables
+        are missing. {cmd:casewise} is a synonym for {cmd:listwise}.
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}The following results vectors are saved in {cmd:e()}:
+
+        {lalign 13:{cmd:e(b)}}difference in proportions
+        {lalign 13:{cmd:e(count)}}number of observations
+        {lalign 13:{cmd:e(se)}}standard error of difference
+        {lalign 13:{cmd:e(se0)}}standard error under Ho
+        {lalign 13:{cmd:e(z)}}z statistic
+        {lalign 13:{cmd:e(p_l)}}lower one-sided p-value
+        {lalign 13:{cmd:e(p)}}two-sided p-value
+        {lalign 13:{cmd:e(p_u)}}upper one-sided p-value
+        {lalign 13:{cmd:e(N_1)}}number of observations in group 1
+        {lalign 13:{cmd:e(P_1)}}proportion in group 1
+        {lalign 13:{cmd:e(N_2)}}number of observations in group 2
+        {lalign 13:{cmd:e(P_2)}}proportion in group 2
+
+{p 4 4 2}
+    Example:
+
+{* begin example prtest }{...}
+        {com}. webuse cure2, clear
+        {txt}
+        {com}. estpost prtest cure, by(sex)
+
+        {txt}{ralign 12:} {c |} {ralign 9:e(b)}  {ralign 9:e(count)}  {ralign 9:e(se)}  {ralign 9:e(se0)}  {ralign 9:e(z)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:cure} {c |} {ralign 9:{res:{sf:-.0729167}}}  {ralign 9:{res:{sf:      109}}}  {ralign 9:{res:{sf: .0933123}}}  {ralign 9:{res:{sf: .0942404}}}  {ralign 9:{res:{sf:-.7737309}}}
+
+        {ralign 12:} {c |} {ralign 9:e(p_l)}  {ralign 9:e(p)}  {ralign 9:e(p_u)}  {ralign 9:e(N_1)}  {ralign 9:e(P_1)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:cure} {c |} {ralign 9:{res:{sf:  .219545}}}  {ralign 9:{res:{sf:   .43909}}}  {ralign 9:{res:{sf:  .780455}}}  {ralign 9:{res:{sf:       64}}}  {ralign 9:{res:{sf:   .59375}}}
+
+        {ralign 12:} {c |} {ralign 9:e(N_2)}  {ralign 9:e(P_2)}
+        {hline 13}{c   +}{hline 11}{hline 11}
+        {ralign 12:cure} {c |} {ralign 9:{res:{sf:       45}}}  {ralign 9:{res:{sf: .6666667}}}
+
+        {com}. esttab ., cell("b se0 z p")
+        {res}
+        {txt}{hline 64}
+        {txt}                      (1)
+        {txt}
+        {txt}                        b          se0            z            p
+        {txt}{hline 64}
+        {txt}cure        {res}    -.0729167     .0942404    -.7737309       .43909{txt}
+        {txt}{hline 64}
+        {txt}N           {res}          109                                       {txt}
+        {txt}{hline 64}
+{* end example }{txt}{...}
+
+{marker tabulate}
+{dlgtab:tabulate}
+
+{p 4 4 2}One-way table:
+
+{p 8 15 2}
+{cmd:estpost} {cmdab:ta:bulate}
+    {it:varname} [{it:{help if}}] [{it:{help in}}] [{it:{help weight}}]
+    [{cmd:,}
+        {cmdab:m:issing}
+        {cmdab:nol:abel}
+        {cmd:sort}
+        {cmd:subpop(}{it:varname}{cmd:)}
+        {cmdab:notot:al}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}Two-way table:
+
+{p 8 15 2}
+{cmd:estpost} {cmdab:ta:bulate}
+    {it:varname1} {it:varname2} [{it:{help if}}] [{it:{help in}}] [{it:{help weight}}]
+    [{cmd:,}
+        {cmdab:m:issing}
+        {cmdab:nol:abel}
+        {cmdab:ch:i2}
+        {cmdab:e:xact}[{cmd:(}{it:#}{cmd:)}]
+        {cmdab:g:amma}
+        {cmdab:lr:chi2}
+        {cmdab:t:aub}
+        {cmdab:v}
+        {cmdab:notot:al}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}
+    {cmd:estpost tabulate} posts a one-way or two-way table
+    computed by {helpb tabulate}. {cmd:aweight}s, {cmd:fweight}s,
+    and {cmd:iweight}s are allowed;  see {help weight}.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:missing},
+        {cmd:nolabel},
+        {cmd:sort},
+        {cmd:subpop()},
+        {cmd:chi2},
+        {cmd:exact},
+        {cmd:gamma},
+        {cmd:lrchi2},
+        {cmd:taub}, and
+        {cmd:v}
+        as described in help {helpb tabulate}.
+
+{p 8 12 2}
+        {cmdab:nototal} to omit row and column totals.
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}The following vectors are saved in {cmd:e()}:
+
+        {lalign 13:{cmd:e(b)}}frequency counts
+        {lalign 13:{cmd:e(pct)}}percent
+        {lalign 13:{cmd:e(cumpct)}}cumulative percent (one-way only)
+        {lalign 13:{cmd:e(colpct)}}column percent (two-way only)
+        {lalign 13:{cmd:e(rowpct)}}row percent (two-way only)
+
+{p 4 4 2}If two-way options such as, e.g., {cmd:chi2} or {cmd:exact} are
+specified, the results of the tests added as scalars in {cmd:e()} using the
+names documented in {helpb tabulate:{bind:[R] tabulate}}.
+
+{p 4 4 2}The value labels of the row variable are stored as names in the
+saved vectors, unless
+no label exceeds 30 characters or contains unsuitable characters in which case
+the labels are stored in macro {cmd:e(labels)}. Type
+{cmd:varlabels(`e(labels)')} in {helpb esttab} or {helpb estout} to
+use the labels stored {cmd:e(labels)}. The value labels of the column variable
+are stored as equation names or, alternatively,
+in macro {cmd:e(eqlabels)}. Type {cmd:eqlabels(`e(eqlabels)')} in
+{helpb esttab} or {helpb estout} to use the labels stored in {cmd:e(eqlabels)}.
+
+{p 4 4 2}Examples:
+
+{* begin example tabulate }{...}
+        {com}. sysuse auto, clear
+        {txt}(1978 Automobile Data)
+
+        {com}. estpost tabulate foreign
+
+        {txt}{ralign 12:foreign} {c |} {ralign 9:e(b)}  {ralign 9:e(pct)}  {ralign 9:e(cumpct)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+        {ralign 12:Domestic} {c |} {ralign 9:{res:{sf:       52}}}  {ralign 9:{res:{sf: 70.27027}}}  {ralign 9:{res:{sf: 70.27027}}}
+        {ralign 12:Foreign} {c |} {ralign 9:{res:{sf:       22}}}  {ralign 9:{res:{sf: 29.72973}}}  {ralign 9:{res:{sf:      100}}}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+        {ralign 12:Total} {c |} {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf:      100}}}  {ralign 9:{res:{sf:{space 9}}}}
+
+        {com}. esttab ., cells("b pct(fmt(2)) cumpct(fmt(2))") noobs
+        {res}
+        {txt}{hline 51}
+        {txt}                      (1)
+        {txt}                  foreign
+        {txt}                        b          pct       cumpct
+        {txt}{hline 51}
+        {txt}Domestic    {res}           52        70.27        70.27{txt}
+        {txt}Foreign     {res}           22        29.73       100.00{txt}
+        {txt}Total       {res}           74       100.00             {txt}
+        {txt}{hline 51}
+
+        {com}. estpost tabulate rep78 foreign
+
+        {res}foreign     {txt} {c |}{space 44}
+        {ralign 12:rep78} {c |} {ralign 9:e(b)}  {ralign 9:e(pct)}  {ralign 9:e(colpct)}  {ralign 9:e(rowpct)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+        {res:{lalign 13:Domestic}}{c |}{space 11}{space 11}{space 11}{space 11}
+        {ralign 12:1} {c |} {ralign 9:{res:{sf:        2}}}  {ralign 9:{res:{sf: 2.898551}}}  {ralign 9:{res:{sf: 4.166667}}}  {ralign 9:{res:{sf:      100}}}
+        {ralign 12:2} {c |} {ralign 9:{res:{sf:        8}}}  {ralign 9:{res:{sf:  11.5942}}}  {ralign 9:{res:{sf: 16.66667}}}  {ralign 9:{res:{sf:      100}}}
+        {ralign 12:3} {c |} {ralign 9:{res:{sf:       27}}}  {ralign 9:{res:{sf: 39.13043}}}  {ralign 9:{res:{sf:    56.25}}}  {ralign 9:{res:{sf:       90}}}
+        {ralign 12:4} {c |} {ralign 9:{res:{sf:        9}}}  {ralign 9:{res:{sf: 13.04348}}}  {ralign 9:{res:{sf:    18.75}}}  {ralign 9:{res:{sf:       50}}}
+        {ralign 12:5} {c |} {ralign 9:{res:{sf:        2}}}  {ralign 9:{res:{sf: 2.898551}}}  {ralign 9:{res:{sf: 4.166667}}}  {ralign 9:{res:{sf: 18.18182}}}
+        {ralign 12:Total} {c |} {ralign 9:{res:{sf:       48}}}  {ralign 9:{res:{sf: 69.56522}}}  {ralign 9:{res:{sf:      100}}}  {ralign 9:{res:{sf: 69.56522}}}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+        {res:{lalign 13:Foreign}}{c |}{space 11}{space 11}{space 11}{space 11}
+        {ralign 12:1} {c |} {ralign 9:{res:{sf:        0}}}  {ralign 9:{res:{sf:        0}}}  {ralign 9:{res:{sf:        0}}}  {ralign 9:{res:{sf:        0}}}
+        {ralign 12:2} {c |} {ralign 9:{res:{sf:        0}}}  {ralign 9:{res:{sf:        0}}}  {ralign 9:{res:{sf:        0}}}  {ralign 9:{res:{sf:        0}}}
+        {ralign 12:3} {c |} {ralign 9:{res:{sf:        3}}}  {ralign 9:{res:{sf: 4.347826}}}  {ralign 9:{res:{sf: 14.28571}}}  {ralign 9:{res:{sf:       10}}}
+        {ralign 12:4} {c |} {ralign 9:{res:{sf:        9}}}  {ralign 9:{res:{sf: 13.04348}}}  {ralign 9:{res:{sf: 42.85714}}}  {ralign 9:{res:{sf:       50}}}
+        {ralign 12:5} {c |} {ralign 9:{res:{sf:        9}}}  {ralign 9:{res:{sf: 13.04348}}}  {ralign 9:{res:{sf: 42.85714}}}  {ralign 9:{res:{sf: 81.81818}}}
+        {ralign 12:Total} {c |} {ralign 9:{res:{sf:       21}}}  {ralign 9:{res:{sf: 30.43478}}}  {ralign 9:{res:{sf:      100}}}  {ralign 9:{res:{sf: 30.43478}}}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+        {res:{lalign 13:Total}}{c |}{space 11}{space 11}{space 11}{space 11}
+        {ralign 12:1} {c |} {ralign 9:{res:{sf:        2}}}  {ralign 9:{res:{sf: 2.898551}}}  {ralign 9:{res:{sf: 2.898551}}}  {ralign 9:{res:{sf:      100}}}
+        {ralign 12:2} {c |} {ralign 9:{res:{sf:        8}}}  {ralign 9:{res:{sf:  11.5942}}}  {ralign 9:{res:{sf:  11.5942}}}  {ralign 9:{res:{sf:      100}}}
+        {ralign 12:3} {c |} {ralign 9:{res:{sf:       30}}}  {ralign 9:{res:{sf: 43.47826}}}  {ralign 9:{res:{sf: 43.47826}}}  {ralign 9:{res:{sf:      100}}}
+        {ralign 12:4} {c |} {ralign 9:{res:{sf:       18}}}  {ralign 9:{res:{sf: 26.08696}}}  {ralign 9:{res:{sf: 26.08696}}}  {ralign 9:{res:{sf:      100}}}
+        {ralign 12:5} {c |} {ralign 9:{res:{sf:       11}}}  {ralign 9:{res:{sf: 15.94203}}}  {ralign 9:{res:{sf: 15.94203}}}  {ralign 9:{res:{sf:      100}}}
+        {ralign 12:Total} {c |} {ralign 9:{res:{sf:       69}}}  {ralign 9:{res:{sf:      100}}}  {ralign 9:{res:{sf:      100}}}  {ralign 9:{res:{sf:      100}}}
+
+        {com}. esttab ., cell(colpct(fmt(2))) unstack noobs
+        {res}
+        {txt}{hline 51}
+        {txt}                      (1)
+        {txt}
+        {txt}                 Domestic      Foreign        Total
+        {txt}                   colpct       colpct       colpct
+        {txt}{hline 51}
+        {txt}1           {res}         4.17         0.00         2.90{txt}
+        {txt}2           {res}        16.67         0.00        11.59{txt}
+        {txt}3           {res}        56.25        14.29        43.48{txt}
+        {txt}4           {res}        18.75        42.86        26.09{txt}
+        {txt}5           {res}         4.17        42.86        15.94{txt}
+        {txt}Total       {res}       100.00       100.00       100.00{txt}
+        {txt}{hline 51}
+
+        {com}. esttab ., cell(colpct(fmt(2)) count(fmt(g) par keep(Total))) ///
+        >     collabels(none) unstack noobs nonumber nomtitle          ///
+        >     eqlabels(, lhs("Repair Rec."))                           ///
+        >     varlabels(, blist(Total "{c -(}hline @width{c )-}{c -(}break{c )-}"))
+        {res}
+        {txt}{hline 51}
+        {txt}Repair Rec.      Domestic      Foreign        Total
+        {txt}{hline 51}
+        {txt}1           {res}         4.17         0.00         2.90{txt}
+        {txt}2           {res}        16.67         0.00        11.59{txt}
+        {txt}3           {res}        56.25        14.29        43.48{txt}
+        {txt}4           {res}        18.75        42.86        26.09{txt}
+        {txt}5           {res}         4.17        42.86        15.94{txt}
+        {txt}{hline 51}{break}        Total       {res}       100.00       100.00       100.00{txt}
+                    {res}                                       {txt}
+        {txt}{hline 51}
+{* end example }{txt}{...}
+
+{marker svy_tabulate}
+{dlgtab:svy: tabulate}
+
+{p 4 4 2}One-way table:
+
+{p 8 15 2}
+{cmd:estpost} {cmd:svy} [{it:vcetype}] [, {it:svy_options}] {cmd::} {cmdab:ta:bulate}
+    {it:varname} [{it:{help if}}] [{it:{help in}}]
+    [{cmd:,}
+        {cmdab:notot:al}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+        {help svy_tabulate_oneway:{it:svy_tabulate_opts}}
+    ]
+
+{p 4 4 2}Two-way table:
+
+{p 8 15 2}
+{cmd:estpost} {cmd:svy} [{it:vcetype}] [, {it:svy_options}] {cmd::} {cmdab:ta:bulate}
+    {it:varname1} {it:varname2} [{it:{help if}}] [{it:{help in}}]
+    [{cmd:,}
+        {cmdab:notot:al}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+        {help svy_tabulate_oneway:{it:svy_tabulate_opts}}
+    ]
+
+{p 4 4 2}
+    {cmd:estpost svy: tabulate} posts a one-way or two-way table
+    for complex survey data computed by {helpb svy_tabulate:svy: tabulate}. Stata 9 or newer
+    is required.
+
+{p 4 4 2}
+    Options are as described in {helpb svy_tabulate_oneway:[SVY] svy: tabulate oneway} or
+        {helpb svy_tabulate_twoway:[SVY] svy: tabulate twoway}, respectively, and:
+
+{p 8 12 2}
+        {cmdab:nototal} to omit row and column totals (synonym for {cmd:nomarginals}).
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}{cmd:estpost svy: tabulate} posts results in {cmd:e()} (except {cmd:e(V)})
+as documented in {helpb svy_tabulate_oneway:[SVY] svy: tabulate oneway} and
+{helpb svy_tabulate_twoway:[SVY] svy: tabulate twoway}, respectively,
+and adds or replaces the following matrices:
+
+        {lalign 10:{cmd:e(b)}}cell, column, or row proportions or percentages,
+                    or weighted counts, depending on options
+        {lalign 10:{cmd:e(se)}}standard errors of {cmd:e(b)}
+        {lalign 10:{cmd:e(lb)}}lower confidence bounds for {cmd:e(b)}
+        {lalign 10:{cmd:e(ub)}}upper confidence bounds for {cmd:e(b)}
+        {lalign 10:{cmd:e(deff)}}deff for variances of {cmd:e(b)}
+        {lalign 10:{cmd:e(deft)}}deft for variances of {cmd:e(b)}
+        {lalign 10:{cmd:e(cell)}}cell proportion or percentages
+        {lalign 10:{cmd:e(row)}}row proportion or percentages (two-way only)
+        {lalign 10:{cmd:e(col)}}column proportion or percentages (two-way only)
+        {lalign 10:{cmd:e(count)}}weighted counts
+        {lalign 10:{cmd:e(obs)}}number of observations
+
+{p 4 4 2}The value labels of the row variable are stored as names in the
+saved vectors, unless
+no label exceeds 30 characters or contains unsuitable characters in which case
+the labels are stored in macro {cmd:e(labels)}. Type
+{cmd:varlabels(`e(labels)')} in {helpb esttab} or {helpb estout} to
+use the labels stored {cmd:e(labels)}. The value labels of the column variable
+are stored as equation names or, alternatively,
+in macro {cmd:e(eqlabels)}. Type {cmd:eqlabels(`e(eqlabels)')} in
+{helpb esttab} or {helpb estout} to use the labels stored in {cmd:e(eqlabels)}.
+
+{p 4 4 2}Examples:
+
+{* begin example svy_tabulate }{...}
+        {com}. webuse nhanes2b, clear
+        {txt}
+        {com}. svyset psuid [pweight=finalwgt], strata(stratid)
+
+              {txt}pweight:{col 16}{res}finalwgt
+                  {txt}VCE:{col 16}{res}linearized
+          {txt}Single unit:{col 16}{res}missing
+             {txt}Strata 1:{col 16}{res}stratid
+                 {txt}SU 1:{col 16}{res}psuid
+                {txt}FPC 1:{col 16}<zero>
+        {p2colreset}{...}
+
+        {com}. estpost svy: tabulate race
+        {txt}(running tabulate on estimation sample)
+
+        {col 1}Number of strata{col 20}= {res}       31{txt}{col 48}Number of obs{col 67}= {res}     10351
+        {txt}{col 1}Number of PSUs{col 20}= {res}       62{txt}{col 48}Population size{col 67}={res}  117157513
+        {txt}{col 48}Design df{col 67}= {res}        31
+
+        {txt}{hline 10}{c TT}{hline 12}
+        1=white,  {c |}
+        2=black,  {c |}
+        3=other   {c |} proportions
+        {hline 10}{c +}{hline 12}
+            White {c |}       {res}.8792
+            {txt}Black {c |}       {res}.0955
+            {txt}Other {c |}       {res}.0253
+                  {txt}{c |}
+            Total {c |}           {res}1
+        {txt}{hline 10}{c BT}{hline 12}
+          Key:  {col 1}proportions  =  {res}cell proportions
+
+        {txt}saved vectors:
+                     e(b) =  {res}cell proportions
+                    {txt}e(se) =  {res}standard errors of cell proportions
+                    {txt}e(lb) =  {res}lower 95% confidence bounds for cell proportions
+                    {txt}e(ub) =  {res}upper 95% confidence bounds for cell proportions
+                  {txt}e(deff) =  {res}deff for variances of cell proportions
+                  {txt}e(deft) =  {res}deft for variances of cell proportions
+                  {txt}e(cell) =  {res}cell proportions
+                 {txt}e(count) =  {res}weighted counts
+                   {txt}e(obs) =  {res}number of observations
+        {txt}
+        {com}. esttab ., cell("b(f(4)) se deft")
+        {res}
+        {txt}{hline 51}
+        {txt}                      (1)
+        {txt}
+        {txt}                        b           se         deft
+        {txt}{hline 51}
+        {txt}White       {res}       0.8792       0.0167       5.2090{txt}
+        {txt}Black       {res}       0.0955       0.0127       4.4130{txt}
+        {txt}Other       {res}       0.0253       0.0105       6.8246{txt}
+        {txt}Total       {res}       1.0000       0.0000             {txt}
+        {txt}{hline 51}
+        {txt}N           {res}        10351                          {txt}
+        {txt}{hline 51}
+
+        {com}. estpost svy: tabulate race diabetes, row percent
+        {txt}(running tabulate on estimation sample)
+
+        {col 1}Number of strata{col 20}= {res}       31{txt}{col 48}Number of obs{col 67}= {res}     10349
+        {txt}{col 1}Number of PSUs{col 20}= {res}       62{txt}{col 48}Population size{col 67}={res}  117131111
+        {txt}{col 48}Design df{col 67}= {res}        31
+
+        {txt}{hline 10}{c TT}{hline 20}
+        1=white,  {c |}  diabetes, 1=yes,
+        2=black,  {c |}        0=no
+        3=other   {c |}     0      1  Total
+        {hline 10}{c +}{hline 20}
+            White {c |}  {res}96.8  3.195    100
+            {txt}Black {c |}  {res}94.1  5.903    100
+            {txt}Other {c |} {res}97.97  2.034    100
+                  {txt}{c |}
+            Total {c |} {res}96.58  3.425    100
+        {txt}{hline 10}{c BT}{hline 20}
+          Key:  {col 1}{res}row percentages
+
+        {txt}  Pearson:
+        {col 5}Uncorrected{col 19}chi2({res}2{txt}){col 35}= {res}  21.3483
+        {txt}{col 5}Design-based{col 19}F({res}1.52{txt}, {res}47.26{txt}){col 35}= {res}  15.0056{col 51}{txt}P = {res}0.0000
+
+        {txt}saved vectors:
+                     e(b) =  {res}row percentages
+                    {txt}e(se) =  {res}standard errors of row percentages
+                    {txt}e(lb) =  {res}lower 95% confidence bounds for row percentages
+                    {txt}e(ub) =  {res}upper 95% confidence bounds for row percentages
+                  {txt}e(deff) =  {res}deff for variances of row percentages
+                  {txt}e(deft) =  {res}deft for variances of row percentages
+                  {txt}e(cell) =  {res}cell percentages
+                   {txt}e(row) =  {res}row percentages
+                   {txt}e(col) =  {res}column percentages
+                 {txt}e(count) =  {res}weighted counts
+                   {txt}e(obs) =  {res}number of observations
+        {txt}
+        {com}. esttab ., b(2) se(2) scalars(F_Pear) nostar unstack ///
+        >     mtitle(`e(colvar)')
+        {res}
+        {txt}{hline 51}
+        {txt}                      (1)
+        {txt}                 diabetes
+        {txt}                        0            1        Total
+        {txt}{hline 51}
+        {txt}White       {res}        96.80         3.20       100.00{txt}
+                    {res} {ralign 12:{txt:(}0.20{txt:)}} {ralign 12:{txt:(}0.20{txt:)}}             {txt}
+
+        {txt}Black       {res}        94.10         5.90       100.00{txt}
+                    {res} {ralign 12:{txt:(}0.61{txt:)}} {ralign 12:{txt:(}0.61{txt:)}}             {txt}
+
+        {txt}Other       {res}        97.97         2.03       100.00{txt}
+                    {res} {ralign 12:{txt:(}0.76{txt:)}} {ralign 12:{txt:(}0.76{txt:)}}             {txt}
+
+        {txt}Total       {res}        96.58         3.42       100.00{txt}
+                    {res} {ralign 12:{txt:(}0.18{txt:)}} {ralign 12:{txt:(}0.18{txt:)}}             {txt}
+        {txt}{hline 51}
+        {txt}N           {res}        10349                          {txt}
+        {txt}F_Pear      {res}        15.01                          {txt}
+        {txt}{hline 51}
+        {txt}Standard errors in parentheses
+{* end example }{txt}{...}
+
+{marker correlate}
+{dlgtab:correlate}
+
+{p 4 15 2}
+{cmd:estpost} {cmdab:cor:relate}
+    {it:{help varlist}} [{it:{help if}}] [{it:{help in}}] [{it:{help weight}}]
+    [{cmd:,}
+        {cmdab:m:atrix}
+        {cmdab:noh:alf}
+        {cmdab:print:(}{it:#}{cmd:)}
+        {cmdab:b:onferroni}
+        {cmdab:sid:ak}
+        {cmdab:list:wise}
+        {cmdab:case:wise}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}
+    posts the pairwise correlations between the first variable in
+    {it:varlist} and the remaining variables. Alternatively, if the
+    {cmd:matrix} option is specified, all pairwise correlations among the
+    variable in {it:varlist} are posted.
+
+{p 4 4 2}
+    {cmd:aweight}s, {cmd:fweight}s,
+    {cmd:iweight}s and {cmd:pweight}s are  allowed; see {help weight}.
+
+{p 4 4 2}
+    Methods and formulas are as described in
+    {helpb correlate:{bind:[R] correlate}}. However, if {cmd:pweight}s
+    are specified, the p-values of the correlations are computed
+    as suggested in the Stata FAQ on
+    {browse "http://www.stata.com/support/faqs/stat/survey.html":"Estimating correlations with survey data"}.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:matrix} to return the (lower triangle) of the correlation
+        matrix of the variables in {it:varlist}. The default is to return
+        the pairwise correlations between the first variable in
+        {it:varlist} and the remaining variables.
+
+{p 8 12 2}
+        {cmd:nohalf} to return the full correlation matrix rather than just
+        the lower triangle. {cmd:nohalf} has no effect unless {cmd:matrix}
+        is specified.
+
+{p 8 12 2}
+        {cmd:print(}{it:#}{cmd:)} to suppress (leave blank)
+        correlation coefficients with a p-value larger than
+        {it:#}. {cmd:print()} only affects what is saved in
+        {cmd:e(rho)}, {cmd:e(p)}, and {cmd:e(count)}, but
+        not what is saved in {cmd:e(b)}.
+
+{p 8 12 2}
+        {cmd:bonferroni} to apply the Bonferroni adjustment to the
+        p-values.
+
+{p 8 12 2}
+        {cmd:sidak} to apply the Sidak adjustment to the
+        p-values.
+
+{p 8 12 2}
+        {cmd:listwise} to handle missing values through listwise deletion,
+        meaning that an observation is omitted from the estimation sample
+        if any of the variables in {it:varlist} is missing for that
+        observation. The default is to handle missing values by pairwise
+        deletion, i.e. all available observations are used to calculate a
+        pairwise correlation without regard to whether variables outside
+        that pair are missing. {cmd:casewise} is a synonym for
+        {cmd:listwise}.
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}The following vectors are saved in {cmd:e()}:
+
+        {lalign 13:{cmd:e(b)}}correlation coefficients
+        {lalign 13:{cmd:e(rho)}}correlation coefficients
+        {lalign 13:{cmd:e(p)}}p-values
+        {lalign 13:{cmd:e(count)}}number of observations
+
+{p 4 4 2}Examples:
+
+{* begin example correlate }{...}
+        {com}. sysuse auto, clear
+        {txt}(1978 Automobile Data)
+
+        {com}. estpost correlate price mpg turn foreign, matrix
+
+        {txt}{ralign 12:} {c |} {ralign 9:e(b)}  {ralign 9:e(rho)}  {ralign 9:e(p)}  {ralign 9:e(count)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+        {res:{lalign 13:price}}{c |}{space 11}{space 11}{space 11}{space 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:{space 9}}}}  {ralign 9:{res:{sf:       74}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf:-.4685967}}}  {ralign 9:{res:{sf:-.4685967}}}  {ralign 9:{res:{sf: .0000255}}}  {ralign 9:{res:{sf:       74}}}
+        {ralign 12:turn} {c |} {ralign 9:{res:{sf: .3096174}}}  {ralign 9:{res:{sf: .3096174}}}  {ralign 9:{res:{sf: .0072662}}}  {ralign 9:{res:{sf:       74}}}
+        {ralign 12:foreign} {c |} {ralign 9:{res:{sf: .0487195}}}  {ralign 9:{res:{sf: .0487195}}}  {ralign 9:{res:{sf: .6801851}}}  {ralign 9:{res:{sf:       74}}}
+        {res:{lalign 13:mpg}}{c |}{space 11}{space 11}{space 11}{space 11}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:{space 9}}}}  {ralign 9:{res:{sf:       74}}}
+        {ralign 12:turn} {c |} {ralign 9:{res:{sf:-.7191863}}}  {ralign 9:{res:{sf:-.7191863}}}  {ralign 9:{res:{sf: 5.30e-13}}}  {ralign 9:{res:{sf:       74}}}
+        {ralign 12:foreign} {c |} {ralign 9:{res:{sf: .3933974}}}  {ralign 9:{res:{sf: .3933974}}}  {ralign 9:{res:{sf: .0005254}}}  {ralign 9:{res:{sf:       74}}}
+        {res:{lalign 13:turn}}{c |}{space 11}{space 11}{space 11}{space 11}
+        {ralign 12:turn} {c |} {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:{space 9}}}}  {ralign 9:{res:{sf:       74}}}
+        {ralign 12:foreign} {c |} {ralign 9:{res:{sf:-.6310965}}}  {ralign 9:{res:{sf:-.6310965}}}  {ralign 9:{res:{sf: 1.66e-09}}}  {ralign 9:{res:{sf:       74}}}
+        {res:{lalign 13:foreign}}{c |}{space 11}{space 11}{space 11}{space 11}
+        {ralign 12:foreign} {c |} {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:        1}}}  {ralign 9:{res:{sf:{space 9}}}}  {ralign 9:{res:{sf:       74}}}
+
+        {com}. esttab ., not unstack compress noobs
+        {res}
+        {txt}{hline 62}
+        {txt}                 (1)
+        {txt}
+        {txt}               price          mpg         turn      foreign
+        {txt}{hline 62}
+        {txt}price     {res}         1                                          {txt}
+        {txt}mpg       {res}    -0.469***         1                             {txt}
+        {txt}turn      {res}     0.310**     -0.719***         1                {txt}
+        {txt}foreign   {res}    0.0487        0.393***    -0.631***         1   {txt}
+        {txt}{hline 62}
+        {txt}* p<0.05, ** p<0.01, *** p<0.001
+
+        {com}. bysort foreign: eststo: ///
+        >     estpost correlate price turn weight rep78, listwise
+
+        {txt}{hline 60}
+        -> Domestic
+
+        {ralign 12:price} {c |} {ralign 9:e(b)}  {ralign 9:e(rho)}  {ralign 9:e(p)}  {ralign 9:e(count)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:turn} {c |} {ralign 9:{res:{sf: .4328091}}}  {ralign 9:{res:{sf: .4328091}}}  {ralign 9:{res:{sf: .0021229}}}  {ralign 9:{res:{sf:       48}}}
+        {ralign 12:weight} {c |} {ralign 9:{res:{sf: .6864719}}}  {ralign 9:{res:{sf: .6864719}}}  {ralign 9:{res:{sf: 7.19e-08}}}  {ralign 9:{res:{sf:       48}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf:-.0193249}}}  {ralign 9:{res:{sf:-.0193249}}}  {ralign 9:{res:{sf: .8962741}}}  {ralign 9:{res:{sf:       48}}}
+        ({res}est1{txt} stored)
+
+        {hline 60}
+        -> Foreign
+
+        {ralign 12:price} {c |} {ralign 9:e(b)}  {ralign 9:e(rho)}  {ralign 9:e(p)}  {ralign 9:e(count)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:turn} {c |} {ralign 9:{res:{sf: .5102425}}}  {ralign 9:{res:{sf: .5102425}}}  {ralign 9:{res:{sf: .0181155}}}  {ralign 9:{res:{sf:       21}}}
+        {ralign 12:weight} {c |} {ralign 9:{res:{sf: .8315886}}}  {ralign 9:{res:{sf: .8315886}}}  {ralign 9:{res:{sf: 2.99e-06}}}  {ralign 9:{res:{sf:       21}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf: .1797879}}}  {ralign 9:{res:{sf: .1797879}}}  {ralign 9:{res:{sf: .4354917}}}  {ralign 9:{res:{sf:       21}}}
+        ({res}est2{txt} stored)
+
+        {com}. esttab est1 est2, not mtitles
+        {res}
+        {txt}{hline 44}
+        {txt}                      (1)             (2)
+        {txt}                 Domestic         Foreign
+        {txt}{hline 44}
+        {txt}turn        {res}        0.433**         0.510*  {txt}
+        {txt}weight      {res}        0.686***        0.832***{txt}
+        {txt}rep78       {res}      -0.0193           0.180   {txt}
+        {txt}{hline 44}
+        {txt}N           {res}           48              21   {txt}
+        {txt}{hline 44}
+        {txt}* p<0.05, ** p<0.01, *** p<0.001
+{* end example }{txt}{...}
+
+{marker ci}
+{dlgtab:ci}
+
+{p 4 15 2}
+{cmd:estpost} {cmdab:ci}
+    [{it:{help varlist}}] [{it:{help if}}] [{it:{help in}}] [{it:{help weight}}]
+    [{cmd:,}
+        {cmdab:b:inomial}
+        {cmdab:p:oisson} {cmdab:e:xposure:(}{it:varname}{cmd:)}
+        {cmdab:ex:act} {cmdab:wa:ld} {cmdab:w:ilson} {cmdab:a:gresti} {cmdab:j:effreys}
+        {cmdab:l:evel:(}{it:#}{cmd:)}
+        {cmdab:list:wise}
+        {cmdab:case:wise}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}
+    posts standard errors and confidence intervals computed by
+    {helpb ci}. {cmd:aweight}s and {cmd:fweight}s are allowed,
+    but {cmd:aweight}s may not be specified with options
+    {cmd:binomial} or {cmd:poisson};
+    see {help weight}.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:binomial}, {cmd:poisson}, {cmd:exposure()},
+        {cmd:exact}, {cmd:wald}, {cmd:wilson}, {cmd:agresti},
+        {cmd:jeffreys}, and {cmd:level()}
+        as described in help {helpb ci}.
+
+{p 8 12 2}
+        {cmd:listwise} to handle missing values through listwise deletion,
+        meaning that an observation is omitted from the estimation
+        sample if any of the variables in {it:varlist} is missing for that
+        observation. The default is to determine the used observations for
+        each variable separately without regard to whether other variables
+        are missing. {cmd:casewise} is a synonym for {cmd:listwise}.
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}The following results vectors are saved in {cmd:e()}:
+
+        {lalign 13:{cmd:e(b)}}mean
+        {lalign 13:{cmd:e(count)}}number of observations
+        {lalign 13:{cmd:e(se)}}estimate of standard error
+        {lalign 13:{cmd:e(lb)}}lower bound of confidence interval
+        {lalign 13:{cmd:e(ub)}}upper bound of confidence interval
+
+{p 4 4 2}
+    Examples:
+
+{* begin example ci }{...}
+        {com}. sysuse auto, clear
+        {txt}(1978 Automobile Data)
+
+        {com}. estpost ci price mpg rep78, listwise
+        {txt}(confidence level is 95%)
+
+        {ralign 12:} {c |} {ralign 9:e(b)}  {ralign 9:e(count)}  {ralign 9:e(se)}  {ralign 9:e(lb)}  {ralign 9:e(ub)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:price} {c |} {ralign 9:{res:{sf: 6146.043}}}  {ralign 9:{res:{sf:       69}}}  {ralign 9:{res:{sf: 350.6166}}}  {ralign 9:{res:{sf: 5446.399}}}  {ralign 9:{res:{sf: 6845.688}}}
+        {ralign 12:mpg} {c |} {ralign 9:{res:{sf: 21.28986}}}  {ralign 9:{res:{sf:       69}}}  {ralign 9:{res:{sf: .7062326}}}  {ralign 9:{res:{sf: 19.88059}}}  {ralign 9:{res:{sf: 22.69912}}}
+        {ralign 12:rep78} {c |} {ralign 9:{res:{sf: 3.405797}}}  {ralign 9:{res:{sf:       69}}}  {ralign 9:{res:{sf: .1191738}}}  {ralign 9:{res:{sf: 3.167989}}}  {ralign 9:{res:{sf: 3.643605}}}
+
+        {com}. esttab ., cells("b lb ub") label
+        {res}
+        {txt}{hline 59}
+        {txt}                              (1)
+        {txt}
+        {txt}                                b           lb           ub
+        {txt}{hline 59}
+        {txt}Price               {res}     6146.043     5446.399     6845.688{txt}
+        {txt}Mileage (mpg)       {res}     21.28986     19.88059     22.69912{txt}
+        {txt}Repair Record 1978  {res}     3.405797     3.167989     3.643605{txt}
+        {txt}{hline 59}
+        {txt}Observations        {res}           69                          {txt}
+        {txt}{hline 59}
+
+        {com}. eststo exact: estpost ci foreign, binomial exact
+        {txt}(confidence level is 95%)
+
+        {ralign 12:} {c |} {ralign 9:e(b)}  {ralign 9:e(count)}  {ralign 9:e(se)}  {ralign 9:e(lb)}  {ralign 9:e(ub)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:foreign} {c |} {ralign 9:{res:{sf: .2972973}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf: .0531331}}}  {ralign 9:{res:{sf:  .196584}}}  {ralign 9:{res:{sf: .4148353}}}
+
+        {com}. eststo agresti: estpost ci foreign, binomial agresti
+        {txt}(confidence level is 95%)
+
+        {ralign 12:} {c |} {ralign 9:e(b)}  {ralign 9:e(count)}  {ralign 9:e(se)}  {ralign 9:e(lb)}  {ralign 9:e(ub)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:foreign} {c |} {ralign 9:{res:{sf: .2972973}}}  {ralign 9:{res:{sf:       74}}}  {ralign 9:{res:{sf: .0531331}}}  {ralign 9:{res:{sf:  .204807}}}  {ralign 9:{res:{sf: .4097942}}}
+
+        {com}. esttab exact agresti, cells(lb ub) mtitles
+        {res}
+        {txt}{hline 38}
+        {txt}                      (1)          (2)
+        {txt}                    exact      agresti
+        {txt}                    lb/ub        lb/ub
+        {txt}{hline 38}
+        {txt}foreign     {res}      .196584      .204807{txt}
+                    {res}     .4148353     .4097942{txt}
+        {txt}{hline 38}
+        {txt}N           {res}           74           74{txt}
+        {txt}{hline 38}
+{* end example }{txt}{...}
+
+{marker stci}
+{dlgtab:stci}
+
+{p 4 15 2}
+{cmd:estpost} {cmd:stci}
+    [{it:{help if}}] [{it:{help in}}]
+    [{cmd:,}
+        {cmd:by(}{it:groupvar}{cmd:)}
+        {cmdab:m:edian}
+        {cmdab:r:mean}
+        {cmdab:e:mean}
+        {cmd:p(}{it:#}{cmd:)}
+        {cmdab:cc:orr}
+        {cmdab:l:evel:(}{it:#}{cmd:)}
+        {cmdab:q:uietly}
+        {cmdab:es:ample}
+    ]
+
+{p 4 4 2}
+    posts confidence intervals for means
+    and percentiles of survival time computed by {helpb stci}. Stata 9 or
+    newer is required.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:by(}{it:groupvar}{cmd:)}
+        to report separate summaries for each group defined by
+        {it:groupvar}, along with an overall total.
+
+{p 8 12 2}
+        {cmd:median},
+        {cmd:rmean},
+        {cmd:emean},
+        {cmd:p()},
+        {cmd:ccorr}, and
+        {cmd:level()}
+        as described in help {helpb stci}.
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {cmd:esample} to mark the estimation sample in {cmd:e(sample)}.
+
+{p 4 4 2}The following vectors are saved in {cmd:e()}:
+
+        {lalign 13:{cmd:e(count)}}number of subjects
+        {lalign 13:{cmd:e(p50)}}median (if {cmd:median} specified; the default)
+        {lalign 13:{cmd:e(p}{it:#}{cmd:)}}#th percentile (if {cmd:p(}{it:#}{cmd:)} specified)
+        {lalign 13:{cmd:e(rmean)}}restricted mean (if {cmd:rmean} specified)
+        {lalign 13:{cmd:e(emean)}}extended mean (if {cmd:emean} specified)
+        {lalign 13:{cmd:e(se)}}standard error
+        {lalign 13:{cmd:e(lb)}}lower bound of CI
+        {lalign 13:{cmd:e(ub)}}upper bound of CI
+
+{p 4 4 2}
+    Examples:
+
+{* begin example stci }{...}
+        {com}. webuse page2, clear
+        {txt}
+        {com}. estpost stci
+        {txt}(confidence level is 95%)
+
+        {ralign 12:} {c |} {ralign 9:e(count)}  {ralign 9:e(p50)}  {ralign 9:e(se)}  {ralign 9:e(lb)}  {ralign 9:e(ub)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:total} {c |} {ralign 9:{res:{sf:       40}}}  {ralign 9:{res:{sf:      232}}}  {ralign 9:{res:{sf: 2.562933}}}  {ralign 9:{res:{sf:      213}}}  {ralign 9:{res:{sf:      239}}}
+
+        {com}. esttab ., cell("count p50 se lb ub") noobs compress
+        {res}
+        {txt}{hline 60}
+        {txt}                 (1)
+        {txt}
+        {txt}               count       p50        se        lb        ub
+        {txt}{hline 60}
+        {txt}total     {res}        40       232  2.562933       213       239{txt}
+        {txt}{hline 60}
+
+        {com}. estpost stci, by(group)
+        {txt}(confidence level is 95%)
+
+        {ralign 12:} {c |} {ralign 9:e(count)}  {ralign 9:e(p50)}  {ralign 9:e(se)}  {ralign 9:e(lb)}  {ralign 9:e(ub)}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:1} {c |} {ralign 9:{res:{sf:       19}}}  {ralign 9:{res:{sf:      216}}}  {ralign 9:{res:{sf: 5.171042}}}  {ralign 9:{res:{sf:      190}}}  {ralign 9:{res:{sf:      234}}}
+        {ralign 12:2} {c |} {ralign 9:{res:{sf:       21}}}  {ralign 9:{res:{sf:      233}}}  {ralign 9:{res:{sf: 2.179595}}}  {ralign 9:{res:{sf:      232}}}  {ralign 9:{res:{sf:      280}}}
+        {hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+        {ralign 12:total} {c |} {ralign 9:{res:{sf:       40}}}  {ralign 9:{res:{sf:      232}}}  {ralign 9:{res:{sf: 2.562933}}}  {ralign 9:{res:{sf:      213}}}  {ralign 9:{res:{sf:      239}}}
+
+        {com}. esttab ., cell("count p50 se lb ub") noobs compress
+        {res}
+        {txt}{hline 60}
+        {txt}                 (1)
+        {txt}
+        {txt}               count       p50        se        lb        ub
+        {txt}{hline 60}
+        {txt}1         {res}        19       216  5.171042       190       234{txt}
+        {txt}2         {res}        21       233  2.179595       232       280{txt}
+        {txt}total     {res}        40       232  2.562933       213       239{txt}
+        {txt}{hline 60}
+{* end example }{txt}{...}
+
+{marker margins}
+{dlgtab:margins}
+
+{p 4 15 2}
+{cmd:estpost} {cmd:margins}
+    [{it:{help fvvarlist:marginlist}}] [{it:{help if}}] [{it:{help in}}] [{it:{help weight}}]
+    [{cmd:,}
+        {cmdab:q:uietly}
+        {it:{help margins:margins_opions}}
+    ]
+
+{p 4 4 2}
+    posts results from the {helpb margins} command, that was introduced in
+    Stata 11.
+
+{p 4 4 2}
+    Options are:
+
+{p 8 12 2}
+        {cmd:quietly} to suppress the output.
+
+{p 8 12 2}
+        {it:margins_opions} as described in help {helpb margins} (except {cmd:post}).
+
+{p 4 4 2}{cmd:estpost margins} replaces the current {cmd:e(b)} and
+{cmd:e(V)} with {cmd:r(b)} and {cmd:r(V)} from {helpb margins} and
+also copies all other matrixes, scalars, and macros from {helpb margins} into
+{cmd:e()} (possibly replacing identically named existing entries).
+
+{p 4 4 2}
+    Examples:
+
+{* begin example margins }{...}
+        {com}. sysuse auto, clear
+        {txt}(1978 Automobile Data)
+
+        {com}. quietly logit foreign price mpg weight
+        {txt}
+        {com}. estpost margins, dydx(*) quietly
+        {txt}
+        {com}. esttab ., cell("b se") pr2
+        {res}
+        {txt}{hline 38}
+        {txt}                      (1)
+        {txt}                  foreign
+        {txt}                        b           se
+        {txt}{hline 38}
+        {txt}price       {res}     .0000686     .0000136{txt}
+        {txt}mpg         {res}    -.0089607      .006596{txt}
+        {txt}weight      {res}    -.0005069      .000055{txt}
+        {txt}{hline 38}
+        {txt}N           {res}           74             {txt}
+        {txt}pseudo R-sq {res}        0.619             {txt}
+        {txt}{hline 38}
+{* end example }{txt}{...}
+
+
+{title:Author}
+
+{p 4 4 2} Ben Jann, ETH Zurich, jannb@ethz.ch
+
+
+{title:Also see}
+
+    Manual:  {hi:[R] estimates}
+
+{p 4 13 2}Online:  help for
+ {helpb estimates},
+ {helpb estout},
+ {helpb esttab},
+ {helpb eststo},
+ {helpb estadd}
+{p_end}

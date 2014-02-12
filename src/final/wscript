@@ -1,22 +1,50 @@
 def build(ctx):
-    
-    def out_analysis(*args):
-        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 
-    def out_tables(*args):
-        return ctx.path_to(ctx, 'OUT_TABLES', *args)
+		
+	def out_analysis(*args):
+		return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 	
-	# Illustrate simple use of run_do_script.
+	def out_tables(*args):
+	    return ctx.path_to(ctx, 'OUT_TABLES', *args)
 	
-	for panel in '1','2','3','4','5':
-	    ctx(
-	        features='run_do_script',
-	        source='table2_write.do',
-	        target=[
-	        		out_analysis('log', 'table2_write.log'),
-	        		out_tables('table2.tex'),	
-	        deps=[
-	            '../library/stata/project_paths.do',
-	            out_data('table2_temp_{}'.format(panel))
-	        ],
-	    )
+	def out_data(*args):
+	    return ctx.path_to(ctx, 'OUT_DATA', *args)
+
+	# Table 1.
+	
+	ctx(
+	    features='run_do_script',
+	    source='table1_main_variables_final.do',
+	    target=[
+	    		out_analysis('log', 'table1_main_variables_final.log'),
+	    		out_tables('table1_main_variables.tex'),
+		],	
+	    deps=[
+	        '../library/stata/project_paths.do',
+	        out_data('table1_main_variables_temp_est.dta'),
+	        out_data('table1_main_variables_temp_corr.dta')
+	    ]
+	)
+
+	
+	# Table 2.
+		
+	ctx(
+	    features='run_do_script',
+	    source='table2_first_stage_est_final.do',
+	    target=[
+	    		out_analysis('log', 'table2_first_stage_est_final.log'),
+	    		out_tables('table2_first_stage_est.tex'),
+		],	
+	    deps=[
+	        '../library/stata/project_paths.do',
+	        out_data('table2_first_stage_est_temp_1.dta'),
+	        out_data('table2_first_stage_est_temp_2.dta'),
+	        out_data('table2_first_stage_est_temp_3.dta'),
+	        out_data('table2_first_stage_est_temp_4.dta'),
+	        out_data('table2_first_stage_est_temp_5.dta')
+	    ]
+	)
+
+
+

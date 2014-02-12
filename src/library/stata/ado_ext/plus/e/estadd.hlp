@@ -1,0 +1,935 @@
+{smcl}
+{* 08oct2009}{...}
+{hi:help estadd}{right:also see: {helpb esttab}, {helpb estout}, {helpb eststo}, {helpb estpost}}
+{right: {browse "http://repec.org/bocode/e/estout"}}
+{hline}
+
+{title:Title}
+
+{p 4 4 2}{hi:estadd} {hline 2} Add results to (stored) estimates
+
+
+{title:Syntax}
+
+{p 8 15 2}
+{cmd:estadd} {it:{help estadd##subcommands:subcommand}} [{cmd:,}
+{it:{help estadd##opts:options}} ] [ {cmd::} {it:namelist} ]
+
+
+    where {it:namelist} is {cmd:_all} | {cmd:*} | {it:name} [{it:name} ...]
+
+{marker subcommands}
+    {it:subcommands}{col 26}description
+    {hline 64}
+    Elementary
+      {helpb estadd##local:{ul:loc}al} {it:name ...}{col 26}{...}
+add a macro
+      {helpb estadd##scalar:{ul:sca}lar} {it:name} {cmd:=} {it:exp}{col 26}{...}
+add a scalar
+      {helpb estadd##matrix:{ul:mat}rix} {it:name} {cmd:=} {it:mat}{col 26}{...}
+add a matrix
+      {helpb estadd##rreturn:r({it:name})}{col 26}{...}
+add contents of {cmd:r(}{it:name}{cmd:)} (matrix or scalar)
+
+    Statistics for each
+    coefficient
+      {helpb estadd##beta:beta}{col 26}{...}
+standardized coefficients
+      {helpb estadd##vif:vif}{col 26}{...}
+variance inflation factors (after {cmd:regress})
+      {helpb estadd##pcorr:pcorr}{col 26}{...}
+partial (and semi-partial) correlations
+      {helpb estadd##expb:expb}{col 26}{...}
+exponentiated coefficients
+      {helpb estadd##ebsd:ebsd}{col 26}{...}
+standardized factor change coefficients
+      {helpb estadd##mean:mean}{col 26}{...}
+means of regressors
+      {helpb estadd##sd:sd}{col 26}{...}
+standard deviations of regressors
+      {helpb estadd##summ:summ}{col 26}{...}
+various descriptives of the regressors
+
+    Summary statistics
+      {helpb estadd##coxsnell:coxsnell}{col 26}{...}
+Cox & Snell's pseudo R-squared
+      {helpb estadd##nagelkerke:nagelkerke}{col 26}{...}
+Nagelkerke's pseudo R-squared
+      {helpb estadd##lrtest:lrtest} {it:model}{col 26}{...}
+likelihood-ratio test
+      {helpb estadd##ysumm:ysumm}{col 26}{...}
+descriptives of the dependent variable
+
+    Other
+      {helpb estadd##margins:margins}{col 26}{...}
+add results from {cmd:margins} (Stata 11)
+
+    {help estadd##spost:SPost}
+      {helpb estadd##brant:brant}{col 26}{...}
+add results from {cmd:brant} (if installed)
+      {helpb estadd##fitstat:fitstat}{col 26}{...}
+add results from {cmd:fitstat} (if installed)
+      {helpb estadd##listcoef:listcoef}{col 26}{...}
+add results from {cmd:listcoef} (if installed)
+      {helpb estadd##mlogtest:mlogtest}{col 26}{...}
+add results from {cmd:mlogtest} (if installed)
+      {helpb estadd##prchange:prchange}{col 26}{...}
+add results from {cmd:prchange} (if installed)
+      {helpb estadd##prvalue:prvalue}{col 26}{...}
+add results from {cmd:prvalue} (if installed)
+      {helpb estadd##asprvalue:asprvalue}{col 26}{...}
+add results from {cmd:asprvalue} (if installed)
+    {hline 64}
+
+{marker opts}
+    {it:{help estadd##options:options}}{col 26}description
+    {hline 64}
+      {cmdab:r:eplace}{col 26}{...}
+permit overwriting existing {cmd:e()}'s
+      {cmdab:p:refix(}{it:string}{cmd:)}{col 26}{...}
+specify prefix for names of added results
+      {cmdab:q:uietly}{col 26}{...}
+suppress output from subcommand (if any)
+      {it:subcmdopts}{col 26}{...}
+subcommand specific options
+    {hline 64}
+
+
+{title:Description}
+
+{p 4 4 2}
+{cmd:estadd} adds additional results to the {cmd:e()}-returns of an
+estimation command (see help {help estcom}, help {helpb ereturn}). If no
+{it:namelist} is provided, then the results are added to the
+currently active estimates (i.e. the model fit last). If these
+estimates have been previously stored, the stored copy of the
+estimates will also be modified. Alternatively, if {it:namelist} is
+provided after the colon, results are added to all indicated sets of
+stored estimates (see help {helpb estimates store} or help
+{helpb eststo}). You may use the {cmd:*} and {cmd:?}
+wildcards in {it:namelist}. Execution is silent if {it:namelist} is
+provided.
+
+{p 4 4 2}
+Adding additional results to the {cmd:e()}-returns is useful, for example,
+if the estimates be tabulated by commands such as {helpb estout}
+or {helpb esttab}. See the {help estadd##examples:Examples} section below for
+illustration of the usage of {cmd:estadd}.
+
+{p 4 4 2}Technical note: Some of the subcommands below make use of the
+information contained in {cmd:e(sample)} to determine estimation sample.
+These subcommands return error if the estimates do not contain
+{cmd:e(sample)}.
+
+
+{title:Subcommands}
+
+{dlgtab:Elementary}
+{marker local}
+{p 4 8 2}
+{cmd:estadd} {cmdab:loc:al} {it:name ...}
+
+{p 8 8 2}
+adds in macro {cmd:e(}{it:name}{cmd:)} the specified contents (also
+see help {helpb ereturn}).
+
+{marker scalar}
+{p 4 8 2}
+{cmd:estadd} {cmdab:sca:lar} {it:name} {cmd:=} {it:exp}
+
+{p 8 8 2}
+adds in scalar {cmd:e(}{it:name}{cmd:)} the evaluation of {it:exp}
+(also see help {helpb ereturn}).
+
+{p 4 8 2}
+{cmd:estadd} {cmdab:sca:lar} {cmd:r(}{it:name}{cmd:)}
+
+{p 8 8 2}
+adds in scalar {cmd:e(}{it:name}{cmd:)} the value of scalar {cmd:r(}{it:name}{cmd:)}.
+
+{p 4 8 2}
+{cmd:estadd} {cmdab:sca:lar} {it:name}
+
+{p 8 8 2}
+adds in scalar {cmd:e(}{it:name}{cmd:)} the the value of scalar {it:name}.
+
+{marker matrix}
+{p 4 8 2}
+{cmd:estadd} {cmdab:mat:rix} {it:name} {cmd:=} {it:matrix_expression}
+
+{p 8 8 2}
+adds in matrix {cmd:e(}{it:name}{cmd:)} the evaluation of {it:matrix_expression}
+(also see help {helpb matrix define}).
+
+{p 4 8 2}
+{cmd:estadd} {cmdab:mat:rix} {cmd:r(}{it:name}{cmd:)}
+
+{p 8 8 2}
+adds in matrix {cmd:e(}{it:name}{cmd:)} a copy of matrix {cmd:r(}{it:name}{cmd:)}.
+
+{p 4 8 2}
+{cmd:estadd} {cmdab:mat:rix} {it:name}
+
+{p 8 8 2}
+adds in matrix {cmd:e(}{it:name}{cmd:)} a copy of matrix {it:name}.
+
+{marker rreturn}
+{p 4 8 2}
+{cmd:estadd} {cmd:r(}{it:name}{cmd:)}
+
+{p 8 8 2}
+adds in {cmd:e(}{it:name}{cmd:)} the value of scalar {cmd:r(}{it:name}{cmd:)}
+or a copy of matrix {cmd:r(}{it:name}{cmd:)}, depending on the nature of
+{cmd:r(}{it:name}{cmd:)}.
+
+
+{dlgtab:Statistics for each coefficient}
+{marker beta}
+{p 4 8 2}
+{cmd:estadd} {cmd:beta}
+
+{p 8 8 2}
+adds in {cmd:e(beta)} the standardized beta coefficients.
+
+{marker vif}
+{p 4 8 2}
+{cmd:estadd} {cmd:vif} [{cmd:,} {cmdab:tol:erance} {cmdab:sqr:vif} ]
+
+{p 8 8 2}
+adds in {cmd:e(vif)} the variance inflation factors (VIFs) for the
+regressors (see help {helpb vif}). Note that {cmd:vif} only works
+with estimates produced by {helpb regress}. {cmd:tolerance}
+additionally adds the tolerances (1/VIF) in {cmd:e(tolerance)}.
+{cmd:sqrvif} additionally adds the square roots of the VIFs in
+{cmd:e(sqrvif)}.
+
+{marker pcorr}
+{p 4 8 2}
+{cmd:estadd} {cmd:pcorr} [{cmd:, semi} ]
+
+{p 8 8 2}
+adds the partial correlations (see help {helpb pcorr}) and,
+optionally, the semi-partial correlations between the dependent
+variable and the individual regressors (see, e.g., the {cmd:pcorr2}
+package from the SSC Archive). In the case of multiple-equations
+models, the results are computed for the first equation only. The
+partial correlations will be returned in {cmd:e(pcorr)} and, if
+{cmd:semi} is specified, the semi-partial correlations will be
+returned in {cmd:e(spcorr)}.
+
+{marker expb}
+{p 4 8 2}
+{cmd:estadd} {cmd:expb} [{cmd:,} {cmdab:nocons:tant} ]
+
+{p 8 8 2}
+adds in {cmd:e(expb)} the exponentiated coefficients (see the help
+{it:{help eform_option}}). {cmd:noconstant} excludes the constant
+from the added results.
+
+{marker ebsd}
+{p 4 8 2}
+{cmd:estadd} {cmd:ebsd}
+
+{p 8 8 2}
+adds in {cmd:e(ebsd)} the standardized factor change coefficients,
+i.e. exp(b_jS_j), where b_j is the raw coefficient and S_j is the
+standard deviation of regressor j, that are sometimes reported for
+logistic regression (see Long 1997).
+
+{marker mean}
+{p 4 8 2}
+{cmd:estadd} {cmd:mean}
+
+{p 8 8 2}
+adds in {cmd:e(mean)} the means of the regressors.
+
+{marker sd}
+{p 4 8 2}
+{cmd:estadd} {cmd:sd} [{cmd:,} {cmdab:nob:inary} ]
+
+{p 8 8 2}
+adds in {cmd:e(sd)} the standard deviations of the regressors.
+{cmd:nobinary} suppresses the computation of the standard deviation
+for 0/1 variables.
+
+{marker summ}
+{p 4 8 2}
+{cmd:estadd} {cmd:summ} [{cmd:,} {it:stats} ]
+
+{p 8 8 2}
+adds vectors of the regressors' descriptive statistics to the
+estimates. The following {it:stats} are available:
+{p_end}
+{marker stats}
+        {it:stats}{col 26}description
+        {hline 59}
+          {cmdab:me:an}{col 26}mean
+          {cmdab:su:m}{col 26}sum
+          {cmdab:mi:n}{col 26}minimum
+          {cmdab:ma:x}{col 26}maximum
+          {cmdab:ra:nge}{col 26}range = max - min
+          {cmd:sd}{col 26}standard deviation
+          {cmdab:v:ar}{col 26}variance
+          {cmd:cv}{col 26}coefficient of variation (sd/mean)
+          {cmdab:sem:ean}{col 26}standard error of mean = sd/sqrt(n)
+          {cmdab:sk:ewness}{col 26}skewness
+          {cmdab:k:urtosis}{col 26}kurtosis
+          {cmd:p1}{col 26}1st percentile
+          {cmd:p5}{col 26}5th percentile
+          {cmd:p10}{col 26}10th percentile
+          {cmd:p25}{col 26}25th percentile
+          {cmd:p50}{col 26}50th percentile
+          {cmd:p75}{col 26}75th percentile
+          {cmd:p90}{col 26}90th percentile
+          {cmd:p95}{col 26}95th percentile
+          {cmd:p99}{col 26}99th percentile
+          {cmd:iqr}{col 26}interquartile range = p75 - p25
+          {cmd:all}{col 26}all of the above
+          {cmdab:med:ian}{col 26}equivalent to specifying "{cmd:p50}"
+          {cmd:q}{col 26}equivalent to specifying "{cmd:p25 p50 p75}"
+        {hline 59}
+
+{p 8 8 2}
+The default is {cmd:mean sd min max}. Alternatively, indicate the
+desired statistics. For example, to add information on the
+regressors' skewness and kurtosis, type
+
+            {inp:. estadd summ, skewness kurtosis}
+
+{p 8 8 2}
+The statistics names are used as the names for the returned {cmd:e()}
+matrices. For example, {cmd:estadd summ, mean} will store the means
+of the regressors in {cmd:e(mean)}.
+
+
+{dlgtab:Summary statistics}
+{marker coxsnell}
+{p 4 8 2}
+{cmd:estadd} {cmd:coxsnell}
+
+{p 8 8 2}
+adds in {cmd:e(coxsnell)} the Cox & Snell pseudo R-squared, which is
+defined as
+
+{p 12 12 2}
+r2_coxsnell = 1 - ( L0 / L1 )^(2/N)
+
+{p 8 8 2}
+where L0 is the likelihood of the model without regressors, L1 the
+likelihood of the full model, and N is the sample size.
+
+{marker nagelkerke}
+{p 4 8 2}
+{cmd:estadd} {cmd:nagelkerke}
+
+{p 8 8 2}
+adds in {cmd:e(nagelkerke)} the Nagelkerke pseudo R-squared (or Cragg
+& Uhler pseudo R-squared), which is defined as
+
+{p 12 12 2}
+r2_nagelkerke = r2_coxsnell / (1 - L0^(2/N))
+
+{marker lrtest}
+{p 4 8 2}
+{cmd:estadd} {cmd:lrtest} {it:model} [{cmd:,} {cmdab:n:ame:(}{it:string}{cmd:)}
+{it:{help lrtest:lrtest_options}} ]
+
+{p 8 8 2}
+adds the results from a likelihood-ratio test, where {it:model} is
+the comparison model (see help {helpb lrtest}). Added are
+{cmd:e(lrtest_chi2)}, {cmd:e(lrtest_df)}, and {cmd:e(lrtest_p)}. The
+names may be modified using the {cmd:name()} option. Specify
+{cmd:name(}{it:myname}{cmd:)} to add {cmd:e(}{it:myname}{cmd:chi2)},
+{cmd:e(}{it:myname}{cmd:df)}, and {cmd:e(}{it:myname}{cmd:p)}. See
+help {helpb lrtest} for the {it:lrtest_options}.
+
+{marker ysumm}
+{p 4 8 2}
+{cmd:estadd} {cmd:ysumm} [{cmd:,} {it:stats} ]
+
+{p 8 8 2}
+adds descriptive statistics of the dependent variable. See the
+{helpb estadd##summ:summ} subcommand above for a list of the available
+{it:stats}. The default is {cmd:mean sd min max}. The default prefix
+for the names of the added scalars is {cmd:y} (e.g. the mean of the
+dependent variable will be returned in {cmd:e(ymean)}). Use
+{cmd:estadd}'s {cmd:prefix()} option to change the prefix. If a model
+has multiple dependent variables, results for the first variable will
+be added.
+
+{dlgtab:Other}
+{marker margins}
+{p 4 8 2}
+{cmd:estadd} {cmd:margins} [{it:marginlist}] [{it:if}] [{it:in}] [{it:weight}] [, {it:options} ]
+
+{p 8 8 2} 
+adds results from the {cmd:margins} command, which was introduced 
+in Stata 11. See help {helpb margins} for options. All results returned by 
+{cmd:margins} except {cmd:e(V)} are added using "{cmd:margins_}" as a default 
+prefix. For example, the margins are added in {cmd:e(margins_b)}. The 
+standard errors are added in {cmd:e(margins_se)}. Use the {helpb estadd##opts:prefix()} 
+option to change the default prefix.
+
+{marker spost}
+{dlgtab:SPost}
+
+{p 4 4 2} The following subcommands are wrappers for
+commands from Long and Freese's {helpb SPost} package (see
+{browse "http://www.indiana.edu/~jslsoc/spost.htm":http://www.indiana.edu/~jslsoc/spost.htm}). Type
+
+        . {net "from http://www.indiana.edu/~jslsoc/stata":net from http://www.indiana.edu/~jslsoc/stata}
+
+{p 4 4 2}
+to obtain the latest {cmd:SPost} version (spost9_ado). {cmd:SPost} for Stata 8 (spostado) is not
+supported.
+
+{p 4 4 2}For examples on using the subcommands see
+{browse "http://repec.org/bocode/e/estout/spost.html":http://repec.org/bocode/e/estout/spost.html}.
+
+{marker brant}
+{p 4 8 2}
+{cmd:estadd brant} [{cmd:,} {it:{help brant:brant_options}} ]
+
+{p 8 8 2}
+applies {helpb brant} from Long and
+Freese's {helpb SPost} package and adds the returned results to
+{cmd:e()}. You may specify {it:brant_options} as described in
+help {helpb brant}. The following results are added:
+
+        {cmd:e(}{it:...}{cmd:)}        Contents
+        {hline 60}
+        Scalars
+          {cmd:brant_chi2}  Chi-squared of overall Brant test
+          {cmd:brant_df}    Degrees of freedom of overall Brant test
+          {cmd:brant_p}     P-value of overall Brant test
+
+        Matrix
+          {cmd:brant}       Test results for individual regressors
+                      (rows: chi2, p<chi2)
+        {hline 60}
+
+{p 4 4 2}To address the rows of {cmd:e(brant)} in {helpb estout}'s {cmd:cells()} 
+option type {cmd:brant[chi2]} and {cmd:brant[p<chi2]}.
+
+{marker fitstat}
+{p 4 8 2}
+{cmd:estadd fitstat} [{cmd:,} {it:{help fitstat:fitstat_options}} ]
+
+{p 8 8 2}
+applies {helpb fitstat} from Long and
+Freese's {helpb SPost} package and adds the returned scalars to
+{cmd:e()}. You may specify {it:fitstat_options} as described in
+help {helpb fitstat}. Depending on model
+and options, a selection of the following scalar statistics is added:
+
+        {cmd:e(}{it:...}{cmd:)}        Contents
+        {hline 60}
+        {cmd:dev}           Deviance (D)
+        {cmd:dev_df}        Degrees of freedom of D
+        {cmd:lrx2}          LR or Wald X2
+        {cmd:lrx2_df}       Degrees of freedom of X2
+        {cmd:lrx2_p}        Prob > LR or Wald X2
+        {cmd:r2_adj}        Adjusted R2
+        {cmd:r2_mf}         McFadden's R2
+        {cmd:r2_mfadj}      McFadden's Adj R2
+        {cmd:r2_ml}         ML (Cox-Snell) R2
+        {cmd:r2_cu}         Cragg-Uhler(Nagelkerke) R2
+        {cmd:r2_mz}         McKelvey & Zavoina's R2
+        {cmd:r2_ef}         Efron's R2
+        {cmd:v_ystar}       Variance of y*
+        {cmd:v_error}       Variance of error
+        {cmd:r2_ct}         Count R2
+        {cmd:r2_ctadj}      Adj Count R2
+        {cmd:aic0}          AIC
+        {cmd:aic_n}         AIC*n
+        {cmd:bic0}          BIC
+        {cmd:bic_p}         BIC'
+        {cmd:statabic}      BIC used by Stata
+        {cmd:stataaic}      AIC used by Stata
+        {cmd:n_rhs}         Number of rhs variables
+        {cmd:n_parm}        Number of parameters
+        {hline 60}
+
+{marker listcoef}
+{p 4 8 2}
+{cmd:estadd listcoef} [{it:varlist}] [{cmd:,} {cmd:nosd} {it:{help listcoef:listcoef_options}} ]
+
+{p 8 8 2}
+applies {helpb listcoef} from Long and
+Freese's {helpb SPost} package and adds the returned results to
+{cmd:e()}. You may specify {it:listcoef_options} as described in
+help {helpb listcoef}. Furthermore,  option {cmd:nosd} suppresses 
+adding the standard deviations of the variables in {cmd:e(b_sdx)}.
+
+{p 8 8 2}Depending on the estimation command and options, several of the
+following matrices are added:
+
+        {cmd:e(}{it:...}{cmd:)}        Contents
+        {hline 60}
+        {cmd:b_xs}          x-standardized coefficients
+        {cmd:b_ys}          y-standardized coefficients
+        {cmd:b_std}         Fully standardized coefficients
+        {cmd:b_fact}        Factor change coefficients
+        {cmd:b_facts}       Standardized factor change coefficients
+        {cmd:b_pct}         Percent change coefficients
+        {cmd:b_pcts}        Standardized percent change coefficients
+        {cmd:b_sdx}         Standard deviation of the Xs
+        {hline 60}
+
+{p 8 8 2}For nominal models ({helpb mlogit}, {helpb mprobit}) the 
+original parametrization of {cmd:e(b)} may not match the contrasts 
+computed by {cmd:listcoef}. To be able to tabulate standardized 
+coefficients along with the raw coefficients for the requested 
+contrasts, the following additional matrices are added for 
+these models:
+
+        {cmd:e(}{it:...}{cmd:)}        Contents
+        {hline 60}
+        {cmd:b_raw}         raw coefficients
+        {cmd:b_se}          standard errors of raw coefficients
+        {cmd:b_z}           z statistics
+        {cmd:b_p}           p-values
+        {hline 60}
+
+{marker mlogtest}
+{p 4 8 2}
+{cmd:estadd mlogtest} [{it:varlist}] [{cmd:,} {it:{help mlogtest:mlogtest_options}} ]
+
+{p 8 8 2}
+applies {helpb mlogtest} from Long and
+Freese's {helpb SPost} package and adds the returned results to
+{cmd:e()}. You may specify {it:mlogtest_options} as described in
+help {helpb mlogtest}.
+
+{p 8 8 2}Depending on the specified options, a selection of the following
+returns are added:
+
+        {cmd:e(}{it:...}{cmd:)}               Contents
+        {hline 60}
+        Scalars
+          {cmd:hausman_set}{it:#}{cmd:_chi2}  Hausman IIA tests using {helpb hausman}
+          {cmd:hausman_set}{it:#}{cmd:_df}
+          {cmd:hausman_set}{it:#}{cmd:_p}
+
+          {cmd:suest_set}{it:#}{cmd:_chi2}    Hausman IIA tests using {helpb suest}
+          {cmd:suest_set}{it:#}{cmd:_df}
+          {cmd:suest_set}{it:#}{cmd:_p}
+
+          {cmd:smhsiao_set}{it:#}{cmd:_chi2}  Small-Hsiao IIA tests
+          {cmd:smhsiao_set}{it:#}{cmd:_df}
+          {cmd:smhsiao_set}{it:#}{cmd:_p}
+
+          {cmd:combine_}{it:#1}{cmd:_}{it:#2}{cmd:_chi2} Wald tests for combination of outcomes
+          {cmd:combine_}{it:#1}{cmd:_}{it:#2}{cmd:_df}
+          {cmd:combine_}{it:#1}{cmd:_}{it:#2}{cmd:_p}
+
+          {cmd:lrcomb_}{it:#1}{cmd:_}{it:#2}{cmd:_chi2}  LR tests for combination of outcomes
+          {cmd:lrcomb_}{it:#1}{cmd:_}{it:#2}{cmd:_df}
+          {cmd:lrcomb_}{it:#1}{cmd:_}{it:#2}{cmd:_p}
+
+          {cmd:wald_set}{it:#}{cmd:_chi2}     Wald tests for sets of independent
+          {cmd:wald_set}{it:#}{cmd:_df}       variables
+          {cmd:wald_set}{it:#}{cmd:_p}
+
+          {cmd:lrtest_set}{it:#}{cmd:_chi2}   LR tests for sets of independent
+          {cmd:lrtest_set}{it:#}{cmd:_df}     variables
+          {cmd:lrtest_set}{it:#}{cmd:_p}
+
+        Matrices
+          {cmd:wald}               Wald tests for individual variables
+                             (rows: chi2, df, p)
+          {cmd:lrtest}             LR tests for individual variables
+                             (rows: chi2, df, p)
+        {hline 60}
+
+{p 4 4 2}To address the rows of {cmd:e(wald)} and {cmd:e(lrtest)} in {helpb estout}'s 
+{cmd:cells()} option type the row names in brackets, for example, {cmd:wald[p]} or 
+{cmd:lrtest[chi2]}.
+
+{marker prchange}
+{p 4 8 2}
+{cmd:estadd prchange} [{it:varlist}] [{cmd:if} {it:exp}] [{cmd:in} {it:range}] [{cmd:,}
+ {cmdab:pa:ttern(}{it:typepattern}{cmd:)} {cmdab:b:inary(}{it:type}{cmd:)} {cmdab:c:ontinuous(}{it:type}{cmd:)}
+ [{cmd:no}]{cmdab:a:vg} {cmd:split}[{cmd:(}{it:prefix}{cmd:)}] {it:{help prchange:prchange_options}} ]
+
+{p 8 8 2}
+applies {helpb prchange} from Long and
+Freese's {helpb SPost} package and adds the returned results to
+{cmd:e()}. You may specify {it:prchange_options} as described in
+help {helpb prchange}. In particular, the {cmd:outcome()} option may be
+used with models for count, ordered, or nominal outcomes
+to request results for a specific outcome. Further options are:
+
+{p 8 12 2}{cmd:pattern(}{it:typepattern}{cmd:)}, {cmd:binary(}{it:type}{cmd:)}, and
+{cmd:continuous(}{it:type}{cmd:)} to determine which types of discrete change
+effects are added as the main results. The default is to add the 0 to 1
+change effect for binary variables and the standard deviation change effect
+for continuous variables. Use {cmd:binary(}{it:type}{cmd:)} and
+{cmd:continuous(}{it:type}{cmd:)} to change these defaults. Available
+types are:
+
+                {it:type}        Description
+                {hline 48}
+                {cmdab:mi:nmax}      minimum to maximum change effect
+                {cmdab:0:1}          0 to 1 change effect
+                {cmdab:d:elta}       {cmd:delta()} change effect
+                {cmdab:s:d}          standard deviation change effect
+                {cmdab:m:argefct}    marginal effect (some models only)
+                {hline 48}
+
+{p 12 12 2}Use {cmd:pattern(}{it:typepattern}{cmd:)} if you want to determine the
+type of the added effects individually for each regressor. For example,
+{bind:{cmd:pattern(minmax sd delta)}} would add {cmd:minmax} for the first regressor,
+{cmd:sd} for the second, and {cmd:delta} for the third, and then proceed
+using the defaults for the remaining variables.
+
+{p 8 12 2}{cmd:avg} to request that only the average results over 
+all outcomes are added if applied to ordered
+or nominal models ({helpb ologit}, {helpb oprobit}, {helpb slogit}, {helpb mlogit}, {helpb mprobit}). The 
+default is to add the average results as well as the individual results for 
+the different outcomes (unless {helpb prchange}'s {cmd:outcome()} option is 
+specified, in which case only results for the indicated outcome are 
+added). Furthermore, specify {cmd:noavg} to suppress the average results 
+and only add the outcome-specific results. {cmd:avg} cannot be combined with {cmd:split} 
+or {cmd:outcome()}. 
+
+{p 8 12 2}{cmd:split}[{cmd:(}{it:prefix}{cmd:)}] to save 
+each outcome's results in a separate estimation set if applied to ordered
+or nominal models ({helpb ologit}, {helpb oprobit}, {helpb slogit}, {helpb mlogit},
+{helpb mprobit}). The estimation sets are named
+{it:prefix}{it:#}, where {it:#} is the value of the outcome at hand. If no
+{it:prefix} is provided, the name of the estimation set followed by an
+underscore is used as the prefix. If the estimation set has no name
+(because it has not been stored yet) the name of the estimation command
+followed by an underscore is used as the prefix (e.g. {cmd:ologit_}). The
+estimation sets stored by the {cmd:split} option are intended for
+tabulation only and should not be used with other post-estimation
+commands.
+
+{p 8 8 2}Depending on model and options, several of the following matrices
+and scalars are added:
+
+        {cmd:e(}{it:...}{cmd:)}        Contents
+        {hline 60}
+        Scalars
+          {cmd:centered}    {cmd:1} if effects are centered, {cmd:0} else
+          {cmd:delta}       Value of {cmd:delta()}
+          {cmd:predval}[{it:#}]  Prediction(s) at the base values
+          {cmd:outcome}     Outcome value ({cmd:outcome()}/{cmd:split} only)
+
+        Matrices
+          {cmd:dc}          Discrete change effects (rows: main, minmax,
+                      01, delta, sd [, margefct])
+          {cmd:pattern}     Types of effects in the main row of {cmd:e(dc)}
+          {cmd:X}           Base values and descriptive statistics
+                      (rows: X, SD, Min, Max)
+        {hline 60}
+
+{p 8 8 2}The {cmd:e(dc)} and {cmd:e(X)} matrices have multiple rows. The
+{cmd:e(dc)} matrix contains the main results as determined by
+{cmd:pattern()}, {cmd:binary()}, and {cmd:continuous()} in the first row.
+The second and following rows contain the separate results for each type of
+effect using the labels provided by {cmd:prchange} as row names. Type
+{cmd:dc[}{it:#}{cmd:]} or {cmd:dc[}{it:rowname}{cmd:]} to address the rows
+in {helpb estout}'s {cmd:cells()} option, where {it:#} is the row number 
+or {it:rowname} is the
+row name. For example, type {cmd:dc[-+sd/2]} to address the centered
+standard deviation change effects. To tabulate the main results (1st row),
+simply type {cmd:dc}. {cmd:e(pattern)} indicates the types of effects
+contained in the main row of {cmd:e(dc)} using numeric codes. The codes are 1
+for the minimum to maximum change effect, 2 for the 0 to 1 change effect, 3
+for the {cmd:delta()} change effect, 4 for the standard deviation change
+effect, and 5 for the marginal effect. {cmd:e(X)} has four rows
+containing the base values, standard deviations, minimums, and maximums. If
+the {cmd:fromto} option is specified, two additional matrices,
+{cmd:e(dcfrom)} and {cmd:e(dcto)} are added. 
+
+{marker prvalue}
+{p 4 8 2}
+{cmd:estadd prvalue} [{cmd:if} {it:exp}] [{cmd:in} {it:range}] [{cmd:,} {cmdab:lab:el:(}{it:string}{cmd:)}
+{it:{help prvalue:prvalue_options}} ]
+
+{p 4 8 2}
+{cmd:estadd prvalue} {cmd:post} [{it:name}] [{cmd:,} {cmdab:t:itle:(}{it:string}{cmd:)} {cmd:swap} ]
+
+{p 8 8 2} applies {helpb prvalue} from Long and Freese's {helpb SPost}
+package and adds the returned results to {cmd:e()}. The procedure is to
+first collect a series of predictions by repeated calls to
+{cmd:estadd prvalue} and then apply {cmd:estadd prvalue post} to prepare the results
+for tabulation as in the following example:
+
+            {com}. logit lfp k5 k618 age wc hc lwg inc
+            . estadd prvalue, x(inc 10) label(low inc)
+            . estadd prvalue, x(inc 20) label(med inc)
+            . estadd prvalue, x(inc 30) label(high inc)
+            . estadd prvalue post
+            . estout{txt}
+
+{p 8 8 2} You may specify {it:prvalue_options} with {cmd:estadd prvalue} as
+described in help {helpb prvalue}. For example, use {cmd:x()} and
+{cmd:rest()} to set the values of the independent variables. Use
+{cmd:label()} to label the single calls. "pred#" is used as label if
+{cmd:label()} is omitted, where # is the number of the call. Labels may
+contain spaces but they will be trimmed to a maximum
+length of 30 characters and some characters ({cmd::},
+{cmd:.}, {cmd:"}) will be replaced by underscore. The results
+from the single calls are collected in matrix {cmd:e(_estadd_prvalue)}
+(predictions) and matrix {cmd:e(_estadd_prvalue_x)} (x-values). Specify
+{cmd:replace} to drop results from previous calls.
+
+{p 8 8 2}
+{cmd:estadd prvalue post} posts the collected predictions in {cmd:e(b)}
+so that they can be tabulated. The following results are saved:
+
+        {cmd:e(}{it:...}{cmd:)}        Contents
+        {hline 60}
+        Scalars
+          {cmd:N}           number of observations
+
+        Macros
+          {cmd:depvar}      name of dependent variable
+          {cmd:cmd}         {cmd:estadd_prvalue}
+          {cmd:model}       model estimation command
+          {cmd:properties}  {cmd:b}
+
+        Matrices
+          {cmd:b}           predictions
+          {cmd:se}          standard errors
+          {cmd:LB}          lower confidence interval bounds
+          {cmd:UB}          upper confidence interval bounds
+          {cmd:Category}    outcome values
+          {cmd:Cond}        conditional predictions (some models only)
+          {cmd:X}           values of predictors (for each prediction)
+          {cmd:X2}          second equation predictors (some models only)
+        {hline 60}
+
+{p 8 8 2} {cmd:estadd prvalue post} replaces the current model unless
+{it:name} is specified, in which case the results are stored under {it:name} and the model
+remains active. However, if the model has a name
+(because it has been stored), the name of the model is used as a prefix.
+If, for example, the model has been stored as {cmd:model1}, then
+{cmd:estadd prvalue post} stores its results under {cmd:model1}{it:name}.
+Use {cmd:title()} to specify a title for the stored results.
+
+{p 8 8 2}The default for {cmd:estadd prvalue post} is to arrange
+{cmd:e(b)} in a way so that predictions are grouped by outcome (i.e. outcome labels are used
+as equations). Alternatively, specify {cmd:swap} to group predictions by
+{cmd:prvalue} calls (i.e. to use the prediction labels as equations).
+
+{p 8 8 2}{cmd:e(X)} contains one row for each independent variable. To address the rows in
+{helpb estout}'s {cmd:cells()} option type {cmd:X[}{it:varname}{cmd:]}, where {it:varname} is
+the name of the variable of interest. {cmd:e(X2)}, if provided, is analogous to {cmd:e(X)}.
+
+{marker asprvalue}
+{p 4 8 2}
+{cmd:estadd asprvalue} [{cmd:,} {cmdab:lab:el:(}{it:string}{cmd:)}
+{it:{help asprvalue:asprvalue_options}} ]
+
+{p 4 8 2}
+{cmd:estadd asprvalue} {cmd:post} [{it:name}] [{cmd:,} {cmdab:t:itle:(}{it:string}{cmd:)} {cmd:swap} ]
+
+{p 8 8 2} applies {helpb asprvalue} from Long and Freese's {helpb SPost}
+package and adds the returned results to {cmd:e()}. The procedure is to
+first collect a series of predictions by repeated calls to
+{cmd:estadd asprvalue} and then apply {cmd:estadd asprvalue post} to prepare the results
+for tabulation as in the following example:
+
+            {com}. clogit choice train bus time invc, group(id)
+            . estadd asprvalue, cat(train bus) label(at means)
+            . estadd asprvalue, cat(train bus) rest(asmean) label(at asmeans)
+            . estadd asprvalue post
+            . estout{txt}
+
+{p 8 8 2} You may specify {it:asprvalue_options} with {cmd:estadd asprvalue} as
+described in help {helpb asprvalue}. For example, use {cmd:x()} and
+{cmd:rest()} to set the values of the independent variables.  Use
+{cmd:label()} to label the single calls. "pred#" is used as label if
+{cmd:label()} is omitted, where # is the number of the call.  Labels may
+contain spaces but they will be trimmed to a maximum
+length of 30 characters and some characters ({cmd::},
+{cmd:.}, {cmd:"}) will be replaced by underscore. The results
+from the single calls are collected in matrices {cmd:e(_estadd_asprval)}
+(predictions), {cmd:e(_estadd_asprval_asv)} (values of alternative-specific
+variables), and {cmd:e(_estadd_asprval_csv)} (values of case-specific
+variables). Specify {cmd:replace} to drop results from previous calls.
+
+{p 8 8 2}
+{cmd:estadd asprvalue post} posts the collected predictions in {cmd:e(b)}
+so that they can be tabulated. The following results are saved:
+
+        {cmd:e(}{it:...}{cmd:)}        Contents
+        {hline 60}
+        Scalars
+          {cmd:N}           number of observations
+
+        Macros
+          {cmd:depvar}      name of dependent variable
+          {cmd:cmd}         {cmd:estadd_asprvalue}
+          {cmd:model}       model estimation command
+          {cmd:properties}  {cmd:b}
+
+        Matrices
+          {cmd:b}           predictions
+          {cmd:asv}         alternative-specific variables (if available)
+          {cmd:csv}         case-specific variables (if available)
+        {hline 60}
+
+{p 8 8 2} {cmd:estadd asprvalue post} replaces the current model unless
+{it:name} is specified, in which case the results are stored under
+{it:name} and the model remains active. However, if the model has a name
+(because it has been stored), the name of the model is used as a prefix.
+If, for example, the model has been stored as {cmd:model1}, then
+{cmd:estadd asprvalue post} stores its results under {cmd:model1}{it:name}.
+Use {cmd:title()} to specify a title for the stored results.
+
+{p 8 8 2}The default for {cmd:estadd asprvalue post} is to arrange
+{cmd:e(b)} in a way so that predictions are grouped by outcome (i.e. outcome labels are used
+as equations). Alternatively, specify {cmd:swap} to group predictions by
+{cmd:prvalue} calls (i.e. to use the prediction labels as equations).
+
+{p 8 8 2}{cmd:e(asv)} and {cmd:e(csv)} contain one row for each variable.
+To address the rows in {helpb estout}'s {cmd:cells()} option type
+{cmd:asv[}{it:varname}{cmd:]} or {cmd:csv[}{it:varname}{cmd:]}, where
+{it:varname} is the name of the variable of interest.
+
+{marker options}
+{title:Options}
+
+{p 4 8 2}
+{cmd:replace} permits {cmd:estadd} to overwrite existing {cmd:e()}
+macros, scalars, or matrices.
+
+{p 4 8 2}
+{cmd:prefix(}{it:string}{cmd:)} denotes a prefix for the names of the
+added results. The default prefix is an empty string. For example, if
+{cmd:prefix(}{it:string}{cmd:)} is specified, the {cmd:beta}
+subcommand will return the matrix {cmd:e(}{it:string}{cmd:beta)}.
+
+{p 4 8 2}{cmd:quietly} suppresses the output from the called subcommand and displays only
+the list of added results. Note that many of {cmd:estadd}'s subcommands do not generate
+output, in which case {cmd:quietly} has no effect.
+
+{p 4 8 2}
+{it:subcmdopts} are subcommand specific options. See the descriptions
+of the subcommands above.
+
+{marker examples}
+{title:Examples}
+
+{p 4 4 2}Example 1: Add {cmd:r()}-returns from other programs to the
+current estimates
+
+        {com}. sysuse auto
+        {txt}(1978 Automobile Data)
+
+        {com}. quietly regress price mpg weight
+        {txt}
+        {com}. test mpg=weight
+
+        {txt} ( 1)  {res}mpg - weight = 0
+
+        {txt}       F(  1,    71) ={res}    0.36
+        {txt}{col 13}Prob > F ={res}    0.5514
+        {txt}
+        {com}. estadd scalar p_diff = r(p)
+
+        {txt}added scalar:
+                     e(p_diff) =  {res}.55138216
+        {txt}
+        {com}. estout, stats(p_diff)
+        {res}
+        {txt}{hline 25}
+        {txt}                        b
+        {txt}{hline 25}
+        {txt}mpg         {res}    -49.51222{txt}
+        {txt}weight      {res}     1.746559{txt}
+        {txt}_cons       {res}     1946.069{txt}
+        {txt}{hline 25}
+        {txt}p_diff      {res}     .5513822{txt}
+        {txt}{hline 25}
+
+
+{p 4 4 2}Example 2: Add means and standard deviations of the model's regressors
+to the current estimates
+
+        {com}. quietly logit foreign price mpg
+        {txt}
+        {com}. estadd summ, mean sd
+
+        {txt}added matrices:
+                         e(sd) :  {res}1 x 3
+                       {txt}e(mean) :  {res}1 x 3
+        {txt}
+        {com}. estout, cells("mean sd") drop(_cons)
+        {res}
+        {txt}{hline 38}
+        {txt}                     mean           sd
+        {txt}{hline 38}
+        {txt}price       {res}     6165.257     2949.496{txt}
+        {txt}mpg         {res}      21.2973     5.785503{txt}
+        {txt}{hline 38}
+
+
+{p 4 4 2}
+Example 3: Add standardized beta coefficients to stored estimates
+
+        {com}. eststo: quietly regress price mpg
+        {txt}({res}est1{txt} stored)
+
+        {com}. eststo: quietly regress price mpg foreign
+        {txt}({res}est2{txt} stored)
+
+        {com}. estadd beta: *
+        {txt}
+        {com}. estout, cells(beta)  drop(_cons)
+        {res}
+        {txt}{hline 38}
+        {txt}                     est1         est2
+        {txt}                     beta         beta
+        {txt}{hline 38}
+        {txt}mpg         {res}    -.4685967    -.5770712{txt}
+        {txt}foreign     {res}                  .2757378{txt}
+        {txt}{hline 38}
+
+
+{p 4 4 2}See
+{browse "http://repec.org/bocode/e/estout":http://repec.org/bocode/e/estout}
+for additional examples.
+
+
+{title:Writing one's own subcommands}
+
+{p 4 4 2}
+A program providing a new {cmd:estadd} subcommand should be called
+{cmd:estadd_}{it:mysubcommand} (see help {helpb program} for advice
+on defining programs). {it:mysubcommand} will be available to {cmd:estadd} as a new
+{it:subcommand} after the program definition has been executed or
+saved to a file called "estadd_{it:mysubcommand}.ado" in either the
+current directory or somewhere else in the {cmd:adopath}
+(see help {helpb sysdir}).
+
+{p 4 4 2}
+Use the subcommands provided within "estadd.ado" as a starting
+point for writing new subcommands. See
+{browse "http://repec.org/bocode/e/estout/estadd.html#estadd007":http://repec.org/bocode/e/estout/estadd.html#estadd007}
+for an example.
+
+
+{title:Author}
+
+{p 4 4 2} Ben Jann, ETH Zurich, jannb@ethz.ch
+
+
+{title:Also see}
+
+    Manual:  {hi:[R] estimates}
+
+{p 4 13 2}Online:  help for
+ {helpb estimates},
+ {helpb ereturn},
+ {helpb program},
+ {helpb esttab}, 
+ {helpb estout}, 
+ {helpb eststo}, 
+ {helpb estpost}
+{p_end}

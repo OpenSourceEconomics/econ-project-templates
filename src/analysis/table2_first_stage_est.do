@@ -1,10 +1,11 @@
 /*** This file computes the first stage estimates for table 2 and stores the 
-results in "table2_temp_i.dta" ***/
+results in "table2_first_stage_est_temp_i.dta" ***/
 
 
 // Header do-file with path definitions, those end up in global macros.
 include src/library/stata/project_paths
-log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
+log using `"${PATH_OUT_ANALYSIS}/log/`1'_`2'.log"', replace
+
 
 // Delete these lines -- just to check whether everything caught correctly.
 adopath
@@ -24,7 +25,7 @@ version 8.2 ;
 7 = Malaria
 */
  
-forva K = 1(1)5 {; //This is necessary for case distinction
+local K=`2';
 
 clear;
 
@@ -161,7 +162,4 @@ format coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 %5.
 	
 keep colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 ;
 
-save `"${PATH_OUT_DATA}/table2_temp_`K'"',replace ;
-
-
-};
+save `"${PATH_OUT_DATA}/table2_first_stage_est_temp_`K'"',replace ;
