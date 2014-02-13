@@ -16,9 +16,16 @@ set output error
 # delimit ;
 version 8.2 ;
 
+	/***DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
+		1 = PANEL_A: Original mortality data (64 countries)
+		2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
+		3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
+		4 = PANEL_D: Only countries with non-conjectured mortality rates and campaign and laborer indicators 
+		5 = PANEL_E: As Panel D with new data provided by AJR
+	***/
 forval T = 1(1)5 {;
 
-use `"${PATH_OUT_DATA}/table3_iv_est_temp_`T'"',clear;
+use `"${PATH_OUT_ANALYSIS}/iv_estimation_`T'"',clear;
 
 /*** The following transposes the variables - necessary because we have strings ***/
 

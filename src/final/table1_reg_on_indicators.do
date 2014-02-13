@@ -16,9 +16,9 @@ set output error
 # delimit ;
 version 8.2 ;
 
-use `"${PATH_OUT_DATA}/table1_main_variables_temp_est"', clear ;
+use `"${PATH_OUT_ANALYSIS}/regression_on_indicators_EST"', clear ;
 	
-	listtab E_colstring E_1 E_2 E_3 using `"${PATH_OUT_TABLES}/table1_main_variables.tex"', replace type rstyle(tabular)
+	listtab E_colstring E_1 E_2 E_3 using `"${PATH_OUT_TABLES}/table1_reg_on_indicators.tex"', replace type rstyle(tabular)
             head("\begin{table}" "\caption{Table 1 - Relationship of Main Variables to Campaign and Laborer Indicators}" 
 			"\footnotesize" "\begin{center}" "\begin{tabular}{lccc}" 
 			"\hline\hline"  
@@ -29,8 +29,8 @@ use `"${PATH_OUT_DATA}/table1_main_variables_temp_est"', clear ;
 			"\hline"
 			"\textit{Original sample (64 countries)}\\\") ;
 
-use `"${PATH_OUT_DATA}/table1_main_variables_temp_corr"', clear ;
+use `"${PATH_OUT_ANALYSIS}/regression_on_indicators_CORR"', clear ;
 
-	listtab C_colstring C_1 C_2 C_3, appendto(`"${PATH_OUT_TABLES}/table1_main_variables.tex"') type rstyle(tabular)
+	listtab C_colstring C_1 C_2 C_3, appendto(`"${PATH_OUT_TABLES}/table1_reg_on_indicators.tex"') type rstyle(tabular)
 				head("\vspace{0.1cm}\\\" "\textit{Correlation with log mortality}\\\")
 				foot("\hline" "\end{tabular}" "\end{center}" "\end{table}");

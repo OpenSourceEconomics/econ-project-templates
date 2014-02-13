@@ -50,7 +50,7 @@ format E_1 E_2 E_3 %5.2f ;
 	replace E_colstring = "R squared" if id==5 ;
 	
 keep E_colstring E_1 E_2 E_3 ;
-save `"${PATH_OUT_DATA}/table1_main_variables_temp_est"',replace ;
+save `"${PATH_OUT_ANALYSIS}/regression_on_indicators_EST"',replace ;
 
 svmat C, names(C_) ;
 drop if C_1==. ;
@@ -61,6 +61,6 @@ format C_1 C_2 C_3 %5.2f ;
 	replace C_colstring = "Partial" if id2==2 ;
 
 keep C_colstring C_1 C_2 C_3 ;
-save `"${PATH_OUT_DATA}/table1_main_variables_temp_corr"',replace ;
+save `"${PATH_OUT_ANALYSIS}/regression_on_indicators_CORR"',replace ;
 
 

@@ -18,7 +18,7 @@ version 8.2 ;
 
 forval K = 1(1)5 {;
 
-use `"${PATH_OUT_DATA}/table2_first_stage_est_temp_`K'"', clear ;
+use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`K'"', clear ;
 
 	if `K'==1 {;
 		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 using `"${PATH_OUT_TABLES}/table2_first_stage_est.tex"', replace type rstyle(tabular)

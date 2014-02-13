@@ -1,5 +1,5 @@
 /*** This `1' computes the IV estimates and confidence intervals for table 3 
-and stores the results in "table3_iv_est_temp1_i.dta" ***/
+and stores the results in "iv_estimation_i.dta" ***/
 
 // Header do-`1' with path definitions, those end up in global macros.
 include src/library/stata/project_paths
@@ -44,15 +44,23 @@ set graphics on;
 	local range2a   = -5 ;
 	local range2b   = +5 ;
 
+
+	/***DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
+		1 = PANEL_A: Original mortality data (64 countries)
+		2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
+		3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
+		4 = PANEL_D: Only countries with non-conjectured mortality rates and campaign and laborer indicators 
+		5 = PANEL_E: As Panel D with new data provided by AJR
+	***/
+	
 local T = `2' ; //This is necessary for case distinction
  
 
 	input beta fstat pval inci;
 	. . . . . ;
 	end; 
-	save `"${PATH_OUT_DATA}/`1'/ci"', replace;
+	save `"${PATH_OUT_ANALYSIS}/`1'/ci"',replace;
 	
-
 
 	use `"${PATH_IN_DATASET_1}/ajrcomment"',replace;
 	
@@ -75,17 +83,17 @@ local T = `2' ; //This is necessary for case distinction
 		replace `insts' = log(350) if inlist(short,"SLE") & `T'==5 ;
 
 
-	save `"${PATH_OUT_DATA}/`1'/ajrdata_temp.dta"', replace ;
+	save `"${PATH_OUT_ANALYSIS}/`1'/ajrdata_temp.dta"', replace ;
 
 	
 	forva N = 1(1)7 {;
 		
-	use `"${PATH_OUT_DATA}/`1'/ci"', replace;
-	save `"${PATH_OUT_DATA}/`1'/ci_`N'"', replace ;
+	use `"${PATH_OUT_ANALYSIS}/`1'/ci"', replace;
+	save `"${PATH_OUT_ANALYSIS}/`1'/ci_`N'"', replace ;
 
 	local controls = " `v`N'' `dummies' " ;
 
-	use `"${PATH_OUT_DATA}/`1'/ajrdata_temp.dta"', replace ;
+	use `"${PATH_OUT_ANALYSIS}/`1'/ajrdata_temp.dta"', replace ;
 
 
 	if inlist(`N',3) { ; keep `if`N'' ; } ;
@@ -117,13 +125,13 @@ local T = `2' ; //This is necessary for case distinction
 	test `insts'r ;
 	scalar firstfr`N' = r(F)*(`n'-`k'-1)/(`n'-1) ;
 
-	save `"${PATH_OUT_DATA}/`1'/tempdata"', replace;
+	save `"${PATH_OUT_ANALYSIS}/`1'/tempdata"', replace;
 	drop _all;
 
 
 
 	forvalues X = `range' { ;
-		use `"${PATH_OUT_DATA}/`1'/tempdata"', replace;
+		use `"${PATH_OUT_ANALYSIS}/`1'/tempdata"', replace;
 
 		scalar beta0 = `X';
 
@@ -143,12 +151,12 @@ local T = `2' ; //This is necessary for case distinction
 		g inci = pval>=0.05;
 
 		keep beta fstat pval inci;
-		append using `"${PATH_OUT_DATA}/`1'/ci_`N'"', keep(beta fstat pval inci);
-		qui save `"${PATH_OUT_DATA}/`1'/ci_`N'"', replace;
+		append using `"${PATH_OUT_ANALYSIS}/`1'/ci_`N'"', keep(beta fstat pval inci);
+		qui save `"${PATH_OUT_ANALYSIS}/`1'/ci_`N'"', replace;
 		};
 
 	forvalues X = -10000(20000)10000 { ;
-		use `"${PATH_OUT_DATA}/`1'/tempdata"', replace;
+		use `"${PATH_OUT_ANALYSIS}/`1'/tempdata"', replace;
 
 		scalar beta0 = `X';
 		g u = `depvar'r - beta0*`instd'r ;
@@ -165,8 +173,8 @@ local T = `2' ; //This is necessary for case distinction
 		g inci = pval>=0.05;
 
 		keep beta fstat pval inci;
-		append using `"${PATH_OUT_DATA}/`1'/ci_`N'"', keep(beta fstat pval inci);
-		qui save `"${PATH_OUT_DATA}/`1'/ci_`N'"', replace;
+		append using `"${PATH_OUT_ANALYSIS}/`1'/ci_`N'"', keep(beta fstat pval inci);
+		qui save `"${PATH_OUT_ANALYSIS}/`1'/ci_`N'"', replace;
 		};
 
 
@@ -267,7 +275,7 @@ local T = `2' ; //This is necessary for case distinction
 			 
 	keep pointT_1 waldT_ci cilmT_ci ;
 
-	save `"${PATH_OUT_DATA}/table3_iv_est_temp_`T'"',replace;
+	save `"${PATH_OUT_ANALYSIS}/iv_estimation_`T'"',replace;
 
 
 

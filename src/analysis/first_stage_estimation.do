@@ -27,6 +27,14 @@ version 8.2 ;
  
 local K=`2';
 
+	/***DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
+		1 = PANEL_A: Original mortality data (64 countries)
+		2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
+		3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
+		4 = PANEL_D: Only countries with non-conjectured mortality rates and campaign and laborer indicators 
+		5 = PANEL_E: As Panel D with new data provided by AJR
+	***/
+
 clear;
 
 local depvar = " risk " ;
@@ -50,6 +58,7 @@ set more off;
 /*** Define panel specific input ***/
 	
 	use `"${PATH_IN_DATASET_1}/ajrcomment"',replace; 
+	
 	replace `logmort' = . if source0==0 & inlist(`K',2,4,5);
 	if inlist(`K',3,4,5) local dummies = "campaign slave" ;  
 
@@ -112,7 +121,7 @@ noi estimates table F1 F2 F3 F4 F5 F6 F7 ,
  
 *CLUSTER;
 noisily estimates table F1C F2C F3C F4C  F5C F6C F7C   , 
- b(%5.2f) se(%5.2f) /* p(%5.3f) keep(`logmort' campaign slave ) */ stat(N N_clust);
+ b(%5.2f) se(%5.2f) stat(N N_clust);
 
 
 if inlist("`dummies'","") { ; 
@@ -162,4 +171,4 @@ format coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 %5.
 	
 keep colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 ;
 
-save `"${PATH_OUT_DATA}/table2_first_stage_est_temp_`K'"',replace ;
+save `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`K'"',replace ;
