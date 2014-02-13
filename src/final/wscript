@@ -1,5 +1,10 @@
 def build(ctx):
 
+	def in_data(*args):
+	    return ctx.path_to(ctx, 'IN_DATASET_1', *args)
+	    
+	def out_figures(*args):
+		return ctx.path_to(ctx, 'OUT_FIGURES', *args)
 		
 	def out_analysis(*args):
 		return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
@@ -10,6 +15,24 @@ def build(ctx):
 	def out_data(*args):
 	    return ctx.path_to(ctx, 'OUT_DATA', *args)
 
+	
+	# Figure 2a/2b:
+	
+	ctx(
+	    features='run_do_script',
+	    source='figure2_mortality.do',
+	    target=[
+	    		out_analysis('log', 'figure2_mortality.log'),
+	    		out_figures('figure2a_risk_mort.png'),
+	    		out_figures('figure2b_gdp_mort.png')
+		],	
+	    deps=[
+	        '../library/stata/project_paths.do',
+	        in_data('ajrcomment.dta')
+	    ]
+	)
+
+	
 	# Table 1.
 	
 	ctx(
