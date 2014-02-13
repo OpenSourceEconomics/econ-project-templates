@@ -1,7 +1,7 @@
-/*** This file computes the IV estimates and confidence intervals for table 3 
+/*** This `1' computes the IV estimates and confidence intervals for table 3 
 and stores the results in "table3_iv_est_temp1_i.dta" ***/
 
-// Header do-file with path definitions, those end up in global macros.
+// Header do-`1' with path definitions, those end up in global macros.
 include src/library/stata/project_paths
 log using `"${PATH_OUT_ANALYSIS}/log/`1'_`2'.log"', replace
 
@@ -21,7 +21,7 @@ Warning: May take some time to run  */
 
 
 set more off;
-set mat 2000;
+set mat 800;
 set graphics on;
 
 	drop _all ;
@@ -44,20 +44,19 @@ set graphics on;
 	local range2a   = -5 ;
 	local range2b   = +5 ;
 
+local T = `2' ; //This is necessary for case distinction
+ 
 
 	input beta fstat pval inci;
 	. . . . . ;
 	end; 
-	save ci, replace;
+	save `"${PATH_OUT_DATA}/`1'/ci"', replace;
 	
 
-forvalues T = 1(1)5 {; //This is necessary for case distinction
 
 	use `"${PATH_IN_DATASET_1}/ajrcomment"',replace;
 	
 	/*** Define panel specific input ***/
-		
-		*replace `insts' = . if source0==0 & inlist(`T',2,4,5);
 		
 		if inlist(`T',2,4,5) {;
 				keep if source0==1;
@@ -76,17 +75,17 @@ forvalues T = 1(1)5 {; //This is necessary for case distinction
 		replace `insts' = log(350) if inlist(short,"SLE") & `T'==5 ;
 
 
-	save ajrcomment_temp.dta, replace ;
+	save `"${PATH_OUT_DATA}/`1'/ajrdata_temp.dta"', replace ;
 
 	
 	forva N = 1(1)7 {;
 		
-	use ci, replace;
-	save ci`N', replace ;
+	use `"${PATH_OUT_DATA}/`1'/ci"', replace;
+	save `"${PATH_OUT_DATA}/`1'/ci_`N'"', replace ;
 
 	local controls = " `v`N'' `dummies' " ;
 
-	use ajrcomment_temp.dta, replace ;
+	use `"${PATH_OUT_DATA}/`1'/ajrdata_temp.dta"', replace ;
 
 
 	if inlist(`N',3) { ; keep `if`N'' ; } ;
@@ -118,13 +117,13 @@ forvalues T = 1(1)5 {; //This is necessary for case distinction
 	test `insts'r ;
 	scalar firstfr`N' = r(F)*(`n'-`k'-1)/(`n'-1) ;
 
-	save temp, replace;
+	save `"${PATH_OUT_DATA}/`1'/tempdata"', replace;
 	drop _all;
 
 
 
 	forvalues X = `range' { ;
-		use temp, replace;
+		use `"${PATH_OUT_DATA}/`1'/tempdata"', replace;
 
 		scalar beta0 = `X';
 
@@ -144,12 +143,12 @@ forvalues T = 1(1)5 {; //This is necessary for case distinction
 		g inci = pval>=0.05;
 
 		keep beta fstat pval inci;
-		append using ci`N', keep(beta fstat pval inci);
-		qui save ci`N', replace;
+		append using `"${PATH_OUT_DATA}/`1'/ci_`N'"', keep(beta fstat pval inci);
+		qui save `"${PATH_OUT_DATA}/`1'/ci_`N'"', replace;
 		};
 
 	forvalues X = -10000(20000)10000 { ;
-		use temp, replace;
+		use `"${PATH_OUT_DATA}/`1'/tempdata"', replace;
 
 		scalar beta0 = `X';
 		g u = `depvar'r - beta0*`instd'r ;
@@ -166,8 +165,8 @@ forvalues T = 1(1)5 {; //This is necessary for case distinction
 		g inci = pval>=0.05;
 
 		keep beta fstat pval inci;
-		append using ci`N', keep(beta fstat pval inci);
-		qui save ci`N', replace;
+		append using `"${PATH_OUT_DATA}/`1'/ci_`N'"', keep(beta fstat pval inci);
+		qui save `"${PATH_OUT_DATA}/`1'/ci_`N'"', replace;
 		};
 
 
@@ -211,7 +210,7 @@ forvalues T = 1(1)5 {; //This is necessary for case distinction
 	replace beta = round(beta,.01) ;
 	mkmat beta, mat(cilm`N') ;
 	*set output proc;
-	mat list cilm`N', format(%5.2f);
+	*mat list cilm`N', format(%5.2f);
 
 	} ;
 
@@ -261,21 +260,15 @@ forvalues T = 1(1)5 {; //This is necessary for case distinction
 	g str cilmT_ci = "" ;
 
 	svmat statT,names(statT_);
-
 	
 	replace cilmT_ci = "[" + cilmT_1_str + "," + cilmT_2_str + "]" if statT_1 < statT_2 ;
-		
-
 	replace cilmT_ci = "(-$\infty$,+$\infty$)" if statT_1 > statT_3 & statT_1 > statT_2 ; 
-		
-	
 	replace cilmT_ci = "\begin{tabular}[c]{@{}c@{}}(-$\infty$," + cilmT_1_str + "] U \\\ [" + cilmT_2_str + ",+$\infty$)\end{tabular}" if statT_1 > statT_2 & statT_1 > statT_2 & statT_1 < statT_3; 
 			 
 	keep pointT_1 waldT_ci cilmT_ci ;
 
-	save table3_iv_est_temp1_`T',replace;
+	save `"${PATH_OUT_DATA}/table3_iv_est_temp_`T'"',replace;
 
-};
 
 
 

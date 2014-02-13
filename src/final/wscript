@@ -69,5 +69,23 @@ def build(ctx):
 	    ]
 	)
 
+	# Table 3.
+		
+	ctx(
+	    features='run_do_script',
+	    source='table3_iv_est_final.do',
+	    target=[
+	    		out_analysis('log', 'table3_iv_est_final.log'),
+	    		out_tables('table3_iv_est.tex'),
+		],	
+	    deps=[
+	        '../library/stata/project_paths.do',
+	        out_data('table3_iv_est_temp_1.dta'),
+	        out_data('table3_iv_est_temp_2.dta'),
+	        out_data('table3_iv_est_temp_3.dta'),
+	        out_data('table3_iv_est_temp_4.dta'),
+	        out_data('table3_iv_est_temp_5.dta')
+	    ]
+	)
 
 

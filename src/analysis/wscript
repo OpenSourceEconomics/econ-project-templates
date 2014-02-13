@@ -1,5 +1,16 @@
+
+
 def build(ctx):
 	
+	def in_data(*args):
+	    return ctx.path_to(ctx, 'IN_DATASET_1', *args)
+	
+	def out_analysis(*args):
+	    return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
+	
+	def out_data(*args):
+	    return ctx.path_to(ctx, 'OUT_DATA', *args)
+
 	panel_spec = {}
 	panel_spec['Table1']={}
 	panel_spec['Table1']['Estimates']='est'
@@ -17,16 +28,7 @@ def build(ctx):
 # runscripts for table 1	    
 	specs1 = sorted(panel_spec['Table1'].keys())				
 	for panel1 in specs1 :
-	    
-	    def in_data(*args):
-	        return ctx.path_to(ctx, 'IN_DATASET_1', *args)
-	    
-	    def out_analysis(*args):
-	        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
-	
-	    def out_data(*args):
-	        return ctx.path_to(ctx, 'OUT_DATA', *args)
-		
+
 		# Illustrate simple use of run_do_script.
 	    ctx(
 	        features='run_do_script',
@@ -43,23 +45,14 @@ def build(ctx):
 	        append=panel_spec['Table1'][panel1]
         )
 	    
-	# Limit to parallelism when using append because of automatic logging
-	ctx.add_group()
+		# Limit to parallelism when using append because of automatic logging
+	    ctx.add_group()
 
 	
 # runscripts for table 2	    
-	specs = sorted(panel_spec['Table2-3'].keys())				
+	specs = sorted(panel_spec['Table2-3'].keys())
 	for panel in specs :
 
-	    def in_data(*args):
-	        return ctx.path_to(ctx, 'IN_DATASET_1', *args)
-	    
-	    def out_analysis(*args):
-	        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
-	
-	    def out_data(*args):
-	        return ctx.path_to(ctx, 'OUT_DATA', *args)
-		
 		# Illustrate simple use of run_do_script.
 	    ctx(
 	        features='run_do_script',
@@ -77,6 +70,27 @@ def build(ctx):
         )
 	    
 	# Limit to parallelism when using append because of automatic logging
-	ctx.add_group()
-		
+	    ctx.add_group()
+
+# runscripts for table 3	    
+	specs = sorted(panel_spec['Table2-3'].keys())				
+	for panel in specs :
+
+		# Illustrate simple use of run_do_script.
+	    ctx(
+	        features='run_do_script',
+	        source='table3_iv_est.do',
+	        target=[
+	        		out_analysis('log', 'table3_iv_est_{}.log'.format(panel_spec['Table2-3'][panel])),
+	        		out_data('table3_iv_est_temp_{}.dta'.format(panel_spec['Table2-3'][panel]))
+    		],
+	        deps=[
+	            '../library/stata/project_paths.do',
+	            in_data('ajrcomment.dta')
+    		],
+	        name='table3_iv_est_temp_{}'.format(panel_spec['Table2-3'][panel]),
+	        append=panel_spec['Table2-3'][panel]
+        )
 	    
+	    # Limit to parallelism when using append because of automatic logging
+	    ctx.add_group()
