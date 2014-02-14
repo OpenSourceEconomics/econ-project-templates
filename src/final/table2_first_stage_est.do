@@ -22,7 +22,10 @@ use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`K'"', clear ;
 
 	if `K'==1 {;
 		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 using `"${PATH_OUT_TABLES}/table2_first_stage_est.tex"', replace type rstyle(tabular)
-            head("\begin{table}" "\caption{Table 2 - First-Stage Estimates}" "\footnotesize" "\begin{center}" "\begin{tabular}{lccccccc}" 
+            head("\begin{table}" "\caption{Table 2 - First-Stage Estimates}" 
+            "\footnotesize" 
+            "\begin{center}" 
+            "\begin{tabular}{lccccccc}" 
 			"\hline\hline"  
 			"& \begin{tabular}[c]{@{}c@{}}No\\\controls\end{tabular} 
 			& \begin{tabular}[c]{@{}c@{}}Latitude\\\control\end{tabular}
@@ -33,27 +36,28 @@ use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`K'"', clear ;
 			& \begin{tabular}[c]{@{}c@{}}Malaria\\\in 1994\end{tabular}\\\" 
 			"Control variables & (1) & (2) & (3) & (4) & (5) & (6) & (7)\\\"
 			"\hline"
-			"\textit{Panel A}\\\") ;
+			"\vspace{0.05cm}\\\"
+			"\multicolumn{8}{l}{\textit{Panel A: Original mortality rates (64 countries)}}\\\") ;
 	};
 			
 	if `K'==2 {;
 		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
-				head("\vspace{0.1cm}\\\" "\textit{Panel B}\\\") ;
+				head("\vspace{0.1cm}\\\" "\multicolumn{8}{l}{\textit{Panel B: Removing conjectured mortality rates}}\\\") ;
 	};
 	
 	if `K'==3 {;
 		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
-				head(`"\vspace{0.1cm}\\"' `"\textit{Panel C}\\\\"') ;
+				head("\vspace{0.1cm}\\\" "\multicolumn{8}{l}{\textit{Panel C: Original data, adding campaign and laborer indicators}}\\\") ;
 	};
 	
 	if `K'==4 {;
 		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
-				head("\vspace{0.1cm}\\\" "\textit{Panel D}\\\") ;			
+				head("\vspace{0.1cm}\\\" "\multicolumn{8}{l}{\textit{Panel D: Removing conjectured data, adding campaign and laborer indicators}}\\\") ;			
 	};
 	
 	if `K'==5 {;
 		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
-				head("\vspace{0.1cm}\\\" "\textit{Panel E}\\\")
+				head("\vspace{0.1cm}\\\" "\multicolumn{8}{l}{\textit{Panel E: Removing conjectured data, adding campaign and laborer indic. and new data}}\\\")
 				foot("\end{tabular}" "\end{center}" "\end{table}");
 	};							
 };

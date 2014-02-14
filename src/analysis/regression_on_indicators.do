@@ -47,7 +47,7 @@ format E_1 E_2 E_3 %5.2f ;
 	sort id ;
 	gen str E_colstring = "Campaign indicator" if id==1 ;
 	replace E_colstring = "Laborer indicator" if id==3 ;
-	replace E_colstring = "R squared" if id==5 ;
+	replace E_colstring = "\$R^2\$" if id==5 ;
 	
 keep E_colstring E_1 E_2 E_3 ;
 save `"${PATH_OUT_ANALYSIS}/regression_on_indicators_EST"',replace ;

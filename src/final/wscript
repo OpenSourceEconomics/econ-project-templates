@@ -11,7 +11,6 @@ def build(ctx):
 	
 	def out_tables(*args):
 	    return ctx.path_to(ctx, 'OUT_TABLES', *args)
-	
 
 	
 	# Figure 2a/2b:
@@ -66,6 +65,28 @@ def build(ctx):
 	        out_analysis('first_stage_estimation_5.dta')
 	    ]
 	)
+
+
+	# Table 3.
+		
+	ctx(
+	    features='run_do_script',
+	    source='table3_second_stage_est.do',
+	    target=[
+	    		out_analysis('log', 'table3_second_stage_est.log'),
+	    		out_tables('table3_second_stage_est.tex')
+		],	
+	    deps=[
+	        '../library/stata/project_paths.do',
+	        out_analysis('second_stage_estimation_1.dta'),
+	        out_analysis('second_stage_estimation_2.dta'),
+	        out_analysis('second_stage_estimation_3.dta'),
+	        out_analysis('second_stage_estimation_4.dta'),
+	        out_analysis('second_stage_estimation_5.dta')
+	    ]
+	)
+
+
 
 
 

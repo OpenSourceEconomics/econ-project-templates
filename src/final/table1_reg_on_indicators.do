@@ -27,10 +27,12 @@ use `"${PATH_OUT_ANALYSIS}/regression_on_indicators_EST"', clear ;
 			& \begin{tabular}[c]{@{}c@{}}Log GDP\end{tabular} \\\" 
 			"Dependent variable & (1) & (2) & (3)\\\"
 			"\hline"
-			"\textit{Original sample (64 countries)}\\\") ;
+			"\vspace{0.1cm}\\\" 
+			"\multicolumn{4}{l}{\textit{Original sample (64 countries)}:}\\\") ;
 
 use `"${PATH_OUT_ANALYSIS}/regression_on_indicators_CORR"', clear ;
 
 	listtab C_colstring C_1 C_2 C_3, appendto(`"${PATH_OUT_TABLES}/table1_reg_on_indicators.tex"') type rstyle(tabular)
-				head("\vspace{0.1cm}\\\" "\textit{Correlation with log mortality}\\\")
+				head("\vspace{0.1cm}\\\" 
+				"\multicolumn{4}{l}{\textit{Correlation with log mortality}}\\\")
 				foot("\hline" "\end{tabular}" "\end{center}" "\end{table}");

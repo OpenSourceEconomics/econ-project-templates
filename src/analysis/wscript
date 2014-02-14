@@ -21,6 +21,7 @@ def build(ctx):
 	    return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 
 
+
 	specification = {}
 	specification['Table1']={}
 	specification['Table1']['Estimates']='EST'
@@ -81,4 +82,31 @@ def build(ctx):
 	    
 	# Limit to parallelism when using append because of automatic logging
 	    ctx.add_group()
+
+
+# Runscripts for Table 3:	    
+	specs = sorted(specification['Table2-3'].keys())				
+	for panel in specs :
+
+		# Illustrate simple use of run_do_script.
+	    ctx(
+	        features='run_do_script',
+	        source='second_stage_estimation.do',
+	        target=[
+	        		out_analysis('log', 'second_stage_estimation_{}.log'.format(specification['Table2-3'][panel])),
+	        		out_analysis('second_stage_estimation_{}.dta'.format(specification['Table2-3'][panel]))
+    		],
+	        deps=[
+	            '../library/stata/project_paths.do',
+	            in_data('ajrcomment.dta')
+    		],
+	        name='second_stage_estimation_{}'.format(specification['Table2-3'][panel]),
+	        append=specification['Table2-3'][panel]
+        )
+	    
+	    # Limit to parallelism when using append because of automatic logging
+	    ctx.add_group()
+
+
+
 
