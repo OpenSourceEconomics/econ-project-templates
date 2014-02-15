@@ -27,7 +27,7 @@ A variety of project paths are defined in the top-level wscript file. These are 
 
 To get a bit of a feeling for how Waf works, rename the pre-defined generic templates to your specific project's definitions. These should be:
 
-    * The names **research_paper.tex** and **research_pres_30min.tex** in **src/paper/** and the corresponding actions in **src/paper/wscript**.
+    * The name **research_paper.tex** in **src/paper/** and the corresponding actions in **src/paper/wscript**.
     * The project title, your name, the title of the documentation output, etc. in **src/documentation/conf.py** and **src/documentation/index.rst**.
     * Please remove my name and address from these files... 
 
@@ -51,6 +51,19 @@ As should be evident from the similarity of the names, the paths follow the step
     1. **data_management** → **OUT_DATA**
     2. **analysis** → **OUT_ANALYSIS**
     3. **final** → **OUT_FINAL**, **OUT_FIGURES**, **OUT_TABLES**
-
+ 
 These paths should re-appear in automatically generated header files for all languages.
+
+.. _add_packages:
+
+Using additional packages
+--------------
+
+If you are using additional packages for LaTeX (e.g. epstopdf) or Stata (here: estout, listtab), you will have to add install them in the project path:
+
+    1. Launch a Stata GUI session
+    2. Copy the line starting with `sysdir set PLUS` from `bld/src/library/stata/project_paths.do` and paste it into the Stata command prompt.
+    3. Install your package, e.g. `ssc install listtab`
+
+This has the big advantage, that you can run the project on other computers without having to check, whether all necessary packages are installed.    
 

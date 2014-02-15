@@ -1,5 +1,13 @@
-/*** This File computes the IV estimates and confidence intervals for table 3 
-and stores the results in "second_stage_estimation_i.dta" ***/
+/* 
+The file "second_stage_estimation.do" computes the IV estimates for log GDP 
+per capita with expropriation risk as first stage dependent variable.
+It also computes confidence intervals for a usual Wald statistic and 
+the confidence intervals for the Anderson-Rubin (1949) statistic.
+
+The results for the 5 data specifications are stored and later plotted 
+to a Latex table in the corresponding file "table3_second_stage_est.do"
+in the final directory.  
+*/
 
 // Header do-File with path definitions, those end up in global macros.
 include src/library/stata/project_paths
@@ -9,6 +17,8 @@ log using `"${PATH_OUT_ANALYSIS}/log/`1'_`2'.log"', replace
 adopath
 macro list
 
+
+// You have to define all files which are just necessary to store data sets temporarily as local tempfiles. Otherwise they can not be accessed by the waf builder.
 tempfile ajrcomment_temp
 tempfile ci
 tempfile ci_1
@@ -26,11 +36,6 @@ set output error
 # delimit ;
 
 version 10.1 ;
-
-/* COMPUTES ANDERSON-RUBIN (1949) CONFIDENCE INTERVALS 
-INCLUDING CLUSTERING EFFECTS 
-Warning: May take some time to run  */
-
 
 set more off;
 set mat 800;
@@ -56,13 +61,13 @@ set graphics on;
 	local range2a   = -5 ;
 	local range2b   = +5 ;
     
-    /***DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
-		1 = PANEL_A: Original mortality data (64 countries)
-		2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
-		3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
-		4 = PANEL_D: Only countries with non-conjectured mortality rates and campaign and laborer indicators 
-		5 = PANEL_E: As Panel D with new data provided by AJR
-	***/
+/***DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
+1 = PANEL_A: Original mortality data (64 countries)
+2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
+3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
+4 = PANEL_D: Only countries with non-conjectured mortality rates and campaign and laborer indicators 
+5 = PANEL_E: As Panel D with new data provided by AJR
+***/
 
 local T = `2' ; //This is necessary for case distinction
  
@@ -75,7 +80,7 @@ gen inci = .;
 	save `ci', replace;
 	
 
-	use `"${PATH_IN_DATASET_1}/ajrcomment"',replace;
+	use `"${PATH_IN_DATA}/ajrcomment"',replace;
 	
 	/*** Define panel specific input ***/
 		

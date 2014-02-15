@@ -1,3 +1,10 @@
+/*
+The file "figure1_mortality.do" creates two figures, plotting 
+expropriation risk and log GDP against settler mortality respectively. 
+It accounts for campaign/laborer indicators and distinguishes between 
+countries with original data and countries with conjectured mortality data.
+*/ 
+
 // Header do-file with path definitions, those end up in global macros.
 include src/library/stata/project_paths
 log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
@@ -11,6 +18,10 @@ macro list
 set output error
 set more off 
 
+// Define temporary files to save graphs
+tempfile loggdpmort
+tempfile riskmort
+
 # delimit ;
 version 8.2 ;
  
@@ -18,7 +29,7 @@ set graphics on ;
 
 clear;
 
-use `"${PATH_IN_DATASET_1}/ajrcomment"',replace;
+use `"${PATH_IN_DATA}/ajrcomment"',replace;
 	
 g logmort = logmort0 ;
 drop logmort0 ;
@@ -31,7 +42,6 @@ g smallnam = lower(shortnam) ;
 
 
 foreach V in logmort risk loggdp { ;
-
 
 	g `V'_c = `V' if campaign==1  ;
 	g `V'_s = `V' if slave==1  ;
@@ -92,7 +102,7 @@ noi corr logmort_r loggdp_r  if source0==1;
 	local corrb0_r = round(r(rho),.01) ;	
 
 	
-/*** FIGURE 2A REDUCED FORM ***/
+/*** FIGURE 1A REDUCED FORM ***/
 
 noi reg risk logmort, cluster(logmort) ;
 	predict riskmortfit  ;
@@ -119,11 +129,11 @@ twoway
 	
 	||
 	,
-	ti("FIGURE 2A: EXPROPRIATION RISK AND SETTLER MORTALITY"
+	ti("FIGURE 1A: EXPROPRIATION RISK AND SETTLER MORTALITY"
 	"ACCORDING TO MORTALITY RATE CHARACTERISTICS", size(3) ) 	
 	graphregion(fcolor(white) icolor(white) color(white))
 	
-	saving(riskmort, replace)  
+	saving(`riskmort', replace)  
 	xsize(7) ysize(7) 
 	
 	xtitle("Logarithm of Settler Mortality", size(2.5) axis(1) )
@@ -146,17 +156,17 @@ twoway
 
 	;
 	
-	graph export `"${PATH_OUT_FIGURES}/figure2a_risk_mort.png"', replace ;
+	graph export `"${PATH_OUT_FIGURES}/figure1a_risk_mort.png"', replace ;
 
 
 
-/*** FIGURE 2B REDUCED FORMS **/
+/*** FIGURE 1B REDUCED FORMS **/
 	
-noi reg loggdp logmort, cluster(logmort) ;
+	reg loggdp logmort, cluster(logmort) ;
 	predict gdpmortfit  ;
 	la var gdpmortfit "Original sample (64 obs.): slope = -0.57 (clustered s.e. = 0.07)" ;
 
-noi reg loggdp logmort  if  source0==1 & (campaign==1 | slave==1), cluster(logmort) ;
+	reg loggdp logmort  if  source0==1 & (campaign==1 | slave==1), cluster(logmort) ;
 	g gdpmortfit2 = _b[_cons] + _b[logmort]*logmort ;
 	la var gdpmortfit2 "Rates from country, excl. barracks (17 obs.): slope = -0.21 (robust s.e. = 0.15)" ;
 	
@@ -179,11 +189,11 @@ twoway
 	yscale( axis(1)) 
 	||
 	,
-	ti("FIGURE 2B: INCOME PER CAPITA AND SETTLER MORTALITY"
+	ti("FIGURE 1B: INCOME PER CAPITA AND SETTLER MORTALITY"
 	"ACCORDING TO MORTALITY RATE CHARACTERISTICS", size(3) ) 	
 	graphregion(fcolor(white) icolor(white) color(white))
 	
-	saving(loggdpmort, replace)  
+	saving(`loggdpmort', replace)  
 	xsize(7) ysize(7) 
 	
 	
@@ -207,5 +217,5 @@ twoway
 	;
 
 
-	graph export `"${PATH_OUT_FIGURES}/figure2b_gdp_mort.png"', replace ;
+	graph export `"${PATH_OUT_FIGURES}/figure1b_gdp_mort.png"', replace ;
 	

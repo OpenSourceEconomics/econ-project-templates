@@ -1,7 +1,7 @@
 def build(ctx):
 
 	def in_data(*args):
-	    return ctx.path_to(ctx, 'IN_DATASET_1', *args)
+	    return ctx.path_to(ctx, 'IN_DATA', *args)
 	    
 	def out_figures(*args):
 		return ctx.path_to(ctx, 'OUT_FIGURES', *args)
@@ -17,11 +17,11 @@ def build(ctx):
 	
 	ctx(
 	    features='run_do_script',
-	    source='figure2_mortality.do',
+	    source='figure1_mortality.do',
 	    target=[
-	    		out_analysis('log', 'figure2_mortality.log'),
-	    		out_figures('figure2a_risk_mort.png'),
-	    		out_figures('figure2b_gdp_mort.png')
+	    		out_analysis('log', 'figure1_mortality.log'),
+	    		out_figures('figure1a_risk_mort.png'),
+	    		out_figures('figure1b_gdp_mort.png')
 		],	
 	    deps=[
 	        '../library/stata/project_paths.do',

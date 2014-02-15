@@ -1,5 +1,12 @@
-/*** This file computes the estimates for table 1 and stores them 
-in "table1_main_variables_temp_i.dta" ***/
+/* 
+The file "regression_on_indicators.do" computes the regression estimates 
+of the main indicators (mortality, expropriation risk and GDP) on the 
+indicators for campaigning soldiers and laborers, as well as
+the correlations of the main indicators with log mortality.
+The results are then plotted in the corresponding file in 
+the final folder "table1_reg_on_indicators.do" 
+*/
+
 
 // Header do-file with path definitions, those end up in global macros.
 include src/library/stata/project_paths
@@ -16,7 +23,7 @@ set more off ;
 set trace on;
 
 
-use `"${PATH_IN_DATASET_1}/ajrcomment"', replace ;
+use `"${PATH_IN_DATA}/ajrcomment"', replace ;
 
 
 foreach i of varlist logmort0 risk loggdp {;

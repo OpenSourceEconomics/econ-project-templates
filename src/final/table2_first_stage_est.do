@@ -1,6 +1,10 @@
-/*** This file creates table 2 with the first stage estimates taking as input the regression results and 
-p-values from do-file "table2_first_stage_est.do" 
-It writes the results to Latex file "`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"'" ***/
+/*
+The file "table2_first_stage_est.do" creates table 2 with the first 
+stage estimates taking as input the regression results and p-values 
+from the corresponding do-file in the analysis folder "first_stage_estimates.do" 
+It writes the results to Latex file "`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"'" 
+*/
+
 
 // Header do-file with path definitions, those end up in global macros.
 include src/library/stata/project_paths
@@ -16,13 +20,14 @@ set output error
 version 8.2 ;
 
 
-forval K = 1(1)5 {;
+forval T = 1(1)5 {;
 
-use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`K'"', clear ;
+	use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`T'"', clear ;
 
-	if `K'==1 {;
-		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 using `"${PATH_OUT_TABLES}/table2_first_stage_est.tex"', replace type rstyle(tabular)
-            head("\begin{table}" "\caption{Table 2 - First-Stage Estimates}" 
+	if `T'==1 {;
+		listtab colstring coef`T'_1 coef`T'_2 coef`T'_3 coef`T'_4 coef`T'_5 coef`T'_6 coef`T'_7 using `"${PATH_OUT_TABLES}/table2_first_stage_est.tex"', replace type rstyle(tabular)
+            head("\begin{table}[htb]" 
+            "\caption[]{First-Stage Estimates\\\Dependent variable: expropriation risk}" 
             "\footnotesize" 
             "\begin{center}" 
             "\begin{tabular}{lccccccc}" 
@@ -40,23 +45,23 @@ use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`K'"', clear ;
 			"\multicolumn{8}{l}{\textit{Panel A: Original mortality rates (64 countries)}}\\\") ;
 	};
 			
-	if `K'==2 {;
-		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
+	if `T'==2 {;
+		listtab colstring coef`T'_1 coef`T'_2 coef`T'_3 coef`T'_4 coef`T'_5 coef`T'_6 coef`T'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
 				head("\vspace{0.1cm}\\\" "\multicolumn{8}{l}{\textit{Panel B: Removing conjectured mortality rates}}\\\") ;
 	};
 	
-	if `K'==3 {;
-		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
+	if `T'==3 {;
+		listtab colstring coef`T'_1 coef`T'_2 coef`T'_3 coef`T'_4 coef`T'_5 coef`T'_6 coef`T'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
 				head("\vspace{0.1cm}\\\" "\multicolumn{8}{l}{\textit{Panel C: Original data, adding campaign and laborer indicators}}\\\") ;
 	};
 	
-	if `K'==4 {;
-		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
+	if `T'==4 {;
+		listtab colstring coef`T'_1 coef`T'_2 coef`T'_3 coef`T'_4 coef`T'_5 coef`T'_6 coef`T'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
 				head("\vspace{0.1cm}\\\" "\multicolumn{8}{l}{\textit{Panel D: Removing conjectured data, adding campaign and laborer indicators}}\\\") ;			
 	};
 	
-	if `K'==5 {;
-		listtab colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
+	if `T'==5 {;
+		listtab colstring coef`T'_1 coef`T'_2 coef`T'_3 coef`T'_4 coef`T'_5 coef`T'_6 coef`T'_7, appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular)
 				head("\vspace{0.1cm}\\\" "\multicolumn{8}{l}{\textit{Panel E: Removing conjectured data, adding campaign and laborer indic. and new data}}\\\")
 				foot("\end{tabular}" "\end{center}" "\end{table}");
 	};							

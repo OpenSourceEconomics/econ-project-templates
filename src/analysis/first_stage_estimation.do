@@ -1,5 +1,23 @@
-/*** This file computes the first stage estimates for table 2 and stores the 
-results in "table2_first_stage_est_temp_i.dta" ***/
+/* 
+The file "first_stage_estimation.do" regresses in a first stage 
+the expropriation risk in the country on log mortality. 
+The results are stored and then plotted in the corresponding file 
+"table2_first_stage_est.do" in the final directory. 
+
+There are 5 different model specifications for the IV estimation 
+standing for different robustness checks. They are denoted as 
+Panels A-E in the second and third table.
+  
+1 = PANEL_A: Original mortality data (64 countries)
+2 = PANEL_B: Only countries with non-conjectured mortality rates 
+			(rest: 28 countries)
+3 = PANEL_C: Original data (64 countries)
+			 with campaign and laborer indicators
+4 = PANEL_D: Only countries with non-conjectured 
+			mortality rates and campaign and laborer indicators 
+5 = PANEL_E: As Panel D with new data provided by Acemoglu et. al.
+*/
+
 
 
 // Header do-file with path definitions, those end up in global macros.
@@ -25,15 +43,7 @@ version 8.2 ;
 7 = Malaria
 */
  
-local K=`2';
-
-	/***DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
-		1 = PANEL_A: Original mortality data (64 countries)
-		2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
-		3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
-		4 = PANEL_D: Only countries with non-conjectured mortality rates and campaign and laborer indicators 
-		5 = PANEL_E: As Panel D with new data provided by AJR
-	***/
+local T = `2';
 
 clear;
 
@@ -57,21 +67,21 @@ set more off;
 
 /*** Define panel specific input ***/
 	
-	use `"${PATH_IN_DATASET_1}/ajrcomment"',replace; 
+	use `"${PATH_IN_DATA}/ajrcomment"',replace; 
 	
-	replace `logmort' = . if source0==0 & inlist(`K',2,4,5);
-	if inlist(`K',3,4,5) local dummies = "campaign slave" ;  
+	replace `logmort' = . if source0==0 & inlist(`T',2,4,5);
+	if inlist(`T',3,4,5) local dummies = "campaign slave" ;  
 
-	replace `logmort' = log(285) if inlist(short,"HKG") & `K'==5 ;
-	replace `logmort' = log(189) if inlist(short,"BHS") & `K'==5 ;
-	replace `logmort' = log(14.1) if inlist(short,"AUS") & `K'==5 ;
-	replace `logmort' = log(95.2) if inlist(short,"HND") & `K'==5 ;
-	replace `logmort' = log(84) if inlist(short,"GUY") & `K'==5 ;
-	replace `logmort' = log(20) if inlist(short,"SGP") & `K'==5 ;
-	replace campaign = 0 if inlist(short,"HND") & `K'==5 ;
+	replace `logmort' = log(285) if inlist(short,"HKG") & `T'==5 ;
+	replace `logmort' = log(189) if inlist(short,"BHS") & `T'==5 ;
+	replace `logmort' = log(14.1) if inlist(short,"AUS") & `T'==5 ;
+	replace `logmort' = log(95.2) if inlist(short,"HND") & `T'==5 ;
+	replace `logmort' = log(84) if inlist(short,"GUY") & `T'==5 ;
+	replace `logmort' = log(20) if inlist(short,"SGP") & `T'==5 ;
+	replace campaign = 0 if inlist(short,"HND") & `T'==5 ;
 
-	replace `logmort' = log(106.3) if inlist(short,"TTO") & `K'==5 ;
-	replace `logmort' = log(350) if inlist(short,"SLE") & `K'==5 ;
+	replace `logmort' = log(106.3) if inlist(short,"TTO") & `T'==5 ;
+	replace `logmort' = log(350) if inlist(short,"SLE") & `T'==5 ;
 	
 
 ********************** FIRST STAGE STUFF *******************;
@@ -140,7 +150,7 @@ else { ;
 
 *noisily mat list F, f(%5.3f) title("p-values of tests");
 
-if inlist(`K',1,2) { ; //specification for panel A and B
+if inlist(`T',1,2) { ; //specification for panel A and B
 	mat panel = [b1,b2,b3,b4,b5,b6,b7 \
 				se1,se2,se3,se4,se5,se6,se7 \
 				p1,p2,p3,p4,p5,p6,p7 \
@@ -157,18 +167,18 @@ else { ; //specification for panel C,D,E
 *noisily mat list panel,f(%5.2f) title("Panel A") ;
 
 
-svmat panel, names(coef`K'_) ;
-drop if coef`K'_1==. ;
-format coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 %5.2f ;
+svmat panel, names(coef`T'_) ;
+drop if coef`T'_1==. ;
+format coef`T'_1 coef`T'_2 coef`T'_3 coef`T'_4 coef`T'_5 coef`T'_6 coef`T'_7 %5.2f ;
 	gen id = _n ;
 	sort id ;
 	gen str colstring = "Log mortality" if id==1 ;
 	replace colstring = "heteroscedastic SE" if id==2 ;
 	replace colstring = "p-value log mortality" if id==3 ;
-	replace colstring = "p-value of controls" if id==4 & inlist(`K',1,2);
-	replace colstring = "p-value of indicators" if id==4 & inlist(`K',3,4,5);
-	replace colstring = "p-value of controls" if id==5 & inlist(`K',3,4,5);
+	replace colstring = "p-value of controls" if id==4 & inlist(`T',1,2);
+	replace colstring = "p-value of indicators" if id==4 & inlist(`T',3,4,5);
+	replace colstring = "p-value of controls" if id==5 & inlist(`T',3,4,5);
 	
-keep colstring coef`K'_1 coef`K'_2 coef`K'_3 coef`K'_4 coef`K'_5 coef`K'_6 coef`K'_7 ;
+keep colstring coef`T'_1 coef`T'_2 coef`T'_3 coef`T'_4 coef`T'_5 coef`T'_6 coef`T'_7 ;
 
-save `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`K'"',replace ;
+save `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`T'"',replace ;

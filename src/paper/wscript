@@ -1,6 +1,6 @@
 def build(ctx):
 
-    source = 'albouy_2012'
+    source = 'research_paper'
 
     ctx(
         features='tex',

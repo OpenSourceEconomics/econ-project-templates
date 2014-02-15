@@ -1,5 +1,10 @@
-/*** This file creates table 1 taking as input the regression results and 
-correlations from do-file "table1_main_variables.do" ***/
+/* 
+The file "table1_reg_on_indicators.do" creates table 1 with the regression
+estimates and correlations of the main indicators (mortality, 
+expropriation risk and GDP) from the corresponding do-file in 
+the analysis directory "regression_on_indicators.do" 
+*/
+
 
 // Header do-file with path definitions, those end up in global macros.
 include src/library/stata/project_paths
@@ -16,10 +21,12 @@ set output error
 # delimit ;
 version 8.2 ;
 
+// Estimation results:
+
 use `"${PATH_OUT_ANALYSIS}/regression_on_indicators_EST"', clear ;
 	
 	listtab E_colstring E_1 E_2 E_3 using `"${PATH_OUT_TABLES}/table1_reg_on_indicators.tex"', replace type rstyle(tabular)
-            head("\begin{table}" "\caption{Table 1 - Relationship of Main Variables to Campaign and Laborer Indicators}" 
+            head("\begin{table}[htb]" "\caption{Relationship of Main Variables to Campaign and Laborer Indicators}" 
 			"\footnotesize" "\begin{center}" "\begin{tabular}{lccc}" 
 			"\hline\hline"  
 			"& \begin{tabular}[c]{@{}c@{}}Log mortality\end{tabular} 
@@ -29,6 +36,8 @@ use `"${PATH_OUT_ANALYSIS}/regression_on_indicators_EST"', clear ;
 			"\hline"
 			"\vspace{0.1cm}\\\" 
 			"\multicolumn{4}{l}{\textit{Original sample (64 countries)}:}\\\") ;
+
+// Correlations with log mortatlity:
 
 use `"${PATH_OUT_ANALYSIS}/regression_on_indicators_CORR"', clear ;
 

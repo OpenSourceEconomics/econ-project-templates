@@ -1,0 +1,101 @@
+\documentclass[11pt, a4paper, leqno]{article}
+\usepackage{a4wide}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{float, afterpage, rotating, graphicx}
+\usepackage{epstopdf}
+\usepackage{longtable, booktabs, tabularx}
+\usepackage{fancyvrb, moreverb, relsize}
+\usepackage{eurosym, calc, chngcntr}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, bm}
+\usepackage{caption}
+\usepackage{mdwlist}
+\usepackage{xfrac}
+\usepackage{setspace}
+\usepackage{xcolor}
+% \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
+% \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some submissions.
+
+\usepackage[backend=biber, natbib=true, bibencoding=inputenc, bibstyle=authoryear-ibid, citestyle=authoryear-comp, maxcitenames=3, maxbibnames=10]{biblatex}
+\setlength{\bibitemsep}{1.5ex}
+%\addbibresource{refs.bib}
+
+\usepackage[unicode=true]{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black, menucolor=black, runcolor=black, urlcolor=black}
+
+
+\widowpenalty=10000
+\clubpenalty=10000
+
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+\setstretch{1.5}
+
+
+\begin{document}
+
+\title{TTT
+\thanks{NNN: UUU, Address. \href{mailto:x@y.z} {\nolinkurl{x [at] y [dot] z}}, tel.~+00000.}
+% subtitle: 
+% \\[1ex] 
+% \large Subtitle here
+}
+
+\author{NNN
+% \\[1ex]
+% Additional authors here
+}
+
+\date{
+{\bf Preliminary -- please do not quote} 
+\\[1ex] 
+\today
+}
+
+\maketitle
+
+
+\begin{abstract}
+	Some abstract here.
+\end{abstract}
+\clearpage
+
+\section{Introduction} % (fold)
+\label{sec:introduction}
+
+If you are using this template, please cite this item from the references: \citet{Gaudecker13}
+
+The code is based on the original code from \citet{Albouy2012}
+
+Dependence of main variables (log mortality rates, expropriation risk, log GDP) on indicators for source of mortality rates (soldiers on campaigns; forced laborers):
+	\input{../../out/tables/table1_reg_on_indicators.tex}
+\clearpage
+
+
+\begin{figure}
+    \caption{Plotting expropriation risk against settler mortality accounting for campaign/laborer indicators and conjectured vs. original data}    
+	\includegraphics[width=\textwidth]{../../out/figures/figure1a_risk_mort.png}
+\end{figure}
+
+
+\begin{figure}
+    \caption{Plotting log GDP risk against settler mortality accounting for campaign/laborer indicators and conjectured vs. original data}    
+	\includegraphics[width=\textwidth]{../../out/figures/figure1b_gdp_mort.png}
+\end{figure}
+
+\clearpage
+
+% section introduction (end)
+
+\input{../../out/tables/table2_first_stage_est.tex}
+
+\input{../../out/tables/table3_second_stage_est.tex}
+
+\setstretch{1}
+\printbibliography
+
+%\appendix
+%\counterwithin{table}{section}
+%\counterwithin{figure}{section}
+
+\end{document}
