@@ -3,5 +3,5 @@
     "INSTD": "risk",
     "INSTS": "logmort0",
     "KEEP_CONDITION": "",
-    "DUMMIES": ""
+    "DUMMIES": "campaign slave"
 }

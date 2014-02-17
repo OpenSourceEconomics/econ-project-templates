@@ -1,0 +1,6 @@
+{
+    "DEPVAR": "loggdp",
+    "INSTD": "risk",
+    "INSTS": "logmort0_new",
+    "KEEP_CONDITION": "keep if source0 == 1",
+    "DUMMIES": "campaign_new slave"}

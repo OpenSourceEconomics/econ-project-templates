@@ -1,113 +1,80 @@
-
-''' 
+'''
 DIFFERENT DATASET SPECIFICATIONS FOR REGRESSION ON INDICATOR VARIABLES:
-	'EST'  = OLS estimates from regressing main variables (mortality, expropr. risk, GDP) on
-				 campaign and laborer indicators 
-	'CORR' = Correlation of expropriation risk and GDP with mortality (with and without indicators)
+    'EST'  = OLS estimates from regressing main variables (mortality, expropr. risk, GDP) on
+             campaign and laborer indicators
+    'CORR' = Correlation of expropriation risk and GDP with mortality (with and without indicators)
 
 DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
-	1 = PANEL_A: Original mortality data (64 countries)
-	2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
-	3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
-	4 = PANEL_D: Only countries with non-conjectured mortality rates and campaign and laborer indicators 
-	5 = PANEL_E: As Panel D with new data provided by AJR
+    1 = PANEL_A: Original mortality data (64 countries)
+    2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
+    3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
+    4 = PANEL_D: Only countries with non-conjectured mortality rates, campaign + laborer indicators
+    5 = PANEL_E: As Panel D with new data provided by AJR
 '''
 
+
 def build(ctx):
-	
-	def in_data(*args):
-	    return ctx.path_to(ctx, 'IN_DATA', *args)
-	
-	def out_analysis(*args):
-	    return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 
+    def out_data(*args):
+        return ctx.path_to(ctx, 'OUT_DATA', *args)
 
-# Define dictionaries for loops over the different data specifications:
-	specification = {}
-	specification['Table1']={}
-	specification['Table1']['Estimates']='EST'
-	specification['Table1']['Correlations']='CORR'
-		
-	specification['Table2-3']={}
-	specification['Table2-3']['Panel A']='1'
-	specification['Table2-3']['Panel B']='2'
-	specification['Table2-3']['Panel C']='3'
-	specification['Table2-3']['Panel D']='4'
-	specification['Table2-3']['Panel E']='5'
+    def out_models(*args):
+        return ctx.path_to(ctx, 'OUT_MODELS', *args)
 
-	
-	
-# Runscripts for Table 1:	    
-	specs = sorted(specification['Table1'].keys())				
-	for panel in specs :
+    def out_analysis(*args):
+        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 
-		# Illustrate simple use of run_do_script.
-	    ctx(
-	        features='run_do_script',
-	        source='regression_on_indicators.do',
-	        target=[
-	        		out_analysis('log', 'regression_on_indicators_{}.log'.format(specification['Table1'][panel])),
-	        		out_analysis('regression_on_indicators_{}.dta'.format(specification['Table1'][panel]))
-	        ],
-	        deps=[
-	            '../library/stata/project_paths.do',
-	            in_data('ajrcomment.dta')
-	        ],
-	        name='regression_on_indicators_{}'.format(specification['Table1'][panel]),
-	        append=specification['Table1'][panel]
-        )
-	    
-		# Limit to parallelism when using append because of automatic logging
-	    ctx.add_group()
+    # Illustrate simple use of run_do_script for the data that underlies table 1.
+    ctx(
+        features='run_do_script',
+        source='regression_on_indicators.do',
+        target=[
+            out_analysis('log', 'regression_on_indicators.log'),
+            out_analysis('regression_on_indicators_est.dta'),
+            out_analysis('regression_on_indicators_corr.dta')
+        ],
+        deps=[
+            '../library/stata/project_paths.do',
+            out_data('ajrcomment_all.dta')
+        ]
+    )
 
-	
-# Runscripts for Table 2:	    
-	specs = sorted(specification['Table2-3'].keys())
-	for panel in specs :
+    # More complicated use: Read in the model specifications and run these things
+    # in parallel.
+    models = [
+        'baseline',
+        'rmconj',
+        'addindic',
+        'rmconj_addindic',
+        'newdata'
+    ]
 
-		# Illustrate simple use of run_do_script.
-	    ctx(
-	        features='run_do_script',
-	        source='first_stage_estimation.do',
-	        target=[
-	        		out_analysis('log', 'first_stage_estimation_{}.log'.format(specification['Table2-3'][panel])),
-	        		out_analysis('first_stage_estimation_{}.dta'.format(specification['Table2-3'][panel]))
-	        ],
-	        deps=[
-	            '../library/stata/project_paths.do',
-	            in_data('ajrcomment.dta')
-	        ],
-	        name='first_stage_estimation_{}'.format(specification['Table2-3'][panel]),
-	        append=specification['Table2-3'][panel]
-        )
-	    
-	# Limit to parallelism when using append because of automatic logging
-	    ctx.add_group()
+    for m in models:
+        for stage in 'first', 'second':
 
+            # Make a copy of the source files so that Stata can run in parallel
+            # (We have to rely on parsing the automatic log-file for error checks,
+            # these must have different names)
+            ctx(
+                features='subst',
+                source='{}_stage_estimation.do'.format(stage),
+                target='{}_stage_estimation_{}.do'.format(stage, m)
+            )
 
-# Runscripts for Table 3:	    
-	specs = sorted(specification['Table2-3'].keys())				
-	for panel in specs :
-
-		# Illustrate simple use of run_do_script.
-	    ctx(
-	        features='run_do_script',
-	        source='second_stage_estimation.do',
-	        target=[
-	        		out_analysis('log', 'second_stage_estimation_{}.log'.format(specification['Table2-3'][panel])),
-	        		out_analysis('second_stage_estimation_{}.dta'.format(specification['Table2-3'][panel]))
-    		],
-	        deps=[
-	            '../library/stata/project_paths.do',
-	            in_data('ajrcomment.dta')
-    		],
-	        name='second_stage_estimation_{}'.format(specification['Table2-3'][panel]),
-	        append=specification['Table2-3'][panel]
-        )
-	    
-	    # Limit to parallelism when using append because of automatic logging
-	    ctx.add_group()
-
-
-
-
+            # Now run the do-file that was just copied over.
+            ctx(
+                features='run_do_script',
+                source='{}_stage_estimation_{}.do'.format(stage, m),
+                target=[
+                    out_analysis('log', '{}_stage_estimation_{}.log'.format(stage, m)),
+                    out_analysis('{}_stage_estimation_{}.dta'.format(stage, m))
+                ],
+                deps=[
+                    '../library/stata/project_paths.do',
+                    out_data('ajrcomment_all.dta'),
+                    out_models('{}.do'.format(m)),
+                    out_models('geography.do')
+                ],
+                name='{}_stage_estimation_{}'.format(stage, m),
+                append=m
+            )

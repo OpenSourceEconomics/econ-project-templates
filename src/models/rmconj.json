@@ -2,6 +2,6 @@
     "DEPVAR": "loggdp",
     "INSTD": "risk",
     "INSTS": "logmort0",
-    "KEEP_CONDITION": "",
+    "KEEP_CONDITION": "keep if source0 == 1",
     "DUMMIES": ""
 }
