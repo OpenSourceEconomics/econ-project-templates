@@ -3,5 +3,6 @@
     "INSTD": "risk",
     "INSTS": "logmort0",
     "KEEP_CONDITION": "keep if source0 == 1",
-    "DUMMIES": ""
+    "DUMMIES": "",
+    "TITLE": "Panel B: Removing conjectured mortality rates"
 }
