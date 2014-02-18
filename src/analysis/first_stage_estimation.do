@@ -36,7 +36,7 @@ forvalues N = 1 / 7 {
 
 	use `"${PATH_OUT_DATA}/ajrcomment_all"', replace
 	${KEEP_CONDITION}
-	${GEO_KEEP_CONDITION}
+	${GEO_KEEP_CONDITION_`N'}
 
 	qui reg ${INSTD} ${INSTS} ${DUMMIES} ${GEO_CONTROLS_`N'} `if`N''
 	est store F`N'

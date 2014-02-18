@@ -1,8 +1,8 @@
 /*
-The file "table2_first_stage_est.do" creates table 2 with the first 
-stage estimates taking as input the regression results and p-values 
-from the corresponding do-file in the analysis folder "first_stage_estimates.do" 
-It writes the results to Latex file "`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"'" 
+The file "table2_first_stage_est.do" creates table 2 with the first
+stage estimates taking as input the regression results and p-values
+from the corresponding do-file in the analysis folder "first_stage_estimates.do"
+It writes the results to Latex file "`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"'"
 */
 
 
@@ -15,7 +15,7 @@ forvalues T = 2 / 6 {
 
 	use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_``T''"', clear
 
-	if `T' == 2 { 
+	if `T' == 2 {
 		listtab colstring coef_``T''_1 coef_``T''_2 coef_``T''_3 coef_``T''_4 coef_``T''_5 coef_``T''_6 coef_``T''_7 ///
 			using `"${PATH_OUT_TABLES}/table2_first_stage_est.tex"', replace type rstyle(tabular) ///
  			head( ///
@@ -37,16 +37,16 @@ forvalues T = 2 / 6 {
 				"\vspace{0.05cm}\\ " ///
 				"\multicolumn{8}{l}{\textit{${TITLE}}}\\ " ///
 			)
-	} 
-	else if `T' < 6 { 
+	}
+	else if `T' < 6 {
 		listtab colstring coef_``T''_1 coef_``T''_2 coef_``T''_3 coef_``T''_4 coef_``T''_5 coef_``T''_6 coef_``T''_7, ///
 			appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular) ///
-			head("\vspace{0.1cm}\\ " "\multicolumn{8}{l}{\textit{${TITLE}}}\\ ") 
-	} 
- 	else if `T' == 6 { 
+			head("\vspace{0.1cm}\\ " "\multicolumn{8}{l}{\textit{${TITLE}}}\\ ")
+	}
+ 	else if `T' == 6 {
 		listtab colstring coef_``T''_1 coef_``T''_2 coef_``T''_3 coef_``T''_4 coef_``T''_5 coef_``T''_6 coef_``T''_7, ///
 			appendto(`"${PATH_OUT_TABLES}/table2_first_stage_est.tex"') type rstyle(tabular) ///
 			head("\vspace{0.1cm}\\ " "\multicolumn{8}{l}{\textit{${TITLE}}}\\ ") ///
-			foot("\bottomrule \end{tabular}" "\end{center}" "\end{table}") 
-	} 							
+			foot("\bottomrule \end{tabular}" "\end{center}" "\end{table}")
+	}
 }

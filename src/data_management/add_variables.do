@@ -20,7 +20,7 @@ replace logmort0_new = log(14.1) if inlist(shortnam, "AUS")
 replace logmort0_new = log(95.2) if inlist(shortnam, "HND")
 replace logmort0_new = log(84) if inlist(shortnam, "GUY")
 replace logmort0_new = log(20) if inlist(shortnam, "SGP")
-replace campaign = 0 if inlist(shortnam, "HND")
+replace campaign_new = 0 if inlist(shortnam, "HND")
 
 replace logmort0_new = log(106.3) if inlist(shortnam, "TTO")
 replace logmort0_new = log(350) if inlist(shortnam, "SLE")
