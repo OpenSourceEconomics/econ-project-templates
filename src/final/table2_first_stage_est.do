@@ -13,6 +13,8 @@ log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
 
 forvalues T = 2 / 6 {
 
+	do `"${PATH_OUT_MODELS}/``T''"'
+	do `"${PATH_OUT_MODELS}/geography"'
 	use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_``T''"', clear
 
 	if `T' == 2 {
