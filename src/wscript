@@ -1,6 +1,5 @@
 def build(ctx):
-    ctx.recurse('library')
-    ctx.recurse('models')
+    ctx.recurse('library') 
     # Adding the build group is required because the project
     # paths have to be generated first. It should not entail
     # any performance penalties -- all tasks before this

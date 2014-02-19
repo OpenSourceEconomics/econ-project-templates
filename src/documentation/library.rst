@@ -21,10 +21,11 @@ The following is taken from the top-level wscript file. Modify any project-wide 
     :start-after: out = 'bld'
     :end-before:     # Convert the directories into Waf nodes
 
-.. _library_stata:
 
-Stata do and ado-files
+.. _library_R:
+
+R-files
 -----------------------
 
-.. automodule:: src.library.stata
-    :members:
+
+All R packages that are re-used in various steps of the project.

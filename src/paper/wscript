@@ -1,14 +1,13 @@
 def build(ctx):
 
-    source = 'research_paper'
-
     ctx(
         features='tex',
-        source=source + '.tex',
+        source='research_paper' + '.tex',
         prompt=1,
-        name=source
+        name='research_paper'
     )
+    # Install to the project root.
     ctx.install_files(
         ctx.env.PROJECT_PATHS['PROJECT_ROOT'].abspath(),
-        source + '.pdf'
+        'research_paper' + '.pdf'
     )

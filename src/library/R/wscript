@@ -1,0 +1,26 @@
+def build(ctx):
+    ctx(features='write_project_paths', target='project_paths.r')
+    ctx.add_group()
+
+    lib_names = [
+        "survival",
+        "Formula",
+        "xtable",
+        "foreign",
+        "car",
+        "sandwich",
+        "aod",
+        "zoo",
+        "lmtest",
+        "AER",
+        "ivpack"
+    ]
+
+    for lib_name in lib_names:
+        ctx(
+            features='run_r_script',
+            source='install_required_lib.r',
+            target=lib_name + '/DESCRIPTION',
+            append=lib_name
+        )
+        ctx.add_group()

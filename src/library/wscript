@@ -1,2 +1,2 @@
 def build(ctx):
-    ctx.recurse('stata')
+    ctx.recurse('R')

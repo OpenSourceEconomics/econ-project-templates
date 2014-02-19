@@ -6,8 +6,9 @@ Model code
 
 The directory *src.model_code* contains source files that might differ by model and which are potentially used at various steps of the analysis.
 
-For example, you may have a class that is used both in the :ref:`analysis` and the :ref:`final` steps. Additionally, maybe you have different utility functions in the baseline version and for your robustness check. You can just inherit from the baseline class and override the utility function then.
+Contains functions that are used several times in the R-scripts of the project.
 
-
-
+.. literalinclude:: ../model_code/functions.r
+    :start-after: '
+    :end-before: ' 
 

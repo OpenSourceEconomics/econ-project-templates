@@ -1,14 +1,10 @@
 def build(ctx):
+	pass
 
-    ctx(
-        features='run_do_script',
-        source='add_variables.do',
-        target=[
-            ctx.path_to(ctx, 'OUT_DATA', 'log', 'add_variables.log'),
-            ctx.path_to(ctx, 'OUT_DATA', 'ajrcomment_all.dta')
-        ],
-        deps=[
-            '../library/stata/project_paths.do',
-            ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
-        ]
-    )
+    # Illustrate simple use of run_py_script
+    #ctx(
+     #   features='run_py_script',
+      #  source='get_simulation_draws.py',
+       # target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy'),
+        #name='get_simulation_draws'
+    #)
