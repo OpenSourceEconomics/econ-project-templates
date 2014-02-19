@@ -4,7 +4,7 @@
 Introduction to Waf
 *******************
 
-`Waf <https://code.google.com/p/waf/>`_ is our tool of choice to automate the dependency tracking via a DAG (directed acyclic graph) structure. Originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file *waf.py* and the hidden folder *.mywaflib*). The settings for a particular project are controlled via files called *wscript*, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.
+`Waf <https://code.google.com/p/waf/>`_ is our tool of choice to automate the dependency tracking via a DAG (directed acyclic graph) structure. Written in Python and originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file *waf.py* and the hidden folder *.mywaflib*). The settings for a particular project are controlled via files called *wscript*, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.
 
 There are three phases to building a project:
 
@@ -32,7 +32,7 @@ The first time you fire up a project you need to invoke Waf by typing::
     
     python waf.py configure
 
-in a command prompt. You only need to do this once, or if the location of the programs that your project requires changes (say, you installed a new version of LaTeX), you performed a distclean, or manually removed the entire build directory. Because of the ``configure`` argument Waf will call the function by the same name, which lives in the main *wscript* file:
+in a command prompt. You only need to do this once, or whenever the location of the programs that your project requires changes (say, you installed a new version of LaTeX), you performed a distclean, or manually removed the entire build directory. Because of the ``configure`` argument Waf will call the function by the same name, which lives in the main *wscript* file:
 
 .. literalinclude:: ../python_template/wscript
     :start-after: return os.path.join(path_to_dir, args[-1])

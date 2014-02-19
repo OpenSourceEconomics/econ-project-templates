@@ -81,7 +81,7 @@ Bluish nodes are pure source files -- they do not depend on any other file and h
 
 In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct **dependencies** changes. E.g. when we make changes to *baseline.json*, we will need to build *schelling_baseline.pickle* and  *schelling_baseline.png* anew. Depending on whether *schelling_baseline.png* actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section. The only important thing at this point is to understand the general idea.
 
-Of course this is overkill for a textbook example -- we could easily keep the code closer together than this. But this strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of :cite:`Gaudecker14`:
+Of course this is overkill for a textbook example -- we could easily keep the code closer together than this. But such a strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of :cite:`Gaudecker14`:
 
 .. figure:: examples/pfefficiency.jpg
    :width: 35em

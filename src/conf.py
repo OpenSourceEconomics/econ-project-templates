@@ -44,7 +44,7 @@ source_encoding = 'utf-8'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Templates for reproducible research projects in economics'
+project = 'Templates for reproducible research projects'
 copyright = '2013-, Hans-Martin von Gaudecker'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -107,7 +107,7 @@ html_theme_path = ['../themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = 'Tutorial: Templates for reproducible research projects'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None

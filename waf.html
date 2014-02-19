@@ -6,11 +6,10 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Introduction to Waf &mdash; Templates for reproducible research projects in economics  documentation</title>
+    <title>Introduction to Waf &mdash; Tutorial: Templates for reproducible research projects</title>
     
     <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/print.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -25,8 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="_static/theme_extras.js"></script>
-    <link rel="top" title="Templates for reproducible research projects in economics  documentation" href="index.html" />
+    <link rel="top" title="Tutorial: Templates for reproducible research projects" href="index.html" />
     <link rel="next" title="Organisation" href="organisation.html" />
     <link rel="prev" title="Design rationale" href="rationale.html" />
  
@@ -44,7 +42,7 @@
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>Templates for reproducible research projects in economics  documentation</span></a></h1>
+          <span>Tutorial: Templates for reproducible research projects</span></a></h1>
         <h2 class="heading"><span>Introduction to Waf</span></h2>
       </div>
       <div class="topnav">
@@ -63,7 +61,7 @@
         
   <div class="section" id="introduction-to-waf">
 <span id="waf-intro"></span><h1>Introduction to Waf<a class="headerlink" href="#introduction-to-waf" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://code.google.com/p/waf/">Waf</a> is our tool of choice to automate the dependency tracking via a DAG (directed acyclic graph) structure. Originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file <em>waf.py</em> and the hidden folder <em>.mywaflib</em>). The settings for a particular project are controlled via files called <em>wscript</em>, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.</p>
+<p><a class="reference external" href="https://code.google.com/p/waf/">Waf</a> is our tool of choice to automate the dependency tracking via a DAG (directed acyclic graph) structure. Written in Python and originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file <em>waf.py</em> and the hidden folder <em>.mywaflib</em>). The settings for a particular project are controlled via files called <em>wscript</em>, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.</p>
 <p>There are three phases to building a project:</p>
 <blockquote>
 <div><ul class="simple">
@@ -90,9 +88,10 @@
 <div class="section" id="the-configure-phase">
 <h2>The configure phase<a class="headerlink" href="#the-configure-phase" title="Permalink to this headline">¶</a></h2>
 <p>The first time you fire up a project you need to invoke Waf by typing:</p>
-<div class="highlight-python"><pre>python waf.py configure</pre>
+<div class="highlight-python"><div class="highlight"><pre>python waf.py configure
+</pre></div>
 </div>
-<p>in a command prompt. You only need to do this once, or if the location of the programs that your project requires changes (say, you installed a new version of LaTeX), you performed a distclean, or manually removed the entire build directory. Because of the <tt class="docutils literal"><span class="pre">configure</span></tt> argument Waf will call the function by the same name, which lives in the main <em>wscript</em> file:</p>
+<p>in a command prompt. You only need to do this once, or whenever the location of the programs that your project requires changes (say, you installed a new version of LaTeX), you performed a distclean, or manually removed the entire build directory. Because of the <tt class="docutils literal"><span class="pre">configure</span></tt> argument Waf will call the function by the same name, which lives in the main <em>wscript</em> file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PYTHONPATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;why&#39;</span><span class="p">)</span>
@@ -221,7 +220,8 @@
 <li><p class="first">We keep a log-file called <em>schelling_baseline.log</em>, which we left out of the dependency tree.</p>
 </li>
 <li><p class="first">The <tt class="docutils literal"><span class="pre">append</span></tt> keyword allows us to pass arguments to the Python script. In particular, <em>schelling.py</em> will be invoked as follows:</p>
-<div class="highlight-python"><pre>python /path/to/project/src/analysis/schelling.py baseline</pre>
+<div class="highlight-python"><div class="highlight"><pre>python /path/to/project/src/analysis/schelling.py baseline
+</pre></div>
 </div>
 <p>In <em>schelling.py</em>, the model name is then read in using:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">model_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -286,7 +286,8 @@
 <div class="section" id="invoking-the-build">
 <h3>Invoking the build<a class="headerlink" href="#invoking-the-build" title="Permalink to this headline">¶</a></h3>
 <p>You start building the project by typing:</p>
-<div class="highlight-python"><pre>python waf.py build</pre>
+<div class="highlight-python"><div class="highlight"><pre>python waf.py build
+</pre></div>
 </div>
 <p>at a command prompt. Because this is the most frequent command to execute,</p>
 <blockquote>
@@ -305,11 +306,13 @@
 </pre></div>
 </div>
 <p>This installation of targets can be triggered by typing either of the following commands in a shell:</p>
-<div class="highlight-python"><pre>python waf.py build install
-python waf.py install</pre>
+<div class="highlight-python"><div class="highlight"><pre>python waf.py build install
+python waf.py install
+</pre></div>
 </div>
 <p>Conversely, you can remove all installed targets by:</p>
-<div class="highlight-python"><pre>python waf.py uninstall</pre>
+<div class="highlight-python"><div class="highlight"><pre>python waf.py uninstall
+</pre></div>
 </div>
 </div>
 <div class="section" id="a-closer-look-at-the-build-phase">
@@ -330,7 +333,8 @@ python waf.py install</pre>
 <p>While developing your code, errors will usually show up in the last step: The task returns an error and Waf stops. However, the errors do not have anything to do with Waf, it simply runs the code you wrote on your behalf.</p>
 <p>&#8220;Genuine&#8221; Waf errors will occur only if you made errors in writing the <em>wscript</em> files (e.g., syntax errors) or specify the dependencies in a way that is not compatible with a DAG (e.g., circular dependencies or multiple ways to build a target). A hybrid error will occur, for example, if a task did not produce one of the targets you told Waf about. Waf will stop with an error again and it lies in your best judgement of whether you misspecified things in your <em>wscript</em> file or in your research code.</p>
 <p>By default, Waf will execute tasks in parallel if your computer is sufficiently powerful and if the dependency graphs allows for it. This often leads to a major speed gain, which comes as a free lunch. However, it can be annoying during the development phase because error messages from different tasks get into each others&#8217; way. You can force execution of a single task at a time by starting Waf with the <tt class="docutils literal"><span class="pre">-j1</span></tt> switch:</p>
-<div class="highlight-python"><pre>python waf -j1</pre>
+<div class="highlight-python"><div class="highlight"><pre>python waf -j1
+</pre></div>
 </div>
 <p>Other useful options are:</p>
 <blockquote>
@@ -387,7 +391,7 @@ python waf.py install</pre>
 
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking
