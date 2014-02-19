@@ -26,6 +26,7 @@ def build(ctx):
         source='conf.py',
         name='sphinx_tex'
     )
+    ctx.add_group()
     ctx(
         features='sphinx',
         buildername='html',
