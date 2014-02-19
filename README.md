@@ -22,7 +22,7 @@ Full documentation
 Getting started (R-based project)
 ---------------------------------------------
 
-1. Clone the project template repository (or download the [zip file](https://github.com/hmgaudecker/econ-project-templates/archive/python.zip) and copy its contents to the place on your machine where you want the resulting project to live, e.g.
+1. Clone the project template repository (or download the [zip file](https://github.com/hmgaudecker/econ-project-templates/archive/R.zip) and copy its contents to the place on your machine where you want the resulting project to live, e.g.
 
         C:\Projects\returns-to-education\
 
