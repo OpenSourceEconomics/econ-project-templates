@@ -21,8 +21,8 @@ Files and directories in square brackets are constructed by Waf. You immediately
 
     * All source code is in the *src* directory.
     * All outputs are constructed in the *[bld]* directory.
-    * The remaining objects in square brackets are put there during Waf's install phase, so that they can be opened easily (paper, presentation, documentation).
-    * The remainder are objects related to Waf:
+    * The other objects in square brackets are put there during Waf's install phase, so that they can be opened easily (paper, presentation, documentation).
+    * The remainder is made up of objects related to Waf:
         
         * *waf.py* is the file that starts up Waf (you will never need to change it).
         * *wscript* is the main entry point for the instructions we give to Waf.
@@ -37,9 +37,9 @@ Some differences:
     * Because they are accessed frequently, *figures* and *tables* get extra directories in *root/bld/out* next to *final*
     * The directory *root/src* contains many more subdirectories:
         
-        * *original_data* is the place to store the data in its raw form, as downloaded / transcribed / ... This should never be changed.
+        * *original_data* is the place to store the data in its raw form, as downloaded / transcribed / ... The original data should **never** be modified and saved under the same name.
         * *model_code* contains source files that might differ by model and that are potentially used at various steps of the analysis.
-        * *model_specs* contains `JSON <http://www.json.org/>`_ files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages (for Stata there is a converter in the *wscript* file)
+        * *model_specs* contains `JSON <http://www.json.org/>`_ files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages (for Stata there is a converter in the *wscript* file of the Stata version of the template)
         * *library* provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction from the *model_code* directory is a bit arbitrary, but I have found it useful in the past.
 
 
@@ -97,10 +97,9 @@ Usage of the project paths within *wscript* files
 The first thing to do is to make these project paths available in *wscript* files further down the directory hierarchy. We do so in the *build* function of *root/wscript*, which we have not shown completely so far:
 
 .. literalinclude:: ../python_template/wscript
-    :start-after: out = 'bld'
-    :end-before: def path_to
+    :start-after: ctx.load('write_project_headers')
 
-The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. But you do not need to care about its internals, only about its interface:
+The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. You do not need to care about its internals, only about its interface:
 
 .. function:: ctx.path_to(ctx, pp_key, *args)
     
@@ -114,7 +113,7 @@ The first line of the function attaches the project paths we defined in the prev
 This description may be a bit cryptic, but it says it all: Waf needs paths relative to the *wscript* where you define a task generator. This function returns it. You always need to supply three arguments:
 
     #. The build context (completely mechanical, always the same)
-    #. The name of the directory you want to access.
+    #. The key of the directory you want to access.
     #. The name of the file in the directory. If there is a further hierarchy of directories, separate directory and file names by commas.
 
 Let us look at *root/src/analysis/wscript* as an example again:

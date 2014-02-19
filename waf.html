@@ -123,7 +123,7 @@
 <p>Remember the colors of the edges follow the step of the analysis; we will split  our description along the same lines. First, we need to show how to keep the Waf code in separate directories (else it would become quickly unmanageable).</p>
 <div class="section" id="distributing-the-dependencies-by-step-of-the-analysis">
 <h3>Distributing the dependencies by step of the analysis<a class="headerlink" href="#distributing-the-dependencies-by-step-of-the-analysis" title="Permalink to this headline">¶</a></h3>
-<p>Waf makes it easy to proceed in a step-wise manner by letting the user distribute <em>wscript</em> files across a directory hierarchy. This is an exerpt from the <tt class="docutils literal"><span class="pre">build</span></tt> function in the main <em>wscript</em> file:</p>
+<p>Waf makes it easy to proceed in a step-wise manner by letting the user distribute <em>wscript</em> files across a directory hierarchy. This is an excerpt from the <tt class="docutils literal"><span class="pre">build</span></tt> function in the main <em>wscript</em> file:</p>
 <div class="code highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">)</span>
 </pre></div>

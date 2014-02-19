@@ -64,7 +64,7 @@ Remember the colors of the edges follow the step of the analysis; we will split 
 Distributing the dependencies by step of the analysis
 -----------------------------------------------------
 
-Waf makes it easy to proceed in a step-wise manner by letting the user distribute *wscript* files across a directory hierarchy. This is an exerpt from the ``build`` function in the main *wscript* file:
+Waf makes it easy to proceed in a step-wise manner by letting the user distribute *wscript* files across a directory hierarchy. This is an excerpt from the ``build`` function in the main *wscript* file:
 
 .. code::
 

@@ -11,8 +11,9 @@ The basic steps are very easy:
       If you are not familiar with Git, you can use these links:
 
         * `Template for Python-based projects <https://github.com/hmgaudecker/econ-project-templates/archive/python.zip>`_
+        * `Template for Matlab-based projects <https://github.com/hmgaudecker/econ-project-templates/archive/matlab.zip>`_
         * `Template for Stata-based projects <https://github.com/hmgaudecker/econ-project-templates/archive/stata.zip>`_
-        * tbc
+        * `Template for R-based projects <https://github.com/hmgaudecker/econ-project-templates/archive/R.zip>`_
       
       You can always check the examples from a different template if you want to mix languages.
 

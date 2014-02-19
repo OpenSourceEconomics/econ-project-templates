@@ -75,9 +75,9 @@
 </li>
 <li><p class="first">All outputs are constructed in the <em>[bld]</em> directory.</p>
 </li>
-<li><p class="first">The remaining objects in square brackets are put there during Waf&#8217;s install phase, so that they can be opened easily (paper, presentation, documentation).</p>
+<li><p class="first">The other objects in square brackets are put there during Waf&#8217;s install phase, so that they can be opened easily (paper, presentation, documentation).</p>
 </li>
-<li><p class="first">The remainder are objects related to Waf:</p>
+<li><p class="first">The remainder is made up of objects related to Waf:</p>
 <blockquote>
 <div><ul class="simple">
 <li><em>waf.py</em> is the file that starts up Waf (you will never need to change it).</li>
@@ -98,9 +98,9 @@
 <li><p class="first">The directory <em>root/src</em> contains many more subdirectories:</p>
 <blockquote>
 <div><ul class="simple">
-<li><em>original_data</em> is the place to store the data in its raw form, as downloaded / transcribed / ... This should never be changed.</li>
+<li><em>original_data</em> is the place to store the data in its raw form, as downloaded / transcribed / ... The original data should <strong>never</strong> be modified and saved under the same name.</li>
 <li><em>model_code</em> contains source files that might differ by model and that are potentially used at various steps of the analysis.</li>
-<li><em>model_specs</em> contains <a class="reference external" href="http://www.json.org/">JSON</a> files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages (for Stata there is a converter in the <em>wscript</em> file)</li>
+<li><em>model_specs</em> contains <a class="reference external" href="http://www.json.org/">JSON</a> files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages (for Stata there is a converter in the <em>wscript</em> file of the Stata version of the template)</li>
 <li><em>library</em> provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction from the <em>model_code</em> directory is a bit arbitrary, but I have found it useful in the past.</li>
 </ul>
 </div></blockquote>
@@ -180,28 +180,13 @@
 <div class="section" id="usage-of-the-project-paths-within-wscript-files">
 <h2>Usage of the project paths within <em>wscript</em> files<a class="headerlink" href="#usage-of-the-project-paths-within-wscript-files" title="Permalink to this headline">¶</a></h2>
 <p>The first thing to do is to make these project paths available in <em>wscript</em> files further down the directory hierarchy. We do so in the <em>build</em> function of <em>root/wscript</em>, which we have not shown completely so far:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">set_project_paths</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return a dictionary with project paths represented by Waf nodes.&quot;&quot;&quot;</span>
-
-    <span class="n">pp</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;PROJECT_ROOT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;IN_DATA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;src/original_data&#39;</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;IN_MODEL_CODE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;src/model_code&#39;</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;IN_MODEL_SPECS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;src/model_specs&#39;</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;OUT_DATA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;{}/out/data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;OUT_ANALYSIS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;{}/out/analysis&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;OUT_FINAL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;{}/out/final&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;OUT_FIGURES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;{}/out/figures&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-    <span class="n">pp</span><span class="p">[</span><span class="s">&#39;OUT_TABLES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;{}/out/tables&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-
-    <span class="c"># Convert the directories into Waf nodes.</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">pp</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">pp</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">pp</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PROJECT_PATHS</span> <span class="o">=</span> <span class="n">set_project_paths</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span> <span class="o">=</span> <span class="n">path_to</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. But you do not need to care about its internals, only about its interface:</p>
+<p>The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. You do not need to care about its internals, only about its interface:</p>
 <dl class="function">
 <dt id="ctx.path_to">
 <tt class="descclassname">ctx.</tt><tt class="descname">path_to</tt><big>(</big><em>ctx</em>, <em>pp_key</em>, <em>*args</em><big>)</big><a class="headerlink" href="#ctx.path_to" title="Permalink to this definition">¶</a></dt>
@@ -216,7 +201,7 @@ of the directory trees defined in the PROJECT_PATHS dictionary above.</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li>The build context (completely mechanical, always the same)</li>
-<li>The name of the directory you want to access.</li>
+<li>The key of the directory you want to access.</li>
 <li>The name of the file in the directory. If there is a further hierarchy of directories, separate directory and file names by commas.</li>
 </ol>
 </div></blockquote>
