@@ -14,7 +14,7 @@ library(xtable, lib=PATH_OUT_LIBRARY_R)
 
 source(paste(PATH_IN_MODEL_CODE,"/","functions.r",sep=""))
 
-mat=dget(file = paste(PATH_OUT_ANALYSIS,"/","first_stage_estimation.pickle",sep=""))
+mat=dget(file = paste(PATH_OUT_ANALYSIS,"/","first_stage_estimation.txt",sep=""))
 
 panel_name = list(
                    orig_data = "orig_data",re_conj_mor = "re_conj_mor", 

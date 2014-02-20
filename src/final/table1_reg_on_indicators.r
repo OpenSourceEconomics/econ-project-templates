@@ -14,7 +14,7 @@ library(xtable, lib=PATH_OUT_LIBRARY_R)
 
 ## import vector
 mat = dget(
-	     paste(PATH_OUT_ANALYSIS,"/","regression_on_indicators.pickle",sep="")
+	     paste(PATH_OUT_ANALYSIS,"/","regression_on_indicators.txt",sep="")
       )
 
 ## change format and make matrix

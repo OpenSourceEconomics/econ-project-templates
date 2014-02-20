@@ -57,9 +57,14 @@ data_new[grep("HND", data_new$shortnam),]$campaign = 0
 
 data_mor_home_new = data_new[grep(1,data_new$source0),]
 
+
+# pls change the model names to what is found in the stata template
+# (probably won't stay here anyhow, though)
 panel_name = list(
-                  orig_data = "orig_data",re_conj_mor = "re_conj_mor", 
-                  orig_data_con = "orig_data_con", re_conj_mor_con = "re_conj_mor_con", 
+                  orig_data = "orig_data",
+                  re_conj_mor = "re_conj_mor", 
+                  orig_data_con = "orig_data_con", 
+                  re_conj_mor_con = "re_conj_mor_con", 
                   new_data_re_conj_mor_con = "new_data_re_conj_mor_con"
              )
 
@@ -80,6 +85,7 @@ reg_name = list(
 out = list()
 
 ##run all regressions and store data in a list 
+# @Lukas: This will drop out after transition to new structure
 for(i in panel_name){
                      
              logmort = panel_data_set[i][[1]][,"logmort0"]
@@ -141,19 +147,26 @@ for(i in panel_name){
              reg_mal = ivreg(loggdp_m ~ risk_m + mal_m | logmort_m + mal_m, x=TRUE )
 
 
+            # @Lukas: This is read in via geography.json
+
             reg = list(
-                        "reg_no" = reg_no,"reg_lat" = reg_lat, 
-                        "reg_without_neo" = reg_without_neo, "reg_conti" = reg_conti,
-                        "reg_conti_lat" = reg_conti_lat, "reg_per_euro" = reg_per_euro,
+                        "reg_no" = reg_no,
+                        "reg_lat" = reg_lat, 
+                        "reg_without_neo" = reg_without_neo, 
+                        "reg_conti" = reg_conti,
+                        "reg_conti_lat" = reg_conti_lat,
+                        "reg_per_euro" = reg_per_euro,
                         "reg_mal" = reg_mal
                    )
 
+            # @Lukas: Loop over 1/7, load dataset anew in each iteration, implement restriction
+            # then the remaining code will be much simplified. 
             for(k in reg_name){
                                if (k == "reg_without_neo"){
                                                         
                                                 temp[[k]] = c(
                                                               reg[k][[1]]$coef[2],  
-                                                              waldki(reg[k][[1]], 0.05, logmort_without_neo),
+                                                              wald.ci(reg[k][[1]], 0.05, logmort_without_neo),
                                                               "",
                                                               anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
                                                               anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
@@ -164,7 +177,7 @@ for(i in panel_name){
                                                 
                                                 temp[[k]] = c(
                                                               reg[k][[1]]$coef[2],  
-                                                              waldki(reg[k][[1]], 0.05, logmort_m),
+                                                              wald.ci(reg[k][[1]], 0.05, logmort_m),
                                                               "",
                                                               anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
                                                               anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
@@ -174,7 +187,7 @@ for(i in panel_name){
                                           
                                           temp[[k]] = c(
                                                         reg[k][[1]]$coef[2],  
-                                                        waldki(reg[k][[1]], 0.05, logmort),
+                                                        wald.ci(reg[k][[1]], 0.05, logmort),
                                                         "",
                                                         anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
                                                         anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
@@ -185,6 +198,7 @@ for(i in panel_name){
             }
         }else{
 
+            # @Lukas: All this stuff comes from JSON-files, will be much simplified.
             reg_no = ivreg(
                             loggdp ~ risk + slave + campaign 
                             | logmort + slave + campaign, 
@@ -235,13 +249,14 @@ for(i in panel_name){
                         "reg_mal" = reg_mal
                    )
 
+            # @Lukas: Same comment as above.
             for(k in reg_name){
                         
                         if (k == "reg_without_neo"){
                                             
                                             temp[[k]] = c(
                                                           reg[k][[1]]$coef[2],  
-                                                          waldki(reg[k][[1]], 0.05, logmort_without_neo),
+                                                          wald.ci(reg[k][[1]], 0.05, logmort_without_neo),
                                                           "",
                                                           anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
                                                           anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
@@ -252,7 +267,7 @@ for(i in panel_name){
                                             
                                             temp[[k]] = c(
                                                           reg[k][[1]]$coef[2],  
-                                                          waldki(reg[k][[1]], 0.05, logmort_m),
+                                                          wald.ci(reg[k][[1]], 0.05, logmort_m),
                                                           "",
                                                           anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
                                                           anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
@@ -262,7 +277,7 @@ for(i in panel_name){
                                    
                                    temp[[k]] = c(
                                                  reg[k][[1]]$coef[2],  
-                                                 waldki(reg[k][[1]], 0.05, logmort),
+                                                 wald.ci(reg[k][[1]], 0.05, logmort),
                                                  "",
                                                  anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
                                                  anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
@@ -277,4 +292,4 @@ for(i in panel_name){
 
 
 ##export the data list 
-dput(out, file = paste(PATH_OUT_ANALYSIS,"/","second_stage_estimation.pickle",sep=""))
+dput(out, file = paste(PATH_OUT_ANALYSIS, "second_stage_estimation.txt", sep="/"))

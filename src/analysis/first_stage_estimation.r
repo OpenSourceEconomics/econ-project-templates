@@ -342,4 +342,4 @@ for(i in panel_name){
 }
 
 ##export the data list 
-dput(out, file = paste(PATH_OUT_ANALYSIS,"/","first_stage_estimation.pickle",sep=""))
+dput(out, file = paste(PATH_OUT_ANALYSIS,"/","first_stage_estimation.txt",sep=""))

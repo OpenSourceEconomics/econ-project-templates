@@ -93,7 +93,7 @@ cor_mo_ris_par = cor(fmmort$resid, fmrisk$resid)
 ## export the vector
 
 dput( 
-     mat, file=paste(PATH_OUT_ANALYSIS,"/","regression_on_indicators.pickle",sep="")
+     mat, file=paste(PATH_OUT_ANALYSIS,"/","regression_on_indicators.txt",sep="")
 )
 
 

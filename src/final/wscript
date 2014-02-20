@@ -1,9 +1,8 @@
 def build(ctx):
- 
 
     targets = [
         ctx.path_to(ctx, 'OUT_FIGURES', 'Figure_risk_mort.png'),
-        ctx.path_to(ctx, 'OUT_FIGURES', 'Figure_gdp_mort.png'),        
+        ctx.path_to(ctx, 'OUT_FIGURES', 'Figure_gdp_mort.png'),
     ]
 
     ctx(
@@ -13,27 +12,27 @@ def build(ctx):
         deps=ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta'),
         name='plot_figure.r'
     )
-    
+
     ctx(
         features='run_r_script',
         source='table1_reg_on_indicators.r',
         target=ctx.path_to(ctx, 'OUT_TABLES', 'table1_reg_on_indicators.tex'),
-        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'regression_on_indicators.pickle'),
+        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'regression_on_indicators.txt'),
         name='table_main_variables.r'
     )
-    
+
     ctx(
         features='run_r_script',
         source='table2_first_stage_est.r',
         target=ctx.path_to(ctx, 'OUT_TABLES', 'table2_first_stage_est.tex'),
-        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'first_stage_estimation.pickle'),
+        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'first_stage_estimation.txt'),
         name='table_first_stage_est.r'
     )
-    
+
     ctx(
         features='run_r_script',
         source='table3_second_stage_est.r',
         target=ctx.path_to(ctx, 'OUT_TABLES', 'table3_second_stage_est.tex'),
-        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.pickle'),
+        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.txt'),
         name='table_iv_est.r'
     )

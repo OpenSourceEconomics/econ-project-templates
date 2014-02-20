@@ -2,9 +2,13 @@
 
 summaryw -> Return Heteroskedastic robust standard errors for "model".
 clx -> Return clustered-standard errors for "fm".
-waldki -> Return Wald Confidenceintervall for second "coef" of "reg"
+wald.ci -> Return Wald Confidenceintervall for second "coef" of "reg"
 anderson.rubin.ci -> Return "Anderson Rubin CI" for "ivmodel" with sig. niveau 
                      "conflevel". Default is "conflevel=.95"
+
+Return "Anderson Rubin CI" for "ivmodel" with sig. niveau 
+"conflevel". Default is "conflevel=.95"
+                                                    
 
 '
 
@@ -78,7 +82,7 @@ clx = function(fm, dfcw, cluster){
                 ) 
         }
 
-waldki = function (reg , alpha, cluster){
+wald.ci = function (reg , alpha, cluster){
                                          
                   # Return Wald Confidenceintervall for second "coef" of
                   # "reg" 
@@ -232,9 +236,7 @@ anderson.rubin.ci = function(ivmodel, conflevel=.95){
                 }
         return(confidence.interval = ci)
 }
-        
-        
-        
+
 bracket = function(x, sep="") {
                     ## Return "x" with round brackets
                     ## Default "sep="" "

@@ -1,36 +1,34 @@
 def build(ctx):
-  
 
     ctx(
         features='run_r_script',
         source='regression_on_indicators.r',
-        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'regression_on_indicators.pickle'),
+        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'regression_on_indicators.txt'),
         deps=[
             ctx.path_to(ctx, 'IN_MODEL_CODE', 'functions.r'),
             ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
-        ],    
+        ],
         name='table_main_variables.r'
     )
-    
+
     ctx(
         features='run_r_script',
         source='first_stage_estimation.r',
-        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'first_stage_estimation.pickle'),
+        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'first_stage_estimation.txt'),
         deps=[
             ctx.path_to(ctx, 'IN_MODEL_CODE', 'functions.r'),
             ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
-        ],    
+        ],
         name='table_first_stage_est.r'
     )
-    
+
     ctx(
         features='run_r_script',
         source='second_stage_estimation.r',
-        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.pickle'),
+        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.txt'),
         deps=[
             ctx.path_to(ctx, 'IN_MODEL_CODE', 'functions.r'),
             ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
-        ],    
+        ],
         name='table_iv_est.r'
     )
-     
