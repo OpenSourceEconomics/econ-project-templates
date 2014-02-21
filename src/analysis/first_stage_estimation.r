@@ -27,6 +27,7 @@ options(digits=3)
 
 source("src/library/R/project_paths.r")
 
+library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(zoo, lib=PATH_OUT_LIBRARY_R)
 library(lmtest, lib=PATH_OUT_LIBRARY_R)
 library(sandwich, lib=PATH_OUT_LIBRARY_R)
@@ -35,10 +36,16 @@ library(foreign, lib=PATH_OUT_LIBRARY_R)
 library(xtable, lib=PATH_OUT_LIBRARY_R)
 library(car, lib=PATH_OUT_LIBRARY_R)
 
-source(paste(PATH_IN_MODEL_CODE,"/","functions.r",sep=""))
+source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
+# Load model specification
+model_name = commandArgs(trailingOnly = TRUE)
+model <- fromJSON(paste(PATH_IN_MODEL_SPECS, paste(model_name, "json", sep="."), sep="/"))
+
+'Access model via: data <- subset(data, eval(parse(text = model&KEEP_CONDITION)))'
 ## define the needed data 
-data <- read.dta(paste(PATH_IN_DATA,"/","ajrcomment.dta",sep=""))
+data <- read.table(paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep="/"))
+
 data_mor_home = data[grep(1,data$source0),]
 
 data_new <- data
@@ -52,6 +59,9 @@ data_new[grep("SGP", data_new$shortnam),]$logmort0 = log(20)
 data_new[grep("TTO", data_new$shortnam),]$logmort0 = log(106.3)
 data_new[grep("SLE", data_new$shortnam),]$logmort0 = log(350)
 
+'I dont understand why source0 is set to 1 here. This seems not do be done in the Stata code.
+Checking the actual data reveals that some of these countries have zeros, so would drop out via KEEP_CONDITION
+in geography.json if not set to 1.'
 data_new[grep("HKG", data_new$shortnam),]$source0 = 1
 data_new[grep("BHS", data_new$shortnam),]$source0 = 1
 data_new[grep("AUS", data_new$shortnam),]$source0 = 1
@@ -104,6 +114,7 @@ for(i in panel_name){
                     campaign = panel_data_set[i][[1]][,"campaign"]
     
                     data_without_neo = panel_data_set[i][[1]][grep(0,panel_data_set[i][[1]]$neoeuro),]
+                    
                     risk_without_neo = data_without_neo[,"risk"]
                     logmort_without_neo = data_without_neo[,"logmort0"]
                     slave_without_neo = data_without_neo[,"slave"]
@@ -132,9 +143,12 @@ for(i in panel_name){
             reg_mal = lm(risk_m ~ logmort_m + mal_m)
     
             reg <- list(
-                        "reg_no" = reg_no,"reg_lat" = reg_lat, 
-                        "reg_without_neo" = reg_without_neo, "reg_conti" = reg_conti,
-                        "reg_conti_lat" = reg_conti_lat, "reg_per_euro" = reg_per_euro,
+                        "reg_no" = reg_no,
+                        "reg_lat" = reg_lat, 
+                        "reg_without_neo" = reg_without_neo,
+                        "reg_conti" = reg_conti,
+                        "reg_conti_lat" = reg_conti_lat, 
+                        "reg_per_euro" = reg_per_euro,
                         "reg_mal" = reg_mal
                    )
            if (i == "orig_data"){
@@ -342,4 +356,4 @@ for(i in panel_name){
 }
 
 ##export the data list 
-dput(out, file = paste(PATH_OUT_ANALYSIS,"/","first_stage_estimation.txt",sep=""))
+dput(out, file = paste(PATH_OUT_ANALYSIS, "first_stage_estimation.txt", sep="/"))

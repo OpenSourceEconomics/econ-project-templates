@@ -1,10 +1,13 @@
 def build(ctx):
-	pass
 
-    # Illustrate simple use of run_py_script
-    #ctx(
-     #   features='run_py_script',
-      #  source='get_simulation_draws.py',
-       # target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.npy'),
-        #name='get_simulation_draws'
-    #)
+    ctx(
+        features='run_r_script',
+        source='add_variables.r',
+        target=[
+            ctx.path_to(ctx, 'OUT_DATA', 'ajrcomment_all.txt')
+        ],
+        deps=[
+            '../library/R/project_paths.r',
+            ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
+        ]
+    )

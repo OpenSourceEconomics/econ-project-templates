@@ -3,6 +3,7 @@ def build(ctx):
     ctx.add_group()
 
     lib_names = [
+        "rjson",
         "survival",
         "Formula",
         "xtable",

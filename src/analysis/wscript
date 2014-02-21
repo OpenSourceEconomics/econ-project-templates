@@ -1,34 +1,72 @@
 def build(ctx):
 
+    def out_data(*args):
+        return ctx.path_to(ctx, 'OUT_DATA', *args)
+
+    def in_model_specs(*args):
+        return ctx.path_to(ctx, 'IN_MODEL_SPECS', *args)
+
+    def in_model_code(*args):
+        return ctx.path_to(ctx, 'IN_MODEL_CODE', *args)
+
+    def out_analysis(*args):
+        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
+
     ctx(
         features='run_r_script',
         source='regression_on_indicators.r',
-        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'regression_on_indicators.txt'),
+        target=out_analysis('OUT_ANALYSIS', 'regression_on_indicators.txt'),
         deps=[
-            ctx.path_to(ctx, 'IN_MODEL_CODE', 'functions.r'),
-            ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
+            in_model_code('IN_MODEL_CODE', 'functions.r'),
+            out_data('OUT_DATA', 'ajrcomment_all.txt')
         ],
         name='table_main_variables.r'
     )
 
-    ctx(
-        features='run_r_script',
-        source='first_stage_estimation.r',
-        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'first_stage_estimation.txt'),
-        deps=[
-            ctx.path_to(ctx, 'IN_MODEL_CODE', 'functions.r'),
-            ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
-        ],
-        name='table_first_stage_est.r'
-    )
+    # More complicated use: Read in the model specifications and run these things
+    # in parallel.
+    models = [
+        'baseline',
+        'rmconj',
+        'addindic',
+        'rmconj_addindic',
+        'newdata'
+    ]
 
+    for m in models:
+        for stage in 'first':
+
+            # Make a copy of the source files so that Stata can run in parallel
+            # (We have to rely on parsing the automatic log-file for error checks,
+            # these must have different names)
+            ctx(
+                features='subst',
+                source='{}_stage_estimation.r'.format(stage),
+                target='{}_stage_estimation_{}.r'.format(stage, m)
+            )
+
+            # Now run the r-file that was just copied over.
+            ctx(
+                features='run_r_script',
+                source='{}_stage_estimation_{}.r'.format(stage, m),
+                target=[
+                    out_analysis('{}_stage_estimation_{}.txt'.format(stage, m))
+                ],
+                deps=[
+                    '../library/R/project_paths.r',
+                    out_data('ajrcomment_all.txt'),
+                    in_model_specs('geography.json')
+                ],
+                name='{}_stage_estimation_{}'.format(stage, m),
+                append=m
+            )
     ctx(
         features='run_r_script',
         source='second_stage_estimation.r',
         target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.txt'),
         deps=[
-            ctx.path_to(ctx, 'IN_MODEL_CODE', 'functions.r'),
-            ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
+            in_model_code('IN_MODEL_CODE', 'functions.r'),
+            out_data('OUT_DATA', 'ajrcomment_all.txt')
         ],
         name='table_iv_est.r'
     )
