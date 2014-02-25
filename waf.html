@@ -8,7 +8,7 @@
     
     <title>Introduction to Waf &mdash; Tutorial: Templates for reproducible research projects</title>
     
-    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -27,7 +27,13 @@
     <link rel="top" title="Tutorial: Templates for reproducible research projects" href="index.html" />
     <link rel="next" title="Organisation" href="organisation.html" />
     <link rel="prev" title="Design rationale" href="rationale.html" />
- 
+
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -41,24 +47,28 @@
 
   </head>
   <body>
-      <div class="header"><h1 class="heading"><a href="index.html">
-          <span>Tutorial: Templates for reproducible research projects</span></a></h1>
-        <h2 class="heading"><span>Introduction to Waf</span></h2>
-      </div>
-      <div class="topnav">
-      
-        <p>
-        «&#160;&#160;<a href="rationale.html">Design rationale</a>
-        &#160;&#160;::&#160;&#160;
-        <a class="uplink" href="index.html">Contents</a>
-        &#160;&#160;::&#160;&#160;
-        <a href="organisation.html">Organisation</a>&#160;&#160;»
-        </p>
 
-      </div>
-      <div class="content">
-        
-        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="organisation.html" title="Organisation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rationale.html" title="Design rationale"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
   <div class="section" id="introduction-to-waf">
 <span id="waf-intro"></span><h1>Introduction to Waf<a class="headerlink" href="#introduction-to-waf" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://code.google.com/p/waf/">Waf</a> is our tool of choice to automate the dependency tracking via a DAG (directed acyclic graph) structure. Written in Python and originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file <em>waf.py</em> and the hidden folder <em>.mywaflib</em>). The settings for a particular project are controlled via files called <em>wscript</em>, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.</p>
@@ -375,19 +385,69 @@ python waf.py install
 </div>
 
 
+          </div>
+        </div>
       </div>
-      <div class="bottomnav">
-      
-        <p>
-        «&#160;&#160;<a href="rationale.html">Design rationale</a>
-        &#160;&#160;::&#160;&#160;
-        <a class="uplink" href="index.html">Contents</a>
-        &#160;&#160;::&#160;&#160;
-        <a href="organisation.html">Organisation</a>&#160;&#160;»
-        </p>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction to Waf</a><ul>
+<li><a class="reference internal" href="#the-configure-phase">The configure phase</a></li>
+<li><a class="reference internal" href="#specifying-dependencies-and-the-build-phase">Specifying dependencies and the build phase</a><ul>
+<li><a class="reference internal" href="#distributing-the-dependencies-by-step-of-the-analysis">Distributing the dependencies by step of the analysis</a></li>
+<li><a class="reference internal" href="#the-data-management-step">The &#8220;data management&#8221; step</a></li>
+<li><a class="reference internal" href="#the-analysis-step">The &#8220;analysis&#8221; step</a></li>
+<li><a class="reference internal" href="#the-final-step">The &#8220;final&#8221; step</a></li>
+<li><a class="reference internal" href="#the-paper-step">The &#8220;paper&#8221; step</a></li>
+<li><a class="reference internal" href="#invoking-the-build">Invoking the build</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-installation-phase">The installation phase</a></li>
+<li><a class="reference internal" href="#a-closer-look-at-the-build-phase">A closer look at the build phase</a></li>
+<li><a class="reference internal" href="#concluding-notes-on-waf">Concluding notes on Waf</a></li>
+</ul>
+</li>
+</ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rationale.html"
+                        title="previous chapter">Design rationale</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="organisation.html"
+                        title="next chapter">Organisation</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
       </div>
-
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="organisation.html" title="Organisation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rationale.html" title="Design rationale"
+             >previous</a> |</li>
+        <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+      </ul>
+    </div>
 
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
