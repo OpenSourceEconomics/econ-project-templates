@@ -39,182 +39,192 @@ library(car, lib=PATH_OUT_LIBRARY_R)
 source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
 # Load model and geographic specification
-model_name = commandArgs(trailingOnly = TRUE)
-model <- fromJSON(paste(PATH_IN_MODEL_SPECS, paste(model_name, "json", sep="."), sep="/"))
+model_name <- commandArgs(trailingOnly = TRUE)
+model_json <- paste(model_name, "json", sep=".")
+model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
 panel_name = substring(model$TITLE, 1, 7)
-geography <- fromJSON((PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
+geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
 
-# Access model via: data <- subset(data, eval(parse(text = model&KEEP_CONDITION)))
-
-reg_names = c(
-  "reg_no", 
-  "reg_lat", 
-  "reg_without_neo", 
-  "reg_conti", 
-  "reg_conti_lat", 
-  "reg_per_euro",
-  "reg_mal"
-)
-
-# define output dataframe. Store data in here. Set row names conditional on model...
-out = data.frame()
+# Initilize output dataframe. Store data in here. Set row names conditional on panel
+if (panel_name == "PANEL_A" | panel_name == "PANEL_B") {
+    out = data.frame(matrix(nrow = 4, ncol = 7))
+    row.names(out) <- c(
+        "Log mortality", 
+        "heteroscedastic SE", 
+        "p-value log mortality", 
+        "p-value of controls"
+    )
+} else {
+    out = data.frame(matrix(nrow = 5, ncol = 7))
+    row.names(out) <- c(
+        "Log mortality", 
+        "heteroscedastic SE", 
+        "p-value log mortality", 
+        "p-value of indicators",
+        "p-value of controls"
+    )
+}
 
 # Loop over geographical constraints
 for (i in 1:7) {
-    
     # Load data
     data <- read.table(paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep="/"))
-    
+
     # Condition data on model
-    data <- subset(data, eval(parse(text = model&KEEP_CONDITION)))
+    if (model$KEEP_CONDITION != "") {
+        data <- subset(data, eval(parse(text = model$KEEP_CONDITION)))    
+    }
 
     # Condition data on geography
-    GEO_COND <- paste("GEO_KEEP_CONDITIONS_", i, sep="")
-    GEO_CONTROL <- paste("GEO_CONTROLS_", i, sep="")
-    data <- subset(data, eval(parse(text = geography[[GEO_COND]])))
+    GEO_COND <- paste("GEO_KEEP_CONDITION_", i, sep="")
+    if (geography[[GEO_COND]] != "") {
+        data <- subset(data, eval(parse(text = geography[[GEO_COND]])))
+    }
+    GEO_CONTROLS <- paste("GEO_CONTROLS_", i, sep="")
 
     # Set up variables for regression
     y <- model$INSTD
     x <- model$INSTS
     dummies <- model$DUMMIES
-    geo_controls <- geography[[GEO_CONTROL]]
+    geo_controls <- geography[[GEO_CONTROLS]]
 
     # Set up regression formula
-    reg_formula <- as.formula(paste(y, "~", x, dummies, geo_controls, sep=""))
+    reg_formula <- as.formula(paste(y, " ~ ", x, dummies, geo_controls, sep=""))
+    print(reg_formula)
     reg <- lm(reg_formula, data)
-    
-    temp = list()
+
+    # Initilize vector for regression output
+    temp = c()
     
     if (panel_name == "PANEL_A" | panel_name == "PANEL_B") {
     
         if (panel_name == "PANEL_A") {
 
             if (i == 1 | i == 3) { # No contols or No neo-europeans
-                temp[[k]] = c(
-                   reg[k][[1]]$coef[2], sqrt(diag(vcov(reg[k][[1]]))[2]), 
-                   clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[1]][2,2],
-                   clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[1]][2,4],
+                temp = c(
+                   reg$coef[2], sqrt(diag(vcov(reg))[2]), 
+                   clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,2],
+                   clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,4],
                    ""
                   ) 
-            } 
-
-            else { # cases i = 2,4,5,6,7
-                temp[[k]] = c(
-                    reg[k][[1]]$coef[2], sqrt(diag(vcov(reg[k][[1]]))[2]), 
-                    clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort_m)[[1]][2,2],
-                    clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort_m)[[1]][2,4],
+            } else { # cases i = 2,4,5,6,7
+                temp = c(
+                    reg$coef[2], sqrt(diag(vcov(reg))[2]), 
+                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,2],
+                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,4],
                     wald.test(
-                        b = reg[k][[1]]$coef,
-                        Sigma = clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort_m)[[2]], 
-                        Terms = 3:length(reg[k][[1]]$coef), df = reg[k][[1]]$df
+                        b = reg$coef,
+                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[[x]])[[2]], 
+                        Terms = 3:length(reg$coef), df = reg$df
                     )[[6]][[2]][4]
                 )
             }
-        }
-
-        else { # panel_name == "PANEL_B"
+        } else { # panel_name == "PANEL_B"
                 
             if (i == 1 | i == 3) { # No controls or No neo-europeans
-                temp[[k]] = c(
-                    reg[k][[1]]$coef[2], 
-                    summaryw(reg[k][[1]])[[1]][2,2],
-                    summaryw(reg[k][[1]])[[1]][2,4],
+                temp = c(
+                    reg$coef[2], 
+                    summaryw(reg)[[1]][2,2],
+                    summaryw(reg)[[1]][2,4],
                     ""
                 )
-            } 
-
-            else { # cases i = 2,4,5,6,7
-                temp[[k]] = c(
-                    reg[k][[1]]$coef[2],  
-                    summaryw(reg[k][[1]])[[1]][2,2],
-                    summaryw(reg[k][[1]])[[1]][2,4],
+            } else { # cases i = 2,4,5,6,7
+                temp = c(
+                    reg$coef[2],  
+                    summaryw(reg)[[1]][2,2],
+                    summaryw(reg)[[1]][2,4],
                     wald.test(
-                        b = reg[k][[1]]$coef,
-                        Sigma = summaryw(reg[k][[1]])[[2]], 
-                        Terms = 3:length(reg[k][[1]]$coef), df = reg[k][[1]]$df
+                        b = reg$coef,
+                        Sigma = summaryw(reg)[[2]], 
+                        Terms = 3:length(reg$coef), df = reg$df
                     )[[6]][[2]][4]
                 )
             }
         }
-    }
-    else { # panel_name == "PANEL_C" or "PANEL_D" or "PANEL_E"
+    } else { # panel_name == "PANEL_C" or "PANEL_D" or "PANEL_E"
             
         if (panel_name == "PANEL_C") {
 
             if (i == 1 | i == 3) { # No contols | No neo europeans
-                temp[[k]] = c(
-                    reg[k][[1]]$coef[2],  
-                    clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[1]][2,2],
-                    clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[1]][2,4],
+                temp = c(
+                    reg$coef[2],  
+                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,2],
+                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,4],
                     wald.test(
-                        b = reg[k][[1]]$coef,
-                        Sigma = clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[2]], 
-                        Terms = 3:length(reg[k][[1]]$coef), df = reg[k][[1]]$df
+                        b = reg$coef,
+                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[[x]])[[2]], 
+                        Terms = 3:length(reg$coef), 
+                        df = reg$df
                     )[[6]][[2]][4],
                     ""
                 )             
-            } 
-            
-            else { # cases i = 2,4,5,6,7
-                temp[[k]] = c(
-                    reg[k][[1]]$coef[2],  
-                    clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[1]][2,2],
-                    clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[1]][2,4],
+            } else { # cases i = 2,4,5,6,7
+                temp = c(
+                    reg$coef[2],  
+                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,2],
+                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,4],
                     wald.test(
-                        b = reg[k][[1]]$coef,
-                        Sigma = clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[2]], 
-                        Terms = 3:(length(reg[k][[1]]$coef) - 2) , df = reg[k][[1]]$df
+                        b = reg$coef,
+                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[[x]])[[2]], 
+                        Terms = 3:(length(reg$coef) - 2),
+                        df = reg$df
                     )[[6]][[2]][4],
                     wald.test(
-                        b = reg[k][[1]]$coef,
-                        Sigma = clx(fm = reg[k][[1]], dfcw = 1, cluster = logmort)[[2]], 
-                        Terms = (length(reg[k][[1]]$coef) - 1):length(reg[k][[1]]$coef) , 
-                        df = reg[k][[1]]$df
+                        b = reg$coef,
+                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[[x]])[[2]], 
+                        Terms = (length(reg$coef) - 1):length(reg$coef) , 
+                        df = reg$df
                     )[[6]][[2]][4]
                 )
             }
-        }
-
-        else { # panel_name == "PANEL_D" or "PANEL_E"
+        } else { # panel_name == "PANEL_D" or "PANEL_E"
 
             if (i == 1 | i == 3) { # No contols | No neo europeans
-                temp[[k]] = c(
-                    reg[k][[1]]$coef[2], 
-                    summaryw(reg[k][[1]])[[1]][2,2],
-                    summaryw(reg[k][[1]])[[1]][2,4],
+                temp = c(
+                    reg$coef[2], 
+                    summaryw(reg)[[1]][2,2],
+                    summaryw(reg)[[1]][2,4],
                     wald.test(
-                        b = reg[k][[1]]$coef,
-                        Sigma = summaryw(reg[k][[1]])[[2]], 
-                        Terms = 3:(length(reg[k][[1]]$coef) - 2), 
-                        df = reg[k][[1]]$df
+                        b = reg$coef,
+                        Sigma = summaryw(reg)[[2]], 
+                        Terms = 3:(length(reg$coef) - 2), 
+                        df = reg$df
                     )[[6]][[2]][4],
                     ""
                 )            
-            } 
-            
-            else { # cases i = 2,4,5,6,7
-                temp[[k]] = c(
-                    reg[k][[1]]$coef[2],  
-                    summaryw(reg[k][[1]])[[1]][2,2],
-                    summaryw(reg[k][[1]])[[1]][2,4],
+            } else { # cases i = 2,4,5,6,7
+                temp = c(
+                    reg$coef[2],  
+                    summaryw(reg)[[1]][2,2],
+                    summaryw(reg)[[1]][2,4],
                     wald.test(
-                        b = reg[k][[1]]$coef,
-                        Sigma = summaryw(reg[k][[1]])[[2]], 
-                        Terms = 3:(length(reg[k][[1]]$coef) - 2), df = reg[k][[1]]$df
+                        b = reg$coef,
+                        Sigma = summaryw(reg)[[2]], 
+                        Terms = 3:(length(reg$coef) - 2),
+                        df = reg$df
                     )[[6]][[2]][4],
                     wald.test(
-                        b = reg[k][[1]]$coef,
-                        Sigma = summaryw(reg[k][[1]])[[2]], 
-                        Terms = (length(reg[k][[1]]$coef) - 1):length(reg[k][[1]]$coef), 
-                        df = reg[k][[1]]$df
+                        b = reg$coef,
+                        Sigma = summaryw(reg)[[2]], 
+                        Terms = (length(reg$coef) - 1):length(reg$coef), 
+                        df = reg$df
                     )[[6]][[2]][4]   
                 )            
             }
         }
     }
+
+# Write temporary regression results for iteration 'i' to output dataframe
+out[i] <- temp
+
 }
 
-    out[[i]] <- do.call(cbind,temp)
-}
-##export the data list 
-dput(out, file = paste(PATH_OUT_ANALYSIS, "first_stage_estimation.txt", sep="/"))
+# export data
+write.table(
+    out, 
+    file = paste(
+        PATH_OUT_ANALYSIS, 
+        paste("first_stage_estimation_", model_name, ".txt", sep=""),
+        sep = "/"
+    )
+)

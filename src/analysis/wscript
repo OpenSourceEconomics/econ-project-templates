@@ -17,8 +17,8 @@ def build(ctx):
         source='regression_on_indicators.r',
         target=out_analysis('OUT_ANALYSIS', 'regression_on_indicators.txt'),
         deps=[
-            in_model_code('IN_MODEL_CODE', 'functions.r'),
-            out_data('OUT_DATA', 'ajrcomment_all.txt')
+            in_model_code('functions.r'),
+            out_data('ajrcomment_all.txt')
         ],
         name='table_main_variables.r'
     )
@@ -34,7 +34,7 @@ def build(ctx):
     ]
 
     for m in models:
-        for stage in 'first':
+        for stage in ['first']:
 
             # Make a copy of the source files so that Stata can run in parallel
             # (We have to rely on parsing the automatic log-file for error checks,
@@ -60,13 +60,13 @@ def build(ctx):
                 name='{}_stage_estimation_{}'.format(stage, m),
                 append=m
             )
-    ctx(
-        features='run_r_script',
-        source='second_stage_estimation.r',
-        target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.txt'),
-        deps=[
-            in_model_code('IN_MODEL_CODE', 'functions.r'),
-            out_data('OUT_DATA', 'ajrcomment_all.txt')
-        ],
-        name='table_iv_est.r'
-    )
+    # ctx(
+    #     features='run_r_script',
+    #     source='second_stage_estimation.r',
+    #     target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.txt'),
+    #     deps=[
+    #         in_model_code('IN_MODEL_CODE', 'functions.r'),
+    #         out_data('OUT_DATA', 'ajrcomment_all.txt')
+    #     ],
+    #     name='table_iv_est.r'
+    # )
