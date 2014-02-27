@@ -68,7 +68,10 @@ if (panel_name == "PANEL_A" | panel_name == "PANEL_B") {
 # Loop over geographical constraints
 for (i in 1:7) {
     # Load data
-    data <- read.table(paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep="/"))
+    data <- read.table(
+        file = paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep="/"),
+        header = TRUE
+    )
 
     # Condition data on model
     if (model$KEEP_CONDITION != "") {
@@ -90,7 +93,6 @@ for (i in 1:7) {
 
     # Set up regression formula
     reg_formula <- as.formula(paste(y, " ~ ", x, dummies, geo_controls, sep=""))
-    print(reg_formula)
     reg <- lm(reg_formula, data)
 
     # Initilize vector for regression output
@@ -103,18 +105,18 @@ for (i in 1:7) {
             if (i == 1 | i == 3) { # No contols or No neo-europeans
                 temp = c(
                    reg$coef[2], sqrt(diag(vcov(reg))[2]), 
-                   clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,2],
-                   clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,4],
+                   clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
+                   clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
                    ""
                   ) 
             } else { # cases i = 2,4,5,6,7
                 temp = c(
                     reg$coef[2], sqrt(diag(vcov(reg))[2]), 
-                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,2],
-                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,4],
+                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
+                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
                     wald.test(
                         b = reg$coef,
-                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[[x]])[[2]], 
+                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
                         Terms = 3:length(reg$coef), df = reg$df
                     )[[6]][[2]][4]
                 )
@@ -148,11 +150,11 @@ for (i in 1:7) {
             if (i == 1 | i == 3) { # No contols | No neo europeans
                 temp = c(
                     reg$coef[2],  
-                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,2],
-                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,4],
+                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
+                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
                     wald.test(
                         b = reg$coef,
-                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[[x]])[[2]], 
+                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
                         Terms = 3:length(reg$coef), 
                         df = reg$df
                     )[[6]][[2]][4],
@@ -161,17 +163,17 @@ for (i in 1:7) {
             } else { # cases i = 2,4,5,6,7
                 temp = c(
                     reg$coef[2],  
-                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,2],
-                    clx(fm = reg, dfcw = 1, cluster = data[[x]])[[1]][2,4],
+                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
+                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
                     wald.test(
                         b = reg$coef,
-                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[[x]])[[2]], 
+                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
                         Terms = 3:(length(reg$coef) - 2),
                         df = reg$df
                     )[[6]][[2]][4],
                     wald.test(
                         b = reg$coef,
-                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[[x]])[[2]], 
+                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
                         Terms = (length(reg$coef) - 1):length(reg$coef) , 
                         df = reg$df
                     )[[6]][[2]][4]

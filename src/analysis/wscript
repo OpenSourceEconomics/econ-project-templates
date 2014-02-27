@@ -15,7 +15,7 @@ def build(ctx):
     ctx(
         features='run_r_script',
         source='regression_on_indicators.r',
-        target=out_analysis('OUT_ANALYSIS', 'regression_on_indicators.txt'),
+        target=out_analysis('regression_on_indicators.txt'),
         deps=[
             in_model_code('functions.r'),
             out_data('ajrcomment_all.txt')
@@ -26,29 +26,20 @@ def build(ctx):
     # More complicated use: Read in the model specifications and run these things
     # in parallel.
     models = [
-        'baseline',
-        'rmconj',
-        'addindic',
-        'rmconj_addindic',
-        'newdata'
+        'baseline'
+        #'rmconj',
+        #'addindic',
+        #'rmconj_addindic',
+        #'newdata'
     ]
 
     for m in models:
-        for stage in ['first']:
+        for stage in ['second']:
 
-            # Make a copy of the source files so that Stata can run in parallel
-            # (We have to rely on parsing the automatic log-file for error checks,
-            # these must have different names)
-            ctx(
-                features='subst',
-                source='{}_stage_estimation.r'.format(stage),
-                target='{}_stage_estimation_{}.r'.format(stage, m)
-            )
-
-            # Now run the r-file that was just copied over.
+            # Run the r-files
             ctx(
                 features='run_r_script',
-                source='{}_stage_estimation_{}.r'.format(stage, m),
+                source='{}_stage_estimation.r'.format(stage),
                 target=[
                     out_analysis('{}_stage_estimation_{}.txt'.format(stage, m))
                 ],

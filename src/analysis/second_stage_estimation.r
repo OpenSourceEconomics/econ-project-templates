@@ -1,21 +1,33 @@
-'
- 
-The file "second_stage_estimation.do" computes the IV estimates for log GDP 
-per capita with expropriation risk as first stage dependent variable.
-It also computes confidence intervals for a usual Wald statistic and 
-the confidence intervals for the Anderson-Rubin (1949) statistic.
+' 
 
-The results for the 5 data specifications are stored and later plotted 
-to a Latex table in the corresponding file "table3_second_stage_est.do"
-in the final directory.
+The file "first_stage_estimation.r" regresses in a first stage 
+the expropriation risk in the country on log mortality. 
+The results are stored and then plotted in the corresponding file 
+"table2_first_stage_est.r" in the final directory. 
+
+There are 5 different model specifications for the IV estimation 
+standing for different robustness checks. They are denoted as 
+Panels A-E in the second and third table.
   
+1 = PANEL_A: Original mortality data (64 countries)
+2 = PANEL_B: Only countries with non-conjectured mortality rates 
+      (rest: 28 countries)
+3 = PANEL_C: Original data (64 countries)
+       with campaign and laborer indicators
+4 = PANEL_D: Only countries with non-conjectured 
+      mortality rates and campaign and laborer indicators 
+5 = PANEL_E: As Panel D with new data provided by Acemoglu et. al.
+
 '
+
 
 rm(list=ls())
 options(digits=3)
 
+
 source("src/library/R/project_paths.r")
 
+library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(sandwich, lib=PATH_OUT_LIBRARY_R)
 library(zoo, lib=PATH_OUT_LIBRARY_R)
 library(lmtest, lib=PATH_OUT_LIBRARY_R)
@@ -28,268 +40,75 @@ library(car, lib=PATH_OUT_LIBRARY_R)
 
 source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
+# Load model and geographic specification
+model_name <- commandArgs(trailingOnly = TRUE)
+model_json <- paste(model_name, "json", sep=".")
+model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
+panel_name = substring(model$TITLE, 1, 7)
+geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
 
-## define the needed data 
-data <- read.dta(paste(PATH_IN_DATA,"/","ajrcomment.dta",sep=""))
-data_mor_home = data[grep(1,data$source0),]
-
-data_new <- data
-
-data_new[grep("HKG", data_new$shortnam),]$logmort0 = log(285)
-data_new[grep("BHS", data_new$shortnam),]$logmort0 = log(189)
-data_new[grep("AUS", data_new$shortnam),]$logmort0 = log(14.1)
-data_new[grep("HND", data_new$shortnam),]$logmort0 = log(95.2)
-data_new[grep("GUY", data_new$shortnam),]$logmort0 = log(84)
-data_new[grep("SGP", data_new$shortnam),]$logmort0 = log(20)
-data_new[grep("TTO", data_new$shortnam),]$logmort0 = log(106.3)
-data_new[grep("SLE", data_new$shortnam),]$logmort0 = log(350)
-
-data_new[grep("HKG", data_new$shortnam),]$source0 = 1
-data_new[grep("BHS", data_new$shortnam),]$source0 = 1
-data_new[grep("AUS", data_new$shortnam),]$source0 = 1
-data_new[grep("HND", data_new$shortnam),]$source0 = 1
-data_new[grep("GUY", data_new$shortnam),]$source0 = 1
-data_new[grep("SGP", data_new$shortnam),]$source0 = 1
-data_new[grep("TTO", data_new$shortnam),]$source0 = 1
-data_new[grep("SLE", data_new$shortnam),]$source0 = 1
-
-data_new[grep("HND", data_new$shortnam),]$campaign = 0
-
-data_mor_home_new = data_new[grep(1,data_new$source0),]
+# Initilize output dataframe. Store data in here. Set row names conditional on panel
+out = data.frame(matrix(nrow = 6, ncol = 7))
+row.names(out) <- c(
+    "Expropriation risk $(\\alpha)$ ", 
+    "Wald 95\\% conf.",
+    "region1",
+    "AR \\textquotedblleft 95\\%\\textquotedblright conf.", 
+    "region",
+    ""
+)
 
 
-# pls change the model names to what is found in the stata template
-# (probably won't stay here anyhow, though)
-panel_name = list(
-                  orig_data = "orig_data",
-                  re_conj_mor = "re_conj_mor", 
-                  orig_data_con = "orig_data_con", 
-                  re_conj_mor_con = "re_conj_mor_con", 
-                  new_data_re_conj_mor_con = "new_data_re_conj_mor_con"
-             )
+# Loop over geographical constraints
+for (i in 1:7) {
+    # Load data
+    data <- read.table(
+        file = paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep="/"),
+        header = TRUE
+    )
 
-panel_data_set = list(
-                       "orig_data" = data,"re_conj_mor" = data_mor_home, 
-                       "orig_data_con" = data, "re_conj_mor_con" = data_mor_home,
-                       "new_data_re_conj_mor_con" = data_mor_home_new
-                )
+    # Condition data on model
+    if (model$KEEP_CONDITION != "") {
+        data <- subset(data, eval(parse(text = model$KEEP_CONDITION)))    
+    }
 
-reg_name = list(
-                reg_no = "reg_no",reg_lat = "reg_lat", 
-                reg_without_neo = "reg_without_neo", reg_conti = "reg_conti",
-                reg_conti_lat = "reg_conti_lat", reg_per_euro = "reg_per_euro",
-                reg_mal = "reg_mal"
-           )
+    # Condition data on geography
+    GEO_COND <- paste("GEO_KEEP_CONDITION_", i, sep="")
+    if (geography[[GEO_COND]] != "") {
+        data <- subset(data, eval(parse(text = geography[[GEO_COND]])))
+    }
+    GEO_CONTROLS <- paste("GEO_CONTROLS_", i, sep="")
 
-##define the output list
-out = list()
+    # Set up variables for regression
+    y <- model$DEPVAR
+    x <- model$INSTD
+    instr <- model$INSTS
+    dummies <- model$DUMMIES
+    geo_controls <- geography[[GEO_CONTROLS]]
 
-##run all regressions and store data in a list 
-# @Lukas: This will drop out after transition to new structure
-for(i in panel_name){
-                     
-             logmort = panel_data_set[i][[1]][,"logmort0"]
-             risk = panel_data_set[i][[1]][,"risk"]
-             lat = panel_data_set[i][[1]][,"latitude"]
-             asia = panel_data_set[i][[1]][,"asia"]
-             africa = panel_data_set[i][[1]][,"africa"]
-             other = panel_data_set[i][[1]][,"other"]
-             per_euro = panel_data_set[i][[1]][,"edes1975"]
-             mal = panel_data_set[i][[1]][,"malaria"]
-             slave = panel_data_set[i][[1]][,"slave"]
-             campaign = panel_data_set[i][[1]][,"campaign"]
-             loggdp = panel_data_set[i][[1]][,"loggdp"]
-    
-             data_without_neo = panel_data_set[i][[1]][grep(0,panel_data_set[i][[1]]$neoeuro),]
-             
-             risk_without_neo = data_without_neo[,"risk"]
-             logmort_without_neo = data_without_neo[,"logmort0"]
-             slave_without_neo = data_without_neo[,"slave"]
-             campaign_without_neo = data_without_neo[,"campaign"]
-             loggdp_without_neo = data_without_neo[,"loggdp"]
-    
-             data_mal = panel_data_set[i][[1]][which((regexpr("NA", panel_data_set[i][[1]]$malaria))!=1),]
-        
-             risk_m = data_mal$risk
-             mal_m = data_mal$malaria
-             logmort_m = data_mal$logmort0
-             slave_m = data_mal$slave
-             campaign_m = data_mal$campaign
-             loggdp_m = data_mal$loggdp
+    # Set up regression formula
+    reg_formula <- as.formula(
+      paste(y, " ~ ", x, dummies, geo_controls, " | ", instr, dummies, geo_controls, sep="")
+    )
+    reg <- ivreg(reg_formula, data, x=TRUE)
 
-
-             temp = list()
-             if (i %in% c("orig_data", "re_conj_mor")){
-            
-             reg_no = ivreg(loggdp ~ risk  | logmort, x=TRUE )
-             
-             reg_lat = ivreg(loggdp ~ risk + lat | logmort + lat, x=TRUE )
-             
-             reg_without_neo = ivreg(
-                                     loggdp_without_neo ~ risk_without_neo  
-                                     | logmort_without_neo, 
-                                     x=TRUE 
-                                )
-             
-             reg_conti = ivreg(
-                               loggdp ~ risk + asia + africa + other  
-                               | logmort + asia + africa + other,
-                                x=TRUE 
-                        )
-             
-             reg_conti_lat = ivreg(
-                                    loggdp ~ risk + asia + africa + other + lat 
-                                    | logmort + asia + africa + other + lat, 
-                                    x=TRUE 
-                              )
-             reg_per_euro = ivreg(loggdp ~ risk + per_euro  | logmort + per_euro, x=TRUE )
-             
-             reg_mal = ivreg(loggdp_m ~ risk_m + mal_m | logmort_m + mal_m, x=TRUE )
-
-
-            # @Lukas: This is read in via geography.json
-
-            reg = list(
-                        "reg_no" = reg_no,
-                        "reg_lat" = reg_lat, 
-                        "reg_without_neo" = reg_without_neo, 
-                        "reg_conti" = reg_conti,
-                        "reg_conti_lat" = reg_conti_lat,
-                        "reg_per_euro" = reg_per_euro,
-                        "reg_mal" = reg_mal
-                   )
-
-            # @Lukas: Loop over 1/7, load dataset anew in each iteration, implement restriction
-            # then the remaining code will be much simplified. 
-            for(k in reg_name){
-                               if (k == "reg_without_neo"){
-                                                        
-                                                temp[[k]] = c(
-                                                              reg[k][[1]]$coef[2],  
-                                                              wald.ci(reg[k][[1]], 0.05, logmort_without_neo),
-                                                              "",
-                                                              anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
-                                                              anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
-                                                              ""
-                                                            )
-                              }else{ 
-                                    if (k == "reg_mal"){
-                                                
-                                                temp[[k]] = c(
-                                                              reg[k][[1]]$coef[2],  
-                                                              wald.ci(reg[k][[1]], 0.05, logmort_m),
-                                                              "",
-                                                              anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
-                                                              anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
-                                                              ""
-                                                            )
-                                    }else{
-                                          
-                                          temp[[k]] = c(
-                                                        reg[k][[1]]$coef[2],  
-                                                        wald.ci(reg[k][[1]], 0.05, logmort),
-                                                        "",
-                                                        anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
-                                                        anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
-                                                        ""
-                                                       )
-                                    }
-                                }
-            }
-        }else{
-
-            # @Lukas: All this stuff comes from JSON-files, will be much simplified.
-            reg_no = ivreg(
-                            loggdp ~ risk + slave + campaign 
-                            | logmort + slave + campaign, 
-                            x=TRUE 
-                      )
-              
-            reg_lat = ivreg(
-                             loggdp ~ risk + lat + slave + campaign 
-                             | logmort + lat + slave + campaign, 
-                             x=TRUE 
-                        )
-              
-            reg_without_neo = ivreg(
-                                     loggdp_without_neo ~ risk_without_neo + slave_without_neo + campaign_without_neo 
-                                     |logmort_without_neo + slave_without_neo + campaign_without_neo, 
-                                     x=TRUE 
-                                )
-              
-            reg_conti = ivreg(
-                               loggdp ~ risk + asia + africa + other + slave + campaign 
-                               | logmort + asia + africa + other + slave + campaign,
-                               x=TRUE 
-                         )
-              
-            reg_conti_lat = ivreg(
-                                   loggdp ~ risk + asia + africa + other + lat + slave + campaign 
-                                   | logmort + asia + africa + other + lat + slave + campaign, 
-                                   x=TRUE 
-                             )
-              
-            reg_per_euro = ivreg(
-                                  loggdp ~ risk + per_euro + slave + campaign 
-                                  | logmort + per_euro + slave + campaign, 
-                                  x=TRUE 
-                            )
-              
-            reg_mal = ivreg(
-                             loggdp_m ~ risk_m + mal_m + slave_m + campaign_m 
-                             | logmort_m + mal_m + slave_m + campaign_m, 
-                             x=TRUE 
-                        )
-
-
-            reg <- list(
-                        "reg_no" = reg_no,"reg_lat" = reg_lat, 
-                        "reg_without_neo" = reg_without_neo, "reg_conti" = reg_conti,
-                        "reg_conti_lat" = reg_conti_lat, "reg_per_euro" = reg_per_euro,
-                        "reg_mal" = reg_mal
-                   )
-
-            # @Lukas: Same comment as above.
-            for(k in reg_name){
-                        
-                        if (k == "reg_without_neo"){
-                                            
-                                            temp[[k]] = c(
-                                                          reg[k][[1]]$coef[2],  
-                                                          wald.ci(reg[k][[1]], 0.05, logmort_without_neo),
-                                                          "",
-                                                          anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
-                                                          anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
-                                                          ""
-                                                        )
-                        }else{
-                              if (k == "reg_mal"){
-                                            
-                                            temp[[k]] = c(
-                                                          reg[k][[1]]$coef[2],  
-                                                          wald.ci(reg[k][[1]], 0.05, logmort_m),
-                                                          "",
-                                                          anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
-                                                          anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
-                                                          ""
-                                                        )
-                             }else{
-                                   
-                                   temp[[k]] = c(
-                                                 reg[k][[1]]$coef[2],  
-                                                 wald.ci(reg[k][[1]], 0.05, logmort),
-                                                 "",
-                                                 anderson.rubin.ci(reg[k][[1]], conflevel=.95)[1],
-                                                 anderson.rubin.ci(reg[k][[1]], conflevel=.95)[2],
-                                                 ""
-                                                )
-                            }
-                        }
-                }
-          }
-      out[[i]] <- do.call(cbind,temp)
+    # Write temporary regression results for iteration 'i' to output dataframe
+    out[i] <- c(
+        reg$coef[2],  
+        wald.ci(reg, 0.05, data[ ,instr]),
+        "",
+        anderson.rubin.ci(reg, conflevel=.95)[1],
+        anderson.rubin.ci(reg, conflevel=.95)[2],
+        ""
+    )
 }
 
-
-##export the data list 
-dput(out, file = paste(PATH_OUT_ANALYSIS, "second_stage_estimation.txt", sep="/"))
+# export data
+write.table(
+    out, 
+    file = paste(
+        PATH_OUT_ANALYSIS, 
+        paste("second_stage_estimation_", model_name, ".txt", sep=""),
+        sep = "/"
+    )
+)
