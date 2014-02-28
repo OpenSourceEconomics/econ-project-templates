@@ -34,7 +34,7 @@ def build(ctx):
     ]
 
     for m in models:
-        for stage in ['second']:
+        for stage in ['first', 'second']:
 
             # Run the r-files
             ctx(

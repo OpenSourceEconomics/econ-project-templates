@@ -15,7 +15,7 @@ source("src/library/R/project_paths.r")
 library(foreign, lib=PATH_OUT_LIBRARY_R)
  
 
-data <- read.dta(paste(PATH_IN_DATA,"/","ajrcomment.dta",sep=""))
+data <- read.table(paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep = "/"))
 
 
 ## Rebuilding of Figures 2A and 2B

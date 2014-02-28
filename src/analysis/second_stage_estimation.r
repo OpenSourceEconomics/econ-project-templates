@@ -90,7 +90,7 @@ for (i in 1:7) {
     # Write temporary regression results for iteration 'i' to output dataframe
     if (is.na(anderson.rubin.ci(reg, conflevel=.95)[2])) {
         out[i] = c(
-            reg$coef[[2]],  
+            round(reg$coef[[2]], 2),  
             wald.ci(reg, 0.05, data[ ,instr]),
             "",
             paste("$", anderson.rubin.ci(reg, conflevel=.95)[1], "$", sep=""),
@@ -99,7 +99,7 @@ for (i in 1:7) {
 
     } else {
         out[i] = c(
-            reg$coef[[2]],  
+            round(reg$coef[[2]], 2),  
             wald.ci(reg, 0.05, data[ ,instr]),
             "",
             anderson.rubin.ci(reg, conflevel=.95)[1],

@@ -7,7 +7,7 @@ def build(ctx):
     ctx.recurse('data_management')
     ctx.add_group()
     ctx.recurse('analysis')
-    # ctx.recurse('final')
+    ctx.recurse('final')
     # Safety measure -- else the LaTeX scanner might fail because some
     # '.tex'-source file has not been generated.
     ctx.add_group()

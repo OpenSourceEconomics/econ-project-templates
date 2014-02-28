@@ -21,9 +21,10 @@
 rm(list=ls())
 options(digits=3)
 
-
 source("src/library/R/project_paths.r")
+source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
+# Load required libraries
 library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(zoo, lib=PATH_OUT_LIBRARY_R)
 library(lmtest, lib=PATH_OUT_LIBRARY_R)
@@ -32,8 +33,6 @@ library(aod, lib=PATH_OUT_LIBRARY_R)
 library(foreign, lib=PATH_OUT_LIBRARY_R)
 library(xtable, lib=PATH_OUT_LIBRARY_R)
 library(car, lib=PATH_OUT_LIBRARY_R)
-
-source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
 # Load model and geographic specification
 model_name <- commandArgs(trailingOnly = TRUE)
@@ -46,27 +45,36 @@ geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/")
 if (panel_name == "Panel A") {
     out = data.frame(matrix(nrow = 5, ncol = 7))
     row.names(out) <- c(
-        "Log mortality", 
-        "heteroscedastic SE", 
-        "heteroscedastic-clustered SE", 
-        "p-value log mortality", 
+        "Log mortality($\\beta$)", 
+        "~~ \\{homoscedastic standard errors\\}",
+        "~~ (heteroscedastic-clustered SE)",
+        "p-value of log mortality", 
         "p-value of controls"
     )
-} else if  (panel_name == "Panel B") {
+} else if (panel_name == "Panel B") {
     out = data.frame(matrix(nrow = 4, ncol = 7))
     row.names(out) <- c(
-        "Log mortality", 
-        "heteroscedastic SE", 
-        "p-value log mortality", 
+        "Log mortality($\\beta$)",
+        "~~ (heteroscedastic standard errors)",
+        "p-value of log mortality",
+        "p-value of controls"
+    )
+} else if (panel_name == "Panel C") {
+    out = data.frame(matrix(nrow = 5, ncol = 7))
+    row.names(out) <- c(
+        "Log mortality($\\beta$)",
+        "~~ (heteroscedastic-clustered SE)",
+        "p-value of log mortality",
+        "p-value of indicators", 
         "p-value of controls"
     )
 } else {
     out = data.frame(matrix(nrow = 5, ncol = 7))
     row.names(out) <- c(
-        "Log mortality", 
-        "heteroscedastic SE", 
-        "p-value log mortality",
-        "p-value of indicators",         
+        "Log mortality($\\beta$)", 
+        "~~ (heteroscedastic standard errors)",
+        "p-value of log mortality",
+        "p-value of indicators", 
         "p-value of controls"
     )
 }
@@ -224,7 +232,7 @@ for (i in 1:7) {
     }
 
 # Write temporary regression results for iteration 'i' to output dataframe
-out[i] <- temp
+out[i] <- round(as.numeric(temp), 2)
 
 }
 

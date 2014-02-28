@@ -1,38 +1,73 @@
 def build(ctx):
 
-    targets = [
-        ctx.path_to(ctx, 'OUT_FIGURES', 'Figure_risk_mort.png'),
-        ctx.path_to(ctx, 'OUT_FIGURES', 'Figure_gdp_mort.png'),
-    ]
+    def out_data(*args):
+        return ctx.path_to(ctx, 'OUT_DATA', *args)
+
+    def out_analysis(*args):
+        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
+
+    def out_models(*args):
+        return ctx.path_to(ctx, 'OUT_MODEL_SPECS', *args)
+
+    def out_figures(*args):
+        return ctx.path_to(ctx, 'OUT_FIGURES', *args)
+
+    def out_tables(*args):
+        return ctx.path_to(ctx, 'OUT_TABLES', *args)
 
     ctx(
         features='run_r_script',
         source='figure1_mortality.r',
-        target=targets,
-        deps=ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta'),
+        target=[
+            out_figures('Figure_risk_mort.png'),
+            out_figures('Figure_gdp_mort.png')
+        ],
+        deps=out_data('ajrcomment_all.txt'),
         name='plot_figure.r'
     )
 
     ctx(
         features='run_r_script',
         source='table1_reg_on_indicators.r',
-        target=ctx.path_to(ctx, 'OUT_TABLES', 'table1_reg_on_indicators.tex'),
-        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'regression_on_indicators.txt'),
+        target=out_tables('table1_reg_on_indicators.tex'),
+        deps=out_analysis('regression_on_indicators.txt'),
         name='table_main_variables.r'
     )
 
+    models = [
+        'baseline',
+        'rmconj',
+        'addindic',
+        'rmconj_addindic',
+        'newdata'
+    ]
+
+    deps = {
+        'first_stage': ['../library/R/project_paths.r'],
+        'second_stage': ['../library/R/project_paths.r']
+    }
+
+    for m in models:
+        for stage, deps_list in deps.items():
+            deps_list.append(out_analysis('{}_estimation_{}.txt'.format(stage, m)))
+
+    # Table 2
     ctx(
         features='run_r_script',
         source='table2_first_stage_est.r',
-        target=ctx.path_to(ctx, 'OUT_TABLES', 'table2_first_stage_est.tex'),
-        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'first_stage_estimation.txt'),
-        name='table_first_stage_est.r'
+        target=[
+            out_tables('table2_first_stage_est.tex')
+        ],
+        deps=deps['first_stage'],
+        append=' '.join(models)
     )
-
-    ctx(
-        features='run_r_script',
-        source='table3_second_stage_est.r',
-        target=ctx.path_to(ctx, 'OUT_TABLES', 'table3_second_stage_est.tex'),
-        deps=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.txt'),
-        name='table_iv_est.r'
-    )
+    # # Table 3
+    # ctx(
+    #     features='run_r_script',
+    #     source='table3_second_stage_est.r',
+    #     target=[
+    #         out_tables('table3_second_stage_est.tex')
+    #     ],
+    #     deps=deps['second_stage'],
+    #     append=models
+    # )
