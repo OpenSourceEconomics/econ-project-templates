@@ -1,24 +1,21 @@
-' 
+# The file "first_stage_estimation.r" regresses in a first stage 
+# the expropriation risk in the country on log mortality. 
+# The results are stored and then plotted in the corresponding file 
+# "table2_first_stage_est.r" in the final directory. 
 
-The file "first_stage_estimation.r" regresses in a first stage 
-the expropriation risk in the country on log mortality. 
-The results are stored and then plotted in the corresponding file 
-"table2_first_stage_est.r" in the final directory. 
-
-There are 5 different model specifications for the IV estimation 
-standing for different robustness checks. They are denoted as 
-Panels A-E in the second and third table.
+# There are 5 different model specifications for the IV estimation 
+# standing for different robustness checks. They are denoted as 
+# Panels A-E in the second and third table.
   
-1 = PANEL_A: Original mortality data (64 countries)
-2 = PANEL_B: Only countries with non-conjectured mortality rates 
-			(rest: 28 countries)
-3 = PANEL_C: Original data (64 countries)
-			 with campaign and laborer indicators
-4 = PANEL_D: Only countries with non-conjectured 
-			mortality rates and campaign and laborer indicators 
-5 = PANEL_E: As Panel D with new data provided by Acemoglu et. al.
+# 1 = Panel A: Original mortality data (64 countries)
+# 2 = Panel B: Only countries with non-conjectured mortality rates 
+# 			(rest: 28 countries)
+# 3 = Panel C: Original data (64 countries)
+# 			 with campaign and laborer indicators
+# 4 = Panel D: Only countries with non-conjectured 
+# 			mortality rates and campaign and laborer indicators 
+# 5 = Panel E: As Panel D with new data provided by Acemoglu et. al.
 
-'
 
 
 rm(list=ls())
@@ -46,7 +43,16 @@ panel_name = substring(model$TITLE, 1, 7)
 geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
 
 # Initilize output dataframe. Store data in here. Set row names conditional on panel
-if (panel_name == "PANEL_A" | panel_name == "PANEL_B") {
+if (panel_name == "Panel A") {
+    out = data.frame(matrix(nrow = 5, ncol = 7))
+    row.names(out) <- c(
+        "Log mortality", 
+        "heteroscedastic SE", 
+        "heteroscedastic-clustered SE", 
+        "p-value log mortality", 
+        "p-value of controls"
+    )
+} else if  (panel_name == "Panel B") {
     out = data.frame(matrix(nrow = 4, ncol = 7))
     row.names(out) <- c(
         "Log mortality", 
@@ -59,14 +65,15 @@ if (panel_name == "PANEL_A" | panel_name == "PANEL_B") {
     row.names(out) <- c(
         "Log mortality", 
         "heteroscedastic SE", 
-        "p-value log mortality", 
-        "p-value of indicators",
+        "p-value log mortality",
+        "p-value of indicators",         
         "p-value of controls"
     )
 }
 
 # Loop over geographical constraints
 for (i in 1:7) {
+
     # Load data
     data <- read.table(
         file = paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep="/"),
@@ -78,7 +85,7 @@ for (i in 1:7) {
         data <- subset(data, eval(parse(text = model$KEEP_CONDITION)))    
     }
 
-    # Condition data on geography
+    # Condition data on geographical constraints
     GEO_COND <- paste("GEO_KEEP_CONDITION_", i, sep="")
     if (geography[[GEO_COND]] != "") {
         data <- subset(data, eval(parse(text = geography[[GEO_COND]])))
@@ -95,23 +102,23 @@ for (i in 1:7) {
     reg_formula <- as.formula(paste(y, " ~ ", x, dummies, geo_controls, sep=""))
     reg <- lm(reg_formula, data)
 
-    # Initilize vector for regression output
-    temp = c()
+    # Write regression output conditional on model/panel
+    if (panel_name == "Panel A" | panel_name == "Panel B") {
     
-    if (panel_name == "PANEL_A" | panel_name == "PANEL_B") {
-    
-        if (panel_name == "PANEL_A") {
+        if (panel_name == "Panel A") {
 
             if (i == 1 | i == 3) { # No contols or No neo-europeans
                 temp = c(
-                   reg$coef[2], sqrt(diag(vcov(reg))[2]), 
+                   reg$coef[[2]], 
+                   sqrt(diag(vcov(reg))[2]), 
                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
                    ""
-                  ) 
+                ) 
             } else { # cases i = 2,4,5,6,7
                 temp = c(
-                    reg$coef[2], sqrt(diag(vcov(reg))[2]), 
+                    reg$coef[[2]], 
+                    sqrt(diag(vcov(reg))[2]), 
                     clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
                     clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
                     wald.test(
@@ -121,18 +128,18 @@ for (i in 1:7) {
                     )[[6]][[2]][4]
                 )
             }
-        } else { # panel_name == "PANEL_B"
+        } else { # panel_name == "Panel B"
                 
             if (i == 1 | i == 3) { # No controls or No neo-europeans
                 temp = c(
-                    reg$coef[2], 
+                    reg$coef[[2]], 
                     summaryw(reg)[[1]][2,2],
                     summaryw(reg)[[1]][2,4],
                     ""
                 )
             } else { # cases i = 2,4,5,6,7
                 temp = c(
-                    reg$coef[2],  
+                    reg$coef[[2]],  
                     summaryw(reg)[[1]][2,2],
                     summaryw(reg)[[1]][2,4],
                     wald.test(
@@ -143,13 +150,13 @@ for (i in 1:7) {
                 )
             }
         }
-    } else { # panel_name == "PANEL_C" or "PANEL_D" or "PANEL_E"
+    } else { # panel_name == "Panel C" or "Panel D" or "Panel E"
             
-        if (panel_name == "PANEL_C") {
+        if (panel_name == "Panel C") {
 
-            if (i == 1 | i == 3) { # No contols | No neo europeans
+            if (i == 1 | i == 3) { # No contols | No neo-europeans
                 temp = c(
-                    reg$coef[2],  
+                    reg$coef[[2]],  
                     clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
                     clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
                     wald.test(
@@ -162,7 +169,7 @@ for (i in 1:7) {
                 )             
             } else { # cases i = 2,4,5,6,7
                 temp = c(
-                    reg$coef[2],  
+                    reg$coef[[2]],  
                     clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
                     clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
                     wald.test(
@@ -179,11 +186,11 @@ for (i in 1:7) {
                     )[[6]][[2]][4]
                 )
             }
-        } else { # panel_name == "PANEL_D" or "PANEL_E"
+        } else { # panel_name == "Panel D" or "Panel E"
 
             if (i == 1 | i == 3) { # No contols | No neo europeans
                 temp = c(
-                    reg$coef[2], 
+                    reg$coef[[2]], 
                     summaryw(reg)[[1]][2,2],
                     summaryw(reg)[[1]][2,4],
                     wald.test(
@@ -196,7 +203,7 @@ for (i in 1:7) {
                 )            
             } else { # cases i = 2,4,5,6,7
                 temp = c(
-                    reg$coef[2],  
+                    reg$coef[[2]],  
                     summaryw(reg)[[1]][2,2],
                     summaryw(reg)[[1]][2,4],
                     wald.test(

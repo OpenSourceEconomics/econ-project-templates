@@ -1,24 +1,21 @@
-' 
+# The file "first_stage_estimation.r" regresses in a first stage 
+# the expropriation risk in the country on log mortality. 
+# The results are stored and then plotted in the corresponding file 
+# "table2_first_stage_est.r" in the final directory. 
 
-The file "first_stage_estimation.r" regresses in a first stage 
-the expropriation risk in the country on log mortality. 
-The results are stored and then plotted in the corresponding file 
-"table2_first_stage_est.r" in the final directory. 
-
-There are 5 different model specifications for the IV estimation 
-standing for different robustness checks. They are denoted as 
-Panels A-E in the second and third table.
+# There are 5 different model specifications for the IV estimation 
+# standing for different robustness checks. They are denoted as 
+# Panels A-E in the second and third table.
   
-1 = PANEL_A: Original mortality data (64 countries)
-2 = PANEL_B: Only countries with non-conjectured mortality rates 
-      (rest: 28 countries)
-3 = PANEL_C: Original data (64 countries)
-       with campaign and laborer indicators
-4 = PANEL_D: Only countries with non-conjectured 
-      mortality rates and campaign and laborer indicators 
-5 = PANEL_E: As Panel D with new data provided by Acemoglu et. al.
+# 1 = PANEL_A: Original mortality data (64 countries)
+# 2 = PANEL_B: Only countries with non-conjectured mortality rates 
+#       (rest: 28 countries)
+# 3 = PANEL_C: Original data (64 countries)
+#        with campaign and laborer indicators
+# 4 = PANEL_D: Only countries with non-conjectured 
+#       mortality rates and campaign and laborer indicators 
+# 5 = PANEL_E: As Panel D with new data provided by Acemoglu et. al.
 
-'
 
 
 rm(list=ls())

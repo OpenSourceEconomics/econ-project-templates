@@ -1,13 +1,9 @@
-'
- 
-The file "regression_on_indicators.r" computes the regression estimates 
-of the main indicators (mortality, expropriation risk and GDP) on the 
-indicators for campaigning soldiers and laborers, as well as
-the correlations of the main indicators with log mortality.
-The results are then plotted in the corresponding file in 
-the final folder "table1_reg_on_indicators.r"
- 
-'
+# The file "regression_on_indicators.r" computes the regression estimates 
+# of the main indicators (mortality, expropriation risk and GDP) on the 
+# indicators for campaigning soldiers and laborers, as well as
+# the correlations of the main indicators with log mortality.
+# The results are then plotted in the corresponding file in 
+# the final folder "table1_reg_on_indicators.r"
 
 
 rm(list=ls())
@@ -18,9 +14,12 @@ source("src/library/R/project_paths.r")
 
 library(foreign, lib=PATH_OUT_LIBRARY_R)
 
-source(paste(PATH_IN_MODEL_CODE,"/","functions.r",sep=""))
+source(paste(PATH_IN_MODEL_CODE, "functions.r", sep = "/"))
 
-data <- read.dta(paste(PATH_IN_DATA,"/","ajrcomment.dta",sep=""))
+data <- read.table(
+     file=paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep = "/"),
+     header = TRUE
+)
 
 ## We run the regressions here of tabel 1
 
