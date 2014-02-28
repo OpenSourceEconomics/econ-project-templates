@@ -7,14 +7,14 @@
 # standing for different robustness checks. They are denoted as 
 # Panels A-E in the second and third table.
   
-# 1 = PANEL_A: Original mortality data (64 countries)
-# 2 = PANEL_B: Only countries with non-conjectured mortality rates 
+# 1 = Panel A: Original mortality data (64 countries)
+# 2 = Panel B: Only countries with non-conjectured mortality rates 
 #       (rest: 28 countries)
-# 3 = PANEL_C: Original data (64 countries)
+# 3 = Panel C: Original data (64 countries)
 #        with campaign and laborer indicators
-# 4 = PANEL_D: Only countries with non-conjectured 
+# 4 = Panel D: Only countries with non-conjectured 
 #       mortality rates and campaign and laborer indicators 
-# 5 = PANEL_E: As Panel D with new data provided by Acemoglu et. al.
+# 5 = Panel E: As Panel D with new data provided by Acemoglu et. al.
 
 
 
@@ -33,7 +33,6 @@ library(AER, lib=PATH_OUT_LIBRARY_R)
 library(ivpack, lib=PATH_OUT_LIBRARY_R)
 library(foreign, lib=PATH_OUT_LIBRARY_R)
 library(xtable, lib=PATH_OUT_LIBRARY_R)
-library(car, lib=PATH_OUT_LIBRARY_R)
 
 source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
@@ -45,14 +44,13 @@ panel_name = substring(model$TITLE, 1, 7)
 geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
 
 # Initilize output dataframe. Store data in here. Set row names conditional on panel
-out = data.frame(matrix(nrow = 6, ncol = 7))
+out = data.frame(matrix(nrow = 5, ncol = 7))
 row.names(out) <- c(
     "Expropriation risk $(\\alpha)$ ", 
     "Wald 95\\% conf.",
-    "region1",
+    "region ",
     "AR \\textquotedblleft 95\\%\\textquotedblright conf.", 
-    "region",
-    ""
+    "region"
 )
 
 
@@ -87,17 +85,27 @@ for (i in 1:7) {
     reg_formula <- as.formula(
       paste(y, " ~ ", x, dummies, geo_controls, " | ", instr, dummies, geo_controls, sep="")
     )
-    reg <- ivreg(reg_formula, data, x=TRUE)
+    reg <- ivreg(formula = reg_formula, data = data, x = TRUE)
 
     # Write temporary regression results for iteration 'i' to output dataframe
-    out[i] <- c(
-        reg$coef[2],  
-        wald.ci(reg, 0.05, data[ ,instr]),
-        "",
-        anderson.rubin.ci(reg, conflevel=.95)[1],
-        anderson.rubin.ci(reg, conflevel=.95)[2],
-        ""
-    )
+    if (is.na(anderson.rubin.ci(reg, conflevel=.95)[2])) {
+        out[i] = c(
+            reg$coef[[2]],  
+            wald.ci(reg, 0.05, data[ ,instr]),
+            "",
+            paste("$", anderson.rubin.ci(reg, conflevel=.95)[1], "$", sep=""),
+            ""
+        )
+
+    } else {
+        out[i] = c(
+            reg$coef[[2]],  
+            wald.ci(reg, 0.05, data[ ,instr]),
+            "",
+            anderson.rubin.ci(reg, conflevel=.95)[1],
+            anderson.rubin.ci(reg, conflevel=.95)[2]
+        )
+    }
 }
 
 # export data

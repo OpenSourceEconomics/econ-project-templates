@@ -34,7 +34,7 @@ def build(ctx):
     ]
 
     for m in models:
-        for stage in ['first']:
+        for stage in ['second']:
 
             # Run the r-files
             ctx(
@@ -51,13 +51,3 @@ def build(ctx):
                 name='{}_stage_estimation_{}'.format(stage, m),
                 append=m
             )
-    # ctx(
-    #     features='run_r_script',
-    #     source='second_stage_estimation.r',
-    #     target=ctx.path_to(ctx, 'OUT_ANALYSIS', 'second_stage_estimation.txt'),
-    #     deps=[
-    #         in_model_code('IN_MODEL_CODE', 'functions.r'),
-    #         out_data('OUT_DATA', 'ajrcomment_all.txt')
-    #     ],
-    #     name='table_iv_est.r'
-    # )
