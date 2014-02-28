@@ -41,46 +41,20 @@ model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
 panel_name = substring(model$TITLE, 1, 7)
 geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
 
-# Initilize output dataframe. Store data in here. Set row names conditional on panel
-if (panel_name == "Panel A") {
-    out = data.frame(matrix(nrow = 5, ncol = 7))
-    row.names(out) <- c(
-        "Log mortality($\\beta$)", 
-        "~~ \\{homoscedastic standard errors\\}",
-        "~~ (heteroscedastic-clustered SE)",
-        "p-value of log mortality", 
-        "p-value of controls"
-    )
-} else if (panel_name == "Panel B") {
-    out = data.frame(matrix(nrow = 4, ncol = 7))
-    row.names(out) <- c(
-        "Log mortality($\\beta$)",
-        "~~ (heteroscedastic standard errors)",
-        "p-value of log mortality",
-        "p-value of controls"
-    )
-} else if (panel_name == "Panel C") {
-    out = data.frame(matrix(nrow = 5, ncol = 7))
-    row.names(out) <- c(
-        "Log mortality($\\beta$)",
-        "~~ (heteroscedastic-clustered SE)",
-        "p-value of log mortality",
-        "p-value of indicators", 
-        "p-value of controls"
-    )
-} else {
-    out = data.frame(matrix(nrow = 5, ncol = 7))
-    row.names(out) <- c(
-        "Log mortality($\\beta$)", 
-        "~~ (heteroscedastic standard errors)",
-        "p-value of log mortality",
-        "p-value of indicators", 
-        "p-value of controls"
-    )
-}
+# Initilize output dataframe. Store data in here.
+results = data.frame(matrix(nrow = 7, ncol = 7))
+row.names(results) <- c(
+    "logmort_coef", 
+    "homoscedastic_se",
+    "heteroscedastic_se",
+    "hetero_clustered_se",
+    "p_val_logmort",
+    "p_val_indicators",
+    "p_val_controls"
+)
 
 # Loop over geographical constraints
-for (i in 1:7) {
+for (j in 1:7) {
 
     # Load data
     data <- read.table(
@@ -94,11 +68,11 @@ for (i in 1:7) {
     }
 
     # Condition data on geographical constraints
-    GEO_COND <- paste("GEO_KEEP_CONDITION_", i, sep="")
+    GEO_COND <- paste("GEO_KEEP_CONDITION_", j, sep="")
     if (geography[[GEO_COND]] != "") {
         data <- subset(data, eval(parse(text = geography[[GEO_COND]])))
     }
-    GEO_CONTROLS <- paste("GEO_CONTROLS_", i, sep="")
+    GEO_CONTROLS <- paste("GEO_CONTROLS_", j, sep="")
 
     # Set up variables for regression
     y <- model$INSTD
@@ -111,137 +85,44 @@ for (i in 1:7) {
     reg <- lm(reg_formula, data)
 
     # Write regression output conditional on model/panel
-    if (panel_name == "Panel A" | panel_name == "Panel B") {
+    results[j, 1] = reg$coef[[2]] 
+    results[j, 2] = sqrt(diag(vcov(reg))[2])
+    results[j, 3] = summaryw(reg)[[1]][2,2]
+    results[j, 4] = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2]
     
-        if (panel_name == "Panel A") {
-
-            if (i == 1 | i == 3) { # No contols or No neo-europeans
-                temp = c(
-                   reg$coef[[2]], 
-                   sqrt(diag(vcov(reg))[2]), 
-                   clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
-                   clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
-                   ""
-                ) 
-            } else { # cases i = 2,4,5,6,7
-                temp = c(
-                    reg$coef[[2]], 
-                    sqrt(diag(vcov(reg))[2]), 
-                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
-                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
-                    wald.test(
-                        b = reg$coef,
-                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
-                        Terms = 3:length(reg$coef), df = reg$df
-                    )[[6]][[2]][4]
-                )
-            }
-        } else { # panel_name == "Panel B"
-                
-            if (i == 1 | i == 3) { # No controls or No neo-europeans
-                temp = c(
-                    reg$coef[[2]], 
-                    summaryw(reg)[[1]][2,2],
-                    summaryw(reg)[[1]][2,4],
-                    ""
-                )
-            } else { # cases i = 2,4,5,6,7
-                temp = c(
-                    reg$coef[[2]],  
-                    summaryw(reg)[[1]][2,2],
-                    summaryw(reg)[[1]][2,4],
-                    wald.test(
-                        b = reg$coef,
-                        Sigma = summaryw(reg)[[2]], 
-                        Terms = 3:length(reg$coef), df = reg$df
-                    )[[6]][[2]][4]
-                )
-            }
-        }
-    } else { # panel_name == "Panel C" or "Panel D" or "Panel E"
-            
-        if (panel_name == "Panel C") {
-
-            if (i == 1 | i == 3) { # No contols | No neo-europeans
-                temp = c(
-                    reg$coef[[2]],  
-                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
-                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
-                    wald.test(
-                        b = reg$coef,
-                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
-                        Terms = 3:length(reg$coef), 
-                        df = reg$df
-                    )[[6]][[2]][4],
-                    ""
-                )             
-            } else { # cases i = 2,4,5,6,7
-                temp = c(
-                    reg$coef[[2]],  
-                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2],
-                    clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4],
-                    wald.test(
-                        b = reg$coef,
-                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
-                        Terms = 3:(length(reg$coef) - 2),
-                        df = reg$df
-                    )[[6]][[2]][4],
-                    wald.test(
-                        b = reg$coef,
-                        Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
-                        Terms = (length(reg$coef) - 1):length(reg$coef) , 
-                        df = reg$df
-                    )[[6]][[2]][4]
-                )
-            }
-        } else { # panel_name == "Panel D" or "Panel E"
-
-            if (i == 1 | i == 3) { # No contols | No neo europeans
-                temp = c(
-                    reg$coef[[2]], 
-                    summaryw(reg)[[1]][2,2],
-                    summaryw(reg)[[1]][2,4],
-                    wald.test(
-                        b = reg$coef,
-                        Sigma = summaryw(reg)[[2]], 
-                        Terms = 3:(length(reg$coef) - 2), 
-                        df = reg$df
-                    )[[6]][[2]][4],
-                    ""
-                )            
-            } else { # cases i = 2,4,5,6,7
-                temp = c(
-                    reg$coef[[2]],  
-                    summaryw(reg)[[1]][2,2],
-                    summaryw(reg)[[1]][2,4],
-                    wald.test(
-                        b = reg$coef,
-                        Sigma = summaryw(reg)[[2]], 
-                        Terms = 3:(length(reg$coef) - 2),
-                        df = reg$df
-                    )[[6]][[2]][4],
-                    wald.test(
-                        b = reg$coef,
-                        Sigma = summaryw(reg)[[2]], 
-                        Terms = (length(reg$coef) - 1):length(reg$coef), 
-                        df = reg$df
-                    )[[6]][[2]][4]   
-                )            
-            }
-        }
+    # p-value for log mortality conditional on standard errors
+    if (panel_name == "Panel A" | panel_name == "Panel C") {
+        results[j, 5] = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4]
+    } else {
+        results[j, 5] = summaryw(reg)[[1]][2,4]
     }
-
-# Write temporary regression results for iteration 'i' to output dataframe
-out[i] <- round(as.numeric(temp), 2)
-
+    # p-value of indicators conditional on panel
+    if (panel_name == "Panel C" | panel_name == "Panel D" | panel_name == "Panel E") {
+        results[j, 6] = wald.test(
+            b = reg$coef,
+            Sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]], 
+            Terms = 3:length(reg$coef), 
+            df = reg$df
+        )[[6]][[2]][4]        
+    }
+    # p-value of controls conditional on geographical constraints
+    if (j != 1 & j != 3) {
+        results[j, 7] = wald.test(
+            b = reg$coef,
+            Sigma = summaryw(reg)[[2]], 
+            Terms = (length(reg$coef) - 1):length(reg$coef), 
+            df = reg$df
+        )[[6]][[2]][4]
+    }
 }
 
 # export data
 write.table(
-    out, 
+    results, 
     file = paste(
         PATH_OUT_ANALYSIS, 
         paste("first_stage_estimation_", model_name, ".txt", sep=""),
         sep = "/"
-    )
+    ),
+    col.names = FALSE
 )

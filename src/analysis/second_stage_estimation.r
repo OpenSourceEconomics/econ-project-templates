@@ -44,8 +44,8 @@ panel_name = substring(model$TITLE, 1, 7)
 geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
 
 # Initilize output dataframe. Store data in here. Set row names conditional on panel
-out = data.frame(matrix(nrow = 5, ncol = 7))
-row.names(out) <- c(
+results = data.frame(matrix(nrow = 5, ncol = 7))
+row.names(results) <- c(
     "Expropriation risk $(\\alpha)$ ", 
     "Wald 95\\% conf.",
     "region ",
@@ -89,7 +89,7 @@ for (i in 1:7) {
 
     # Write temporary regression results for iteration 'i' to output dataframe
     if (is.na(anderson.rubin.ci(reg, conflevel=.95)[2])) {
-        out[i] = c(
+        results[i] = c(
             round(reg$coef[[2]], 2),  
             wald.ci(reg, 0.05, data[ ,instr]),
             "",
@@ -98,7 +98,7 @@ for (i in 1:7) {
         )
 
     } else {
-        out[i] = c(
+        results[i] = c(
             round(reg$coef[[2]], 2),  
             wald.ci(reg, 0.05, data[ ,instr]),
             "",
@@ -110,7 +110,7 @@ for (i in 1:7) {
 
 # export data
 write.table(
-    out, 
+    results, 
     file = paste(
         PATH_OUT_ANALYSIS, 
         paste("second_stage_estimation_", model_name, ".txt", sep=""),

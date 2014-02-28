@@ -15,12 +15,44 @@ source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
 
 # Initilize table
-table <- data.frame((matrix(nrow = 1, ncol = 7)))
+table <- data.frame((matrix(nrow = 1, ncol = 8)))
 
-# Tools to allow for white space in the table between different panels
-count <- 1
-empty_str <- ""
-
+if (panel_name == "Panel A") {
+    table = data.frame(matrix(nrow = 5, ncol = 8))
+    table[1] <- c(
+        "Log mortality($\\beta$)", 
+        "~~ \\{homoscedastic standard errors\\}",
+        "~~ (heteroscedastic-clustered SE)",
+        "p-value of log mortality", 
+        "p-value of controls"
+    )
+} else if (panel_name == "Panel B") {
+    table = data.frame(matrix(nrow = 4, ncol = 8))
+    table[1] <- c(
+        "Log mortality($\\beta$)",
+        "~~ (heteroscedastic standard errors)",
+        "p-value of log mortality",
+        "p-value of controls"
+    )
+} else if (panel_name == "Panel C") {
+    table = data.frame(matrix(nrow = 5, ncol = 8))
+    table[1] <- c(
+        "Log mortality($\\beta$)",
+        "~~ (heteroscedastic-clustered SE)",
+        "p-value of log mortality",
+        "p-value of indicators", 
+        "p-value of controls"
+    )
+} else {
+    table = data.frame(matrix(nrow = 5, ncol = 8))
+    table[1] <- c(
+        "Log mortality($\\beta$)", 
+        "~~ (heteroscedastic standard errors)",
+        "p-value of log mortality",
+        "p-value of indicators", 
+        "p-value of controls"
+    )
+}
 for (m in models) {
     
     # Load data from regression output
@@ -36,15 +68,12 @@ for (m in models) {
     model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
     
     # Create panel header for table
-    panel_header <- data.frame(matrix(nrow=1, ncol=7))
-    row.names(panel_header) <- paste("\\multicolumn{8}{l}{\\textit{", model$TITLE, "}} \\\\ %", sep="")
+    panel_header <- data.frame(matrix(nrow=1, ncol=8))
+    panel_header[i] <- paste("\\multicolumn{8}{l}{\\textit{", model$TITLE, "}} \\\\ %", sep="")
     panel_header[is.na(panel_header)] <- ""
 
-    # Append empty row to table
-    empty_row <- data.frame(matrix(nrow=1, ncol=7))
-    for (i in 1:count) {empty_str = paste(empty_str, " ", sep="")} # R does not allow duplicate row names
-    count = count + 1
-    row.names(empty_row) <- empty_str
+    # Append empty row as white space to table
+    empty_row <- data.frame(matrix(nrow=1, ncol=8))
     empty_row[is.na(empty_row)] <- ""
     table = rbind(table, empty_row)
 
@@ -55,81 +84,65 @@ for (m in models) {
     table = rbind(table, reg_data)
 }
 
-print(table)
+print(table[2:8])
+dfsd
 
-# tex_table = list ()
+tex_table_head <- list()
 
-# for ( i in panel_name){
-#                        if ( i == "re_conj_mor"){
-#                                                 ma = matrix(
-#                                                              c(row_names[[i]], mat_num[[i]]), c(4,8)
-#                                                      )
-#                        }else{
-#                              ma = matrix(
-#                                          c(row_names[[i]], mat_num[[i]]), c(5,8)
-#                                   )
-#                        }
-#                        tex_table[[i]] = rbind(panel_header[[i]], ma)
-# }
+tex_table_head[[1]] = c("", "","","","Control variables", "\\hline")
 
-# tex_table = do.call(rbind,tex_table)
+tex_table_head[[2]] = c("", "","No", "controls","(1)","")
 
-# tex_table_head <- list()
+tex_table_head[[3]] = c("","","Latitude","control","(2)","")
 
-# tex_table_head[[1]] = c("", "","","","Control variables", "\\hline")
+tex_table_head[[4]] = c("","Without","Neo-","Europes","(3)","")
 
-# tex_table_head[[2]] = c("", "","No", "controls","(1)","")
+tex_table_head[[5]] = c("","","Continent","indicators","(4)","")
 
-# tex_table_head[[3]] = c("","","Latitude","control","(2)","")
+tex_table_head[[6]] = c("Continent","indicators","and","latitude","(5)","")
 
-# tex_table_head[[4]] = c("","Without","Neo-","Europes","(3)","")
+tex_table_head[[7]] = c("","Percent","European","in 1975","(6)","")
 
-# tex_table_head[[5]] = c("","","Continent","indicators","(4)","")
+tex_table_head[[8]] = c("","","Malaria","in 1994","(7)","")
 
-# tex_table_head[[6]] = c("Continent","indicators","and","latitude","(5)","")
+tex_table_head = do.call(cbind,tex_table_head)
 
-# tex_table_head[[7]] = c("","Percent","European","in 1975","(6)","")
+tex_table_final = rbind(tex_table_head, tex_table)
 
-# tex_table_head[[8]] = c("","","Malaria","in 1994","(7)","")
+tex_table_final[11,2] = sprintf("%.3f",
+					   as.numeric(
+							  mat[["orig_data"]][,"reg_no"][4]
+					   )
+				  )
+tex_table_final[18,6] = sprintf("%.3f",
+					   as.numeric(
+							  mat[["re_conj_mor"]][,"reg_conti_lat"][4]
+					   )
+				  )
+tex_table_final[32,2] = sprintf("%.3f",
+					   as.numeric(
+							  mat[["re_conj_mor_con"]][,"reg_no"][4]
+					   )
+				  )
+tex_table_final[40,2] = sprintf("%.4f",
+					   as.numeric(
+							  mat[["new_data_re_conj_mor_con"]][,"reg_no"][4]
+					   )
+				  )
 
-# tex_table_head = do.call(cbind,tex_table_head)
-
-# tex_table_final = rbind(tex_table_head, tex_table)
-
-# tex_table_final[11,2] = sprintf("%.3f",
-# 					   as.numeric(
-# 							  mat[["orig_data"]][,"reg_no"][4]
-# 					   )
-# 				  )
-# tex_table_final[18,6] = sprintf("%.3f",
-# 					   as.numeric(
-# 							  mat[["re_conj_mor"]][,"reg_conti_lat"][4]
-# 					   )
-# 				  )
-# tex_table_final[32,2] = sprintf("%.3f",
-# 					   as.numeric(
-# 							  mat[["re_conj_mor_con"]][,"reg_no"][4]
-# 					   )
-# 				  )
-# tex_table_final[40,2] = sprintf("%.4f",
-# 					   as.numeric(
-# 							  mat[["new_data_re_conj_mor_con"]][,"reg_no"][4]
-# 					   )
-# 				  )
-
-# tex_table_final = xtable(
-#                          tex_table_final, 
-#                          caption="First-Stage Estimates \\\\ 
-# 				(Dependent variable: expropiation risk)"              
-#                   )
+tex_table_final = xtable(
+                         tex_table_final, 
+                         caption="First-Stage Estimates \\\\ 
+				(Dependent variable: expropiation risk)"              
+                  )
 
 
-# align(tex_table_final) = "llccccccc"
+align(tex_table_final) = "llccccccc"
 
-# ##export the latex table
-# print(
-#        tex_table_final, sanitize.text.function = function(x){x}, 
-#        file=paste(PATH_OUT_TABLES,"/","table2_first_stage_est.tex",sep=""),
-#        include.rownames=FALSE, include.colnames=FALSE,
-#        caption.placement="top", size ="\\footnotesize" 
-# )
+##export the latex table
+print(
+       tex_table_final, sanitize.text.function = function(x){x}, 
+       file=paste(PATH_OUT_TABLES,"/","table2_first_stage_est.tex",sep=""),
+       include.rownames=FALSE, include.colnames=FALSE,
+       caption.placement="top", size ="\\footnotesize" 
+)
