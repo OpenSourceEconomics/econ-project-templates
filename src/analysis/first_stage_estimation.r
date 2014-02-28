@@ -123,6 +123,5 @@ write.table(
         PATH_OUT_ANALYSIS, 
         paste("first_stage_estimation_", model_name, ".txt", sep=""),
         sep = "/"
-    ),
-    col.names = FALSE
+    )
 )
