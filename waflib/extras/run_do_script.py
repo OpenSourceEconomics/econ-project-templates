@@ -136,7 +136,7 @@ Check the log file %s, last 10 lines\n\n%s\n\n\n"""
 				http://teaching.sociology.ul.ie/bhalpin/wordpress/?p=122
 		"""
 
-		if sys.version_info.major >= 3:
+		if sys.version_info[0] >= 3:
 			kwargs = {'file': self.env.LOGFILEPATH, 'mode':
 					  'r', 'encoding': self.env.STATAENCODING}
 		else:
