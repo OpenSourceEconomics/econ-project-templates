@@ -37,7 +37,7 @@ databarcon <- databar[grep(0,databar$source0),]
 datalabhome <- datalab[grep(1,datalab$source0),]
 datalabcon <- datalab[grep(0,datalab$source0),]
 
-png(filename=paste(PATH_OUT_FIGURES, "Figure_risk_mort.png", sep="/"))
+png(filename=paste(PATH_OUT_FIGURES, "risk_mort.png", sep="/"))
 plot(
      datacamphome$logmort0, datacamphome$risk, pch=15, 
      xlab="Logarithm of settler mortality", ylab="Expropriation risk",
@@ -55,7 +55,7 @@ dev.off()
 
 
 plot.new()
-png(filename=paste(PATH_OUT_FIGURES, "Figure_gdp_mort.png", sep="/"))
+png(filename=paste(PATH_OUT_FIGURES, "gdp_mort.png", sep="/"))
 ## Plot that data against loggdp
 plot(
      datacamphome$logmort0, datacamphome$loggdp, pch=15, 

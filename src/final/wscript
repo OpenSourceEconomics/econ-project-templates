@@ -16,8 +16,8 @@ def build(ctx):
         features='run_r_script',
         source='figure1_mortality.r',
         target=[
-            out_figures('Figure_risk_mort.png'),
-            out_figures('Figure_gdp_mort.png')
+            out_figures('risk_mort.png'),
+            out_figures('gdp_mort.png')
         ],
         deps=out_data('ajrcomment_all.txt'),
         name='plot_figure.r'
