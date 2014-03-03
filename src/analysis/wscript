@@ -46,6 +46,7 @@ def build(ctx):
                 deps=[
                     '../library/R/project_paths.r',
                     out_data('ajrcomment_all.txt'),
+                    in_model_code('functions.r'),
                     in_model_specs('geography.json')
                 ],
                 name='{}_stage_estimation_{}'.format(stage, m),

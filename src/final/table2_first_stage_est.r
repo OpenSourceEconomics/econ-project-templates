@@ -13,7 +13,6 @@ source("src/library/R/project_paths.r")
 library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(xtable, lib=PATH_OUT_LIBRARY_R)
 
-source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
 models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
 

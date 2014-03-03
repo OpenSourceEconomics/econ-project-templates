@@ -13,15 +13,13 @@ source("src/library/R/project_paths.r")
 library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(xtable, lib=PATH_OUT_LIBRARY_R)
 
-source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
-
 models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
 
 # Initilize final table
 final_table <- data.frame((matrix(nrow = 6, ncol = 8)))
 
 # Write table header
-final_table[1] <- c("", "","","","Control variables", "\\hline")
+final_table[1] <- c("", "","","","Control variables", "\\midrule")
 final_table[2] <- c("", "","No", "controls","(1)","")
 final_table[3] <- c("","","Latitude","control","(2)","")
 final_table[4] <- c("","Without","Neo-","Europeans","(3)","")
@@ -69,7 +67,7 @@ tex_final_table = xtable(
         "{","(\\footnotesize First-stage dependent variable: expropriation risk;", 
         "second-stage dependent variable,\\\\}",
         "{\\footnotesize log GDP per capita, 1995, PPP basis",")"
-    )              
+    )
 )              
 
 align(tex_final_table) = "llccccccc"
@@ -81,6 +79,6 @@ print(
     file=paste(PATH_OUT_TABLES, "table3_second_stage_est.tex", sep="/"),
     include.rownames=FALSE, 
     include.colnames=FALSE,
-    caption.placement="top", 
+    caption.placement="top",
     size ="\\tiny \\setlength{\\tabcolsep}{0.25em}"
 )

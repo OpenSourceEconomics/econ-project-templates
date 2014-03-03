@@ -6,9 +6,6 @@ def build(ctx):
     def out_analysis(*args):
         return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
 
-    def out_models(*args):
-        return ctx.path_to(ctx, 'OUT_MODEL_SPECS', *args)
-
     def out_figures(*args):
         return ctx.path_to(ctx, 'OUT_FIGURES', *args)
 
@@ -44,7 +41,7 @@ def build(ctx):
 
     deps = {
         'first_stage': ['../library/R/project_paths.r'],
-        'second_stage': ['../library/R/project_paths.r']
+        'second_stage': ['../library/R/project_paths.r', '../model_code/functions.r']
     }
 
     for m in models:
