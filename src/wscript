@@ -1,5 +1,6 @@
 def build(ctx):
-    ctx.recurse('library') 
+    ctx.recurse('documentation')
+    ctx.recurse('library')
     # Adding the build group is required because the project
     # paths have to be generated first. It should not entail
     # any performance penalties -- all tasks before this
@@ -12,4 +13,3 @@ def build(ctx):
     # '.tex'-source file has not been generated.
     ctx.add_group()
     ctx.recurse('paper')
-    ctx.recurse('documentation')

@@ -19,3 +19,4 @@ Welcome to the TTT project's documentation!
     model_code
     model_specs
     library
+    references

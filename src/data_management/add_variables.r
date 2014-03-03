@@ -1,4 +1,4 @@
-' 
+'
 The file "add_new_data.r" adds the new data from AJR (2005) to the
 dataset as described in Albouy (2012).
 
