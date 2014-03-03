@@ -61,13 +61,13 @@ def build(ctx):
         deps=deps['first_stage'],
         append=' '.join(models)
     )
-    # # Table 3
-    # ctx(
-    #     features='run_r_script',
-    #     source='table3_second_stage_est.r',
-    #     target=[
-    #         out_tables('table3_second_stage_est.tex')
-    #     ],
-    #     deps=deps['second_stage'],
-    #     append=models
-    # )
+    # Table 3
+    ctx(
+        features='run_r_script',
+        source='table3_second_stage_est.r',
+        target=[
+            out_tables('table3_second_stage_est.tex')
+        ],
+        deps=deps['second_stage'],
+        append=' '.join(models)
+    )

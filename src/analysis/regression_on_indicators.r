@@ -1,10 +1,13 @@
-# The file "regression_on_indicators.r" computes the regression estimates 
-# of the main indicators (mortality, expropriation risk and GDP) on the 
-# indicators for campaigning soldiers and laborers, as well as
-# the correlations of the main indicators with log mortality.
-# The results are then plotted in the corresponding file in 
-# the final folder "table1_reg_on_indicators.r"
+'
 
+The file "regression_on_indicators.r" computes the regression estimates 
+of the main indicators (mortality, expropriation risk and GDP) on the 
+indicators for campaigning soldiers and laborers, as well as
+the correlations of the main indicators with log mortality.
+The results are then plotted in the corresponding file in 
+the final folder "table1_reg_on_indicators.r"
+
+'
 
 rm(list=ls())
 options(digits=3)

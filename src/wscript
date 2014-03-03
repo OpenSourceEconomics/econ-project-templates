@@ -11,5 +11,5 @@ def build(ctx):
     # Safety measure -- else the LaTeX scanner might fail because some
     # '.tex'-source file has not been generated.
     ctx.add_group()
-    # ctx.recurse('paper')
-    # ctx.recurse('documentation')
+    ctx.recurse('paper')
+    ctx.recurse('documentation')

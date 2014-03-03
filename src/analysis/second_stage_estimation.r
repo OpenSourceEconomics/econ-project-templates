@@ -1,21 +1,25 @@
-# In the file "second_stage_estimation.r", we compute IV estimates for log GDP 
-# per capita with expropriation risk as the first stage dependent variable.
-# 
-# We also compute confidence intervals for a usual Wald statistic and confidence
-# intervals for the Anderson-Rubin (1949) statistic.
-# 
-# The file requires to be called with a model specification as the argument,
-# a corresponding json-file must exist in PATH_IN_MODEL_SPECS. That file
-# needs to define a dictionary with keys:
-#     
-#     INSTD - the dependent variable (in the first stage)
-#     INSTS - the instrument
-#     KEEP_CONDITION - any sampling restrictions
-#     DUMMIES - additional dummy variables to be used as controls
-# 
-# The r-file loops over various specifications with geographic controls /
-# restrictions as defined in PATH_IN_MODEL_SPECS/geography.json. Finally,
-# it stores a dataframe with estimation results.
+'
+
+In the file "second_stage_estimation.r", we compute IV estimates for log GDP 
+per capita with expropriation risk as the first stage dependent variable.
+
+We also compute confidence intervals for a usual Wald statistic and confidence
+intervals for the Anderson-Rubin (1949) statistic.
+
+The file requires to be called with a model specification as the argument,
+a corresponding json-file must exist in PATH_IN_MODEL_SPECS. That file
+needs to define a dictionary with keys:
+    
+    INSTD - the dependent variable (in the first stage)
+    INSTS - the instrument
+    KEEP_CONDITION - any sampling restrictions
+    DUMMIES - additional dummy variables to be used as controls
+
+The r-file loops over various specifications with geographic controls /
+restrictions as defined in PATH_IN_MODEL_SPECS/geography.json. Finally,
+it stores a dataframe with estimation results.
+
+'
 
 
 rm(list=ls())

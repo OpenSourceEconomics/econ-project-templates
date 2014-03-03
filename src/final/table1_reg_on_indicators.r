@@ -1,8 +1,11 @@
-#  The file "table1_reg_on_indicators.r" creates table 1 with the regression
-# estimates and correlations of the main indicators (mortality, 
-# expropriation risk and GDP) from the corresponding r-file in 
-# the analysis directory "regression_on_indicators.r" 
+'
 
+The file "table1_reg_on_indicators.r" creates table 1 with the regression
+estimates and correlations of the main indicators (mortality, 
+expropriation risk and GDP) from the corresponding r-file in 
+the analysis directory "regression_on_indicators.r" 
+
+'
 
 
 source("src/library/R/project_paths.r")

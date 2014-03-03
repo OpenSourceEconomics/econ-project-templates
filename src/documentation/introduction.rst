@@ -58,7 +58,7 @@ These paths should re-appear in automatically generated header files for all lan
 .. _add_packages:
 
 Using additional packages
---------------
+--------------------------
 
 If you are using additional packages for LaTeX (e.g. epstopdf) or R (e.g. AER, xtable), you will have to add and install them in the project path:
 
