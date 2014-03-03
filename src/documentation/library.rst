@@ -1,7 +1,9 @@
 .. _library:
 
+************
 Code library
-===============
+************
+
 
 The directory *src.library* provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here.
 
@@ -11,7 +13,7 @@ The distinction from the :ref:`model_code` directory is a bit arbitrary, but I h
 .. _project_paths:
 
 Project paths
---------------
+=============
 
 A variety of project paths are defined in the top-level wscript file. These are exported to be used in header files in other languages. So in case you require different paths (e.g. if you have many different datasets, you may want to have one path to each of them), adjust them in the top-level wscript file.
 
