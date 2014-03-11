@@ -19,6 +19,13 @@ def post_install(ctx):
 
 
 def build(ctx):
+
+    # Create DAG
+    ctx(
+        features='tex',
+        source='dependency_graph.tex'
+    )
+
     # Build the documentation in pdf (via LaTeX) and html format.
     ctx(
         features='sphinx',
@@ -26,18 +33,13 @@ def build(ctx):
         source='conf.py',
         name='sphinx_tex'
     )
+    # Make sure LaTeX and Sphinx builders don't run into conflicts.
+    ctx.add_group()
     ctx(
         features='sphinx',
         buildername='html',
         source='conf.py',
         name='sphinx_html'
-    )
-
-    # Create DAG
-    ctx(
-        features='tex',
-        source='dependencies.tex',
-        outs='pdf png'
     )
 
     # Install only after the build has finished.

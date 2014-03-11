@@ -37,3 +37,18 @@ First of all, think about whether this structure fits your needs -- if it does n
 Later adjustments should be painlessly possible, so things won't be set in stone.
 
 Once you have done that, move your source data to **src/original_data/** and start filling up the actual steps of the project workflow (data management, analysis, final steps, paper). All you should need to worry about is to call the correct task generators in the wscript files. Always specify the actions in the wscript that lives in the same directory as your main source file. Make sure you understand how the paths work in Waf and how to use the auto-generated files in the language you are using particular language (see the section :ref:`project_paths` in the code library).
+
+
+.. _dag:
+
+DAG of the project
+==================
+
+See :download:`this pdf document </../../bld/src/documentation/dependency_graph.pdf>`. It should be helpful to get an idea of the overall structure of the example.
+
+.. raw:: latex
+    
+    \vspace*{2ex}
+
+    Forget about the previous sentence in the context of this pdf document. In LaTeX, we can include the pdf directly as a graphic:\\[2ex]
+    \includegraphics{../dependency_graph.pdf}
