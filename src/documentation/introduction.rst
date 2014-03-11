@@ -44,11 +44,14 @@ Once you have done that, move your source data to **src/original_data/** and sta
 DAG of the project
 ==================
 
-See :download:`this pdf document </../../bld/src/documentation/dependency_graph.pdf>`. It should be helpful to get an idea of the overall structure of the example. 
+See :download:`this pdf document </../../bld/src/documentation/dependency_graph.pdf>`. It should be helpful to get an idea of the overall structure of the example.
+
 
 .. raw:: latex
     
     \vspace*{2ex}
 
-    Forget about the previous sentence in the context of this pdf document. In LaTeX, we can include the pdf directly as a graphic. Note, however, that for the sake of simplicity the dependency graph does not include the second stage estimation. It would work in exactly the same way as the first stage estimation is outlined in the graphic. Moreover, the figures are not included to make the graph more readable.\\[2ex]
+    Forget about the previous sentence in the context of this pdf document because in LaTeX, we can include the pdf directly as a graphic:\\[2ex]
     \includegraphics{../dependency_graph.pdf}
+
+For the sake of simplicity, the dependency graph does not include the second stage estimation that ends up in Table 3. It would work in exactly the same way as the first stage estimation is outlined in the graphic. Same for the graphs. The overlapping nodes stand for all five model specifications, only the baseline specification is actually written out (of course, there should be five edges as well, in principle).
