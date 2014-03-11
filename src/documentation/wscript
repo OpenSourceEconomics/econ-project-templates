@@ -32,5 +32,13 @@ def build(ctx):
         source='conf.py',
         name='sphinx_html'
     )
+
+    # Create DAG
+    ctx(
+        features='tex',
+        source='dependencies.tex',
+        outs='pdf png'
+    )
+
     # Install only after the build has finished.
     ctx.add_post_fun(post_install)

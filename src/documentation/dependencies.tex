@@ -1,0 +1,128 @@
+\documentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows,positioning,shapes,shapes.multipart,patterns,mindmap,shadows}
+\usepackage{xcolor}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\begin{document}
+
+\footnotesize
+\begin{tikzpicture}[every node/.style={
+    rectangle,
+    rounded corners,
+    inner sep=3pt,
+    draw,
+    fill=brown!25
+}]
+    \node (add_variables_r) [fill=blue!15, shift={(-4, -2)}]
+    {
+        add\_variables.r
+    };
+    \node (ajrcomment_dta) [shift={(-4, 0)}]
+    {
+        ajrcomment.dta
+    };
+    \node (ajrcomment_all_txt) [shift={(-1, 0)}]
+    {
+        ajrcomment\_all.txt
+    };
+    \node (first_stage_estimation_r) [fill=blue!15, shift={(1, 2)}]
+    {
+        first\_stage\_estimation.r
+    };
+    \node (function_r) [fill=blue!15, shift={(1, )}]
+    {
+        function.r
+    };
+    \node (regression_on_indicators_r) [fill=blue!15, shift={(1, 4)}]
+    {
+        regression\_on\_indicator.r
+    };
+    \node (geography_json) [fill=blue!15, shift={(-1, -1)}]
+    {
+        geography.json
+    };
+    \node (baseline_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-0.5, -2)}]
+    {
+        baseline.json
+    };
+    \node (addindic_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-0.3, -2.4)}]
+    {
+        addindic.json
+    };
+    \node (rmconj_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-0.1, -2.7)}]
+    {
+        rmconj.json
+    };
+    \node (rmconj_addindic_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(0.1, -3.0)}]
+    {
+        rmconj\_addindic.json
+    };
+    \node (newdata_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(0.3, -3.3)}]
+    {
+        newdata.json
+    };
+    \node (regression_on_indicators_txt) [shift={(4, 3)}]
+    {
+        regression\_on\_indicators.txt
+    };
+    \node (first_stage_estimation_baseline_txt) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.5, 0)}]
+    {
+        first\_stage\_estimation\_baseline.txt
+    };
+    \node (first_stage_estimation_addindic_txt) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.8, -0.4)}]
+    {
+        first\_stage\_estimation\_addindic.txt
+    };
+    \node (first_stage_estimation_rmconj_txt) [minimum width=5.2cm, minimum height=0.4cm, shift={(4.1, -0.7)}]
+    {
+        first\_stage\_estimation\_rmconj.txt
+    };
+    \node (first_stage_estimation_rmconj_addindic_txt) [minimum width=5.2cm, minimum height=0.4cm, shift={(4.3, -1.0)}]
+    {
+        first\_stage\_estimation\_rmconj\_addindic.txt
+    };
+    \node (first_stage_estimation_newdata_txt) [minimum width=5.2cm, minimum height=0.4cm, shift={(4.6, -1.3)}]
+    {
+        first\_stage\_estimation\_newdata.txt
+    };
+    \node (research_paper_tex) [fill=blue!15, shift={(8, -2)}]
+    {
+        research\_paper.tex
+    };
+    \node (table2_first_stage_est_tex) [shift={(8, 1)}]
+    {
+        table2\_first\_stage\_est.tex
+    };
+    \node (table1_reg_on_indicators_tex) [shift={(8, 2)}]
+    {
+        table1\_reg\_on\_indicators.tex
+    };
+    \node (research_paper_pdf) [shift={(11, 0)}]
+    {
+        research\_paper.pdf
+    };
+    \draw[->, blue, thick] (ajrcomment_all_txt) to (add_variables_r);
+    \draw[->, blue, thick] (ajrcomment_all_txt) to (ajrcomment_dta);
+    \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (first_stage_estimation_r);
+    \draw[->, orange, thick] (first_stage_estimation_baseline_txt.west) to (baseline_json);
+    \draw[->, orange, thick] (first_stage_estimation_baseline_txt.west) to (geography_json);    
+    \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (function_r);
+    \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (ajrcomment_all_txt);
+    \draw[->, orange, thick] (regression_on_indicators_txt) to (regression_on_indicators_r);
+    
+    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_txt);
+    \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_baseline_txt.east);
+    \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_addindic_txt.east);
+    \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_rmconj_txt.east);
+    \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_rmconj_addindic_txt.east);
+    \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_newdata_txt.east);
+
+    \draw[->, red, thick] (research_paper_pdf) to (research_paper_tex.east);
+    \draw[->, red, thick] (research_paper_pdf) to (table1_reg_on_indicators_tex.east);
+    \draw[->, red, thick] (research_paper_pdf) to (table2_first_stage_est_tex.east);
+\end{tikzpicture}
+
+\end{document}
