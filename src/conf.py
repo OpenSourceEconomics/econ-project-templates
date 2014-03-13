@@ -192,8 +192,8 @@ latex_elements = {
 # Usually the list will only consist of one tuple for the master file.
 latex_documents = [(
     'index',
-    'project_documentation.tex',
-    'Documentation of the templates for reproducible research projects in economics',
+    'tutorial-econ-project-templates.tex',
+    'Tutorial: Templates for reproducible research projects',
     'Hans-Martin von Gaudecker',
     'manual'
 )]

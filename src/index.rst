@@ -12,3 +12,9 @@ Table of Contents
     organisation
     getting_started
     zreferences
+
+
+Download this tutorial in other formats
+---------------------------------------
+
+* :download:`pdf </../bld/src/latex/tutorial-econ-project-templates.pdf>`

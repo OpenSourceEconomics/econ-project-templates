@@ -58,14 +58,25 @@ def post_install(ctx):
 
 
 def build(ctx):
+
     create_empty_init_py_wrapper(ctx)
     ctx.recurse('examples')
     ctx.add_group()
+
+    ctx(
+        features='sphinx',
+        buildername='latex',
+        source='conf.py',
+        name='sphinx_pdf'
+    )
+    ctx.add_group()
+
     ctx(
         features='sphinx',
         buildername='html',
         source='conf.py',
         name='sphinx_html'
     )
+
     # Install only after the build has finished.
     ctx.add_post_fun(post_install)
