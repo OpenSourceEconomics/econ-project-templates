@@ -105,6 +105,7 @@ PROJECT_TEMPLATE = r'''<?xml version="1.0" encoding="UTF-8"?>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='${b.configuration}|${b.platform}'" Label="Configuration">
 		<ConfigurationType>Makefile</ConfigurationType>
 		<OutDir>${b.outdir}</OutDir>
+		<PlatformToolset>v110</PlatformToolset>
 	</PropertyGroup>
 	${endfor}
 
