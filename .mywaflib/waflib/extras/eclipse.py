@@ -17,6 +17,8 @@ import sys, os
 from waflib import Utils, Logs, Context, Options, Build, TaskGen, Scripting
 from xml.dom.minidom import Document
 
+STANDARD_INCLUDES = [ '/usr/local/include', '/usr/include' ]
+
 oe_cdt = 'org.eclipse.cdt'
 cdt_mk = oe_cdt + '.make.core'
 cdt_core = oe_cdt + '.core'
@@ -49,6 +51,8 @@ class eclipse(Build.BuildContext):
 		"""
 		source_dirs = []
 		cpppath = self.env['CPPPATH']
+		if sys.platform != 'win32':
+			cpppath += STANDARD_INCLUDES
 		Logs.warn('Generating Eclipse CDT project files')
 
 		for g in self.groups:
@@ -212,6 +216,11 @@ class eclipse(Build.BuildContext):
 					self.add(doc, option, 'listOptionValue',
 								{'builtIn': 'false',
 								'value': '"%s"'%(i)})
+			if tool_name == "GNU C++" or tool_name == "GNU C":
+				self.add(doc,tool,'inputType',{ 'id':'org.eclipse.cdt.build.core.settings.holder.inType.1', \
+					'languageId':'org.eclipse.cdt.core.gcc','languageName':tool_name, \
+					'sourceContentType':'org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader', \
+					'superClass':'org.eclipse.cdt.build.core.settings.holder.inType' })
 		if source_dirs:
 			sourceEntries = self.add(doc, config, 'sourceEntries')
 			for i in source_dirs:

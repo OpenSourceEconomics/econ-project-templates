@@ -150,7 +150,7 @@ class PBXGroup(XCodeNode):
 	def add(self, root, sources):
 		folders = {}
 		def folder(n):
-			if n == root:
+			if not n.is_child_of(root):
 				return self
 			try:
 				return folders[n]

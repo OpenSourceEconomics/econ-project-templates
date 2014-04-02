@@ -53,7 +53,8 @@ import re
 from waflib import Utils, Logs, Errors
 from waflib.Configure import conf
 
-BOOST_LIBS = ['/usr/lib', '/usr/local/lib', '/opt/local/lib', '/sw/lib', '/lib']
+BOOST_LIBS = ['/usr/lib/x86_64-linux-gnu', '/usr/lib/i386-linux-gnu',
+	      '/usr/lib', '/usr/local/lib', '/opt/local/lib', '/sw/lib', '/lib']
 BOOST_INCLUDES = ['/usr/include', '/usr/local/include', '/opt/local/include', '/sw/include']
 BOOST_VERSION_FILE = 'boost/version.hpp'
 BOOST_VERSION_CODE = '''
@@ -348,14 +349,14 @@ def check_boost(self, *k, **kw):
 				try:
 					try_link()
 					self.end_msg("ok: winning cxxflags combination: %s" % (self.env["CXXFLAGS_%s" % var]))
-					e = None
+					exc = None
 					break
-				except Errors.ConfigurationError as exc:
+				except Errors.ConfigurationError as e:
 					self.env.revert()
-					e = exc
+					exc = e
 
-			if e is not None:
-				self.end_msg("Could not auto-detect boost linking flags combination, you may report it to boost.py author", ex=e)
+			if exc is not None:
+				self.end_msg("Could not auto-detect boost linking flags combination, you may report it to boost.py author", ex=exc)
 				self.fatal('The configuration failed')
 		else:
 			self.end_msg("Boost linkage flags auto-detection not implemented (needed ?) for this toolchain")
