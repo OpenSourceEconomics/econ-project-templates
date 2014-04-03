@@ -190,11 +190,10 @@
 </div>
 <div class="section" id="usage-of-the-project-paths-within-wscript-files">
 <h2>Usage of the project paths within <em>wscript</em> files<a class="headerlink" href="#usage-of-the-project-paths-within-wscript-files" title="Permalink to this headline">¶</a></h2>
-<p>The first thing to do is to make these project paths available in <em>wscript</em> files further down the directory hierarchy. We do so in the <em>build</em> function of <em>root/wscript</em>, which we have not shown completely so far:</p>
+<p>The first thing to do is to make these project paths available in <em>wscript</em> files further down the directory hierarchy. We do so in the <em>build</em> function of <em>root/wscript</em>; the relevant lines are:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PROJECT_PATHS</span> <span class="o">=</span> <span class="n">set_project_paths</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span> <span class="o">=</span> <span class="n">path_to</span>
-    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. You do not need to care about its internals, only about its interface:</p>
@@ -243,14 +242,15 @@ of the directory trees defined in the PROJECT_PATHS dictionary above.</p>
 </div>
 <div class="section" id="usage-of-the-project-paths-in-substantial-code">
 <h2>Usage of the project paths in substantial code<a class="headerlink" href="#usage-of-the-project-paths-in-substantial-code" title="Permalink to this headline">¶</a></h2>
-<p>The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the <tt class="docutils literal"><span class="pre">write_project_paths</span></tt> feature. The following line is taken from the <tt class="docutils literal"><span class="pre">build</span></tt> function in <em>root/src/library/wscript</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre>    <span class="n">ctx</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="s">&#39;write_project_paths&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s">&#39;project_paths.py&#39;</span><span class="p">)</span>
+<p>The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the <tt class="docutils literal"><span class="pre">write_project_paths</span></tt> feature. The following line is taken from the <tt class="docutils literal"><span class="pre">build</span></tt> function in <em>root/wscript</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre>    <span class="c"># Generate header file with project paths in &#39;bld&#39; directory</span>
+    <span class="n">ctx</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="s">&#39;write_project_paths&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s">&#39;project_paths.py&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">write_project_paths</span></tt> feature is smart: It will recognise the syntax for its target by the extension you add to the latter. Currently supported: <em>.py</em>, <em>.do</em>, <em>.m</em>, <em>.r</em>, <em>.pm</em>.</p>
-<p>The paths contained in the resulting file (<em>root/bld/src/library/project_paths.py</em>) are <strong>absolute</strong> paths, so you do not need to worry about the location of your interpreter etc.</p>
+<p>The paths contained in the resulting file (<em>root/bld/project_paths.py</em>) are <strong>absolute</strong> paths, so you do not need to worry about the location of your interpreter etc.</p>
 <p>The exact usage varies a little bit by language; see the respective template for examples. In Python, you first import a function called <em>project_paths_join</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bld.src.library.project_paths</span> <span class="kn">import</span> <span class="n">project_paths_join</span> <span class="k">as</span> <span class="n">ppj</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bld.project_paths</span> <span class="kn">import</span> <span class="n">project_paths_join</span> <span class="k">as</span> <span class="n">ppj</span>
 </pre></div>
 </div>
 <p>You can then use it to obtain absolute paths to any location within your project. E.g., for the log-file in the analysis step, you would use:</p>

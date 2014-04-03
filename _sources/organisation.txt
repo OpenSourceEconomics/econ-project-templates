@@ -94,10 +94,11 @@ In addition, there are the "special" input directories *library*, *model_code*, 
 Usage of the project paths within *wscript* files
 -------------------------------------------------
 
-The first thing to do is to make these project paths available in *wscript* files further down the directory hierarchy. We do so in the *build* function of *root/wscript*, which we have not shown completely so far:
+The first thing to do is to make these project paths available in *wscript* files further down the directory hierarchy. We do so in the *build* function of *root/wscript*; the relevant lines are:
 
 .. literalinclude:: ../python_template/wscript
     :start-after: ctx.load('write_project_headers')
+    :end-before: # Generate header
 
 The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. You do not need to care about its internals, only about its interface:
 
@@ -126,18 +127,19 @@ Note that the order of the arguments is the same in each of the five calls of ``
 Usage of the project paths in substantial code
 ----------------------------------------------
 
-The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the ``write_project_paths`` feature. The following line is taken from the ``build`` function in *root/src/library/wscript*:
+The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the ``write_project_paths`` feature. The following line is taken from the ``build`` function in *root/wscript*:
 
-.. literalinclude:: ../python_template/src/library/wscript
-    :start-after: dirs.remove('.git')
+.. literalinclude:: ../python_template/wscript
+    :start-after: ctx.path_to
+    :end-before: ctx.add_group()
 
 The ``write_project_paths`` feature is smart: It will recognise the syntax for its target by the extension you add to the latter. Currently supported: *.py*, *.do*, *.m*, *.r*, *.pm*.
 
-The paths contained in the resulting file (*root/bld/src/library/project_paths.py*) are **absolute** paths, so you do not need to worry about the location of your interpreter etc. 
+The paths contained in the resulting file (*root/bld/project_paths.py*) are **absolute** paths, so you do not need to worry about the location of your interpreter etc. 
 
 The exact usage varies a little bit by language; see the respective template for examples. In Python, you first import a function called *project_paths_join*::
 
-    from bld.src.library.project_paths import project_paths_join as ppj
+    from bld.project_paths import project_paths_join as ppj
 
 You can then use it to obtain absolute paths to any location within your project. E.g., for the log-file in the analysis step, you would use::
 
