@@ -9,7 +9,7 @@ use of *run_py_script* only.
 """
 
 import numpy as np
-from bld.src.library.project_paths import project_paths_join as ppj
+from bld.project_paths import project_paths_join as ppj
 
 
 np.random.seed(12345)
