@@ -4,7 +4,7 @@ dataset as described in Albouy (2012).
 
 '
 
-source("src/library/R/project_paths.r")
+source("project_paths.r")
 
 library(foreign, lib=PATH_OUT_LIBRARY_R)
 

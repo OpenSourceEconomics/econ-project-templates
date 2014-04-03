@@ -40,8 +40,8 @@ def build(ctx):
     ]
 
     deps = {
-        'first_stage': ['../library/R/project_paths.r'],
-        'second_stage': ['../library/R/project_paths.r', '../model_code/functions.r']
+        'first_stage': ['../../project_paths.r'],
+        'second_stage': ['../../project_paths.r', '../model_code/functions.r']
     }
 
     for m in models:

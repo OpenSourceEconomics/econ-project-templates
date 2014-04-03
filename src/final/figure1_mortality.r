@@ -10,7 +10,7 @@ countries with original data and countries with conjectured mortality data.
 
 rm(list=ls())
 
-source("src/library/R/project_paths.r")
+source("project_paths.r")
 
 library(foreign, lib=PATH_OUT_LIBRARY_R)
  

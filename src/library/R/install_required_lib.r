@@ -5,7 +5,7 @@ fails. In case of failure, we require an Internet connection.
 '
 
 
-source("src/library/R/project_paths.r")
+source("project_paths.r")
 
 cran <- "http://cran.rstudio.com/"
 

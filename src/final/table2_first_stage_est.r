@@ -8,7 +8,7 @@ It writes the results to Latex file {PATH_OUT_TABLES}/table2_first_stage_est.tex
 '
 
 
-source("src/library/R/project_paths.r")
+source("project_paths.r")
 
 library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(xtable, lib=PATH_OUT_LIBRARY_R)
