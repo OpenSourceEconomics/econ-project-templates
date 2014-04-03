@@ -23,7 +23,7 @@ The logic of the project template works by step of the analysis:
 2. The actual estimations / simulations / ?
 3. Visualisation and results formatting (e.g. exporting of LaTeX tables)
 4. Research paper and presentations. 
-   
+
 It can be useful to have code and model parameters available to more than one of these steps, in that case see sections :ref:`model_specifications`, :ref:`model_code`, and :ref:`library`.
 
 First of all, think about whether this structure fits your needs -- if it does not, you need to adjust (delete/add/rename) directories and files in the following locations:
@@ -35,7 +35,7 @@ First of all, think about whether this structure fits your needs -- if it does n
 
 Later adjustments should be painlessly possible, so things won't be set in stone.
 
-Once you have done that, move your source data to **src/original_data/** and start filling up the actual steps of the project workflow (data management, analysis, final steps, paper). All you should need to worry about is to call the correct task generators in the wscript files. Always specify the actions in the wscript that lives in the same directory as your main source file. Make sure you understand how the paths work in Waf and how to use the auto-generated files in the language you are using particular language (see the section :ref:`project_paths` in the code library).
+Once you have done that, move your source data to **src/original_data/** and start filling up the actual steps of the project workflow (data management, analysis, final steps, paper). All you should need to worry about is to call the correct task generators in the wscript files. Always specify the actions in the wscript that lives in the same directory as your main source file. Make sure you understand how the paths work in Waf and how to use the auto-generated files in the language you are using particular language (see the section :ref:`project_paths` below).
 
 
 .. _project_paths:
@@ -43,7 +43,7 @@ Once you have done that, move your source data to **src/original_data/** and sta
 Project paths
 =============
 
-A variety of project paths are defined in the top-level wscript file. These are exported to be used in header files in other languages. So in case you require different paths (e.g. if you have many different datasets, you may want to have one path to each of them), adjust them in the top-level wscript file.
+A variety of project paths are defined in the top-level wscript file. These are exported to header files in other languages. So in case you require different paths (e.g. if you have many different datasets, you may want to have one path to each of them), adjust them in the top-level wscript file.
 
 The following is taken from the top-level wscript file. Modify any project-wide path settings there.
 
