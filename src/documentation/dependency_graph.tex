@@ -96,25 +96,27 @@
     {
         research\_paper.pdf
     };
+
     \draw[->, blue, thick] (ajrcomment_all_txt) to (add_variables_r.east);
     \draw[->, blue, thick] (ajrcomment_all_txt) to (ajrcomment_dta);
+
     \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (first_stage_estimation_r);
     \draw[->, orange, thick] (first_stage_estimation_baseline_txt.west) to (newdata_json.east);
     \draw[->, orange, thick] (first_stage_estimation_baseline_txt.west) to (geography_json.east);    
     \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (function_r);
-    \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (ajrcomment_all_txt.east);
+    \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (ajrcomment_all_txt.355);
     \draw[->, orange, thick] (regression_on_indicators_txt) to (regression_on_indicators_r);
     \draw[->, orange, thick] (regression_on_indicators_txt) to (function_r);
-    \draw[->, orange, thick] (regression_on_indicators_txt) to (ajrcomment_all_txt.east);
+    \draw[->, orange, thick] (regression_on_indicators_txt) to (ajrcomment_all_txt.5);
     
     \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_txt);
     \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (table1_reg_on_indicators_r);
-    \draw[->, teal, thick] (table2_first_stage_est_tex) to (6.25, -2.5);
+    \draw[->, teal, thick] (table2_first_stage_est_tex) to (6.35, -2.5);
     \draw[->, teal, thick] (table2_first_stage_est_tex) to (table2_first_stage_est_r);
 
     \draw[->, red, thick] (research_paper_pdf) to (research_paper_tex.north);
     \draw[->, red, thick] (research_paper_pdf) to (table1_reg_on_indicators_tex.east);
-    \draw[->, red, thick] (research_paper_pdf) .. controls (11, -1) .. (table2_first_stage_est_tex.east);
+    \draw[->, red, thick] (research_paper_pdf) .. controls (11, -1) .. (table2_first_stage_est_tex.8);
 \end{tikzpicture}
 
 \end{document}
