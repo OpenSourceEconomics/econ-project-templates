@@ -15,7 +15,7 @@ import pickle
 import numpy as np
 
 from src.model_code.agent import Agent
-from bld.src.library.project_paths import project_paths_join as ppj
+from bld.project_paths import project_paths_join as ppj
 
 
 def setup_agents(model):

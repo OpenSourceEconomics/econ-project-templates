@@ -65,4 +65,7 @@ def configure(ctx):
 def build(ctx):
     ctx.env.PROJECT_PATHS = set_project_paths(ctx)
     ctx.path_to = path_to
+    # Generate header file with project paths in 'bld' directory
+    ctx(features='write_project_paths', target='project_paths.py')
+    ctx.add_group()
     ctx.recurse('src')

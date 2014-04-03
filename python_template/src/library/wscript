@@ -46,5 +46,3 @@ def build(ctx):
             dirs.remove('.svn')
         if '.git' in dirs:
             dirs.remove('.git')
-
-    ctx(features='write_project_paths', target='project_paths.py')
