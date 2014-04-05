@@ -36,7 +36,7 @@ First of all, think about whether this structure fits your needs -- if it does n
 
 Later adjustments should be painlessly possible, so things won't be set in stone.
 
-Once you have done that, move your source data to **src/original_data/** and start filling up the actual steps of the project workflow (data management, analysis, final steps, paper). All you should need to worry about is to call the correct task generators in the wscript files. Always specify the actions in the wscript that lives in the same directory as your main source file. Make sure you understand how the paths work in Waf and how to use the auto-generated files in the language you are using particular language (see the section :ref:`project_paths` in the code library).
+Once you have done that, move your source data to **src/original_data/** and start filling up the actual steps of the project workflow (data management, analysis, final steps, paper). All you should need to worry about is to call the correct task generators in the wscript files. Always specify the actions in the wscript that lives in the same directory as your main source file. Make sure you understand how the paths work in Waf and how to use the auto-generated files in the language you are using particular language (see the section on :ref:`project_paths`).
 
 
 .. _dag:
@@ -54,4 +54,32 @@ See :download:`this pdf document </../../bld/src/documentation/dependency_graph.
     Forget about the previous sentence in the context of this pdf document because in LaTeX, we can include the pdf directly as a graphic:\\[2ex]
     \includegraphics{../dependency_graph.pdf}
 
-For the sake of simplicity, the dependency graph does not include the second stage estimation that ends up in Table 3. It would work in exactly the same way as the first stage estimation is outlined in the graphic. Same for the graphs. The overlapping nodes stand for all five model specifications, only the baseline specification is actually written out (of course, there should be five edges as well, in principle).
+For the sake of simplicity, the dependency graph does not include the second stage estimation that ends up in Table 3. It would work in exactly the same way as the first stage estimation is outlined in the graph. Same for the figures. The overlapping nodes stand for all five model specifications, only the baseline specification is actually written out (of course, there should be five edges as well, in principle).
+
+
+.. _project_paths:
+
+Project paths
+=============
+
+A variety of project paths are defined in the top-level wscript file. These are exported to be used in header files in other languages. So in case you require different paths (e.g. if you have many different datasets, you may want to have one path to each of them), adjust them in the top-level wscript file.
+
+The following is taken from the top-level wscript file. Modify any project-wide path settings there.
+
+.. literalinclude:: ../../wscript
+    :start-after: out = 'bld'
+    :end-before:     # Convert the directories into Waf nodes
+
+As should be evident from the similarity of the names, the paths follow the steps of the analysis in the :file:`src` directory:
+
+    1. **data_management** → **OUT_DATA**
+    2. **analysis** → **OUT_ANALYSIS**
+    3. **final** → **OUT_FINAL**, **OUT_FIGURES**, **OUT_TABLES**
+
+These will re-appear in automatically generated header files by calling the ``write_project_paths`` task generator (just use an output file with the correct extension for the language you need -- ``.py``, ``.r``, ``.m``, ``.do``)
+
+By default, these header files are generated in the top-level build directory, i.e. ``bld``. Since this is where R is launched, you can just get variables with the project paths by adding a line ``source("project_paths.r")`` at the top of you R-scripts. 
+
+To see what these variables are, here is the content of *bld/project_paths.r*:
+    
+.. literalinclude:: ../../bld/project_paths.r

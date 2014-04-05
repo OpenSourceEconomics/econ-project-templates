@@ -21,7 +21,7 @@ it stores a dataframe with estimation results.
 rm(list=ls())
 options(digits=3)
 
-source("src/library/R/project_paths.r")
+source("project_paths.r")
 source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
 # Load required libraries.

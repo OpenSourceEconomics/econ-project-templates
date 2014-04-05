@@ -8,7 +8,7 @@ the analysis directory "regression_on_indicators.r"
 '
 
 
-source("src/library/R/project_paths.r")
+source("project_paths.r")
 
 library(xtable, lib=PATH_OUT_LIBRARY_R)
 

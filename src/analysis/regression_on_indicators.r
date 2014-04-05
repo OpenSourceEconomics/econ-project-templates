@@ -13,7 +13,7 @@ rm(list=ls())
 options(digits=3)
 
 
-source("src/library/R/project_paths.r")
+source("project_paths.r")
 
 library(foreign, lib=PATH_OUT_LIBRARY_R)
 

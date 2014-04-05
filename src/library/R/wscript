@@ -1,6 +1,4 @@
 def build(ctx):
-    ctx(features='write_project_paths', target='project_paths.r')
-    ctx.add_group()
 
     lib_names = [
         "rjson",

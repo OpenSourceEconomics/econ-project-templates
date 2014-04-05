@@ -8,7 +8,7 @@ in the analysis directory. It writes the results to Latex file
 
 '
 
-source("src/library/R/project_paths.r")
+source("project_paths.r")
 
 library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(xtable, lib=PATH_OUT_LIBRARY_R)
