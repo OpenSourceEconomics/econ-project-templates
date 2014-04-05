@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-from bld.src.library.project_paths import project_paths_join as ppj
+from bld.project_paths import project_paths_join as ppj
 
 PLOT_ARGS = {"markersize": 4, "alpha": 0.6}
 
