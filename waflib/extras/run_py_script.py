@@ -5,9 +5,6 @@
 """
 Run a Python script in the directory specified by **ctx.bldnode**.
 
-Select a Python version by specifying the **version** keyword for
-the task generator instance as integer 2 or 3. Default is 3.
-
 Any string passed to the **add_to_pythonpath** keyword will be appended to the
 PYTHONPATH environmetal variable; strings supplied to the **prepend** and
 **append** keywords will be added to the command line.
