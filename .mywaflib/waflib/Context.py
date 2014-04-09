@@ -11,13 +11,13 @@ from waflib import Utils, Errors, Logs
 import waflib.Node
 
 # the following 3 constants are updated on each new release (do not touch)
-HEXVERSION=0x1070d00
+HEXVERSION=0x1071000
 """Constant updated on new releases"""
 
-WAFVERSION="1.7.13"
+WAFVERSION="1.7.16"
 """Constant updated on new releases"""
 
-WAFREVISION="daa91dba4b881d86bc25eec90a3745ebaeece835"
+WAFREVISION="73c1705078f8c9c51a33e20f221a309d5a94b5e1"
 """Constant updated on new releases"""
 
 ABI = 98
@@ -167,11 +167,8 @@ class Context(ctx):
 			rd = run_dir
 
 		# binds the context to the nodes in use to avoid a context singleton
-		class node_class(waflib.Node.Node):
-			pass
-		self.node_class = node_class
+		self.node_class = type("Nod3", (waflib.Node.Node,), {})
 		self.node_class.__module__ = "waflib.Node"
-		self.node_class.__name__ = "Nod3"
 		self.node_class.ctx = self
 
 		self.root = self.node_class('', None)

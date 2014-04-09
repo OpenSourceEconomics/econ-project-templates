@@ -335,15 +335,15 @@ def process_use(self):
 			self.env.append_value('DEFINES', self.to_list(y.export_defines))
 
 
-	# and finally, add the uselib variables (no recursion needed)
+	# and finally, add the use variables (no recursion needed)
 	for x in names:
 		try:
 			y = self.bld.get_tgen_by_name(x)
-		except Exception:
+		except Errors.WafError:
 			if not self.env['STLIB_' + x] and not x in self.uselib:
 				self.uselib.append(x)
 		else:
-			for k in self.to_list(getattr(y, 'uselib', [])):
+			for k in self.to_list(getattr(y, 'use', [])):
 				if not self.env['STLIB_' + k] and not k in self.uselib:
 					self.uselib.append(k)
 
