@@ -289,20 +289,23 @@ def distclean(ctx):
 					pass
 				except OSError as e:
 					if e.errno != errno.ENOENT:
-						Logs.warn('project %r cannot be removed' % proj[Context.OUT])
+						Logs.warn('Could not remove %r' % proj['out_dir'])
 			else:
 				distclean_dir(proj['out_dir'])
 
 			for k in (proj['out_dir'], proj['top_dir'], proj['run_dir']):
+				p = os.path.join(k, Options.lockfile)
 				try:
-					os.remove(os.path.join(k, Options.lockfile))
+					os.remove(p)
 				except OSError as e:
 					if e.errno != errno.ENOENT:
-						Logs.warn('file %r cannot be removed' % f)
+						Logs.warn('Could not remove %r' % p)
 
-		# remove the local waf cache
-		if f.startswith('.waf') and not Options.commands:
-			shutil.rmtree(f, ignore_errors=True)
+		# remove local waf cache folders
+		if not Options.commands:
+			for x in '.waf-1. waf-1. .waf3-1. waf3-1.'.split():
+				if f.startswith(x):
+					shutil.rmtree(f, ignore_errors=True)
 
 class Dist(Context.Context):
 	'''creates an archive containing the project source code'''
@@ -565,7 +568,7 @@ def autoconfigure(execute_method):
 			else:
 				h = 0
 				for f in env['files']:
-					h = hash((h, Utils.readf(f, 'rb')))
+					h = Utils.h_list((h, Utils.readf(f, 'rb')))
 				do_config = h != env.hash
 
 		if do_config:

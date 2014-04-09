@@ -9,7 +9,7 @@ import waflib.Logs as _msg
 from waflib import Task
 from waflib.TaskGen import extension, feature, before_method, after_method
 
-cy_api_pat = re.compile(r'cdef\s*?(public|api)\w*')
+cy_api_pat = re.compile(r'\s*?cdef\s*?(public|api)\w*')
 re_cyt = re.compile(r"""
 	(?:from\s+(\w+)\s+)?   # optionally match "from foo" and capture foo
 	c?import\s(\w+|[*])    # require "import bar" and capture bar

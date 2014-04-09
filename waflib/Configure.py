@@ -334,7 +334,7 @@ class ConfigurationContext(Context.Context):
 		:type node: :py:class:`waflib.Node.Node`
 		"""
 		super(ConfigurationContext, self).post_recurse(node)
-		self.hash = hash((self.hash, node.read('rb')))
+		self.hash = Utils.h_list((self.hash, node.read('rb')))
 		self.files.append(node.abspath())
 
 	def eval_rules(self, rules):

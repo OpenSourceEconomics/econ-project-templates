@@ -7,20 +7,20 @@
 Tool Description
 ================
 
-This tool helps with finding Qt4 tools and libraries,
-and also provides syntactic sugar for using Qt4 tools.
+This tool helps with finding Qt5 tools and libraries,
+and also provides syntactic sugar for using Qt5 tools.
 
 The following snippet illustrates the tool usage::
 
 	def options(opt):
-		opt.load('compiler_cxx qt4')
+		opt.load('compiler_cxx qt5')
 
 	def configure(conf):
-		conf.load('compiler_cxx qt4')
+		conf.load('compiler_cxx qt5')
 
 	def build(bld):
 		bld(
-			features = 'qt4 cxx cxxprogram',
+			features = 'qt5 cxx cxxprogram',
 			uselib   = 'QTCORE QTGUI QTOPENGL QTSVG',
 			source   = 'main.cpp textures.qrc aboutDialog.ui',
 			target   = 'window',
@@ -32,7 +32,7 @@ to generate code.
 Usage
 =====
 
-Load the "qt4" tool.
+Load the "qt5" tool.
 
 You also need to edit your sources accordingly:
 
@@ -58,7 +58,7 @@ Note: another tool provides Qt processing that does not require
 .moc includes, see 'playground/slow_qt/'.
 
 A few options (--qt{dir,bin,...}) and environment variables
-(QT4_{ROOT,DIR,MOC,UIC,XCOMPILE}) allow finer tuning of the tool,
+(QT5_{ROOT,DIR,MOC,UIC,XCOMPILE}) allow finer tuning of the tool,
 tool path selection, etc; please read the source for more info.
 
 """
@@ -94,12 +94,12 @@ EXT_UI  = ['.ui']
 File extension for the user interface (.ui) files
 """
 
-EXT_QT4 = ['.cpp', '.cc', '.cxx', '.C']
+EXT_QT5 = ['.cpp', '.cc', '.cxx', '.C']
 """
 File extensions of C++ files that may require a .moc processing
 """
 
-QT4_LIBS = "QtCore QtGui QtUiTools QtNetwork QtOpenGL QtSql QtSvg QtTest QtXml QtXmlPatterns QtWebKit Qt3Support QtHelp QtScript QtDeclarative QtDesigner"
+QT5_LIBS = "Qt5Core Qt5Gui Qt5Widgets Qt5UiTools Qt5Network Qt5OpenGL Qt5Sql Qt5Svg Qt5Test Qt5Xml Qt5XmlPatterns Qt5WebKit Qt5Help Qt5Script Qt5Declarative Qt5Designer"
 
 class qxx(Task.classes['cxx']):
 	"""
@@ -134,7 +134,7 @@ class qxx(Task.classes['cxx']):
 	def runnable_status(self):
 		"""
 		Compute the task signature to make sure the scanner was executed. Create the
-		moc tasks by using :py:meth:`waflib.Tools.qt4.qxx.add_moc_tasks` (if necessary),
+		moc tasks by using :py:meth:`waflib.Tools.qt5.qxx.add_moc_tasks` (if necessary),
 		then postpone the task execution (there is no need to recompute the task signature).
 		"""
 		if self.moc_done:
@@ -153,7 +153,7 @@ class qxx(Task.classes['cxx']):
 		and the moc tasks can be shared in a global cache.
 
 		The defines passed to moc will then depend on task generator order. If this is not acceptable, then
-		use the tool slow_qt4 instead (and enjoy the slow builds... :-( )
+		use the tool slow_qt5 instead (and enjoy the slow builds... :-( )
 		"""
 		try:
 			moc_cache = self.generator.bld.moc_cache
@@ -225,7 +225,7 @@ class qxx(Task.classes['cxx']):
 					m_node = h_node.change_ext('.moc')
 					break
 			else:
-				for k in EXT_QT4:
+				for k in EXT_QT5:
 					if base2.endswith(k):
 						for x in [node.parent] + self.generator.includes_nodes:
 							h_node = x.find_node(base2)
@@ -298,7 +298,7 @@ def create_rcc_task(self, node):
 @extension(*EXT_UI)
 def create_uic_task(self, node):
 	"hook for uic tasks"
-	uictask = self.create_task('ui4', node)
+	uictask = self.create_task('ui5', node)
 	uictask.outputs = [self.path.find_or_declare(self.env['ui_PATTERN'] % node.name[:-3])]
 
 @extension('.ts')
@@ -306,14 +306,14 @@ def add_lang(self, node):
 	"""add all the .ts file into self.lang"""
 	self.lang = self.to_list(getattr(self, 'lang', [])) + [node]
 
-@feature('qt4')
+@feature('qt5')
 @after_method('apply_link')
-def apply_qt4(self):
+def apply_qt5(self):
 	"""
 	Add MOC_FLAGS which may be necessary for moc::
 
 		def build(bld):
-			bld.program(features='qt4', source='main.cpp', target='app', use='QTCORE')
+			bld.program(features='qt5', source='main.cpp', target='app', use='QTCORE')
 
 	The additional parameters are:
 
@@ -331,7 +331,7 @@ def apply_qt4(self):
 				x = self.path.find_resource(x + '.ts')
 			qmtasks.append(self.create_task('ts2qm', x, x.change_ext('.qm')))
 
-		if getattr(self, 'update', None) and Options.options.trans_qt4:
+		if getattr(self, 'update', None) and Options.options.trans_qt5:
 			cxxnodes = [a.inputs[0] for a in self.compiled_tasks] + [
 				a.inputs[0] for a in self.tasks if getattr(a, 'inputs', None) and a.inputs[0].name.endswith('.ui')]
 			for x in qmtasks:
@@ -357,10 +357,10 @@ def apply_qt4(self):
 				lst.append(flag)
 	self.env.append_value('MOC_FLAGS', lst)
 
-@extension(*EXT_QT4)
+@extension(*EXT_QT5)
 def cxx_hook(self, node):
 	"""
-	Re-map C++ file extensions to the :py:class:`waflib.Tools.qt4.qxx` task.
+	Re-map C++ file extensions to the :py:class:`waflib.Tools.qt5.qxx` task.
 	"""
 	return self.create_compiled_task('qxx', node)
 
@@ -405,7 +405,7 @@ class moc(Task.Task):
 	color   = 'BLUE'
 	run_str = '${QT_MOC} ${MOC_FLAGS} ${MOCCPPPATH_ST:INCPATHS} ${MOCDEFINES_ST:DEFINES} ${SRC} ${MOC_ST} ${TGT}'
 
-class ui4(Task.Task):
+class ui5(Task.Task):
 	"""
 	Process *.ui* files
 	"""
@@ -435,20 +435,20 @@ class qm2rcc(Task.Task):
 
 def configure(self):
 	"""
-	Besides the configuration options, the environment variable QT4_ROOT may be used
-	to give the location of the qt4 libraries (absolute path).
+	Besides the configuration options, the environment variable QT5_ROOT may be used
+	to give the location of the qt5 libraries (absolute path).
 
 	The detection will use the program *pkg-config* through :py:func:`waflib.Tools.config_c.check_cfg`
 	"""
-	self.find_qt4_binaries()
-	self.set_qt4_libs_to_check()
-	self.set_qt4_defines()
-	self.find_qt4_libraries()
-	self.add_qt4_rpath()
-	self.simplify_qt4_libs()
+	self.find_qt5_binaries()
+	self.set_qt5_libs_to_check()
+	self.set_qt5_defines()
+	self.find_qt5_libraries()
+	self.add_qt5_rpath()
+	self.simplify_qt5_libs()
 
 @conf
-def find_qt4_binaries(self):
+def find_qt5_binaries(self):
 	env = self.env
 	opt = Options.options
 
@@ -460,10 +460,10 @@ def find_qt4_binaries(self):
 	if qtdir:
 		qtbin = os.path.join(qtdir, 'bin')
 
-	# the qt directory has been given from QT4_ROOT - deduce the qt binary path
+	# the qt directory has been given from QT5_ROOT - deduce the qt binary path
 	if not qtdir:
-		qtdir = os.environ.get('QT4_ROOT', '')
-		qtbin = os.environ.get('QT4_BIN', None) or os.path.join(qtdir, 'bin')
+		qtdir = os.environ.get('QT5_ROOT', '')
+		qtbin = os.environ.get('QT5_BIN', None) or os.path.join(qtdir, 'bin')
 
 	if qtbin:
 		paths = [qtbin]
@@ -471,7 +471,7 @@ def find_qt4_binaries(self):
 	# no qtdir, look in the path and in /usr/local/Trolltech
 	if not qtdir:
 		paths = os.environ.get('PATH', '').split(os.pathsep)
-		paths.append('/usr/share/qt4/bin/')
+		paths.append('/usr/share/qt5/bin/')
 		try:
 			lst = Utils.listdir('/usr/local/Trolltech/')
 		except OSError:
@@ -489,8 +489,8 @@ def find_qt4_binaries(self):
 	# at the end, try to find qmake in the paths given
 	# keep the one with the highest version
 	cand = None
-	prev_ver = ['4', '0', '0']
-	for qmk in ['qmake-qt4', 'qmake4', 'qmake']:
+	prev_ver = ['5', '0', '0']
+	for qmk in ['qmake-qt5', 'qmake5', 'qmake']:
 		try:
 			qmake = self.find_program(qmk, path_list=paths)
 		except self.errors.ConfigurationError:
@@ -509,7 +509,7 @@ def find_qt4_binaries(self):
 	if cand:
 		self.env.QMAKE = cand
 	else:
-		self.fatal('Could not find qmake for qt4')
+		self.fatal('Could not find qmake for qt5')
 
 	qtbin = self.cmd_and_log([self.env.QMAKE, '-query', 'QT_INSTALL_BINS']).strip() + os.sep
 
@@ -525,26 +525,24 @@ def find_qt4_binaries(self):
 				env[var]=ret
 				break
 
-	find_bin(['uic-qt3', 'uic3'], 'QT_UIC3')
-	find_bin(['uic-qt4', 'uic'], 'QT_UIC')
+	find_bin(['uic-qt5', 'uic'], 'QT_UIC')
 	if not env['QT_UIC']:
-		self.fatal('cannot find the uic compiler for qt4')
+		self.fatal('cannot find the uic compiler for qt5')
 
 	try:
 		uicver = self.cmd_and_log(env['QT_UIC'] + " -version 2>&1").strip()
 	except self.errors.ConfigurationError:
-		self.fatal('this uic compiler is for qt3, add uic for qt4 to your path')
+		self.fatal('this uic compiler is for qt3 or qt4, add uic for qt5 to your path')
 	uicver = uicver.replace('Qt User Interface Compiler ','').replace('User Interface Compiler for Qt', '')
 	self.msg('Checking for uic version', '%s' % uicver)
-	if uicver.find(' 3.') != -1:
-		self.fatal('this uic compiler is for qt3, add uic for qt4 to your path')
+	if uicver.find(' 3.') != -1 or uicver.find(' 4.') != -1:
+		self.fatal('this uic compiler is for qt3 or qt4, add uic for qt5 to your path')
 
-	find_bin(['moc-qt4', 'moc'], 'QT_MOC')
-	find_bin(['rcc-qt4', 'rcc'], 'QT_RCC')
-	find_bin(['lrelease-qt4', 'lrelease'], 'QT_LRELEASE')
-	find_bin(['lupdate-qt4', 'lupdate'], 'QT_LUPDATE')
+	find_bin(['moc-qt5', 'moc'], 'QT_MOC')
+	find_bin(['rcc-qt5', 'rcc'], 'QT_RCC')
+	find_bin(['lrelease-qt5', 'lrelease'], 'QT_LRELEASE')
+	find_bin(['lupdate-qt5', 'lupdate'], 'QT_LUPDATE')
 
-	env['UIC3_ST']= '%s -o %s'
 	env['UIC_ST'] = '%s -o %s'
 	env['MOC_ST'] = '-o'
 	env['ui_PATTERN'] = 'ui_%s.h'
@@ -553,27 +551,27 @@ def find_qt4_binaries(self):
 	env.MOCDEFINES_ST = '-D%s'
 
 @conf
-def find_qt4_libraries(self):
-	qtlibs = getattr(Options.options, 'qtlibs', None) or os.environ.get("QT4_LIBDIR", None)
+def find_qt5_libraries(self):
+	qtlibs = getattr(Options.options, 'qtlibs', None) or os.environ.get("QT5_LIBDIR", None)
 	if not qtlibs:
 		try:
 			qtlibs = self.cmd_and_log([self.env.QMAKE, '-query', 'QT_INSTALL_LIBS']).strip()
 		except Errors.WafError:
 			qtdir = self.cmd_and_log([self.env.QMAKE, '-query', 'QT_INSTALL_PREFIX']).strip() + os.sep
 			qtlibs = os.path.join(qtdir, 'lib')
-	self.msg('Found the Qt4 libraries in', qtlibs)
+	self.msg('Found the Qt5 libraries in', qtlibs)
 
-	qtincludes =  os.environ.get("QT4_INCLUDES", None) or self.cmd_and_log([self.env.QMAKE, '-query', 'QT_INSTALL_HEADERS']).strip()
+	qtincludes =  os.environ.get("QT5_INCLUDES", None) or self.cmd_and_log([self.env.QMAKE, '-query', 'QT_INSTALL_HEADERS']).strip()
 	env = self.env
 	if not 'PKG_CONFIG_PATH' in os.environ:
-		os.environ['PKG_CONFIG_PATH'] = '%s:%s/pkgconfig:/usr/lib/qt4/lib/pkgconfig:/opt/qt4/lib/pkgconfig:/usr/lib/qt4/lib:/opt/qt4/lib' % (qtlibs, qtlibs)
+		os.environ['PKG_CONFIG_PATH'] = '%s:%s/pkgconfig:/usr/lib/qt5/lib/pkgconfig:/opt/qt5/lib/pkgconfig:/usr/lib/qt5/lib:/opt/qt5/lib' % (qtlibs, qtlibs)
 
 	try:
-		if os.environ.get("QT4_XCOMPILE", None):
+		if os.environ.get("QT5_XCOMPILE", None):
 			raise self.errors.ConfigurationError()
 		self.check_cfg(atleast_pkgconfig_version='0.1')
 	except self.errors.ConfigurationError:
-		for i in self.qt4_vars:
+		for i in self.qt5_vars:
 			uselib = i.upper()
 			if Utils.unversioned_sys_platform() == "darwin":
 				# Since at least qt 4.7.3 each library locates in separate directory
@@ -601,8 +599,8 @@ def find_qt4_libraries(self):
 				env.append_unique('INCLUDES_' + uselib, qtincludes)
 				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i))
 			else:
-				# Release library names are like QtCore4
-				for k in ("lib%s.a", "lib%s4.a", "%s.lib", "%s4.lib"):
+				# Release library names are like QtCore5
+				for k in ("lib%s.a", "lib%s5.a", "%s.lib", "%s5.lib"):
 					lib = os.path.join(qtlibs, k % i)
 					if os.path.exists(lib):
 						env.append_unique('LIB_' + uselib, i + k[k.find("%s") + 2 : k.find('.')])
@@ -615,9 +613,9 @@ def find_qt4_libraries(self):
 				env.append_unique('INCLUDES_' + uselib, qtincludes)
 				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i))
 
-				# Debug library names are like QtCore4d
+				# Debug library names are like QtCore5d
 				uselib = i.upper() + "_debug"
-				for k in ("lib%sd.a", "lib%sd4.a", "%sd.lib", "%sd4.lib"):
+				for k in ("lib%sd.a", "lib%sd5.a", "%sd.lib", "%sd5.lib"):
 					lib = os.path.join(qtlibs, k % i)
 					if os.path.exists(lib):
 						env.append_unique('LIB_' + uselib, i + k[k.find("%s") + 2 : k.find('.')])
@@ -630,11 +628,11 @@ def find_qt4_libraries(self):
 				env.append_unique('INCLUDES_' + uselib, qtincludes)
 				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i))
 	else:
-		for i in self.qt4_vars_debug + self.qt4_vars:
+		for i in self.qt5_vars_debug + self.qt5_vars:
 			self.check_cfg(package=i, args='--cflags --libs', mandatory=False)
 
 @conf
-def simplify_qt4_libs(self):
+def simplify_qt5_libs(self):
 	# the libpaths make really long command-lines
 	# remove the qtcore ones from qtgui, etc
 	env = self.env
@@ -654,11 +652,11 @@ def simplify_qt4_libs(self):
 					accu.append(lib)
 				env['LIBPATH_'+var] = accu
 
-	process_lib(self.qt4_vars,       'LIBPATH_QTCORE')
-	process_lib(self.qt4_vars_debug, 'LIBPATH_QTCORE_DEBUG')
+	process_lib(self.qt5_vars,       'LIBPATH_QTCORE')
+	process_lib(self.qt5_vars_debug, 'LIBPATH_QTCORE_DEBUG')
 
 @conf
-def add_qt4_rpath(self):
+def add_qt5_rpath(self):
 	# rpath if wanted
 	env = self.env
 	if getattr(Options.options, 'want_rpath', False):
@@ -675,23 +673,23 @@ def add_qt4_rpath(self):
 								continue
 						accu.append('-Wl,--rpath='+lib)
 					env['RPATH_'+var] = accu
-		process_rpath(self.qt4_vars,       'LIBPATH_QTCORE')
-		process_rpath(self.qt4_vars_debug, 'LIBPATH_QTCORE_DEBUG')
+		process_rpath(self.qt5_vars,       'LIBPATH_QTCORE')
+		process_rpath(self.qt5_vars_debug, 'LIBPATH_QTCORE_DEBUG')
 
 @conf
-def set_qt4_libs_to_check(self):
-	if not hasattr(self, 'qt4_vars'):
-		self.qt4_vars = QT4_LIBS
-	self.qt4_vars = Utils.to_list(self.qt4_vars)
-	if not hasattr(self, 'qt4_vars_debug'):
-		self.qt4_vars_debug = [a + '_debug' for a in self.qt4_vars]
-	self.qt4_vars_debug = Utils.to_list(self.qt4_vars_debug)
+def set_qt5_libs_to_check(self):
+	if not hasattr(self, 'qt5_vars'):
+		self.qt5_vars = QT5_LIBS
+	self.qt5_vars = Utils.to_list(self.qt5_vars)
+	if not hasattr(self, 'qt5_vars_debug'):
+		self.qt5_vars_debug = [a + '_debug' for a in self.qt5_vars]
+	self.qt5_vars_debug = Utils.to_list(self.qt5_vars_debug)
 
 @conf
-def set_qt4_defines(self):
+def set_qt5_defines(self):
 	if sys.platform != 'win32':
 		return
-	for x in self.qt4_vars:
+	for x in self.qt5_vars:
 		y = x[2:].upper()
 		self.env.append_unique('DEFINES_%s' % x.upper(), 'QT_%s_LIB' % y)
 		self.env.append_unique('DEFINES_%s_DEBUG' % x.upper(), 'QT_%s_LIB' % y)
@@ -711,5 +709,5 @@ def options(opt):
 	for i in 'qtdir qtbin qtlibs'.split():
 		opt.add_option('--'+i, type='string', default='', dest=i)
 
-	opt.add_option('--translate', action="store_true", help="collect translation strings", dest="trans_qt4", default=False)
+	opt.add_option('--translate', action="store_true", help="collect translation strings", dest="trans_qt5", default=False)
 

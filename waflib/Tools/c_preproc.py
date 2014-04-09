@@ -478,7 +478,7 @@ def reduce_tokens(lst, defs, ban=[]):
 							if one_param: args.append(one_param)
 							break
 						elif v2 == ',':
-							if not one_param: raise PreprocError("empty param in funcall %s" % p)
+							if not one_param: raise PreprocError("empty param in funcall %s" % v)
 							args.append(one_param)
 							one_param = []
 						else:
@@ -645,7 +645,11 @@ def extract_macro(txt):
 		return (name, [params, t[i+1:]])
 	else:
 		(p, v) = t[0]
-		return (v, [[], t[1:]])
+		if len(t) > 1:
+			return (v, [[], t[1:]])
+		else:
+			# empty define, assign an empty token
+			return (v, [[], [('T','')]])
 
 re_include = re.compile('^\s*(<(?P<a>.*)>|"(?P<b>.*)")')
 def extract_include(txt, defs):

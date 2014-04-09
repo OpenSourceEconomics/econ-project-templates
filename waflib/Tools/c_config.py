@@ -145,7 +145,7 @@ def parse_flags(self, line, uselib_store, env=None, force_static=False):
 		if st == '-I' or st == '/I':
 			if not ot: ot = lst.pop(0)
 			appu('INCLUDES_' + uselib, [ot])
-		elif st == '-include':
+		elif st == '-i':
 			tmp = [x, lst.pop(0)]
 			app('CFLAGS', tmp)
 			app('CXXFLAGS', tmp)
@@ -303,6 +303,16 @@ def exec_cfg(self, kw):
 	for key, val in defi.items():
 		lst.append('--define-variable=%s=%s' % (key, val))
 
+	static = False
+	if 'args' in kw:
+		args = Utils.to_list(kw['args'])
+		if '--static' in args or '--static-libs' in args:
+			static = True
+		lst += args
+
+	# tools like pkgconf expect the package argument after the -- ones -_-
+	lst.extend(Utils.to_list(kw['package']))
+
 	# retrieving variables of a module
 	if 'variables' in kw:
 		env = kw.get('env', self.env)
@@ -315,16 +325,6 @@ def exec_cfg(self, kw):
 		if not 'okmsg' in kw:
 			kw['okmsg'] = 'yes'
 		return
-
-	static = False
-	if 'args' in kw:
-		args = Utils.to_list(kw['args'])
-		if '--static' in args or '--static-libs' in args:
-			static = True
-		lst += args
-
-	# tools like pkgconf expect the package argument after the -- ones -_-
-	lst.extend(Utils.to_list(kw['package']))
 
 	# so we assume the command-line will output flags to be parsed afterwards
 	ret = self.cmd_and_log(lst)
@@ -377,6 +377,8 @@ def check_cfg(self, *k, **kw):
 		else:
 			self.fatal('The configuration failed')
 	else:
+		if not ret:
+			ret = True
 		kw['success'] = ret
 		if 'okmsg' in kw:
 			self.end_msg(self.ret_msg(kw['okmsg'], kw))
@@ -560,8 +562,8 @@ def validate_c(self, kw):
 
 	if 'define_name' in kw:
 		self.undefine(kw['define_name'])
-
-	assert 'msg' in kw, 'invalid parameters, read http://freehackers.org/~tnagy/wafbook/single.html#config_helpers_c'
+	if not 'msg' in kw:
+		self.fatal('missing "msg" in conf.check(...)')
 
 @conf
 def post_check(self, *k, **kw):
@@ -602,14 +604,12 @@ def post_check(self, *k, **kw):
 
 		for k in _vars:
 			lk = k.lower()
-			if k == 'INCLUDES': lk = 'includes'
-			if k == 'DEFINES': lk = 'defines'
 			if lk in kw:
 				val = kw[lk]
 				# remove trailing slash
 				if isinstance(val, str):
 					val = val.rstrip(os.path.sep)
-				self.env.append_unique(k + '_' + kw['uselib_store'], val)
+				self.env.append_unique(k + '_' + kw['uselib_store'], Utils.to_list(val))
 	return is_success
 
 @conf
@@ -1116,7 +1116,10 @@ def get_cc_version(conf, cc, gcc=False, icc=False):
 			if isD('__clang__'):
 				conf.env['CC_VERSION'] = (k['__clang_major__'], k['__clang_minor__'], k['__clang_patchlevel__'])
 			else:
-				conf.env['CC_VERSION'] = (k['__GNUC__'], k['__GNUC_MINOR__'], k['__GNUC_PATCHLEVEL__'])
+				try:
+					conf.env['CC_VERSION'] = (k['__GNUC__'], k['__GNUC_MINOR__'], k['__GNUC_PATCHLEVEL__'])
+				except KeyError:
+					conf.env['CC_VERSION'] = (k['__GNUC__'], k['__GNUC_MINOR__'], 0)
 	return k
 
 @conf
@@ -1147,8 +1150,12 @@ def get_suncc_version(conf, cc):
 	cmd = cc + ['-V']
 	try:
 		out, err = conf.cmd_and_log(cmd, output=0)
-	except Errors.WafError:
-		conf.fatal('Could not find suncc %r' % cmd)
+	except Errors.WafError as e:
+		# Older versions of the compiler exit with non-zero status when reporting their version
+		if not (hasattr(e, 'returncode') and hasattr(e, 'stdout') and hasattr(e, 'stderr')):
+			conf.fatal('Could not find suncc %r' % cmd)
+		out = e.stdout
+		err = e.stderr
 
 	version = (out or err)
 	version = version.split('\n')[0]
