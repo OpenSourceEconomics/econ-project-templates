@@ -4,6 +4,9 @@
 Getting started
 ***************
 
+Basic steps
+===========
+
 The basic steps are very easy:
 
     #. If you are familiar with Git, clone the `econ-project-templates repository <https://github.com/hmgaudecker/econ-project-templates>`_ and switch to the branch named after the main language in your project.

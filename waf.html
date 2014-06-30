@@ -124,6 +124,10 @@
 </ul>
 </div></blockquote>
 <p>Waf now knows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <tt class="docutils literal"><span class="pre">ctx</span></tt> argument that is passed to all functions (configure, build, ...) in Waf is short for &#8220;context&#8221;. It holds all kinds of methods and variables relevant for executing the task (configure, build, ...) at hand. See the Waf documentation (<a class="reference external" href="http://docs.waf.googlecode.com/git/book_17/single.html">here</a> or <a class="reference external" href="http://docs.waf.googlecode.com/git/apidocs_17/index.html#">here</a>).</p>
+</div>
 </div>
 <div class="section" id="specifying-dependencies-and-the-build-phase">
 <h2>Specifying dependencies and the build phase<a class="headerlink" href="#specifying-dependencies-and-the-build-phase" title="Permalink to this headline">¶</a></h2>
@@ -332,7 +336,7 @@ python waf.py install
 <blockquote>
 <div><div class="figure">
 <a class="reference internal image-reference" href="_images/waf_build_phase.png"><img alt="_images/waf_build_phase.png" src="_images/waf_build_phase.png" style="width: 30em;" /></a>
-<p class="caption"><em>The build phase of a project, reproduced from</em> <a class="reference internal" href="zreferences.html#nagy13" id="id1">[5]</a>, <em>section 4.1.4</em></p>
+<p class="caption"><em>The build phase of a project, reproduced from</em> <a class="reference internal" href="zreferences.html#nagy13" id="id2">[Nag13]</a>, <em>section 4.1.4</em></p>
 </div>
 </div></blockquote>
 <p>The important part to remember is that there is a logical and temporal separation between</p>
@@ -383,7 +387,7 @@ python waf.py install
 </li>
 </ol>
 </div></blockquote>
-<p>We have just touched upon the tip of the iceberg here; Waf has many more goodies to offer. The Waf book <a class="reference internal" href="zreferences.html#nagy13" id="id2">[5]</a> is an excellent source &#8211; you just need to get used to the programmer jargon a little bit and develop a feeling for its background in building software.</p>
+<p>We have just touched upon the tip of the iceberg here; Waf has many more goodies to offer. The Waf book <a class="reference internal" href="zreferences.html#nagy13" id="id3">[Nag13]</a> is an excellent source &#8211; you just need to get used to the programmer jargon a little bit and develop a feeling for its background in building software.</p>
 </div>
 </div>
 
@@ -454,7 +458,7 @@ python waf.py install
 
     <div class="footer">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking
