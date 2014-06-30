@@ -1231,9 +1231,17 @@ def update_outputs(cls):
 			prev_sig = bld.task_sigs[self.uid()]
 			if prev_sig == self.signature():
 				for x in self.outputs:
+					if not x.is_child_of(bld.bldnode):
+						# special case of files created in the source directory
+						# hash them here for convenience -_-
+						x.sig = Utils.h_file(x.abspath())
 					if not x.sig or bld.task_sigs[x.abspath()] != self.uid():
 						return RUN_ME
 				return SKIP_ME
+		except OSError:
+			pass
+		except IOError:
+			pass
 		except KeyError:
 			pass
 		except IndexError:
@@ -1244,5 +1252,4 @@ def update_outputs(cls):
 	cls.runnable_status = runnable_status
 
 	return cls
-
 

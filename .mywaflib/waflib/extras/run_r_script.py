@@ -24,7 +24,7 @@ Usage::
 
 from waflib import Task, TaskGen, Logs
 
-R_COMMANDS = ['RScript']
+R_COMMANDS = ['RScript', 'Rscript']
 
 
 def configure(ctx):

@@ -207,7 +207,7 @@ def h_file(fname):
 		f.close()
 	return m.digest()
 
-if hasattr(os, 'O_NOINHERIT'):
+if hasattr(os, 'O_NOINHERIT') and sys.hexversion < 0x3040000:
 	def readf_win32(f, m='r', encoding='ISO8859-1'):
 		flags = os.O_NOINHERIT | os.O_RDONLY
 		if 'b' in m:
@@ -478,7 +478,8 @@ def quote_define_name(s):
 
 def h_list(lst):
 	"""
-	Hash lists. For tuples, using hash(tup) is much more efficient
+	Hash lists. For tuples, using hash(tup) is much more efficient,
+	except on python >= 3.3 where hash randomization assumes everybody is running a web application.
 
 	:param lst: list to hash
 	:type lst: list of strings

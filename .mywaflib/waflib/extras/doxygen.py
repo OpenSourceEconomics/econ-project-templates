@@ -68,6 +68,11 @@ class doxygen(Task.Task):
 			if not self.pars.get('OUTPUT_DIRECTORY'):
 				self.pars['OUTPUT_DIRECTORY'] = self.inputs[0].parent.get_bld().abspath()
 
+			# Override with any parameters passed to the task generator
+			if getattr(self.generator, 'pars', None):
+				for k, v in self.generator.pars.iteritems():
+					self.pars[k] = v
+
 			self.doxy_inputs = getattr(self, 'doxy_inputs', [])
 			if not self.pars.get('INPUT'):
 				self.doxy_inputs.append(self.inputs[0].parent)

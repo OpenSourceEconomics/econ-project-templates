@@ -28,7 +28,7 @@ def add_mmd_cc(self):
 @feature('cxx')
 @before_method('process_source')
 def add_mmd_cxx(self):
-	if self.env.CC_NAME in supported_compilers and self.env.get_flat('CXXFLAGS').find(preprocessor_flag) < 0:
+	if self.env.CXX_NAME in supported_compilers and self.env.get_flat('CXXFLAGS').find(preprocessor_flag) < 0:
 		self.env.append_value('CXXFLAGS', [preprocessor_flag])
 
 def scan(self):

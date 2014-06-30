@@ -414,8 +414,6 @@ def apply_tex(self):
 		elif self.type == 'pdflatex':
 			if 'ps' in outs:
 				self.create_task('pdf2ps', task.outputs, node.change_ext('.ps'))
-			if 'png' in outs:
-				task.outputs.append(node.change_ext('.png'))
 	self.source = []
 
 def configure(self):

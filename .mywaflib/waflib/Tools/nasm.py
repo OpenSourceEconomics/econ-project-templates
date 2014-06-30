@@ -6,6 +6,7 @@
 Nasm tool (asm processing)
 """
 
+import os
 import waflib.Tools.asm # leave this
 from waflib.TaskGen import feature
 
@@ -22,3 +23,4 @@ def configure(conf):
 	conf.env.AS_TGT_F = ['-o']
 	conf.env.ASLNK_TGT_F = ['-o']
 	conf.load('asm')
+	conf.env.ASMPATH_ST = '-I%s' + os.sep
