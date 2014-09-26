@@ -29,6 +29,7 @@ def options(opt):
 
 def configure(ctx):
     ctx.env.PYTHONPATH = os.getcwd()
+    ctx.env.PDFLATEXFLAGS = '-shell-escape'
     ctx.load('tex')
     ctx.load('run_py_script')
     ctx.load('sphinx_build')

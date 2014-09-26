@@ -14,7 +14,7 @@ Directory structure
 
 The left node of the following graph shows the contents of the project root directory after executing ``python waf.py configure build install``:
 
-.. figure:: ../bld/src/examples/project_hierarchies_big_pic.png
+.. figure:: examples_bld/project_hierarchies_big_pic.png
    :width: 50em
 
 Files and directories in square brackets are constructed by Waf. You immediately see the **separation of inputs and outputs** (one of our guiding principles) at work:
@@ -45,7 +45,7 @@ Some differences:
 
 As an example of how things look further down in the hierarchy, consider the *analysis* step that was described :ref:`here <waf_analysis>`:
 
-.. figure:: ../bld/src/examples/project_hierarchies_analysis.png
+.. figure:: examples_bld/project_hierarchies_analysis.png
    :width: 30em
 
 Remember that the script *root/src/analysis/schelling.py* is run with an argument *baseline* or *max_moves_2*. The code then accesses the respective file in *root/src/model_specs*, *root/src/model_code/agent.py*, and *bld/out/data/initial_locations.csv* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.

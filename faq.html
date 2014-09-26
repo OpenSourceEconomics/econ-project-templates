@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Search &mdash; Tutorial: Templates for reproducible research projects</title>
+    <title>Frequently answered questions &mdash; Tutorial: Templates for reproducible research projects</title>
     
     <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,14 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="_static/searchtools.js"></script>
     <link rel="top" title="Tutorial: Templates for reproducible research projects" href="index.html" />
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
-  
+    <link rel="next" title="References" href="zreferences.html" />
+    <link rel="prev" title="Getting started" href="getting_started.html" />
 
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
@@ -51,7 +46,6 @@
 
 </script>
 
-
   </head>
   <body>
 
@@ -61,6 +55,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zreferences.html" title="References"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting started"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>  
@@ -70,35 +70,66 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1 id="search-documentation">Search</h1>
-  <div id="fallback" class="admonition warning">
-  <script type="text/javascript">$('#fallback').hide();</script>
-  <p>
-    Please activate JavaScript to enable the search
-    functionality.
-  </p>
-  </div>
-  <p>
-    From here you can search these documents. Enter your search
-    words into the box below and click "search". Note that the search
-    function will automatically search for all of the words. Pages
-    containing fewer words won't appear in the result list.
-  </p>
-  <form action="" method="get">
-    <input type="text" name="q" value="" />
-    <input type="submit" value="search" />
-    <span id="search-progress" style="padding-left: 10px"></span>
-  </form>
-  
-  <div id="search-results">
-  
-  </div>
+  <div class="section" id="frequently-answered-questions">
+<span id="faq"></span><h1>Frequently answered questions<a class="headerlink" href="#frequently-answered-questions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="latex-waf">
+<h2>LaTeX &amp; Waf<a class="headerlink" href="#latex-waf" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">'error</span> <span class="pre">when</span> <span class="pre">calling</span> <span class="pre">biber,</span> <span class="pre">check</span> <span class="pre">xxx.blg</span> <span class="pre">for</span> <span class="pre">errors'</span></tt></p>
+<p>This is a well-known bug in biber that occurs occasionally. Nicely explained <a class="reference external" href="http://tex.stackexchange.com/questions/140814/biblatex-biber-fails-with-a-strange-error-about-missing-recode-data-xml-file">here</a>.</p>
+<p>Short excerpt from LaTeX Stack Exchange for the fix:</p>
+<blockquote>
+<div><p>You need to delete the relevant cache folders and compile your document again. You can find the location of the cache folder by looking at the .blg file, or by using the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">biber</span> <span class="o">--</span><span class="n">cache</span>
+</pre></div>
+</div>
+<p>On Linux and Mac, this can be combined to delete the offending folder in one command:</p>
+<div class="highlight-python"><div class="highlight"><pre>rm -rf `biber --cache`
+</pre></div>
+</div>
+</div></blockquote>
+<p>In my experience, it helps to run waf on only one core for the first time you compile multiple LaTeX documents (once Biber&#8217;s cache is built correctly, you can do this in parallel again):</p>
+<div class="highlight-python"><div class="highlight"><pre>python waf.py -j1
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Frequently answered questions</a><ul>
+<li><a class="reference internal" href="#latex-waf">LaTeX &amp; Waf</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="previous chapter">Getting started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zreferences.html"
+                        title="next chapter">References</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -109,6 +140,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="zreferences.html" title="References"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting started"
+             >previous</a> |</li>
         <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>

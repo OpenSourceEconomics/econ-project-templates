@@ -59,7 +59,7 @@ Specifying dependencies and the build phase
 
 Let us go step-by-step through the entire dependency graph of the project from the section on :ref:`DAG's <dag_s>`, which is reproduced here for convenience:
 
-.. figure:: ../bld/src/examples/schelling_dependencies.png
+.. figure:: examples_bld/schelling_dependencies.png
    :width: 50em
 
 Remember the colors of the edges follow the step of the analysis; we will split  our description along the same lines. First, we need to show how to keep the Waf code in separate directories (else it would become quickly unmanageable).
@@ -93,7 +93,7 @@ The "data management" step
 
 The dependency structure at this step of the analysis is particularly simple, as we have one source and one target:
 
-.. figure:: ../bld/src/examples/schelling_dependencies_data_mgmt.png
+.. figure:: examples_bld/schelling_dependencies_data_mgmt.png
    :width: 30em
 
 This is the entire content of the file *src/data_management/wscript*:
@@ -116,7 +116,7 @@ The "analysis" step
 
 We concentrate our discussion on the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:
 
-.. figure:: ../bld/src/examples/schelling_dependencies_main.png
+.. figure:: examples_bld/schelling_dependencies_main.png
    :width: 40em
 
 Just a reminder on the purpose of each of these files:
@@ -154,7 +154,7 @@ The "final" step
 
 Again, we concentrate on the baseline model. 
 
-.. figure:: ../bld/src/examples/schelling_dependencies_final.png
+.. figure:: examples_bld/schelling_dependencies_final.png
    :width: 40em
 
 This step is shown here mostly for completeness, there is nothing really new in the *wscript* file:
@@ -169,7 +169,7 @@ The "paper" step
 
 The pdf with the final "paper" depends on two additional files that were not shown in the full dependency graph for legibility reasons, a reference bibliography, and a LaTeX-file with the formula for the agents' decision rule (specified in a separate file so it can be re-used in the presentation, which is omitted from the graph as well):
 
-.. figure:: ../bld/src/examples/schelling_dependencies_paper.png
+.. figure:: examples_bld/schelling_dependencies_paper.png
    :width: 40em
 
 The corresponding file *src/paper/wscript* is particularly simple: 
