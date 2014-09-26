@@ -59,6 +59,11 @@ def post_install(ctx):
 
 def build(ctx):
 
+    # Symlink needed so that pdf and html builders both work.
+    ctx(
+        tgt='../bld',
+        rule='ln -s "bld" "../bld"'
+    )
     create_empty_init_py_wrapper(ctx)
     ctx.recurse('examples')
     ctx.add_group()
