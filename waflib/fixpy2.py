@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2010 (ita)
+# Thomas Nagy, 2010-2014 (ita)
 
 """
 burn a book, save a tree
 """
 
 import os
+
 all_modifs = {}
 
 def fixdir(dir):

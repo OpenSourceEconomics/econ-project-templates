@@ -13,7 +13,6 @@ def find_gfortran(conf):
 	"""Find the gfortran program (will look in the environment variable 'FC')"""
 	fc = conf.find_program(['gfortran','g77'], var='FC')
 	# (fallback to g77 for systems, where no gfortran is available)
-	fc = conf.cmd_to_list(fc)
 	conf.get_gfortran_version(fc)
 	conf.env.FC_NAME = 'GFORTRAN'
 

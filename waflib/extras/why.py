@@ -50,7 +50,7 @@ def runnable_status(self):
 	if ret == Task.RUN_ME:
 		try:
 			old_sigs = self.generator.bld.task_sigs[self.uid()]
-		except:
+		except (KeyError, AttributeError):
 			Logs.debug("task: task must run as no previous signature exists")
 		else:
 			new_sigs = self.cache_sig

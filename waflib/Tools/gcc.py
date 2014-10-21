@@ -8,6 +8,8 @@
 gcc/llvm detection.
 """
 
+import os, sys
+from waflib import Configure, Options, Utils
 from waflib.Tools import ccroot, ar
 from waflib.Configure import conf
 
@@ -17,10 +19,8 @@ def find_gcc(conf):
 	Find the program gcc, and if present, try to detect its version number
 	"""
 	cc = conf.find_program(['gcc', 'cc'], var='CC')
-	cc = conf.cmd_to_list(cc)
 	conf.get_cc_version(cc, gcc=True)
 	conf.env.CC_NAME = 'gcc'
-	conf.env.CC      = cc
 
 @conf
 def gcc_common_flags(conf):

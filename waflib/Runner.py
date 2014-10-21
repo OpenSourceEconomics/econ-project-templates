@@ -224,20 +224,6 @@ class Parallel(object):
 		self.dirty = True
 		return tsk
 
-	def error_handler(self, tsk):
-		"""
-		Called when a task cannot be executed. The flag :py:attr:`waflib.Runner.Parallel.stop` is set, unless
-		the build is executed with::
-
-			$ waf build -k
-
-		:param tsk: task
-		:type tsk: :py:attr:`waflib.Task.TaskBase`
-		"""
-		if not self.bld.keep:
-			self.stop = True
-		self.error.append(tsk)
-
 	def add_task(self, tsk):
 		"""
 		Pass a task to a consumer.
@@ -279,6 +265,45 @@ class Parallel(object):
 				put_pool(x)
 			self.pool = []
 
+	def skip(self, tsk):
+		tsk.hasrun = Task.SKIPPED
+
+	def error_handler(self, tsk):
+		"""
+		Called when a task cannot be executed. The flag :py:attr:`waflib.Runner.Parallel.stop` is set, unless
+		the build is executed with::
+
+			$ waf build -k
+
+		:param tsk: task
+		:type tsk: :py:attr:`waflib.Task.TaskBase`
+		"""
+		if not self.bld.keep:
+			self.stop = True
+		self.error.append(tsk)
+
+	def task_status(self, tsk):
+		try:
+			return tsk.runnable_status()
+		except Exception:
+			self.processed += 1
+			tsk.err_msg = Utils.ex_stack()
+			if not self.stop and self.bld.keep:
+				self.skip(tsk)
+				if self.bld.keep == 1:
+					# if -k stop at the first exception, if -kk try to go as far as possible
+					if Logs.verbose > 1 or not self.error:
+						self.error.append(tsk)
+					self.stop = True
+				else:
+					if Logs.verbose > 1:
+						self.error.append(tsk)
+				return Task.EXCEPTION
+			tsk.hasrun = Task.EXCEPTION
+
+			self.error_handler(tsk)
+			return Task.EXCEPTION
+
 	def start(self):
 		"""
 		Give tasks to :py:class:`waflib.Runner.TaskConsumer` instances until the build finishes or the ``stop`` flag is set.
@@ -309,35 +334,9 @@ class Parallel(object):
 			if self.stop: # stop immediately after a failure was detected
 				break
 
-			try:
-				st = tsk.runnable_status()
-			except Exception:
-				self.processed += 1
-				# TODO waf 1.7 this piece of code should go in the error_handler
-				tsk.err_msg = Utils.ex_stack()
-				if not self.stop and self.bld.keep:
-					tsk.hasrun = Task.SKIPPED
-					if self.bld.keep == 1:
-						# if -k stop at the first exception, if -kk try to go as far as possible
-						if Logs.verbose > 1 or not self.error:
-							self.error.append(tsk)
-						self.stop = True
-					else:
-						if Logs.verbose > 1:
-							self.error.append(tsk)
-					continue
-				tsk.hasrun = Task.EXCEPTION
-				self.error_handler(tsk)
-				continue
 
-			if st == Task.ASK_LATER:
-				self.postpone(tsk)
-			elif st == Task.SKIP_ME:
-				self.processed += 1
-				tsk.hasrun = Task.SKIPPED
-				self.add_more_tasks(tsk)
-			else:
-				# run me: put the task in ready queue
+			st = self.task_status(tsk)
+			if st == Task.RUN_ME:
 				tsk.position = (self.processed, self.total)
 				self.count += 1
 				tsk.master = self
@@ -347,6 +346,12 @@ class Parallel(object):
 					tsk.process()
 				else:
 					self.add_task(tsk)
+			if st == Task.ASK_LATER:
+				self.postpone(tsk)
+			elif st == Task.SKIP_ME:
+				self.processed += 1
+				self.skip(tsk)
+				self.add_more_tasks(tsk)
 
 		# self.count represents the tasks that have been made available to the consumer threads
 		# collect all the tasks after an error else the message may be incomplete

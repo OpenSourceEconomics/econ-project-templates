@@ -22,13 +22,20 @@ Example::
 			prompt   = 1, # 0 for the batch mode
 			)
 
-To configure with a special program use::
+Notes:
 
-	$ PDFLATEX=luatex waf configure
+- To configure with a special program, use::
+
+     $ PDFLATEX=luatex waf configure
+
+- This tool doesn't use the target attribute of the task generator
+  (``bld(target=...)``); the target file name is built from the source
+  base name and the out type(s)
+
 """
 
 import os, re
-from waflib import Utils, Task, Errors, Logs
+from waflib import Utils, Task, Errors, Logs, Node
 from waflib.TaskGen import feature, before_method
 
 re_bibunit = re.compile(r'\\(?P<type>putbib)\[(?P<file>[^\[\]]*)\]',re.M)
@@ -49,7 +56,7 @@ def bibunitscan(self):
 	for match in re_bibunit.finditer(code):
 		path = match.group('file')
 		if path:
-			for k in ['', '.bib']:
+			for k in ('', '.bib'):
 				# add another loop for the tex include paths?
 				Logs.debug('tex: trying %s%s' % (path, k))
 				fi = node.parent.find_resource(path + k)
@@ -62,17 +69,20 @@ def bibunitscan(self):
 	Logs.debug("tex: found the following bibunit files: %s" % nodes)
 	return nodes
 
-exts_deps_tex = ['', '.ltx', '.tex', '.bib', '.pdf', '.png', '.eps', '.ps']
+exts_deps_tex = ['', '.ltx', '.tex', '.bib', '.pdf', '.png', '.eps', '.ps', '.sty']
 """List of typical file extensions included in latex files"""
 
 exts_tex = ['.ltx', '.tex']
 """List of typical file extensions that contain latex"""
 
-re_tex = re.compile(r'\\(?P<type>include|bibliography|putbib|includegraphics|input|import|bringin|lstinputlisting)(\[[^\[\]]*\])?{(?P<file>[^{}]*)}',re.M)
+re_tex = re.compile(r'\\(?P<type>usepackage|RequirePackage|include|bibliography([^\[\]{}]*)|putbib|includegraphics|input|import|bringin|lstinputlisting)(\[[^\[\]]*\])?{(?P<file>[^{}]*)}',re.M)
 """Regexp for expressions that may include latex files"""
 
 g_bibtex_re = re.compile('bibdata', re.M)
 """Regexp for bibtex files"""
+
+g_glossaries_re = re.compile('\\@newglossary', re.M)
+"""Regexp for expressions that create glossaries"""
 
 class tex(Task.Task):
 	"""
@@ -89,6 +99,11 @@ class tex(Task.Task):
 	makeindex_fun, _ = Task.compile_fun('${MAKEINDEX} ${MAKEINDEXFLAGS} ${SRCFILE}', shell=False)
 	makeindex_fun.__doc__ = """
 	Execute the program **makeindex**
+	"""
+
+	makeglossaries_fun, _ = Task.compile_fun('${MAKEGLOSSARIES} ${SRCFILE}', shell=False)
+	makeglossaries_fun.__doc__ = """
+	Execute the program **makeglossaries**
 	"""
 
 	def exec_command(self, cmd, **kw):
@@ -156,13 +171,28 @@ class tex(Task.Task):
 			code = node.read()
 			global re_tex
 			for match in re_tex.finditer(code):
+
+				multibib = match.group('type')
+				if multibib and multibib.startswith('bibliography'):
+					multibib = multibib[len('bibliography'):]
+					if multibib.startswith('style'):
+						continue
+				else:
+					multibib = None
+
 				for path in match.group('file').split(','):
 					if path:
 						add_name = True
 						found = None
 						for k in exts_deps_tex:
-							Logs.debug('tex: trying %s%s' % (path, k))
-							found = node.parent.find_resource(path + k)
+
+							# issue 1067, scan in all texinputs folders
+							for up in self.texinputs_nodes:
+								Logs.debug('tex: trying %s%s' % (path, k))
+								found = up.find_resource(path + k)
+								if found:
+									break
+
 
 							for tsk in self.generator.tasks:
 								if not found or found in tsk.outputs:
@@ -174,6 +204,14 @@ class tex(Task.Task):
 									if found.name.endswith(ext):
 										parse_node(found)
 										break
+
+							# multibib stuff
+							if found and multibib and found.name.endswith('.bib'):
+								try:
+									self.multibibs.append(found)
+								except AttributeError:
+									self.multibibs = [found]
+
 							# no break, people are crazy
 						if add_name:
 							names.append(path)
@@ -210,13 +248,20 @@ class tex(Task.Task):
 				continue
 
 			if g_bibtex_re.findall(ct):
-				Logs.warn('calling bibtex')
+				Logs.info('calling bibtex')
 
 				self.env.env = {}
 				self.env.env.update(os.environ)
-				self.env.env.update({'BIBINPUTS': self.TEXINPUTS, 'BSTINPUTS': self.TEXINPUTS})
+				self.env.env.update({'BIBINPUTS': self.texinputs(), 'BSTINPUTS': self.texinputs()})
 				self.env.SRCFILE = aux_node.name[:-4]
 				self.check_status('error when calling bibtex', self.bibtex_fun())
+
+		for node in getattr(self, 'multibibs', []):
+			self.env.env = {}
+			self.env.env.update(os.environ)
+			self.env.env.update({'BIBINPUTS': self.texinputs(), 'BSTINPUTS': self.texinputs()})
+			self.env.SRCFILE = node.name[:-4]
+			self.check_status('error when calling bibtex', self.bibtex_fun())
 
 	def bibunits(self):
 		"""
@@ -229,12 +274,12 @@ class tex(Task.Task):
 			Logs.error('error bibunitscan')
 		else:
 			if bibunits:
-				fn  = ['bu' + str(i) for i in xrange(1, len(bibunits) + 1)]
+				fn  = ['bu' + str(i) for i in range(1, len(bibunits) + 1)]
 				if fn:
-					Logs.warn('calling bibtex on bibunits')
+					Logs.info('calling bibtex on bibunits')
 
 				for f in fn:
-					self.env.env = {'BIBINPUTS': self.TEXINPUTS, 'BSTINPUTS': self.TEXINPUTS}
+					self.env.env = {'BIBINPUTS': self.texinputs(), 'BSTINPUTS': self.texinputs()}
 					self.env.SRCFILE = f
 					self.check_status('error when calling bibtex', self.bibtex_fun())
 
@@ -243,13 +288,14 @@ class tex(Task.Task):
 		Look on the filesystem if there is a *.idx* file to process. If yes, execute
 		:py:meth:`waflib.Tools.tex.tex.makeindex_fun`
 		"""
+		self.idx_node = self.inputs[0].change_ext('.idx')
 		try:
 			idx_path = self.idx_node.abspath()
 			os.stat(idx_path)
 		except OSError:
-			Logs.warn('index file %s absent, not calling makeindex' % idx_path)
+			Logs.info('index file %s absent, not calling makeindex' % idx_path)
 		else:
-			Logs.warn('calling makeindex')
+			Logs.info('calling makeindex')
 
 			self.env.SRCFILE = self.idx_node.name
 			self.env.env = {}
@@ -262,6 +308,28 @@ class tex(Task.Task):
 		p = self.inputs[0].parent.get_bld()
 		if os.path.exists(os.path.join(p.abspath(), 'btaux.aux')):
 			self.aux_nodes += p.ant_glob('*[0-9].aux')
+
+	def makeglossaries(self):
+		src_file = self.inputs[0].abspath()
+		base_file = os.path.basename(src_file)
+		base, _ = os.path.splitext(base_file)
+		for aux_node in self.aux_nodes:
+			try:
+				ct = aux_node.read()
+			except (OSError, IOError):
+				Logs.error('Error reading %s: %r' % aux_node.abspath())
+				continue
+
+			if g_glossaries_re.findall(ct):
+				if not self.env.MAKEGLOSSARIES:
+					raise Errors.WafError("The program 'makeglossaries' is missing!")
+				Logs.warn('calling makeglossaries')
+				self.env.SRCFILE = base
+				self.check_status('error when calling makeglossaries %s' % base, self.makeglossaries_fun())
+				return
+
+	def texinputs(self):
+		return os.pathsep.join([k.abspath() for k in self.texinputs_nodes]) + os.pathsep
 
 	def run(self):
 		"""
@@ -280,56 +348,55 @@ class tex(Task.Task):
 			env.append_value('PDFLATEXFLAGS', '-interaction=batchmode')
 			env.append_value('XELATEXFLAGS', '-interaction=batchmode')
 
-		fun = self.texfun
-
-		node = self.inputs[0]
-		srcfile = node.abspath()
-
-		texinputs = self.env.TEXINPUTS or ''
-		self.TEXINPUTS = node.parent.get_bld().abspath() + os.pathsep + node.parent.get_src().abspath() + os.pathsep + texinputs + os.pathsep
-
 		# important, set the cwd for everybody
 		self.cwd = self.inputs[0].parent.get_bld().abspath()
 
-		Logs.warn('first pass on %s' % self.__class__.__name__)
+		Logs.info('first pass on %s' % self.__class__.__name__)
 
-		self.env.env = {}
-		self.env.env.update(os.environ)
-		self.env.env.update({'TEXINPUTS': self.TEXINPUTS})
-		self.env.SRCFILE = srcfile
-		self.check_status('error when calling latex', fun())
+		# Hash .aux files before even calling the LaTeX compiler
+		cur_hash = self.hash_aux_nodes()
 
-		self.aux_nodes = self.scan_aux(node.change_ext('.aux'))
-		self.idx_node = node.change_ext('.idx')
+		self.call_latex()
+
+		# Find the .aux files again since bibtex processing can require it
+		self.hash_aux_nodes()
 
 		self.bibtopic()
 		self.bibfile()
 		self.bibunits()
 		self.makeindex()
+		self.makeglossaries()
 
-		hash = ''
 		for i in range(10):
-			# prevent against infinite loops - one never knows
-
-			# watch the contents of file.aux and stop if file.aux does not change anymore
-			prev_hash = hash
-			try:
-				hashes = [Utils.h_file(x.abspath()) for x in self.aux_nodes]
-				hash = Utils.h_list(hashes)
-			except (OSError, IOError):
-				Logs.error('could not read aux.h')
-				pass
-			if hash and hash == prev_hash:
+			# There is no need to call latex again if the .aux hash value has not changed
+			prev_hash = cur_hash
+			cur_hash = self.hash_aux_nodes()
+			if not cur_hash:
+				Logs.error('No aux.h to process')
+			if cur_hash and cur_hash == prev_hash:
 				break
 
 			# run the command
-			Logs.warn('calling %s' % self.__class__.__name__)
+			Logs.info('calling %s' % self.__class__.__name__)
+			self.call_latex()
 
-			self.env.env = {}
-			self.env.env.update(os.environ)
-			self.env.env.update({'TEXINPUTS': self.TEXINPUTS})
-			self.env.SRCFILE = srcfile
-			self.check_status('error when calling %s' % self.__class__.__name__, fun())
+	def hash_aux_nodes(self):
+		try:
+			nodes = self.aux_nodes
+		except AttributeError:
+			try:
+				self.aux_nodes = self.scan_aux(self.inputs[0].change_ext('.aux'))
+			except IOError:
+				return None
+		return Utils.h_list([Utils.h_file(x.abspath()) for x in self.aux_nodes])
+
+	def call_latex(self):
+		self.env.env = {}
+		self.env.env.update(os.environ)
+		self.env.env.update({'TEXINPUTS': self.texinputs()})
+		self.env.SRCFILE = self.inputs[0].abspath()
+		self.check_status('error when calling latex', self.texfun())
+
 
 class latex(tex):
 	texfun, vars = Task.compile_fun('${LATEX} ${LATEXFLAGS} ${SRCFILE}', shell=False)
@@ -359,7 +426,7 @@ def apply_tex(self):
 	"""
 	Create :py:class:`waflib.Tools.tex.tex` objects, and dvips/dvipdf/pdf2ps tasks if necessary (outs='ps', etc).
 	"""
-	if not getattr(self, 'type', None) in ['latex', 'pdflatex', 'xelatex']:
+	if not getattr(self, 'type', None) in ('latex', 'pdflatex', 'xelatex'):
 		self.type = 'pdflatex'
 
 	tree = self.bld
@@ -372,12 +439,15 @@ def apply_tex(self):
 
 	if getattr(self, 'deps', None):
 		deps = self.to_list(self.deps)
-		for filename in deps:
-			n = self.path.find_resource(filename)
-			if not n:
-				self.bld.fatal('Could not find %r for %r' % (filename, self))
-			if not n in deps_lst:
-				deps_lst.append(n)
+		for dep in deps:
+			if isinstance(dep, str):
+				n = self.path.find_resource(dep)
+				if not n:
+					self.bld.fatal('Could not find %r for %r' % (dep, self))
+				if not n in deps_lst:
+					deps_lst.append(n)
+			elif isinstance(dep, Node.Node):
+				deps_lst.append(dep)
 
 	for node in self.to_nodes(self.source):
 
@@ -392,30 +462,39 @@ def apply_tex(self):
 
 		# add the manual dependencies
 		if deps_lst:
-			try:
-				lst = tree.node_deps[task.uid()]
-				for n in deps_lst:
-					if not n in lst:
-						lst.append(n)
-			except KeyError:
-				tree.node_deps[task.uid()] = deps_lst
+			for n in deps_lst:
+				if not n in task.dep_nodes:
+					task.dep_nodes.append(n)
 
-		v = dict(os.environ)
-		p = node.parent.abspath() + os.pathsep + self.path.abspath() + os.pathsep + self.path.get_bld().abspath() + os.pathsep + v.get('TEXINPUTS', '') + os.pathsep
-		v['TEXINPUTS'] = p
+		# texinputs is a nasty beast
+		if hasattr(self, 'texinputs'):
+			task.texinputs_nodes = self.texinputs_nodes
+		else:
+			task.texinputs_nodes = [node.parent, node.parent.get_bld(), self.path, self.path.get_bld()]
+			lst = os.environ.get('TEXINPUTS', '')
+			if lst:
+				lst = lst.split(os.pathsep)
+			for x in lst:
+				if x:
+					if os.path.isabs(x):
+						p = self.bld.root.find_node(x)
+						if p:
+							task.texinputs_nodes.append(p)
+						else:
+							Logs.error('Invalid TEXINPUTS folder %s' % x)
+					else:
+						Logs.error('Cannot resolve relative paths in TEXINPUTS %s' % x)
 
 		if self.type == 'latex':
 			if 'ps' in outs:
 				tsk = self.create_task('dvips', task.outputs, node.change_ext('.ps'))
-				tsk.env.env = dict(v)
+				tsk.env.env = dict(os.environ)
 			if 'pdf' in outs:
 				tsk = self.create_task('dvipdf', task.outputs, node.change_ext('.pdf'))
-				tsk.env.env = dict(v)
+				tsk.env.env = dict(os.environ)
 		elif self.type == 'pdflatex':
 			if 'ps' in outs:
 				self.create_task('pdf2ps', task.outputs, node.change_ext('.ps'))
-			if 'png' in outs:
-				task.outputs.append(node.change_ext('.png'))
 	self.source = []
 
 def configure(self):
@@ -424,7 +503,7 @@ def configure(self):
 	are not found.
 	"""
 	v = self.env
-	for p in 'tex latex pdflatex xelatex bibtex dvips dvipdf ps2pdf makeindex pdf2ps'.split():
+	for p in 'tex latex pdflatex xelatex bibtex dvips dvipdf ps2pdf makeindex pdf2ps makeglossaries'.split():
 		try:
 			self.find_program(p, var=p.upper())
 		except self.errors.ConfigurationError:

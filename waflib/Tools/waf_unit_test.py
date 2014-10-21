@@ -33,8 +33,8 @@ the predefined callback::
 		bld.add_post_fun(waf_unit_test.summary)
 """
 
-import os, sys
-from waflib.TaskGen import feature, after_method
+import os
+from waflib.TaskGen import feature, after_method, taskgen_method
 from waflib import Utils, Task, Logs, Options
 testlock = Utils.threading.Lock()
 
@@ -44,6 +44,17 @@ def make_test(self):
 	"""Create the unit test task. There can be only one unit test task by task generator."""
 	if getattr(self, 'link_task', None):
 		self.create_task('utest', self.link_task.outputs)
+
+
+@taskgen_method
+def add_test_results(self, tup):
+	"""Override and return tup[1] to interrupt the build immediately if a test does not run"""
+	Logs.debug("ut: %r", tup)
+	self.utest_result = tup
+	try:
+		self.bld.utest_results.append(tup)
+	except AttributeError:
+		self.bld.utest_results = [tup]
 
 class utest(Task.Task):
 	"""
@@ -55,10 +66,10 @@ class utest(Task.Task):
 	def runnable_status(self):
 		"""
 		Always execute the task if `waf --alltests` was used or no
-                tests if ``waf --notests`` was used
+		tests if ``waf --notests`` was used
 		"""
-                if getattr(Options.options, 'no_tests', False):
-                        return Task.SKIP_ME
+		if getattr(Options.options, 'no_tests', False):
+			return Task.SKIP_ME
 
 		ret = super(utest, self).runnable_status()
 		if ret == Task.SKIP_ME:
@@ -66,18 +77,14 @@ class utest(Task.Task):
 				return Task.RUN_ME
 		return ret
 
-	def run(self):
-		"""
-		Execute the test. The execution is always successful, but the results
-		are stored on ``self.generator.bld.utest_results`` for postprocessing.
-		"""
+	def add_path(self, dct, path, var):
+		dct[var] = os.pathsep.join(Utils.to_list(path) + [os.environ.get(var, '')])
 
-		filename = self.inputs[0].abspath()
-		self.ut_exec = getattr(self.generator, 'ut_exec', [filename])
-		if getattr(self.generator, 'ut_fun', None):
-			# FIXME waf 1.8 - add a return statement here?
-			self.generator.ut_fun(self)
-
+	def get_test_env(self):
+		"""
+		In general, tests may require any library built anywhere in the project.
+		Override this method if fewer paths are needed
+		"""
 		try:
 			fu = getattr(self.generator.bld, 'all_test_paths')
 		except AttributeError:
@@ -92,39 +99,43 @@ class utest(Task.Task):
 						if s not in lst:
 							lst.append(s)
 
-			def add_path(dct, path, var):
-				dct[var] = os.pathsep.join(Utils.to_list(path) + [os.environ.get(var, '')])
-
 			if Utils.is_win32:
-				add_path(fu, lst, 'PATH')
+				self.add_path(fu, lst, 'PATH')
 			elif Utils.unversioned_sys_platform() == 'darwin':
-				add_path(fu, lst, 'DYLD_LIBRARY_PATH')
-				add_path(fu, lst, 'LD_LIBRARY_PATH')
+				self.add_path(fu, lst, 'DYLD_LIBRARY_PATH')
+				self.add_path(fu, lst, 'LD_LIBRARY_PATH')
 			else:
-				add_path(fu, lst, 'LD_LIBRARY_PATH')
+				self.add_path(fu, lst, 'LD_LIBRARY_PATH')
 			self.generator.bld.all_test_paths = fu
+		return fu
+
+	def run(self):
+		"""
+		Execute the test. The execution is always successful, and the results
+		are stored on ``self.generator.bld.utest_results`` for postprocessing.
+
+		Override ``add_test_results`` to interrupt the build
+		"""
+
+		filename = self.inputs[0].abspath()
+		self.ut_exec = getattr(self.generator, 'ut_exec', [filename])
+		if getattr(self.generator, 'ut_fun', None):
+			self.generator.ut_fun(self)
 
 
 		cwd = getattr(self.generator, 'ut_cwd', '') or self.inputs[0].parent.abspath()
 
-                testcmd = getattr(Options.options, 'testcmd', False)
-                if testcmd:
-                        self.ut_exec = (testcmd % self.ut_exec[0]).split(' ')
+		testcmd = getattr(self.generator, 'ut_cmd', False) or getattr(Options.options, 'testcmd', False)
+		if testcmd:
+			self.ut_exec = (testcmd % self.ut_exec[0]).split(' ')
 
-		proc = Utils.subprocess.Popen(self.ut_exec, cwd=cwd, env=fu, stderr=Utils.subprocess.PIPE, stdout=Utils.subprocess.PIPE)
+		proc = Utils.subprocess.Popen(self.ut_exec, cwd=cwd, env=self.get_test_env(), stderr=Utils.subprocess.PIPE, stdout=Utils.subprocess.PIPE)
 		(stdout, stderr) = proc.communicate()
 
 		tup = (filename, proc.returncode, stdout, stderr)
-		self.generator.utest_result = tup
-
 		testlock.acquire()
 		try:
-			bld = self.generator.bld
-			Logs.debug("ut: %r", tup)
-			try:
-				bld.utest_results.append(tup)
-			except AttributeError:
-				bld.utest_results = [tup]
+			return self.generator.add_test_results(tup)
 		finally:
 			testlock.release()
 
@@ -155,36 +166,36 @@ def summary(bld):
 				Logs.pprint('CYAN', '    %s' % f)
 
 def set_exit_code(bld):
-        """
-        If any of the tests fail waf will exit with that exit code.
-        This is useful if you have an automated build system which need
-        to report on errors from the tests.
-        You may use it like this:
+	"""
+	If any of the tests fail waf will exit with that exit code.
+	This is useful if you have an automated build system which need
+	to report on errors from the tests.
+	You may use it like this:
 
 		def build(bld):
 			bld(features='cxx cxxprogram test', source='main.c', target='app')
 			from waflib.Tools import waf_unit_test
 			bld.add_post_fun(waf_unit_test.set_exit_code)
-        """
-        lst = getattr(bld, 'utest_results', [])
-        for (f, code, out, err) in lst:
-                if code:
-                        msg = []
-                        if out:
-                                msg.append('stdout:%s%s' % (os.linesep, out.decode('utf-8')))
-                        if err:
-                                msg.append('stderr:%s%s' % (os.linesep, err.decode('utf-8')))
-                        bld.fatal(os.linesep.join(msg))
+	"""
+	lst = getattr(bld, 'utest_results', [])
+	for (f, code, out, err) in lst:
+		if code:
+			msg = []
+			if out:
+				msg.append('stdout:%s%s' % (os.linesep, out.decode('utf-8')))
+			if err:
+				msg.append('stderr:%s%s' % (os.linesep, err.decode('utf-8')))
+			bld.fatal(os.linesep.join(msg))
 
 
 def options(opt):
 	"""
 	Provide the ``--alltests``, ``--notests`` and ``--testcmd`` command-line options.
 	"""
-        opt.add_option('--notests', action='store_true', default=False, help='Exec no unit tests', dest='no_tests')
+	opt.add_option('--notests', action='store_true', default=False, help='Exec no unit tests', dest='no_tests')
 	opt.add_option('--alltests', action='store_true', default=False, help='Exec all unit tests', dest='all_tests')
-        opt.add_option('--testcmd', action='store', default=False,
-                       help = 'Run the unit tests using the test-cmd string'
-                              ' example "--test-cmd="valgrind --error-exitcode=1'
-                              ' %s" to run under valgrind', dest='testcmd')
+	opt.add_option('--testcmd', action='store', default=False,
+	 help = 'Run the unit tests using the test-cmd string'
+	 ' example "--test-cmd="valgrind --error-exitcode=1'
+	 ' %s" to run under valgrind', dest='testcmd')
 

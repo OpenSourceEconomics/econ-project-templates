@@ -6,18 +6,18 @@
 Classes and functions required for waf commands
 """
 
-import os, imp, sys
+import os, re, imp, sys
 from waflib import Utils, Errors, Logs
 import waflib.Node
 
 # the following 3 constants are updated on each new release (do not touch)
-HEXVERSION=0x1071000
+HEXVERSION=0x1080200
 """Constant updated on new releases"""
 
-WAFVERSION="1.7.16"
+WAFVERSION="1.8.2"
 """Constant updated on new releases"""
 
-WAFREVISION="73c1705078f8c9c51a33e20f221a309d5a94b5e1"
+WAFREVISION="30fb9699ef89341f3eeef3fd600539b9b41b61c2"
 """Constant updated on new releases"""
 
 ABI = 98
@@ -188,6 +188,18 @@ class Context(ctx):
 		"""
 		return id(self)
 
+	def finalize(self):
+		"""
+		Use to free resources such as open files potentially held by the logger
+		"""
+		try:
+			logger = self.logger
+		except AttributeError:
+			pass
+		else:
+			Logs.free_logger(logger)
+			delattr(self, 'logger')
+
 	def load(self, tool_list, *k, **kw):
 		"""
 		Load a Waf tool as a module, and try calling the function named :py:const:`waflib.Context.Context.fun` from it.
@@ -236,7 +248,7 @@ class Context(ctx):
 		if self.cur_script:
 			self.path = self.cur_script.parent
 
-	def recurse(self, dirs, name=None, mandatory=True, once=True):
+	def recurse(self, dirs, name=None, mandatory=True, once=True, encoding=None):
 		"""
 		Run user code from the supplied list of directories.
 		The directories can be either absolute, or relative to the directory
@@ -271,7 +283,7 @@ class Context(ctx):
 				cache[node] = True
 				self.pre_recurse(node)
 				try:
-					function_code = node.read('rU')
+					function_code = node.read('rU', encoding)
 					exec(compile(function_code, node.abspath(), 'exec'), self.exec_dict)
 				finally:
 					self.post_recurse(node)
@@ -282,7 +294,7 @@ class Context(ctx):
 					cache[tup] = True
 					self.pre_recurse(node)
 					try:
-						wscript_module = load_module(node.abspath())
+						wscript_module = load_module(node.abspath(), encoding=encoding)
 						user_function = getattr(wscript_module, (name or self.fun), None)
 						if not user_function:
 							if not mandatory:
@@ -324,6 +336,9 @@ class Context(ctx):
 		if 'stderr' not in kw:
 			kw['stderr'] = subprocess.PIPE
 
+		if Logs.verbose and not kw['shell'] and not Utils.check_exe(cmd[0]):
+			raise Errors.WafError("Program %s not found!" % cmd[0])
+
 		try:
 			if kw['stdout'] or kw['stderr']:
 				p = subprocess.Popen(cmd, **kw)
@@ -341,14 +356,14 @@ class Context(ctx):
 			if self.logger:
 				self.logger.debug('out: %s' % out)
 			else:
-				sys.stdout.write(out)
+				Logs.info(out, extra={'stream':sys.stdout, 'c1': ''})
 		if err:
 			if not isinstance(err, str):
 				err = err.decode(sys.stdout.encoding or 'iso8859-1')
 			if self.logger:
 				self.logger.error('err: %s' % err)
 			else:
-				sys.stderr.write(err)
+				Logs.info(err, extra={'stream':sys.stderr, 'c1': ''})
 
 		return ret
 
@@ -384,6 +399,9 @@ class Context(ctx):
 			del kw['output']
 		else:
 			to_ret = STDOUT
+
+		if Logs.verbose and not kw['shell'] and not Utils.check_exe(cmd[0]):
+			raise Errors.WafError("Program %s not found!" % cmd[0])
 
 		kw['stdout'] = kw['stderr'] = subprocess.PIPE
 		if quiet is None:
@@ -459,7 +477,7 @@ class Context(ctx):
 			sys.stderr.flush()
 
 
-	def msg(self, msg, result, color=None):
+	def msg(self, *k, **kw):
 		"""
 		Print a configuration message of the form ``msg: result``.
 		The second part of the message will be in colors. The output
@@ -477,17 +495,32 @@ class Context(ctx):
 		:param color: color to use, see :py:const:`waflib.Logs.colors_lst`
 		:type color: string
 		"""
-		self.start_msg(msg)
+		try:
+			msg = kw['msg']
+		except KeyError:
+			msg = k[0]
 
+		self.start_msg(msg, **kw)
+
+		try:
+			result = kw['result']
+		except KeyError:
+			result = k[1]
+
+		color = kw.get('color', None)
 		if not isinstance(color, str):
 			color = result and 'GREEN' or 'YELLOW'
 
-		self.end_msg(result, color)
+		self.end_msg(result, color, **kw)
 
-	def start_msg(self, msg):
+	def start_msg(self, *k, **kw):
 		"""
 		Print the beginning of a 'Checking for xxx' message. See :py:meth:`waflib.Context.Context.msg`
 		"""
+		if kw.get('quiet', None):
+			return
+
+		msg = kw.get('msg', None) or k[0]
 		try:
 			if self.in_msg:
 				self.in_msg += 1
@@ -504,11 +537,15 @@ class Context(ctx):
 			self.to_log(x)
 		Logs.pprint('NORMAL', "%s :" % msg.ljust(self.line_just), sep='')
 
-	def end_msg(self, result, color=None):
+	def end_msg(self, *k, **kw):
 		"""Print the end of a 'Checking for' message. See :py:meth:`waflib.Context.Context.msg`"""
+		if kw.get('quiet', None):
+			return
 		self.in_msg -= 1
 		if self.in_msg:
 			return
+
+		result = kw.get('result', None) or k[0]
 
 		defcolor = 'GREEN'
 		if result == True:
@@ -520,15 +557,39 @@ class Context(ctx):
 			msg = str(result)
 
 		self.to_log(msg)
-		Logs.pprint(color or defcolor, msg)
-
+		try:
+			color = kw['color']
+		except KeyError:
+			if len(k) > 1 and k[1] in Logs.colors_lst:
+				# compatibility waf 1.7
+				color = k[1]
+			else:
+				color = defcolor
+		Logs.pprint(color, msg)
 
 	def load_special_tools(self, var, ban=[]):
 		global waf_dir
-		lst = self.root.find_node(waf_dir).find_node('waflib/extras').ant_glob(var)
-		for x in lst:
-			if not x.name in ban:
-				load_tool(x.name.replace('.py', ''))
+		if os.path.isdir(waf_dir):
+			lst = self.root.find_node(waf_dir).find_node('waflib/extras').ant_glob(var)
+			for x in lst:
+				if not x.name in ban:
+					load_tool(x.name.replace('.py', ''))
+		else:
+			from zipfile import PyZipFile
+			waflibs = PyZipFile(waf_dir)
+			lst = waflibs.namelist()
+			for x in lst:
+				if not re.match("waflib/extras/%s" % var.replace("*", ".*"), var):
+					continue
+				f = os.path.basename(x)
+				doban = False
+				for b in ban:
+					r = b.replace("*", ".*")
+					if re.match(b, f):
+						doban = True
+				if not doban:
+					f = f.replace('.py', '')
+					load_tool(f)
 
 cache_modules = {}
 """
@@ -536,7 +597,7 @@ Dictionary holding already loaded modules, keyed by their absolute path.
 The modules are added automatically by :py:func:`waflib.Context.load_module`
 """
 
-def load_module(path):
+def load_module(path, encoding=None):
 	"""
 	Load a source file as a python module.
 
@@ -552,7 +613,7 @@ def load_module(path):
 
 	module = imp.new_module(WSCRIPT_FILE)
 	try:
-		code = Utils.readf(path, m='rU')
+		code = Utils.readf(path, m='rU', encoding=encoding)
 	except (IOError, OSError):
 		raise Errors.WafError('Could not read the file %r' % path)
 
@@ -566,7 +627,7 @@ def load_module(path):
 
 	return module
 
-def load_tool(tool, tooldir=None):
+def load_tool(tool, tooldir=None, ctx=None):
 	"""
 	Import a Waf tool (python module), and store it in the dict :py:const:`waflib.Context.Context.tools`
 
@@ -577,8 +638,6 @@ def load_tool(tool, tooldir=None):
 	"""
 	if tool == 'java':
 		tool = 'javaw' # jython
-	elif tool == 'compiler_cc':
-		tool = 'compiler_c' # TODO remove in waf 1.8
 	else:
 		tool = tool.replace('++', 'xx')
 
@@ -594,21 +653,14 @@ def load_tool(tool, tooldir=None):
 			for d in tooldir:
 				sys.path.remove(d)
 	else:
-		global waf_dir
-		try:
-			os.stat(os.path.join(waf_dir, 'waflib', 'extras', tool + '.py'))
-		except OSError:
+		for x in ('waflib.Tools.%s', 'waflib.extras.%s', 'waflib.%s', '%s'):
 			try:
-				os.stat(os.path.join(waf_dir, 'waflib', 'Tools', tool + '.py'))
-			except OSError:
-				d = tool # user has messed with sys.path
-			else:
-				d = 'waflib.Tools.%s' % tool
-		else:
-			d = 'waflib.extras.%s' % tool
-
-		__import__(d)
-		ret = sys.modules[d]
+				__import__(x % tool)
+				break
+			except ImportError:
+				x = None
+		if x is None: # raise an exception
+			__import__(tool)
+		ret = sys.modules[x % tool]
 		Context.tools[tool] = ret
 		return ret
-
