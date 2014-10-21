@@ -1,4 +1,4 @@
-﻿#! /usr/bin/env python
+#! /usr/bin/env python
 # encoding: utf-8
 # Matt Clarkson, 2012
 

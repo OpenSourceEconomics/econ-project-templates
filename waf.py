@@ -33,7 +33,7 @@ POSSIBILITY OF SUCH DAMAGE.
 import os
 import sys
 
-VERSION = "1.7.13"
+VERSION = "1.8.2"
 cwd = os.getcwd()
 join = os.path.join
 
@@ -45,6 +45,3 @@ sys.path.insert(0, wafdir)
 if __name__ == '__main__':
     from waflib import Scripting
     Scripting.waf_entry_point(cwd, VERSION, wafdir)
-
-
-

@@ -11,7 +11,6 @@ from waflib.Configure import conf
 @conf
 def find_ifort(conf):
 	fc = conf.find_program('ifort', var='FC')
-	fc = conf.cmd_to_list(fc)
 	conf.get_ifort_version(fc)
 	conf.env.FC_NAME = 'IFORT'
 
@@ -38,8 +37,12 @@ def ifort_modifier_platform(conf):
 def get_ifort_version(conf, fc):
 	"""get the compiler version"""
 
-	version_re = re.compile(r"ifort\s*\(IFORT\)\s*(?P<major>\d*)\.(?P<minor>\d*)", re.I).search
-	cmd = fc + ['--version']
+	version_re = re.compile(r"Intel[\sa-zA-Z()0-9,-]*Version\s*(?P<major>\d*)\.(?P<minor>\d*)",re.I).search
+	if Utils.is_win32:
+		cmd = fc
+	else:
+		cmd = fc + ['-logo']
+
 	out, err = fc_config.getoutput(conf, cmd, stdin=False)
 	if out:
 		match = version_re(out)

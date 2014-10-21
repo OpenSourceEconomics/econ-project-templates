@@ -12,7 +12,6 @@ fc_compiler['linux'].insert(0, 'fc_bgxlf')
 @conf
 def find_bgxlf(conf):
 	fc = conf.find_program(['bgxlf2003_r','bgxlf2003'], var='FC')
-	fc = conf.cmd_to_list(fc)
 	conf.get_xlf_version(fc)
 	conf.env.FC_NAME = 'BGXLF'
 

@@ -83,6 +83,7 @@ def to_incnodes(self, inlst):
 			continue
 		seen.add(x)
 
+		# with a real lot of targets, it is sometimes interesting to cache the results below
 		if isinstance(x, Node.Node):
 			lst.append(x)
 		else:
@@ -166,6 +167,9 @@ class stlink_task(link_task):
 	"""
 	run_str = '${AR} ${ARFLAGS} ${AR_TGT_F}${TGT} ${AR_SRC_F}${SRC}'
 
+	chmod   = Utils.O644
+	"""Default installation mode for the static libraries"""
+
 def rm_tgt(cls):
 	old = cls.run
 	def wrap(self):
@@ -213,7 +217,7 @@ def apply_link(self):
 		inst_to = self.link_task.__class__.inst_to
 	if inst_to:
 		# install a copy of the node list we have at this moment (implib not added)
-		self.install_task = self.bld.install_files(inst_to, self.link_task.outputs[:], env=self.env, chmod=self.link_task.chmod)
+		self.install_task = self.bld.install_files(inst_to, self.link_task.outputs[:], env=self.env, chmod=self.link_task.chmod, task=self.link_task)
 
 @taskgen_method
 def use_rec(self, name, **kw):
@@ -251,6 +255,8 @@ def use_rec(self, name, **kw):
 
 	p = self.tmp_use_prec
 	for x in self.to_list(getattr(y, 'use', [])):
+		if self.env["STLIB_" + x]:
+			continue
 		try:
 			p[x].append(name)
 		except KeyError:
@@ -319,11 +325,11 @@ def process_use(self):
 		y = self.bld.get_tgen_by_name(x)
 		var = y.tmp_use_var
 		if var and link_task:
-			if var == 'LIB' or y.tmp_use_stlib:
+			if var == 'LIB' or y.tmp_use_stlib or x in names:
 				self.env.append_value(var, [y.target[y.target.rfind(os.sep) + 1:]])
 				self.link_task.dep_nodes.extend(y.link_task.outputs)
 				tmp_path = y.link_task.outputs[0].parent.path_from(self.bld.bldnode)
-				self.env.append_value(var + 'PATH', [tmp_path])
+				self.env.append_unique(var + 'PATH', [tmp_path])
 		else:
 			if y.tmp_use_objects:
 				self.add_objects_from_tgen(y)
@@ -335,15 +341,15 @@ def process_use(self):
 			self.env.append_value('DEFINES', self.to_list(y.export_defines))
 
 
-	# and finally, add the uselib variables (no recursion needed)
+	# and finally, add the use variables (no recursion needed)
 	for x in names:
 		try:
 			y = self.bld.get_tgen_by_name(x)
-		except Exception:
+		except Errors.WafError:
 			if not self.env['STLIB_' + x] and not x in self.uselib:
 				self.uselib.append(x)
 		else:
-			for k in self.to_list(getattr(y, 'uselib', [])):
+			for k in self.to_list(getattr(y, 'use', [])):
 				if not self.env['STLIB_' + k] and not k in self.uselib:
 					self.uselib.append(k)
 
@@ -404,19 +410,18 @@ def propagate_uselib_vars(self):
 	"""
 	_vars = self.get_uselib_vars()
 	env = self.env
+	app = env.append_value
+	feature_uselib = self.features + self.to_list(getattr(self, 'uselib', []))
+	for var in _vars:
+		y = var.lower()
+		val = getattr(self, y, [])
+		if val:
+			app(var, self.to_list(val))
 
-	for x in _vars:
-		y = x.lower()
-		env.append_unique(x, self.to_list(getattr(self, y, [])))
-
-	for x in self.features:
-		for var in _vars:
-			compvar = '%s_%s' % (var, x)
-			env.append_value(var, env[compvar])
-
-	for x in self.to_list(getattr(self, 'uselib', [])):
-		for v in _vars:
-			env.append_value(v, env[v + '_' + x])
+		for x in feature_uselib:
+			val = env['%s_%s' % (var, x)]
+			if val:
+				app(var, val)
 
 # ============ the code above must not know anything about import libs ==========
 
@@ -453,14 +458,22 @@ def apply_implib(self):
 			#gcc for windows takes *.def file a an input without any special flag
 			self.link_task.inputs.append(node)
 
-	try:
-		inst_to = self.install_path
-	except AttributeError:
-		inst_to = self.link_task.__class__.inst_to
-	if not inst_to:
-		return
-
-	self.implib_install_task = self.bld.install_as('${LIBDIR}/%s' % implib.name, implib, self.env)
+	# where to put the import library
+	if getattr(self, 'install_task', None):
+		try:
+			# user has given a specific installation path for the import library
+			inst_to = self.install_path_implib
+		except AttributeError:
+			try:
+				# user has given an installation path for the main library, put the import library in it
+				inst_to = self.install_path
+			except AttributeError:
+				# else, put the library in BINDIR and the import library in LIBDIR
+				inst_to = '${IMPLIBDIR}'
+				self.install_task.dest = '${BINDIR}'
+				if not self.env.IMPLIBDIR:
+					self.env.IMPLIBDIR = self.env.LIBDIR
+		self.implib_install_task = self.bld.install_files(inst_to, implib, env=self.env, chmod=self.link_task.chmod, task=self.link_task)
 
 # ============ the code above must not know anything about vnum processing on unix platforms =========
 
@@ -502,7 +515,6 @@ def apply_vnum(self):
 		self.env.append_value('LINKFLAGS', v.split())
 
 	# the following task is just to enable execution from the build dir :-/
-
 	if self.env.DEST_OS != 'openbsd':
 		self.create_task('vnum', node, [node.parent.find_or_declare(name2), node.parent.find_or_declare(name3)])
 
@@ -538,6 +550,8 @@ class vnum(Task.Task):
 	color = 'CYAN'
 	quient = True
 	ext_in = ['.bin']
+	def keyword(self):
+		return 'Symlinking'
 	def run(self):
 		for x in self.outputs:
 			path = x.abspath()
@@ -660,4 +674,3 @@ def read_object(self, obj):
 	if not isinstance(obj, self.path.__class__):
 		obj = self.path.find_resource(obj)
 	return self(features='fake_obj', source=obj, name=obj.name)
-

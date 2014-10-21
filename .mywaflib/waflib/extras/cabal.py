@@ -30,7 +30,7 @@ def configure(self):
             rmtree(pkgdir.abspath())
             pkgdir = None
 
-        self.cmd_and_log([self.env.GHCPKG, 'init', pkgconfd])
+        self.cmd_and_log(self.env.GHCPKG + ['init', pkgconfd])
         self.msg('Created package database', pkgconfd, color = 'YELLOW' if pkgdir else 'GREEN')
 
 @extension('.cabal')

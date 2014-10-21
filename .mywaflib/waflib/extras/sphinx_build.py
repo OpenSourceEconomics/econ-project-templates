@@ -40,16 +40,9 @@ class RunSphinxBuild(Task.Task):
 		for docname in s.builder.status_iterator(iterator, "reading sources... "):
 			filename = docname + s.config.source_suffix
 			dep_nodes.append(self.srcdir.find_node(filename))
-
 		for dep in s.env.dependencies.values():
-			for d in dep:
-				temp = self.srcdir.find_node(str(d))  # Need the 'str' call because Sphinx might return Unicode strings.
-				if temp is None:  # Try as absolute path if no success relative to srcdir
-					temp = self.srcdir.ctx.root.find_resource(str(d))  # Need the 'str' call because Sphinx might return Unicode strings.
-
-				if temp is not None:
-					dep_nodes.append(temp)
-
+			# Need the 'str' call because Sphinx might return Unicode strings.
+			[dep_nodes.append(self.srcdir.find_node(str(d))) for d in dep]
 		return (dep_nodes, [])
 
 	def run(self):

@@ -51,7 +51,7 @@ def configure(self):
 			bld.program(source='main.c', target='app', use='KDECORE KIO KHTML')
 	"""
 	kdeconfig = self.find_program('kde4-config')
-	prefix = self.cmd_and_log('%s --prefix' % kdeconfig).strip()
+	prefix = self.cmd_and_log(kdeconfig + ['--prefix']).strip()
 	fname = '%s/share/apps/cmake/modules/KDELibsDependencies.cmake' % prefix
 	try: os.stat(fname)
 	except OSError:

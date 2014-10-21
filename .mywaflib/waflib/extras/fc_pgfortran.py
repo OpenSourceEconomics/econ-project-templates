@@ -14,7 +14,6 @@ fc_compiler['linux'].append('fc_pgfortran')
 def find_pgfortran(conf):
 	"""Find the PGI fortran compiler (will look in the environment variable 'FC')"""
 	fc = conf.find_program(['pgfortran', 'pgf95', 'pgf90'], var='FC')
-	fc = conf.cmd_to_list(fc)
 	conf.get_pgfortran_version(fc)
 	conf.env.FC_NAME = 'PGFC'
 

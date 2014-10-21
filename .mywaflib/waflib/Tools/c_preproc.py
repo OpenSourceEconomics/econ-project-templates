@@ -54,14 +54,15 @@ strict_quotes = 0
 
 g_optrans = {
 'not':'!',
+'not_eq':'!',
 'and':'&&',
-'bitand':'&',
 'and_eq':'&=',
 'or':'||',
-'bitor':'|',
 'or_eq':'|=',
 'xor':'^',
 'xor_eq':'^=',
+'bitand':'&',
+'bitor':'|',
 'compl':'~',
 }
 """Operators such as and/or/xor for c++. Set an empty dict to disable."""
@@ -211,17 +212,17 @@ def reduce_nums(val_1, val_2, val_op):
 	elif d=='*':  c = a*b
 	elif d=='/':  c = a/b
 	elif d=='^':  c = a^b
-	elif d=='|':  c = a|b
-	elif d=='||': c = int(a or b)
-	elif d=='&':  c = a&b
-	elif d=='&&': c = int(a and b)
 	elif d=='==': c = int(a == b)
-	elif d=='!=': c = int(a != b)
+	elif d=='|'  or d == 'bitor':  c = a|b
+	elif d=='||' or d == 'or' : c = int(a or b)
+	elif d=='&'  or d == 'bitand':  c = a&b
+	elif d=='&&' or d == 'and': c = int(a and b)
+	elif d=='!=' or d == 'not_eq': c = int(a != b)
+	elif d=='^'  or d == 'xor':  c = int(a^b)
 	elif d=='<=': c = int(a <= b)
 	elif d=='<':  c = int(a < b)
 	elif d=='>':  c = int(a > b)
 	elif d=='>=': c = int(a >= b)
-	elif d=='^':  c = int(a^b)
 	elif d=='<<': c = a<<b
 	elif d=='>>': c = a>>b
 	else: c = 0
@@ -408,8 +409,8 @@ def reduce_tokens(lst, defs, ban=[]):
 	:return: the new list of tokens
 	:rtype: value, list
 	"""
-	i = 0
 
+	i = 0
 	while i < len(lst):
 		(p, v) = lst[i]
 
@@ -478,7 +479,7 @@ def reduce_tokens(lst, defs, ban=[]):
 							if one_param: args.append(one_param)
 							break
 						elif v2 == ',':
-							if not one_param: raise PreprocError("empty param in funcall %s" % p)
+							if not one_param: raise PreprocError("empty param in funcall %s" % v)
 							args.append(one_param)
 							one_param = []
 						else:
@@ -645,7 +646,11 @@ def extract_macro(txt):
 		return (name, [params, t[i+1:]])
 	else:
 		(p, v) = t[0]
-		return (v, [[], t[1:]])
+		if len(t) > 1:
+			return (v, [[], t[1:]])
+		else:
+			# empty define, assign an empty token
+			return (v, [[], [('T','')]])
 
 re_include = re.compile('^\s*(<(?P<a>.*)>|"(?P<b>.*)")')
 def extract_include(txt, defs):
@@ -678,7 +683,8 @@ def extract_include(txt, defs):
 			return '"', toks[0][1]
 	else:
 		if toks[0][1] == '<' and toks[-1][1] == '>':
-			return stringize(toks).lstrip('<').rstrip('>')
+			ret = '<', stringize(toks).lstrip('<').rstrip('>')
+			return ret
 
 	raise PreprocError("could not parse include %s." % txt)
 
@@ -728,7 +734,9 @@ def tokenize_private(s):
 			v = m(name)
 			if v:
 				if name == IDENT:
-					try: v = g_optrans[v]; name = OP
+					try:
+						g_optrans[v];
+						name = OP
 					except KeyError:
 						# c++ specific
 						if v.lower() == "true":

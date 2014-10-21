@@ -352,13 +352,13 @@ def rm_blank_lines(txt):
 BOM = '\xef\xbb\xbf'
 try:
 	BOM = bytes(BOM, 'iso8859-1') # python 3
-except:
+except TypeError:
 	pass
 
 def stealth_write(self, data, flags='wb'):
 	try:
 		x = unicode
-	except:
+	except AttributeError:
 		data = data.encode('utf-8') # python 3
 	else:
 		data = data.decode(sys.getfilesystemencoding(), 'replace')
@@ -619,10 +619,10 @@ class vsnode_project_view(vsnode_alias):
 		vsnode_alias.__init__(self, ctx, node, name)
 		self.tg = self.ctx() # fake one, cannot remove
 		self.exclude_files = Node.exclude_regs + '''
-waf-1.7.*
-waf3-1.7.*/**
-.waf-1.7.*
-.waf3-1.7.*/**
+waf-1.8.*
+waf3-1.8.*/**
+.waf-1.8.*
+.waf3-1.8.*/**
 **/*.sdf
 **/*.suo
 **/*.ncb
@@ -793,7 +793,7 @@ class msvs_generator(BuildContext):
 		"""
 		try:
 			return self.solution_node
-		except:
+		except AttributeError:
 			pass
 
 		solution_name = getattr(self, 'solution_name', None)
@@ -1004,14 +1004,14 @@ def options(ctx):
 			uns = ctx.root.make_node(uns)
 			try:
 				uns.delete()
-			except:
+			except OSError:
 				pass
 
 			uns = ctx.options.execsolution.replace('.sln', add)
 			uns = ctx.root.make_node(uns)
 			try:
 				uns.write('')
-			except:
+			except (OSError, IOError):
 				pass
 
 		if ctx.options.execsolution:
