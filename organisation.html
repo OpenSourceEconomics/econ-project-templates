@@ -216,7 +216,10 @@ of the directory trees defined in the PROJECT_PATHS dictionary above.</p>
 </ol>
 </div></blockquote>
 <p>Let us look at <em>root/src/analysis/wscript</em> as an example again:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! python</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
 
     <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="s">&#39;baseline&#39;</span><span class="p">,</span> <span class="s">&#39;max_moves_2&#39;</span><span class="p">:</span>
 

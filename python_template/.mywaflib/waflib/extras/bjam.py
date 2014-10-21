@@ -118,7 +118,7 @@ class bjam_installer(Task):
 	def run(self):
 		gen = self.generator
 		path = gen.path
-		for idir, pat in [('${LIBDIR}', 'lib/*'), ('${BINDIR}', 'bin/*')]:
+		for idir, pat in (('${LIBDIR}', 'lib/*'), ('${BINDIR}', 'bin/*')):
 			files = []
 			for n in path.get_bld().ant_glob(pat):
 				try:

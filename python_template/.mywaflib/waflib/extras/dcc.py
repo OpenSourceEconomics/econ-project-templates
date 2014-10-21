@@ -9,21 +9,16 @@ from waflib.Configure import conf
 @conf
 def find_dcc(conf):
 	cc = conf.find_program(['dcc'], var='CC', path_list=getattr(Options.options, 'diabbindir', ""))
-	cc = conf.cmd_to_list(cc)
 	conf.env.CC_NAME = 'dcc'
-	conf.env.CC = cc
 
 @conf
 def find_dld(conf):
 	ld = conf.find_program(['dld'], var='LINK_CC', path_list=getattr(Options.options, 'diabbindir', ""))
-	ld = conf.cmd_to_list(ld)
 	conf.env.LINK_CC_NAME = 'dld'
-	conf.env.LINK_CC = ld
 
 @conf
 def find_dar(conf):
 	ar = conf.find_program(['dar'], var='DAR', path_list=getattr(Options.options, 'diabbindir', ""))
-	ar = conf.cmd_to_list(ar)
 	conf.env.AR = ar
 	conf.env.AR_NAME = 'dar'
 	conf.env.ARFLAGS = 'rcs'
@@ -31,8 +26,6 @@ def find_dar(conf):
 @conf
 def find_ddump(conf):
 	prg = conf.find_program(['ddump'], var='DDUMP', path_list=getattr(Options.options, 'diabbindir', ""))
-	prg = conf.cmd_to_list(prg)
-	conf.env.DDUMP = prg
 
 @conf
 def dcc_common_flags(conf):

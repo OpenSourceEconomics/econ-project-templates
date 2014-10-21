@@ -106,6 +106,8 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PYTHONPATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;why&#39;</span><span class="p">)</span>
+    <span class="c"># Disable on a machine where security risks could arise</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PDFLATEXFLAGS</span> <span class="o">=</span> <span class="s">&#39;-shell-escape&#39;</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;biber&#39;</span><span class="p">)</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;run_py_script&#39;</span><span class="p">)</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;sphinx_build&#39;</span><span class="p">)</span>
@@ -160,7 +162,10 @@
 <a class="reference internal image-reference" href="_images/schelling_dependencies_data_mgmt.png"><img alt="_images/schelling_dependencies_data_mgmt.png" src="_images/schelling_dependencies_data_mgmt.png" style="width: 30em;" /></a>
 </div>
 <p>This is the entire content of the file <em>src/data_management/wscript</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! python</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
 
     <span class="c"># Illustrate simple use of run_py_script</span>
     <span class="n">ctx</span><span class="p">(</span>
@@ -199,7 +204,10 @@
 </ul>
 </div></blockquote>
 <p>In addition to this, we keep a <em>log-file</em>, which is omitted from the graph for legibility. We specify this dependency structure in the file <em>src/analysis/wscript</em>, which has the following contents:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! python</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
 
     <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="s">&#39;baseline&#39;</span><span class="p">,</span> <span class="s">&#39;max_moves_2&#39;</span><span class="p">:</span>
 
@@ -254,7 +262,10 @@
 <a class="reference internal image-reference" href="_images/schelling_dependencies_final.png"><img alt="_images/schelling_dependencies_final.png" src="_images/schelling_dependencies_final.png" style="width: 40em;" /></a>
 </div>
 <p>This step is shown here mostly for completeness, there is nothing really new in the <em>wscript</em> file:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! python</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
 
     <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="s">&#39;baseline&#39;</span><span class="p">,</span> <span class="s">&#39;max_moves_2&#39;</span><span class="p">:</span>
 
@@ -280,7 +291,10 @@
 <a class="reference internal image-reference" href="_images/schelling_dependencies_paper.png"><img alt="_images/schelling_dependencies_paper.png" src="_images/schelling_dependencies_paper.png" style="width: 40em;" /></a>
 </div>
 <p>The corresponding file <em>src/paper/wscript</em> is particularly simple:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! python</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
 
     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="s">&#39;research_paper&#39;</span><span class="p">,</span> <span class="s">&#39;research_pres_30min&#39;</span><span class="p">:</span>
         <span class="n">ctx</span><span class="p">(</span>

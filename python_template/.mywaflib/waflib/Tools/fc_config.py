@@ -7,10 +7,10 @@
 Fortran configuration helpers
 """
 
-import re, shutil, os, sys, string, shlex
+import re, os, sys, shlex
 from waflib.Configure import conf
-from waflib.TaskGen import feature, after_method, before_method
-from waflib import Build, Utils
+from waflib.TaskGen import feature, before_method
+from waflib import Utils
 
 FC_FRAGMENT = '        program main\n        end     program main\n'
 FC_FRAGMENT2 = '        PROGRAM MAIN\n        END\n' # what's the actual difference between these?
@@ -197,7 +197,7 @@ def check_fortran_verbose_flag(self, *k, **kw):
 	Check what kind of verbose (-v) flag works, then set it to env.FC_VERBOSE_FLAG
 	"""
 	self.start_msg('fortran link verbose flag')
-	for x in ['-v', '--verbose', '-verbose', '-V']:
+	for x in ('-v', '--verbose', '-verbose', '-V'):
 		try:
 			self.check_cc(
 				features = 'fc fcprogram_test',
@@ -250,6 +250,45 @@ def parse_fortran_link(lines):
 SPACE_OPTS = re.compile('^-[LRuYz]$')
 NOSPACE_OPTS = re.compile('^-[RL]')
 
+def _parse_flink_token(lexer, token, tmp_flags):
+	# Here we go (convention for wildcard is shell, not regex !)
+	#   1 TODO: we first get some root .a libraries
+	#   2 TODO: take everything starting by -bI:*
+	#   3 Ignore the following flags: -lang* | -lcrt*.o | -lc |
+	#   -lgcc* | -lSystem | -libmil | -LANG:=* | -LIST:* | -LNO:*)
+	#   4 take into account -lkernel32
+	#   5 For options of the kind -[[LRuYz]], as they take one argument
+	#   after, the actual option is the next token
+	#   6 For -YP,*: take and replace by -Larg where arg is the old
+	#   argument
+	#   7 For -[lLR]*: take
+
+	# step 3
+	if _match_ignore(token):
+		pass
+	# step 4
+	elif token.startswith('-lkernel32') and sys.platform == 'cygwin':
+		tmp_flags.append(token)
+	# step 5
+	elif SPACE_OPTS.match(token):
+		t = lexer.get_token()
+		if t.startswith('P,'):
+			t = t[2:]
+		for opt in t.split(os.pathsep):
+			tmp_flags.append('-L%s' % opt)
+	# step 6
+	elif NOSPACE_OPTS.match(token):
+		tmp_flags.append(token)
+	# step 7
+	elif POSIX_LIB_FLAGS.match(token):
+		tmp_flags.append(token)
+	else:
+		# ignore anything not explicitely taken into account
+		pass
+
+	t = lexer.get_token()
+	return t
+
 def _parse_flink_line(line, final_flags):
 	"""private"""
 	lexer = shlex.shlex(line, posix = True)
@@ -258,45 +297,7 @@ def _parse_flink_line(line, final_flags):
 	t = lexer.get_token()
 	tmp_flags = []
 	while t:
-		def parse(token):
-			# Here we go (convention for wildcard is shell, not regex !)
-			#   1 TODO: we first get some root .a libraries
-			#   2 TODO: take everything starting by -bI:*
-			#   3 Ignore the following flags: -lang* | -lcrt*.o | -lc |
-			#   -lgcc* | -lSystem | -libmil | -LANG:=* | -LIST:* | -LNO:*)
-			#   4 take into account -lkernel32
-			#   5 For options of the kind -[[LRuYz]], as they take one argument
-			#   after, the actual option is the next token
-			#   6 For -YP,*: take and replace by -Larg where arg is the old
-			#   argument
-			#   7 For -[lLR]*: take
-
-			# step 3
-			if _match_ignore(token):
-				pass
-			# step 4
-			elif token.startswith('-lkernel32') and sys.platform == 'cygwin':
-				tmp_flags.append(token)
-			# step 5
-			elif SPACE_OPTS.match(token):
-				t = lexer.get_token()
-				if t.startswith('P,'):
-					t = t[2:]
-				for opt in t.split(os.pathsep):
-					tmp_flags.append('-L%s' % opt)
-			# step 6
-			elif NOSPACE_OPTS.match(token):
-				tmp_flags.append(token)
-			# step 7
-			elif POSIX_LIB_FLAGS.match(token):
-				tmp_flags.append(token)
-			else:
-				# ignore anything not explicitely taken into account
-				pass
-
-			t = lexer.get_token()
-			return t
-		t = parse(t)
+		t = _parse_flink_token(lexer, t, tmp_flags)
 
 	final_flags.extend(tmp_flags)
 	return final_flags
@@ -394,9 +395,9 @@ def mangling_schemes():
 	(used in check_fortran_mangling)
 	the order is tuned for gfortan
 	"""
-	for u in ['_', '']:
-		for du in ['', '_']:
-			for c in ["lower", "upper"]:
+	for u in ('_', ''):
+		for du in ('', '_'):
+			for c in ("lower", "upper"):
 				yield (u, du, c)
 
 def mangle_name(u, du, c, name):
@@ -450,7 +451,7 @@ def set_lib_pat(self):
 
 @conf
 def detect_openmp(self):
-	for x in ['-fopenmp','-openmp','-mp','-xopenmp','-omp','-qsmp=omp']:
+	for x in ('-fopenmp','-openmp','-mp','-xopenmp','-omp','-qsmp=omp'):
 		try:
 			self.check_fc(
 				msg='Checking for OpenMP flag %s' % x,

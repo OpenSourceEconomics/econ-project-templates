@@ -19,7 +19,6 @@ def find_scc(conf):
 	elif 'CC' in conf.environ: cc = conf.environ['CC']
 	if not cc: cc = conf.find_program('cc', var='CC')
 	if not cc: conf.fatal('Could not find a Sun C compiler')
-	cc = conf.cmd_to_list(cc)
 
 	try:
 		conf.cmd_and_log(cc + ['-flags'])

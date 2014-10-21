@@ -31,8 +31,11 @@ class task_gen(object):
 	* The attribute 'idx' is a counter of task generators in the same path
 	"""
 
-	mappings = {}
+	mappings = Utils.ordered_iter_dict()
+	"""Mappings are global file extension mappings, they are retrieved in the order of definition"""
+
 	prec = Utils.defaultdict(list)
+	"""Dict holding the precedence rules for task generator methods"""
 
 	def __init__(self, *k, **kw):
 		"""
@@ -64,6 +67,7 @@ class task_gen(object):
 		self.mappings = {}
 		"""
 		List of mappings {extension -> function} for processing files by extension
+		This is very rarely used, so we do not use an ordered dict here
 		"""
 
 		self.features = []
@@ -104,7 +108,7 @@ class task_gen(object):
 		"""for debugging purposes"""
 		lst = []
 		for x in self.__dict__.keys():
-			if x not in ['env', 'bld', 'compiled_tasks', 'tasks']:
+			if x not in ('env', 'bld', 'compiled_tasks', 'tasks'):
 				lst.append("%s=%s" % (x, repr(getattr(self, x))))
 		return "bld(%s) in %s" % (", ".join(lst), self.path.abspath())
 
@@ -235,15 +239,16 @@ class task_gen(object):
 		:rtype: function
 		"""
 		name = node.name
-		for k in self.mappings:
-			if name.endswith(k):
-				return self.mappings[k]
+		if self.mappings:
+			for k in self.mappings:
+				if name.endswith(k):
+					return self.mappings[k]
 		for k in task_gen.mappings:
 			if name.endswith(k):
 				return task_gen.mappings[k]
-		raise Errors.WafError("File %r has no mapping in %r (did you forget to load a waf tool?)" % (node, task_gen.mappings.keys()))
+		raise Errors.WafError("File %r has no mapping in %r (have you forgotten to load a waf tool?)" % (node, task_gen.mappings.keys()))
 
-	def create_task(self, name, src=None, tgt=None):
+	def create_task(self, name, src=None, tgt=None, **kw):
 		"""
 		Wrapper for creating task instances. The classes are retrieved from the
 		context class if possible, then from the global dict Task.classes.
@@ -262,6 +267,7 @@ class task_gen(object):
 			task.set_inputs(src)
 		if tgt:
 			task.set_outputs(tgt)
+		task.__dict__.update(kw)
 		self.tasks.append(task)
 		return task
 
@@ -278,9 +284,9 @@ class task_gen(object):
 		"""
 		newobj = self.bld()
 		for x in self.__dict__:
-			if x in ['env', 'bld']:
+			if x in ('env', 'bld'):
 				continue
-			elif x in ['path', 'features']:
+			elif x in ('path', 'features'):
 				setattr(newobj, x, getattr(self, x))
 			else:
 				setattr(newobj, x, copy.copy(getattr(self, x)))
@@ -336,7 +342,7 @@ def declare_chain(name='', rule=None, reentrant=None, color='BLUE',
 		tsk = self.create_task(name, node)
 		cnt = 0
 
-		keys = list(self.mappings.keys()) + list(self.__class__.mappings.keys())
+		keys = set(self.mappings.keys()) | set(self.__class__.mappings.keys())
 		for x in ext:
 			k = node.change_ext(x, ext_in=_ext_in)
 			tsk.outputs.append(k)
@@ -345,6 +351,7 @@ def declare_chain(name='', rule=None, reentrant=None, color='BLUE',
 				if cnt < int(reentrant):
 					self.source.append(k)
 			else:
+				# reinject downstream files into the build
 				for y in keys: # ~ nfile * nextensions :-/
 					if k.name.endswith(y):
 						self.source.append(k)
@@ -498,7 +505,7 @@ def to_nodes(self, lst, path=None):
 	path = path or self.path
 	find = path.find_resource
 
-	if isinstance(lst, self.path.__class__):
+	if isinstance(lst, Node.Node):
 		lst = [lst]
 
 	# either a list or a string, convert to a list of nodes
@@ -578,7 +585,7 @@ def process_rule(self):
 		if getattr(self, 'always', None):
 			Task.always_run(cls)
 
-		for x in ['after', 'before', 'ext_in', 'ext_out']:
+		for x in ('after', 'before', 'ext_in', 'ext_out'):
 			setattr(cls, x, getattr(self, x, []))
 
 		if getattr(self, 'cache_rule', 'True'):
@@ -599,9 +606,6 @@ def process_rule(self):
 				x.parent.mkdir() # if a node was given, create the required folders
 				tsk.outputs.append(x)
 		if getattr(self, 'install_path', None):
-			# from waf 1.5
-			# although convenient, it does not 1. allow to name the target file and 2. symlinks
-			# TODO remove in waf 1.7
 			self.bld.install_files(self.install_path, tsk.outputs)
 
 	if getattr(self, 'source', None):
@@ -667,12 +671,12 @@ class subst_pc(Task.Task):
 			return None
 
 		if getattr(self.generator, 'fun', None):
-			self.generator.fun(self)
+			return self.generator.fun(self)
 
 		code = self.inputs[0].read(encoding=getattr(self.generator, 'encoding', 'ISO8859-1'))
 		if getattr(self.generator, 'subst_fun', None):
 			code = self.generator.subst_fun(self, code)
-			if code:
+			if code is not None:
 				self.outputs[0].write(code, encoding=getattr(self.generator, 'encoding', 'ISO8859-1'))
 			return
 
@@ -687,7 +691,8 @@ class subst_pc(Task.Task):
 				lst.append(g(1))
 				return "%%(%s)s" % g(1)
 			return ''
-		code = re_m4.sub(repl, code)
+		global re_m4
+		code = getattr(self.generator, 're_m4', re_m4).sub(repl, code)
 
 		try:
 			d = self.generator.dct

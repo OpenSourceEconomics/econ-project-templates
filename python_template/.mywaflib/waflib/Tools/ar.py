@@ -18,5 +18,7 @@ def find_ar(conf):
 def configure(conf):
 	"""Find the ar program and set the default flags in ``conf.env.ARFLAGS``"""
 	conf.find_program('ar', var='AR')
-	conf.env.ARFLAGS = 'rcs'
+	conf.add_os_flags('ARFLAGS')
+	if not conf.env.ARFLAGS:
+		conf.env.ARFLAGS = ['rcs']
 

@@ -8,8 +8,10 @@ This module can help reducing the overhead of listing files on windows (more tha
 """
 
 import os
-try: import cPickle
-except: import pickle as cPickle
+try:
+	import cPickle
+except ImportError:
+	import pickle as cPickle
 from waflib import Utils, Build, Context, Node, Logs
 
 try:
@@ -158,7 +160,7 @@ if Utils.is_win32:
 				node.sig = None
 				try:
 					node.parent.mkdir()
-				except:
+				except OSError:
 					pass
 			return node
 		self = self.get_src()
@@ -168,7 +170,7 @@ if Utils.is_win32:
 				node.sig = None
 				try:
 					node.parent.mkdir()
-				except:
+				except OSError:
 					pass
 			return node
 		node = self.get_bld().make_node(lst)

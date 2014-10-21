@@ -18,4 +18,4 @@ Table of Contents
 Download this tutorial in other formats
 ---------------------------------------
 
-* :download:`pdf </../bld/src/latex/tutorial-econ-project-templates.pdf>`
+* :download:`pdf <../bld/src/latex/tutorial-econ-project-templates.pdf>`

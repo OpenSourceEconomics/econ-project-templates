@@ -588,10 +588,10 @@ class vsnode_project_view(vsnode_alias):
                 vsnode_alias.__init__(self, ctx, node, name)
                 self.tg = self.ctx() # fake one, cannot remove
                 self.exclude_files = Node.exclude_regs + '''
-waf-1.7.*
-waf3-1.7.*/**
-.waf-1.7.*
-.waf3-1.7.*/**
+waf-1.8.*
+waf3-1.8.*/**
+.waf-1.8.*
+.waf3-1.8.*/**
 **/*.sdf
 **/*.suo
 **/*.ncb
@@ -603,7 +603,7 @@ waf3-1.7.*/**
                 self.source = self.ctx.srcnode.ant_glob('**', excl=self.exclude_files)
 
         def get_build_command(self, props):
-                params = self.get_build_params(props) + (self.ctx.cmd,)               
+                params = self.get_build_params(props) + (self.ctx.cmd,)
                 return "%s %s %s" % params
 
         def get_clean_command(self, props):

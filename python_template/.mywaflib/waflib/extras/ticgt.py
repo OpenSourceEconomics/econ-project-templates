@@ -44,22 +44,16 @@ opj = os.path.join
 @conf
 def find_ticc(conf):
 	cc = conf.find_program(['cl6x'], var='CC', path_list=opj(getattr(Options.options, 'ti-cgt-dir', ""), 'bin'))
-	cc = conf.cmd_to_list(cc)
 	conf.env.CC_NAME = 'ticc'
-	conf.env.CC = cc
 
 @conf
 def find_tild(conf):
 	ld = conf.find_program(['lnk6x'], var='LINK_CC', path_list=opj(getattr(Options.options, 'ti-cgt-dir', ""), 'bin'))
-	ld = conf.cmd_to_list(ld)
 	conf.env.LINK_CC_NAME = 'tild'
-	conf.env.LINK_CC = ld
 
 @conf
 def find_tiar(conf):
 	ar = conf.find_program(['ar6x'], var='AR', path_list=opj(getattr(Options.options, 'ti-cgt-dir', ""), 'bin'))
-	ar = conf.cmd_to_list(ar)
-	conf.env.AR = ar
 	conf.env.AR_NAME = 'tiar'
 	conf.env.ARFLAGS = 'qru'
 
@@ -99,7 +93,7 @@ def configure(conf):
 	conf.cc_load_tools()
 	conf.cc_add_flags()
 	conf.link_add_flags()
-	v.TCONF = conf.cmd_to_list(conf.find_program(['tconf'], var='TCONF', path_list=v.TI_XDCTOOLS_DIR))
+	conf.find_program(['tconf'], var='TCONF', path_list=v.TI_XDCTOOLS_DIR)
 	
 	conf.env.TCONF_INCLUDES += [
 	 opj(conf.env.TI_DSPBIOS_DIR, 'packages'),
@@ -161,7 +155,7 @@ def ti_dsplink_set_platform_flags(cfg, splat, dsp, dspbios_ver, board):
 	
 	cfg.env.LINKFLAGS_DSPLINK += [
 	 opj(cfg.env.TI_DSPLINK_DIR, 'dsplink', 'dsp', 'export', 'BIN', 'DspBios', splat, board+'_0', 'RELEASE', 'dsplink%s.lib' % x)
-	 for x in ['', 'pool', 'mpcs', 'mplist', 'msg', 'data', 'notify', 'ringio']
+	 for x in ('', 'pool', 'mpcs', 'mplist', 'msg', 'data', 'notify', 'ringio')
 	]
 
 
