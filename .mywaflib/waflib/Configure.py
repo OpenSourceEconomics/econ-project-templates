@@ -12,15 +12,8 @@ A :py:class:`waflib.Configure.ConfigurationContext` instance is created when ``w
 * hold configuration routines such as ``find_program``, etc
 """
 
-import os, shlex, sys, time
+import os, shlex, sys, time, re, shutil
 from waflib import ConfigSet, Utils, Options, Logs, Context, Build, Errors
-
-try:
-	from urllib import request
-except ImportError:
-	from urllib import urlopen
-else:
-	urlopen = request.urlopen
 
 BREAK    = 'break'
 """In case of a configuration error, break"""
@@ -38,49 +31,6 @@ conf_template = '''# project %(app)s configured on %(now)s by
 # waf %(wafver)s (abi %(abi)s, python %(pyver)x on %(systype)s)
 # using %(args)s
 #'''
-
-def download_check(node):
-	"""
-	Hook to check for the tools which are downloaded. Replace with your function if necessary.
-	"""
-	pass
-
-def download_tool(tool, force=False, ctx=None):
-	"""
-	Download a Waf tool from the remote repository defined in :py:const:`waflib.Context.remote_repo`::
-
-		$ waf configure --download
-	"""
-	for x in Utils.to_list(Context.remote_repo):
-		for sub in Utils.to_list(Context.remote_locs):
-			url = '/'.join((x, sub, tool + '.py'))
-			try:
-				web = urlopen(url)
-				try:
-					if web.getcode() != 200:
-						continue
-				except AttributeError:
-					pass
-			except Exception:
-				# on python3 urlopen throws an exception
-				# python 2.3 does not have getcode and throws an exception to fail
-				continue
-			else:
-				tmp = ctx.root.make_node(os.sep.join((Context.waf_dir, 'waflib', 'extras', tool + '.py')))
-				tmp.write(web.read(), 'wb')
-				Logs.warn('Downloaded %s from %s' % (tool, url))
-				download_check(tmp)
-				try:
-					module = Context.load_tool(tool)
-				except Exception:
-					Logs.warn('The tool %s from %s is unusable' % (tool, url))
-					try:
-						tmp.delete()
-					except Exception:
-						pass
-					continue
-				return module
-	raise Errors.WafError('Could not load the Waf tool')
 
 class ConfigurationContext(Context.Context):
 	'''configures the project'''
@@ -174,6 +124,9 @@ class ConfigurationContext(Context.Context):
 		if not out:
 			out = Options.lockfile.replace('.lock-waf_%s_' % sys.platform, '').replace('.lock-waf', '')
 
+		# someone can be messing with symlinks
+		out = os.path.realpath(out)
+
 		self.bldnode = (os.path.isabs(out) and self.root or self.path).make_node(out)
 		self.bldnode.mkdir()
 
@@ -240,11 +193,11 @@ class ConfigurationContext(Context.Context):
 		env['environ'] = dict(self.environ)
 
 		if not self.env.NO_LOCK_IN_RUN:
-			env.store(Context.run_dir + os.sep + Options.lockfile)
+			env.store(os.path.join(Context.run_dir, Options.lockfile))
 		if not self.env.NO_LOCK_IN_TOP:
-			env.store(Context.top_dir + os.sep + Options.lockfile)
+			env.store(os.path.join(Context.top_dir, Options.lockfile))
 		if not self.env.NO_LOCK_IN_OUT:
-			env.store(Context.out_dir + os.sep + Options.lockfile)
+			env.store(os.path.join(Context.out_dir, Options.lockfile))
 
 	def prepare_env(self, env):
 		"""
@@ -275,7 +228,7 @@ class ConfigurationContext(Context.Context):
 			tmpenv = self.all_envs[key]
 			tmpenv.store(os.path.join(self.cachedir.abspath(), key + Build.CACHE_SUFFIX))
 
-	def load(self, input, tooldir=None, funs=None, download=True):
+	def load(self, input, tooldir=None, funs=None):
 		"""
 		Load Waf tools, which will be imported whenever a build is started.
 
@@ -285,8 +238,6 @@ class ConfigurationContext(Context.Context):
 		:type tooldir: list of string
 		:param funs: functions to execute from the waf tools
 		:type funs: list of string
-		:param download: whether to download the tool from the waf repository
-		:type download: bool
 		"""
 
 		tools = Utils.to_list(input)
@@ -303,14 +254,9 @@ class ConfigurationContext(Context.Context):
 
 			module = None
 			try:
-				module = Context.load_tool(tool, tooldir)
+				module = Context.load_tool(tool, tooldir, ctx=self)
 			except ImportError as e:
-				if Options.options.download:
-					module = download_tool(tool, ctx=self)
-					if not module:
-						self.fatal('Could not load the Waf tool %r or download a suitable replacement from the repository (sys.path %r)\n%s' % (tool, sys.path, e))
-				else:
-					self.fatal('Could not load the Waf tool %r from %r (try the --download option?):\n%s' % (tool, sys.path, e))
+				self.fatal('Could not load the Waf tool %r from %r\n%s' % (tool, sys.path, e))
 			except Exception as e:
 				self.to_log('imp %r (%r & %r)' % (tool, tooldir, funs))
 				self.to_log(Utils.ex_stack())
@@ -434,25 +380,24 @@ def cmd_to_list(self, cmd):
 	return cmd
 
 @conf
-def check_waf_version(self, mini='1.6.99', maxi='1.8.0'):
+def check_waf_version(self, mini='1.7.99', maxi='1.9.0', **kw):
 	"""
 	Raise a Configuration error if the Waf version does not strictly match the given bounds::
 
-		conf.check_waf_version(mini='1.7.0', maxi='1.8.0')
+		conf.check_waf_version(mini='1.8.0', maxi='1.9.0')
 
 	:type  mini: number, tuple or string
 	:param mini: Minimum required version
 	:type  maxi: number, tuple or string
 	:param maxi: Maximum allowed version
 	"""
-	self.start_msg('Checking for waf version in %s-%s' % (str(mini), str(maxi)))
+	self.start_msg('Checking for waf version in %s-%s' % (str(mini), str(maxi)), **kw)
 	ver = Context.HEXVERSION
 	if Utils.num2ver(mini) > ver:
 		self.fatal('waf version should be at least %r (%r found)' % (Utils.num2ver(mini), ver))
-
 	if Utils.num2ver(maxi) < ver:
 		self.fatal('waf version should be at most %r (%r found)' % (Utils.num2ver(maxi), ver))
-	self.end_msg('ok')
+	self.end_msg('ok', **kw)
 
 @conf
 def find_file(self, filename, path_list=[]):
@@ -477,7 +422,7 @@ def find_program(self, filename, **kw):
 
 	When var is used, you may set os.environ[var] to help find a specific program version, for example::
 
-		$ VALAC=/usr/bin/valac_test waf configure
+		$ CC='ccache gcc' waf configure
 
 	:param path_list: paths to use for searching
 	:type param_list: list of string
@@ -485,88 +430,230 @@ def find_program(self, filename, **kw):
 	:type var: string
 	:param ext: list of extensions for the binary (do not add an extension for portability)
 	:type ext: list of string
+	:param msg: name to display in the log, by default filename is used
+	:type msg: string
+	:param interpreter: interpreter for the program
+	:type interpreter: ConfigSet variable key
 	"""
 
 	exts = kw.get('exts', Utils.is_win32 and '.exe,.com,.bat,.cmd' or ',.sh,.pl,.py')
 
-	environ = kw.get('environ', os.environ)
+	environ = kw.get('environ', getattr(self, 'environ', os.environ))
 
 	ret = ''
+
 	filename = Utils.to_list(filename)
+	msg = kw.get('msg', ', '.join(filename))
 
 	var = kw.get('var', '')
 	if not var:
-		var = filename[0].upper()
-
-	if self.env[var]:
-		ret = self.env[var]
-	elif var in environ:
-		ret = environ[var]
+		var = re.sub(r'[-.]', '_', filename[0].upper())
 
 	path_list = kw.get('path_list', '')
-	if not ret:
-		if path_list:
-			path_list = Utils.to_list(path_list)
+	if path_list:
+		path_list = Utils.to_list(path_list)
+	else:
+		path_list = environ.get('PATH', '').split(os.pathsep)
+
+	if var in environ:
+		filename = environ[var]
+		if os.path.isfile(filename):
+			# typical CC=/usr/bin/gcc waf configure build
+			ret = [filename]
 		else:
-			path_list = environ.get('PATH', '').split(os.pathsep)
+			# case  CC='ccache gcc' waf configure build
+			ret = self.cmd_to_list(filename)
+	elif self.env[var]:
+		# set by the user in the wscript file
+		ret = self.env[var]
+		ret = self.cmd_to_list(ret)
+	else:
+		if not ret:
+			ret = self.find_binary(filename, exts.split(','), path_list)
+		if not ret and Utils.winreg:
+			ret = Utils.get_registry_app_path(Utils.winreg.HKEY_CURRENT_USER, filename)
+		if not ret and Utils.winreg:
+			ret = Utils.get_registry_app_path(Utils.winreg.HKEY_LOCAL_MACHINE, filename)
+		ret = self.cmd_to_list(ret)
 
-		if not isinstance(filename, list):
-			filename = [filename]
 
-		for a in exts.split(','):
-			if ret:
-				break
-			for b in filename:
-				if ret:
-					break
-				for c in path_list:
-					if ret:
-						break
-					x = os.path.expanduser(os.path.join(c, b + a))
-					if os.path.isfile(x):
-						ret = x
+	if ret:
+		if len(ret) == 1:
+			retmsg = ret[0]
+		else:
+			retmsg = ret
+	else:
+		retmsg = False
 
-	if not ret and Utils.winreg:
-		ret = Utils.get_registry_app_path(Utils.winreg.HKEY_CURRENT_USER, filename)
-	if not ret and Utils.winreg:
-		ret = Utils.get_registry_app_path(Utils.winreg.HKEY_LOCAL_MACHINE, filename)
-
-	self.msg('Checking for program ' + ','.join(filename), ret or False)
-	self.to_log('find program=%r paths=%r var=%r -> %r' % (filename, path_list, var, ret))
+	self.msg("Checking for program '%s'" % msg, retmsg, **kw)
+	if not kw.get('quiet', None):
+		self.to_log('find program=%r paths=%r var=%r -> %r' % (filename, path_list, var, ret))
 
 	if not ret:
-		self.fatal(kw.get('errmsg', '') or 'Could not find the program %s' % ','.join(filename))
+		self.fatal(kw.get('errmsg', '') or 'Could not find the program %r' % filename)
 
-	if var:
+	interpreter = kw.get('interpreter', None)
+	if interpreter is None:
+		if not Utils.check_exe(ret[0], env=environ):
+			self.fatal('Program %r is not executable' % ret)
 		self.env[var] = ret
+	else:
+		self.env[var] = self.env[interpreter] + ret
+
 	return ret
+
+@conf
+def find_binary(self, filenames, exts, paths):
+	for f in filenames:
+		for ext in exts:
+			exe_name = f + ext
+			if os.path.isabs(exe_name):
+				if os.path.isfile(exe_name):
+					return exe_name
+			else:
+				for path in paths:
+					x = os.path.expanduser(os.path.join(path, exe_name))
+					if os.path.isfile(x):
+						return x
+	return None
 
 
 @conf
-def find_perl_program(self, filename, path_list=[], var=None, environ=None, exts=''):
+def run_build(self, *k, **kw):
 	"""
-	Search for a perl program on the operating system
+	Create a temporary build context to execute a build. A reference to that build
+	context is kept on self.test_bld for debugging purposes, and you should not rely
+	on it too much (read the note on the cache below).
+	The parameters given in the arguments to this function are passed as arguments for
+	a single task generator created in the build. Only three parameters are obligatory:
 
-	:param filename: file to search for
-	:type filename: string
-	:param path_list: list of paths to look into
-	:type path_list: list of string
-	:param var: store the results into *conf.env.var*
-	:type var: string
-	:param environ: operating system environment to pass to :py:func:`waflib.Configure.find_program`
-	:type environ: dict
-	:param exts: extensions given to :py:func:`waflib.Configure.find_program`
-	:type exts: list
+	:param features: features to pass to a task generator created in the build
+	:type features: list of string
+	:param compile_filename: file to create for the compilation (default: *test.c*)
+	:type compile_filename: string
+	:param code: code to write in the filename to compile
+	:type code: string
+
+	Though this function returns *0* by default, the build may set an attribute named *retval* on the
+	build context object to return a particular value. See :py:func:`waflib.Tools.c_config.test_exec_fun` for example.
+
+	This function also provides a limited cache. To use it, provide the following option::
+
+		def options(opt):
+			opt.add_option('--confcache', dest='confcache', default=0,
+				action='count', help='Use a configuration cache')
+
+	And execute the configuration with the following command-line::
+
+		$ waf configure --confcache
+
 	"""
+
+	lst = [str(v) for (p, v) in kw.items() if p != 'env']
+	h = Utils.h_list(lst)
+	dir = self.bldnode.abspath() + os.sep + (not Utils.is_win32 and '.' or '') + 'conf_check_' + Utils.to_hex(h)
 
 	try:
-		app = self.find_program(filename, path_list=path_list, var=var, environ=environ, exts=exts)
-	except Exception:
-		self.find_program('perl', var='PERL')
-		app = self.find_file(filename, os.environ['PATH'].split(os.pathsep))
-		if not app:
+		os.makedirs(dir)
+	except OSError:
+		pass
+
+	try:
+		os.stat(dir)
+	except OSError:
+		self.fatal('cannot use the configuration test folder %r' % dir)
+
+	cachemode = getattr(Options.options, 'confcache', None)
+	if cachemode == 1:
+		try:
+			proj = ConfigSet.ConfigSet(os.path.join(dir, 'cache_run_build'))
+		except OSError:
+			pass
+		except IOError:
+			pass
+		else:
+			ret = proj['cache_run_build']
+			if isinstance(ret, str) and ret.startswith('Test does not build'):
+				self.fatal(ret)
+			return ret
+
+	bdir = os.path.join(dir, 'testbuild')
+
+	if not os.path.exists(bdir):
+		os.makedirs(bdir)
+
+	self.test_bld = bld = Build.BuildContext(top_dir=dir, out_dir=bdir)
+	bld.init_dirs()
+	bld.progress_bar = 0
+	bld.targets = '*'
+
+	bld.logger = self.logger
+	bld.all_envs.update(self.all_envs) # not really necessary
+	bld.env = kw['env']
+
+	# OMG huge hack
+	bld.kw = kw
+	bld.conf = self
+	kw['build_fun'](bld)
+
+	ret = -1
+	try:
+		try:
+			bld.compile()
+		except Errors.WafError:
+			ret = 'Test does not build: %s' % Utils.ex_stack()
+			self.fatal(ret)
+		else:
+			ret = getattr(bld, 'retval', 0)
+	finally:
+		if cachemode == 1:
+			# cache the results each time
+			proj = ConfigSet.ConfigSet()
+			proj['cache_run_build'] = ret
+			proj.store(os.path.join(dir, 'cache_run_build'))
+		else:
+			shutil.rmtree(dir)
+
+	return ret
+
+@conf
+def ret_msg(self, msg, args):
+	if isinstance(msg, str):
+		return msg
+	return msg(args)
+
+@conf
+def test(self, *k, **kw):
+
+	if not 'env' in kw:
+		kw['env'] = self.env.derive()
+
+	# validate_c for example
+	if kw.get('validate', None):
+		kw['validate'](kw)
+
+	self.start_msg(kw['msg'], **kw)
+	ret = None
+	try:
+		ret = self.run_build(*k, **kw)
+	except self.errors.ConfigurationError:
+		self.end_msg(kw['errmsg'], 'YELLOW', **kw)
+		if Logs.verbose > 1:
 			raise
-		if var:
-			self.env[var] = Utils.to_list(self.env['PERL']) + [app]
-	self.msg('Checking for %r' % filename, app)
+		else:
+			self.fatal('The configuration failed')
+	else:
+		kw['success'] = ret
+
+	if kw.get('post_check', None):
+		ret = kw['post_check'](kw)
+
+	if ret:
+		self.end_msg(kw['errmsg'], 'YELLOW', **kw)
+		self.fatal('The configuration failed %r' % ret)
+	else:
+		self.end_msg(self.ret_msg(kw['okmsg'], kw), **kw)
+	return ret
+
+
 

@@ -61,6 +61,26 @@ class run_pl_script(Task.Task):
 			kw["stdout"] = kw["stderr"] = None
 		return bld.exec_command(cmd, **kw) 
 
+	def keyword(self):
+		"""
+		Override the 'Compiling' default.
+
+		"""
+
+		return 'Running'
+
+	def __str__(self):
+		"""
+		More useful output.
+
+		"""
+
+		return "{prepend} [Perl] {fn} {append}".format(
+				prepend=self.env.PREPEND,
+				fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
+				append=self.env.APPEND
+			)
+
 
 @TaskGen.feature('run_pl_script')
 @TaskGen.before_method('process_source')
@@ -84,12 +104,12 @@ def apply_run_pl_script(tg):
 		if not node:
 			tg.bld.fatal(
 				'Could not find dependency %r for running %r'
-				% (x, src_node.nice_path())
+				% (x, src_node.relpath())
 			)
 		tsk.dep_nodes.append(node)
 	Logs.debug(
 		'deps: found dependencies %r for running %r'
-		% (tsk.dep_nodes, src_node.nice_path())
+		% (tsk.dep_nodes, src_node.relpath())
 	)
 
 	# Bypass the execution of process_source by setting the source to an empty

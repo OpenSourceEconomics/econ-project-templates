@@ -92,7 +92,7 @@ def debug_cs(self):
 
 		def build(bld):
 			bld(features='cs', source='My.cs', bintype='library', gen='my.dll', csdebug='full')
-			# csdebug is a value in [True, 'full', 'pdbonly']
+			# csdebug is a value in (True, 'full', 'pdbonly')
 	"""
 	csdebug = getattr(self, 'csdebug', self.env.CSDEBUG)
 	if not csdebug:

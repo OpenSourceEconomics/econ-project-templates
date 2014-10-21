@@ -79,7 +79,7 @@ class cxx_qt(Task.classes['cxx']):
 
 						try:
 							link = self.generator.link_task
-						except:
+						except AttributeError:
 							pass
 						else:
 							link.set_run_after(cxxtsk)

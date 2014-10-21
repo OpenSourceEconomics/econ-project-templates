@@ -24,7 +24,7 @@ from waflib.Configure import conf
 
 try:
 	from urllib import request
-except:
+except ImportError:
 	from urllib import urlopen
 else:
 	urlopen = request.urlopen

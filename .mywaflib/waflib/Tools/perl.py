@@ -82,7 +82,7 @@ def check_perl_version(self, minver=None):
 	
 	self.env['PERL'] = perl
 
-	version = self.cmd_and_log([perl, "-e", 'printf \"%vd\", $^V'])
+	version = self.cmd_and_log(self.env.PERL + ["-e", 'printf \"%vd\", $^V'])
 	if not version:
 		res = False
 		version = "Unknown"
@@ -105,7 +105,7 @@ def check_perl_module(self, module):
 		def configure(conf):
 			conf.check_perl_module("Some::Module 2.92")
 	"""
-	cmd = [self.env['PERL'], '-e', 'use %s' % module]
+	cmd = self.env.PERL + ['-e', 'use %s' % module]
 	self.start_msg('perl module %s' % module)
 	try:
 		r = self.cmd_and_log(cmd)
@@ -131,22 +131,25 @@ def check_perl_ext_devel(self):
 	if not perl:
 		self.fatal('find perl first')
 
-	def read_out(cmd):
-		return Utils.to_list(self.cmd_and_log(perl + cmd))
+	def cmd_perl_config(s):
+		return perl + ['-MConfig', '-e', 'print \"%s\"' % s]
+	def cfg_str(cfg):
+		return self.cmd_and_log(cmd_perl_config(cfg))
+	def cfg_lst(cfg):
+		return Utils.to_list(cfg_str(cfg))
 
-	env['LINKFLAGS_PERLEXT'] = read_out(" -MConfig -e'print $Config{lddlflags}'")
-	env['INCLUDES_PERLEXT'] = read_out(" -MConfig -e'print \"$Config{archlib}/CORE\"'")
-	env['CFLAGS_PERLEXT'] = read_out(" -MConfig -e'print \"$Config{ccflags} $Config{cccdlflags}\"'")
-
-	env['XSUBPP'] = read_out(" -MConfig -e'print \"$Config{privlib}/ExtUtils/xsubpp$Config{exe_ext}\"'")
-	env['EXTUTILS_TYPEMAP'] = read_out(" -MConfig -e'print \"$Config{privlib}/ExtUtils/typemap\"'")
+	env['LINKFLAGS_PERLEXT'] = cfg_lst('$Config{lddlflags}')
+	env['INCLUDES_PERLEXT'] = cfg_lst('$Config{archlib}/CORE')
+	env['CFLAGS_PERLEXT'] = cfg_lst('$Config{ccflags} $Config{cccdlflags}')
+	env['XSUBPP'] = cfg_lst('$Config{privlib}/ExtUtils/xsubpp$Config{exe_ext}')
+	env['EXTUTILS_TYPEMAP'] = cfg_lst('$Config{privlib}/ExtUtils/typemap')
 
 	if not getattr(Options.options, 'perlarchdir', None):
-		env['ARCHDIR_PERL'] = self.cmd_and_log(perl + " -MConfig -e'print $Config{sitearch}'")
+		env['ARCHDIR_PERL'] = cfg_str('$Config{sitearch}')
 	else:
 		env['ARCHDIR_PERL'] = getattr(Options.options, 'perlarchdir')
 
-	env['perlext_PATTERN'] = '%s.' + self.cmd_and_log(perl + " -MConfig -e'print $Config{dlext}'")
+	env['perlext_PATTERN'] = '%s.' + cfg_str('$Config{dlext}')
 
 def options(opt):
 	"""

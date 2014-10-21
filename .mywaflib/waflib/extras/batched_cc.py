@@ -3,8 +3,9 @@
 # Thomas Nagy, 2006-2010 (ita)
 
 """
-Batched builds - compile faster
-instead of compiling object files one by one, c/c++ compilers are often able to compile at once:
+Build as batches.
+
+Instead of compiling object files one by one, c/c++ compilers are often able to compile at once:
 cc -c ../file1.c ../file2.c ../file3.c
 
 Files are output on the directory where the compiler is called, and dependencies are more difficult
@@ -14,7 +15,8 @@ As such, we do as if the files were compiled one by one, but no command is actua
 replace each cc/cpp Task by a TaskSlave. A new task called TaskMaster collects the
 signatures from each slave and finds out the command-line to run.
 
-It is only necessary to import this module in the configuration (no other change required)
+Just import this module in the configuration (no other change required).
+This is provided as an example, for performance unity builds are recommended (fewer tasks and fewer jobs to execute).
 """
 
 import os
@@ -132,7 +134,7 @@ def link_after_masters(self):
 # Modify the c and cxx task classes - in theory it would be better to
 # create subclasses and to re-map the c/c++ extensions
 #
-for x in ['c', 'cxx']:
+for x in ('c', 'cxx'):
 	t = Task.classes[x]
 	def run(self):
 		pass
@@ -141,21 +143,8 @@ for x in ['c', 'cxx']:
 		#self.executed=1
 		pass
 
-	def can_retrieve_cache(self):
-		if self.old_can_retrieve_cache():
-			for m in self.generator.allmasters:
-				try:
-					m.slaves.remove(self)
-				except ValueError:
-					pass #this task wasn't included in that master
-			return 1
-		else:
-			return None
-
 	setattr(t, 'oldrun', t.__dict__['run'])
 	setattr(t, 'run', run)
 	setattr(t, 'old_post_run', t.post_run)
 	setattr(t, 'post_run', post_run)
-	setattr(t, 'old_can_retrieve_cache', t.can_retrieve_cache)
-	setattr(t, 'can_retrieve_cache', can_retrieve_cache)
 

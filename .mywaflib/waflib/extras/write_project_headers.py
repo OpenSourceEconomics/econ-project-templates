@@ -336,13 +336,13 @@ class WriteProjectPathsStata(Task.Task):
     def _write_ado_paths(self, ado_paths, out_file):
         for name, val in ado_paths.items():
             if re.match('PERSONAL|PLUS', name):
-                out_file.write('sysdir set {0} "{1}/"\n'.format(
+                out_file.write('sysdir set {} "{}/"\n'.format(
                     name,
                     val.abspath())
                 )
             else:
-                out_file.write('adopath ++ "{0}/"\n'.format(val.abspath()))
-                out_file.write('adopath ++ "{0}/"\n'.format(
+                out_file.write('adopath ++ "{}/"\n'.format(val.abspath()))
+                out_file.write('adopath ++ "{}/"\n'.format(
                     val.get_bld().abspath())
                 )
         out_file.write('\n')
@@ -393,7 +393,7 @@ def apply_write_project_paths(tsk_g):
             task_str = 'WriteProjectPathsStata'
         else:
             raise Errors.WafError(
-                'Unknown file type of target {0}'.format(tgt_node.name)
+                'Unknown file type of target {}'.format(tgt_node.name)
             )
         # Create the task.
         tsk_g.create_task(task_str, src=src_node, tgt=tgt_node)

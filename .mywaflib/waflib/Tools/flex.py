@@ -47,6 +47,7 @@ def configure(conf):
 	conf.find_program('flex', var='FLEX')
 	conf.env.FLEXFLAGS = ['-t']
 
-	if re.search (r"\\msys\\[0-9.]+\\bin\\flex.exe$", conf.env.FLEX):
+	if re.search (r"\\msys\\[0-9.]+\\bin\\flex.exe$", conf.env.FLEX[0]):
 		# this is the flex shipped with MSYS
 		conf.env.FLEX_MSYS = True
+

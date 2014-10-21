@@ -15,7 +15,6 @@ def find_nag(conf):
 	"""Find the NAG Fortran Compiler (will look in the environment variable 'FC')"""
 
 	fc = conf.find_program(['nagfor'], var='FC')
-	fc = conf.cmd_to_list(fc)
 	conf.get_nag_version(fc)
 	conf.env.FC_NAME = 'NAG'
 	conf.env.FC_MOD_CAPITALIZATION = 'lower'

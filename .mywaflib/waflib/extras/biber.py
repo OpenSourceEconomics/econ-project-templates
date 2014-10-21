@@ -23,7 +23,7 @@ class tex(texmodule.tex):
 	def bibunits(self):
 		self.env.env = {}
 		self.env.env.update(os.environ)
-		self.env.env.update({'BIBINPUTS': self.TEXINPUTS, 'BSTINPUTS': self.TEXINPUTS})
+		self.env.env.update({'BIBINPUTS': self.texinputs(), 'BSTINPUTS': self.texinputs()})
 		self.env.SRCFILE = self.aux_nodes[0].name[:-4]
 
 		# if not self.env['PROMPT_LATEX']:
