@@ -14,7 +14,7 @@ def find_ldc2(conf):
 
 	conf.find_program(['ldc2'], var='D')
 
-	out = conf.cmd_and_log([conf.env.D, '-version'])
+	out = conf.cmd_and_log(conf.env.D + ['-version'])
 	if out.find("based on DMD v2.") == -1:
 		conf.fatal("detected compiler is not ldc2")
 

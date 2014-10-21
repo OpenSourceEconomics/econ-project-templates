@@ -9,7 +9,7 @@ import waflib.Logs as _msg
 from waflib import Task
 from waflib.TaskGen import extension, feature, before_method, after_method
 
-cy_api_pat = re.compile(r'\s*?cdef\s*?(public|api)\w*')
+cy_api_pat = re.compile(r'cdef\s*?(public|api)\w*')
 re_cyt = re.compile(r"""
 	(?:from\s+(\w+)\s+)?   # optionally match "from foo" and capture foo
 	c?import\s(\w+|[*])    # require "import bar" and capture bar
@@ -76,7 +76,8 @@ class cython(Task.Task):
 
 			$ waf clean build --zones=deps
 		"""
-		txt = self.inputs[0].read()
+		node = self.inputs[0]
+		txt = node.read()
 
 		mods = []
 		for m in re_cyt.finditer(txt):
@@ -88,7 +89,7 @@ class cython(Task.Task):
 		_msg.debug("cython: mods %r" % mods)
 		incs = getattr(self.generator, 'cython_includes', [])
 		incs = [self.generator.path.find_dir(x) for x in incs]
-		incs.append(self.inputs[0].parent)
+		incs.append(node.parent)
 
 		found = []
 		missing = []
@@ -100,6 +101,12 @@ class cython(Task.Task):
 					break
 			else:
 				missing.append(x)
+
+		# the cython file implicitly depends on a pxd file that might be present
+		implicit = node.parent.find_resource(node.name[:-3] + 'pxd')
+		if implicit:
+			found.append(implicit)
+
 		_msg.debug("cython: found %r" % found)
 
 		# Now the .h created - store them in bld.raw_deps for later use
@@ -111,7 +118,7 @@ class cython(Task.Task):
 					has_api = True
 				if ' public ' in l:
 					has_public = True
-		name = self.inputs[0].name.replace('.pyx', '')
+		name = node.name.replace('.pyx', '')
 		if has_api:
 			missing.append('header:%s_api.h' % name)
 		if has_public:

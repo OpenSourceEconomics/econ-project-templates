@@ -44,7 +44,7 @@ class sas(Task.Task):
 @feature('sas')
 @before_method('process_source')
 def apply_sas(self):
-	if not getattr(self, 'type', None) in ['sas']:
+	if not getattr(self, 'type', None) in ('sas',):
 		self.type = 'sas'
 
 	self.env['logdir'] = getattr(self, 'logdir', 'log')

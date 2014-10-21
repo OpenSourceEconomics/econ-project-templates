@@ -15,7 +15,6 @@ def find_solstudio(conf):
 	"""Find the Solaris Studio compiler (will look in the environment variable 'FC')"""
 
 	fc = conf.find_program(['sunf95', 'f95', 'sunf90', 'f90'], var='FC')
-	fc = conf.cmd_to_list(fc)
 	conf.get_solstudio_version(fc)
 	conf.env.FC_NAME = 'SOL'
 

@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 @before_method('process_source')
 def link_lib_test_fun(self):
 	"""
-	The configuration test :py:func:`waflib.Tools.ccroot.run_c_code` declares a unique task generator,
+	The configuration test :py:func:`waflib.Configure.run_build` declares a unique task generator,
 	so we need to create other task generators from here to check if the linker is able to link libraries.
 	"""
 	def write_test_file(task):

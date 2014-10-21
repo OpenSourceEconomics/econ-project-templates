@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Thomas Nagy, 2005-2013
+# Thomas Nagy, 2005-2014
 # Modifications by Hans-Martin von Gaudecker for econ-project-templates
 
 """
@@ -33,7 +33,7 @@ POSSIBILITY OF SUCH DAMAGE.
 import os
 import sys
 
-VERSION = "1.7.16"
+VERSION = "1.8.2"
 cwd = os.getcwd()
 join = os.path.join
 

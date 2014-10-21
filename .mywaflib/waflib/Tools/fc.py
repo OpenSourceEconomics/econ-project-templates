@@ -160,10 +160,6 @@ class fcshlib(fcprogram):
 class fcprogram_test(fcprogram):
 	"""Custom link task to obtain the compiler outputs for fortran configuration tests"""
 
-	def can_retrieve_cache(self):
-		"""This task is always executed"""
-		return False
-
 	def runnable_status(self):
 		"""This task is always executed"""
 		ret = super(fcprogram_test, self).runnable_status()

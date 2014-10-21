@@ -20,7 +20,6 @@ def find_sxx(conf):
 	if not cc: cc = conf.find_program('CC', var='CXX') #studio
 	if not cc: cc = conf.find_program('c++', var='CXX')
 	if not cc: conf.fatal('Could not find a Sun C++ compiler')
-	cc = conf.cmd_to_list(cc)
 
 	try:
 		conf.cmd_and_log(cc + ['-flags'])

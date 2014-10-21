@@ -230,7 +230,7 @@ def configure(conf):
 	if conf.env.GO_PLATFORM == 'x86_64':
 		set_def('GO_COMPILER', '6g')
 		set_def('GO_LINKER', '6l')
-	elif conf.env.GO_PLATFORM in ['i386', 'i486', 'i586', 'i686']:
+	elif conf.env.GO_PLATFORM in ('i386', 'i486', 'i586', 'i686'):
 		set_def('GO_COMPILER', '8g')
 		set_def('GO_LINKER', '8l')
 	elif conf.env.GO_PLATFORM == 'arm':

@@ -25,7 +25,6 @@ def find_pgi_compiler(conf, var, name):
 	elif var in conf.environ: cc = conf.environ[var]
 	if not cc: cc = conf.find_program(name, var=var)
 	if not cc: conf.fatal('PGI Compiler (%s) was not found' % name)
-	cc = conf.cmd_to_list(cc)
 
 	v[var + '_VERSION'] = conf.get_pgi_version(cc)
 	v[var] = cc
