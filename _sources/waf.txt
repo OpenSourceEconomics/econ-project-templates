@@ -195,11 +195,11 @@ You start building the project by typing::
 
     python waf.py build
 
-at a command prompt. Because this is the most frequent command to execute,
+at a command prompt. Because this is the most frequent command to execute, you can leave out the ``build`` qualifier and use::
 
     python waf.py
 
-can be used as a shortcut and actually has the same effect.
+as a shortcut; it has exactly the same effect.
 
 
 The installation phase
