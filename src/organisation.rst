@@ -17,10 +17,10 @@ The left node of the following graph shows the contents of the project root dire
 .. figure:: ../bld/src/examples/project_hierarchies_big_pic.png
    :width: 50em
 
-Files and directories in square brackets are constructed by Waf. You immediately see the **separation of inputs and outputs** (one of our guiding principles) at work:
+Files and directories in brownish colours are constructed by Waf; those with a bluish background are added directly by the researcher. You immediately see the **separation of inputs and outputs** (one of our guiding principles) at work:
 
     * All source code is in the *src* directory.
-    * All outputs are constructed in the *[bld]* directory.
+    * All outputs are constructed in the *bld* directory.
     * The other objects in square brackets are put there during Waf's install phase, so that they can be opened easily (paper, presentation, documentation).
     * The remainder is made up of objects related to Waf:
         

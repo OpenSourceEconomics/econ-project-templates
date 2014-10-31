@@ -4,24 +4,36 @@ project_root = r"""
         \node (1) [
             rectangle split,
             rectangle split parts=10,
+            rectangle split part fill={
+                blue!15,
+                brown!25,
+                brown!25,
+                brown!25,
+                brown!25,
+                brown!25,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15
+            },
             draw,
             text width=4.50cm
         ]
         {
             \nodepart{one}
                 \begin{small}
-                project\_root
+                    \textbf{Project Root}
                 \end{small}
             \nodepart{two}
-                [bld]
+                bld
             \nodepart{three}
-                [project documentation]
+                project documentation
             \nodepart{four}
-                [project documentation.pdf]
+                project documentation.pdf
             \nodepart{five}
-                [research\_paper.pdf]
+                research\_paper.pdf
             \nodepart{six}
-                [research\_pres\_30min.pdf]
+                research\_pres\_30min.pdf
             \nodepart{seven}
                 src
             \nodepart{eight}
@@ -38,6 +50,11 @@ bld = r"""
         \node (2) [
             rectangle split,
             rectangle split parts=3,
+            rectangle split part fill={
+                brown!25,
+                brown!25,
+                brown!25
+            },
             draw,
             text width=2.50cm,
             right=of 1
@@ -45,7 +62,7 @@ bld = r"""
         {
             \nodepart{one}
                 \begin{small}
-                bld
+                    \textbf{bld}
                 \end{small}
             \nodepart{two}
                 src
@@ -58,7 +75,7 @@ _src_body = r"""
         {
             \nodepart{one}
                 \begin{small}
-                src
+                    \textbf{src}
                 \end{small}
             \nodepart{two}
                 analysis
@@ -87,6 +104,19 @@ src_below_2 = r"""
         \node (3) [
             rectangle split,
             rectangle split parts=11,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15
+            },
             draw,
             text width=2.50cm,
             below=of 2
@@ -96,6 +126,19 @@ src_no_loc = r"""
         \node (3) [
             rectangle split,
             rectangle split parts=11,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15
+            },
             draw,
             text width=2.50cm
         ]""" + _src_body
@@ -104,6 +147,19 @@ src_left_of_8 = r"""
         \node (3) [
             rectangle split,
             rectangle split parts=11,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15
+            },
             draw,
             text width=2.50cm,
             left=of 8
@@ -113,6 +169,14 @@ out = r"""
         \node (4) [
             rectangle split,
             rectangle split parts=6,
+            rectangle split part fill={
+                brown!25,
+                brown!25,
+                brown!25,
+                brown!25,
+                brown!25,
+                brown!25
+            },
             draw,
             text width=2.50cm,
             right=of 2
@@ -120,7 +184,7 @@ out = r"""
         {
             \nodepart{one}
                 \begin{small}
-                out
+                    \textbf{out}
                 \end{small}
             \nodepart{two}
                 data
@@ -140,6 +204,13 @@ library = r"""
         \node (6) [
             rectangle split,
             rectangle split parts=5,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=2.50cm,
             right=of 3
@@ -147,7 +218,7 @@ library = r"""
         {
             \nodepart{one}
                 \begin{small}
-                library
+                    \textbf{library}
                 \end{small}
             \nodepart{two}
                 wscript
@@ -161,13 +232,18 @@ model_code = r"""
         \node (8) [
             rectangle split,
             rectangle split parts=3,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=2.5cm
         ]
         {
             \nodepart{one}
                 \begin{small}
-                model\_code
+                    \textbf{model\_code}
                 \end{small}
             \nodepart{two}
                 \_\_init.py\_\_
@@ -181,6 +257,11 @@ model_specs = r"""
         \node (222) [
             rectangle split,
             rectangle split parts=3,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=2.5cm,
             below= of 8
@@ -188,7 +269,7 @@ model_specs = r"""
         {
             \nodepart{one}
                 \begin{small}
-                model\_specs
+                    \textbf{model\_specs}
                 \end{small}
             \nodepart{two}
                 baseline.json
@@ -202,6 +283,12 @@ original_data = r"""
         \node (9) [
             rectangle split,
             rectangle split parts=4,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=2.50cm,
             right=of 3
@@ -209,7 +296,7 @@ original_data = r"""
         {
             \nodepart{one}
                 \begin{small}
-                original\_data
+                    \textbf{original\_data}
                 \end{small}
             \nodepart{two}
                 dataset\_1
@@ -225,6 +312,13 @@ data_management = r"""
         \node (10) [
             rectangle split,
             rectangle split parts=5,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=3.0cm,
             right=of 3
@@ -232,7 +326,7 @@ data_management = r"""
         {
             \nodepart{one}
                 \begin{small}
-                data\_management
+                    \textbf{data\_management}
                 \end{small}
             \nodepart{two}
                 \_\_init.py\_\_
@@ -248,6 +342,12 @@ analysis = r"""
         \node (11) [
             rectangle split,
             rectangle split parts=4,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=2.5cm,
             above=of 8
@@ -255,7 +355,7 @@ analysis = r"""
         {
             \nodepart{one}
                 \begin{small}
-                analysis
+                    \textbf{analysis}
                 \end{small}
             \nodepart{two}
                 \_\_init.py\_\_
@@ -270,6 +370,12 @@ final = r"""
         \node (12) [
             rectangle split,
             rectangle split parts=4,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=2.5cm,
             right=of 3
@@ -277,7 +383,7 @@ final = r"""
         {
             \nodepart{one}
                 \begin{small}
-                final
+                    \textbf{final}
                 \end{small}
             \nodepart{two}
                 \_\_init.py\_\_
@@ -293,6 +399,14 @@ paper = r"""
         \node (13) [
             rectangle split,
             rectangle split parts=6,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=3cm,
             right=of 3
@@ -300,7 +414,7 @@ paper = r"""
         {
             \nodepart{one}
                 \begin{small}
-                paper
+                    \textbf{paper}
                 \end{small}
             \nodepart{two}
                 formulas
@@ -320,6 +434,10 @@ formulas = r"""
         \node (14) [
             rectangle split,
             rectangle split parts=2,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+            },
             draw,
             text width=2.50cm,
             right=of 13
@@ -327,7 +445,7 @@ formulas = r"""
         {
             \nodepart{one}
                 \begin{small}
-                formulas
+                    \textbf{formulas}
                 \end{small}
             \nodepart{two}
                 decision\_rule.tex
@@ -339,6 +457,19 @@ documentation = r"""
         \node (15) [
             rectangle split,
             rectangle split parts=11,
+            rectangle split part fill={
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15,
+                blue!15
+            },
             draw,
             text width=3cm,
             right = of 3
@@ -346,7 +477,7 @@ documentation = r"""
         {
             \nodepart{one}
                 \begin{small}
-                documentation
+                    \textbf{documentation}
                 \end{small}
             \nodepart{two}
                 analysis.rst
