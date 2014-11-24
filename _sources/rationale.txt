@@ -18,9 +18,9 @@ I will not touch upon the last point until the :ref:`organisation` section below
 Running example
 ---------------
 
-To fix ideas, let's look at the example of Schelling's (1969, :cite:`Schelling69`) segregation model, as outlined `here <http://quant-econ.net/schelling.html#schelling-s-segregation-model>`_ in Stachurski's and Sargent's online course :cite:`StachurskiSargent13`. Please look at their `description <http://quant-econ.net/schelling.html#schelling-s-segregation-model>`_ of the Schelling model. Say we are thinking of two variants for the moment:
+To fix ideas, let's look at the example of Schelling's (1969, :cite:`Schelling69`) segregation model, as outlined `here <http://quant-econ.net/py/schelling.html>`_ in Stachurski's and Sargent's online course :cite:`StachurskiSargent13`. Please look at their `description <http://quant-econ.net/py/schelling.html>`_ of the Schelling model. Say we are thinking of two variants for the moment:
 
-    1. Replicate the `figures <http://quant-econ.net/schelling.html#results>`_ from Stachurski's and Sargent's course.
+    1. Replicate the `figures <http://quant-econ.net/py/schelling.html#results>`_ from Stachurski's and Sargent's course.
     2. Check what happens when agents are restricted to two random moves per period; after that they have to stop regardless whether they are happy or not.
 
 For each of these variants (called **models** in the project template and the remainder of this document), you need to perform various steps:
