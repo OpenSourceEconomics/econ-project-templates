@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Frequently answered questions &mdash; Tutorial: Templates for reproducible research projects</title>
+    <title>Frequently Answered Questions / Troubleshooting &mdash; Tutorial: Templates for reproducible research projects</title>
     
     <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -70,8 +70,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="frequently-answered-questions">
-<span id="faq"></span><h1>Frequently answered questions<a class="headerlink" href="#frequently-answered-questions" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="frequently-answered-questions-troubleshooting">
+<span id="faq"></span><h1>Frequently Answered Questions / Troubleshooting<a class="headerlink" href="#frequently-answered-questions-troubleshooting" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="latex-waf">
 <h2>LaTeX &amp; Waf<a class="headerlink" href="#latex-waf" title="Permalink to this headline">¶</a></h2>
 <ul>
@@ -93,6 +93,30 @@
 </pre></div>
 </div>
 </li>
+<li><p class="first"><strong>Biber on 64-bit MikTeX</strong></p>
+<p>There have been mulitple issues of with biber on Windows, sometimes leading to strange error messages from Python&#8217;s subprocess module (e.g., &#8220;file not found&#8221; errors). Apparently, current 64-bit MikTeX distributions do not contain Biber. Two possible fixes:</p>
+<ul>
+<li><p class="first"><strong>Recommended:</strong> In the main <tt class="docutils literal"><span class="pre">wscript</span></tt> file, replace the line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;biber&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>by:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;tex&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In <tt class="docutils literal"><span class="pre">src/paper/research_paper.tex</span></tt> and <tt class="docutils literal"><span class="pre">src/paper/research_pres_30min.tex</span></tt>, replace:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">backend</span><span class="o">=</span><span class="n">biber</span>
+</pre></div>
+</div>
+<p>by:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">backend</span><span class="o">=</span><span class="n">bibtex</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>For the adventurous:</strong> Download a 64-bit version of biber here: <a class="reference external" href="http://biblatex-biber.sourceforge.net/">http://biblatex-biber.sourceforge.net/</a>. Put the file <em>biber.exe</em> into the correct folder, typically that will be &#8220;C:Program FilesMiKTeX 2.9miktexbinx64&#8221;, &#8220;C:Program FilesMiKTeX 2.9miktexbin&#8221;, or the like. Hat tip to Andrey Alexandrov, a student in my 2014 class at Bonn.</p>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -105,7 +129,7 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Frequently answered questions</a><ul>
+<li><a class="reference internal" href="#">Frequently Answered Questions / Troubleshooting</a><ul>
 <li><a class="reference internal" href="#latex-waf">LaTeX &amp; Waf</a></li>
 </ul>
 </li>
