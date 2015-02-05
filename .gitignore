@@ -2,3 +2,4 @@
 bld
 .lock-*
 __pycache__
+.*

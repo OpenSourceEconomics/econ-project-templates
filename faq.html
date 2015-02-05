@@ -74,9 +74,10 @@
 <span id="faq"></span><h1>Frequently Answered Questions / Troubleshooting<a class="headerlink" href="#frequently-answered-questions-troubleshooting" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="latex-waf">
 <h2>LaTeX &amp; Waf<a class="headerlink" href="#latex-waf" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">'error</span> <span class="pre">when</span> <span class="pre">calling</span> <span class="pre">biber,</span> <span class="pre">check</span> <span class="pre">xxx.blg</span> <span class="pre">for</span> <span class="pre">errors'</span></tt></p>
-<p>This is a well-known bug in biber that occurs occasionally. Nicely explained <a class="reference external" href="http://tex.stackexchange.com/questions/140814/biblatex-biber-fails-with-a-strange-error-about-missing-recode-data-xml-file">here</a>.</p>
+<div class="section" id="error-when-calling-biber-check-xxx-blg-for-errors">
+<h3><tt class="docutils literal"><span class="pre">'error</span> <span class="pre">when</span> <span class="pre">calling</span> <span class="pre">biber,</span> <span class="pre">check</span> <span class="pre">xxx.blg</span> <span class="pre">for</span> <span class="pre">errors'</span></tt><a class="headerlink" href="#error-when-calling-biber-check-xxx-blg-for-errors" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>This is a well-known bug in biber that occurs occasionally. Nicely explained <a class="reference external" href="http://tex.stackexchange.com/questions/140814/biblatex-biber-fails-with-a-strange-error-about-missing-recode-data-xml-file">here</a>.</p>
 <p>Short excerpt from LaTeX Stack Exchange for the fix:</p>
 <blockquote>
 <div><p>You need to delete the relevant cache folders and compile your document again. You can find the location of the cache folder by looking at the .blg file, or by using the command:</p>
@@ -92,9 +93,12 @@
 <div class="highlight-python"><div class="highlight"><pre>python waf.py -j1
 </pre></div>
 </div>
-</li>
-<li><p class="first"><strong>Biber on 64-bit MikTeX</strong></p>
-<p>There have been mulitple issues of with biber on Windows, sometimes leading to strange error messages from Python&#8217;s subprocess module (e.g., &#8220;file not found&#8221; errors). Apparently, current 64-bit MikTeX distributions do not contain Biber. Two possible fixes:</p>
+</div></blockquote>
+</div>
+<div class="section" id="biber-on-64-bit-miktex">
+<h3>Biber on 64-bit MikTeX<a class="headerlink" href="#biber-on-64-bit-miktex" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>There have been mulitple issues of with biber on Windows, sometimes leading to strange error messages from Python&#8217;s subprocess module (e.g., &#8220;file not found&#8221; errors). Apparently, current 64-bit MikTeX distributions do not contain Biber. Two possible fixes:</p>
 <ul>
 <li><p class="first"><strong>Recommended:</strong> In the main <tt class="docutils literal"><span class="pre">wscript</span></tt> file, replace the line:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;biber&#39;</span><span class="p">)</span>
@@ -116,8 +120,30 @@
 <li><p class="first"><strong>For the adventurous:</strong> Download a 64-bit version of biber here: <a class="reference external" href="http://biblatex-biber.sourceforge.net/">http://biblatex-biber.sourceforge.net/</a>. Put the file <em>biber.exe</em> into the correct folder, typically that will be &#8220;C:Program FilesMiKTeX 2.9miktexbinx64&#8221;, &#8220;C:Program FilesMiKTeX 2.9miktexbin&#8221;, or the like. Hat tip to Andrey Alexandrov, a student in my 2014 class at Bonn.</p>
 </li>
 </ul>
-</li>
-</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="using-spyder-with-waf">
+<span id="spyder-waf"></span><h2>Using Spyder with Waf<a class="headerlink" href="#using-spyder-with-waf" title="Permalink to this headline">¶</a></h2>
+<p>Spyder is a useful IDE for developing scientific Python code &#8211; it has been specifically developed for this purpose and has first-class support for data structures like NumPy arrays and pandas dataframes.</p>
+<p>In the context of these project templates, there are just two issues to consider.</p>
+<div class="section" id="debugging-wscript-files">
+<h3>Debugging wscript files<a class="headerlink" href="#debugging-wscript-files" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes it is helpful to debug your build code directly. As the wscript files are just pure Python code Spyder can handle them in principle. The tricky bit is to make Spyder recognise the them as Python scripts &#8211; usually it just uses the extension <tt class="docutils literal"><span class="pre">.py</span></tt> to infer that fact. As you cannot simply add this extension to wscript files, you must tell Spyder inside the wscript file using a so-called &#8220;shebang&#8221;. Simply add the following line as the first thing to all your wscripts:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! python</span>
+</pre></div>
+</div>
+<p>You can then set breakpoints inside your wscript files and debug them by running waf.py from inside spyder (just make sure you ran <tt class="docutils literal"><span class="pre">python</span> <span class="pre">waf.py</span> <span class="pre">configure</span></tt> beforehand).</p>
+</div>
+<div class="section" id="setting-the-pythonpath">
+<h3>Setting the PYTHONPATH<a class="headerlink" href="#setting-the-pythonpath" title="Permalink to this headline">¶</a></h3>
+<p>The machinery of the imports in Python scripts requires the PYTHONPATH environmental variable to include the project root; you will need to add the project root directory to the PYTHONPATH when debugging files in Spyder as well.</p>
+<p>In order to do so, first create a Spyder project in the directory where you want your research to be (click &#8220;Yes&#8221; on the question &#8220;The following directory is not empty: ... Do you want to continue?&#8221;). Then right-click on the project&#8217;s root folder and select &#8220;Add to PYTHONPATH&#8221;.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/spyder_pythonpath.png"><img alt="_images/spyder_pythonpath.png" src="_images/spyder_pythonpath.png" style="width: 18cm;" /></a>
+</div></blockquote>
+<p>Any <tt class="docutils literal"><span class="pre">ImportErrors</span></tt> are likely due to this not being done correctly. Note that you <strong>must</strong> set the run configuration (F6 or select &#8220;Run&#8221; from the menu bar and then &#8220;Configure&#8221;) to &#8220;Execute in a new dedicated Python console&#8221;.</p>
+</div>
 </div>
 </div>
 
@@ -130,7 +156,16 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Frequently Answered Questions / Troubleshooting</a><ul>
-<li><a class="reference internal" href="#latex-waf">LaTeX &amp; Waf</a></li>
+<li><a class="reference internal" href="#latex-waf">LaTeX &amp; Waf</a><ul>
+<li><a class="reference internal" href="#error-when-calling-biber-check-xxx-blg-for-errors"><tt class="docutils literal"><span class="pre">'error</span> <span class="pre">when</span> <span class="pre">calling</span> <span class="pre">biber,</span> <span class="pre">check</span> <span class="pre">xxx.blg</span> <span class="pre">for</span> <span class="pre">errors'</span></tt></a></li>
+<li><a class="reference internal" href="#biber-on-64-bit-miktex">Biber on 64-bit MikTeX</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-spyder-with-waf">Using Spyder with Waf</a><ul>
+<li><a class="reference internal" href="#debugging-wscript-files">Debugging wscript files</a></li>
+<li><a class="reference internal" href="#setting-the-pythonpath">Setting the PYTHONPATH</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
