@@ -41,7 +41,7 @@ class run_py_script(Task.Task):
 
 	"""Run a Python script."""
 
-	run_str = '${PREPEND} ${PYCMD} ${SRC[0].abspath()} ${APPEND}'
+	run_str = '${PREPEND} "${PYCMD}" "${SRC[0].abspath()}" ${APPEND}'
 	shell = True
 
 	def exec_command(self, cmd, **kw):
