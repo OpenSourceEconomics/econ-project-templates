@@ -56,3 +56,5 @@ full
 ~$*
 Thumbs.db
 ___*
+!.gitignore
+!.mywaflib
