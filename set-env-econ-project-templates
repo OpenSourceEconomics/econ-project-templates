@@ -1,0 +1,8 @@
+# Alias for easier access to Waf.
+alias waf="python waf.py"
+
+# Set the default Waf configuration to 'fake'.
+export WAFLOCK=.lock-wafbld
+
+# Activate the conda environment
+source activate econ-project-templates

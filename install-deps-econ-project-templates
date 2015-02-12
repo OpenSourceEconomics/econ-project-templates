@@ -1,0 +1,6 @@
+# Create and activate a Miniconda environment.
+conda create -n econ-project-templates python=3.4 --no-default-packages
+source activate econ-project-templates
+# Install required packages
+conda install sphinx numpy scipy pandas nose matplotlib pip
+pip install cloud_sptheme sphinxcontrib-bibtex
