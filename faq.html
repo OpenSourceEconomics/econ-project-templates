@@ -145,6 +145,19 @@
 <p>Any <tt class="docutils literal"><span class="pre">ImportErrors</span></tt> are likely due to this not being done correctly. Note that you <strong>must</strong> set the run configuration (F6 or select &#8220;Run&#8221; from the menu bar and then &#8220;Configure&#8221;) to &#8220;Execute in a new dedicated Python console&#8221;.</p>
 </div>
 </div>
+<div class="section" id="stata-packages">
+<span id="id1"></span><h2>Stata packages<a class="headerlink" href="#stata-packages" title="Permalink to this headline">¶</a></h2>
+<p>Note that when you include (or input) the file <tt class="docutils literal"><span class="pre">project_paths.do</span></tt> in your Stata script, the system directories get changed. <strong>This means that Stata will not find any packages you installed system-wide anymore.</strong> This is desired behaviour to ensure that you (and your coauthors) run the same versions of different packages that you installed via <tt class="docutils literal"><span class="pre">ssc</span></tt> or the like. The project template comes with a few of them, see <em>src/library/stata/ado_ext</em> in the stata branch.</p>
+<div class="section" id="adding-additional-stata-packages-to-a-project">
+<h3>Adding additional Stata packages to a project<a class="headerlink" href="#adding-additional-stata-packages-to-a-project" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Open a Stata command line session and change to the project root directory</li>
+<li>Type <tt class="docutils literal"><span class="pre">include</span> <span class="pre">bld/project_paths</span></tt></li>
+<li>Type <tt class="docutils literal"><span class="pre">sysdir</span></tt> and make sure that the <tt class="docutils literal"><span class="pre">PLUS</span></tt> and <tt class="docutils literal"><span class="pre">PERSONAL</span></tt> directories point to subdirectories of the project.</li>
+<li>Install your package via ssc, say <tt class="docutils literal"><span class="pre">ssc</span> <span class="pre">install</span> <span class="pre">tabout</span></tt></li>
+</ol>
+</div>
+</div>
 </div>
 
 
@@ -164,6 +177,10 @@
 <li><a class="reference internal" href="#using-spyder-with-waf">Using Spyder with Waf</a><ul>
 <li><a class="reference internal" href="#debugging-wscript-files">Debugging wscript files</a></li>
 <li><a class="reference internal" href="#setting-the-pythonpath">Setting the PYTHONPATH</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#stata-packages">Stata packages</a><ul>
+<li><a class="reference internal" href="#adding-additional-stata-packages-to-a-project">Adding additional Stata packages to a project</a></li>
 </ul>
 </li>
 </ul>
