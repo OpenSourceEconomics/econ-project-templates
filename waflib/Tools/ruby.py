@@ -101,7 +101,7 @@ def check_ruby_ext_devel(self):
 		return Utils.to_list(self.cmd_and_log(self.env.RUBY + ['-rrbconfig', '-e', cmd]))
 
 	def read_config(key):
-		return read_out('puts Config::CONFIG[%r]' % key)
+		return read_out('puts RbConfig::CONFIG[%r]' % key)
 
 	ruby = self.env['RUBY']
 	archdir = read_config('archdir')

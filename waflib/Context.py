@@ -11,14 +11,14 @@ from waflib import Utils, Errors, Logs
 import waflib.Node
 
 # the following 3 constants are updated on each new release (do not touch)
-HEXVERSION=0x1080200
+HEXVERSION=0x1080600
 """Constant updated on new releases"""
 
-WAFVERSION="1.8.2"
+WAFVERSION="1.8.6"
 """Constant updated on new releases"""
 
-WAFREVISION="30fb9699ef89341f3eeef3fd600539b9b41b61c2"
-"""Constant updated on new releases"""
+WAFREVISION="cc875ba2c2a7bd78d7a84b038f542339d6f34ce3"
+"""Git revision when the waf version is updated"""
 
 ABI = 98
 """Version of the build data cache file format (used in :py:const:`waflib.Context.DBFILE`)"""
@@ -614,7 +614,7 @@ def load_module(path, encoding=None):
 	module = imp.new_module(WSCRIPT_FILE)
 	try:
 		code = Utils.readf(path, m='rU', encoding=encoding)
-	except (IOError, OSError):
+	except EnvironmentError:
 		raise Errors.WafError('Could not read the file %r' % path)
 
 	module_dir = os.path.dirname(path)
@@ -664,3 +664,4 @@ def load_tool(tool, tooldir=None, ctx=None):
 		ret = sys.modules[x % tool]
 		Context.tools[tool] = ret
 		return ret
+

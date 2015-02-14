@@ -142,7 +142,7 @@ echo PATH=%%PATH%%
 echo INCLUDE=%%INCLUDE%%
 echo LIB=%%LIB%%;%%LIBPATH%%
 """ % (vcvars,target))
-	sout = conf.cmd_and_log(['cmd', '/E:on', '/V:on', '/C', batfile.abspath()])
+	sout = conf.cmd_and_log(['cmd.exe', '/E:on', '/V:on', '/C', batfile.abspath()])
 	lines = sout.splitlines()
 
 	if not lines[0]:
@@ -1029,6 +1029,9 @@ def wrap_class(class_name):
 	derived_class.quote_response_command = quote_response_command
 	derived_class.exec_command_msvc = exec_command_msvc
 	derived_class.exec_mf = exec_mf
+
+	if hasattr(cls, 'hcode'):
+		derived_class.hcode = cls.hcode
 
 	return derived_class
 

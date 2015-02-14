@@ -61,7 +61,7 @@ def configure(self):
 
 	try:
 		txt = Utils.readf(fname)
-	except (OSError, IOError):
+	except EnvironmentError:
 		self.fatal('could not read %s' % fname)
 
 	txt = txt.replace('\\\n', '\n')

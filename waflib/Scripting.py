@@ -38,6 +38,17 @@ def waf_entry_point(current_directory, version, wafdir):
 		ctx.parse_args()
 		sys.exit(0)
 
+	if len(sys.argv) > 1:
+		# os.path.join handles absolute paths in sys.argv[1] accordingly (it discards the previous ones)
+		# if sys.argv[1] is not an absolute path, then it is relative to the current working directory
+		potential_wscript = os.path.join(current_directory, sys.argv[1])
+		# maybe check if the file is executable
+		# perhaps extract 'wscript' as a constant
+		if os.path.basename(potential_wscript) == 'wscript' and os.path.isfile(potential_wscript):
+			# need to explicitly normalize the path, as it may contain extra '/.'
+			current_directory = os.path.normpath(os.path.dirname(potential_wscript))
+			sys.argv.pop(1)
+
 	Context.waf_dir = wafdir
 	Context.launch_dir = current_directory
 
