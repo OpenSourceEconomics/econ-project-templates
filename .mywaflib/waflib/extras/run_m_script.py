@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-13
+# Hans-Martin von Gaudecker, 2012-15
 
 """
 Run a Matlab script.

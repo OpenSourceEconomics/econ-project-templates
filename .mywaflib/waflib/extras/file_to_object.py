@@ -39,6 +39,8 @@ from waflib import Task, Utils, TaskGen, Errors
 
 class file_to_object(Task.Task):
 	color = 'CYAN'
+	dep_vars = ('DEST_CPU', 'DEST_BINFMT')
+
 	def run(self):
 		name = []
 		for i, x in enumerate(self.inputs[0].name):
@@ -85,7 +87,7 @@ def tg_file_to_object(self):
 	src = self.to_nodes(self.source)
 	assert len(src) == 1
 	src = src[0]
-	tgt = src.change_ext('-wrap.S')
+	tgt = src.parent.find_or_declare(src.name + '.f2o.s')
 	task = self.create_task('file_to_object',
 	 src, tgt, cwd=src.parent.abspath())
 	self.source = [tgt]

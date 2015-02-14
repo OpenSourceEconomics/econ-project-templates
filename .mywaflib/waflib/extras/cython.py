@@ -1,12 +1,12 @@
 #! /usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2010
+# Thomas Nagy, 2010-2015
 
-import re
+import os,re
 
 import waflib
 import waflib.Logs as _msg
-from waflib import Task
+from waflib import Task, Logs
 from waflib.TaskGen import extension, feature, before_method, after_method
 
 cy_api_pat = re.compile(r'cdef\s*?(public|api)\w*')
@@ -67,6 +67,15 @@ class cython(Task.Task):
 			if x.startswith('header:'):
 				self.outputs.append(self.inputs[0].parent.find_or_declare(x.replace('header:', '')))
 		return super(cython, self).runnable_status()
+
+	def post_run(self):
+		for x in self.outputs:
+			if x.name.endswith('.h'):
+				if not os.path.exists(x.abspath()):
+					if Logs.verbose:
+						Logs.warn('Expected %r' % x.abspath())
+					x.write('')
+		return Task.Task.post_run(self)
 
 	def scan(self):
 		"""

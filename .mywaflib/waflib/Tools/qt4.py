@@ -73,7 +73,7 @@ else:
 	has_xml = True
 
 import os, sys
-from waflib.Tools import c_preproc, cxx
+from waflib.Tools import cxx
 from waflib import Task, Utils, Options, Errors, Context
 from waflib.TaskGen import feature, after_method, extension
 from waflib.Configure import conf
@@ -113,23 +113,6 @@ class qxx(Task.classes['cxx']):
 	def __init__(self, *k, **kw):
 		Task.Task.__init__(self, *k, **kw)
 		self.moc_done = 0
-
-	def scan(self):
-		"""
-		Re-use the C/C++ scanner, but remove the moc files from the dependencies
-		since the .cpp file already depends on all the headers
-		"""
-		(nodes, names) = c_preproc.scan(self)
-		lst = []
-		for x in nodes:
-			# short lists, no need to use sets
-			if x.name.endswith('.moc'):
-				s = x.path_from(self.inputs[0].parent.get_bld())
-				if s not in names:
-					names.append(s)
-			else:
-				lst.append(x)
-		return (lst, names)
 
 	def runnable_status(self):
 		"""
@@ -177,6 +160,15 @@ class qxx(Task.classes['cxx']):
 
 			return tsk
 
+	def moc_h_ext(self):
+		try:
+			ext = Options.options.qt_header_ext.split()
+		except AttributeError:
+			pass
+		if not ext:
+			ext = MOC_H
+		return ext
+
 	def add_moc_tasks(self):
 		"""
 		Create the moc tasks by looking in ``bld.raw_deps[self.uid()]``
@@ -194,79 +186,49 @@ class qxx(Task.classes['cxx']):
 			# remove the signature, it must be recomputed with the moc task
 			delattr(self, 'cache_sig')
 
-		moctasks=[]
-		mocfiles=[]
-		try:
-			tmp_lst = bld.raw_deps[self.uid()]
-			bld.raw_deps[self.uid()] = []
-		except KeyError:
-			tmp_lst = []
+		include_nodes = [node.parent] + self.generator.includes_nodes
 
-		for d in tmp_lst:
+		moctasks = []
+		mocfiles = set([])
+		for d in bld.raw_deps.get(self.uid(), []):
 			if not d.endswith('.moc'):
 				continue
-			# paranoid check
-			if d in mocfiles:
-				Logs.error("paranoia owns")
-				continue
+
 			# process that base.moc only once
-			mocfiles.append(d)
+			if d in mocfiles:
+				continue
+			mocfiles.add(d)
 
-			# find the source
-
+			# find the source associated with the moc file
 			h_node = None
 
-			try:
-				(h_path, m_from_h) = bld.node_deps[(node.parent.abspath(), d)]
-			except KeyError:
-				pass
-			else:
-				h_node = bld.root.find_node(h_path)
-				if h_node:
-					m_node = h_node.parent.find_or_declare(m_from_h)
-
-			if not h_node:
-				# this search is done only once
-
-				try: ext = Options.options.qt_header_ext.split()
-				except AttributeError: pass
-				if not ext: ext = MOC_H
-
-				base2 = d[:-4]
-				for x in [node.parent] + self.generator.includes_nodes:
-					for e in ext:
-						h_node = x.find_node(base2 + e)
-						if h_node:
-							break
+			base2 = d[:-4]
+			for x in include_nodes:
+				for e in self.moc_h_ext():
+					h_node = x.find_node(base2 + e)
 					if h_node:
-						m_node = h_node.change_ext('.moc')
 						break
-				else:
-					for k in EXT_QT4:
-						if base2.endswith(k):
-							for x in [node.parent] + self.generator.includes_nodes:
-								h_node = x.find_node(base2)
-								if h_node:
-									break
+				if h_node:
+					m_node = h_node.change_ext('.moc')
+					break
+			else:
+				# foo.cpp -> foo.cpp.moc
+				for k in EXT_QT4:
+					if base2.endswith(k):
+						for x in include_nodes:
+							h_node = x.find_node(base2)
+							if h_node:
+								break
 						if h_node:
 							m_node = h_node.change_ext(k + '.moc')
 							break
-				if not h_node:
-					raise Errors.WafError('no source found for %r which is a moc file' % d)
 
-				# next time we will not search
-				h_path = h_node.abspath()
-				m_from_h = m_node.path_from(h_node.parent.get_bld())
+			if not h_node:
+				raise Errors.WafError('No source found for %r which is a moc file' % d)
 
-				for name in (d, m_node.path_from(node.parent.get_bld())):
-					bld.node_deps[(node.parent.abspath(), name)] = (h_path, m_from_h)
-
-			# create the task
+			# create the moc task
 			task = self.create_moc_task(h_node, m_node)
 			moctasks.append(task)
-
-		# remove raw deps except the moc files to save space (optimization)
-		bld.raw_deps[self.uid()] = mocfiles
 
 		# simple scheduler dependency: run the moc task before others
 		self.run_after.update(set(moctasks))
@@ -298,7 +260,7 @@ class XMLHandler(ContentHandler):
 def create_rcc_task(self, node):
 	"Create rcc and cxx tasks for *.qrc* files"
 	rcnode = node.change_ext('_rc.cpp')
-	rcctask = self.create_task('rcc', node, rcnode)
+	self.create_task('rcc', node, rcnode)
 	cpptask = self.create_task('cxx', rcnode, rcnode.change_ext('.o'))
 	try:
 		self.compiled_tasks.append(cpptask)
@@ -388,8 +350,6 @@ class rcc(Task.Task):
 
 	def scan(self):
 		"""Parse the *.qrc* files"""
-		node = self.inputs[0]
-
 		if not has_xml:
 			Logs.error('no xml support was found, the rcc dependencies will be incomplete!')
 			return ([], [])
@@ -418,6 +378,10 @@ class moc(Task.Task):
 	"""
 	color   = 'BLUE'
 	run_str = '${QT_MOC} ${MOC_FLAGS} ${MOCCPPPATH_ST:INCPATHS} ${MOCDEFINES_ST:DEFINES} ${SRC} ${MOC_ST} ${TGT}'
+	def keyword(self):
+		return "Creating"
+	def __str__(self):
+		return self.outputs[0].path_from(self.generator.bld.launch_node())
 
 class ui4(Task.Task):
 	"""

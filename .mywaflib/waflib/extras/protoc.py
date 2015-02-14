@@ -81,7 +81,8 @@ def process_protoc(self, node):
 	self.source.append(cpp_node)
 
 	if 'cxx' in self.features and not self.env.PROTOC_FLAGS:
-		self.env.PROTOC_FLAGS = '--cpp_out=%s' % node.parent.get_bld().abspath()
+		#self.env.PROTOC_FLAGS = '--cpp_out=%s' % node.parent.get_bld().abspath() # <- this does not work
+		self.env.PROTOC_FLAGS = '--cpp_out=.'
 
 	use = getattr(self, 'use', '')
 	if not 'PROTOBUF' in use:

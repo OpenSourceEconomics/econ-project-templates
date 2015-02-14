@@ -1105,7 +1105,7 @@ def add_as_needed(self):
 	Add ``--as-needed`` to the *LINKFLAGS*
 	"""
 	if self.env.DEST_BINFMT == 'elf' and 'gcc' in (self.env.CXX_NAME, self.env.CC_NAME):
-		self.env.append_unique('LINKFLAGS', '--as-needed')
+		self.env.append_unique('LINKFLAGS', '-Wl,--as-needed')
 
 # ============ parallel configuration
 

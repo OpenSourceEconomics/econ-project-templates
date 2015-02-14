@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012
+# Hans-Martin von Gaudecker, 2012-2014
 
 """
 Create Sphinx documentation. Currently only LaTeX and HTML are supported.
