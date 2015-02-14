@@ -26,8 +26,8 @@ class tex(texmodule.tex):
 		self.env.env.update({'BIBINPUTS': self.texinputs(), 'BSTINPUTS': self.texinputs()})
 		self.env.SRCFILE = self.aux_nodes[0].name[:-4]
 
-		# if not self.env['PROMPT_LATEX']:
-		# 	self.env.append_unique('BIBERFLAGS', '--quiet')
+		if not self.env['PROMPT_LATEX']:
+			self.env.append_unique('BIBERFLAGS', '--quiet')
 
 		path = self.aux_nodes[0].abspath()[:-4] + '.bcf'
 		if os.path.isfile(path):

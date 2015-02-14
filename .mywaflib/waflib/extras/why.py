@@ -9,7 +9,8 @@ information about the task execution (why it must run, etc)::
 	def configure(conf):
 		conf.load('why')
 
-After adding the tool, a full rebuild is necessary.
+After adding the tool, a full rebuild is necessary:
+waf clean build --zones=task
 """
 
 from waflib import Task, Utils, Logs, Errors
@@ -24,21 +25,25 @@ def signature(self):
 	id_sig = self.m.digest()
 
 	# explicit deps
+	self.m = Utils.md5()
 	self.sig_explicit_deps()
 	exp_sig = self.m.digest()
 
 	# env vars
+	self.m = Utils.md5()
 	self.sig_vars()
 	var_sig = self.m.digest()
 
 	# implicit deps / scanner results
+	self.m = Utils.md5()
 	if self.scan:
 		try:
 			self.sig_implicit_deps()
 		except Errors.TaskRescan:
 			return self.signature()
+	impl_sig = self.m.digest()
 
-	ret = self.cache_sig = self.m.digest() + id_sig + exp_sig + var_sig
+	ret = self.cache_sig = impl_sig + id_sig + exp_sig + var_sig
 	return ret
 
 
@@ -58,7 +63,7 @@ def runnable_status(self):
 				return Utils.to_hex(x)
 
 			Logs.debug("Task %r" % self)
-			msgs = ['Task must run', '* Task code', '* Source file or manual dependency', '* Configuration data variable']
+			msgs = ['* Implicit or scanner dependency', '* Task code', '* Source file, explicit or manual dependency', '* Configuration data variable']
 			tmp = 'task: -> %s: %s %s'
 			for x in range(len(msgs)):
 				l = len(Utils.SIG_NIL)
@@ -66,8 +71,6 @@ def runnable_status(self):
 				b = old_sigs[x*l : (x+1)*l]
 				if (a != b):
 					Logs.debug(tmp % (msgs[x].ljust(35), v(a), v(b)))
-					if x > 0:
-						break
 	return ret
 Task.Task.runnable_status = runnable_status
 

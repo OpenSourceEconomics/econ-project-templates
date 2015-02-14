@@ -147,7 +147,7 @@ def boost_get_version(self, d):
 	if node:
 		try:
 			txt = node.read()
-		except (OSError, IOError):
+		except EnvironmentError:
 			Logs.error("Could not read the file %r" % node.abspath())
 		else:
 			re_but = re.compile('^#define\\s+BOOST_LIB_VERSION\\s+"(.*)"', re.M)

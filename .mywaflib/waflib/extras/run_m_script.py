@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-13
+# Hans-Martin von Gaudecker, 2012-15
 
 """
 Run a Matlab script.
@@ -100,10 +100,7 @@ class run_m_script(run_m_script_base):
 		ret = run_m_script_base.run(self)
 		logfile = self.env.LOGFILEPATH
 		if ret:
-			mode = 'r'
-			if sys.version_info.major >= 3:
-				mode = 'rb'
-			with open(logfile, mode=mode) as f:
+			with open(logfile, mode='r') as f:
 				tail = f.readlines()[-10:]
 			Logs.error(
 				"""Running Matlab on %s returned the error %r\n

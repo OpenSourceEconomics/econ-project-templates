@@ -427,3 +427,6 @@ def options(opt):
 def configure(conf):
 	load_tools(conf, conf.variant)
 
+def build(bld):
+	load_tools(bld, bld.variant)
+

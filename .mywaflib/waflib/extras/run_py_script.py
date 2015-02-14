@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker and Philipp Kloke, 2012-13
+# Hans-Martin von Gaudecker and Philipp Kloke, 2012-15
 
 """
 Run a Python script in the directory specified by **ctx.bldnode**.
@@ -41,7 +41,7 @@ class run_py_script(Task.Task):
 
 	"""Run a Python script."""
 
-	run_str = '${PREPEND} ${PYCMD} ${SRC[0].abspath()} ${APPEND}'
+	run_str = '${PREPEND} "${PYCMD}" "${SRC[0].abspath()}" ${APPEND}'
 	shell = True
 
 	def exec_command(self, cmd, **kw):

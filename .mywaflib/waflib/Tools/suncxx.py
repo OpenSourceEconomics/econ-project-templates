@@ -3,7 +3,6 @@
 # Thomas Nagy, 2006-2010 (ita)
 # Ralf Habacker, 2006 (rh)
 
-import os
 from waflib import Utils
 from waflib.Tools import ccroot, ar
 from waflib.Configure import conf
@@ -14,22 +13,13 @@ def find_sxx(conf):
 	Detect the sun C++ compiler
 	"""
 	v = conf.env
-	cc = None
-	if v['CXX']: cc = v['CXX']
-	elif 'CXX' in conf.environ: cc = conf.environ['CXX']
-	if not cc: cc = conf.find_program('CC', var='CXX') #studio
-	if not cc: cc = conf.find_program('c++', var='CXX')
-	if not cc: conf.fatal('Could not find a Sun C++ compiler')
-
+	cc = conf.find_program(['CC', 'c++'], var='CXX')
 	try:
 		conf.cmd_and_log(cc + ['-flags'])
 	except Exception:
 		conf.fatal('%r is not a Sun compiler' % cc)
-
-	v['CXX']  = cc
-	v['CXX_NAME'] = 'sun'
+	v.CXX_NAME = 'sun'
 	conf.get_suncc_version(cc)
-
 
 @conf
 def sxx_common_flags(conf):

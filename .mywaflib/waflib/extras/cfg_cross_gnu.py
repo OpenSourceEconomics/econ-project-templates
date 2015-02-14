@@ -18,8 +18,8 @@ Usage:
       ...
       conf.load('c_cross_gnu')
       for variant in x_variants:
-        conf.xcheck_cross()
-        conf.xcheck_cross_var('POUET')
+        conf.xcheck_host()
+        conf.xcheck_host_var('POUET')
         ...
 
       ...
@@ -136,7 +136,7 @@ def xcheck_host(conf):
 	conf.xcheck_host_prog('LD', 'ld')
 	conf.xcheck_host_envar('CFLAGS')
 	conf.xcheck_host_envar('CXXFLAGS')
-	conf.xcheck_host_envar('LINKFLAGS', 'LDFLAGS')
+	conf.xcheck_host_envar('LDFLAGS', 'LINKFLAGS')
 	conf.xcheck_host_envar('LIB')
 	conf.xcheck_host_envar('PKG_CONFIG_PATH')
 	# TODO find a better solution than this ugliness
