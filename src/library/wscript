@@ -39,6 +39,7 @@ def build(ctx):
                     try:
                         if (
                             dirs[i] == d
+                            or dirs[i].startswith('.mywaflib')
                             or dirs[i].startswith('.waf')
                             or dirs[i].startswith('waf-')
                         ):
