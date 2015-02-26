@@ -49,7 +49,7 @@ Else:\n
 	Do not load the 'run_m_script' tool in the main wscript.\n\n"""
 		% MATLAB_COMMANDS
 	)
-	ctx.env.MATLABFLAGS = '-wait -nojvm -nosplash -minimize'
+	ctx.env.MATLABFLAGS = '-wait -nodesktop -nosplash -minimize'
 
 
 @Task.update_outputs
