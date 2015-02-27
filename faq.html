@@ -158,6 +158,25 @@
 </ol>
 </div>
 </div>
+<div class="section" id="stata-failure-filenotfounderror">
+<span id="stata-failure-check-erase-log-file"></span><h2>Stata failure: FileNotFoundError<a class="headerlink" href="#stata-failure-filenotfounderror" title="Permalink to this headline">¶</a></h2>
+<p>The following failure:</p>
+<div class="highlight-python"><div class="highlight"><pre>[21/39] Running  [Stata] -e -q do src/data_management/add_variables.do add_variables
+Waf: Leaving directory `/Users/xxx/econ/econ-project templates/bld&#39;
+Build failed
+Traceback (most recent call last):
+  File &quot;/Users/xxx/econ/econ-project templates/.mywaflib/waflib/Task.py&quot;, line 212, in process
+    ret = self.run()
+  File &quot;/Users/xxx/econ/econ-project templates/.mywaflib/waflib/extras/run_do_script.py&quot;, line 140, in run
+    ret, log_tail = self.check_erase_log_file()
+  File &quot;/Users/xxx/econ/econ-project templates/.mywaflib/waflib/extras/run_do_script.py&quot;, line 166, in check_erase_log_file
+    with open(**kwargs) as log:
+FileNotFoundError: [Errno 2] No such file or directory: &#39;/Users/xxx/econ/econ-project templates/bld/add_variables.log&#39;
+</pre></div>
+</div>
+<p>has a simple solution: <strong>Get rid of all spaces in the path to the project.</strong> (i.e., <tt class="docutils literal"><span class="pre">econ-project-templates</span></tt> instead of <tt class="docutils literal"><span class="pre">econ-project</span> <span class="pre">templates</span></tt> in this case). To do so, do <strong>not</strong> rename your user directory, that will cause havoc. Rather move the project folder to a different location.</p>
+<p>I have not been able to get Stata working with spaces in the path in batch mode, so this has nothing to do with Python/Waf. If anybody finds a solution, please let me know.</p>
+</div>
 </div>
 
 
@@ -183,6 +202,7 @@
 <li><a class="reference internal" href="#adding-additional-stata-packages-to-a-project">Adding additional Stata packages to a project</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#stata-failure-filenotfounderror">Stata failure: FileNotFoundError</a></li>
 </ul>
 </li>
 </ul>

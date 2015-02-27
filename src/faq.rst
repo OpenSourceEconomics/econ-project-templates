@@ -100,3 +100,27 @@ Adding additional Stata packages to a project
 #. Type ``include bld/project_paths``
 #. Type ``sysdir`` and make sure that the ``PLUS`` and ``PERSONAL`` directories point to subdirectories of the project.
 #. Install your package via ssc, say ``ssc install tabout``
+
+
+.. _stata_failure_check_erase_log_file:
+
+Stata failure: FileNotFoundError
+================================
+
+The following failure::
+
+    [21/39] Running  [Stata] -e -q do src/data_management/add_variables.do add_variables 
+    Waf: Leaving directory `/Users/xxx/econ/econ-project templates/bld'
+    Build failed
+    Traceback (most recent call last):
+      File "/Users/xxx/econ/econ-project templates/.mywaflib/waflib/Task.py", line 212, in process
+        ret = self.run()
+      File "/Users/xxx/econ/econ-project templates/.mywaflib/waflib/extras/run_do_script.py", line 140, in run
+        ret, log_tail = self.check_erase_log_file()
+      File "/Users/xxx/econ/econ-project templates/.mywaflib/waflib/extras/run_do_script.py", line 166, in check_erase_log_file
+        with open(**kwargs) as log:
+    FileNotFoundError: [Errno 2] No such file or directory: '/Users/xxx/econ/econ-project templates/bld/add_variables.log'
+
+has a simple solution: **Get rid of all spaces in the path to the project.** (i.e., ``econ-project-templates`` instead of ``econ-project templates`` in this case). To do so, do **not** rename your user directory, that will cause havoc. Rather move the project folder to a different location.
+
+I have not been able to get Stata working with spaces in the path in batch mode, so this has nothing to do with Python/Waf. If anybody finds a solution, please let me know.
