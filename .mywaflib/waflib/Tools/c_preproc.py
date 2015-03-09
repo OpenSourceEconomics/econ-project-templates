@@ -929,8 +929,7 @@ class c_parser(object):
 		try:
 			self.parse_cache = bld.parse_cache
 		except AttributeError:
-			bld.parse_cache = {}
-			self.parse_cache = bld.parse_cache
+			self.parse_cache = bld.parse_cache = {}
 
 		self.current_file = node
 		self.addlines(node)

@@ -144,7 +144,7 @@ def waf_entry_point(current_directory, version, wafdir):
 	import cProfile, pstats
 	cProfile.runctx("from waflib import Scripting; Scripting.run_commands()", {}, {}, 'profi.txt')
 	p = pstats.Stats('profi.txt')
-	p.sort_stats('time').print_stats(25) # or 'cumulative'
+	p.sort_stats('time').print_stats(75) # or 'cumulative'
 	"""
 	try:
 		run_commands()
@@ -377,7 +377,7 @@ class Dist(Context.Context):
 				zip.write(x.abspath(), archive_name, zipfile.ZIP_DEFLATED)
 			zip.close()
 		else:
-			self.fatal('Valid algo types are tar.bz2, tar.gz or zip')
+			self.fatal('Valid algo types are tar.bz2, tar.gz, tar.xz or zip')
 
 		try:
 			from hashlib import sha1 as sha

@@ -154,7 +154,9 @@ class link_task(Task.Task):
 					# the import lib file name stays unversionned.
 					name = name + '-' + nums[0]
 				elif self.env.DEST_OS == 'openbsd':
-					pattern = '%s.%s.%s' % (pattern, nums[0], nums[1])
+					pattern = '%s.%s' % (pattern, nums[0])
+					if len(nums) >= 2:
+						pattern += '.%s' % nums[1]
 
 			tmp = folder + os.sep + pattern % name
 			target = self.generator.path.find_or_declare(tmp)
@@ -477,12 +479,12 @@ def apply_implib(self):
 
 # ============ the code above must not know anything about vnum processing on unix platforms =========
 
-re_vnum = re.compile('^([1-9]\\d*|0)[.]([1-9]\\d*|0)[.]([1-9]\\d*|0)$')
+re_vnum = re.compile('^([1-9]\\d*|0)([.]([1-9]\\d*|0)[.]([1-9]\\d*|0))?$')
 @feature('cshlib', 'cxxshlib', 'dshlib', 'fcshlib', 'vnum')
 @after_method('apply_link', 'propagate_uselib_vars')
 def apply_vnum(self):
 	"""
-	Enforce version numbering on shared libraries. The valid version numbers must have at most two dots::
+	Enforce version numbering on shared libraries. The valid version numbers must have either zero or two dots::
 
 		def build(bld):
 			bld.shlib(source='a.c', target='foo', vnum='14.15.16')
@@ -516,7 +518,10 @@ def apply_vnum(self):
 
 	# the following task is just to enable execution from the build dir :-/
 	if self.env.DEST_OS != 'openbsd':
-		self.create_task('vnum', node, [node.parent.find_or_declare(name2), node.parent.find_or_declare(name3)])
+		outs = [node.parent.find_or_declare(name3)]
+		if name2 != name3:
+			outs.append(node.parent.find_or_declare(name2))
+		self.create_task('vnum', node, outs)
 
 	if getattr(self, 'install_task', None):
 		self.install_task.hasrun = Task.SKIP_ME
@@ -528,9 +533,12 @@ def apply_vnum(self):
 			self.vnum_install_task = (t1,)
 		else:
 			t1 = bld.install_as(path + os.sep + name3, node, env=self.env, chmod=self.link_task.chmod)
-			t2 = bld.symlink_as(path + os.sep + name2, name3)
 			t3 = bld.symlink_as(path + os.sep + libname, name3)
-			self.vnum_install_task = (t1, t2, t3)
+			if name2 != name3:
+				t2 = bld.symlink_as(path + os.sep + name2, name3)
+				self.vnum_install_task = (t1, t2, t3)
+			else:
+				self.vnum_install_task = (t1, t3)
 
 	if '-dynamiclib' in self.env['LINKFLAGS']:
 		# this requires after(propagate_uselib_vars)

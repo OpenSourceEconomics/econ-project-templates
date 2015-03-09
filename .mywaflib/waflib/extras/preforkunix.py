@@ -63,7 +63,7 @@ if 1:
 	def process_command(conn):
 		query = conn.recv(HEADER_SIZE)
 		if not query:
-			return
+			return None
 		#print(len(query))
 		assert(len(query) == HEADER_SIZE)
 		if sys.hexversion > 0x3000000:
@@ -82,6 +82,7 @@ if 1:
 			raise ValueError('Exit')
 		else:
 			raise ValueError('Invalid query %r' % query)
+		return 'ok'
 
 	def run_command(conn, query):
 
@@ -157,8 +158,8 @@ if 1:
 
 			# write to child_socket only
 			try:
-				while 1:
-					process_command(child_socket)
+				while process_command(child_socket):
+					pass
 			except KeyboardInterrupt:
 				sys.exit(2)
 		else:

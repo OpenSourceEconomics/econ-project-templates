@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# encoding: ISO8859-1
 # Thomas Nagy, 2005-2015
 
 """
@@ -33,7 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 import os
 import sys
 
-VERSION = "1.8.6"
+VERSION = "1.8.7"
 cwd = os.getcwd()
 join = os.path.join
 

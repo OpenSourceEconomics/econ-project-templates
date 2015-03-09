@@ -9,7 +9,7 @@ The portability fixes try to provide a consistent behavior of the Waf API
 through Python versions 2.3 to 3.X and across different platforms (win32, linux, etc)
 """
 
-import os, sys, errno, traceback, inspect, re, shutil, datetime, gc
+import os, sys, errno, traceback, inspect, re, shutil, datetime, gc, platform
 import subprocess # <- leave this!
 
 from collections import deque, defaultdict
@@ -721,4 +721,15 @@ def get_registry_app_path(key, filename):
 	else:
 		if os.path.isfile(result):
 			return result
+
+def lib64():
+	# default settings for /usr/lib
+	if os.sep == '/':
+		is_64 = platform.architecture()[0] == '64bit'
+		if os.path.exists('/usr/lib64') and not os.path.exists('/usr/lib32'):
+			# redhat
+			return '64' if is_64 else ''
+		else:
+			return '' if is_64 else '32'
+	return ''
 
