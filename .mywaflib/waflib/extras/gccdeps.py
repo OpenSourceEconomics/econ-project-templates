@@ -17,23 +17,24 @@ lock = threading.Lock()
 preprocessor_flag = '-MD'
 
 # Third-party tools are allowed to add extra names in here with append()
-supported_compilers = ['gcc', 'icc']
+supported_compilers = ['gcc', 'icc', 'clang']
 
 @feature('c')
 @before_method('process_source')
 def add_mmd_cc(self):
 	if self.env.CC_NAME in supported_compilers and self.env.get_flat('CFLAGS').find(preprocessor_flag) < 0:
 		self.env.append_value('CFLAGS', [preprocessor_flag])
+		self.env.HAS_GCCDEPS = 1
 
 @feature('cxx')
 @before_method('process_source')
 def add_mmd_cxx(self):
 	if self.env.CXX_NAME in supported_compilers and self.env.get_flat('CXXFLAGS').find(preprocessor_flag) < 0:
 		self.env.append_value('CXXFLAGS', [preprocessor_flag])
+		self.env.HAS_GCCDEPS = 1
 
 def scan(self):
-	"the scanner does not do anything initially"
-	if self.env.CC_NAME not in supported_compilers:
+	if not self.env.HAS_GCCDEPS:
 		return self.no_gccdeps_scan()
 	nodes = self.generator.bld.node_deps.get(self.uid(), [])
 	names = []

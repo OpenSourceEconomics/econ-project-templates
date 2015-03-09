@@ -33,11 +33,11 @@ Known issues:
 
 """
 
-import os
+import os, binascii
 
 from waflib import Task, Utils, TaskGen, Errors
 
-class file_to_object(Task.Task):
+class file_to_object_s(Task.Task):
 	color = 'CYAN'
 	dep_vars = ('DEST_CPU', 'DEST_BINFMT')
 
@@ -80,6 +80,47 @@ class file_to_object(Task.Task):
 	.%(unit)s 0x%(size)x
 """ % locals())
 
+class file_to_object_c(Task.Task):
+	color = 'CYAN'
+	def run(self):
+		name = []
+		for i, x in enumerate(self.inputs[0].name):
+			if x.isalnum():
+				name.append(x)
+			else:
+				name.append('_')
+		file = self.inputs[0].abspath()
+		size = os.path.getsize(file)
+
+		name = "_binary_" + "".join(name)
+
+		data = []
+		data = self.inputs[0].read()
+		data = binascii.hexlify(data)
+		data = [ ("0x%s" % (data[i:i+2])) for i in range(0, len(data), 2) ]
+		data = ",\n ".join(data)
+
+		with open(self.outputs[0].abspath(), 'w') as f:
+			f.write(\
+"""
+char const %(name)s[] = {
+ %(data)s
+};
+unsigned long %(name)s_size = %(size)dL;
+char const * %(name)s_start = %(name)s;
+char const * %(name)s_end = &%(name)s[%(size)d];
+""" % locals())
+		with open(self.outputs[0].abspath(), 'w') as f:
+			f.write(\
+"""
+unsigned long %(name)s_size = %(size)dL;
+char const %(name)s_start[] = {
+ %(data)s
+};
+char const %(name)s_end[] = {
+};
+""" % locals())
+
 @TaskGen.feature('file_to_object')
 @TaskGen.before_method('process_source')
 def tg_file_to_object(self):
@@ -87,11 +128,18 @@ def tg_file_to_object(self):
 	src = self.to_nodes(self.source)
 	assert len(src) == 1
 	src = src[0]
-	tgt = src.parent.find_or_declare(src.name + '.f2o.s')
-	task = self.create_task('file_to_object',
-	 src, tgt, cwd=src.parent.abspath())
-	self.source = [tgt]
+	if bld.env.F2O_METHOD == ["asm"]:
+		tgt = src.parent.find_or_declare(src.name + '.f2o.s')
+		task = self.create_task('file_to_object_s',
+		 src, tgt, cwd=src.parent.abspath())
+		self.source = [tgt]
+	else:
+		tgt = src.parent.find_or_declare(src.name + '.f2o.c')
+		task = self.create_task('file_to_object_c',
+		 src, tgt, cwd=src.parent.abspath())
+		self.source = [tgt]
 
 def configure(conf):
 	conf.load('gas')
+	conf.env.F2O_METHOD = ["asm"]
 
