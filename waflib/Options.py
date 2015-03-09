@@ -135,6 +135,8 @@ class OptionsContext(Context.Context):
 			else:
 				default_prefix = '/usr/local/'
 		gr.add_option('--prefix', dest='prefix', default=default_prefix, help='installation prefix [default: %r]' % default_prefix)
+		gr.add_option('--bindir', dest='bindir', help='bindir')
+		gr.add_option('--libdir', dest='libdir', help='libdir')
 
 		gr = self.add_option_group('Build and installation options')
 		self.option_groups['build and install options'] = gr

@@ -64,14 +64,13 @@ def safe_compare(x, y):
 re_valid_query = re.compile('^[a-zA-Z0-9_, ]+$')
 class req(SocketServer.StreamRequestHandler):
 	def handle(self):
-		while 1:
-			try:
-				self.process_command()
-			except KeyboardInterrupt:
-				break
-			except Exception as e:
-				print(e)
-				break
+		try:
+			while self.process_command():
+				pass
+		except KeyboardInterrupt:
+			return
+		except Exception as e:
+			print(e)
 
 	def send_response(self, ret, out, err, exc):
 		if out or err or exc:
@@ -91,7 +90,7 @@ class req(SocketServer.StreamRequestHandler):
 	def process_command(self):
 		query = self.rfile.read(HEADER_SIZE)
 		if not query:
-			return
+			return None
 		#print(len(query))
 		assert(len(query) == HEADER_SIZE)
 		if sys.hexversion > 0x3000000:
@@ -102,7 +101,7 @@ class req(SocketServer.StreamRequestHandler):
 		if not safe_compare(key, SHARED_KEY):
 			print('%r %r' % (key, SHARED_KEY))
 			self.send_response(-1, '', '', 'Invalid key given!')
-			return
+			return 'meh'
 
 		query = query[:-20]
 		#print "%r" % query
@@ -118,6 +117,7 @@ class req(SocketServer.StreamRequestHandler):
 			raise ValueError('Exit')
 		else:
 			raise ValueError('Invalid query %r' % query)
+		return 'ok'
 
 	def run_command(self, query):
 

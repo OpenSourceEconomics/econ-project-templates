@@ -209,7 +209,7 @@ def get_python_variables(self, variables, imports=None):
 		self.fatal('The distutils module is unusable: install "python-devel"?')
 	self.to_log(out)
 	return_values = []
-	for s in out.split('\n'):
+	for s in out.splitlines():
 		s = s.strip()
 		if not s:
 			continue
@@ -223,7 +223,51 @@ def get_python_variables(self, variables, imports=None):
 	return return_values
 
 @conf
-def check_python_headers(conf):
+def python_cross_compile(self, features='pyembed pyext'):
+	"""
+	For cross-compilation purposes, it is possible to bypass the normal detection and set the flags that you want:
+	PYTHON_VERSION='3.4' PYTAG='cpython34' pyext_PATTERN="%s.so" PYTHON_LDFLAGS='-lpthread -ldl' waf configure
+
+	The following variables are used:
+	PYTHON_VERSION    required
+	PYTAG             required
+	PYTHON_LDFLAGS    required
+	pyext_PATTERN     required
+	PYTHON_PYEXT_LDFLAGS
+	PYTHON_PYEMBED_LDFLAGS
+	"""
+	features = Utils.to_list(features)
+	if not ('PYTHON_LDFLAGS' in self.environ or 'PYTHON_PYEXT_LDFLAGS' in self.environ or 'PYTHON_PYEMBED_LDFLAGS' in self.environ):
+		return False
+
+	for x in 'PYTHON_VERSION PYTAG pyext_PATTERN'.split():
+		if not x in self.environ:
+			self.fatal('Please set %s in the os environment' % x)
+		else:
+			self.env[x] = self.environ[x]
+
+	xx = self.env.CXX_NAME and 'cxx' or 'c'
+	if 'pyext' in features:
+		flags = self.environ.get('PYTHON_PYEXT_LDFLAGS', self.environ.get('PYTHON_LDFLAGS', None))
+		if flags is None:
+			self.fatal('No flags provided through PYTHON_PYEXT_LDFLAGS as required')
+		else:
+			self.parse_flags(flags, 'PYEXT')
+
+		self.check(header_name='Python.h', define_name='HAVE_PYEXT', msg='Testing pyext configuration',
+			features='%s %sshlib pyext' % (xx, xx), fragment=FRAG, errmsg='Could not build python extensions')
+	if 'pyembed' in features:
+		flags = self.environ.get('PYTHON_PYEMBED_LDFLAGS', self.environ.get('PYTHON_LDFLAGS', None))
+		if flags is None:
+			self.fatal('No flags provided through PYTHON_PYEMBED_LDFLAGS as required')
+		else:
+			self.parse_flags(flags, 'PYEMBED')
+		self.check(header_name='Python.h', define_name='HAVE_PYEMBED', msg='Testing pyembed configuration',
+			fragment=FRAG, errmsg='Could not build a python embedded interpreter', features='%s %sprogram pyembed' % (xx, xx))
+	return True
+
+@conf
+def check_python_headers(conf, features='pyembed pyext'):
 	"""
 	Check for headers and libraries necessary to extend or embed python by using the module *distutils*.
 	On success the environment variables xxx_PYEXT and xxx_PYEMBED are added:
@@ -231,9 +275,15 @@ def check_python_headers(conf):
 	* PYEXT: for compiling python extensions
 	* PYEMBED: for embedding a python interpreter
 	"""
+	features = Utils.to_list(features)
+	assert ('pyembed' in features) or ('pyext' in features), "check_python_headers features must include 'pyembed' and/or 'pyext'"
 	env = conf.env
 	if not env['CC_NAME'] and not env['CXX_NAME']:
 		conf.fatal('load a compiler first (gcc, g++, ..)')
+
+	# bypass all the code below for cross-compilation
+	if conf.python_cross_compile(features):
+		return
 
 	if not env['PYTHON_VERSION']:
 		conf.check_python_version()
@@ -242,6 +292,7 @@ def check_python_headers(conf):
 	if not pybin:
 		conf.fatal('Could not find the python executable')
 
+	# so we actually do all this for compatibility reasons and for obtaining pyext_PATTERN below
 	v = 'prefix SO LDFLAGS LIBDIR LIBPL INCLUDEPY Py_ENABLE_SHARED MACOSX_DEPLOYMENT_TARGET LDSHARED CFLAGS LDVERSION'.split()
 	try:
 		lst = conf.get_python_variables(["get_config_var('%s') or ''" % x for x in v])
@@ -249,13 +300,12 @@ def check_python_headers(conf):
 		conf.fatal("Python development headers not found (-v for details).")
 
 	vals = ['%s = %r' % (x, y) for (x, y) in zip(v, lst)]
-	conf.to_log("Configuration returned from %r:\n%r\n" % (pybin, '\n'.join(vals)))
+	conf.to_log("Configuration returned from %r:\n%s\n" % (pybin, '\n'.join(vals)))
 
 	dct = dict(zip(v, lst))
 	x = 'MACOSX_DEPLOYMENT_TARGET'
 	if dct[x]:
 		env[x] = conf.environ[x] = dct[x]
-
 	env['pyext_PATTERN'] = '%s' + dct['SO'] # not a mistake
 
 
@@ -264,31 +314,32 @@ def check_python_headers(conf):
 	conf.find_program([''.join(pybin) + '-config', 'python%s-config' % num, 'python-config-%s' % num, 'python%sm-config' % num], var='PYTHON_CONFIG', msg="python-config", mandatory=False)
 
 	if env.PYTHON_CONFIG:
-		# python2.5-config requires 3 runs
+		# python2.6-config requires 3 runs
 		all_flags = [['--cflags', '--libs', '--ldflags']]
-		if sys.hexversion < 0x2060000:
+		if sys.hexversion < 0x2070000:
 			all_flags = [[k] for k in all_flags[0]]
 
 		xx = env.CXX_NAME and 'cxx' or 'c'
 
-		for flags in all_flags:
-			conf.check_cfg(msg='Asking python-config for pyembed %r flags' % ' '.join(flags), path=env.PYTHON_CONFIG, package='', uselib_store='PYEMBED', args=flags)
+		if 'pyembed' in features:
+			for flags in all_flags:
+				conf.check_cfg(msg='Asking python-config for pyembed %r flags' % ' '.join(flags), path=env.PYTHON_CONFIG, package='', uselib_store='PYEMBED', args=flags)
 
-		conf.check(header_name='Python.h', define_name='HAVE_PYEMBED', msg='Getting pyembed flags from python-config',
-			fragment=FRAG, errmsg='Could not build a python embedded interpreter',
-			features='%s %sprogram pyembed' % (xx, xx))
+			conf.check(header_name='Python.h', define_name='HAVE_PYEMBED', msg='Getting pyembed flags from python-config',
+				fragment=FRAG, errmsg='Could not build a python embedded interpreter',
+				features='%s %sprogram pyembed' % (xx, xx))
 
-		for flags in all_flags:
-			conf.check_cfg(msg='Asking python-config for pyext %r flags' % ' '.join(flags), path=env.PYTHON_CONFIG, package='', uselib_store='PYEXT', args=flags)
+		if 'pyext' in features:
+			for flags in all_flags:
+				conf.check_cfg(msg='Asking python-config for pyext %r flags' % ' '.join(flags), path=env.PYTHON_CONFIG, package='', uselib_store='PYEXT', args=flags)
 
-		conf.check(header_name='Python.h', define_name='HAVE_PYEXT', msg='Getting pyext flags from python-config',
-			features='%s %sshlib pyext' % (xx, xx), fragment=FRAG, errmsg='Could not build python extensions')
+			conf.check(header_name='Python.h', define_name='HAVE_PYEXT', msg='Getting pyext flags from python-config',
+				features='%s %sshlib pyext' % (xx, xx), fragment=FRAG, errmsg='Could not build python extensions')
 
 		conf.define('HAVE_PYTHON_H', 1)
 		return
 
-	# No python-config, amazing
-	# the following is for windows systems
+	# No python-config, do something else on windows systems
 	all_flags = dct['LDFLAGS'] + ' ' + dct['CFLAGS']
 	conf.parse_flags(all_flags, 'PYEMBED')
 
