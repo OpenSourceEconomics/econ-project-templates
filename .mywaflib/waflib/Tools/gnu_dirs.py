@@ -45,14 +45,14 @@ PSDIR          PostScript documentation                  DOCDIR
 import os, re
 from waflib import Utils, Options, Context
 
-_options = [x.split(', ') for x in '''
+gnuopts = '''
 bindir, user commands, ${EXEC_PREFIX}/bin
 sbindir, system binaries, ${EXEC_PREFIX}/sbin
 libexecdir, program-specific binaries, ${EXEC_PREFIX}/libexec
 sysconfdir, host-specific configuration, ${PREFIX}/etc
 sharedstatedir, architecture-independent variable data, ${PREFIX}/com
 localstatedir, variable data, ${PREFIX}/var
-libdir, object code libraries, ${EXEC_PREFIX}/lib
+libdir, object code libraries, ${EXEC_PREFIX}/lib%s
 includedir, header files, ${PREFIX}/include
 oldincludedir, header files for non-GCC compilers, /usr/include
 datarootdir, architecture-independent data root, ${PREFIX}/share
@@ -65,7 +65,9 @@ htmldir, HTML documentation, ${DOCDIR}
 dvidir, DVI documentation, ${DOCDIR}
 pdfdir, PDF documentation, ${DOCDIR}
 psdir, PostScript documentation, ${DOCDIR}
-'''.split('\n') if x]
+''' % Utils.lib64()
+
+_options = [x.split(', ') for x in gnuopts.splitlines() if x]
 
 def configure(conf):
 	"""
@@ -94,7 +96,7 @@ def configure(conf):
 					complete = False
 
 	if not complete:
-		lst = [name for name, _, _ in _options if not env[name.upper()]]
+		lst = [x for x, _, _ in _options if not env[x.upper()]]
 		raise conf.errors.WafError('Variable substitution failure %r' % lst)
 
 def options(opt):

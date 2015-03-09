@@ -46,9 +46,21 @@ class dumb_parser(parser):
 		if node in self.nodes[:-1]:
 			return
 		self.currentnode_stack.append(node.parent)
-		self.lines = lines_includes(node) + [(c_preproc.POPFILE, '')] +  self.lines
+
+		# Avoid reading the same files again
+		try:
+			lines = self.parse_cache[node]
+		except KeyError:
+			lines = self.parse_cache[node] = lines_includes(node)
+
+		self.lines = lines + [(c_preproc.POPFILE, '')] +  self.lines
 
 	def start(self, node, env):
+		try:
+			self.parse_cache = node.ctx.parse_cache
+		except AttributeError:
+			self.parse_cache = node.ctx.parse_cache = {}
+
 		self.addlines(node)
 		while self.lines:
 			(x, y) = self.lines.pop(0)

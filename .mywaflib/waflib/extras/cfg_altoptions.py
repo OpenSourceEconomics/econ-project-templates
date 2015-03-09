@@ -42,7 +42,8 @@ def name_to_dest(x):
 def options(opt):
 	def x(opt, param):
 		dest = name_to_dest(param)
-		opt.add_option('--%s-root' % dest,
+		gr = opt.get_option_group("configure options")
+		gr.add_option('--%s-root' % dest,
 		 help="path containing include and lib subfolders for %s" \
 		  % param,
 		)
@@ -80,7 +81,7 @@ def check_cfg(conf, *k, **kw):
 	root = getattr(Options.options, '%s_root' % package_lo, None)
 
 	if root is None:
-		check_cfg_old(conf, **kw)
+		return check_cfg_old(conf, **kw)
 	else:
 		def add_manual_var(k, v):
 			conf.start_msg('Adding for %s a manual var' % (package))
@@ -104,4 +105,6 @@ def check_cfg(conf, *k, **kw):
 					 %(package))
 					conf.env["%s_%s" % (k, package_hi)] += v
 					conf.end_msg('%s += %s' % (k, v))
+
+		return True
 

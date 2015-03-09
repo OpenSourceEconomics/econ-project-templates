@@ -278,7 +278,7 @@ class BuildContext(Context.Context):
 		"""
 		try:
 			env = ConfigSet.ConfigSet(os.path.join(self.cache_dir, 'build.config.py'))
-		except (IOError, OSError):
+		except EnvironmentError:
 			pass
 		else:
 			if env['version'] < Context.HEXVERSION:
@@ -958,7 +958,7 @@ class InstallContext(BuildContext):
 		# like the 'install' utility used by 'make install' does.
 		try:
 			os.chmod(tgt, Utils.O644 | stat.S_IMODE(os.stat(tgt).st_mode))
-		except (OSError, IOError):
+		except EnvironmentError:
 			pass
 
 		# following is for shared libs and stale inodes (-_-)
@@ -972,7 +972,7 @@ class InstallContext(BuildContext):
 		except IOError:
 			try:
 				os.stat(src)
-			except (OSError, IOError):
+			except EnvironmentError:
 				Logs.error('File %r does not exist' % src)
 			raise Errors.WafError('Could not install the file %r' % tgt)
 

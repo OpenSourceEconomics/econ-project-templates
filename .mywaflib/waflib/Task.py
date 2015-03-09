@@ -86,6 +86,8 @@ class store_task_type(type):
 				# if a string is provided, convert it to a method
 				(f, dvars) = compile_fun(cls.run_str, cls.shell)
 				cls.hcode = cls.run_str
+				cls.orig_run_str = cls.run_str
+				# change the name of run_str or it is impossible to subclass with a function
 				cls.run_str = None
 				cls.run = f
 				cls.vars = list(set(cls.vars + dvars))
@@ -93,6 +95,9 @@ class store_task_type(type):
 			elif getattr(cls, 'run', None) and not 'hcode' in cls.__dict__:
 				# getattr(cls, 'hcode') would look in the upper classes
 				cls.hcode = Utils.h_fun(cls.run)
+
+			if sys.hexversion > 0x3000000:
+				cls.hcode = cls.hcode.encode('iso8859-1', 'xmlcharrefreplace')
 
 			# be creative
 			getattr(cls, 'register', classes)[name] = cls
@@ -251,6 +256,9 @@ class TaskBase(evil):
 
 	def log_display(self, bld):
 		"Write the execution status on the context logger"
+		if self.generator.bld.progress_bar == 3:
+			return
+
 		s = self.display()
 		if s:
 			if bld.logger:
@@ -546,7 +554,7 @@ class Task(TaskBase):
 		except AttributeError: pass
 
 		self.m = Utils.md5()
-		self.m.update(self.hcode.encode())
+		self.m.update(self.hcode)
 
 		# explicit deps
 		self.sig_explicit_deps()
@@ -729,12 +737,14 @@ class Task(TaskBase):
 			try:
 				if prev == self.compute_sig_implicit_deps():
 					return prev
-			except Exception:
+			except Errors.TaskNotReady:
+				raise
+			except EnvironmentError:
 				# when a file was renamed (IOError usually), remove the stale nodes (headers in folders without source files)
 				# this will break the order calculation for headers created during the build in the source directory (should be uncommon)
 				# the behaviour will differ when top != out
 				for x in bld.node_deps.get(self.uid(), []):
-					if x.is_child_of(bld.srcnode):
+					if not x.is_bld():
 						try:
 							os.stat(x.abspath())
 						except OSError:
@@ -831,9 +841,9 @@ if sys.hexversion > 0x3000000:
 		except AttributeError:
 			m = Utils.md5()
 			up = m.update
-			up(self.__class__.__name__.encode('iso8859-1'))
+			up(self.__class__.__name__.encode('iso8859-1', 'xmlcharrefreplace'))
 			for x in self.inputs + self.outputs:
-				up(x.abspath().encode('iso8859-1'))
+				up(x.abspath().encode('iso8859-1', 'xmlcharrefreplace'))
 			self.uid_ = m.digest()
 			return self.uid_
 	uid.__doc__ = Task.uid.__doc__

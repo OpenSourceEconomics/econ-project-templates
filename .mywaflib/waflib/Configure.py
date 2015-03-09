@@ -212,9 +212,15 @@ class ConfigurationContext(Context.Context):
 			else:
 				env.PREFIX = ''
 		if not env.BINDIR:
-			env.BINDIR = Utils.subst_vars('${PREFIX}/bin', env)
+			if Options.options.bindir:
+				env.BINDIR = os.path.abspath(os.path.expanduser(Options.options.bindir))
+			else:
+				env.BINDIR = Utils.subst_vars('${PREFIX}/bin', env)
 		if not env.LIBDIR:
-			env.LIBDIR = Utils.subst_vars('${PREFIX}/lib', env)
+			if Options.options.libdir:
+				env.LIBDIR = os.path.abspath(os.path.expanduser(Options.options.libdir))
+			else:
+				env.LIBDIR = Utils.subst_vars('${PREFIX}/lib%s' % Utils.lib64(), env)
 
 	def store(self):
 		"""Save the config results into the cache file"""

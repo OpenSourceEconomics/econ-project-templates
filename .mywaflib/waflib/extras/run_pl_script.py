@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker and David Birke, 2012-13
+# Hans-Martin von Gaudecker and David Birke, 2012-15
 
 """
 Run a Perl script in the directory specified by **ctx.bldnode**.

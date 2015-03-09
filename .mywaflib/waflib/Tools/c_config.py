@@ -321,7 +321,7 @@ def exec_cfg(self, kw):
 	for key, val in defi.items():
 		lst.append('--define-variable=%s=%s' % (key, val))
 
-	static = False
+	static = kw.get('force_static', False)
 	if 'args' in kw:
 		args = Utils.to_list(kw['args'])
 		if '--static' in args or '--static-libs' in args:
@@ -989,6 +989,8 @@ def get_cc_version(conf, cc, gcc=False, icc=False, clang=False):
 
 	if clang and out.find('__clang__') < 0:
 		conf.fatal('Not clang/clang++')
+	if not clang and out.find('__clang__') >= 0:
+		conf.fatal('Could not find g++, if renamed try eg: CXX=g++48 waf configure')
 
 	k = {}
 	if icc or gcc or clang:
@@ -1043,7 +1045,11 @@ def get_cc_version(conf, cc, gcc=False, icc=False, clang=False):
 			conf.env['CC_VERSION'] = (ver[:-2], ver[-2], ver[-1])
 		else:
 			if isD('__clang__'):
-				conf.env['CC_VERSION'] = (k['__clang_major__'], k['__clang_minor__'], k['__clang_patchlevel__'])
+				try:
+					conf.env['CC_VERSION'] = (k['__clang_major__'], k['__clang_minor__'], k['__clang_patchlevel__'])
+				except KeyError:
+					# Some versions of OSX have a faux-gcc "clang" without clang version defines
+					conf.env['CC_VERSION'] = (k['__GNUC__'], k['__GNUC_MINOR__'], k['__GNUC_PATCHLEVEL__'])
 			else:
 				try:
 					conf.env['CC_VERSION'] = (k['__GNUC__'], k['__GNUC_MINOR__'], k['__GNUC_PATCHLEVEL__'])
@@ -1103,9 +1109,10 @@ def get_suncc_version(conf, cc):
 def add_as_needed(self):
 	"""
 	Add ``--as-needed`` to the *LINKFLAGS*
+	On some platforms, it is a default flag.  In some cases (e.g., in NS-3) it is necessary to explicitly disable this feature with `-Wl,--no-as-needed` flag.
 	"""
 	if self.env.DEST_BINFMT == 'elf' and 'gcc' in (self.env.CXX_NAME, self.env.CC_NAME):
-		self.env.append_unique('LINKFLAGS', '--as-needed')
+		self.env.append_unique('LINKFLAGS', '-Wl,--as-needed')
 
 # ============ parallel configuration
 

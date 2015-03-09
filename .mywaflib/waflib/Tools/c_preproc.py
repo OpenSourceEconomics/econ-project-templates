@@ -849,9 +849,15 @@ class c_parser(object):
 		:return: the node if found
 		:rtype: :py:class:`waflib.Node.Node`
 		"""
+		if filename.endswith('.moc'):
+			# we could let the qt4 module use a subclass, but then the function "scan" below must be duplicated
+			# in the qt4 and in the qt5 classes. So we have two lines here and it is sufficient. TODO waf 1.9
+			self.names.append(filename)
+			return None
+
 		self.curfile = filename
 
-		# for msvc it should be a for loop on the whole stack
+		# for msvc it should be a for loop over the whole stack
 		found = self.cached_find_resource(self.currentnode_stack[-1], filename)
 
 		for n in self.nodepaths:
@@ -860,10 +866,9 @@ class c_parser(object):
 			found = self.cached_find_resource(n, filename)
 
 		if found and not found in self.ban_includes:
-			# TODO the duplicates do not increase the no-op build times too much, but they may be worth removing
+			# TODO duplicates do not increase the no-op build times too much, but they may be worth removing
 			self.nodes.append(found)
-			if filename[-4:] != '.moc':
-				self.addlines(found)
+			self.addlines(found)
 		else:
 			if not filename in self.names:
 				self.names.append(filename)
@@ -924,8 +929,7 @@ class c_parser(object):
 		try:
 			self.parse_cache = bld.parse_cache
 		except AttributeError:
-			bld.parse_cache = {}
-			self.parse_cache = bld.parse_cache
+			self.parse_cache = bld.parse_cache = {}
 
 		self.current_file = node
 		self.addlines(node)

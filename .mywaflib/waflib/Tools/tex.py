@@ -114,6 +114,7 @@ class tex(Task.Task):
 		:rtype: int
 		"""
 		bld = self.generator.bld
+		Logs.info('runner: %r' % cmd)
 		try:
 			if not kw.get('cwd', None):
 				kw['cwd'] = bld.cwd
@@ -243,7 +244,7 @@ class tex(Task.Task):
 		for aux_node in self.aux_nodes:
 			try:
 				ct = aux_node.read()
-			except (OSError, IOError):
+			except EnvironmentError:
 				Logs.error('Error reading %s: %r' % aux_node.abspath())
 				continue
 
@@ -316,7 +317,7 @@ class tex(Task.Task):
 		for aux_node in self.aux_nodes:
 			try:
 				ct = aux_node.read()
-			except (OSError, IOError):
+			except EnvironmentError:
 				Logs.error('Error reading %s: %r' % aux_node.abspath())
 				continue
 
@@ -467,11 +468,13 @@ def apply_tex(self):
 					task.dep_nodes.append(n)
 
 		# texinputs is a nasty beast
-		if hasattr(self, 'texinputs'):
+		if hasattr(self, 'texinputs_nodes'):
 			task.texinputs_nodes = self.texinputs_nodes
 		else:
 			task.texinputs_nodes = [node.parent, node.parent.get_bld(), self.path, self.path.get_bld()]
 			lst = os.environ.get('TEXINPUTS', '')
+			if self.env.TEXINPUTS:
+				lst += os.pathsep + self.env.TEXINPUTS
 			if lst:
 				lst = lst.split(os.pathsep)
 			for x in lst:
