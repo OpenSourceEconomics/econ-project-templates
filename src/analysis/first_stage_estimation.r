@@ -7,10 +7,10 @@ The file requires to be called with a model specification as the argument,
 a corresponding json-file must exist in PATH_IN_MODEL_SPECS. That file
 needs to define a dictionary with keys:
     
-    INSTD - the dependent variable (in the first stage)
-    INSTS - the instrument
-    KEEP_CONDITION - any sampling restrictions
-    DUMMIES - additional dummy variables to be used as controls
+    * INSTD - the dependent variable (in the first stage)
+    * INSTS - the instrument
+    * KEEP_CONDITION - any sampling restrictions
+    * DUMMIES - additional dummy variables to be used as controls
 
 The r-file loops over various specifications with geographic controls /
 restrictions as defined in PATH_IN_MODEL_SPECS/geography.json. Finally,

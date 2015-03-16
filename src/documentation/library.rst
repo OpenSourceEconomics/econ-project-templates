@@ -17,7 +17,7 @@ R packages
 
 We try to make sure that the code runs on any machine, regardless of the R libraries you have installed system-wide and regardless of write-permissions you may have. Thus, the project installs all nonstandard libraries using the ``install_required_lib``-function, which you may find in *src/library/R*:
 
-.. literalinclude:: ../library/R/install_required_lib.r
+.. include:: ../library/R/install_required_lib.r
     :start-after: '
     :end-before: '
 
