@@ -75,11 +75,17 @@ if len(args) > 0:
 
 for cmd in cmds:
     full_cmd = '\n'.join((activate, cmd))
-    print('Executing: \n{}\n'.format(full_cmd))
-    popen = subprocess.Popen(
-        full_cmd,
-        shell=True,
-        stdin=sys.stdin,
-        stdout=sys.stdout,
-        stderr=sys.stdout
-    ).wait()
+    if sys.platform in ["win32"]:
+        # Write commands in batch file and execute there
+        file = open('.env/workaround.bat', 'a')
+        file.write('call ' + cmd + '\r\n')
+        file.close()
+    else:
+        print('Executing: \n{}\n'.format(full_cmd))
+        popen = subprocess.Popen(
+            full_cmd,
+            shell=True,
+            stdin=sys.stdin,
+            stdout=sys.stdout,
+            stderr=sys.stdout
+        ).wait()
