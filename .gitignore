@@ -37,6 +37,7 @@ waf3-*
 *latexmk
 *synctex.gz
 .*
+!.env
 .*pdfsvn
 __pycache__
 analysis_out

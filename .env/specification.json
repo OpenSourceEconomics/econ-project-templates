@@ -1,0 +1,17 @@
+{
+  "python-version": "3.4",
+  "conda-deps": [
+    "numpy",
+    "sphinx",
+    "nose",
+    "matplotlib",
+    "pip",
+    "pandas",
+    "scipy"
+  ],
+  "pip-deps": [
+    "cloud_sptheme",
+    "sphinxcontrib-bibtex"
+  ]
+}
+
