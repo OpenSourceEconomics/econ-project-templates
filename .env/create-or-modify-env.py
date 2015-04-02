@@ -25,8 +25,8 @@ args = sys.argv[1:]
 
 # Set default if no arguments are supplied
 if len(args) < 1:
-    print("No arguments supplied. Continuing with 'create' and 'install' as default")
-    args.extend(('create', 'install'))
+    print("No arguments supplied. Trying to activate environment. If it doesn't exist, run again with 'create' and 'install' as arguments")
+    # args.extend(('create', 'install'))
 
 # Create environment
 if 'create' in args:
