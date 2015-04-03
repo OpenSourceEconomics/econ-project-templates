@@ -39,7 +39,7 @@ if 'create' in args:
         shell=True,
         stdin=sys.stdin,
         stdout=sys.stdout,
-        stderr=sys.stdout
+        stderr=sys.stderr
     ).wait()
 
 
@@ -74,7 +74,7 @@ if len(args) > 0:
 
 
 for cmd in cmds:
-    full_cmd = '\n'.join((activate, cmd))
+    full_cmd = ' && '.join((activate, cmd))
     if sys.platform in ["win32"]:
         # Write commands in batch file and execute there
         file = open('.env/workaround.bat', 'a')
@@ -82,10 +82,14 @@ for cmd in cmds:
         file.close()
     else:
         print('Executing: \n{}\n'.format(full_cmd))
-        popen = subprocess.Popen(
-            full_cmd,
-            shell=True,
-            stdin=sys.stdin,
-            stdout=sys.stdout,
-            stderr=sys.stdout
-        ).wait()
+        try:
+            subprocess.check_call(
+                full_cmd,
+                shell=True,
+                stdin=sys.stdin,
+                stdout=sys.stdout,
+                stderr=subprocess.DEVNULL
+            )
+        except subprocess.CalledProcessError as e:
+            print("If the environment could not be found, run again supplying 'create' and 'install' as arguments.")
+            exit(1)
