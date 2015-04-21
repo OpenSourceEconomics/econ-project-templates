@@ -38,7 +38,7 @@ if [ $# -eq 0 ]; then
 
     # Check return code of activate, i.e. if the environment exists
     if [ $OUT -eq 0 ];then
-        echo "Environment successfully activated! Run 'source deactivate' to deactivate it."
+        echo "Environment $env_name successfully activated! Run 'source deactivate' to deactivate it."
         # Create environment and install/update packages
         # python .env/create-or-modify-env.py $@
 
@@ -50,7 +50,7 @@ if [ $# -eq 0 ]; then
 
     # If activate does not return 0, handle create and and install
     else
-        read -p "Environment does not exist. Do you want to create it? (y/n) `echo $'\n> '`" answer
+        read -p "Environment $env_name does not exist. Do you want to create it? (y/n) `echo $'\n> '`" answer
         case ${answer:0:1} in
             y|Y )
                 read -p "Do you also want to install the specified packages? (y/n) `echo $'\n> '`" install
@@ -65,6 +65,7 @@ if [ $# -eq 0 ]; then
             source activate $env_name
             ;;
             * )
+                echo "Nothing done."
                 return 1
             ;;
         esac
@@ -84,10 +85,10 @@ else
     if [ $OUT -eq 0 ];then
         case $1 in
             'activate' )
-                echo 'Activating environment..'
+                echo 'Activating environment $env_name..'
             ;;
             'create' )
-                echo 'Environment already exists, activating..'
+                echo 'Environment $env_name already exists, activating..'
             ;;
             # 'install' )
             #     echo 'Install listed packages and write to list' #TODO in python
@@ -101,7 +102,7 @@ else
     else
         case $1 in
             'activate' | 'install' | 'update' )
-                read -p "Environment does not exist. Do you want to create it? (y/n) `echo $'\n> '`" answer
+                read -p "Environment $env_name does not exist. Do you want to create it? (y/n) `echo $'\n> '`" answer
                 case ${answer:0:1} in
                     y|Y )
                         read -p "Do you also want to install the specified packages? (y/n) `echo $'\n> '`" install
@@ -115,6 +116,7 @@ else
                         esac
                     ;;
                     * )
+                        echo "Nothing done."
                         return 1
                     ;;
                 esac

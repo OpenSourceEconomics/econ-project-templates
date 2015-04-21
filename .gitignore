@@ -60,5 +60,5 @@ ___*
 !.gitignore
 !.mywaflib
 .env/workaround.bat
-installed_conda_pkgs
-installed_pip_pkgs
+.env/installed_conda_pkgs
+.env/installed_pip_pkgs

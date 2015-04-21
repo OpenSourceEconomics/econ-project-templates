@@ -3,7 +3,10 @@ import subprocess
 import os
 import sys
 import json
+from pkg_management import check_packages
 
+# Initialize Helper Class
+check = check_packages()
 
 # Determine directory name, since this will be the name of the environment
 abspath_here = os.path.dirname(os.path.abspath(__file__))
@@ -60,22 +63,34 @@ if 'install' in args:
     # We keep track of the installed packages after that to configure update
     if conda_deps:
         cmds.append('conda install {}'.format(conda_deps))
-        cmds.append('conda list > installed_conda_pkgs')
+        cmds.append('conda list > .env/installed_conda_pkgs')
 
     if pip_deps:
         cmds.append('pip install {}'.format(pip_deps))
-        cmds.append('pip freeze > installed_pip_pkgs')
+        cmds.append('pip freeze > .env/installed_pip_pkgs')
 
 if 'update' in args:
     args.remove('update')
-    if os.path.isfile('installed_pip_pkgs') or os.path.isfile('installed_conda_pkgs'):
-        if conda_deps:
-            cmds.append('conda update {}'.format(conda_deps))
+    # Check if an installation was carried out
+    if os.path.isfile('.env/installed_pip_pkgs') or os.path.isfile('.env/installed_conda_pkgs'):
 
-        if pip_deps:
-            cmds.append('pip install -U {}'.format(pip_deps))
+        # Get all packages from pip and conda
+        entire_spec = specs['conda-deps'] + specs['pip-deps']
+
+        # Check if no new packages were added to the spec since the last installation
+        if check.compare_package_sets(entire_spec):
+
+            # Run necessary updates
+            if conda_deps:
+                cmds.append('conda update {}'.format(conda_deps))
+
+            if pip_deps:
+                cmds.append('pip install -U {}'.format(pip_deps))
+        else:
+            print("Specification changed since last install, please run 'install' first.")
     else:
-        print("No previous installation detected. Please install packages first by running 'source set-env.sh install'")
+        print("No previous installation detected. Please install packages first via 'source set-env.sh install'")
+
 
 # Yell, if invalid arguments were supplied
 if len(args) > 0:
@@ -92,13 +107,9 @@ for cmd in cmds:
     else:
         print('Executing: \n{}\n'.format(full_cmd))
         try:
-            subprocess.check_call(
+            subprocess.check_output(
                 full_cmd,
                 shell=True,
-                stdin=sys.stdin,
-                stdout=sys.stdout,
-                stderr=subprocess.DEVNULL
             )
         except subprocess.CalledProcessError as e:
-            print("If the environment could not be found, run again supplying 'create' and 'install' as arguments.")
             exit(1)
