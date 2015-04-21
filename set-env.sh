@@ -50,10 +50,10 @@ if [ $# -eq 0 ]; then
 
     # If activate does not return 0, handle create and and install
     else
-        read -q "answer?Environment does not exist. Do you want to create it? (y/n) `echo $'\n> '`"
+        read -p "Environment does not exist. Do you want to create it? (y/n) `echo $'\n> '`" answer
         case ${answer:0:1} in
             y|Y )
-                read -q "install?Do you also want to install the specified packages? (y/n) `echo $'\n> '`"
+                read -p "Do you also want to install the specified packages? (y/n) `echo $'\n> '`" install
                 case ${install:0:1} in
                     y|Y )
                         python .env/create-or-modify-env.py create install
@@ -101,10 +101,10 @@ else
     else
         case $1 in
             'activate' | 'install' | 'update' )
-                read -q "answer?Environment does not exist. Do you want to create it? (y/n) `echo $'\n> '`"
+                read -p "Environment does not exist. Do you want to create it? (y/n) `echo $'\n> '`" answer
                 case ${answer:0:1} in
                     y|Y )
-                        read -q "install?Do you also want to install the specified packages? (y/n) `echo $'\n> '`"
+                        read -p "Do you also want to install the specified packages? (y/n) `echo $'\n> '`" install
                         case ${install:0:1} in
                             y|Y )
                                 python .env/create-or-modify-env.py create install
