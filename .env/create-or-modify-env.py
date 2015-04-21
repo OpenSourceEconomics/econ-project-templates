@@ -43,7 +43,10 @@ if 'create' in args:
     ).wait()
 
 
-# Prepend source for unix systems
+""" Prepend source for unix systems in activate command. We do this first to ensure the packages
+    get installed in the right environment
+"""
+
 activate = 'activate {}'.format(env_name)
 if sys.platform in ["linux", "linux2", "darwin"]:
     activate = 'source ' + activate
@@ -54,19 +57,25 @@ cmds = []
 # Fill command array given inputs and package specifications
 if 'install' in args:
     args.remove('install')
+    # We keep track of the installed packages after that to configure update
     if conda_deps:
         cmds.append('conda install {}'.format(conda_deps))
+        cmds.append('conda list > installed_conda_pkgs')
 
     if pip_deps:
         cmds.append('pip install {}'.format(pip_deps))
+        cmds.append('pip freeze > installed_pip_pkgs')
 
 if 'update' in args:
     args.remove('update')
-    if conda_deps:
-        cmds.append('conda update {}'.format(conda_deps))
+    if os.path.isfile('installed_pip_pkgs') or os.path.isfile('installed_conda_pkgs'):
+        if conda_deps:
+            cmds.append('conda update {}'.format(conda_deps))
 
-    if pip_deps:
-        cmds.append('pip install -U {}'.format(pip_deps))
+        if pip_deps:
+            cmds.append('pip install -U {}'.format(pip_deps))
+    else:
+        print("No previous installation detected. Please install packages first by running 'source set-env.sh install'")
 
 # Yell, if invalid arguments were supplied
 if len(args) > 0:

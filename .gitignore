@@ -59,3 +59,6 @@ Thumbs.db
 ___*
 !.gitignore
 !.mywaflib
+.env/workaround.bat
+installed_conda_pkgs
+installed_pip_pkgs
