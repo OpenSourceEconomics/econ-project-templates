@@ -3,7 +3,6 @@ import subprocess
 import os
 import sys
 import json
-from pkg_management import check_packages
 
 # Determine directory name, since this will be the name of the environment
 abspath_here = os.path.dirname(os.path.abspath(__file__))
@@ -75,7 +74,9 @@ if 'update' in args:
         entire_spec = specs['conda-deps'] + specs['pip-deps']
 
         # Initialize Helper Class
+        from pkg_management import check_packages
         check = check_packages()
+
         # Check if no new packages were added to the spec since the last installation
         if check.compare_package_sets(entire_spec):
 
@@ -84,7 +85,7 @@ if 'update' in args:
                 cmds.append('conda update {}'.format(conda_deps))
 
             if pip_deps:
-                cmds.append('pip install -U {}'.format(pip_deps))
+                cmds.append('pip install -U --no-deps {}'.format(pip_deps))
         else:
             print("Specification changed since last install, please run 'install' first.")
     else:
@@ -106,9 +107,13 @@ for cmd in cmds:
     else:
         print('Executing: \n{}\n'.format(full_cmd))
         try:
-            subprocess.check_output(
+            p = subprocess.Popen(
                 full_cmd,
                 shell=True,
-            )
+                stdout=sys.stdout,
+                stderr=sys.stderr,
+                stdin=sys.stdin
+            ).communicate()
+
         except subprocess.CalledProcessError as e:
             exit(1)

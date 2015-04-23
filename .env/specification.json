@@ -10,7 +10,7 @@
     "scipy"
   ],
   "pip-deps": [
-    "cloud_sptheme",
+    "cloud-sptheme",
     "sphinxcontrib-bibtex"
   ]
 }
