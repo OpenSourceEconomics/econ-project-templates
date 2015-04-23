@@ -1,6 +1,9 @@
 #!/bin/bash
 # You can make this executable with 'chmod u+x set-env.sh'
 
+# Helper function to silently activate the environment
+activate_env () { source activate $env_name &> /dev/null; }
+
 # Define usage/help command
 usage="`echo $'\n> '`$(basename "$0") [help] [arguments] -- This script activates present anaconda environment. By supplying
 one of more of the arguments below you can also create a environment if none exists and install required
@@ -14,12 +17,11 @@ where arguments can be:
     update        Update previously installed packages"
 
 
-
 # Name of the current directory (which is also the env name)
 env_name=${PWD##*/}
 
 # Activate the conda environment
-source activate $env_name &> /dev/null
+activate_env
 
 # Get return code of 'source activate ...'
 OUT=$?
@@ -38,9 +40,7 @@ if [ $# -eq 0 ]; then
 
     # Check return code of activate, i.e. if the environment exists
     if [ $OUT -eq 0 ];then
-        echo "Environment $env_name successfully activated! Run 'source deactivate' to deactivate it."
-        # Create environment and install/update packages
-        # python .env/create-or-modify-env.py $@
+        echo "Activating environment $env_name..."
 
         # Alias for easier access to Waf.
         alias waf="python waf.py"
@@ -85,10 +85,10 @@ else
     if [ $OUT -eq 0 ];then
         case $1 in
             'activate' )
-                echo 'Activating environment $env_name..'
+                echo "Activating environment $env_name..."
             ;;
             'create' )
-                echo 'Environment $env_name already exists, activating..'
+                echo "Environment $env_name already exists, activating.."
             ;;
             # 'install' )
             #     echo 'Install listed packages and write to list' #TODO in python
