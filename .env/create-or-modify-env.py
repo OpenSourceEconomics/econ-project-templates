@@ -5,9 +5,6 @@ import sys
 import json
 from pkg_management import check_packages
 
-# Initialize Helper Class
-check = check_packages()
-
 # Determine directory name, since this will be the name of the environment
 abspath_here = os.path.dirname(os.path.abspath(__file__))
 env_name = os.path.split(os.path.split(abspath_here)[0])[1]
@@ -77,6 +74,8 @@ if 'update' in args:
         # Get all packages from pip and conda
         entire_spec = specs['conda-deps'] + specs['pip-deps']
 
+        # Initialize Helper Class
+        check = check_packages()
         # Check if no new packages were added to the spec since the last installation
         if check.compare_package_sets(entire_spec):
 

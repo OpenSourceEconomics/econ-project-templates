@@ -1,4 +1,9 @@
-from pip.req import parse_requirements
+try:
+    from pip.req import parse_requirements
+    pip_installed = True
+except ImportError:
+    pip_installed = False
+    print("Pip not installed, trying updating conda packages...")
 
 
 class check_packages:
@@ -21,7 +26,10 @@ class check_packages:
         return conda_pkgs
 
     def compare_package_sets(self, spec):
-        packages_from_last_install = self.get_conda_pkgs() + self.get_pip_pkgs()
+        if pip_installed:
+            packages_from_last_install = self.get_conda_pkgs() + self.get_pip_pkgs()
+        else:
+            packages_from_last_install = self.get_conda_pkgs()
         if set(spec).issubset(set(packages_from_last_install)):
             return True
         else:
