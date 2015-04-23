@@ -1,13 +1,16 @@
 #!/bin/bash
 # You can make this executable with 'chmod u+x set-env.sh'
 
+# IFS='\n'
+
+
 # Helper function to silently activate the environment
 activate_env () { source activate $env_name &> /dev/null; }
 
 # Define usage/help command
-usage="`echo $'\n> '`$(basename "$0") [help] [arguments]:
+usage="`echo $'\n> '`set-env.sh [help] [arguments]:
 
-This script activates the conda environment associated with the current directory name. 
+This script activates the conda environment associated with the current directory name.
 By supplying one of more of the arguments below you can also create the environment if
 it does not exist and/or install required packages.
 
@@ -79,7 +82,7 @@ if [ $# -eq 0 ]; then
 else
     case $1 in
         '-h' | 'help' )
-              echo $usage
+              echo "$usage"
               return 0
         ;;
     esac
