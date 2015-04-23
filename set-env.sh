@@ -5,15 +5,17 @@
 activate_env () { source activate $env_name &> /dev/null; }
 
 # Define usage/help command
-usage="`echo $'\n> '`$(basename "$0") [help] [arguments] -- This script activates present anaconda environment. By supplying
-one of more of the arguments below you can also create a environment if none exists and install required
-packages.
+usage="`echo $'\n> '`$(basename "$0") [help] [arguments]:
+
+This script activates the conda environment associated with the current directory name. 
+By supplying one of more of the arguments below you can also create the environment if
+it does not exist and/or install required packages.
 
 where arguments can be:
     help, -h      Show this help text
     create        Create a new miniconda environment with the current foldername
-    install       Install the packages specified in .env/specification.json. Also run this after updating
-                  the specifications file
+    install       Install the packages specified in .env/specification.json. Also run
+                  this after updating the specifications file.
     update        Update previously installed packages"
 
 
