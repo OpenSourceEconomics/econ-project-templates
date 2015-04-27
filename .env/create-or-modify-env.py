@@ -106,14 +106,26 @@ for cmd in cmds:
         file.close()
     else:
         print('Executing: \n{}\n'.format(full_cmd))
-        try:
-            p = subprocess.Popen(
-                full_cmd,
-                shell=True,
-                stdout=sys.stdout,
-                stderr=sys.stderr,
-                stdin=sys.stdin
-            ).communicate()
-
-        except subprocess.CalledProcessError as e:
-            exit(1)
+        with subprocess.Popen(full_cmd, stdout=sys.stdout, shell=True) as process:
+            try:
+                output, unused_err = process.communicate()
+            except subprocess.TimeoutExpired:
+                process.kill()
+                output, unused_err = process.communicate()
+                raise subprocess.TimeoutExpired(process.args, output=output)
+            except:
+                process.kill()
+                process.wait()
+                raise
+            retcode = process.poll()
+            if retcode:
+                raise subprocess.CalledProcessError(retcode, process.args, output=output)
+        # try:
+        #     subprocess.check_output(
+        #         full_cmd,
+        #         shell=True,
+        #         stderr=subprocess.STDOUT,
+        #         # stdin=subprocess.STDIN
+        #     )
+        # except subprocess.CalledProcessError as e:
+        #     exit(1)
