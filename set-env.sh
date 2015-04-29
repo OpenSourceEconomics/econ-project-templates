@@ -1,9 +1,6 @@
 #!/bin/bash
 # You can make this executable with 'chmod u+x set-env.sh'
 
-# IFS='\n'
-
-
 # Helper function to silently activate the environment
 activate_env () { source activate $env_name &> /dev/null; }
 
@@ -119,6 +116,7 @@ else
                                 python .env/create-or-modify-env.py create
                             ;;
                         esac
+                    source activate $env_name
                     ;;
                     * )
                         echo "Nothing done."
