@@ -6,8 +6,7 @@
     "nose",
     "matplotlib",
     "pip",
-    "pandas",
-    "scipy"
+    "pandas"
   ],
   "pip-deps": [
     "cloud-sptheme",
