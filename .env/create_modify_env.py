@@ -55,7 +55,7 @@ def try_to_activate_env():
     # See if environment can be activated to determine further process
     try:
         FNULL = open(os.devnull, 'w')
-        subprocess.check_call(activate, stdout=FNULL, stderr=subprocess.STDOUT, shell=True)
+        subprocess.check_call(activate, stdout=FNULL, stderr=subprocess.STDOUT, shell=True, executable="/bin/bash")
         return True
     except subprocess.CalledProcessError:
         return False
