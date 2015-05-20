@@ -35,6 +35,8 @@ PYTHON_VERSION = SPECS['python-version']
 CONDA_DEPS = " ".join(map(str, SPECS['conda-deps']))
 PIP_DEPS = " ".join(map(str, SPECS['pip-deps']))
 
+ENTIRE_SPEC = SPECS['conda-deps'] + SPECS['pip-deps']
+
 # Get args from shell script
 args = sys.argv[1:]
 
@@ -129,7 +131,6 @@ def install_deps():
         args.remove('install')
 
     # Handle the case of a fresh install, we just pass all required pkgs to pip and conda
-    if not os.path.isfile('.env/installed_spec.json'):
         # We keep track of the packages to install to have an indication if something changed later
         # This works for first time install. After that we only want to install/remove diffs
 
@@ -140,37 +141,6 @@ def install_deps():
         if PIP_DEPS:
             cmds.append('pip install {}'.format(PIP_DEPS))
             cmds.append('pip freeze > .env/installed_pip_pkgs')
-
-    else:
-        from pkg_management import CheckPackages
-        check = CheckPackages()
-        comp = check.compare_package_sets(SPECS)
-
-        # We look at the diff in requirements or installs to determine how to change our installation
-        # Note that we can't really remove packages that are installed but not in the spec easily since
-        # they might be dependencies of packages in the spec.
-        # That's why we look at the last installed spec when checking for removals
-
-
-
-        # Note: https://github.com/ContinuumIO/anaconda-issues/issues/232
-        # When running install, unused dependencies are not removed at this point due to
-        # potential incompatibilities.
-        # This might change when the #232 is being taken care of
-
-        if len(comp) > 0:
-            changes = []
-            for item in comp.keys():
-                changes.append(item + " " + " ".join(map(str, comp[item])))
-            update_installation = input("The following changes have to made in order to bring your installation up to date: {}. Proceed? (y/n)".format(str(changes)[1:-1]))
-            if update_installation in ("Y", "y"):
-                cmds.append(item + " " + " ".join(map(str, comp[item])))
-            else:
-                print("Nothing done.")
-                sys.exit(1)
-
-    # Keep copy of spec to be installed for further diffs
-    shutil.copy("specification.json", ".env/installed_spec.json")
 
 
 # Fill command array given inputs and package specifications
@@ -190,13 +160,11 @@ if 'update' in args:
         from pkg_management import CheckPackages
         check = CheckPackages()
 
-        # This now returns a dict with instructions (conda/pip, install/remove [pkgs]).
-        # Parse them and show which packages are to be removed/added.
-        # Then call install/remove with those packages and then proceed to update
-        comp = check.compare_package_sets(SPECS)
+        # This now returns True of False, given if specification changed since the last install
+        is_subset = check.compare_package_sets(ENTIRE_SPEC)
 
         # Check if spec changed
-        if len(comp) == 0:
+        if is_subset:
             # Run necessary updates
             if CONDA_DEPS:
                 cmds.append('conda update {}'.format(CONDA_DEPS))
