@@ -75,6 +75,7 @@ if len(args) < 1:
             Q_INSTALL = input("Also install specified packages? (y/n)")
             if Q_INSTALL in ("Y", "y"):
                 args.append('install')
+                args.append('silent')
         else:
             sys.exit(1)
             print("Nothing done")
@@ -107,19 +108,22 @@ cmds = []
 def install_deps():
     """Installs specified dependencies"""
 
+    if not 'silent' in args:
     # We need to update this for the Windows case as install gets executed from batch file
-    ACT_STATUS = try_to_activate_env()
+        ACT_STATUS = try_to_activate_env()
 
-    # If there's no env present, ask to create one
-    if not ACT_STATUS:
-        Q_CREATE = input("Environment does not exist yet. Do you want to create it? (y/n)")
+        # If there's no env present, ask to create one
+        if not ACT_STATUS:
+            Q_CREATE = input("Environment {} does not exist. Do you want to create it? (y/n)".format(ENV_NAME))
 
-        if Q_CREATE in ("Y", "y"):
-            create_env()
+            if Q_CREATE in ("Y", "y"):
+                create_env()
 
-        else:
-            sys.exit(1)
-            print("Nothing done")
+            else:
+                sys.exit(1)
+                print("Nothing done")
+    else:
+        args.remove('silent')
 
     if 'install' in args:
         args.remove('install')
