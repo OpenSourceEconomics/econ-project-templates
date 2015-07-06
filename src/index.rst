@@ -11,6 +11,7 @@ Table of Contents
     waf
     organisation
     getting_started
+    create_env
     faq
     zreferences
 
