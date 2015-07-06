@@ -37,7 +37,8 @@ Getting started (Python-based project)
 
    Your Python distribution needs to have the packages [sphinx](http://sphinx-doc.org/) and [sphinxcontrib.bibtex](https://pypi.python.org/pypi/sphinxcontrib-bibtex/) installed; the [Anaconda Python distribution](https://store.continuum.io/cshop/anaconda/) is recommended. You will need to follow up by ``conda install sphinxcontrib-bibtex`` or similar after installing it.
 
-   A detailed set of instructions for setting up an entire Python environment may be found [here](http://hmgaudecker.github.io/econ-python-environment).
+   A detailed set of instructions for setting up an entire Python environment may be found [here](http://hmgaudecker.github.io/econ-python-environment). You can set up an environment by running:
+        source set-env.sh
 
 4. Navigate to the folder in a shell. Type the following commands to see whether the examples are working:
 
@@ -45,7 +46,7 @@ Getting started (Python-based project)
         python waf.py build
         python waf.py install
 
-   The first command will fail if any one of the required programs cannot be found. 
+   The first command will fail if any one of the required programs cannot be found.
 
    If the second step fails, try the following in order to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
 
