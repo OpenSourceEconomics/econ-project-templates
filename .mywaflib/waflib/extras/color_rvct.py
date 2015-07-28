@@ -32,7 +32,7 @@ class RcvtFormatter(Logs.formatter):
 				cmd = frame.f_locals['cmd']
 				if isinstance(cmd, list) and ('armcc' in cmd[0] or 'armld' in cmd[0]):
 					lines = []
-					for line in rec.msg.split('\n'):
+					for line in rec.msg.splitlines():
 						if 'Warning: ' in line:
 							lines.append(self.colors.YELLOW + line)
 						elif 'Error: ' in line:

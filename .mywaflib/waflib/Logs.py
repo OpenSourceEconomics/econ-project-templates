@@ -35,6 +35,7 @@ colors_lst = {
 'PINK'  :'\x1b[35m',
 'BLUE'  :'\x1b[01;34m',
 'CYAN'  :'\x1b[36m',
+'GREY'  :'\x1b[37m',
 'NORMAL':'\x1b[0m',
 'cursor_on'  :'\x1b[?25h',
 'cursor_off' :'\x1b[?25l',
@@ -46,7 +47,7 @@ def enable_colors(use):
 	if use == 1:
 		if not (sys.stderr.isatty() or sys.stdout.isatty()):
 			use = 0
-		if Utils.is_win32:
+		if Utils.is_win32 and os.name != 'java':
 			term = os.environ.get('TERM', '') # has ansiterm
 		else:
 			term = os.environ.get('TERM', 'dumb')

@@ -12,9 +12,9 @@ console commands.
 """
 
 import os, re, sys
-from waflib.Utils import threading
+from waflib import Utils
 
-wlock = threading.Lock()
+wlock = Utils.threading.Lock()
 
 try:
 	from ctypes import Structure, windll, c_short, c_ushort, c_ulong, c_int, byref, c_wchar, POINTER, c_long
@@ -284,7 +284,7 @@ else:
 				wlock.release()
 
 		def writeconsole(self, txt):
-			chars_written = c_int()
+			chars_written = c_ulong()
 			writeconsole = windll.kernel32.WriteConsoleA
 			if isinstance(txt, _type):
 				writeconsole = windll.kernel32.WriteConsoleW

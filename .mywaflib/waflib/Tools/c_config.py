@@ -7,7 +7,7 @@ C/C++/D configuration helpers
 """
 
 import os, re, shlex, sys
-from waflib import Build, Utils, Task, Options, Logs, Errors, ConfigSet, Runner
+from waflib import Build, Utils, Task, Options, Logs, Errors, Runner
 from waflib.TaskGen import after_method, feature
 from waflib.Configure import conf
 
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 	void *p;
 	(void)argc; (void)argv;
 	p=(void*)(%s);
-	return 0;
+	return (int)p;
 }
 '''
 """Code template for checking for functions"""
@@ -70,7 +70,7 @@ MACRO_TO_DESTOS = {
 '__sgi'                                          : 'irix',
 '_AIX'                                           : 'aix',
 '__CYGWIN__'                                     : 'cygwin',
-'__MSYS__'                                       : 'msys',
+'__MSYS__'                                       : 'cygwin',
 '_UWIN'                                          : 'uwin',
 '_WIN64'                                         : 'win32',
 '_WIN32'                                         : 'win32',
@@ -140,6 +140,7 @@ def parse_flags(self, line, uselib_store, env=None, force_static=False, posix=No
 	app = env.append_value
 	appu = env.append_unique
 	uselib = uselib_store
+	static = False
 	while lst:
 		x = lst.pop(0)
 		st = x[:2]
@@ -157,13 +158,15 @@ def parse_flags(self, line, uselib_store, env=None, force_static=False, posix=No
 			app('DEFINES_' + uselib, [ot])
 		elif st == '-l':
 			if not ot: ot = lst.pop(0)
-			prefix = force_static and 'STLIB_' or 'LIB_'
+			prefix = (force_static or static) and 'STLIB_' or 'LIB_'
 			appu(prefix + uselib, [ot])
 		elif st == '-L':
 			if not ot: ot = lst.pop(0)
-			appu('LIBPATH_' + uselib, [ot])
+			prefix = (force_static or static) and 'STLIBPATH_' or 'LIBPATH_'
+			appu(prefix + uselib, [ot])
 		elif x.startswith('/LIBPATH:'):
-			appu('LIBPATH_' + uselib, [x.replace('/LIBPATH:', '')])
+			prefix = (force_static or static) and 'STLIBPATH_' or 'LIBPATH_'
+			appu(prefix + uselib, [x.replace('/LIBPATH:', '')])
 		elif x == '-pthread' or x.startswith('+') or x.startswith('-std'):
 			app('CFLAGS_' + uselib, [x])
 			app('CXXFLAGS_' + uselib, [x])
@@ -172,12 +175,18 @@ def parse_flags(self, line, uselib_store, env=None, force_static=False, posix=No
 			appu('FRAMEWORK_' + uselib, [lst.pop(0)])
 		elif x.startswith('-F'):
 			appu('FRAMEWORKPATH_' + uselib, [x[2:]])
-		elif x == '-Wl,-rpath':
-			app('RPATH_' + uselib, lst.pop(0))
+		elif x == '-Wl,-rpath' or x == '-Wl,-R':
+			app('RPATH_' + uselib, lst.pop(0).lstrip('-Wl,'))
+		elif x.startswith('-Wl,-R,'):
+			app('RPATH_' + uselib, x[7:])
 		elif x.startswith('-Wl,-R'):
 			app('RPATH_' + uselib, x[6:])
 		elif x.startswith('-Wl,-rpath,'):
 			app('RPATH_' + uselib, x[11:])
+		elif x == '-Wl,-Bstatic' or x == '-Bstatic':
+			static = True
+		elif x == '-Wl,-Bdynamic' or x == '-Bdynamic':
+			static = False
 		elif x.startswith('-Wl'):
 			app('LINKFLAGS_' + uselib, [x])
 		elif x.startswith('-m') or x.startswith('-f') or x.startswith('-dynamic'):
@@ -374,7 +383,9 @@ def check_cfg(self, *k, **kw):
 			conf.check_cfg(path='sdl-config', args='--cflags --libs', package='', uselib_store='SDL')
 			conf.check_cfg(path='mpicc', args='--showme:compile --showme:link',
 				package='', uselib_store='OPEN_MPI', mandatory=False)
-
+			# variables
+			conf.check_cfg(package='gtk+-2.0', variables=['includedir', 'prefix'], uselib_store='FOO')
+			print(conf.env.FOO_includedir)
 	"""
 	if k:
 		lst = k[0].split()
@@ -920,26 +931,26 @@ def get_config_header(self, defines=True, headers=False, define_prefix=''):
 @conf
 def cc_add_flags(conf):
 	"""
-	Read the CFLAGS/CPPFLAGS from os.environ and add to conf.env.CFLAGS
+	Add CFLAGS / CPPFLAGS from os.environ to conf.env
 	"""
-	conf.add_os_flags('CPPFLAGS', 'CFLAGS')
-	conf.add_os_flags('CFLAGS')
+	conf.add_os_flags('CPPFLAGS', dup=False)
+	conf.add_os_flags('CFLAGS', dup=False)
 
 @conf
 def cxx_add_flags(conf):
 	"""
-	Read the CXXFLAGS/CPPFLAGS and add to conf.env.CXXFLAGS
+	Add CXXFLAGS / CPPFLAGS from os.environ to conf.env
 	"""
-	conf.add_os_flags('CPPFLAGS', 'CXXFLAGS')
-	conf.add_os_flags('CXXFLAGS')
+	conf.add_os_flags('CPPFLAGS', dup=False)
+	conf.add_os_flags('CXXFLAGS', dup=False)
 
 @conf
 def link_add_flags(conf):
 	"""
-	Read the LINKFLAGS/LDFLAGS and add to conf.env.LDFLAGS
+	Add LINKFLAGS / LDFLAGS from os.environ to conf.env
 	"""
-	conf.add_os_flags('LINKFLAGS')
-	conf.add_os_flags('LDFLAGS', 'LINKFLAGS')
+	conf.add_os_flags('LINKFLAGS', dup=False)
+	conf.add_os_flags('LDFLAGS', dup=False)
 
 @conf
 def cc_load_tools(conf):
@@ -990,7 +1001,7 @@ def get_cc_version(conf, cc, gcc=False, icc=False, clang=False):
 	if clang and out.find('__clang__') < 0:
 		conf.fatal('Not clang/clang++')
 	if not clang and out.find('__clang__') >= 0:
-		conf.fatal('Could not find g++, if renamed try eg: CXX=g++48 waf configure')
+		conf.fatal('Could not find gcc/g++ (only Clang), if renamed try eg: CC=gcc48 CXX=g++48 waf configure')
 
 	k = {}
 	if icc or gcc or clang:
@@ -1093,7 +1104,7 @@ def get_suncc_version(conf, cc):
 		err = e.stderr
 
 	version = (out or err)
-	version = version.split('\n')[0]
+	version = version.splitlines()[0]
 
 	version_re = re.compile(r'cc:\s+sun\s+(c\+\+|c)\s+(?P<major>\d*)\.(?P<minor>\d*)', re.I).search
 	match = version_re(version)
@@ -1156,6 +1167,7 @@ def multicheck(self, *k, **kw):
 			self.keep = False
 			self.returned_tasks = []
 			self.task_sigs = {}
+			self.progress_bar = 0
 		def total(self):
 			return len(tasks)
 		def to_log(self, *k, **kw):
@@ -1186,10 +1198,17 @@ def multicheck(self, *k, **kw):
 	for x in tasks:
 		x.logger.memhandler.flush()
 
+	if p.error:
+		for x in p.error:
+			if getattr(x, 'err_msg', None):
+				self.to_log(x.err_msg)
+				self.end_msg('fail', color='RED')
+				raise Errors.WafError('There is an error in the library, read config.log for more information')
+
 	for x in tasks:
 		if x.hasrun != Task.SUCCESS:
 			self.end_msg(kw.get('errmsg', 'no'), color='YELLOW', **kw)
-			self.fatal(kw.get('fatalmsg', None) or 'One of the tests has failed, see the config.log for more information')
+			self.fatal(kw.get('fatalmsg', None) or 'One of the tests has failed, read config.log for more information')
 
 	self.end_msg('ok', **kw)
 

@@ -49,10 +49,11 @@ def fc_flags(conf):
 @conf
 def fc_add_flags(conf):
 	"""
-	FCFLAGS?
+	Add FCFLAGS / LDFLAGS / LINKFLAGS from os.environ to conf.env
 	"""
-	conf.add_os_flags('FCFLAGS')
-	conf.add_os_flags('LDFLAGS', 'LINKFLAGS')
+	conf.add_os_flags('FCFLAGS', dup=False)
+	conf.add_os_flags('LINKFLAGS', dup=False)
+	conf.add_os_flags('LDFLAGS', dup=False)
 
 @conf
 def check_fortran(self, *k, **kw):
@@ -92,7 +93,7 @@ def fortran_modifier_darwin(conf):
 	"""
 	v = conf.env
 	v['FCFLAGS_fcshlib']   = ['-fPIC']
-	v['LINKFLAGS_fcshlib'] = ['-dynamiclib', '-Wl,-compatibility_version,1', '-Wl,-current_version,1']
+	v['LINKFLAGS_fcshlib'] = ['-dynamiclib']
 	v['fcshlib_PATTERN']   = 'lib%s.dylib'
 	v['FRAMEWORKPATH_ST']  = '-F%s'
 	v['FRAMEWORK_ST']      = '-framework %s'

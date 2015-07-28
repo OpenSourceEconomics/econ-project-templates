@@ -41,7 +41,7 @@ def get_pgfortran_version(conf,fc):
 				conf.fatal('Could not determine the compiler type')
 		k = {}
 		prevk = ''
-		out = out.split('\n')
+		out = out.splitlines()
 		for line in out:
 				lst = line.partition('=')
 				if lst[1] == '=':

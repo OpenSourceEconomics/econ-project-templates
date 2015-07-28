@@ -113,7 +113,7 @@ except ImportError:
 		def keys(self):
 			return self.lst
 
-is_win32 = sys.platform in ('win32', 'cli', 'os2')
+is_win32 = os.sep == '\\' or sys.platform == 'win32' # msys2
 
 def readf(fname, m='r', encoding='ISO8859-1'):
 	"""
@@ -573,7 +573,7 @@ def unversioned_sys_platform():
 	:return: Unversioned platform name
 	"""
 	s = sys.platform
-	if s == 'java':
+	if s.startswith('java'):
 		# The real OS is hidden under the JVM.
 		from java.lang import System
 		s = System.getProperty('os.name')
@@ -585,7 +585,7 @@ def unversioned_sys_platform():
 		elif s == 'OS/2':
 			return 'os2'
 		elif s == 'HP-UX':
-			return 'hpux'
+			return 'hp-ux'
 		elif s in ('SunOS', 'Solaris'):
 			return 'sunos'
 		else: s = s.lower()
@@ -725,11 +725,8 @@ def get_registry_app_path(key, filename):
 def lib64():
 	# default settings for /usr/lib
 	if os.sep == '/':
-		is_64 = platform.architecture()[0] == '64bit'
-		if os.path.exists('/usr/lib64') and not os.path.exists('/usr/lib32'):
-			# redhat
-			return '64' if is_64 else ''
-		else:
-			return '' if is_64 else '32'
+		if platform.architecture()[0] == '64bit':
+			if os.path.exists('/usr/lib64') and not os.path.exists('/usr/lib32'):
+				return '64'
 	return ''
 

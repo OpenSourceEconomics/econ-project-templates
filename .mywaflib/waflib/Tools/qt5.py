@@ -642,7 +642,7 @@ def find_qt5_libraries(self):
 
 				env.append_unique('LIBPATH_' + uselib, qtlibs)
 				env.append_unique('INCLUDES_' + uselib, qtincludes)
-				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i))
+				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i.replace('Qt5', 'Qt')))
 
 				# Debug library names are like QtCore5d
 				uselib = i.upper() + "_debug"
@@ -657,7 +657,7 @@ def find_qt5_libraries(self):
 
 				env.append_unique('LIBPATH_' + uselib, qtlibs)
 				env.append_unique('INCLUDES_' + uselib, qtincludes)
-				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i))
+				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i.replace('Qt5', 'Qt')))
 	else:
 		for i in self.qt5_vars_debug + self.qt5_vars:
 			self.check_cfg(package=i, args='--cflags --libs', mandatory=False)
@@ -721,7 +721,7 @@ def set_qt5_defines(self):
 	if sys.platform != 'win32':
 		return
 	for x in self.qt5_vars:
-		y = x[2:].upper()
+		y=x.replace('Qt5', 'Qt')[2:].upper()
 		self.env.append_unique('DEFINES_%s' % x.upper(), 'QT_%s_LIB' % y)
 		self.env.append_unique('DEFINES_%s_DEBUG' % x.upper(), 'QT_%s_LIB' % y)
 
