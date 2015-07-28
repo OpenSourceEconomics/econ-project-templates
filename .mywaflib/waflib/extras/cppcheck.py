@@ -211,7 +211,7 @@ class cppcheck(Task.Task):
 		'''use cppcheck xml result string, add the command string used to invoke cppcheck
 		and save as xml file.
 		'''
-		header = '%s\n' % s.split('\n')[0]
+		header = '%s\n' % s.splitlines()[0]
 		root = ElementTree.fromstring(s)
 		cmd = ElementTree.SubElement(root.find('cppcheck'), 'cmd')
 		cmd.text = str(self.cmd)

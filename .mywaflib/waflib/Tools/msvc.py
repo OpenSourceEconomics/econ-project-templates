@@ -30,11 +30,11 @@ or::
 
 Platforms and targets will be tested in the order they appear;
 the first good configuration will be used.
-Supported platforms: ia64, x64, x86, x86_amd64, x86_ia64
+Supported platforms: ia64, x64, x86, x86_amd64, x86_ia64, x86_arm, amd64_x86, amd64_arm
 
 Compilers supported:
 
-* msvc       => Visual Studio, versions 6.0 (VC 98, VC .NET 2002) to 11.0 (Visual Studio 2012)
+* msvc       => Visual Studio, versions 6.0 (VC 98, VC .NET 2002) to 12.0 (Visual Studio 2013)
 * wsdk       => Windows SDK, versions 6.0, 6.1, 7.0, 7.1, 8.0
 * icl        => Intel compiler, versions 9, 10, 11, 13
 * winphone   => Visual Studio to target Windows Phone 8 native (version 8.0 for now)
@@ -78,7 +78,7 @@ wintrust wldap32 wmiutils wow32 ws2_32 wsnmp32 wsock32 wst wtsapi32 xaswitch xol
 '''.split()
 """importlibs provided by MSVC/Platform SDK. Do NOT search them"""
 
-all_msvc_platforms = [ ('x64', 'amd64'), ('x86', 'x86'), ('ia64', 'ia64'), ('x86_amd64', 'amd64'), ('x86_ia64', 'ia64'), ('x86_arm', 'arm') ]
+all_msvc_platforms = [ ('x64', 'amd64'), ('x86', 'x86'), ('ia64', 'ia64'), ('x86_amd64', 'amd64'), ('x86_ia64', 'ia64'), ('x86_arm', 'arm'), ('amd64_x86', 'x86'), ('amd64_arm', 'arm') ]
 """List of msvc platforms"""
 
 all_wince_platforms = [ ('armv4', 'arm'), ('armv4i', 'arm'), ('mipsii', 'mips'), ('mipsii_fp', 'mips'), ('mipsiv', 'mips'), ('mipsiv_fp', 'mips'), ('sh4', 'sh'), ('x86', 'cex86') ]
@@ -1050,6 +1050,9 @@ def make_winapp(self, family):
 @after_method('process_use')
 @after_method('propagate_uselib_vars')
 def make_winphone_app(self):
+	"""
+	Insert configuration flags for windows phone applications (adds /ZW, /TP...)
+	"""
 	make_winapp(self, 'WINAPI_FAMILY_PHONE_APP')
 	conf.env.append_unique('LINKFLAGS', '/NODEFAULTLIB:ole32.lib')
 	conf.env.append_unique('LINKFLAGS', 'PhoneAppModelHost.lib')
@@ -1059,4 +1062,7 @@ def make_winphone_app(self):
 @after_method('process_use')
 @after_method('propagate_uselib_vars')
 def make_windows_app(self):
+	"""
+	Insert configuration flags for windows applications (adds /ZW, /TP...)
+	"""
 	make_winapp(self, 'WINAPI_FAMILY_DESKTOP_APP')

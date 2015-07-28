@@ -310,6 +310,9 @@ class javac(Task.Task):
 @feature('javadoc')
 @after_method('process_rule')
 def create_javadoc(self):
+	"""
+	Creates a javadoc task (feature 'javadoc')
+	"""
 	tsk = self.create_task('javadoc')
 	tsk.classpath = getattr(self, 'classpath', [])
 	self.javadoc_package = Utils.to_list(self.javadoc_package)
