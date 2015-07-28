@@ -13,6 +13,7 @@ OUT=$?
 if [[ ($OUT -eq 1)  || ($1 == "create") || ($1 == "install") ]]; then
     conda create -n $env_name --file conda_versions.txt
     if [ -f requirements.txt ]; then
+        source activate $env_name >> /dev/null 2>&1
         pip install -r requirements.txt
     fi
 fi
@@ -22,6 +23,7 @@ if [[ $1 == "update" ]]; then
     conda update --all
     if [ -f requirements.txt ]; then
         # Update all pip packages
+        source activate $env_name >> /dev/null 2>&1
         pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
     fi
     # Update requirement files
