@@ -8,7 +8,7 @@ def post_install(ctx):
     # Install the pdf documentation to the project root directory.
     ctx.install_files(
         ctx.srcnode.abspath(),
-        'src/documentation/latex/project_documentation.pdf',
+        'src/documentation/latexpdf/project_documentation.pdf',
         postpone=False
     )
     # Now the entire directory tree of the html build, except for hidden stuff.
@@ -25,16 +25,8 @@ def build(ctx):
     # Build the documentation in pdf (via LaTeX) and html format.
     ctx(
         features='sphinx',
-        buildername='latex',
-        source='conf.py',
-        name='sphinx_tex'
-    )
-    ctx.add_group()
-    ctx(
-        features='sphinx',
-        buildername='html',
-        source='conf.py',
-        name='sphinx_html'
+        builders=['html', 'latexpdf'],
+        source='conf.py'
     )
     # Install only after the build has finished.
     ctx.add_post_fun(post_install)
