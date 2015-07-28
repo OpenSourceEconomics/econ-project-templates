@@ -2,7 +2,7 @@
 # You can make this executable with 'chmod u+x set-env.sh'
 
 env_name=${PWD##*/}
-
+alias waf="python waf.py"
 # try to activate environment
 source activate $env_name >> /dev/null 2>&1
 # get return code of activation
