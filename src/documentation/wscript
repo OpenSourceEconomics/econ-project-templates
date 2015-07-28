@@ -32,22 +32,8 @@ def build(ctx):
     # Build the documentation in pdf (via LaTeX) and html format.
     ctx(
         features='sphinx',
-<<<<<<< HEAD
-        buildername='latex',
-        source='conf.py',
-        name='sphinx_tex'
-    )
-    # Make sure LaTeX and Sphinx builders don't run into conflicts.
-    ctx.add_group()
-    ctx(
-        features='sphinx',
-        buildername='html',
-        source='conf.py',
-        name='sphinx_html'
-=======
         builders=['html', 'latexpdf'],
         source='conf.py'
->>>>>>> 7202046... adjusted call of sphinx build to match new version
     )
 
     # Install only after the build has finished.
