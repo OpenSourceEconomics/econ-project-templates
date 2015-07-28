@@ -1,8 +1,12 @@
 #!/bin/bash
 # You can make this executable with 'chmod u+x set-env.sh'
 
+# get name of the environment by current folder
 env_name=${PWD##*/}
+
+# set alias for waf
 alias waf="python waf.py"
+
 # try to activate environment
 source activate $env_name >> /dev/null 2>&1
 # get return code of activation
