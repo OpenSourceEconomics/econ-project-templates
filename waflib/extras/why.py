@@ -21,7 +21,7 @@ def signature(self):
 	except AttributeError: pass
 
 	self.m = Utils.md5()
-	self.m.update(self.hcode.encode())
+	self.m.update(self.hcode)
 	id_sig = self.m.digest()
 
 	# explicit deps

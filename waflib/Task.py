@@ -64,7 +64,7 @@ def f(tsk):
 '''
 
 classes = {}
-"class tasks created by user scripts or Waf tools are kept in this dict name -> class object"
+"Class tasks created by user scripts or Waf tools (maps names to class objects). Task classes defined in Waf tools are registered here through the metaclass :py:class:`waflib.Task.store_task_type`."
 
 class store_task_type(type):
 	"""
@@ -118,6 +118,8 @@ class TaskBase(evil):
 	#. runnable_status: ask the task if it should be run, skipped, or if we have to ask later
 	#. run: let threads execute the task
 	#. post_run: let threads update the data regarding the task (cache)
+
+	.. warning:: For backward compatibility reasons, the suffix "_task" is truncated in derived class names. This limitation will be removed in Waf 1.9.
 	"""
 
 	color = 'GREEN'
@@ -402,6 +404,8 @@ class Task(TaskBase):
 	uses a hash value (from :py:class:`waflib.Task.Task.signature`) which is persistent from build to build. When the value changes,
 	the task has to be executed. The method :py:class:`waflib.Task.Task.post_run` will assign the task signature to the output
 	nodes (if present).
+
+	.. warning:: For backward compatibility reasons, the suffix "_task" is truncated in derived class names. This limitation will be removed in Waf 1.9.
 	"""
 	vars = []
 	"""Variables to depend on (class attribute used for :py:meth:`waflib.Task.Task.sig_vars`)"""
@@ -633,7 +637,7 @@ class Task(TaskBase):
 				raise Errors.WafError(self.err_msg)
 
 			# important, store the signature for the next run
-			node.sig = sig
+			node.sig = node.cache_sig = sig
 
 		bld.task_sigs[self.uid()] = self.cache_sig
 
@@ -1149,7 +1153,7 @@ def update_outputs(cls):
 	def post_run(self):
 		old_post_run(self)
 		for node in self.outputs:
-			node.sig = Utils.h_file(node.abspath())
+			node.sig = node.cache_sig = Utils.h_file(node.abspath())
 			self.generator.bld.task_sigs[node.abspath()] = self.uid() # issue #1017
 	cls.post_run = post_run
 

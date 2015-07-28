@@ -59,35 +59,10 @@ Ant patterns for files and folders to exclude while doing the
 recursive traversal in :py:meth:`waflib.Node.Node.ant_glob`
 """
 
-def split_path(path):
-	"""
-	Split a path by os.sep (This is not os.path.split)
-
-	:param path: path to split
-	:type path: string
-	:rtype: list of string
-	:return: the path, split
-	"""
-	return path.split('/')
-
-def split_path_cygwin(path):
-	if path.startswith('//'):
-		ret = path.split('/')[2:]
-		ret[0] = '/' + ret[0]
-		return ret
-	return path.split('/')
-
-re_sp = re.compile('[/\\\\]')
-def split_path_win32(path):
-	if path.startswith('\\\\'):
-		if path.startswith('\\\\?'):
-			path = path[4:]
-		else:
-			ret = re.split(re_sp, path)[2:]
-			ret[0] = '\\\\' + ret[0]
-			return ret
-	return re.split(re_sp, path)
-
+# TODO waf 1.9
+split_path = Utils.split_path_unix
+split_path_cygwin = Utils.split_path_cygwin
+split_path_win32 = Utils.split_path_win32
 if sys.platform == 'cygwin':
 	split_path = split_path_cygwin
 elif Utils.is_win32:
@@ -395,7 +370,7 @@ class Node(object):
 			for i in range(up):
 				lst.append('..')
 		else:
-			if os.sep == '/' and lst:
+			if lst and not Utils.is_win32:
 				lst.append('')
 		lst.reverse()
 		return os.sep.join(lst) or '.'
@@ -410,23 +385,29 @@ class Node(object):
 			pass
 		# think twice before touching this (performance + complexity + correctness)
 
-		if os.sep == '/':
-			if not self.parent:
-				val = os.sep
-			elif not self.parent.name:
-				val = os.sep + self.name
-			else:
-				val = self.parent.abspath() + os.sep + self.name
+		if not self.parent:
+			val = os.sep
+		elif not self.parent.name:
+			val = os.sep + self.name
 		else:
+			val = self.parent.abspath() + os.sep + self.name
+		self.cache_abspath = val
+		return val
+
+	if Utils.is_win32:
+		def abspath(self):
+			try:
+				return self.cache_abspath
+			except AttributeError:
+				pass
 			if not self.parent:
 				val = ''
 			elif not self.parent.name:
 				val = self.name + os.sep
 			else:
 				val = self.parent.abspath().rstrip(os.sep) + os.sep + self.name
-
-		self.cache_abspath = val
-		return val
+			self.cache_abspath = val
+			return val
 
 	def is_child_of(self, node):
 		"""

@@ -61,10 +61,17 @@ def waf_entry_point(current_directory, version, wafdir):
 					no_climb = True
 					break
 
+	# if --top is provided assume the build started in the top directory
+	for x in sys.argv:
+		if x.startswith('--top='):
+			Context.run_dir = Context.top_dir = x[6:]
+		if x.startswith('--out='):
+			Context.out_dir = x[6:]
+
 	# try to find a lock file (if the project was configured)
 	# at the same time, store the first wscript file seen
 	cur = current_directory
-	while cur:
+	while cur and not Context.top_dir:
 		lst = os.listdir(cur)
 		if Options.lockfile in lst:
 			env = ConfigSet.ConfigSet()
@@ -557,7 +564,6 @@ def distcheck(ctx):
 	pass
 
 def update(ctx):
-	'''updates the plugins from the *waflib/extras* directory'''
 	lst = Options.options.files.split(',')
 	if not lst:
 		lst = [x for x in Utils.listdir(Context.waf_dir + '/waflib/extras') if x.endswith('.py')]

@@ -4,7 +4,7 @@
 
 "Base for c++ programs and libraries"
 
-from waflib import TaskGen, Task, Utils
+from waflib import TaskGen, Task
 from waflib.Tools import c_preproc
 from waflib.Tools.ccroot import link_task, stlink_task
 
@@ -25,7 +25,7 @@ class cxx(Task.Task):
 
 class cxxprogram(link_task):
 	"Link object files into a c++ program"
-	run_str = '${LINK_CXX} ${LINKFLAGS} ${CXXLNK_SRC_F}${SRC} ${CXXLNK_TGT_F}${TGT[0].abspath()} ${RPATH_ST:RPATH} ${FRAMEWORKPATH_ST:FRAMEWORKPATH} ${FRAMEWORK_ST:FRAMEWORK} ${ARCH_ST:ARCH} ${STLIB_MARKER} ${STLIBPATH_ST:STLIBPATH} ${STLIB_ST:STLIB} ${SHLIB_MARKER} ${LIBPATH_ST:LIBPATH} ${LIB_ST:LIB}'
+	run_str = '${LINK_CXX} ${LINKFLAGS} ${CXXLNK_SRC_F}${SRC} ${CXXLNK_TGT_F}${TGT[0].abspath()} ${RPATH_ST:RPATH} ${FRAMEWORKPATH_ST:FRAMEWORKPATH} ${FRAMEWORK_ST:FRAMEWORK} ${ARCH_ST:ARCH} ${STLIB_MARKER} ${STLIBPATH_ST:STLIBPATH} ${STLIB_ST:STLIB} ${SHLIB_MARKER} ${LIBPATH_ST:LIBPATH} ${LIB_ST:LIB} ${LDFLAGS}'
 	vars    = ['LINKDEPS']
 	ext_out = ['.bin']
 	inst_to = '${BINDIR}'
