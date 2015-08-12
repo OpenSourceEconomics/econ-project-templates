@@ -1,21 +1,25 @@
 #!/bin/bash
-# You can make this executable with 'chmod u+x set-env.sh'
+# Make this executable with 'chmod u+x set-env.sh' and run via './set-env.sh' in order for it to run in a subshell
+
+
+# Some Helper functions
+yell() { echo "$0: $*" >&2; }
+die() { yell "$*"; exit 111; }
+try() { "$@" || die "cannot $*"; }
 
 # get name of the environment by current folder
 env_name=${PWD##*/}
 
-# set alias for waf
-alias waf="python waf.py"
-
 # try to activate environment
-source activate $env_name >> /dev/null 2>&1
+source activate $env_name
 # get return code of activation
 OUT=$?
+
 
 # create environment if it does not exist or create is supplied
 # this install packages as well
 if [[ ($OUT -eq 1)  || ($1 == "create") || ($1 == "install") ]]; then
-    conda create -n $env_name --file conda_versions.txt
+    try conda create -n $env_name --file conda_versions.txt
     if [ -f requirements.txt ]; then
         source activate $env_name >> /dev/null 2>&1
         pip install -r requirements.txt
@@ -40,6 +44,34 @@ OUT=$?
 
 if [[ ! ($OUT -eq 1) ]]; then
     source activate $env_name
+    # set alias for waf
+    alias waf="python waf.py"
+
+    # Set the default Waf configuration to 'fake'.
+    export WAFLOCK=.lock-wafbld
+
+    # Enable Cudasim
+    export NUMBA_ENABLE_CUDASIM=0
+
+    # Change the Waf configuration for debug mode.
+    while [[ $# > 0 ]]
+        do
+            key="$1"
+            case $key in
+                -d|--debug-cuda)
+                export WAFLOCK=.lock-wafbld_debug_cuda
+                export NUMBA_ENABLE_CUDASIM=1
+                echo -e "\n\n\nUsing debug-cuda setting.\n\nSlooooooow, only use for testing.\n\n\n"
+                shift
+                ;;
+                *)
+                echo "Unkown option: " $key
+                shift
+                ;;
+            esac
+        shift
+    done
+
 fi
 
 # Run picky to test environment consistency
