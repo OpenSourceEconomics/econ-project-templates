@@ -1,11 +1,4 @@
 #!/bin/bash
-# Make this executable with 'chmod u+x set-env.sh' and run via './set-env.sh' in order for it to run in a subshell
-
-
-# Some Helper functions
-yell() { echo "$0: $*" >&2; }
-die() { yell "$*"; exit 111; }
-try() { "$@" || die "cannot $*"; }
 
 # get name of the environment by current folder
 env_name=${PWD##*/}
@@ -19,7 +12,8 @@ OUT=$?
 # create environment if it does not exist or create is supplied
 # this install packages as well
 if [[ ($OUT -eq 1)  || ($1 == "create") || ($1 == "install") ]]; then
-    try conda create -n $env_name --file conda_versions.txt
+    conda create -n $env_name --file conda_versions.txt
+    if [ $? -ne 0 ]; then return; fi
     if [ -f requirements.txt ]; then
         source activate $env_name >> /dev/null 2>&1
         pip install -r requirements.txt
