@@ -11,7 +11,7 @@ try() { "$@" || die "cannot $*"; }
 env_name=${PWD##*/}
 
 # try to activate environment
-source activate $env_name
+source activate $env_name > /dev/null 2>&1
 # get return code of activation
 OUT=$?
 

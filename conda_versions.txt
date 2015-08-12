@@ -1,6 +1,5 @@
 alabaster=0.7.3
 docutils=0.12
-fontconfig=2.11.1
 freetype=2.5.2
 libpng=1.6.17
 libxml2=2.9.2
@@ -21,7 +20,6 @@ sip=4.16.5
 six=1.9.0
 snowballstemmer=1.2.0
 sqlite=3.8.4.1
-system=5.8
 tk=8.5.18
 xz=5.0.5
 yaml=0.1.6
