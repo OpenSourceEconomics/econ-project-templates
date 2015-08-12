@@ -23,6 +23,7 @@ fi
 # update packages
 if [[ $1 == "update" ]]; then
     conda update --all
+    if [ $? -ne 0 ]; then return; fi
     if [ -f requirements.txt ]; then
         # Update all pip packages
         source activate $env_name >> /dev/null 2>&1
