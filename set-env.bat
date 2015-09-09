@@ -1,63 +1,44 @@
 @echo off
 :: set the environment name to be the current folder
-for %%A in ("%~f0\..") do set "env_name=%%~nxA" > nul
+FOR %%A in ("%~f0\..") do SET "env_name=%%~nxA" > nul
 
 :: try to activate the environment
-call activate %env_name%
+CALL activate %env_name%
 
-set ret = %ERRORLEVEL% > nul
+:: get arguments FOR create & install
 
 
-if ret == 1 goto :create
-if %1 == "create" goto :create
-if %1 == "install" goto :create
+IF /i "%1" == "create" GOTO create
+IF /i "%1" == "install" GOTO create
+IF /i "%1" == "update" GOTO update
+IF %ERRORLEVEL% GEQ 1 GOTO create
 
+GOTO :EOF
 
 
 :: if it can't be activated, create it
 :create
-call conda create -n %env_name% --file conda_versions.txt
-if exist requirements.txt (
-    call activate %env_name%
-    call pip install -r requirements.txt
+CALL conda create -n %env_name% --file conda_versions.txt
+:: don't CALL pip if conda runs into trouble
+IF %ERRORLEVEL% GEQ 1 EXIT /B 2
+:: CALL pip if we have pip requirements
+IF exist requirements.txt (
+    CALL activate %env_name%
+    CALL pip install -r requirements.txt
     )
-call activate %env_name%
+GOTO :EOF
+    
 
+:update
+CALL conda update --all
+IF exist requirements.txt (
+    CALL activate %env_name%
+    :: this should update all pip packages
+    FOR /F "delims===" %i in ('pip freeze -l') do pip install -U %i
+CALL activate %env_name%
+CALL picky --update
+)
 
-:: if we pass create or install, do the same
-::if %1 == "create" (
-::    call conda create -n %env_name% --file conda_versions.txt
-::    if exist requirements.txt (
-::        call activate %env_name%
-::        call pip install -r requirements.txt
-::        )
-::    call activate %env_name%
-::    )::
+CALL picky
 
-::if %1 == "install" (
-::    call conda create -n %env_name% --file conda_versions.txt
-::    if exist requirements.txt (
-::        call activate %env_name%
-::        call pip install -r requirements.txt
-::        )
-::    call activate %env_name%
-::    )
-
-if %1 == "update" (
-    call conda update --all
-    if exist requirements.txt (
-        call activate %env_name%
-        :: this should update all pip packages
-        for /F "delims===" %i in ('pip freeze -l') do pip install -U %i
-        )
-    call activate %env_name%
-    call picky --update
-    )
-
-set ret = %ERRORLEVEL% > nul
-
-if NOT ret == 1 (
-    call activate %env_name%
-    )
-
-call picky
+GOTO :EOF
