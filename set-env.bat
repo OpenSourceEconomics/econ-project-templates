@@ -28,13 +28,13 @@ IF exist requirements.txt (
     )
 GOTO :EOF
     
-
+:: handle update case here
 :update
 CALL conda update --all
 IF exist requirements.txt (
     CALL activate %env_name%
     :: this should update all pip packages
-    FOR /F "delims===" %i in ('pip freeze -l') do pip install -U %i
+    FOR /F "delims===" %%i in ('pip freeze -l') do pip install -U %%i
 CALL activate %env_name%
 CALL picky --update
 )
