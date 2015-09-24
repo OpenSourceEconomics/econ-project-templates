@@ -42,13 +42,13 @@ if [[ ! ($OUT -eq 1) ]]; then
     # set alias for waf
     alias waf="python waf.py"
 
-    # Set the default Waf configuration to 'fake'.
+    # Set the default Waf configuration to 'bld'.
     export WAFLOCK=.lock-wafbld
 
-    # Enable Cudasim
+    # Disable Cudasim
     export NUMBA_ENABLE_CUDASIM=0
 
-    # Change the Waf configuration for debug mode.
+    # Change the Waf configuration for debug mode (adjust as it fits your project).
     while [[ $# > 0 ]]
         do
             key="$1"
@@ -70,7 +70,6 @@ if [[ ! ($OUT -eq 1) ]]; then
 fi
 
 # Run picky to test environment consistency
-picky
-
-# pip install picky >> /dev/null
-
+#            case $key in
+#                -c|--check-env-via-picky)
+#                picky
