@@ -3,8 +3,6 @@
 # Thomas Nagy, 2006-2010 (ita)
 # Ralf Habacker, 2006 (rh)
 
-import os
-from waflib import Utils
 from waflib.Tools import ccroot, ar
 from waflib.Configure import conf
 
@@ -14,19 +12,13 @@ def find_scc(conf):
 	Detect the Sun C compiler
 	"""
 	v = conf.env
-	cc = None
-	if v['CC']: cc = v['CC']
-	elif 'CC' in conf.environ: cc = conf.environ['CC']
-	if not cc: cc = conf.find_program('cc', var='CC')
-	if not cc: conf.fatal('Could not find a Sun C compiler')
+	cc = conf.find_program('cc', var='CC')
 
 	try:
 		conf.cmd_and_log(cc + ['-flags'])
 	except Exception:
 		conf.fatal('%r is not a Sun compiler' % cc)
-
-	v['CC']  = cc
-	v['CC_NAME'] = 'sun'
+	v.CC_NAME = 'sun'
 	conf.get_suncc_version(cc)
 
 
@@ -60,7 +52,7 @@ def scc_common_flags(conf):
 	v['cprogram_PATTERN']    = '%s'
 
 	# shared library
-	v['CFLAGS_cshlib']       = ['-Kpic', '-DPIC']
+	v['CFLAGS_cshlib']       = ['-xcode=pic32', '-DPIC']
 	v['LINKFLAGS_cshlib']    = ['-G']
 	v['cshlib_PATTERN']      = 'lib%s.so'
 
@@ -75,4 +67,3 @@ def configure(conf):
 	conf.cc_load_tools()
 	conf.cc_add_flags()
 	conf.link_add_flags()
-

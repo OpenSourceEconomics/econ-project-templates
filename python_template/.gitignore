@@ -37,6 +37,7 @@ waf3-*
 *latexmk
 *synctex.gz
 .*
+!.env
 .*pdfsvn
 __pycache__
 analysis_out
@@ -56,3 +57,9 @@ full
 ~$*
 Thumbs.db
 ___*
+!.gitignore
+!.mywaflib
+.env/workaround.bat
+.env/installed_conda_pkgs
+.env/installed_pip_pkgs
+.env/installed_spec.json

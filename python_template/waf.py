@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# Thomas Nagy, 2005-2013
-# Modifications by Hans-Martin von Gaudecker for econ-project-templates
+# Thomas Nagy, 2005-2015
 
 """
 Redistribution and use in source and binary forms, with or without
@@ -33,7 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 import os
 import sys
 
-VERSION = "1.8.2"
+VERSION = "1.8.14"
 cwd = os.getcwd()
 join = os.path.join
 

@@ -101,15 +101,16 @@ def check_ruby_ext_devel(self):
 		return Utils.to_list(self.cmd_and_log(self.env.RUBY + ['-rrbconfig', '-e', cmd]))
 
 	def read_config(key):
-		return read_out('puts Config::CONFIG[%r]' % key)
+		return read_out('puts RbConfig::CONFIG[%r]' % key)
 
 	ruby = self.env['RUBY']
-	archdir = read_config('archdir')
-	cpppath = archdir
+	cpppath = archdir = read_config('archdir')
 
 	if version >= (1, 9, 0):
 		ruby_hdrdir = read_config('rubyhdrdir')
 		cpppath += ruby_hdrdir
+		if version >= (2, 0, 0):
+			cpppath += read_config('rubyarchhdrdir')
 		cpppath += [os.path.join(ruby_hdrdir[0], read_config('arch')[0])]
 
 	self.check(header_name='ruby.h', includes=cpppath, errmsg='could not find ruby header file')

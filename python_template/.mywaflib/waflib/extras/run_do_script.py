@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-13
+# Hans-Martin von Gaudecker, 2012-15
 
 """
 Run a Stata do-script in the directory specified by **ctx.bldnode**. The
@@ -45,11 +45,14 @@ import sys
 from waflib import Task, TaskGen, Logs
 
 if sys.platform == 'darwin':
-	STATA_COMMANDS = [
+	STATA_NAMES = [
 		'Stata64MP', 'StataMP',
 		'Stata64SE', 'StataSE',
 		'Stata64', 'Stata'
 	]
+	STATA_PATHS = ['/Applications/Stata/%s.app/Contents/MacOS/%s' % (sv, sv)
+					for sv in STATA_NAMES]
+	STATA_COMMANDS = STATA_NAMES + STATA_PATHS
 	STATAFLAGS = '-e -q do'
 	STATAENCODING = 'MacRoman'
 elif sys.platform.startswith('linux'):
@@ -79,12 +82,14 @@ def configure(ctx):
 		errmsg="""\n
 No Stata executable found!\n\n
 If Stata is needed:\n
-	1) Check the settings of your system path.
-	2) Note we are looking for Stata executables called: %s
+	1) Check the settings of your system PATH.
+	2) Note we are looking for Stata executables named
+	   %s,
+	   both in the Applications folder and on the PATH.
 	   If yours has a different name, please report to hmgaudecker [at] gmail\n
 Else:\n
 	Do not load the 'run_do_script' tool in the main wscript.\n\n"""
-		% STATA_COMMANDS
+		% STATA_NAMES
 	)
 	ctx.env.STATAFLAGS = STATAFLAGS
 	ctx.env.STATAENCODING = STATAENCODING

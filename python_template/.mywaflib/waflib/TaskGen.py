@@ -18,6 +18,8 @@ from waflib import Task, Utils, Logs, Errors, ConfigSet, Node
 feats = Utils.defaultdict(set)
 """remember the methods declaring features"""
 
+HEADER_EXTS = ['.h', '.hpp', '.hxx', '.hh']
+
 class task_gen(object):
 	"""
 	Instances of this class create :py:class:`waflib.Task.TaskBase` when
@@ -591,6 +593,12 @@ def process_rule(self):
 		if getattr(self, 'cache_rule', 'True'):
 			cache[(name, self.rule)] = cls
 
+		if getattr(self, 'cls_str', None):
+			setattr(cls, '__str__', self.cls_str)
+
+		if getattr(self, 'cls_keyword', None):
+			setattr(cls, 'keyword', self.cls_keyword)
+
 	# now create one instance
 	tsk = self.create_task(name)
 
@@ -699,8 +707,12 @@ class subst_pc(Task.Task):
 		except AttributeError:
 			d = {}
 			for x in lst:
-				tmp = getattr(self.generator, x, '') or self.env.get_flat(x) or self.env.get_flat(x.upper())
-				d[x] = str(tmp)
+				tmp = getattr(self.generator, x, '') or self.env[x] or self.env[x.upper()]
+				try:
+					tmp = ''.join(tmp)
+				except TypeError:
+					tmp = str(tmp)
+				d[x] = tmp
 
 		code = code % d
 		self.outputs[0].write(code, encoding=getattr(self.generator, 'encoding', 'ISO8859-1'))
@@ -815,8 +827,12 @@ def process_subst(self):
 				setattr(tsk, k, val)
 
 		# paranoid safety measure for the general case foo.in->foo.h with ambiguous dependencies
-		if not has_constraints and b.name.endswith('.h'):
-			tsk.before = [k for k in ('c', 'cxx') if k in Task.classes]
+		if not has_constraints:
+			global HEADER_EXTS
+			for xt in HEADER_EXTS:
+				if b.name.endswith(xt):
+					tsk.before = [k for k in ('c', 'cxx') if k in Task.classes]
+					break
 
 		inst_to = getattr(self, 'install_path', None)
 		if inst_to:

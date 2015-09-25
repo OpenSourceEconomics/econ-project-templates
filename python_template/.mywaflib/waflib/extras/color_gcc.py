@@ -21,7 +21,7 @@ class ColorGCCFormatter(Logs.formatter):
 				cmd = frame.f_locals['cmd']
 				if isinstance(cmd, list) and ('gcc' in cmd[0] or 'g++' in cmd[0]):
 					lines = []
-					for line in rec.msg.split('\n'):
+					for line in rec.msg.splitlines():
 						if 'warning: ' in line:
 							lines.append(self.colors.YELLOW + line)
 						elif 'error: ' in line:

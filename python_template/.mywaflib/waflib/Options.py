@@ -126,6 +126,10 @@ class OptionsContext(Context.Context):
 		gr.add_option('-o', '--out', action='store', default='', help='build dir for the project', dest='out')
 		gr.add_option('-t', '--top', action='store', default='', help='src dir for the project', dest='top')
 
+		gr.add_option('--no-lock-in-run', action='store_true', default='', help=optparse.SUPPRESS_HELP, dest='no_lock_in_run')
+		gr.add_option('--no-lock-in-out', action='store_true', default='', help=optparse.SUPPRESS_HELP, dest='no_lock_in_out')
+		gr.add_option('--no-lock-in-top', action='store_true', default='', help=optparse.SUPPRESS_HELP, dest='no_lock_in_top')
+
 		default_prefix = getattr(Context.g_module, 'default_prefix', os.environ.get('PREFIX'))
 		if not default_prefix:
 			if platform == 'win32':
@@ -135,6 +139,8 @@ class OptionsContext(Context.Context):
 			else:
 				default_prefix = '/usr/local/'
 		gr.add_option('--prefix', dest='prefix', default=default_prefix, help='installation prefix [default: %r]' % default_prefix)
+		gr.add_option('--bindir', dest='bindir', help='bindir')
+		gr.add_option('--libdir', dest='libdir', help='libdir')
 
 		gr = self.add_option_group('Build and installation options')
 		self.option_groups['build and install options'] = gr

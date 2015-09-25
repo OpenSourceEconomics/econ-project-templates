@@ -49,10 +49,11 @@ def fc_flags(conf):
 @conf
 def fc_add_flags(conf):
 	"""
-	FCFLAGS?
+	Add FCFLAGS / LDFLAGS / LINKFLAGS from os.environ to conf.env
 	"""
-	conf.add_os_flags('FCFLAGS')
-	conf.add_os_flags('LDFLAGS', 'LINKFLAGS')
+	conf.add_os_flags('FCFLAGS', dup=False)
+	conf.add_os_flags('LINKFLAGS', dup=False)
+	conf.add_os_flags('LDFLAGS', dup=False)
 
 @conf
 def check_fortran(self, *k, **kw):
@@ -92,7 +93,7 @@ def fortran_modifier_darwin(conf):
 	"""
 	v = conf.env
 	v['FCFLAGS_fcshlib']   = ['-fPIC']
-	v['LINKFLAGS_fcshlib'] = ['-dynamiclib', '-Wl,-compatibility_version,1', '-Wl,-current_version,1']
+	v['LINKFLAGS_fcshlib'] = ['-dynamiclib']
 	v['fcshlib_PATTERN']   = 'lib%s.dylib'
 	v['FRAMEWORKPATH_ST']  = '-F%s'
 	v['FRAMEWORK_ST']      = '-framework %s'
@@ -334,23 +335,13 @@ def check_fortran_clib(self, autoadd=True, *k, **kw):
 def getoutput(conf, cmd, stdin=False):
 	"""
 	TODO a bit redundant, can be removed anytime
+	TODO waf 1.9
 	"""
-	if stdin:
-		stdin = Utils.subprocess.PIPE
-	else:
-		stdin = None
-	env = conf.env.env or None
+	input = stdin and '\n'.encode() or None
 	try:
-		p = Utils.subprocess.Popen(cmd, stdin=stdin, stdout=Utils.subprocess.PIPE, stderr=Utils.subprocess.PIPE, env=env)
-		if stdin:
-			p.stdin.write('\n'.encode())
-		out, err = p.communicate()
+		out, err = conf.cmd_and_log(cmd, env=conf.env.env or None, output=0, input=input)
 	except Exception:
 		conf.fatal('could not determine the compiler version %r' % cmd)
-	if not isinstance(out, str):
-		out = out.decode(sys.stdout.encoding or 'iso8859-1')
-	if not isinstance(err, str):
-		err = err.decode(sys.stdout.encoding or 'iso8859-1')
 	return (out, err)
 
 # ------------------------------------------------------------------------

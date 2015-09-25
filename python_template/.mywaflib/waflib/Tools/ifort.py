@@ -44,10 +44,7 @@ def get_ifort_version(conf, fc):
 		cmd = fc + ['-logo']
 
 	out, err = fc_config.getoutput(conf, cmd, stdin=False)
-	if out:
-		match = version_re(out)
-	else:
-		match = version_re(err)
+	match = version_re(out) or version_re(err)
 	if not match:
 		conf.fatal('cannot determine ifort version.')
 	k = match.groupdict()

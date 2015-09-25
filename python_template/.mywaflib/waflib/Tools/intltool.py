@@ -47,6 +47,9 @@ _style_flags = {
 
 @taskgen_method
 def ensure_localedir(self):
+	"""
+	Expand LOCALEDIR from DATAROOTDIR/locale if possible, or fallback to PREFIX/share/locale
+	"""
 	# use the tool gnu_dirs to provide options to define this
 	if not self.env.LOCALEDIR:
 		if self.env.DATAROOTDIR:
@@ -75,8 +78,8 @@ def apply_intltool_in_f(self):
 	:param source: source files to process
 	:type source: list of string
 	:param style: the intltool-merge mode of operation, can be one of the following values:
-	``ba``, ``desktop``, ``keys``, ``quoted``, ``quotedxml``, ``rfc822deb``, ``schemas`` and ``xml``.
-	See the ``intltool-merge`` man page for more information about supported modes of operation.
+	  ``ba``, ``desktop``, ``keys``, ``quoted``, ``quotedxml``, ``rfc822deb``, ``schemas`` and ``xml``.
+	  See the ``intltool-merge`` man page for more information about supported modes of operation.
 	:type style: string
 	:param flags: compilation flags ("-quc" by default)
 	:type flags: list of string

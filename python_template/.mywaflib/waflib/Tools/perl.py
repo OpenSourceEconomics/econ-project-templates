@@ -63,7 +63,6 @@ def check_perl_version(self, minver=None):
 	minver is supposed to be a tuple
 	"""
 	res = True
-	
 	if minver:
 		cver = '.'.join(map(str,minver))
 	else:
@@ -75,11 +74,10 @@ def check_perl_version(self, minver=None):
 
 	if not perl:
 		perl = self.find_program('perl', var='PERL')
-	
 	if not perl:
 		self.end_msg("Perl not found", color="YELLOW")
 		return False
-	
+
 	self.env['PERL'] = perl
 
 	version = self.cmd_and_log(self.env.PERL + ["-e", 'printf \"%vd\", $^V'])
@@ -137,12 +135,18 @@ def check_perl_ext_devel(self):
 		return self.cmd_and_log(cmd_perl_config(cfg))
 	def cfg_lst(cfg):
 		return Utils.to_list(cfg_str(cfg))
+	def find_xsubpp():
+		for var in ('privlib', 'vendorlib'):
+			xsubpp = cfg_lst('$Config{%s}/ExtUtils/xsubpp$Config{exe_ext}' % var)
+			if xsubpp and os.path.isfile(xsubpp[0]):
+				return xsubpp
+		return self.find_program('xsubpp')
 
 	env['LINKFLAGS_PERLEXT'] = cfg_lst('$Config{lddlflags}')
 	env['INCLUDES_PERLEXT'] = cfg_lst('$Config{archlib}/CORE')
 	env['CFLAGS_PERLEXT'] = cfg_lst('$Config{ccflags} $Config{cccdlflags}')
-	env['XSUBPP'] = cfg_lst('$Config{privlib}/ExtUtils/xsubpp$Config{exe_ext}')
 	env['EXTUTILS_TYPEMAP'] = cfg_lst('$Config{privlib}/ExtUtils/typemap')
+	env['XSUBPP'] = find_xsubpp()
 
 	if not getattr(Options.options, 'perlarchdir', None):
 		env['ARCHDIR_PERL'] = cfg_str('$Config{sitearch}')
@@ -157,4 +161,3 @@ def options(opt):
 	"""
 	opt.add_option('--with-perl-binary', type='string', dest='perlbinary', help = 'Specify alternate perl binary', default=None)
 	opt.add_option('--with-perl-archdir', type='string', dest='perlarchdir', help = 'Specify directory where to install arch specific files', default=None)
-

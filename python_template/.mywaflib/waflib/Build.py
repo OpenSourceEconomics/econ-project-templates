@@ -278,7 +278,7 @@ class BuildContext(Context.Context):
 		"""
 		try:
 			env = ConfigSet.ConfigSet(os.path.join(self.cache_dir, 'build.config.py'))
-		except (IOError, OSError):
+		except EnvironmentError:
 			pass
 		else:
 			if env['version'] < Context.HEXVERSION:
@@ -686,9 +686,6 @@ class BuildContext(Context.Context):
 		min_grp = 0
 		for name in self.targets.split(','):
 			tg = self.get_tgen_by_name(name)
-			if not tg:
-				raise Errors.WafError('target %r does not exist' % name)
-
 			m = self.get_group_idx(tg)
 			if m > min_grp:
 				min_grp = m
@@ -958,7 +955,7 @@ class InstallContext(BuildContext):
 		# like the 'install' utility used by 'make install' does.
 		try:
 			os.chmod(tgt, Utils.O644 | stat.S_IMODE(os.stat(tgt).st_mode))
-		except (OSError, IOError):
+		except EnvironmentError:
 			pass
 
 		# following is for shared libs and stale inodes (-_-)
@@ -972,7 +969,7 @@ class InstallContext(BuildContext):
 		except IOError:
 			try:
 				os.stat(src)
-			except (OSError, IOError):
+			except EnvironmentError:
 				Logs.error('File %r does not exist' % src)
 			raise Errors.WafError('Could not install the file %r' % tgt)
 
@@ -1018,6 +1015,7 @@ class InstallContext(BuildContext):
 			if tsk.runnable_status() == Task.ASK_LATER:
 				raise self.WafError('cannot post the task %r' % tsk)
 			tsk.run()
+			tsk.hasrun = True
 
 	def install_files(self, dest, files, env=None, chmod=Utils.O644, relative_trick=False, cwd=None, add=True, postpone=True, task=None):
 		"""
