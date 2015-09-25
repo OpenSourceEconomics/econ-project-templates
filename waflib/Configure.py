@@ -234,7 +234,7 @@ class ConfigurationContext(Context.Context):
 			tmpenv = self.all_envs[key]
 			tmpenv.store(os.path.join(self.cachedir.abspath(), key + Build.CACHE_SUFFIX))
 
-	def load(self, input, tooldir=None, funs=None):
+	def load(self, input, tooldir=None, funs=None, with_sys_path=True):
 		"""
 		Load Waf tools, which will be imported whenever a build is started.
 
@@ -260,7 +260,7 @@ class ConfigurationContext(Context.Context):
 
 			module = None
 			try:
-				module = Context.load_tool(tool, tooldir, ctx=self)
+				module = Context.load_tool(tool, tooldir, ctx=self, with_sys_path=with_sys_path)
 			except ImportError as e:
 				self.fatal('Could not load the Waf tool %r from %r\n%s' % (tool, sys.path, e))
 			except Exception as e:

@@ -126,11 +126,17 @@ def post_run(self):
 			node = path_to_node(bld.root, x, cached_nodes)
 		else:
 			path = bld.bldnode
-			# when calling find_resource, make sure the path does not begin by '..'
+			# when calling find_resource, make sure the path does not contain '..'
 			x = [k for k in Utils.split_path(x) if k and k != '.']
-			while lst and x[0] == '..':
-				x = x[1:]
-				path = path.parent
+			while '..' in x:
+				idx = x.index('..')
+				if idx == 0:
+					x = x[1:]
+					path = path.parent
+				else:
+					del x[idx]
+					del x[idx-1]
+
 			node = path_to_node(path, x, cached_nodes)
 
 		if not node:

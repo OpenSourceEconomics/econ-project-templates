@@ -240,8 +240,6 @@ class sphinx_build_task(waflib.Task.Task):
 
 		# Add documents which have been updated.
 		suffixes = app.config.source_suffix
-		if type(suffixes) == str:
-			suffixes = [suffixes]
 		for doc_name in updated_doc_names:
 			for suffix in suffixes:
 				doc_node = self.src_dir_node.find_node([doc_name + suffix])
