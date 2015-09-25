@@ -12,7 +12,7 @@ rm(list=ls())
 
 source("project_paths.r")
 
-library(foreign, lib=PATH_OUT_LIBRARY_R)
+library(foreign)
  
 
 data <- read.table(paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep = "/"))

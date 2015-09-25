@@ -5,14 +5,9 @@ def build(ctx):
 
     lib_names = [
         "rjson",
-        "survival",
         "Formula",
-        "xtable",
-        "foreign",
-        "car",
         "sandwich",
         "aod",
-        "zoo",
         "lmtest",
         "AER",
         "ivpack"

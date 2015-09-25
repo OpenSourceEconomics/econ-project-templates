@@ -15,7 +15,7 @@ options(digits=3)
 
 source("project_paths.r")
 
-library(foreign, lib=PATH_OUT_LIBRARY_R)
+library(foreign)
 
 source(paste(PATH_IN_MODEL_CODE, "functions.r", sep = "/"))
 

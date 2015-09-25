@@ -29,12 +29,12 @@ source("project_paths.r")
 source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
 # Load required libraries.
-library(foreign, lib=PATH_OUT_LIBRARY_R)
+library(foreign)
+library(zoo)
+library(car)
 library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(sandwich, lib=PATH_OUT_LIBRARY_R)
-library(zoo, lib=PATH_OUT_LIBRARY_R)
 library(lmtest, lib=PATH_OUT_LIBRARY_R)
-library(car, lib=PATH_OUT_LIBRARY_R)
 library(AER, lib=PATH_OUT_LIBRARY_R)
 library(ivpack, lib=PATH_OUT_LIBRARY_R)
 

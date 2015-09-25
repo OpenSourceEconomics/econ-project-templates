@@ -10,7 +10,7 @@ the analysis directory "regression_on_indicators.r"
 
 source("project_paths.r")
 
-library(xtable, lib=PATH_OUT_LIBRARY_R)
+library(xtable)
 
 ## import vector
 mat = dget(

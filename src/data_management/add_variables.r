@@ -6,7 +6,7 @@ dataset as described in Albouy (2012).
 
 source("project_paths.r")
 
-library(foreign, lib=PATH_OUT_LIBRARY_R)
+library(foreign)
 
 data <- read.dta(paste(PATH_IN_DATA, "ajrcomment.dta", sep="/"))
 

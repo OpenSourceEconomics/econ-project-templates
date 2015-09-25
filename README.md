@@ -22,7 +22,7 @@ Full documentation
 Getting started (R-based project)
 ---------------------------------------------
 
-1. Clone the project template repository (or download the [zip file](https://github.com/hmgaudecker/econ-project-templates/archive/R.zip) and copy its contents to the place on your machine where you want the resulting project to live, e.g.
+1. Clone the project template repository (or download the [zip file](https://github.com/hmgaudecker/econ-project-templates/archive/R.zip) and **copy** its contents to the place on your machine where you want the resulting project to live, e.g.
 
         C:\Projects\returns-to-education\
 
@@ -34,17 +34,27 @@ Getting started (R-based project)
         UUU -> Your affiliation
         TTT -> The title of the project
 
-3. Make sure that [Python](http://python.org/), [R](http://www.r-project.org/), and a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) can be found on your path. Your Python distribution needs to have the packages [sphinx](http://sphinx-doc.org/) and [sphinxcontrib.bibtex](https://pypi.python.org/pypi/sphinxcontrib-bibtex/) installed; the [Anaconda Python distribution](https://store.continuum.io/cshop/anaconda/) is recommended. You will need to follow up by ``conda install sphinxcontrib-bibtex`` or similar after installing it.
+3. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path.
 
-   A detailed set of instructions for setting up an entire Python environment may be found [here](http://hmgaudecker.github.io/econ-python-environment).
+4. Navigate to the folder in a shell.
 
-4. Navigate to the folder in a shell. Type the following commands to see whether the examples are working:
+   **(Mac, Linux)** Execute 
+
+        source set-env.sh
+
+    **(Windows)** Execute
+
+        set-env.bat
+
+    This will create a conda environment named as the current directory (returns-to-education in the above example) with a minimal Python setup and R.
+
+4.  Type the following commands to see whether the examples are working:
 
         python waf.py configure
         python waf.py build
         python waf.py install
 
-   The first command will fail if any one of the required programs cannot be found. 
+   The first command will fail if any one of the required programs cannot be found.
 
    If the second step fails, try the following in order to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
 
