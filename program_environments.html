@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Project-specific Program Environments &mdash; Tutorial: Templates for reproducible research projects</title>
+    
+    <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Tutorial: Templates for reproducible research projects" href="index.html" />
+    <link rel="next" title="Frequently Answered Questions / Troubleshooting" href="faq.html" />
+    <link rel="prev" title="Getting started" href="getting_started.html" />
+
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24904064-4', 'hmgaudecker.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently Answered Questions / Troubleshooting"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting started"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="project-specific-program-environments">
+<span id="create-env"></span><h1>Project-specific Program Environments<a class="headerlink" href="#project-specific-program-environments" title="Permalink to this headline">¶</a></h1>
+<p>Progams change. Nothing is as frustrating as coming back to a project after a long time and spending the first {hours, days} updating your code to work with the new version. Same for debugging errors because your coauthor uses a slightly different setup.</p>
+<p>The solution is to have isolated environments on a per-project basis. <a class="reference external" href="http://conda.pydata.org/docs/using/envs.html">Conda environments</a> allow you to do precisely this. This page describes them a little bit and explains the scripts that come as part of the templates in order to install them in an automated way.</p>
+<div class="section" id="basic-steps">
+<h2>Basic steps<a class="headerlink" href="#basic-steps" title="Permalink to this headline">¶</a></h2>
+<p>The templates come with a script which handles creating, activating and updating of environments. After cloning and changing to the project directory, you can run <strong>(Mac, Linux)</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>source set-env.sh
+</pre></div>
+</div>
+<p>or <strong>(Windows)</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">set</span><span class="o">-</span><span class="n">env</span><span class="o">.</span><span class="n">bat</span>
+</pre></div>
+</div>
+<p>in your shell to create a new environment with the same name as your project folder.</p>
+<p>The script will look at <em>conda_versions.txt</em> for conda packages and <em>requirements.txt</em> for pip packages and install those in the newly created python environment. Once created, you activate your environment in the same way: <strong>(Mac, Linux)</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>source set-env.sh
+</pre></div>
+</div>
+<p>or <strong>(Windows)</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">set</span><span class="o">-</span><span class="n">env</span><span class="o">.</span><span class="n">bat</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="updating-packages">
+<h2>Updating packages<a class="headerlink" href="#updating-packages" title="Permalink to this headline">¶</a></h2>
+<p>Make sure you activated the environment by <code class="docutils literal"><span class="pre">source</span> <span class="pre">set-env.sh</span></code> / <code class="docutils literal"><span class="pre">set-env.bat</span></code>. Then use conda or pip directly:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">update</span> <span class="pre">[package]</span></code> or <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">[package]</span></code></li>
+<li><code class="docutils literal"><span class="pre">picky</span> <span class="pre">--update</span></code></li>
+</ol>
+<p>For updaing conda all packages, replace <code class="docutils literal"><span class="pre">[package]</span></code> by <code class="docutils literal"><span class="pre">--all</span></code>.</p>
+<p>We employ <a class="reference external" href="http://picky.readthedocs.org/">Picky</a> to save the  package version state after updating in the respective files to avoid version conflicts and maintain environment coherence in a project with multiple collaborators.</p>
+</div>
+<div class="section" id="installing-additional-packages">
+<h2>Installing additional packages<a class="headerlink" href="#installing-additional-packages" title="Permalink to this headline">¶</a></h2>
+<p>If you want to add a package to your environment, run</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">[package]</span></code> or <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">[package]</span></code></li>
+<li><code class="docutils literal"><span class="pre">picky</span> <span class="pre">--update</span></code></li>
+</ol>
+<p><a class="reference external" href="http://picky.readthedocs.org/">Picky</a> will then add your package to the spec. Be wary of suprises on other operating systems, some packages might not be available on all of them. If it is not a crucial package, just remove it manually from <code class="docutils literal"><span class="pre">conda_versions.txt</span></code>.</p>
+<p><strong>Choosing between conda and pip</strong></p>
+<p>Generally it is recommended to use <em>conda</em> whenever possible (necessary for most scientific packages, they are usually not pure-Python code and that is all that pip can handle, roughtly speaking). For pure-Python packages, we sometimes fall back on <em>pip</em>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Project-specific Program Environments</a><ul>
+<li><a class="reference internal" href="#basic-steps">Basic steps</a></li>
+<li><a class="reference internal" href="#updating-packages">Updating packages</a></li>
+<li><a class="reference internal" href="#installing-additional-packages">Installing additional packages</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="previous chapter">Getting started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">Frequently Answered Questions / Troubleshooting</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently Answered Questions / Troubleshooting"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting started"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013-, Hans-Martin von Gaudecker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+<div class="footer">This page uses <a href="http://analytics.google.com/">
+Google Analytics</a> to collect statistics. You can disable it by blocking
+the JavaScript coming from www.google-analytics.com.
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+
+  </body>
+</html>

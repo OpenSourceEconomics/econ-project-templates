@@ -23,8 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Tutorial: Templates for reproducible research projects" href="#" />
     <link rel="next" title="Introduction" href="introduction.html" />
 
@@ -46,9 +45,9 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -57,18 +56,18 @@
         <li class="right" >
           <a href="introduction.html" title="Introduction"
              accesskey="N">next</a> |</li>
-        <li><a href="#">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="table-of-contents">
 <h1>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+<p><a class="reference download internal" href="_downloads/tutorial-econ-project-templates.pdf"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">this</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">pdf</span></code></a></p><div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#the-case-for-reproducibility">The case for reproducibility</a></li>
@@ -98,7 +97,15 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#basic-steps">Basic steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#starting-a-new-project">Starting a new project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#porting-an-existing-project">Porting an existing project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#feedback-welcome">Feedback welcome!</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="program_environments.html">Project-specific Program Environments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="program_environments.html#basic-steps">Basic steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="program_environments.html#updating-packages">Updating packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="program_environments.html#installing-additional-packages">Installing additional packages</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Answered Questions / Troubleshooting</a><ul>
@@ -111,32 +118,18 @@
 <li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
 </ul>
 </div>
-<div class="section" id="download-this-tutorial-in-other-formats">
-<h2>Download this tutorial in other formats<a class="headerlink" href="#download-this-tutorial-in-other-formats" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference download internal" href="_downloads/tutorial-econ-project-templates.pdf"><tt class="xref download docutils literal"><span class="pre">pdf</span></tt></a></li>
-</ul>
-</div>
 </div>
 
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Table of Contents</a><ul>
-<li><a class="reference internal" href="#download-this-tutorial-in-other-formats">Download this tutorial in other formats</a></li>
-</ul>
-</li>
-</ul>
-
   <h4>Next topic</h4>
   <p class="topless"><a href="introduction.html"
                         title="next chapter">Introduction</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -153,7 +146,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -162,13 +155,13 @@
         <li class="right" >
           <a href="introduction.html" title="Introduction"
              >next</a> |</li>
-        <li><a href="#">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>
 
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking

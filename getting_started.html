@@ -23,10 +23,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Tutorial: Templates for reproducible research projects" href="index.html" />
-    <link rel="next" title="Frequently Answered Questions / Troubleshooting" href="faq.html" />
+    <link rel="next" title="Project-specific Program Environments" href="program_environments.html" />
     <link rel="prev" title="Organisation" href="organisation.html" />
 
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
@@ -47,28 +46,28 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="faq.html" title="Frequently Answered Questions / Troubleshooting"
+          <a href="program_environments.html" title="Project-specific Program Environments"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="organisation.html" title="Organisation"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="getting-started">
 <span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
@@ -89,10 +88,31 @@
 </li>
 <li><p class="first">Follow the steps in the <em>README.md</em> file in the root directory of the project template that you downloaded. This will make sure that the basic setup is working on your machine.</p>
 </li>
-<li><p class="first">Move your programs to the right places (or create them there) and change the example <em>wscript</em>-files.</p>
-</li>
 </ol>
 </div></blockquote>
+</div>
+<div class="section" id="starting-a-new-project">
+<h2>Starting a new project<a class="headerlink" href="#starting-a-new-project" title="Permalink to this headline">¶</a></h2>
+<p>Your general strategy should be one of <strong>divide and conquer</strong>. If you are not used to thinking in conputer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So write one bit of code at a time, understand what is going on, and move on.</p>
+<ol class="arabic simple">
+<li>I suggest you leave the examples in place.</li>
+<li>Now add your own data and code bit by bit, append the wscript files as necessary. To see what is happening, it might be useful to commment out some steps by</li>
+<li>Once you got the hang of how things work, remove the examples (both the files and the code in the wscript files)</li>
+</ol>
+</div>
+<div class="section" id="porting-an-existing-project">
+<h2>Porting an existing project<a class="headerlink" href="#porting-an-existing-project" title="Permalink to this headline">¶</a></h2>
+<p>Your general strategy should be one of <strong>divide and conquer</strong>. If you are not used to thinking in conputer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.</p>
+<ul class="simple">
+<li>Assuming that you use git, first move all the code in the existing project to a directory called old_code. Commit.</li>
+<li>Now move the code from the exon-project-templates over, as described … Commit.</li>
+<li>Decide on which steps you&#8217;ll likely need / use and delete the other directories from src and the corresponding ctx.recurse() calls in src/wscript (e.g., documentation)</li>
+<li>Start with the data management code. To do so, comment out everything except for the recursions to the library and data_management directories from src/wscript</li>
+<li>Move your data files to the right new spot. Delete the ones from the template.</li>
+<li>Now copy &amp; paste the body of (the first steps of) your data management code to the src/data_management/clean_data.do script. Keep the top lines (inclusion of project paths and opening of the log file and adjust the last lines saving the dta file.</li>
+<li>Adjust the src/data_management/wscript file with the right filenames.</li>
+<li>Run waf, adjusting the code for the errors you&#8217;ll likely see.</li>
+</ul>
 </div>
 <div class="section" id="feedback-welcome">
 <h2>Feedback welcome!<a class="headerlink" href="#feedback-welcome" title="Permalink to this headline">¶</a></h2>
@@ -104,12 +124,14 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Getting started</a><ul>
 <li><a class="reference internal" href="#basic-steps">Basic steps</a></li>
+<li><a class="reference internal" href="#starting-a-new-project">Starting a new project</a></li>
+<li><a class="reference internal" href="#porting-an-existing-project">Porting an existing project</a></li>
 <li><a class="reference internal" href="#feedback-welcome">Feedback welcome!</a></li>
 </ul>
 </li>
@@ -119,9 +141,9 @@
   <p class="topless"><a href="organisation.html"
                         title="previous chapter">Organisation</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="faq.html"
-                        title="next chapter">Frequently Answered Questions / Troubleshooting</a></p>
-<div id="searchbox" style="display: none">
+  <p class="topless"><a href="program_environments.html"
+                        title="next chapter">Project-specific Program Environments</a></p>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -138,25 +160,25 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="faq.html" title="Frequently Answered Questions / Troubleshooting"
+          <a href="program_environments.html" title="Project-specific Program Environments"
              >next</a> |</li>
         <li class="right" >
           <a href="organisation.html" title="Organisation"
              >previous</a> |</li>
-        <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>
 
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking

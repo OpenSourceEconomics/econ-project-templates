@@ -23,8 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Tutorial: Templates for reproducible research projects" href="index.html" />
     <link rel="next" title="Design rationale" href="rationale.html" />
     <link rel="prev" title="Table of Contents" href="index.html" />
@@ -47,9 +46,9 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -61,14 +60,14 @@
         <li class="right" >
           <a href="index.html" title="Table of Contents"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="introduction">
 <span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
@@ -81,18 +80,18 @@
 </div></blockquote>
 <p>The first should lure you in quickly, the second convince you to stick to the tools in the long run&#8212;unless you are familiar with the programs already, you might think now that all of this is overkill and far more difficult than necessary. It is not. <em>[although I am always</em> <a class="reference external" href="mailto:hmgaudecker&#37;&#52;&#48;gmail&#46;com">happy to hear</a> <em>about easier alternatives]</em></p>
 <p>The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by <a class="reference external" href="https://code.google.com/p/waf/">Waf</a>, which is written in <a class="reference external" href="http://www.python.org/">Python</a>. You do not need to know Python to use these tools, though.</p>
-<p>If you are a complete novice, you should read through the entire documents instead of jumping directly to the <a class="reference internal" href="getting_started.html#getting-started"><em>Getting started</em></a> section. First, let me expand on the reproducibility part.</p>
+<p>If you are a complete novice, you should read through the entire documents instead of jumping directly to the <a class="reference internal" href="getting_started.html#getting-started"><span>Getting started</span></a> section. First, let me expand on the reproducibility part.</p>
 <div class="section" id="the-case-for-reproducibility">
 <h2>The case for reproducibility<a class="headerlink" href="#the-case-for-reproducibility" title="Permalink to this headline">¶</a></h2>
 <p>The credibility of (economic) research is undermined if erroneous results appear in respected journals. To quote McCullough and Vinod <a class="reference internal" href="zreferences.html#mcculloughvinod03" id="id2">[McCulloughV03]</a>:</p>
 <blockquote>
 <div><em>Replication is the cornerstone of science. Research that cannot be replicated is not science, and cannot be trusted either as part of the profession’s accumulated body of knowledge or as a basis for policy. Authors may think they have written perfect code for their bug-free software package and correctly transcribed each data point, but readers cannot safely assume that these error-prone activities have been executed flawlessly until the authors’ efforts have been independently verified. A researcher who does not openly allow independent verification of his results puts those results in the same class as the results of a researcher who does share his data and code but whose results cannot be replicated: the class of results that cannot be verified, i.e., the class of results that cannot be trusted.</em></div></blockquote>
 <p>It is sad if not the substance, but controversies about the replicability of results make it to the first page of the Wall Street Journal <a class="reference internal" href="zreferences.html#wsj05" id="id3">[WallSJournal05]</a>, covering the exchange between Hoxby and Rothstein (<a class="reference internal" href="zreferences.html#hoxby00" id="id4">[Hox00]</a> &#8211; <a class="reference internal" href="zreferences.html#rothstein07comment" id="id5">[Rot07a]</a> &#8211; <a class="reference internal" href="zreferences.html#hoxby07" id="id6">[Hox07]</a> &#8211; <a class="reference internal" href="zreferences.html#rothstein07rejoinder" id="id7">[Rot07b]</a>). There are some other well-known cases from top journals, see for example Levitt and McCrary (<a class="reference internal" href="zreferences.html#levitt97" id="id8">[Lev97]</a> &#8211; <a class="reference internal" href="zreferences.html#mccrary02" id="id9">[McCrary02]</a> &#8211; <a class="reference internal" href="zreferences.html#levitt02" id="id10">[Lev02]</a>) or the experiences reported in McCullough and Vinod <a class="reference internal" href="zreferences.html#mcculloughvinod03" id="id11">[McCulloughV03]</a>. The Reinhart and Rogoff controversy is another case in point, <a class="reference external" href="https://www.google.com/?gfe_rd=cr&amp;ei=b3YEU4GqIcLa8gfGvYHQCA#q=reinhart+rogoff+excel">Google</a> is your friend in case you do not remember it. Assuming that the incentives for replication are much smaller in lower-ranked journals, this is probably just the tip of the iceberg. As a consequence, many journals have implemented relatively strict replication policies, see this figure taken from <a class="reference internal" href="zreferences.html#mccullough09" id="id12">[McCullough09]</a>:</p>
-<div class="figure">
+<div class="figure" id="id14">
 <a class="reference internal image-reference" href="_images/McCullough09Fig1.jpg"><img alt="_images/McCullough09Fig1.jpg" src="_images/McCullough09Fig1.jpg" style="width: 35em;" /></a>
-<p class="caption"><em>Economic Journals with Mandatory Data + Code Archives, Figure 1 in</em> <a class="reference internal" href="zreferences.html#mccullough09" id="id13">[McCullough09]</a></p>
+<p class="caption"><span class="caption-text"><em>Economic Journals with Mandatory Data + Code Archives, Figure 1 in</em>  McCullough (2009)</span></p>
 </div>
-<p>Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project &#8212; much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience <a class="reference internal" href="zreferences.html#gaudeckersoestwengstrom11prefhet" id="id14">[vGvSW11]</a>, I can confirm that replication policies are enforced nowadays &#8212; and that it is rather painful to ensure <em>ex-post</em> that you can follow them. The number of journals implementing replication policies is likely to grow further &#8212; if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not even get started on research ethics...</p>
+<p>Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project &#8212; much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience <a class="reference internal" href="zreferences.html#gaudeckersoestwengstrom11prefhet" id="id13">[vGvSW11]</a>, I can confirm that replication policies are enforced nowadays &#8212; and that it is rather painful to ensure <em>ex-post</em> that you can follow them. The number of journals implementing replication policies is likely to grow further &#8212; if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not even get started on research ethics...</p>
 </div>
 </div>
 
@@ -100,7 +99,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -116,7 +115,7 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="rationale.html"
                         title="next chapter">Design rationale</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -133,7 +132,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -145,13 +144,13 @@
         <li class="right" >
           <a href="index.html" title="Table of Contents"
              >previous</a> |</li>
-        <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>
 
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking

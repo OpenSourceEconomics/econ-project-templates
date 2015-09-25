@@ -23,11 +23,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Tutorial: Templates for reproducible research projects" href="index.html" />
     <link rel="next" title="References" href="zreferences.html" />
-    <link rel="prev" title="Getting started" href="getting_started.html" />
+    <link rel="prev" title="Project-specific Program Environments" href="program_environments.html" />
 
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
@@ -47,9 +46,9 @@
 </script>
 
   </head>
-  <body>
+  <body role="document">
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -59,23 +58,23 @@
           <a href="zreferences.html" title="References"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="getting_started.html" title="Getting started"
+          <a href="program_environments.html" title="Project-specific Program Environments"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="frequently-answered-questions-troubleshooting">
 <span id="faq"></span><h1>Frequently Answered Questions / Troubleshooting<a class="headerlink" href="#frequently-answered-questions-troubleshooting" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="latex-waf">
 <h2>LaTeX &amp; Waf<a class="headerlink" href="#latex-waf" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="error-when-calling-biber-check-xxx-blg-for-errors">
-<h3><tt class="docutils literal"><span class="pre">'error</span> <span class="pre">when</span> <span class="pre">calling</span> <span class="pre">biber,</span> <span class="pre">check</span> <span class="pre">xxx.blg</span> <span class="pre">for</span> <span class="pre">errors'</span></tt><a class="headerlink" href="#error-when-calling-biber-check-xxx-blg-for-errors" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">'error</span> <span class="pre">when</span> <span class="pre">calling</span> <span class="pre">biber,</span> <span class="pre">check</span> <span class="pre">xxx.blg</span> <span class="pre">for</span> <span class="pre">errors'</span></code><a class="headerlink" href="#error-when-calling-biber-check-xxx-blg-for-errors" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>This is a well-known bug in biber that occurs occasionally. Nicely explained <a class="reference external" href="http://tex.stackexchange.com/questions/140814/biblatex-biber-fails-with-a-strange-error-about-missing-recode-data-xml-file">here</a>.</p>
 <p>Short excerpt from LaTeX Stack Exchange for the fix:</p>
@@ -100,7 +99,7 @@
 <blockquote>
 <div><p>There have been mulitple issues of with biber on Windows, sometimes leading to strange error messages from Python&#8217;s subprocess module (e.g., &#8220;file not found&#8221; errors). Apparently, current 64-bit MikTeX distributions do not contain Biber. Two possible fixes:</p>
 <ul>
-<li><p class="first"><strong>Recommended:</strong> In the main <tt class="docutils literal"><span class="pre">wscript</span></tt> file, replace the line:</p>
+<li><p class="first"><strong>Recommended:</strong> In the main <code class="docutils literal"><span class="pre">wscript</span></code> file, replace the line:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;biber&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -108,7 +107,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;tex&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In <tt class="docutils literal"><span class="pre">src/paper/research_paper.tex</span></tt> and <tt class="docutils literal"><span class="pre">src/paper/research_pres_30min.tex</span></tt>, replace:</p>
+<p>In <code class="docutils literal"><span class="pre">src/paper/research_paper.tex</span></code> and <code class="docutils literal"><span class="pre">src/paper/research_pres_30min.tex</span></code>, replace:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">backend</span><span class="o">=</span><span class="n">biber</span>
 </pre></div>
 </div>
@@ -129,11 +128,11 @@
 <p>In the context of these project templates, there are just two issues to consider.</p>
 <div class="section" id="debugging-wscript-files">
 <h3>Debugging wscript files<a class="headerlink" href="#debugging-wscript-files" title="Permalink to this headline">¶</a></h3>
-<p>Sometimes it is helpful to debug your build code directly. As the wscript files are just pure Python code Spyder can handle them in principle. The tricky bit is to make Spyder recognise the them as Python scripts &#8211; usually it just uses the extension <tt class="docutils literal"><span class="pre">.py</span></tt> to infer that fact. As you cannot simply add this extension to wscript files, you must tell Spyder inside the wscript file using a so-called &#8220;shebang&#8221;. Simply add the following line as the first thing to all your wscripts:</p>
+<p>Sometimes it is helpful to debug your build code directly. As the wscript files are just pure Python code Spyder can handle them in principle. The tricky bit is to make Spyder recognise the them as Python scripts &#8211; usually it just uses the extension <code class="docutils literal"><span class="pre">.py</span></code> to infer that fact. As you cannot simply add this extension to wscript files, you must tell Spyder inside the wscript file using a so-called &#8220;shebang&#8221;. Simply add the following line as the first thing to all your wscripts:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c">#! python</span>
 </pre></div>
 </div>
-<p>You can then set breakpoints inside your wscript files and debug them by running waf.py from inside spyder (just make sure you ran <tt class="docutils literal"><span class="pre">python</span> <span class="pre">waf.py</span> <span class="pre">configure</span></tt> beforehand).</p>
+<p>You can then set breakpoints inside your wscript files and debug them by running waf.py from inside spyder (just make sure you ran <code class="docutils literal"><span class="pre">python</span> <span class="pre">waf.py</span> <span class="pre">configure</span></code> beforehand).</p>
 </div>
 <div class="section" id="setting-the-pythonpath">
 <h3>Setting the PYTHONPATH<a class="headerlink" href="#setting-the-pythonpath" title="Permalink to this headline">¶</a></h3>
@@ -142,19 +141,19 @@
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/spyder_pythonpath.png"><img alt="_images/spyder_pythonpath.png" src="_images/spyder_pythonpath.png" style="width: 18cm;" /></a>
 </div></blockquote>
-<p>Any <tt class="docutils literal"><span class="pre">ImportErrors</span></tt> are likely due to this not being done correctly. Note that you <strong>must</strong> set the run configuration (F6 or select &#8220;Run&#8221; from the menu bar and then &#8220;Configure&#8221;) to &#8220;Execute in a new dedicated Python console&#8221;.</p>
+<p>Any <code class="docutils literal"><span class="pre">ImportErrors</span></code> are likely due to this not being done correctly. Note that you <strong>must</strong> set the run configuration (F6 or select &#8220;Run&#8221; from the menu bar and then &#8220;Configure&#8221;) to &#8220;Execute in a new dedicated Python console&#8221;.</p>
 </div>
 </div>
 <div class="section" id="stata-packages">
 <span id="id1"></span><h2>Stata packages<a class="headerlink" href="#stata-packages" title="Permalink to this headline">¶</a></h2>
-<p>Note that when you include (or input) the file <tt class="docutils literal"><span class="pre">project_paths.do</span></tt> in your Stata script, the system directories get changed. <strong>This means that Stata will not find any packages you installed system-wide anymore.</strong> This is desired behaviour to ensure that you (and your coauthors) run the same versions of different packages that you installed via <tt class="docutils literal"><span class="pre">ssc</span></tt> or the like. The project template comes with a few of them, see <em>src/library/stata/ado_ext</em> in the stata branch.</p>
+<p>Note that when you include (or input) the file <code class="docutils literal"><span class="pre">project_paths.do</span></code> in your Stata script, the system directories get changed. <strong>This means that Stata will not find any packages you installed system-wide anymore.</strong> This is desired behaviour to ensure that you (and your coauthors) run the same versions of different packages that you installed via <code class="docutils literal"><span class="pre">ssc</span></code> or the like. The project template comes with a few of them, see <em>src/library/stata/ado_ext</em> in the stata branch.</p>
 <div class="section" id="adding-additional-stata-packages-to-a-project">
 <h3>Adding additional Stata packages to a project<a class="headerlink" href="#adding-additional-stata-packages-to-a-project" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>Open a Stata command line session and change to the project root directory</li>
-<li>Type <tt class="docutils literal"><span class="pre">include</span> <span class="pre">bld/project_paths</span></tt></li>
-<li>Type <tt class="docutils literal"><span class="pre">sysdir</span></tt> and make sure that the <tt class="docutils literal"><span class="pre">PLUS</span></tt> and <tt class="docutils literal"><span class="pre">PERSONAL</span></tt> directories point to subdirectories of the project.</li>
-<li>Install your package via ssc, say <tt class="docutils literal"><span class="pre">ssc</span> <span class="pre">install</span> <span class="pre">tabout</span></tt></li>
+<li>Type <code class="docutils literal"><span class="pre">include</span> <span class="pre">bld/project_paths</span></code></li>
+<li>Type <code class="docutils literal"><span class="pre">sysdir</span></code> and make sure that the <code class="docutils literal"><span class="pre">PLUS</span></code> and <code class="docutils literal"><span class="pre">PERSONAL</span></code> directories point to subdirectories of the project.</li>
+<li>Install your package via ssc, say <code class="docutils literal"><span class="pre">ssc</span> <span class="pre">install</span> <span class="pre">tabout</span></code></li>
 </ol>
 </div>
 </div>
@@ -174,7 +173,7 @@ Traceback (most recent call last):
 FileNotFoundError: [Errno 2] No such file or directory: &#39;/Users/xxx/econ/econ-project templates/bld/add_variables.log&#39;
 </pre></div>
 </div>
-<p>has a simple solution: <strong>Get rid of all spaces in the path to the project.</strong> (i.e., <tt class="docutils literal"><span class="pre">econ-project-templates</span></tt> instead of <tt class="docutils literal"><span class="pre">econ-project</span> <span class="pre">templates</span></tt> in this case). To do so, do <strong>not</strong> rename your user directory, that will cause havoc. Rather move the project folder to a different location.</p>
+<p>has a simple solution: <strong>Get rid of all spaces in the path to the project.</strong> (i.e., <code class="docutils literal"><span class="pre">econ-project-templates</span></code> instead of <code class="docutils literal"><span class="pre">econ-project</span> <span class="pre">templates</span></code> in this case). To do so, do <strong>not</strong> rename your user directory, that will cause havoc. Rather move the project folder to a different location.</p>
 <p>I have not been able to get Stata working with spaces in the path in batch mode, so this has nothing to do with Python/Waf. If anybody finds a solution, please let me know.</p>
 </div>
 </div>
@@ -183,13 +182,13 @@ FileNotFoundError: [Errno 2] No such file or directory: &#39;/Users/xxx/econ/eco
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Frequently Answered Questions / Troubleshooting</a><ul>
 <li><a class="reference internal" href="#latex-waf">LaTeX &amp; Waf</a><ul>
-<li><a class="reference internal" href="#error-when-calling-biber-check-xxx-blg-for-errors"><tt class="docutils literal"><span class="pre">'error</span> <span class="pre">when</span> <span class="pre">calling</span> <span class="pre">biber,</span> <span class="pre">check</span> <span class="pre">xxx.blg</span> <span class="pre">for</span> <span class="pre">errors'</span></tt></a></li>
+<li><a class="reference internal" href="#error-when-calling-biber-check-xxx-blg-for-errors"><code class="docutils literal"><span class="pre">'error</span> <span class="pre">when</span> <span class="pre">calling</span> <span class="pre">biber,</span> <span class="pre">check</span> <span class="pre">xxx.blg</span> <span class="pre">for</span> <span class="pre">errors'</span></code></a></li>
 <li><a class="reference internal" href="#biber-on-64-bit-miktex">Biber on 64-bit MikTeX</a></li>
 </ul>
 </li>
@@ -208,12 +207,12 @@ FileNotFoundError: [Errno 2] No such file or directory: &#39;/Users/xxx/econ/eco
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="getting_started.html"
-                        title="previous chapter">Getting started</a></p>
+  <p class="topless"><a href="program_environments.html"
+                        title="previous chapter">Project-specific Program Environments</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="zreferences.html"
                         title="next chapter">References</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -230,7 +229,7 @@ FileNotFoundError: [Errno 2] No such file or directory: &#39;/Users/xxx/econ/eco
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -240,15 +239,15 @@ FileNotFoundError: [Errno 2] No such file or directory: &#39;/Users/xxx/econ/eco
           <a href="zreferences.html" title="References"
              >next</a> |</li>
         <li class="right" >
-          <a href="getting_started.html" title="Getting started"
+          <a href="program_environments.html" title="Project-specific Program Environments"
              >previous</a> |</li>
-        <li><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Tutorial: Templates for reproducible research projects</a> &raquo;</li> 
       </ul>
     </div>
 
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2013-, Hans-Martin von Gaudecker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
 Google Analytics</a> to collect statistics. You can disable it by blocking
