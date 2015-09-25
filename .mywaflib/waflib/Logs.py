@@ -20,8 +20,8 @@ if not os.environ.get('NOSYNC', False):
 # in case someone uses the root logger
 import logging
 
-LOG_FORMAT = "%(asctime)s %(c1)s%(zone)s%(c2)s %(message)s"
-HOUR_FORMAT = "%H:%M:%S"
+LOG_FORMAT = os.environ.get('WAF_LOG_FORMAT', '%(asctime)s %(c1)s%(zone)s%(c2)s %(message)s')
+HOUR_FORMAT = os.environ.get('WAF_HOUR_FORMAT', '%H:%M:%S')
 
 zones = ''
 verbose = 0

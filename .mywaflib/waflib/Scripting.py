@@ -564,15 +564,26 @@ def distcheck(ctx):
 	pass
 
 def update(ctx):
-	lst = Options.options.files.split(',')
-	if not lst:
-		lst = [x for x in Utils.listdir(Context.waf_dir + '/waflib/extras') if x.endswith('.py')]
+	lst = Options.options.files
+	if lst:
+		lst = lst.split(',')
+	else:
+		path = os.path.join(Context.waf_dir, 'waflib', 'extras')
+		lst = [x for x in Utils.listdir(path) if x.endswith('.py')]
 	for x in lst:
 		tool = x.replace('.py', '')
+		if not tool:
+			continue
 		try:
-			Configure.download_tool(tool, force=True, ctx=ctx)
+			dl = Configure.download_tool
+		except AttributeError:
+			ctx.fatal('The command "update" is dangerous; include the tool "use_config" in your project!')
+		try:
+			dl(tool, force=True, ctx=ctx)
 		except Errors.WafError:
-			Logs.error('Could not find the tool %s in the remote repository' % x)
+			Logs.error('Could not find the tool %r in the remote repository' % x)
+		else:
+			Logs.warn('Updated %r' % tool)
 
 def autoconfigure(execute_method):
 	"""

@@ -74,6 +74,18 @@ BOOST_THREAD_CODE = '''
 int main() { boost::thread t; }
 '''
 
+BOOST_LOG_CODE = '''
+#include <boost/log/trivial.hpp>
+#include <boost/log/utility/setup/console.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+int main() {
+	using namespace boost::log;
+	add_common_attributes();
+	add_console_log(std::clog, keywords::format = "%Message%");
+	BOOST_LOG_TRIVIAL(debug) << "log is working" << std::endl;
+}
+'''
+
 # toolsets from {boost_dir}/tools/build/v2/tools/common.jam
 PLATFORM = Utils.unversioned_sys_platform()
 detect_intel = lambda env: (PLATFORM == 'win32') and 'iw' or 'il'
@@ -345,6 +357,9 @@ def check_boost(self, *k, **kw):
 		if (params['lib'] and 'thread' in params['lib']) or \
 			params['stlib'] and 'thread' in params['stlib']:
 			self.check_cxx(fragment=BOOST_THREAD_CODE, use=var, execute=False)
+		if (params['lib'] and 'log' in params['lib']) or \
+			params['stlib'] and 'log' in params['stlib']:
+			self.check_cxx(fragment=BOOST_LOG_CODE, use=var, execute=False)
 
 	if params.get('linkage_autodetect', False):
 		self.start_msg("Attempting to detect boost linkage flags")

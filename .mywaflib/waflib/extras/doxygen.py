@@ -90,7 +90,7 @@ class doxygen(Task.Task):
 
 			# Override with any parameters passed to the task generator
 			if getattr(self.generator, 'pars', None):
-				for k, v in self.generator.pars.iteritems():
+				for k, v in self.generator.pars.items():
 					self.pars[k] = v
 
 			self.doxy_inputs = getattr(self, 'doxy_inputs', [])
@@ -112,7 +112,11 @@ class doxygen(Task.Task):
 			self.output_dir = bld.root.find_dir(self.pars['OUTPUT_DIRECTORY'])
 
 		self.signature()
-		return Task.Task.runnable_status(self)
+		ret = Task.Task.runnable_status(self)
+		if ret == Task.SKIP_ME:
+			# in case the files were removed
+			self.add_install()
+		return ret
 
 	def scan(self):
 		exclude_patterns = self.pars.get('EXCLUDE_PATTERNS','').split()
@@ -146,6 +150,11 @@ class doxygen(Task.Task):
 		nodes = self.output_dir.ant_glob('**/*', quiet=True)
 		for x in nodes:
 			x.sig = Utils.h_file(x.abspath())
+		self.add_install()
+		return Task.Task.post_run(self)
+
+	def add_install(self):
+		nodes = self.output_dir.ant_glob('**/*', quiet=True)
 		self.outputs += nodes
 		if getattr(self.generator, 'install_path', None):
 			if not getattr(self.generator, 'doxy_tar', None):
@@ -154,7 +163,6 @@ class doxygen(Task.Task):
 					postpone=False,
 					cwd=self.output_dir,
 					relative_trick=True)
-		return Task.Task.post_run(self)
 
 class tar(Task.Task):
 	"quick tar creation"
