@@ -36,13 +36,13 @@ Getting started (R-based project)
 
 3. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path.
 
-4. Navigate to the folder in a shell.
+4. Navigate to the folder in a shell. Execute 
 
-   **(Mac, Linux)** Execute 
+   **(Mac, Linux)**
 
         source set-env.sh
 
-    **(Windows)** Execute
+    **(Windows)**
 
         set-env.bat
 
