@@ -63,7 +63,7 @@ def get_gfortran_version(conf, fc):
 		conf.fatal('Could not determine the compiler type')
 
 	k = {}
-	out = out.split('\n')
+	out = out.splitlines()
 	import shlex
 
 	for line in out:

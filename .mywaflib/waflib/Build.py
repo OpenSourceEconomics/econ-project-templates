@@ -686,9 +686,6 @@ class BuildContext(Context.Context):
 		min_grp = 0
 		for name in self.targets.split(','):
 			tg = self.get_tgen_by_name(name)
-			if not tg:
-				raise Errors.WafError('target %r does not exist' % name)
-
 			m = self.get_group_idx(tg)
 			if m > min_grp:
 				min_grp = m
@@ -1018,6 +1015,7 @@ class InstallContext(BuildContext):
 			if tsk.runnable_status() == Task.ASK_LATER:
 				raise self.WafError('cannot post the task %r' % tsk)
 			tsk.run()
+			tsk.hasrun = True
 
 	def install_files(self, dest, files, env=None, chmod=Utils.O644, relative_trick=False, cwd=None, add=True, postpone=True, task=None):
 		"""

@@ -4,7 +4,11 @@
 
 """
 Execute the tasks with gcc -MD, read the dependencies from the .d file
-and prepare the dependency calculation for the next run
+and prepare the dependency calculation for the next run.
+
+Usage:
+	def configure(conf):
+		conf.load('gccdeps')
 """
 
 import os, re, threading
@@ -14,27 +18,17 @@ from waflib.TaskGen import before_method, feature
 
 lock = threading.Lock()
 
-preprocessor_flag = '-MD'
+gccdeps_flags = ['-MD']
+if not c_preproc.go_absolute:
+	gccdeps_flags = ['-MMD']
 
 # Third-party tools are allowed to add extra names in here with append()
 supported_compilers = ['gcc', 'icc', 'clang']
 
-@feature('c')
-@before_method('process_source')
-def add_mmd_cc(self):
-	if self.env.CC_NAME in supported_compilers and self.env.get_flat('CFLAGS').find(preprocessor_flag) < 0:
-		self.env.append_value('CFLAGS', [preprocessor_flag])
-		self.env.HAS_GCCDEPS = 1
-
-@feature('cxx')
-@before_method('process_source')
-def add_mmd_cxx(self):
-	if self.env.CXX_NAME in supported_compilers and self.env.get_flat('CXXFLAGS').find(preprocessor_flag) < 0:
-		self.env.append_value('CXXFLAGS', [preprocessor_flag])
-		self.env.HAS_GCCDEPS = 1
-
 def scan(self):
-	if not self.env.HAS_GCCDEPS:
+	if not self.__class__.__name__ in self.env.ENABLE_GCCDEPS:
+		if not self.env.GCCDEPS:
+			self.generator.bld.fatal('Load gccdeps in configure!')
 		return self.no_gccdeps_scan()
 	nodes = self.generator.bld.node_deps.get(self.uid(), [])
 	names = []
@@ -78,7 +72,7 @@ def path_to_node(base_node, path, cached_nodes):
 def post_run(self):
 	# The following code is executed by threads, it is not safe, so a lock is needed...
 
-	if self.env.CC_NAME not in supported_compilers:
+	if not self.__class__.__name__ in self.env.ENABLE_GCCDEPS:
 		return self.no_gccdeps_post_run()
 
 	if getattr(self, 'cached', None):
@@ -130,32 +124,30 @@ def post_run(self):
 		node = None
 		if os.path.isabs(x):
 			node = path_to_node(bld.root, x, cached_nodes)
-
 		else:
 			path = bld.bldnode
-			# when calling find_resource, make sure the path does not begin by '..'
+			# when calling find_resource, make sure the path does not contain '..'
 			x = [k for k in Utils.split_path(x) if k and k != '.']
-			while lst and x[0] == '..':
-				x = x[1:]
-				path = path.parent
+			while '..' in x:
+				idx = x.index('..')
+				if idx == 0:
+					x = x[1:]
+					path = path.parent
+				else:
+					del x[idx]
+					del x[idx-1]
 
 			node = path_to_node(path, x, cached_nodes)
 
 		if not node:
 			raise ValueError('could not find %r for %r' % (x, self))
-		else:
-			if not c_preproc.go_absolute:
-				if not (node.is_child_of(bld.srcnode) or node.is_child_of(bld.bldnode)):
-					continue
+		if id(node) == id(self.inputs[0]):
+			# ignore the source file, it is already in the dependencies
+			# this way, successful config tests may be retrieved from the cache
+			continue
+		nodes.append(node)
 
-			if id(node) == id(self.inputs[0]):
-				# ignore the source file, it is already in the dependencies
-				# this way, successful config tests may be retrieved from the cache
-				continue
-
-			nodes.append(node)
-
-	Logs.debug('deps: real scanner for %s returned %s' % (str(self), str(nodes)))
+	Logs.debug('deps: gccdeps for %s returned %s' % (str(self), str(nodes)))
 
 	bld.node_deps[self.uid()] = nodes
 	bld.raw_deps[self.uid()] = []
@@ -168,7 +160,7 @@ def post_run(self):
 	Task.Task.post_run(self)
 
 def sig_implicit_deps(self):
-	if self.env.CC_NAME not in supported_compilers:
+	if not self.__class__.__name__ in self.env.ENABLE_GCCDEPS:
 		return self.no_gccdeps_sig_implicit_deps()
 	try:
 		return Task.Task.sig_implicit_deps(self)
@@ -181,11 +173,40 @@ for name in 'c cxx'.split():
 	except KeyError:
 		pass
 	else:
-		cls.no_gccdeps_post_run = cls.post_run
 		cls.no_gccdeps_scan = cls.scan
+		cls.no_gccdeps_post_run = cls.post_run
 		cls.no_gccdeps_sig_implicit_deps = cls.sig_implicit_deps
 
-		cls.post_run = post_run
 		cls.scan = scan
+		cls.post_run = post_run
 		cls.sig_implicit_deps = sig_implicit_deps
+
+@before_method('process_source')
+@feature('force_gccdeps')
+def force_gccdeps(self):
+	self.env.ENABLE_GCCDEPS = ['c', 'cxx']
+
+def configure(conf):
+	# record that the configuration was executed properly
+	conf.env.GCCDEPS = True
+
+	global gccdeps_flags
+	flags = conf.env.GCCDEPS_FLAGS or gccdeps_flags
+	if conf.env.CC_NAME in supported_compilers:
+		try:
+			conf.check(fragment='int main() { return 0; }', features='c force_gccdeps', cflags=flags, msg='Checking for c flags %r' % ''.join(flags))
+		except Errors.ConfigurationError:
+			pass
+		else:
+			conf.env.append_value('CFLAGS', gccdeps_flags)
+			conf.env.append_unique('ENABLE_GCCDEPS', 'c')
+
+	if conf.env.CXX_NAME in supported_compilers:
+		try:
+			conf.check(fragment='int main() { return 0; }', features='cxx force_gccdeps', cxxflags=flags, msg='Checking for cxx flags %r' % ''.join(flags))
+		except Errors.ConfigurationError:
+			pass
+		else:
+			conf.env.append_value('CXXFLAGS', gccdeps_flags)
+			conf.env.append_unique('ENABLE_GCCDEPS', 'cxx')
 

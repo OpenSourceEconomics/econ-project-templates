@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 vi:ts=4:noexpandtab
 # Tool to provide dedicated variables for cross-compilation
 
 __author__ = __maintainer__ = "Jérôme Carretero <cJ-waf@zougloub.eu>"
@@ -138,10 +138,13 @@ def xcheck_host(conf):
 	conf.xcheck_host_envar('CXXFLAGS')
 	conf.xcheck_host_envar('LDFLAGS', 'LINKFLAGS')
 	conf.xcheck_host_envar('LIB')
+	conf.xcheck_host_envar('PKG_CONFIG_LIBDIR')
 	conf.xcheck_host_envar('PKG_CONFIG_PATH')
 	# TODO find a better solution than this ugliness
-	if conf.env.PKG_CONFIG_PATH:
+	if conf.env.PKG_CONFIG_PATH or conf.env.PKG_CONFIG_LIBDIR:
 		conf.find_program('pkg-config', var='PKGCONFIG')
 		conf.env.PKGCONFIG = [
-		 'env', 'PKG_CONFIG_PATH=%s' % (conf.env.PKG_CONFIG_PATH[0])
+		 'env',
+		 'PKG_CONFIG_LIBDIR=%s' % (conf.env.PKG_CONFIG_LIBDIR[0]),
+		 'PKG_CONFIG_PATH=%s' % (conf.env.PKG_CONFIG_PATH[0]),
 		] + conf.env.PKGCONFIG

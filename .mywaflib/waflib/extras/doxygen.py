@@ -8,6 +8,9 @@ Doxygen support
 
 Variables passed to bld():
 * doxyfile -- the Doxyfile to use
+* doxy_tar -- destination archive for generated documentation (if desired)
+* install_path -- where to install the documentation
+* pars -- dictionary overriding doxygen configuration settings
 
 When using this tool, the wscript will look like:
 
@@ -79,16 +82,15 @@ class doxygen(Task.Task):
 			if self.pars.get('OUTPUT_DIRECTORY'):
 				# Use the path parsed from the Doxyfile as an absolute path
 				output_node = self.inputs[0].parent.get_bld().make_node(self.pars['OUTPUT_DIRECTORY'])
-				output_node.mkdir()
-				self.pars['OUTPUT_DIRECTORY'] = output_node.abspath()
 			else:
-				# If no OUTPUT_PATH was specified in the Doxyfile build path from where the Doxyfile lives
-				self.inputs[0].parent.get_bld().mkdir()
-				self.pars['OUTPUT_DIRECTORY'] = self.inputs[0].parent.get_bld().abspath()
+				# If no OUTPUT_PATH was specified in the Doxyfile, build path from the Doxyfile name + '.doxy'
+				output_node = self.inputs[0].parent.get_bld().make_node(self.inputs[0].name + '.doxy')
+			output_node.mkdir()
+			self.pars['OUTPUT_DIRECTORY'] = output_node.abspath()
 
 			# Override with any parameters passed to the task generator
 			if getattr(self.generator, 'pars', None):
-				for k, v in self.generator.pars.iteritems():
+				for k, v in self.generator.pars.items():
 					self.pars[k] = v
 
 			self.doxy_inputs = getattr(self, 'doxy_inputs', [])
@@ -99,7 +101,7 @@ class doxygen(Task.Task):
 					if os.path.isabs(i):
 						node = self.generator.bld.root.find_node(i)
 					else:
-						node = self.generator.path.find_node(i)
+						node = self.inputs[0].parent.find_node(i)
 					if not node:
 						self.generator.bld.fatal('Could not find the doxygen input %r' % i)
 					self.doxy_inputs.append(node)
@@ -110,7 +112,11 @@ class doxygen(Task.Task):
 			self.output_dir = bld.root.find_dir(self.pars['OUTPUT_DIRECTORY'])
 
 		self.signature()
-		return Task.Task.runnable_status(self)
+		ret = Task.Task.runnable_status(self)
+		if ret == Task.SKIP_ME:
+			# in case the files were removed
+			self.add_install()
+		return ret
 
 	def scan(self):
 		exclude_patterns = self.pars.get('EXCLUDE_PATTERNS','').split()
@@ -144,13 +150,19 @@ class doxygen(Task.Task):
 		nodes = self.output_dir.ant_glob('**/*', quiet=True)
 		for x in nodes:
 			x.sig = Utils.h_file(x.abspath())
+		self.add_install()
+		return Task.Task.post_run(self)
+
+	def add_install(self):
+		nodes = self.output_dir.ant_glob('**/*', quiet=True)
 		self.outputs += nodes
 		if getattr(self.generator, 'install_path', None):
 			if not getattr(self.generator, 'doxy_tar', None):
 				self.generator.bld.install_files(self.generator.install_path,
 					self.outputs,
-					postpone=False)
-		return Task.Task.post_run(self)
+					postpone=False,
+					cwd=self.output_dir,
+					relative_trick=True)
 
 class tar(Task.Task):
 	"quick tar creation"

@@ -51,7 +51,10 @@ from waflib import Task, Build, TaskGen, Logs, Utils
 try:
     from cpplint.cpplint import ProcessFile, _cpplint_state
 except ImportError:
-    pass
+    try:
+        from cpplint import ProcessFile, _cpplint_state
+    except ImportError:
+        pass
 
 
 critical_errors = 0
@@ -95,9 +98,9 @@ def options(opt):
 def configure(conf):
     conf.start_msg('Checking cpplint')
     try:
-        import cpplint
+	_cpplint_state
         conf.end_msg('ok')
-    except ImportError:
+    except NameError:
         conf.env.CPPLINT_SKIP = True
         conf.end_msg('not found, skipping it.')
 
