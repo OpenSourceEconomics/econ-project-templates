@@ -29,7 +29,7 @@ It is sad if not the substance, but controversies about the replicability of res
 .. figure:: examples/McCullough09Fig1.jpg
    :width: 35em
    
-   *Economic Journals with Mandatory Data + Code Archives, Figure 1 in* :cite:`McCullough09`
+   *Economic Journals with Mandatory Data + Code Archives, Figure 1 in*  McCullough (2009)
 
 
 Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project --- much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience :cite:`GaudeckerSoestWengstrom11prefhet`, I can confirm that replication policies are enforced nowadays --- and that it is rather painful to ensure *ex-post* that you can follow them. The number of journals implementing replication policies is likely to grow further --- if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not even get started on research ethics...

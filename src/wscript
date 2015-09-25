@@ -48,8 +48,14 @@ def create_empty_init_py_wrapper(ctx):
 
 
 def post_install(ctx):
-    # Now the entire directory tree of the html build, except for hidden stuff.
     install_root = os.path.join(ctx.srcnode.abspath())
+    ctx.install_files(
+        os.path.join(install_root, '_downloads'),
+        'src/latexpdf/tutorial-econ-project-templates.pdf',
+        postpone=False
+    )
+
+    # Now the entire directory tree of the html build, except for hidden stuff.
     html_root = ctx.bldnode.find_node('src/html')
     for n in html_root.ant_glob('**', remove=False, quiet=True):
         rel_path = n.path_from(html_root)
@@ -59,28 +65,15 @@ def post_install(ctx):
 
 def build(ctx):
 
-    # Symlink needed so that pdf and html builders both work.
-    ctx(
-        tgt='../bld',
-        rule='ln -s "bld" "../bld"'
-    )
     create_empty_init_py_wrapper(ctx)
     ctx.recurse('examples')
     ctx.add_group()
 
+    # Build the documentation in pdf (via LaTeX) and html format.
     ctx(
         features='sphinx',
-        buildername='latex',
-        source='conf.py',
-        name='sphinx_pdf'
-    )
-    ctx.add_group()
-
-    ctx(
-        features='sphinx',
-        buildername='html',
-        source='conf.py',
-        name='sphinx_html'
+        builders=['latexpdf', 'html'],
+        source='conf.py'
     )
 
     # Install only after the build has finished.

@@ -232,7 +232,7 @@ The following figure shows a little bit of how Waf works internally during the b
     .. figure:: examples/waf_build_phase.png
        :width: 30em
 
-       *The build phase of a project, reproduced from* :cite:`Nagy13`, *section 4.1.4*
+       *The build phase of a project, reproduced from* Nagy (2013), *section 4.1.4*
 
 The important part to remember is that there is a logical and temporal separation between 
 
