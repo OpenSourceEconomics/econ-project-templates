@@ -56,22 +56,20 @@ if [[ ! ($OUT -eq 1) ]]; then
             key="$1"
             case $key in
                 -d|--debug-cuda)
-                export WAFLOCK=.lock-wafbld_debug_cuda
-                export NUMBA_ENABLE_CUDASIM=1
-                echo -e "\n\n\nUsing debug-cuda setting.\n\nSlooooooow, only use for testing.\n\n\n"
-                shift
-                ;;
+                    export WAFLOCK=.lock-wafbld_debug_cuda
+                    export NUMBA_ENABLE_CUDASIM=1
+                    echo -e "\n\n\nUsing debug-cuda setting.\n\nSlooooooow, only use for testing.\n\n\n"
+                    shift
+                    ;;
+                -c|--check-env-via-picky)
+                    picky
+                    ;;
                 *)
-                echo "Unkown option: " $key
-                shift
-                ;;
+                    echo "Unkown option: " $key
+                    shift
+                    ;;
             esac
         shift
     done
 
 fi
-
-# Run picky to test environment consistency
-#            case $key in
-#                -c|--check-env-via-picky)
-#                picky
