@@ -58,7 +58,7 @@ else:
 	urlopen = request.urlopen
 
 
-from waflib import Errors, Context, Logs, Utils, Options
+from waflib import Errors, Context, Logs, Utils, Options, Configure
 
 try:
 	from urllib.parse import urlparse
@@ -130,9 +130,9 @@ def download_tool(tool, force=False, ctx=None):
 
 	raise Errors.WafError('Could not load the Waf tool')
 
-def load_tool(tool, tooldir=None, ctx=None):
+def load_tool(tool, tooldir=None, ctx=None, with_sys_path=True):
 	try:
-		module = Context.load_tool_default(tool, tooldir)
+		module = Context.load_tool_default(tool, tooldir, ctx, with_sys_path)
 	except ImportError as e:
 		if Options.options.download:
 			module = download_tool(tool, ctx=ctx)
@@ -144,7 +144,7 @@ def load_tool(tool, tooldir=None, ctx=None):
 
 Context.load_tool_default = Context.load_tool
 Context.load_tool = load_tool
-
+Configure.download_tool = download_tool
 
 def configure(self):
 	opts = self.options
