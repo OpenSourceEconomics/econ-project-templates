@@ -14,7 +14,7 @@ conda config --add channels r > /dev/null 2>&1
 # create environment if it does not exist or create is supplied
 # this install packages as well
 if [[ ($OUT -eq 1)  || ($1 == "create") || ($1 == "install") ]]; then
-    conda create -n $env_name --file conda_versions.txt
+    conda create -n $env_name python=3.5 --file conda_versions.txt
     if [ $? -ne 0 ]; then return; fi
     if [ -f requirements.txt ]; then
         source activate $env_name >> /dev/null 2>&1
