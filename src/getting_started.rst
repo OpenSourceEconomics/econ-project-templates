@@ -39,13 +39,14 @@ Porting an existing project
 Your general strategy should be one of **divide and conquer**. If you are not used to thinking in conputer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
 
 * Assuming that you use git, first move all the code in the existing project to a directory called old_code. Commit.
-* Now move the code from the exon-project-templates over, as described … Commit.
-* Decide on which steps you'll likely need / use and delete the other directories from src and the corresponding ctx.recurse() calls in src/wscript (e.g., documentation)
+* Now move the code from the econ-project-templates over, as described among the basic steps above. Make sure the examples work. Commit.
+* Decide on which steps you'll likely need / use (e.g., in a simulation exercise you probably won't need any data management). Delete the directories you do not need from ``src`` and the corresponding ``ctx.recurse()`` calls in ``src/wscript``. Commit.
 * Start with the data management code. To do so, comment out everything except for the recursions to the library and data_management directories from src/wscript
 * Move your data files to the right new spot. Delete the ones from the template.
-* Now copy & paste the body of (the first steps of) your data management code to the src/data_management/clean_data.do script. Keep the top lines (inclusion of project paths and opening of the log file and adjust the last lines saving the dta file.
-* Adjust the src/data_management/wscript file with the right filenames. 
+* Copy & paste the body of (the first steps of) your data management code to the example files, keeping the basic machinery in place. E.g., in case of the Stata template: In the ``src/data_management/clean_data.do`` script, keep the top lines (inclusion of project paths and opening of the log file). Paste your code below that and adjust the last lines saving the dta file.
+* Adjust the ``src/data_management/wscript`` file with the right filenames. 
 * Run waf, adjusting the code for the errors you'll likely see.
+* Move on step-by-step like this.
 
 
 
