@@ -11,6 +11,7 @@ CALL activate %env_name%
 IF /i "%1" == "create" GOTO create
 IF /i "%1" == "install" GOTO create
 IF /i "%1" == "update" GOTO update
+IF /i "%1" == "check-env-via-picky" GOTO picky
 IF %ERRORLEVEL% GEQ 1 GOTO create
 
 GOTO :EOF
@@ -18,10 +19,10 @@ GOTO :EOF
 
 :: if it can't be activated, create it
 :create
-CALL conda create -n %env_name% --file conda_versions.txt
-:: don't CALL pip if conda runs into trouble
+CALL conda create -n %env_name% python=3.5 --file conda_versions.txt
+:: don't call pip if conda runs into trouble
 IF %ERRORLEVEL% GEQ 1 EXIT /B 2
-:: CALL pip if we have pip requirements
+:: call pip if we have pip requirements
 IF exist requirements.txt (
     CALL activate %env_name%
     CALL pip install -r requirements.txt
@@ -39,6 +40,8 @@ CALL activate %env_name%
 CALL picky --update
 )
 
+:picky
 CALL picky
+GOTO :EOF
 
 GOTO :EOF
