@@ -3,7 +3,7 @@
 FOR %%A in ("%~f0\..") do SET "env_name=%%~nxA" > nul
 
 :: try to activate the environment
-CALL activate %env_name%
+CALL activate %env_name% > NUL
 
 :: get arguments FOR create & install
 
