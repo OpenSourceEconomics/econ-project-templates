@@ -35,7 +35,7 @@ from waflib.Configure import conf
 from sphinx.application import Sphinx
 
 
-MAKEINFO_VERSION_RE = re.compile(r'makeinfo \(GNU texinfo\) (\d+)\.(\d+)')
+MAKEINFO_VERSION_RE = re.compile(r'(makeinfo|texi2any) \(GNU texinfo\) (\d+)\.(\d+)')
 # UTF-8 support was introduced in this version. See the
 # 'warn_about_old_makeinfo' method.
 # http://svn.savannah.gnu.org/viewvc/*checkout*/trunk/NEWS?root=texinfo
@@ -145,7 +145,7 @@ def warn_about_old_makeinfo(self):
 	match = MAKEINFO_VERSION_RE.match(version_str)
 	if match is None:
 		self.fatal("Couldn't verify makeinfo version!")
-	version_tuple = tuple(int(x) for x in match.groups())
+	version_tuple = tuple(int(x) for x in match.groups()[1:])
 	if version_tuple < MAKEINFO_MIN_VERSION:
 		waflib.Logs.warn(
 			('Your makeinfo version ({0}) is too old to support UTF-8.\n'
