@@ -38,8 +38,8 @@ Porting an existing project
 
 Your general strategy should be one of **divide and conquer**. If you are not used to thinking in conputer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
 
-* Assuming that you use git, first move all the code in the existing project to a directory called old_code. Commit.
-* Now move the code from the econ-project-templates over, as described among the basic steps above. Make sure the examples work. Commit.
+* Assuming that you use git, first move all the code in the existing project to a subdirectory called old_code. Commit.
+* Now move the code from the econ-project-templates over into this project, as described in the basic steps above. Make sure the examples work. Commit.
 * Decide on which steps you'll likely need / use (e.g., in a simulation exercise you probably won't need any data management). Delete the directories you do not need from ``src`` and the corresponding ``ctx.recurse()`` calls in ``src/wscript``. Commit.
 * Start with the data management code. To do so, comment out everything except for the recursions to the library and data_management directories from src/wscript
 * Move your data files to the right new spot. Delete the ones from the template.
