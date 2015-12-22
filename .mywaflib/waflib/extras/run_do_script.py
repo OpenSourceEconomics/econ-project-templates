@@ -89,7 +89,7 @@ If Stata is needed:\n
 	   If yours has a different name, please report to hmgaudecker [at] gmail\n
 Else:\n
 	Do not load the 'run_do_script' tool in the main wscript.\n\n"""
-		% STATA_NAMES
+		% STATA_COMMANDS
 	)
 	ctx.env.STATAFLAGS = STATAFLAGS
 	ctx.env.STATAENCODING = STATAENCODING
