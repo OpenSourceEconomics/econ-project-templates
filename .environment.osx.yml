@@ -65,4 +65,3 @@ dependencies:
   - pybtex-docutils==0.2.1
   - sphinx-rtd-theme==0.1.7
   - sphinxcontrib-bibtex==0.3.3
-

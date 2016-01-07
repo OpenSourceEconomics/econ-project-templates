@@ -14,21 +14,15 @@ conda config --add channels r > /dev/null 2>&1
 # create environment if it does not exist or create is supplied
 # this install packages as well
 if [[ ($OUT -eq 1)  || ($1 == "create") || ($1 == "install") ]]; then
-    conda env create -n $env_name -f .environment.yml
+    conda env create -n $env_name -f .environment.osx.yml
     if [ $? -ne 0 ]; then return; fi
+    shift
 fi
 
 # update packages
 if [[ $1 == "update" ]]; then
-    conda update --all
-    if [ $? -ne 0 ]; then return; fi
-    if [ -f requirements.txt ]; then
-        # Update all pip packages
-        source activate $env_name >> /dev/null 2>&1
-        pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
-    fi
-    # Update requirement files
-    picky --update
+    conda env update --name=$env_name --file=.environment.osx.yml
+    shift
 fi
 
 # check the return code of operations
@@ -67,5 +61,4 @@ if [[ ! ($OUT -eq 1) ]]; then
             esac
         shift
     done
-
 fi

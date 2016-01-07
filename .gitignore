@@ -38,6 +38,9 @@ waf3-*
 *latexmk
 *synctex.gz
 .*
+!.environment.osx.yml
+!.environment.windows.yml
+!.environment.linux.yml
 !.env
 .*pdfsvn
 __pycache__
