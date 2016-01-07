@@ -19,29 +19,10 @@ GOTO :EOF
 
 :: if it can't be activated, create it
 :create
-CALL conda create -n %env_name% python=3.5 --file conda_versions.txt
-:: don't call pip if conda runs into trouble
-IF %ERRORLEVEL% GEQ 1 EXIT /B 2
-:: call pip if we have pip requirements
-IF exist requirements.txt (
-    CALL activate %env_name%
-    CALL pip install -r requirements.txt
-    )
+CALL conda env create -n %env_name% -f .environment.windows.yml
 GOTO :EOF
-    
+
 :: handle update case here
 :update
-CALL conda update --all
-IF exist requirements.txt (
-    CALL activate %env_name%
-    :: this should update all pip packages
-    FOR /F "delims===" %%i in ('pip freeze -l') do pip install -U %%i
-CALL activate %env_name%
-CALL picky --update
-)
-
-:picky
-CALL picky
-GOTO :EOF
-
+CALL conda env update --name=%env_name% --file=.environment.windows.yml
 GOTO :EOF
