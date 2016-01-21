@@ -124,3 +124,18 @@ The following failure::
 has a simple solution: **Get rid of all spaces in the path to the project.** (i.e., ``econ-project-templates`` instead of ``econ-project templates`` in this case). To do so, do **not** rename your user directory, that will cause havoc. Rather move the project folder to a different location.
 
 I have not been able to get Stata working with spaces in the path in batch mode, so this has nothing to do with Python/Waf. If anybody finds a solution, please let me know.
+
+
+Stata failure: missing file
+================================
+
+If you see this error::
+
+    [21/39] Running  [Stata] -e -q do src/data_management/add_variables.do add_variables 
+    Waf: Leaving directory `/Users/xxx/econ/econ-project/templates/bld'
+    Build failed
+    -> missing file: '/Users/xxx/econ/econ-project/templates/bld/add_variables.log'
+
+run ``python waf.py configure`` again and check that you have a license for the Stata version that is found (the Stata tool just checks availability top-down, i.e., MP-SE-IC, in case an MP-Version is found and you just have a license for SE, Stata will silently refuse to start up).
+
+The solution is to remove all versions of Stata from its executable directory (e.g., /usr/local/stata) that cost more than your license did.

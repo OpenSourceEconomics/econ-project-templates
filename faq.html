@@ -120,6 +120,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#using-spyder-with-waf">Using Spyder with Waf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#stata-packages">Stata packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#stata-failure-filenotfounderror">Stata failure: FileNotFoundError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stata-failure-missing-file">Stata failure: missing file</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
@@ -264,6 +265,18 @@ FileNotFoundError: [Errno 2] No such file or directory: &#39;/Users/xxx/econ/eco
 </div>
 <p>has a simple solution: <strong>Get rid of all spaces in the path to the project.</strong> (i.e., <code class="docutils literal"><span class="pre">econ-project-templates</span></code> instead of <code class="docutils literal"><span class="pre">econ-project</span> <span class="pre">templates</span></code> in this case). To do so, do <strong>not</strong> rename your user directory, that will cause havoc. Rather move the project folder to a different location.</p>
 <p>I have not been able to get Stata working with spaces in the path in batch mode, so this has nothing to do with Python/Waf. If anybody finds a solution, please let me know.</p>
+</div>
+<div class="section" id="stata-failure-missing-file">
+<h2>Stata failure: missing file<a class="headerlink" href="#stata-failure-missing-file" title="Permalink to this headline">¶</a></h2>
+<p>If you see this error:</p>
+<div class="highlight-python"><div class="highlight"><pre>[21/39] Running  [Stata] -e -q do src/data_management/add_variables.do add_variables
+Waf: Leaving directory `/Users/xxx/econ/econ-project/templates/bld&#39;
+Build failed
+-&gt; missing file: &#39;/Users/xxx/econ/econ-project/templates/bld/add_variables.log&#39;
+</pre></div>
+</div>
+<p>run <code class="docutils literal"><span class="pre">python</span> <span class="pre">waf.py</span> <span class="pre">configure</span></code> again and check that you have a license for the Stata version that is found (the Stata tool just checks availability top-down, i.e., MP-SE-IC, in case an MP-Version is found and you just have a license for SE, Stata will silently refuse to start up).</p>
+<p>The solution is to remove all versions of Stata from its executable directory (e.g., /usr/local/stata) that cost more than your license did.</p>
 </div>
 </div>
 
