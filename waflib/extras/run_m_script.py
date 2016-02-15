@@ -20,15 +20,15 @@ Matlab search path (defaults to True). Useful to include project paths etc..
 
 Usage::
 
-	ctx(
-		features='run_m_script',
-		source='some_script.m',
-		target=['some_table.tex', 'some_figure.eps'],
-		deps='some_data.mat',
-		append='',
-		prepend='',
-		add_build_to_path=True
-	)
+    ctx(
+        features='run_m_script',
+        source='some_script.m',
+        target=['some_table.tex', 'some_figure.eps'],
+        deps='some_data.mat',
+        append='',
+        prepend='',
+        add_build_to_path=True
+    )
 
 """
 
@@ -46,11 +46,11 @@ def configure(ctx):
         errmsg="""\n
 No Matlab executable found!\n\n
 If Matlab is needed:\n
-	1) Check the settings of your system path.
-	2) Note we are looking for Matlab executables called: %s
-	   If yours has a different name, please report to hmgaudecker [at] gmail\n
+    1) Check the settings of your system path.
+    2) Note we are looking for Matlab executables called: %s
+       If yours has a different name, please report to hmgaudecker [at] gmail\n
 Else:\n
-	Do not load the 'run_m_script' tool in the main wscript.\n\n"""
+    Do not load the 'run_m_script' tool in the main wscript.\n\n"""
         % MATLAB_COMMANDS
     )
     ctx.env.MATLABFLAGS = '-wait -nodesktop -nosplash -minimize'
