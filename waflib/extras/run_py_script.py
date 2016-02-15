@@ -100,9 +100,9 @@ def apply_run_py_script(tg):
 
     # Convert sources and targets to nodes
     src_node = tg.path.find_resource(tg.source)
-    if not src_node:
+    if src_node is None:
         tg.bld.fatal(
-            'Cannot find input file %s for processing' % tg.source
+            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
         )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 

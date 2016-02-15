@@ -22,6 +22,7 @@ Usage::
 """
 
 
+import os
 from waflib import Task, TaskGen, Logs
 
 PERL_COMMANDS = ['perl']
@@ -91,6 +92,10 @@ def apply_run_pl_script(tg):
 
     # Convert sources and targets to nodes
     src_node = tg.path.find_resource(tg.source)
+    if src_node is None:
+        tg.bld.fatal(
+            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
+        )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
     tsk = tg.create_task('run_pl_script', src=src_node, tgt=tgt_nodes)
