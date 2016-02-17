@@ -12,7 +12,7 @@ a file named pdebug.svg in the source directory::
 		...
 """
 
-import os, time, sys, re
+import time, sys, re
 try: from Queue import Queue
 except: from queue import Queue
 from waflib import Runner, Options, Utils, Task, Logs, Errors

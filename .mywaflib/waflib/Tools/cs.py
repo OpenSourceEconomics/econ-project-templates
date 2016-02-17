@@ -21,7 +21,7 @@ Note that the configuration may compile C# snippets::
 			bintype='exe', csflags=['-pkg:gtk-sharp-2.0'], msg='Checking for Gtksharp support')
 """
 
-from waflib import Utils, Task, Options, Logs, Errors
+from waflib import Utils, Task, Options, Errors
 from waflib.TaskGen import before_method, after_method, feature
 from waflib.Tools import ccroot
 from waflib.Configure import conf

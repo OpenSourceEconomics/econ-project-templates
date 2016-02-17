@@ -75,9 +75,6 @@ def post_run(self):
 	if not self.__class__.__name__ in self.env.ENABLE_GCCDEPS:
 		return self.no_gccdeps_post_run()
 
-	if getattr(self, 'cached', None):
-		return Task.Task.post_run(self)
-
 	name = self.outputs[0].abspath()
 	name = re_o.sub('.d', name)
 	txt = Utils.readf(name)
@@ -107,7 +104,6 @@ def post_run(self):
 	txt = txt.replace('\\\n', '')
 
 	val = txt.strip()
-	lst = val.split(':')
 	val = [x.replace('\\ ', ' ') for x in re_splitter.split(val) if x]
 
 	nodes = []
@@ -125,7 +121,8 @@ def post_run(self):
 		if os.path.isabs(x):
 			node = path_to_node(bld.root, x, cached_nodes)
 		else:
-			path = bld.bldnode
+			# TODO waf 1.9 - single cwd value
+			path = getattr(bld, 'cwdx', bld.bldnode)
 			# when calling find_resource, make sure the path does not contain '..'
 			x = [k for k in Utils.split_path(x) if k and k != '.']
 			while '..' in x:
@@ -189,6 +186,10 @@ def force_gccdeps(self):
 def configure(conf):
 	# record that the configuration was executed properly
 	conf.env.GCCDEPS = True
+
+	# in case someone provides a --enable-gccdeps command-line option
+	if not getattr(conf.options, 'enable_gccdeps', True):
+		return
 
 	global gccdeps_flags
 	flags = conf.env.GCCDEPS_FLAGS or gccdeps_flags

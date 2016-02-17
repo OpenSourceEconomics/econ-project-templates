@@ -2,7 +2,6 @@
 # per rosengren 2011
 
 from os import sep, readlink
-from os.path import abspath
 from waflib import Logs
 from waflib.TaskGen import feature, after_method
 from waflib.Task import Task, always_run
@@ -23,7 +22,7 @@ def configure(cnf):
 		cnf.find_program('bjam', path_list=[
 			cnf.env.BJAM_SRC + sep + 'bin.' + cnf.env.BJAM_UNAME
 		])
-	except Exception as e:
+	except Exception:
 		cnf.env.BJAM = None
 	if not cnf.env.BJAM_CONFIG:
 		cnf.env.BJAM_CONFIG = cnf.options.bjam_config
@@ -48,8 +47,6 @@ class bjam_creator(Task):
 	def run(self):
 		env = self.env
 		gen = self.generator
-		path = gen.path
-		bld = gen.bld
 		bjam = gen.bld.root.find_dir(env.BJAM_SRC)
 		if not bjam:
 			Logs.error('Can not find bjam source')

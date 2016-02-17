@@ -15,7 +15,7 @@ $ waf configure xcode
 # TODO: support iOS projects
 
 from waflib import Context, TaskGen, Build, Utils
-import os, sys, random, time
+import os, sys
 
 HEADERS_GLOB = '**/(*.h|*.hpp|*.H|*.inl)'
 

@@ -79,18 +79,12 @@ class Odict(dict):
 		return p
 
 	def __str__(self):
-		s = "{"
-		l = len(self._keys)
+		buf = []
+		buf.append("{ ")
 		for k, v in self.items():
-			l -= 1
-			strkey = str(k)
-			if isinstance(k, basestring): strkey = "'"+strkey+"'"
-			strval = str(v)
-			if isinstance(v, basestring): strval = "'"+strval+"'"
-			s += strkey + ":" + strval
-			if l > 0: s += ", "
-		s += "}"
-		return s
+			buf.append('%r : %r, ' % (k, v))
+		buf.append("}")
+		return ''.join(buf)
 
 review_options = Odict()
 """

@@ -13,7 +13,7 @@ Support for GLib2 tools:
 
 import os
 from waflib import Context, Task, Utils, Options, Errors, Logs
-from waflib.TaskGen import taskgen_method, before_method, after_method, feature, extension
+from waflib.TaskGen import taskgen_method, before_method, feature, extension
 from waflib.Configure import conf
 
 ################## marshal files
@@ -307,7 +307,7 @@ def process_settings(self):
 		if not bld.is_install: return
 		Logs.pprint ('YELLOW','Updating GSettings schema cache')
 		command = Utils.subst_vars("${GLIB_COMPILE_SCHEMAS} ${GSETTINGSSCHEMADIR}", bld.env)
-		ret = self.bld.exec_command(command)
+		self.bld.exec_command(command)
 
 	if self.bld.is_install:
 		if not self.env['GSETTINGSSCHEMADIR']:
@@ -317,7 +317,7 @@ def process_settings(self):
 			self.bld.install_files (self.env['GSETTINGSSCHEMADIR'], install_files)
 
 			if not hasattr(self.bld, '_compile_schemas_registered'):
-				self.bld.add_post_fun (compile_schemas_callback)
+				self.bld.add_post_fun(compile_schemas_callback)
 				self.bld._compile_schemas_registered = True
 
 class glib_validate_schema(Task.Task):

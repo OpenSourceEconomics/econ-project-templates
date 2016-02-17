@@ -20,8 +20,8 @@ Only three D compilers are really present at the moment:
 * ldc2
 """
 
-import os, sys, imp, types, re
-from waflib import Utils, Configure, Options, Logs
+import re
+from waflib import Utils, Logs
 
 d_compiler = {
 'default' : ['gdc', 'dmd', 'ldc2']

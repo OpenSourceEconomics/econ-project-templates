@@ -2,7 +2,6 @@
 # encoding: utf-8
 # Alex Rønne Petersen, 2012 (alexrp/Zor)
 
-import sys
 from waflib.Tools import ar, d
 from waflib.Configure import conf
 

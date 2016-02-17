@@ -20,21 +20,21 @@ Matlab search path (defaults to True). Useful to include project paths etc..
 
 Usage::
 
-	ctx(
-		features='run_m_script',
-		source='some_script.m',
-		target=['some_table.tex', 'some_figure.eps'],
-		deps='some_data.mat',
-		append='',
-		prepend='',
-		add_build_to_path=True
-	)
+    ctx(
+        features='run_m_script',
+        source='some_script.m',
+        target=['some_table.tex', 'some_figure.eps'],
+        deps='some_data.mat',
+        append='',
+        prepend='',
+        add_build_to_path=True
+    )
 
 """
 
 import os
-import sys
-from waflib import Task, TaskGen, Logs
+from waflib import Task, TaskGen, Logs, Node
+
 
 MATLAB_COMMANDS = ['matlab']
 
@@ -46,11 +46,11 @@ def configure(ctx):
         errmsg="""\n
 No Matlab executable found!\n\n
 If Matlab is needed:\n
-	1) Check the settings of your system path.
-	2) Note we are looking for Matlab executables called: %s
-	   If yours has a different name, please report to hmgaudecker [at] gmail\n
+    1) Check the settings of your system path.
+    2) Note we are looking for Matlab executables called: %s
+       If yours has a different name, please report to hmgaudecker [at] gmail\n
 Else:\n
-	Do not load the 'run_m_script' tool in the main wscript.\n\n"""
+    Do not load the 'run_m_script' tool in the main wscript.\n\n"""
         % MATLAB_COMMANDS
     )
     ctx.env.MATLABFLAGS = '-wait -nodesktop -nosplash -minimize'
@@ -134,6 +134,10 @@ def apply_run_m_script(tg):
 
     # Convert sources and targets to nodes
     src_node = tg.path.find_resource(tg.source)
+    if src_node is None:
+        tg.bld.fatal(
+            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
+        )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
     tsk = tg.create_task('run_m_script', src=src_node, tgt=tgt_nodes)
@@ -151,18 +155,21 @@ def apply_run_m_script(tg):
     tsk.env.PREPEND = getattr(tg, 'prepend', '')
     tsk.buffer_output = getattr(tg, 'buffer_output', True)
 
-    # dependencies (if the attribute 'deps' changes, trigger a recompilation)
-    for x in tg.to_list(getattr(tg, 'deps', [])):
-        node = tg.path.find_resource(x)
+    # Dependencies (if the attribute 'deps' changes, trigger a recompilation)
+    deps = getattr(tg, 'deps', [])
+    if type(deps) == Node.Nod3:
+        deps = [deps]
+    for x in tg.to_list(deps):
+        if type(x) == Node.Nod3:
+            node = x
+        else:
+            node = tg.path.find_resource(x)
         if not node:
-            tg.bld.fatal(
-                'Could not find dependency %r for running %r'
-                % (x, src_node.relpath())
-            )
-        tsk.dep_nodes.append(node)
-    Logs.debug('deps: found dependencies %r for running %r' % (
-        tsk.dep_nodes, src_node.relpath()))
+            tg.bld.fatal('Could not find dependency %r for running %r' % (x, src_node.relpath()))
+        else:
+            tsk.dep_nodes.append(node)
 
-    # Bypass the execution of process_source by setting the source to an empty
-    # list
+    Logs.debug('deps: found dependencies %r for running %r' % (tsk.dep_nodes, src_node.relpath()))
+
+    # Bypass the execution of process_source by setting the source to an empty list
     tg.source = []

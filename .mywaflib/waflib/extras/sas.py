@@ -4,8 +4,8 @@
 
 "SAS support"
 
-import os, re
-from waflib import Utils, Task, TaskGen, Runner, Build, Errors, Node, Logs
+import os
+from waflib import Task, Errors, Logs
 from waflib.TaskGen import feature, before_method
 
 sas_fun, _ = Task.compile_fun('sas -sysin ${SRCFILE} -log ${LOGFILE} -print ${LSTFILE}', shell=False)
@@ -14,9 +14,6 @@ class sas(Task.Task):
 	vars = ['SAS', 'SASFLAGS']
 	def run(task):
 		command = 'SAS'
-		env = task.env
-		bld = task.generator.bld
-
 		fun = sas_fun
 
 		node = task.inputs[0]

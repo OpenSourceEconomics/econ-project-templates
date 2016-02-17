@@ -34,11 +34,10 @@ Support for pure asm programs and libraries should also work::
 			target = 'asmtest')
 """
 
-import os, sys
-from waflib import Task, Utils
+from waflib import Task
 import waflib.Task
 from waflib.Tools.ccroot import link_task, stlink_task
-from waflib.TaskGen import extension, feature
+from waflib.TaskGen import extension
 
 class asm(Task.Task):
 	"""

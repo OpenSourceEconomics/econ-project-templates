@@ -30,7 +30,7 @@ This tool is experimental; don't hesitate to contribute to it.
 
 """
 
-import os, re
+import re
 from waflib import Node, Utils, Task, Errors, Logs
 from waflib.TaskGen import feature, before_method
 

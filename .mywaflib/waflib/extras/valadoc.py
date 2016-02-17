@@ -7,8 +7,8 @@ ported from waf 1.5:
 TODO: tabs vs spaces
 """
 
-from waflib import Task, Utils, Node, Errors, Logs
-from waflib.TaskGen import feature, extension, after_method
+from waflib import Task, Utils, Errors, Logs
+from waflib.TaskGen import feature
 
 VALADOC_STR = '${VALADOC}'
 

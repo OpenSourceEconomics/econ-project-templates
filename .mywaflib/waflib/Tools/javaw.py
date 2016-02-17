@@ -26,8 +26,8 @@ You would have to run::
 [1] http://www.jython.org/
 """
 
-import os, re, tempfile, shutil
-from waflib import TaskGen, Task, Utils, Options, Build, Errors, Node, Logs
+import os, tempfile, shutil
+from waflib import Task, Utils, Errors, Node, Logs
 from waflib.Configure import conf
 from waflib.TaskGen import feature, before_method, after_method
 
@@ -68,8 +68,6 @@ def apply_java(self):
 	Utils.def_attrs(self, jarname='', classpath='',
 		sourcepath='.', srcdir='.',
 		jar_mf_attributes={}, jar_mf_classpath=[])
-
-	nodes_lst = []
 
 	outdir = getattr(self, 'outdir', None)
 	if outdir:
@@ -194,7 +192,6 @@ def use_jar_files(self):
 	Process the *use* attribute to set the build order on the
 	tasks created by another task generator.
 	"""
-	lst = []
 	self.uselib = self.to_list(getattr(self, 'uselib', []))
 	names = self.to_list(getattr(self, 'use', []))
 	get = self.bld.get_tgen_by_name

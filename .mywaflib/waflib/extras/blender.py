@@ -20,7 +20,6 @@ Use ./waf configure --system to set the installation directory to system path
 """
 import os
 import re
-from sys import platform as _platform
 from getpass import getuser
 
 from waflib import Utils

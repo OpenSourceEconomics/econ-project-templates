@@ -24,7 +24,7 @@ class objcopy(Task.Task):
 
 @feature('objcopy')
 @after_method('apply_link')
-def objcopy(self):
+def map_objcopy(self):
 	def_attrs(self,
 	   objcopy_bfdname = 'ihex',
 	   objcopy_target = None,
@@ -34,9 +34,7 @@ def objcopy(self):
 	link_output = self.link_task.outputs[0]
 	if not self.objcopy_target:
 		self.objcopy_target = link_output.change_ext('.' + self.objcopy_bfdname).name
-	task = self.create_task('objcopy',
-							src=link_output,
-							tgt=self.path.find_or_declare(self.objcopy_target))
+	task = self.create_task('objcopy', src=link_output, tgt=self.path.find_or_declare(self.objcopy_target))
 
 	task.env.append_unique('TARGET_BFDNAME', self.objcopy_bfdname)
 	try:
@@ -50,5 +48,5 @@ def objcopy(self):
 							   env=task.env.derive())
 
 def configure(ctx):
-	objcopy = ctx.find_program('objcopy', var='OBJCOPY', mandatory=True)
+	ctx.find_program('objcopy', var='OBJCOPY', mandatory=True)
 

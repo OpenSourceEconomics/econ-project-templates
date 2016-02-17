@@ -71,6 +71,6 @@ def download_archive(self, src, dst):
 
 @conf
 def load_packages(self):
-	cache = self.get_package_cache_dir()
+	self.get_package_cache_dir()
 	# read the dependencies, get the archives, ..
 

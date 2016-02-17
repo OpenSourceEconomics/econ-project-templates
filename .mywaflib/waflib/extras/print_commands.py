@@ -8,38 +8,70 @@ In this case, print the commands being executed as strings
 """
 
 import sys
-from waflib import Context, Utils, Logs
+from waflib import Context, Utils, Errors, Logs
 
 def exec_command(self, cmd, **kw):
 	subprocess = Utils.subprocess
 	kw['shell'] = isinstance(cmd, str)
 
-	txt = cmd
-	if isinstance(cmd, list):
-		txt = ' '.join(cmd)
+	if isinstance(cmd, str):
+		kw['shell'] = True
+		txt = cmd
+	else:
+		txt = ' '.join(repr(x) if ' ' in x else x for x in cmd)
 
-	print(txt)
+	Logs.debug('runner: %s' % txt)
 	Logs.debug('runner_env: kw=%s' % kw)
 
+	if self.logger:
+		self.logger.info(cmd)
+
+	if 'stdout' not in kw:
+		kw['stdout'] = subprocess.PIPE
+	if 'stderr' not in kw:
+		kw['stderr'] = subprocess.PIPE
+
+	if Logs.verbose and not kw['shell'] and not Utils.check_exe(cmd[0]):
+		raise Errors.WafError("Program %s not found!" % cmd[0])
+
+	wargs = {}
+	if 'timeout' in kw:
+		if kw['timeout'] is not None:
+			wargs['timeout'] = kw['timeout']
+		del kw['timeout']
+	if 'input' in kw:
+		if kw['input']:
+			wargs['input'] = kw['input']
+			kw['stdin'] = Utils.subprocess.PIPE
+		del kw['input']
+
 	try:
-		if self.logger:
-			# warning: may deadlock with a lot of output (subprocess limitation)
-
-			self.logger.info(cmd)
-
-			kw['stdout'] = kw['stderr'] = subprocess.PIPE
+		if kw['stdout'] or kw['stderr']:
 			p = subprocess.Popen(cmd, **kw)
-			(out, err) = p.communicate()
-			if out:
-				self.logger.debug('out: %s' % out.decode(sys.stdout.encoding or 'iso8859-1'))
-			if err:
-				self.logger.error('err: %s' % err.decode(sys.stdout.encoding or 'iso8859-1'))
-			return p.returncode
+			(out, err) = p.communicate(**wargs)
+			ret = p.returncode
 		else:
-			p = subprocess.Popen(cmd, **kw)
-			return p.wait()
-	except OSError:
-		return -1
+			out, err = (None, None)
+			ret = subprocess.Popen(cmd, **kw).wait(**wargs)
+	except Exception as e:
+		raise Errors.WafError('Execution failure: %s' % str(e), ex=e)
+
+	if out:
+		if not isinstance(out, str):
+			out = out.decode(sys.stdout.encoding or 'iso8859-1')
+		if self.logger:
+			self.logger.debug('out: %s' % out)
+		else:
+			Logs.info(out, extra={'stream':sys.stdout, 'c1': ''})
+	if err:
+		if not isinstance(err, str):
+			err = err.decode(sys.stdout.encoding or 'iso8859-1')
+		if self.logger:
+			self.logger.error('err: %s' % err)
+		else:
+			Logs.info(err, extra={'stream':sys.stderr, 'c1': ''})
+
+	return ret
 
 Context.Context.exec_command = exec_command
 

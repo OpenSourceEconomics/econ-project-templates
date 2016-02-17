@@ -223,6 +223,18 @@ def get_python_variables(self, variables, imports=None):
 	return return_values
 
 @conf
+def test_pyembed(self, mode, msg='Testing pyembed configuration'):
+	self.check(header_name='Python.h', define_name='HAVE_PYEMBED', msg=msg,
+		fragment=FRAG, errmsg='Could not build a python embedded interpreter',
+		features='%s %sprogram pyembed' % (mode, mode))
+
+@conf
+def test_pyext(self, mode, msg='Testing pyext configuration'):
+	self.check(header_name='Python.h', define_name='HAVE_PYEXT', msg=msg,
+		fragment=FRAG, errmsg='Could not build python extensions',
+		features='%s %sshlib pyext' % (mode, mode))
+
+@conf
 def python_cross_compile(self, features='pyembed pyext'):
 	"""
 	For cross-compilation purposes, it is possible to bypass the normal detection and set the flags that you want:
@@ -253,17 +265,14 @@ def python_cross_compile(self, features='pyembed pyext'):
 			self.fatal('No flags provided through PYTHON_PYEXT_LDFLAGS as required')
 		else:
 			self.parse_flags(flags, 'PYEXT')
-
-		self.check(header_name='Python.h', define_name='HAVE_PYEXT', msg='Testing pyext configuration',
-			features='%s %sshlib pyext' % (xx, xx), fragment=FRAG, errmsg='Could not build python extensions')
+		self.test_pyext(xx)
 	if 'pyembed' in features:
 		flags = self.environ.get('PYTHON_PYEMBED_LDFLAGS', self.environ.get('PYTHON_LDFLAGS', None))
 		if flags is None:
 			self.fatal('No flags provided through PYTHON_PYEMBED_LDFLAGS as required')
 		else:
 			self.parse_flags(flags, 'PYEMBED')
-		self.check(header_name='Python.h', define_name='HAVE_PYEMBED', msg='Testing pyembed configuration',
-			fragment=FRAG, errmsg='Could not build a python embedded interpreter', features='%s %sprogram pyembed' % (xx, xx))
+		self.test_pyembed(xx)
 	return True
 
 @conf
@@ -325,16 +334,29 @@ def check_python_headers(conf, features='pyembed pyext'):
 			for flags in all_flags:
 				conf.check_cfg(msg='Asking python-config for pyembed %r flags' % ' '.join(flags), path=env.PYTHON_CONFIG, package='', uselib_store='PYEMBED', args=flags)
 
-			conf.check(header_name='Python.h', define_name='HAVE_PYEMBED', msg='Getting pyembed flags from python-config',
-				fragment=FRAG, errmsg='Could not build a python embedded interpreter',
-				features='%s %sprogram pyembed' % (xx, xx))
+			try:
+				conf.test_pyembed(xx)
+			except conf.errors.ConfigurationError:
+				# python bug 7352
+				if dct['Py_ENABLE_SHARED'] and dct['LIBDIR']:
+					env.append_unique('LIBPATH_PYEMBED', [dct['LIBDIR']])
+					conf.test_pyembed(xx)
+				else:
+					raise
 
 		if 'pyext' in features:
 			for flags in all_flags:
 				conf.check_cfg(msg='Asking python-config for pyext %r flags' % ' '.join(flags), path=env.PYTHON_CONFIG, package='', uselib_store='PYEXT', args=flags)
 
-			conf.check(header_name='Python.h', define_name='HAVE_PYEXT', msg='Getting pyext flags from python-config',
-				features='%s %sshlib pyext' % (xx, xx), fragment=FRAG, errmsg='Could not build python extensions')
+			try:
+				conf.test_pyext(xx)
+			except conf.errors.ConfigurationError:
+				# python bug 7352
+				if dct['Py_ENABLE_SHARED'] and dct['LIBDIR']:
+					env.append_unique('LIBPATH_PYEXT', [dct['LIBDIR']])
+					conf.test_pyext(xx)
+				else:
+					raise
 
 		conf.define('HAVE_PYTHON_H', 1)
 		return

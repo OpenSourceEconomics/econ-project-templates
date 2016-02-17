@@ -383,7 +383,7 @@ class tex(Task.Task):
 
 	def hash_aux_nodes(self):
 		try:
-			nodes = self.aux_nodes
+			self.aux_nodes
 		except AttributeError:
 			try:
 				self.aux_nodes = self.scan_aux(self.inputs[0].change_ext('.aux'))
@@ -430,7 +430,6 @@ def apply_tex(self):
 	if not getattr(self, 'type', None) in ('latex', 'pdflatex', 'xelatex'):
 		self.type = 'pdflatex'
 
-	tree = self.bld
 	outs = Utils.to_list(getattr(self, 'outs', []))
 
 	# prompt for incomplete files (else the batchmode is used)

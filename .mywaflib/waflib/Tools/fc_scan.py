@@ -5,10 +5,6 @@
 
 import re
 
-from waflib import Utils, Task, TaskGen, Logs
-from waflib.TaskGen import feature, before_method, after_method, extension
-from waflib.Configure import conf
-
 INC_REGEX = """(?:^|['">]\s*;)\s*(?:|#\s*)INCLUDE\s+(?:\w+_)?[<"'](.+?)(?=["'>])"""
 USE_REGEX = """(?:^|;)\s*USE(?:\s+|(?:(?:\s*,\s*(?:NON_)?INTRINSIC)?\s*::))\s*(\w+)"""
 MOD_REGEX = """(?:^|;)\s*MODULE(?!\s*PROCEDURE)(?:\s+|(?:(?:\s*,\s*(?:NON_)?INTRINSIC)?\s*::))\s*(\w+)"""
@@ -82,7 +78,6 @@ class fortran_parser(object):
 		Process a single file in the search for dependencies, extract the files used
 		the modules used, and the modules provided.
 		"""
-		path = node.abspath()
 		incs, uses, mods = self.find_deps(node)
 		for x in incs:
 			if x in self.seen:

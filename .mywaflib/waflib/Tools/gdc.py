@@ -2,7 +2,6 @@
 # encoding: utf-8
 # Carlos Rafael Giani, 2007 (dv)
 
-import sys
 from waflib.Tools import ar, d
 from waflib.Configure import conf
 
