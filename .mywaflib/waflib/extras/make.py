@@ -15,7 +15,7 @@ It is likely to break in the following cases:
 """
 
 import re
-from waflib import Options, Task, Logs
+from waflib import Options, Task
 from waflib.Build import BuildContext
 
 class MakeContext(BuildContext):

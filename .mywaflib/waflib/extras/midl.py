@@ -55,7 +55,7 @@ def idl_file(self):
 		c = node.change_ext('_i.c')
 		p = node.change_ext('_p.c')
 		d = node.parent.find_or_declare('dlldata.c')
-		tsk = self.create_task('midl', node, [t, h, c, p, d])
+		self.create_task('midl', node, [t, h, c, p, d])
 
 	self.source = src_nodes
 

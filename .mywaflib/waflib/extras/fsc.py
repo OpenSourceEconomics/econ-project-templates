@@ -8,10 +8,9 @@ Experimental F# stuff
 FSC="mono /path/to/fsc.exe" waf configure build
 """
 
-from waflib import Utils, Task, Options, Logs, Errors
+from waflib import Utils, Task
 from waflib.TaskGen import before_method, after_method, feature
 from waflib.Tools import ccroot, cs
-from waflib.Configure import conf
 
 ccroot.USELIB_VARS['fsc'] = set(['CSFLAGS', 'ASSEMBLIES', 'RESOURCES'])
 

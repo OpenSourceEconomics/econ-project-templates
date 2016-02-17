@@ -47,7 +47,7 @@ When using this tool, the wscript will look like:
 import sys, re
 import logging
 import threading
-from waflib import Task, Build, TaskGen, Logs, Utils
+from waflib import Task, TaskGen, Logs
 try:
     from cpplint.cpplint import ProcessFile, _cpplint_state
 except ImportError:
@@ -98,7 +98,7 @@ def options(opt):
 def configure(conf):
     conf.start_msg('Checking cpplint')
     try:
-	_cpplint_state
+        _cpplint_state
         conf.end_msg('ok')
     except NameError:
         conf.env.CPPLINT_SKIP = True

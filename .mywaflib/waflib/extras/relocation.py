@@ -15,7 +15,7 @@ files in that directory will change, causing a partial build.
 
 import os
 from waflib import Build, ConfigSet, Task, Utils, Errors
-from waflib.TaskGen import feature, before_method, after_method
+from waflib.TaskGen import feature, after_method
 
 EXTRA_LOCK = '.old_srcdir'
 

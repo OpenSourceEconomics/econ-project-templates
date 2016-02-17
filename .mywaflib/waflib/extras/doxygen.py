@@ -26,9 +26,8 @@ When using this tool, the wscript will look like:
 			bld(features="doxygen", doxyfile='Doxyfile', ...)
 """
 
-from fnmatch import fnmatchcase
-import os, os.path, re, stat
-from waflib import Task, Utils, Node, Logs, Errors
+import os, os.path, re
+from waflib import Task, Utils, Node
 from waflib.TaskGen import feature
 
 DOXY_STR = '"${DOXYGEN}" - '

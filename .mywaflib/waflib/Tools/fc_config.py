@@ -10,7 +10,6 @@ Fortran configuration helpers
 import re, os, sys, shlex
 from waflib.Configure import conf
 from waflib.TaskGen import feature, before_method
-from waflib import Utils
 
 FC_FRAGMENT = '        program main\n        end     program main\n'
 FC_FRAGMENT2 = '        PROGRAM MAIN\n        END\n' # what's the actual difference between these?
@@ -337,9 +336,26 @@ def getoutput(conf, cmd, stdin=False):
 	TODO a bit redundant, can be removed anytime
 	TODO waf 1.9
 	"""
+	from waflib import Errors
+	if conf.env.env:
+		env = conf.env.env
+	else:
+		env = dict(os.environ)
+		env['LANG'] = 'C'
 	input = stdin and '\n'.encode() or None
 	try:
-		out, err = conf.cmd_and_log(cmd, env=conf.env.env or None, output=0, input=input)
+		out, err = conf.cmd_and_log(cmd, env=env, output=0, input=input)
+	except Errors.WafError as e:
+		# An WafError might indicate an error code during the command
+		# execution, in this case we still obtain the stderr and stdout,
+		# which we can use to find the version string.
+		if not (hasattr(e, 'stderr') and hasattr(e, 'stdout')):
+			raise e
+		else:
+			# Ignore the return code and return the original
+			# stdout and stderr.
+			out = e.stdout
+			err = e.stderr
 	except Exception:
 		conf.fatal('could not determine the compiler version %r' % cmd)
 	return (out, err)

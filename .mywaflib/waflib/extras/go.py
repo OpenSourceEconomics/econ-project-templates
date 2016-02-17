@@ -142,9 +142,8 @@ def compile_go(self, node):
 	if not ('cgopackage' in self.features):
 		return self.create_compiled_task('go', node)
 	#print ('compile_go-cgo...')
-	bld_dir = node.parent.get_bld()
-	obj_dir = bld_dir.make_node('_obj')
-	target  = obj_dir.make_node(node.change_ext('.a').name)
+	#bld_dir = node.parent.get_bld()
+	#obj_dir = bld_dir.make_node('_obj')
 	return self.create_task('cgopackage', node, node.change_ext('.a'))
 
 @feature('gopackage', 'goprogram', 'cgopackage')

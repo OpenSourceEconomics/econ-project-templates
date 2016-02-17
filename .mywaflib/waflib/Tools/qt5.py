@@ -202,6 +202,7 @@ class qxx(Task.classes['cxx']):
 			delattr(self, 'cache_sig')
 
 	def moc_h_ext(self):
+		ext = []
 		try:
 			ext = Options.options.qt_header_ext.split()
 		except AttributeError:

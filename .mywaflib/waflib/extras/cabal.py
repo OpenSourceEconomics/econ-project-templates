@@ -3,12 +3,8 @@
 # Anton Feldmann, 2012
 # "Base for cabal"
 
-import re
-import time
-from waflib import TaskGen, Task, Utils
-from waflib.Configure import conf
-from waflib.Task import always_run
-from waflib.TaskGen import extension, feature, after, before, before_method
+from waflib import Task, Utils
+from waflib.TaskGen import extension
 from waflib.Utils import threading
 from shutil import rmtree
 

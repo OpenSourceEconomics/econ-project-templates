@@ -66,5 +66,5 @@ def configure(conf):
 	"""
 	Detect the program dbus-binding-tool and set the *conf.env.DBUS_BINDING_TOOL*
 	"""
-	dbus_binding_tool = conf.find_program('dbus-binding-tool', var='DBUS_BINDING_TOOL')
+	conf.find_program('dbus-binding-tool', var='DBUS_BINDING_TOOL')
 

@@ -2,14 +2,11 @@
 # encoding: utf-8
 # Thomas Nagy, 2010-2015
 
-import os,re
-
-import waflib
-import waflib.Logs as _msg
+import os, re
 from waflib import Task, Logs
-from waflib.TaskGen import extension, feature, before_method, after_method
+from waflib.TaskGen import extension
 
-cy_api_pat = re.compile(r'cdef\s*?(public|api)\w*')
+cy_api_pat = re.compile(r'\s*?cdef\s*?(public|api)\w*')
 re_cyt = re.compile(r"""
 	(?:from\s+(\w+)\s+)?   # optionally match "from foo" and capture foo
 	c?import\s(\w+|[*])    # require "import bar" and capture bar
@@ -95,7 +92,7 @@ class cython(Task.Task):
 			else:
 				mods.append(m.group(2))
 
-		_msg.debug("cython: mods %r" % mods)
+		Logs.debug("cython: mods %r" % mods)
 		incs = getattr(self.generator, 'cython_includes', [])
 		incs = [self.generator.path.find_dir(x) for x in incs]
 		incs.append(node.parent)
@@ -116,7 +113,7 @@ class cython(Task.Task):
 		if implicit:
 			found.append(implicit)
 
-		_msg.debug("cython: found %r" % found)
+		Logs.debug("cython: found %r" % found)
 
 		# Now the .h created - store them in bld.raw_deps for later use
 		has_api = False

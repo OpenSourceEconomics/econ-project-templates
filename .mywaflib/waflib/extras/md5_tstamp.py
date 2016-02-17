@@ -16,8 +16,6 @@ this hashing scheme
 """
 
 import os, stat
-try: import cPickle
-except: import pickle as cPickle
 from waflib import Utils, Build, Context
 
 STRONGEST = True
@@ -42,7 +40,7 @@ except AttributeError:
 		self.restore_real()
 		try:
 			Build.hashes_md5_tstamp = self.hashes_md5_tstamp or {}
-		except Exception as e:
+		except AttributeError:
 			Build.hashes_md5_tstamp = {}
 	Build.BuildContext.restore_real = Build.BuildContext.restore
 	Build.BuildContext.restore      = restore

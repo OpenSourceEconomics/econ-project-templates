@@ -161,6 +161,7 @@ class qxx(Task.classes['cxx']):
 			return tsk
 
 	def moc_h_ext(self):
+		ext = []
 		try:
 			ext = Options.options.qt_header_ext.split()
 		except AttributeError:

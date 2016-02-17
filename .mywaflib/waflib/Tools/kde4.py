@@ -6,9 +6,9 @@
 Support for the KDE4 libraries and msgfmt
 """
 
-import os, sys, re
-from waflib import Options, TaskGen, Task, Utils
-from waflib.TaskGen import feature, after_method
+import os, re
+from waflib import Task, Utils
+from waflib.TaskGen import feature
 
 @feature('msgfmt')
 def apply_msgfmt(self):

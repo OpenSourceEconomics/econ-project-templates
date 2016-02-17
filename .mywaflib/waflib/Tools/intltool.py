@@ -28,7 +28,7 @@ Usage of the :py:mod:`waflib.Tools.gnu_dirs` is recommended, but not obligatory.
 """
 
 import os, re
-from waflib import Configure, Context, TaskGen, Task, Utils, Runner, Options, Build, Logs
+from waflib import Context, Task, Utils, Logs
 import waflib.Tools.ccroot
 from waflib.TaskGen import feature, before_method, taskgen_method
 from waflib.Logs import error

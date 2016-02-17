@@ -3,7 +3,6 @@
 # harald at klimachs.de
 
 import re
-from waflib import Utils
 from waflib.Tools import fc, fc_config, fc_scan
 from waflib.Configure import conf
 

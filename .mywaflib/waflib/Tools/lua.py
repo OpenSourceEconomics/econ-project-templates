@@ -16,7 +16,7 @@ Compile *.lua* files into *.luac*::
 """
 
 from waflib.TaskGen import extension
-from waflib import Task, Utils
+from waflib import Task
 
 @extension('.lua')
 def add_lua(self, node):

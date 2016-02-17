@@ -12,7 +12,7 @@ Try using:
 """
 
 import shutil, re, os
-from waflib import TaskGen, Node, Task, Utils, Build, Errors
+from waflib import Node, Task, Utils, Errors
 from waflib.TaskGen import feature, after_method, before_method
 from waflib.Logs import debug
 
@@ -27,7 +27,6 @@ def copy_attrs(orig, dest, names, only_if_set=False):
 
 def copy_func(tsk):
 	"Make a file copy. This might be used to make other kinds of file processing (even calling a compiler is possible)"
-	env = tsk.env
 	infile = tsk.inputs[0].abspath()
 	outfile = tsk.outputs[0].abspath()
 	try:
@@ -323,7 +322,6 @@ use command_is_external=True''') % (self.command,)
 	if self.cwd is None:
 		cwd = None
 
-	args = []
 	inputs = []
 	outputs = []
 

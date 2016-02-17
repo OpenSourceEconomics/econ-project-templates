@@ -14,7 +14,7 @@ $ waf configure eclipse
 """
 
 import sys, os
-from waflib import Utils, Logs, Context, Options, Build, TaskGen, Scripting
+from waflib import Utils, Logs, Context, Build, TaskGen, Scripting
 from xml.dom.minidom import Document
 
 STANDARD_INCLUDES = [ '/usr/local/include', '/usr/include' ]
@@ -64,18 +64,16 @@ class eclipse(Build.BuildContext):
 				if not getattr(tg, 'link_task', None):
 					continue
 
-				l = Utils.to_list(getattr(tg, "includes", ''))
-				sources = Utils.to_list(getattr(tg, 'source', ''))
+				#l = Utils.to_list(getattr(tg, "includes", ''))
+				#sources = Utils.to_list(getattr(tg, 'source', ''))
 				features = Utils.to_list(getattr(tg, 'features', ''))
 
 				is_cc = 'c' in features or 'cxx' in features
 
-				bldpath = tg.path.bldpath()
-
-				base = os.path.normpath(os.path.join(self.bldnode.name, tg.path.srcpath()))
-
-				if is_cc:
-					sources_dirs = set([src.parent for src in tg.to_nodes(sources)])
+				#bldpath = tg.path.bldpath()
+				#base = os.path.normpath(os.path.join(self.bldnode.name, tg.path.srcpath()))
+				#if is_cc:
+				#	sources_dirs = set([src.parent for src in tg.to_nodes(sources)])
 
 				incnodes = tg.to_incnodes(tg.to_list(getattr(tg, 'includes', [])) + tg.env['INCLUDES'])
 				for p in incnodes:
@@ -156,11 +154,9 @@ class eclipse(Build.BuildContext):
 			GASErrorParser
 			GLDErrorParser
 		""".split()
-		ext = self.add(doc, extensions, 'extension',
-					{'id': cdt_core + '.ELF', 'point':cdt_core + '.BinaryParser'})
+		self.add(doc, extensions, 'extension', {'id': cdt_core + '.ELF', 'point':cdt_core + '.BinaryParser'})
 		for e in extension_list:
-			ext = self.add(doc, extensions, 'extension',
-					{'id': cdt_core + '.' + e, 'point':cdt_core + '.ErrorParser'})
+			self.add(doc, extensions, 'extension', {'id': cdt_core + '.' + e, 'point':cdt_core + '.ErrorParser'})
 
 		storageModule = self.add(doc, cconf, 'storageModule',
 				{'moduleId': 'cdtBuildSystem', 'version': '4.0.0'})
@@ -178,23 +174,21 @@ class eclipse(Build.BuildContext):
 				 'resourceTypeBasedDiscovery': 'false',
 				 'superClass': cdt_bld + '.prefbase.toolchain'})
 
-		targetPlatform = self.add(doc, toolChain, 'targetPlatform',
-				{ 'binaryParser': 'org.eclipse.cdt.core.ELF',
-				  'id': cdt_bld + '.prefbase.toolchain.1', 'name': ''})
+		self.add(doc, toolChain, 'targetPlatform', {'binaryParser': 'org.eclipse.cdt.core.ELF', 'id': cdt_bld + '.prefbase.toolchain.1', 'name': ''})
 
 		waf_build = '"%s" %s'%(waf, eclipse.fun)
 		waf_clean = '"%s" clean'%(waf)
-		builder = self.add(doc, toolChain, 'builder',
-						{'autoBuildTarget': waf_build,
-						 'command': executable,
-						 'enableAutoBuild': 'false',
-						 'cleanBuildTarget': waf_clean,
-						 'enableIncrementalBuild': 'true',
-						 'id': cdt_bld + '.settings.default.builder.1',
-						 'incrementalBuildTarget': waf_build,
-						 'managedBuildOn': 'false',
-						 'name': 'Gnu Make Builder',
-						 'superClass': cdt_bld + '.settings.default.builder'})
+		self.add(doc, toolChain, 'builder',
+					{'autoBuildTarget': waf_build,
+					 'command': executable,
+					 'enableAutoBuild': 'false',
+					 'cleanBuildTarget': waf_clean,
+					 'enableIncrementalBuild': 'true',
+					 'id': cdt_bld + '.settings.default.builder.1',
+					 'incrementalBuildTarget': waf_build,
+					 'managedBuildOn': 'false',
+					 'name': 'Gnu Make Builder',
+					 'superClass': cdt_bld + '.settings.default.builder'})
 
 		for tool_name in ("Assembly", "GNU C++", "GNU C"):
 			tool = self.add(doc, toolChain, 'tool',
@@ -250,8 +244,7 @@ class eclipse(Build.BuildContext):
 							{'moduleId': 'cdtBuildSystem',
 							 'version': '4.0.0'})
 
-		project = self.add(doc, storageModule, 'project',
-					{'id': '%s.null.1'%appname, 'name': appname})
+		self.add(doc, storageModule, 'project', {'id': '%s.null.1'%appname, 'name': appname})
 
 		doc.appendChild(cproject)
 		return doc

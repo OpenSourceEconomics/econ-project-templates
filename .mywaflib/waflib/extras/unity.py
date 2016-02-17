@@ -52,9 +52,9 @@ def make_batch_fun(ext):
 
 def enable_support(cc, cxx):
 	if cxx or not cc:
-		make_cxx_batch = TaskGen.extension('.cpp', '.cc', '.cxx', '.C', '.c++')(make_batch_fun('cxx'))
+		TaskGen.extension('.cpp', '.cc', '.cxx', '.C', '.c++')(make_batch_fun('cxx'))
 	if cc:
-		make_c_batch = TaskGen.extension('.c')(make_batch_fun('c'))
+		TaskGen.extension('.c')(make_batch_fun('c'))
 	else:
 		TaskGen.task_gen.mappings['.c'] = TaskGen.task_gen.mappings['.cpp']
 

@@ -19,7 +19,7 @@ def resx_file(self, node):
 
 	# Given assembly 'Foo' and file 'Sub/Dir/File.resx', create 'Foo.Sub.Dir.File.resources'
 	assembly = os.path.splitext(self.gen)[0]
-	res = os.path.splitext(node.path_from(self.path))[0].replace('/', '.')
+	res = os.path.splitext(node.path_from(self.path))[0].replace('/', '.').replace('\\', '.')
 	out = self.path.find_or_declare(assembly + '.' + res + '.resources')
 
 	tsk = self.create_task('resgen', node, out)

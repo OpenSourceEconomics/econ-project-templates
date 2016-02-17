@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import os, sys, imp, types, re
-from waflib import Utils, Configure, Options, Logs, Errors
+import re
+from waflib import Utils, Logs
 from waflib.Tools import fc
 
 fc_compiler = {

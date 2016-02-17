@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-15
+# Hans-Martin von Gaudecker and Zurich students, 2016-
 
 """
-Run a R script in the directory specified by **ctx.bldnode**.
+Run a Julia script in the directory specified by **ctx.bldnode**.
 
-Strings supplied to the **prepend** and **append** keywords will be
-added to the command line.
+Strings supplied to the **prepend** and **append** keywords will
+be added to the command line.
 
 Usage::
 
     ctx(
-        features='run_r_script',
-        source='some_script.r',
+        features='run_jl_script',
+        source='some_script.jl',
         target=['some_table.tex', 'some_figure.eps'],
         deps='some_data.csv',
         append='',
@@ -21,37 +21,25 @@ Usage::
 
 """
 
-
 import os
 from waflib import Task, TaskGen, Logs, Node
 
 
-R_COMMANDS = ['RScript', 'Rscript']
+JULIA_COMMANDS = ['julia']
 
 
-def configure(ctx):
-    ctx.find_program(
-        R_COMMANDS,
-        var='RCMD',
-        errmsg="""\n
-No R executable found!\n\n
-If R is needed:\n
-    1) Check the settings of your system path.
-    2) Note we are looking for R executables called: %s
-       If yours has a different name, please report to hmgaudecker [at] gmail\n
-Else:\n
-    Do not load the 'run_r_script' tool in the main wscript.\n\n"""
-        % R_COMMANDS
-    )
-    ctx.env.RFLAGS = ''
+def configure(conf):
+    conf.find_program(JULIA_COMMANDS, var='JLCMD', mandatory=False)
+    if not conf.env.JLCMD:
+        conf.fatal("No Julia interpreter found!")
 
 
 @Task.update_outputs
-class run_r_script(Task.Task):
+class run_jl_script(Task.Task):
 
-    """Run a R script."""
+    """Run a Julia script."""
 
-    run_str = '${PREPEND} "${RCMD}" ${RFLAGS} "${SRC[0].abspath()}" ${APPEND}'
+    run_str = '${PREPEND} "${JLCMD}" "${SRC[0].abspath()}" ${APPEND}'
     shell = True
 
     def exec_command(self, cmd, **kw):
@@ -79,19 +67,29 @@ class run_r_script(Task.Task):
 
         """
 
-        return "{prepend} [R] {rflags} {fn} {append}".format(
+        return "{prepend} [Julia] {fn} {append}".format(
             prepend=self.env.PREPEND,
-            rflags=self.env.RFLAGS,
             fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
             append=self.env.APPEND
         )
 
 
-@TaskGen.feature('run_r_script')
+@TaskGen.feature('run_jl_script')
 @TaskGen.before_method('process_source')
-def apply_run_r_script(tg):
-    """Task generator customising the options etc. to call R in batch
-    mode for running a R script.
+def apply_run_jl_script(tg):
+    """Task generator for running a single Julia module.
+
+    The generated task will honor the PYTHONPATH environmental variable
+    as well as a PYTHONPATH attribute of the build context environment.
+
+    Attributes:
+
+        * source -- A **single** source node or string. (required)
+        * target -- A single target or list of targets (nodes or strings).
+        * deps -- A single dependency or list of dependencies (nodes or strings)
+        * prepend -- A string that will be prepended to the command
+        * append -- A string that will be appended to the command
+
     """
 
     # Convert sources and targets to nodes
@@ -102,7 +100,9 @@ def apply_run_r_script(tg):
         )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
-    tsk = tg.create_task('run_r_script', src=src_node, tgt=tgt_nodes)
+    # Create the task.
+    tsk = tg.create_task('run_jl_script', src=src_node, tgt=tgt_nodes)
+
     tsk.env.APPEND = getattr(tg, 'append', '')
     tsk.env.PREPEND = getattr(tg, 'prepend', '')
     tsk.buffer_output = getattr(tg, 'buffer_output', True)

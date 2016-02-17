@@ -24,7 +24,7 @@ def run_pep8(self, node):
 '''
 
 import threading
-from waflib import TaskGen, Task, Options
+from waflib import Task, Options
 
 pep8 = __import__('pep8')
 
