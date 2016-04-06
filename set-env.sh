@@ -55,9 +55,6 @@ if [[ ! ($OUT -eq 1) ]]; then
                     echo -e "\n\n\nUsing debug-cuda setting.\n\nSlooooooow, only use for testing.\n\n\n"
                     shift
                     ;;
-                -c|--check-env-via-picky)
-                    picky
-                    ;;
                 *)
                     echo "Unkown option: " $key
                     shift
