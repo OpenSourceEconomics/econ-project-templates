@@ -66,7 +66,7 @@ elif sys.platform.lower().startswith('win'):
         'StataMP', 'StataSE-64',
         'StataSE-ia', 'StataSE',
         'Stata-64', 'Stata-ia',
-        'Stata.e', 'WMPSTATA',
+        'Stata', 'WMPSTATA',
         'WSESTATA', 'WSTATA'
     ]
     STATAFLAGS = '/e do'
