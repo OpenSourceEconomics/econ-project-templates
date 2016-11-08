@@ -320,7 +320,7 @@ else:
 		sbinfo = CONSOLE_SCREEN_BUFFER_INFO()
 		def get_term_cols():
 			windll.kernel32.GetConsoleScreenBufferInfo(console, byref(sbinfo))
-			# TODO Issue 1401
+			# Issue 1401 - the progress bar cannot reach the last character
 			return sbinfo.Size.X - 1
 
 # just try and see

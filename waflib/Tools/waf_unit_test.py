@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # Carlos Rafael Giani, 2006
-# Thomas Nagy, 2010
+# Thomas Nagy, 2010-2016 (ita)
 
 """
 Unit testing system for C/C++/D providing test execution:
@@ -36,15 +36,54 @@ the predefined callback::
 import os
 from waflib.TaskGen import feature, after_method, taskgen_method
 from waflib import Utils, Task, Logs, Options
+from waflib.Tools import ccroot
 testlock = Utils.threading.Lock()
 
 @feature('test')
-@after_method('apply_link')
+@after_method('apply_link', 'process_use')
 def make_test(self):
 	"""Create the unit test task. There can be only one unit test task by task generator."""
-	if getattr(self, 'link_task', None):
-		self.create_task('utest', self.link_task.outputs)
+	if not getattr(self, 'link_task', None):
+		return
 
+	tsk = self.create_task('utest', self.link_task.outputs)
+	if getattr(self, 'ut_str', None):
+		self.ut_run, lst = Task.compile_fun(self.ut_str, shell=getattr(self, 'ut_shell', False))
+		tsk.vars = lst + tsk.vars
+
+	if getattr(self, 'ut_cwd', None):
+		if isinstance(self.ut_cwd, str):
+			# we want a Node instance
+			if os.path.isabs(self.ut_cwd):
+				self.ut_cwd = self.bld.root.make_node(self.ut_cwd)
+			else:
+				self.ut_cwd = self.path.make_node(self.ut_cwd)
+	else:
+		self.ut_cwd = tsk.inputs[0].parent
+
+	if not hasattr(self, 'ut_paths'):
+		paths = []
+		for x in self.tmp_use_sorted:
+			try:
+				y = self.bld.get_tgen_by_name(x).link_task
+			except AttributeError:
+				pass
+			else:
+				if not isinstance(y, ccroot.stlink_task):
+					paths.append(y.outputs[0].parent.abspath())
+		self.ut_paths = os.pathsep.join(paths) + os.pathsep
+
+	if not hasattr(self, 'ut_env'):
+		self.ut_env = dct = dict(os.environ)
+		def add_path(var):
+			dct[var] = self.ut_paths + dct.get(var,'')
+		if Utils.is_win32:
+			add_path('PATH')
+		elif Utils.unversioned_sys_platform() == 'darwin':
+			add_path('DYLD_LIBRARY_PATH')
+			add_path('LD_LIBRARY_PATH')
+		else:
+			add_path('LD_LIBRARY_PATH')
 
 @taskgen_method
 def add_test_results(self, tup):
@@ -63,6 +102,7 @@ class utest(Task.Task):
 	color = 'PINK'
 	after = ['vnum', 'inst']
 	vars = []
+
 	def runnable_status(self):
 		"""
 		Always execute the task if `waf --alltests` was used or no
@@ -77,37 +117,17 @@ class utest(Task.Task):
 				return Task.RUN_ME
 		return ret
 
-	def add_path(self, dct, path, var):
-		dct[var] = os.pathsep.join(Utils.to_list(path) + [os.environ.get(var, '')])
-
 	def get_test_env(self):
 		"""
 		In general, tests may require any library built anywhere in the project.
 		Override this method if fewer paths are needed
 		"""
-		try:
-			fu = getattr(self.generator.bld, 'all_test_paths')
-		except AttributeError:
-			# this operation may be performed by at most #maxjobs
-			fu = os.environ.copy()
+		return self.generator.ut_env
 
-			lst = []
-			for g in self.generator.bld.groups:
-				for tg in g:
-					if getattr(tg, 'link_task', None):
-						s = tg.link_task.outputs[0].parent.abspath()
-						if s not in lst:
-							lst.append(s)
-
-			if Utils.is_win32:
-				self.add_path(fu, lst, 'PATH')
-			elif Utils.unversioned_sys_platform() == 'darwin':
-				self.add_path(fu, lst, 'DYLD_LIBRARY_PATH')
-				self.add_path(fu, lst, 'LD_LIBRARY_PATH')
-			else:
-				self.add_path(fu, lst, 'LD_LIBRARY_PATH')
-			self.generator.bld.all_test_paths = fu
-		return fu
+	def post_run(self):
+		super(utest, self).post_run()
+		if getattr(Options.options, 'clear_failed_tests', False) and self.waf_unit_test_results[1]:
+			self.generator.bld.task_sigs[self.uid()] = None
 
 	def run(self):
 		"""
@@ -116,28 +136,33 @@ class utest(Task.Task):
 
 		Override ``add_test_results`` to interrupt the build
 		"""
+		if hasattr(self.generator, 'ut_run'):
+			return self.generator.ut_run(self)
 
-		filename = self.inputs[0].abspath()
-		self.ut_exec = getattr(self.generator, 'ut_exec', [filename])
+		# TODO ut_exec, ut_fun, ut_cmd should be considered obsolete
+		self.ut_exec = getattr(self.generator, 'ut_exec', [self.inputs[0].abspath()])
 		if getattr(self.generator, 'ut_fun', None):
 			self.generator.ut_fun(self)
-
-
-		cwd = getattr(self.generator, 'ut_cwd', '') or self.inputs[0].parent.abspath()
-
 		testcmd = getattr(self.generator, 'ut_cmd', False) or getattr(Options.options, 'testcmd', False)
 		if testcmd:
-			self.ut_exec = (testcmd % self.ut_exec[0]).split(' ')
+			self.ut_exec = (testcmd % ' '.join(self.ut_exec)).split(' ')
 
-		proc = Utils.subprocess.Popen(self.ut_exec, cwd=cwd, env=self.get_test_env(), stderr=Utils.subprocess.PIPE, stdout=Utils.subprocess.PIPE)
+		return self.exec_command(self.ut_exec)
+
+	def exec_command(self, cmd, **kw):
+		Logs.debug('runner: %r', cmd)
+		proc = Utils.subprocess.Popen(cmd, cwd=self.get_cwd().abspath(), env=self.get_test_env(),
+			stderr=Utils.subprocess.PIPE, stdout=Utils.subprocess.PIPE)
 		(stdout, stderr) = proc.communicate()
-
-		tup = (filename, proc.returncode, stdout, stderr)
+		self.waf_unit_test_results = tup = (self.inputs[0].abspath(), proc.returncode, stdout, stderr)
 		testlock.acquire()
 		try:
 			return self.generator.add_test_results(tup)
 		finally:
 			testlock.release()
+
+	def get_cwd(self):
+		return self.generator.ut_cwd
 
 def summary(bld):
 	"""
@@ -194,6 +219,7 @@ def options(opt):
 	"""
 	opt.add_option('--notests', action='store_true', default=False, help='Exec no unit tests', dest='no_tests')
 	opt.add_option('--alltests', action='store_true', default=False, help='Exec all unit tests', dest='all_tests')
+	opt.add_option('--clear-failed', action='store_true', default=False, help='Force failed unit tests to run again next time', dest='clear_failed_tests')
 	opt.add_option('--testcmd', action='store', default=False,
 	 help = 'Run the unit tests using the test-cmd string'
 	 ' example "--test-cmd="valgrind --error-exitcode=1'

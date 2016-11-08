@@ -33,7 +33,7 @@ Known issues:
 
 import os
 import functools
-from waflib import Task, Utils, TaskGen, Configure, Options, Errors
+from waflib import Configure, Options, Errors
 
 def name_to_dest(x):
 	return x.lower().replace('-', '_')

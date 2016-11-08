@@ -7,8 +7,8 @@ ported from waf 1.5:
 TODO: tabs vs spaces
 """
 
-from waflib import Task, Utils, Node, Errors, Logs
-from waflib.TaskGen import feature, extension, after_method
+from waflib import Task, Utils, Errors, Logs
+from waflib.TaskGen import feature
 
 VALADOC_STR = '${VALADOC}'
 
@@ -30,6 +30,8 @@ class valadoc(Task.Task):
 		self.private = False
 		self.inherit = False
 		self.deps = False
+		self.vala_defines = []
+		self.vala_target_glib = None
 		self.enable_non_null_experimental = False
 		self.force = False
 
@@ -57,6 +59,11 @@ class valadoc(Task.Task):
 			cmd.append ('--inherit')
 		if getattr(self, 'deps', None):
 			cmd.append ('--deps')
+		if getattr(self, 'vala_defines', None):
+			for define in self.vala_defines:
+				cmd.append ('--define %s' % define)
+		if getattr(self, 'vala_target_glib', None):
+			cmd.append ('--target-glib=%s' % self.vala_target_glib)
 		if getattr(self, 'enable_non_null_experimental', None):
 			cmd.append ('--enable-non-null-experimental')
 		if getattr(self, 'force', None):
@@ -106,7 +113,7 @@ def process_valadoc(self):
 			try:
 				task.vapi_dirs.append(self.path.find_dir(vapi_dir).abspath())
 			except AttributeError:
-				Logs.warn("Unable to locate Vala API directory: '%s'" % vapi_dir)
+				Logs.warn('Unable to locate Vala API directory: %r', vapi_dir)
 	if getattr(self, 'files', None):
 		task.files = self.files
 	else:
@@ -119,6 +126,10 @@ def process_valadoc(self):
 		task.inherit = self.inherit
 	if getattr(self, 'deps', None):
 		task.deps = self.deps
+	if getattr(self, 'vala_defines', None):
+		task.vala_defines = Utils.to_list(self.vala_defines)
+	if getattr(self, 'vala_target_glib', None):
+		task.vala_target_glib = self.vala_target_glib
 	if getattr(self, 'enable_non_null_experimental', None):
 		task.enable_non_null_experimental = self.enable_non_null_experimental
 	if getattr(self, 'force', None):

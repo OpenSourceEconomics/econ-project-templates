@@ -6,14 +6,13 @@
 Detect the Clang C compiler
 """
 
-import os, sys
 from waflib.Tools import ccroot, ar, gcc
 from waflib.Configure import conf
 
 @conf
 def find_clang(conf):
 	"""
-	Find the program clang and execute it to ensure it really is clang
+	Finds the program clang and executes it to ensure it really is clang
 	"""
 	cc = conf.find_program('clang', var='CC')
 	conf.get_cc_version(cc, clang=True)

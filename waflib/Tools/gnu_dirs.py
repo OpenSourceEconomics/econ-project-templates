@@ -71,7 +71,7 @@ _options = [x.split(', ') for x in gnuopts.splitlines() if x]
 
 def configure(conf):
 	"""
-	Read the command-line options to set lots of variables in *conf.env*. The variables
+	Reads the command-line options to set lots of variables in *conf.env*. The variables
 	BINDIR and LIBDIR will be overwritten.
 	"""
 	def get_param(varname, default):
@@ -101,7 +101,7 @@ def configure(conf):
 
 def options(opt):
 	"""
-	Add lots of command-line options, for example::
+	Adds lots of command-line options, for example::
 
 		--exec-prefix: EXEC_PREFIX
 	"""

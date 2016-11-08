@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-15
+# Hans-Martin von Gaudecker, 2012-14
 
 """
 Run a R script in the directory specified by **ctx.bldnode**.
@@ -22,7 +22,6 @@ Usage::
 """
 
 
-import os
 from waflib import Task, TaskGen, Logs
 
 R_COMMANDS = ['RScript', 'Rscript']
@@ -45,7 +44,6 @@ Else:\n
     ctx.env.RFLAGS = ''
 
 
-@Task.update_outputs
 class run_r_script(Task.Task):
     """Run a R script."""
 
@@ -58,10 +56,10 @@ class run_r_script(Task.Task):
             if not kw.get('cwd', None):
                 kw['cwd'] = bld.cwd
         except AttributeError:
-                bld.cwd = kw['cwd'] = bld.variant_dir
+            bld.cwd = kw['cwd'] = bld.variant_dir
         if not self.buffer_output:
             kw["stdout"] = kw["stderr"] = None
-        return bld.exec_command(cmd, **kw) 
+        return bld.exec_command(cmd, **kw)
 
     def keyword(self):
         """
@@ -78,11 +76,11 @@ class run_r_script(Task.Task):
         """
 
         return "{prepend} [R] {rflags} {fn} {append}".format(
-                prepend=self.env.PREPEND,
-                rflags=self.env.RFLAGS,
-                fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-                append=self.env.APPEND
-            )
+            prepend=self.env.PREPEND,
+            rflags=self.env.RFLAGS,
+            fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
+            append=self.env.APPEND
+        )
 
 
 @TaskGen.feature('run_r_script')
@@ -94,10 +92,6 @@ def apply_run_r_script(tg):
 
     # Convert sources and targets to nodes
     src_node = tg.path.find_resource(tg.source)
-    if src_node is None:
-        tg.bld.fatal(
-            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
-        )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
     tsk = tg.create_task('run_r_script', src=src_node, tgt=tgt_nodes)
@@ -117,7 +111,7 @@ def apply_run_r_script(tg):
             tsk.dep_nodes.append(node)
     Logs.debug(
         'deps: found dependencies %r for running %r' % (
-        tsk.dep_nodes, src_node.relpath())
+            tsk.dep_nodes, src_node.relpath())
     )
 
     # Bypass the execution of process_source by setting the source to an empty

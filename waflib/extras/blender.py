@@ -20,7 +20,6 @@ Use ./waf configure --system to set the installation directory to system path
 """
 import os
 import re
-from sys import platform as _platform
 from getpass import getuser
 
 from waflib import Utils
@@ -105,7 +104,5 @@ def blender(self):
 	# Two ways to install a blender extension: as a module or just .py files
 	dest_dir = os.path.join(self.env.BLENDER_ADDONS_DIR, self.get_name())
 	Utils.check_dir(dest_dir)
-	self.bld.install_files(
-		dest_dir,
-		getattr(self, 'files', '.')
-	)
+	self.add_install_files(install_to=dest_dir, install_from=getattr(self, 'files', '.'))
+

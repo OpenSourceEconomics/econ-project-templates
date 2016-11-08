@@ -6,8 +6,6 @@
 Detect the PGI C++ compiler
 """
 
-import sys, re
-from waflib.Configure import conf
 from waflib.Tools.compiler_cxx import cxx_compiler
 cxx_compiler['linux'].append('pgicxx')
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-15
+# Hans-Martin von Gaudecker, 2012-16
 
 """
 Run a Stata do-script in the directory specified by **ctx.bldnode**. The
@@ -95,7 +95,6 @@ Else:\n
     ctx.env.STATAENCODING = STATAENCODING
 
 
-@Task.update_outputs
 class run_do_script_base(Task.Task):
     """Run a Stata do-script from the bldnode directory."""
 
@@ -108,10 +107,10 @@ class run_do_script_base(Task.Task):
             if not kw.get('cwd', None):
                 kw['cwd'] = bld.cwd
         except AttributeError:
-                bld.cwd = kw['cwd'] = bld.variant_dir
+            bld.cwd = kw['cwd'] = bld.variant_dir
         if not self.buffer_output:
             kw["stdout"] = kw["stderr"] = None
-        return bld.exec_command(cmd, **kw) 
+        return bld.exec_command(cmd, **kw)
 
     def keyword(self):
         """
@@ -128,18 +127,20 @@ class run_do_script_base(Task.Task):
         """
 
         return "{prepend} [Stata] {stataflags} {fn} {dofiletrunk} {append}".format(
-                prepend=self.env.PREPEND,
-                stataflags=self.env.STATAFLAGS,
-                fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-                dofiletrunk=self.env.DOFILETRUNK,
-                append=self.env.APPEND
-            )
+            prepend=self.env.PREPEND,
+            stataflags=self.env.STATAFLAGS,
+            fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
+            dofiletrunk=self.env.DOFILETRUNK,
+            append=self.env.APPEND
+        )
+
 
 class run_do_script(run_do_script_base):
     """Use the log file automatically kept by Stata for error-catching.
     Erase it if the task finished without error. If not, it will show
     up as do_script.log in the bldnode directory.
     """
+
     def run(self):
         run_do_script_base.run(self)
         ret, log_tail = self.check_erase_log_file()
@@ -160,7 +161,7 @@ Check the log file %s, last 10 lines\n\n%s\n\n\n"""
         """Parse Stata's default log file and erase it if everything okay.
 
         Parser is based on Brendan Halpin's shell script found here:
-                http://teaching.sociology.ul.ie/bhalpin/wordpress/?p=122
+                        http://teaching.sociology.ul.ie/bhalpin/wordpress/?p=122
         """
 
         if sys.version_info.major >= 3:

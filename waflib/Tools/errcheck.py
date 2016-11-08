@@ -3,9 +3,9 @@
 # Thomas Nagy, 2011 (ita)
 
 """
-errcheck: highlight common mistakes
+Common mistakes highlighting.
 
-There is a performance hit, so this tool is only loaded when running "waf -v"
+There is a performance impact, so this tool is only loaded when running ``waf -v``
 """
 
 typos = {
@@ -22,8 +22,9 @@ typos = {
 
 meths_typos = ['__call__', 'program', 'shlib', 'stlib', 'objects']
 
+import sys
 from waflib import Logs, Build, Node, Task, TaskGen, ConfigSet, Errors, Utils
-import waflib.Tools.ccroot
+from waflib.Tools import ccroot
 
 def check_same_targets(self):
 	mp = Utils.defaultdict(list)
@@ -31,6 +32,8 @@ def check_same_targets(self):
 
 	def check_task(tsk):
 		if not isinstance(tsk, Task.Task):
+			return
+		if hasattr(tsk, 'no_errcheck_out'):
 			return
 
 		for node in tsk.outputs:
@@ -57,44 +60,48 @@ def check_same_targets(self):
 			Logs.error(msg)
 			for x in v:
 				if Logs.verbose > 1:
-					Logs.error('  %d. %r' % (1 + v.index(x), x.generator))
+					Logs.error('  %d. %r', 1 + v.index(x), x.generator)
 				else:
-					Logs.error('  %d. %r in %r' % (1 + v.index(x), x.generator.name, getattr(x.generator, 'path', None)))
+					Logs.error('  %d. %r in %r', 1 + v.index(x), x.generator.name, getattr(x.generator, 'path', None))
+			Logs.error('If you think that this is an error, set no_errcheck_out on the task instance')
 
 	if not dupe:
 		for (k, v) in uids.items():
 			if len(v) > 1:
 				Logs.error('* Several tasks use the same identifier. Please check the information on\n   https://waf.io/apidocs/Task.html?highlight=uid#waflib.Task.Task.uid')
 				for tsk in v:
-					Logs.error('  - object %r (%r) defined in %r' % (tsk.__class__.__name__, tsk, tsk.generator))
+					Logs.error('  - object %r (%r) defined in %r', tsk.__class__.__name__, tsk, tsk.generator)
 
 def check_invalid_constraints(self):
-	feat = set([])
+	feat = set()
 	for x in list(TaskGen.feats.values()):
 		feat.union(set(x))
 	for (x, y) in TaskGen.task_gen.prec.items():
 		feat.add(x)
 		feat.union(set(y))
-	ext = set([])
+	ext = set()
 	for x in TaskGen.task_gen.mappings.values():
 		ext.add(x.__name__)
 	invalid = ext & feat
 	if invalid:
-		Logs.error('The methods %r have invalid annotations:  @extension <-> @feature/@before_method/@after_method' % list(invalid))
+		Logs.error('The methods %r have invalid annotations:  @extension <-> @feature/@before_method/@after_method', list(invalid))
 
 	# the build scripts have been read, so we can check for invalid after/before attributes on task classes
 	for cls in list(Task.classes.values()):
+		if sys.hexversion > 0x3000000 and issubclass(cls, Task.Task) and isinstance(cls.hcode, str):
+			raise Errors.WafError('Class %r has hcode value %r of type <str>, expecting <bytes> (use Utils.h_cmd() ?)' % (cls, cls.hcode))
+
 		for x in ('before', 'after'):
 			for y in Utils.to_list(getattr(cls, x, [])):
-				if not Task.classes.get(y, None):
-					Logs.error('Erroneous order constraint %r=%r on task class %r' % (x, y, cls.__name__))
+				if not Task.classes.get(y):
+					Logs.error('Erroneous order constraint %r=%r on task class %r', x, y, cls.__name__)
 		if getattr(cls, 'rule', None):
-			Logs.error('Erroneous attribute "rule" on task class %r (rename to "run_str")' % cls.__name__)
+			Logs.error('Erroneous attribute "rule" on task class %r (rename to "run_str")', cls.__name__)
 
 def replace(m):
 	"""
-	We could add properties, but they would not work in some cases:
-	bld.program(...) requires 'source' in the attributes
+	Replaces existing BuildContext methods to verify parameter names,
+	for example ``bld(source=)`` has no ending *s*
 	"""
 	oldcall = getattr(Build.BuildContext, m)
 	def call(self, *k, **kw):
@@ -103,14 +110,13 @@ def replace(m):
 			if x in kw:
 				if x == 'iscopy' and 'subst' in getattr(self, 'features', ''):
 					continue
-				err = True
-				Logs.error('Fix the typo %r -> %r on %r' % (x, typos[x], ret))
+				Logs.error('Fix the typo %r -> %r on %r', x, typos[x], ret)
 		return ret
 	setattr(Build.BuildContext, m, call)
 
 def enhance_lib():
 	"""
-	modify existing classes and methods
+	Modifies existing classes and methods to enable error verification
 	"""
 	for m in meths_typos:
 		replace(m)
@@ -118,14 +124,14 @@ def enhance_lib():
 	# catch '..' in ant_glob patterns
 	def ant_glob(self, *k, **kw):
 		if k:
-			lst=Utils.to_list(k[0])
+			lst = Utils.to_list(k[0])
 			for pat in lst:
 				if '..' in pat.split('/'):
-					Logs.error("In ant_glob pattern %r: '..' means 'two dots', not 'parent directory'" % k[0])
+					Logs.error("In ant_glob pattern %r: '..' means 'two dots', not 'parent directory'", k[0])
 		if kw.get('remove', True):
 			try:
 				if self.is_child_of(self.ctx.bldnode) and not kw.get('quiet', False):
-					Logs.error('Using ant_glob on the build folder (%r) is dangerous (quiet=True to disable this warning)' % self)
+					Logs.error('Using ant_glob on the build folder (%r) is dangerous (quiet=True to disable this warning)', self)
 			except AttributeError:
 				pass
 		return self.old_ant_glob(*k, **kw)
@@ -137,7 +143,7 @@ def enhance_lib():
 	def is_before(t1, t2):
 		ret = old(t1, t2)
 		if ret and old(t2, t1):
-			Logs.error('Contradictory order constraints in classes %r %r' % (t1, t2))
+			Logs.error('Contradictory order constraints in classes %r %r', t1, t2)
 		return ret
 	Task.is_before = is_before
 
@@ -149,7 +155,7 @@ def enhance_lib():
 			Logs.error('feature shlib -> cshlib, dshlib or cxxshlib')
 		for x in ('c', 'cxx', 'd', 'fc'):
 			if not x in lst and lst and lst[0] in [x+y for y in ('program', 'shlib', 'stlib')]:
-				Logs.error('%r features is probably missing %r' % (self, x))
+				Logs.error('%r features is probably missing %r', self, x)
 	TaskGen.feature('*')(check_err_features)
 
 	# check for erroneous order constraints
@@ -157,12 +163,12 @@ def enhance_lib():
 		if not hasattr(self, 'rule') and not 'subst' in Utils.to_list(self.features):
 			for x in ('before', 'after', 'ext_in', 'ext_out'):
 				if hasattr(self, x):
-					Logs.warn('Erroneous order constraint %r on non-rule based task generator %r' % (x, self))
+					Logs.warn('Erroneous order constraint %r on non-rule based task generator %r', x, self)
 		else:
 			for x in ('before', 'after'):
 				for y in self.to_list(getattr(self, x, [])):
 					if not Task.classes.get(y, None):
-						Logs.error('Erroneous order constraint %s=%r on %r (no such class)' % (x, y, self))
+						Logs.error('Erroneous order constraint %s=%r on %r (no such class)', x, y, self)
 	TaskGen.feature('*')(check_err_order)
 
 	# check for @extension used with @feature/@before_method/@after_method
@@ -197,7 +203,7 @@ def enhance_lib():
 	TaskGen.task_gen.use_rec = use_rec
 
 	# check for env.append
-	def getattri(self, name, default=None):
+	def _getattr(self, name, default=None):
 		if name == 'append' or name == 'add':
 			raise Errors.WafError('env.append and env.add do not exist: use env.append_value/env.append_unique')
 		elif name == 'prepend':
@@ -206,15 +212,12 @@ def enhance_lib():
 			return object.__getattr__(self, name, default)
 		else:
 			return self[name]
-	ConfigSet.ConfigSet.__getattr__ = getattri
+	ConfigSet.ConfigSet.__getattr__ = _getattr
 
 
 def options(opt):
 	"""
-	Add a few methods
+	Error verification can be enabled by default (not just on ``waf -v``) by adding to the user script options
 	"""
 	enhance_lib()
-
-def configure(conf):
-	pass
 

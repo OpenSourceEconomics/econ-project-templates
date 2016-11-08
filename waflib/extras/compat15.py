@@ -24,6 +24,9 @@ sys.modules['Node'] = Node
 sys.modules['Runner'] = Runner
 sys.modules['TaskGen'] = TaskGen
 sys.modules['Utils'] = Utils
+sys.modules['Constants'] = Context
+Context.SRCDIR = ''
+Context.BLDDIR = ''
 
 from waflib.Tools import c_preproc
 sys.modules['preproc'] = c_preproc
@@ -33,6 +36,8 @@ sys.modules['config_c'] = c_config
 
 ConfigSet.ConfigSet.copy = ConfigSet.ConfigSet.derive
 ConfigSet.ConfigSet.set_variant = Utils.nada
+
+Utils.pproc = Utils.subprocess
 
 Build.BuildContext.add_subdirs = Build.BuildContext.recurse
 Build.BuildContext.new_task_gen = Build.BuildContext.__call__
@@ -102,7 +107,7 @@ def retrieve(self, name, fromenv=None):
 		self.all_envs[name] = env
 	else:
 		if fromenv:
-			Logs.warn("The environment %s may have been configured already" % name)
+			Logs.warn('The environment %s may have been configured already', name)
 	return env
 Configure.ConfigurationContext.retrieve = retrieve
 
@@ -150,22 +155,34 @@ def get_curdir(self):
 	return self.path.abspath()
 Context.Context.curdir = property(get_curdir, Utils.nada)
 
+def get_srcdir(self):
+	return self.srcnode.abspath()
+Configure.ConfigurationContext.srcdir = property(get_srcdir, Utils.nada)
+
+def get_blddir(self):
+	return self.bldnode.abspath()
+Configure.ConfigurationContext.blddir = property(get_blddir, Utils.nada)
+
+Configure.ConfigurationContext.check_message_1 = Configure.ConfigurationContext.start_msg
+Configure.ConfigurationContext.check_message_2 = Configure.ConfigurationContext.end_msg
 
 rev = Context.load_module
 def load_module(path, encoding=None):
 	ret = rev(path, encoding)
 	if 'set_options' in ret.__dict__:
 		if Logs.verbose:
-			Logs.warn('compat: rename "set_options" to "options" (%r)' % path)
+			Logs.warn('compat: rename "set_options" to "options" (%r)', path)
 		ret.options = ret.set_options
 	if 'srcdir' in ret.__dict__:
 		if Logs.verbose:
-			Logs.warn('compat: rename "srcdir" to "top" (%r)' % path)
+			Logs.warn('compat: rename "srcdir" to "top" (%r)', path)
 		ret.top = ret.srcdir
 	if 'blddir' in ret.__dict__:
 		if Logs.verbose:
-			Logs.warn('compat: rename "blddir" to "out" (%r)' % path)
+			Logs.warn('compat: rename "blddir" to "out" (%r)', path)
 		ret.out = ret.blddir
+	Utils.g_module = Context.g_module
+	Options.launch_dir = Context.launch_dir
 	return ret
 Context.load_module = load_module
 
@@ -212,8 +229,8 @@ def apply_uselib_local(self):
 	self.includes = self.to_list(getattr(self, 'includes', []))
 	names = self.to_list(getattr(self, 'uselib_local', []))
 	get = self.bld.get_tgen_by_name
-	seen = set([])
-	seen_uselib = set([])
+	seen = set()
+	seen_uselib = set()
 	tmp = Utils.deque(names) # consume a copy of the list of names
 	if tmp:
 		if Logs.verbose:
@@ -332,16 +349,16 @@ def add_obj_file(self, file):
 old_define = Configure.ConfigurationContext.__dict__['define']
 
 @Configure.conf
-def define(self, key, val, quote=True):
-	old_define(self, key, val, quote)
+def define(self, key, val, quote=True, comment=''):
+	old_define(self, key, val, quote, comment)
 	if key.startswith('HAVE_'):
 		self.env[key] = 1
 
 old_undefine = Configure.ConfigurationContext.__dict__['undefine']
 
 @Configure.conf
-def undefine(self, key):
-	old_undefine(self, key)
+def undefine(self, key, comment=''):
+	old_undefine(self, key, comment)
 	if key.startswith('HAVE_'):
 		self.env[key] = 0
 
@@ -358,13 +375,28 @@ def install_dir(self, path):
 	destpath = Utils.subst_vars(path, self.env)
 
 	if self.is_install > 0:
-		Logs.info('* creating %s' % destpath)
+		Logs.info('* creating %s', destpath)
 		Utils.check_dir(destpath)
 	elif self.is_install < 0:
-		Logs.info('* removing %s' % destpath)
+		Logs.info('* removing %s', destpath)
 		try:
 			os.remove(destpath)
 		except OSError:
 			pass
 Build.BuildContext.install_dir = install_dir
+
+# before/after names
+repl = {'apply_core': 'process_source',
+	'apply_lib_vars': 'process_source',
+	'apply_obj_vars': 'propagate_uselib_vars',
+	'exec_rule': 'process_rule'
+}
+def after(*k):
+	k = [repl.get(key, key) for key in k]
+	return TaskGen.after_method(*k)
+
+def before(*k):
+	k = [repl.get(key, key) for key in k]
+	return TaskGen.before_method(*k)
+TaskGen.before = before
 

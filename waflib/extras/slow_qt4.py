@@ -63,7 +63,7 @@ class cxx_qt(Task.classes['cxx']):
 						# moc is trying to be too smart but it is too dumb:
 						# why forcing the #include when Q_OBJECT is in the cpp file?
 						gen = self.generator.bld.producer
-						gen.outstanding.insert(0, tsk)
+						gen.outstanding.appendleft(tsk)
 						gen.total += 1
 						self.set_run_after(tsk)
 					else:

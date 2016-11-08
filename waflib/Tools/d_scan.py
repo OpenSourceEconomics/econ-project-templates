@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2010 (ita)
+# Thomas Nagy, 2016 (ita)
 
 """
 Provide a scanner for finding dependencies on d files
 """
 
 import re
-from waflib import Utils, Logs
+from waflib import Utils
 
 def filter_comments(filename):
 	"""
@@ -202,8 +202,5 @@ def scan(self):
 	gruik.start(node)
 	nodes = gruik.nodes
 	names = gruik.names
-
-	if Logs.verbose:
-		Logs.debug('deps: deps for %s: %r; unresolved %r' % (str(node), nodes, names))
 	return (nodes, names)
 

@@ -23,9 +23,7 @@ To use::
 		conf.load('c_dumbpreproc')
 """
 
-import re, sys, os, string, traceback
-from waflib import Logs, Build, Utils, Errors
-from waflib.Logs import debug, error
+import re
 from waflib.Tools import c_preproc
 
 re_inc = re.compile(

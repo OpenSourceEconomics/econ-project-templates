@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker and Philipp Kloke, 2012-15
+# Hans-Martin von Gaudecker and Philipp Kloke, 2012-14
 
 """
 Run a Python script in the directory specified by **ctx.bldnode**.
@@ -36,12 +36,11 @@ def configure(conf):
         conf.fatal("No Python interpreter found!")
 
 
-@Task.update_outputs
 class run_py_script(Task.Task):
 
     """Run a Python script."""
 
-    run_str = '${PREPEND} "${PYCMD}" "${SRC[0].abspath()}" ${APPEND}'
+    run_str = '${PREPEND} ${PYCMD} ${SRC[0].abspath()} ${APPEND}'
     shell = True
 
     def exec_command(self, cmd, **kw):
@@ -70,10 +69,10 @@ class run_py_script(Task.Task):
         """
 
         return "{prepend} [Python] {fn} {append}".format(
-                prepend=self.env.PREPEND,
-                fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-                append=self.env.APPEND
-            )
+            prepend=self.env.PREPEND,
+            fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
+            append=self.env.APPEND
+        )
 
 
 @TaskGen.feature('run_py_script')
@@ -100,9 +99,9 @@ def apply_run_py_script(tg):
 
     # Convert sources and targets to nodes
     src_node = tg.path.find_resource(tg.source)
-    if src_node is None:
+    if not src_node:
         tg.bld.fatal(
-            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
+            'Cannot find input file %s for processing' % tg.source
         )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
@@ -135,11 +134,7 @@ def apply_run_py_script(tg):
                 % (x, src_node.relpath())
             )
         tsk.dep_nodes.append(node)
-    Logs.debug(
-        'deps: found dependencies %r for running %r' % (
-            tsk.dep_nodes, src_node.relpath()
-        )
-    )
+    Logs.debug('deps: found dependencies %r for running %r', tsk.dep_nodes, src_node.abspath())
 
     # Bypass the execution of process_source by setting the source to an empty list
     tg.source = []

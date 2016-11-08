@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker and David Birke, 2012-15
+# Hans-Martin von Gaudecker and David Birke, 2012-16
 
 """
 Run a Perl script in the directory specified by **ctx.bldnode**.
@@ -44,7 +44,6 @@ Else:\n
     )
 
 
-@Task.update_outputs
 class run_pl_script(Task.Task):
     """Run a Perl script."""
 
@@ -57,10 +56,10 @@ class run_pl_script(Task.Task):
             if not kw.get('cwd', None):
                 kw['cwd'] = bld.cwd
         except AttributeError:
-                bld.cwd = kw['cwd'] = bld.variant_dir
+            bld.cwd = kw['cwd'] = bld.variant_dir
         if not self.buffer_output:
             kw["stdout"] = kw["stderr"] = None
-        return bld.exec_command(cmd, **kw) 
+        return bld.exec_command(cmd, **kw)
 
     def keyword(self):
         """
@@ -77,10 +76,10 @@ class run_pl_script(Task.Task):
         """
 
         return "{prepend} [Perl] {fn} {append}".format(
-                prepend=self.env.PREPEND,
-                fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-                append=self.env.APPEND
-            )
+            prepend=self.env.PREPEND,
+            fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
+            append=self.env.APPEND
+        )
 
 
 @TaskGen.feature('run_pl_script')

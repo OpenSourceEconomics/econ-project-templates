@@ -17,10 +17,6 @@ and output files. While a typical script may require the following::
 			k.cache_isdir = True
 			k = k.parent
 
-		# clear the file if removed
-		if not os.path.isfile(node.abspath()):
-			node.sig = None
-
 		# create the folder structure
 		if node.parent.height() > 2:
 			node.parent.mkdir()
@@ -38,12 +34,8 @@ this tool will make the process much easier, for example::
 	def build(bld):
 		def myfun(tsk):
 			tsk.outputs[0].write("data")
-		bld(rule=myfun, update_outputs=True,
-			source='wscript',
-			target='\\\\COMPUTER\\share\\test.txt')
-		bld(rule=myfun, update_outputs=True,
-			source='\\\\COMPUTER\\share\\test.txt',
-			target='\\\\COMPUTER\\share\\test2.txt')
+		bld(rule=myfun, source='wscript', target='\\\\COMPUTER\\share\\test.txt')
+		bld(rule=myfun, source='\\\\COMPUTER\\share\\test.txt', target='\\\\COMPUTER\\share\\test2.txt')
 """
 
 import os
@@ -51,7 +43,7 @@ from waflib import Node, Utils, Context
 
 def find_resource(self, lst):
 	if isinstance(lst, str):
-		lst = [x for x in Node.split_path(lst) if x and x != '.']
+		lst = [x for x in Utils.split_path(lst) if x and x != '.']
 
 	if lst[0].startswith('\\\\'):
 		if len(lst) < 3:
@@ -71,7 +63,7 @@ def find_resource(self, lst):
 
 def find_or_declare(self, lst):
 	if isinstance(lst, str):
-		lst = [x for x in Node.split_path(lst) if x and x != '.']
+		lst = [x for x in Utils.split_path(lst) if x and x != '.']
 
 	if lst[0].startswith('\\\\'):
 		if len(lst) < 3:
@@ -83,7 +75,6 @@ def find_or_declare(self, lst):
 		if not ret:
 			ret = node.make_node(lst[2:])
 		if not os.path.isfile(ret.abspath()):
-			ret.sig = None
 			ret.parent.mkdir()
 		return ret
 

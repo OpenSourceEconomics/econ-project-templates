@@ -61,7 +61,7 @@ BOOST_VERSION_FILE = 'boost/version.hpp'
 BOOST_VERSION_CODE = '''
 #include <iostream>
 #include <boost/version.hpp>
-int main() { std::cout << BOOST_LIB_VERSION << std::endl; }
+int main() { std::cout << BOOST_LIB_VERSION << ":" << BOOST_VERSION << std::endl; }
 '''
 
 BOOST_ERROR_CODE = '''
@@ -116,14 +116,15 @@ BOOST_TOOLSETS = {
 
 
 def options(opt):
+	opt = opt.add_option_group('Boost Options')
 	opt.add_option('--boost-includes', type='string',
 				   default='', dest='boost_includes',
-				   help='''path to the boost includes root (~boost root)
-				   e.g. /path/to/boost_1_47_0''')
+				   help='''path to the directory where the boost includes are,
+				   e.g., /path/to/boost_1_55_0/stage/include''')
 	opt.add_option('--boost-libs', type='string',
 				   default='', dest='boost_libs',
-				   help='''path to the directory where the boost libs are
-				   e.g. /path/to/boost_1_47_0/stage/lib''')
+				   help='''path to the directory where the boost libs are,
+				   e.g., path/to/boost_1_55_0/stage/lib''')
 	opt.add_option('--boost-mt', action='store_true',
 				   default=False, dest='boost_mt',
 				   help='select multi-threaded libraries')
@@ -160,17 +161,19 @@ def boost_get_version(self, d):
 		try:
 			txt = node.read()
 		except EnvironmentError:
-			Logs.error("Could not read the file %r" % node.abspath())
+			Logs.error("Could not read the file %r", node.abspath())
 		else:
-			re_but = re.compile('^#define\\s+BOOST_LIB_VERSION\\s+"(.*)"', re.M)
-			m = re_but.search(txt)
-			if m:
-				return m.group(1)
-	return self.check_cxx(fragment=BOOST_VERSION_CODE, includes=[d], execute=True, define_ret=True)
+			re_but1 = re.compile('^#define\\s+BOOST_LIB_VERSION\\s+"(.+)"', re.M)
+			m1 = re_but1.search(txt)
+			re_but2 = re.compile('^#define\\s+BOOST_VERSION\\s+(\\d+)', re.M)
+			m2 = re_but2.search(txt)
+			if m1 and m2:
+				return (m1.group(1), m2.group(1))
+	return self.check_cxx(fragment=BOOST_VERSION_CODE, includes=[d], execute=True, define_ret=True).split(":")
 
 @conf
 def boost_get_includes(self, *k, **kw):
-	includes = k and k[0] or kw.get('includes', None)
+	includes = k and k[0] or kw.get('includes')
 	if includes and self.__boost_get_version_file(includes):
 		return includes
 	for d in self.environ.get('INCLUDE', '').split(';') + BOOST_INCLUDES:
@@ -203,7 +206,7 @@ def __boost_get_libs_path(self, *k, **kw):
 	''' return the lib path and all the files in it '''
 	if 'files' in kw:
 		return self.root.find_dir('.'), Utils.to_list(kw['files'])
-	libs = k and k[0] or kw.get('libs', None)
+	libs = k and k[0] or kw.get('libs')
 	if libs:
 		path = self.root.find_dir(libs)
 		files = path.ant_glob('*boost_*')
@@ -266,7 +269,7 @@ def boost_get_libs(self, *k, **kw):
 		t = []
 		if kw.get('mt', False):
 			t.append('-mt')
-		if kw.get('abi', None):
+		if kw.get('abi'):
 			t.append('%s%s' % (is_static and '-s' or '-', kw['abi']))
 		elif is_static:
 			t.append('-s')
@@ -277,9 +280,9 @@ def boost_get_libs(self, *k, **kw):
 		for lib in lib_names:
 			if lib == 'python':
 				# for instance, with python='27',
-				# accepts '-py27', '-py2', '27' and '2'
+				# accepts '-py27', '-py2', '27', '-2.7' and '2'
 				# but will reject '-py3', '-py26', '26' and '3'
-				tags = '({0})?((-py{2})|(-py{1}(?=[^0-9]))|({2})|({1}(?=[^0-9]))|(?=[^0-9])(?!-py))'.format(tags_pat, kw['python'][0], kw['python'])
+				tags = '({0})?((-py{2})|(-py{1}(?=[^0-9]))|({2})|(-{1}.{3})|({1}(?=[^0-9]))|(?=[^0-9])(?!-py))'.format(tags_pat, kw['python'][0], kw['python'], kw['python'][1])
 			else:
 				tags = tags_pat
 			# Trying libraries, from most strict match to least one
@@ -300,7 +303,7 @@ def boost_get_libs(self, *k, **kw):
 				self.fatal('The configuration failed')
 		return libs
 
-	return  path.abspath(), match_libs(kw.get('lib', None), False), match_libs(kw.get('stlib', None), True)
+	return  path.abspath(), match_libs(kw.get('lib'), False), match_libs(kw.get('stlib'), True)
 
 
 @conf
@@ -315,8 +318,8 @@ def check_boost(self, *k, **kw):
 		self.fatal('load a c++ compiler first, conf.load("compiler_cxx")')
 
 	params = {
-		'lib': k and k[0] or kw.get('lib', None),
-		'stlib': kw.get('stlib', None)
+		'lib': k and k[0] or kw.get('lib'),
+		'stlib': kw.get('stlib')
 	}
 	for key, value in self.options.__dict__.items():
 		if not key.startswith('boost_'):
@@ -328,8 +331,12 @@ def check_boost(self, *k, **kw):
 
 	self.start_msg('Checking boost includes')
 	self.env['INCLUDES_%s' % var] = inc = self.boost_get_includes(**params)
-	self.env.BOOST_VERSION = self.boost_get_version(inc)
-	self.end_msg(self.env.BOOST_VERSION)
+	versions = self.boost_get_version(inc)
+	self.env.BOOST_VERSION = versions[0]
+	self.env.BOOST_VERSION_NUMBER = int(versions[1])
+	self.end_msg("%d.%d.%d" % (int(versions[1]) / 100000,
+							   int(versions[1]) / 100 % 1000,
+							   int(versions[1]) % 100))
 	if Logs.verbose:
 		Logs.pprint('CYAN', '	path : %s' % self.env['INCLUDES_%s' % var])
 
@@ -357,8 +364,24 @@ def check_boost(self, *k, **kw):
 		if (params['lib'] and 'thread' in params['lib']) or \
 			params['stlib'] and 'thread' in params['stlib']:
 			self.check_cxx(fragment=BOOST_THREAD_CODE, use=var, execute=False)
-		if (params['lib'] and 'log' in params['lib']) or \
-			params['stlib'] and 'log' in params['stlib']:
+
+		def is_log_mt():
+			'''Check if found boost_log library is multithread-safe'''
+			for lib in libs:
+				if lib.startswith('boost_log'):
+					lib_log = lib
+					break
+			return '-mt' in lib_log
+
+		if params['lib'] and 'log' in params['lib']:
+			self.env['DEFINES_%s' % var] += ['BOOST_LOG_DYN_LINK']
+			if not is_log_mt():
+				self.env['DEFINES_%s' % var] += ['BOOST_LOG_NO_THREADS']
+			self.check_cxx(fragment=BOOST_LOG_CODE, use=var, execute=False)
+		if params['stlib'] and 'log' in params['stlib']:
+			# Static linking is assumed by default
+			if not is_log_mt():
+				self.env['DEFINES_%s' % var] += ['BOOST_LOG_NO_THREADS']
 			self.check_cxx(fragment=BOOST_LOG_CODE, use=var, execute=False)
 
 	if params.get('linkage_autodetect', False):
@@ -387,12 +410,14 @@ def check_boost(self, *k, **kw):
 				self.env["CXXFLAGS_%s" % var] += cxxflags
 				try:
 					try_link()
-					self.end_msg("ok: winning cxxflags combination: %s" % (self.env["CXXFLAGS_%s" % var]))
-					exc = None
-					break
 				except Errors.ConfigurationError as e:
 					self.env.revert()
 					exc = e
+				else:
+					self.end_msg("ok: winning cxxflags combination: %s" % (self.env["CXXFLAGS_%s" % var]))
+					exc = None
+					self.env.commit()
+					break
 
 			if exc is not None:
 				self.end_msg("Could not auto-detect boost linking flags combination, you may report it to boost.py author", ex=exc)
@@ -420,7 +445,8 @@ def install_boost(self):
 	for lib in self.env.LIB_BOOST:
 		try:
 			file = self.bld.find_file(self.env.cxxshlib_PATTERN % lib, self.env.LIBPATH_BOOST)
-			self.bld.install_files(inst_to, self.bld.root.find_node(file))
+			self.add_install_files(install_to=inst_to, install_from=self.bld.root.find_node(file))
 		except:
 			continue
 install_boost.done = False
+

@@ -22,7 +22,7 @@ def filter_comments(txt):
 	def repl(m):
 		if m.group(1): meh[0] += 1
 		elif m.group(2): meh[0] -= 1
-		elif not meh[0]: return m.group(0)
+		elif not meh[0]: return m.group()
 		return ''
 	return foo.sub(repl, txt)
 

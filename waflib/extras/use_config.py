@@ -50,6 +50,21 @@ import sys
 import os.path as osp
 import os
 
+local_repo = ''
+"""Local repository containing additional Waf tools (plugins)"""
+remote_repo = 'https://raw.githubusercontent.com/waf-project/waf/master/'
+"""
+Remote directory containing downloadable waf tools. The missing tools can be downloaded by using::
+
+	$ waf configure --download
+"""
+
+remote_locs = ['waflib/extras', 'waflib/Tools']
+"""
+Remote directories for use with :py:const:`waflib.extras.use_config.remote_repo`
+"""
+
+
 try:
 	from urllib import request
 except ImportError:
@@ -94,12 +109,12 @@ def download_check(node):
 
 def download_tool(tool, force=False, ctx=None):
 	"""
-	Download a Waf tool from the remote repository defined in :py:const:`waflib.Context.remote_repo`::
+	Download a Waf tool from the remote repository defined in :py:const:`waflib.extras.use_config.remote_repo`::
 
 		$ waf configure --download
 	"""
-	for x in Utils.to_list(Context.remote_repo):
-		for sub in Utils.to_list(Context.remote_locs):
+	for x in Utils.to_list(remote_repo):
+		for sub in Utils.to_list(remote_locs):
 			url = '/'.join((x, sub, tool + '.py'))
 			try:
 				web = urlopen(url)
@@ -115,12 +130,12 @@ def download_tool(tool, force=False, ctx=None):
 			else:
 				tmp = ctx.root.make_node(os.sep.join((Context.waf_dir, 'waflib', 'extras', tool + '.py')))
 				tmp.write(web.read(), 'wb')
-				Logs.warn('Downloaded %s from %s' % (tool, url))
+				Logs.warn('Downloaded %s from %s', tool, url)
 				download_check(tmp)
 				try:
 					module = Context.load_tool(tool)
 				except Exception:
-					Logs.warn('The tool %s from %s is unusable' % (tool, url))
+					Logs.warn('The tool %s from %s is unusable', tool, url)
 					try:
 						tmp.delete()
 					except Exception:

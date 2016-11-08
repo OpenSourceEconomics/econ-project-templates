@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2005-2010 (ita)
+# Thomas Nagy, 2005-2016 (ita)
 
 """
 Configuration system
@@ -14,12 +14,6 @@ A :py:class:`waflib.Configure.ConfigurationContext` instance is created when ``w
 
 import os, shlex, sys, time, re, shutil
 from waflib import ConfigSet, Utils, Options, Logs, Context, Build, Errors
-
-BREAK    = 'break'
-"""In case of a configuration error, break"""
-
-CONTINUE = 'continue'
-"""In case of a configuration error, continue"""
 
 WAF_CONFIG_LOG = 'config.log'
 """Name of the configuration log file"""
@@ -151,19 +145,13 @@ class ConfigurationContext(Context.Context):
 			if ver:
 				app = "%s (%s)" % (app, ver)
 
-		now = time.ctime()
-		pyver = sys.hexversion
-		systype = sys.platform
-		args = " ".join(sys.argv)
-		wafver = Context.WAFVERSION
-		abi = Context.ABI
-		self.to_log(conf_template % vars())
-
+		params = {'now': time.ctime(), 'pyver': sys.hexversion, 'systype': sys.platform, 'args': " ".join(sys.argv), 'wafver': Context.WAFVERSION, 'abi': Context.ABI, 'app': app}
+		self.to_log(conf_template % params)
 		self.msg('Setting top to', self.srcnode.abspath())
 		self.msg('Setting out to', self.bldnode.abspath())
 
 		if id(self.srcnode) == id(self.bldnode):
-			Logs.warn('Setting top == out (remember to use "update_outputs")')
+			Logs.warn('Setting top == out')
 		elif id(self.path) != id(self.srcnode):
 			if self.srcnode.is_child_of(self.path):
 				Logs.warn('Are you certain that you do not want to set top="." ?')
@@ -179,8 +167,9 @@ class ConfigurationContext(Context.Context):
 		# consider the current path as the root directory (see prepare_impl).
 		# to remove: use 'waf distclean'
 		env = ConfigSet.ConfigSet()
-		env['argv'] = sys.argv
-		env['options'] = Options.options.__dict__
+		env.argv = sys.argv
+		env.options = Options.options.__dict__
+		env.config_cmd = self.cmd
 
 		env.run_dir = Context.run_dir
 		env.top_dir = Context.top_dir
@@ -188,9 +177,9 @@ class ConfigurationContext(Context.Context):
 
 		# conf.hash & conf.files hold wscript files paths and hash
 		# (used only by Configure.autoconfig)
-		env['hash'] = self.hash
-		env['files'] = self.files
-		env['environ'] = dict(self.environ)
+		env.hash = self.hash
+		env.files = self.files
+		env.environ = dict(self.environ)
 
 		if not self.env.NO_LOCK_IN_RUN and not getattr(Options.options, 'no_lock_in_run'):
 			env.store(os.path.join(Context.run_dir, Options.lockfile))
@@ -208,17 +197,17 @@ class ConfigurationContext(Context.Context):
 		"""
 		if not env.PREFIX:
 			if Options.options.prefix or Utils.is_win32:
-				env.PREFIX = os.path.abspath(os.path.expanduser(Options.options.prefix))
+				env.PREFIX = Utils.sane_path(Options.options.prefix)
 			else:
 				env.PREFIX = ''
 		if not env.BINDIR:
 			if Options.options.bindir:
-				env.BINDIR = os.path.abspath(os.path.expanduser(Options.options.bindir))
+				env.BINDIR = Utils.sane_path(Options.options.bindir)
 			else:
 				env.BINDIR = Utils.subst_vars('${PREFIX}/bin', env)
 		if not env.LIBDIR:
 			if Options.options.libdir:
-				env.LIBDIR = os.path.abspath(os.path.expanduser(Options.options.libdir))
+				env.LIBDIR = Utils.sane_path(Options.options.libdir)
 			else:
 				env.LIBDIR = Utils.subst_vars('${PREFIX}/lib%s' % Utils.lib64(), env)
 
@@ -234,7 +223,7 @@ class ConfigurationContext(Context.Context):
 			tmpenv = self.all_envs[key]
 			tmpenv.store(os.path.join(self.cachedir.abspath(), key + Build.CACHE_SUFFIX))
 
-	def load(self, input, tooldir=None, funs=None, with_sys_path=True):
+	def load(self, input, tooldir=None, funs=None, with_sys_path=True, cache=False):
 		"""
 		Load Waf tools, which will be imported whenever a build is started.
 
@@ -244,6 +233,8 @@ class ConfigurationContext(Context.Context):
 		:type tooldir: list of string
 		:param funs: functions to execute from the waf tools
 		:type funs: list of string
+		:param cache: whether to prevent the tool from running twice
+		:type cache: bool
 		"""
 
 		tools = Utils.to_list(input)
@@ -252,11 +243,12 @@ class ConfigurationContext(Context.Context):
 			# avoid loading the same tool more than once with the same functions
 			# used by composite projects
 
-			mag = (tool, id(self.env), tooldir, funs)
-			if mag in self.tool_cache:
-				self.to_log('(tool %s is already loaded, skipping)' % tool)
-				continue
-			self.tool_cache.append(mag)
+			if cache:
+				mag = (tool, id(self.env), tooldir, funs)
+				if mag in self.tool_cache:
+					self.to_log('(tool %s is already loaded, skipping)' % tool)
+					continue
+				self.tool_cache.append(mag)
 
 			module = None
 			try:
@@ -291,8 +283,7 @@ class ConfigurationContext(Context.Context):
 
 	def eval_rules(self, rules):
 		"""
-		Execute the configuration tests. The method :py:meth:`waflib.Configure.ConfigurationContext.err_handler`
-		is used to process the eventual exceptions
+		Execute configuration tests provided as list of funcitons to run
 
 		:param rules: list of configuration method names
 		:type rules: list of string
@@ -300,28 +291,9 @@ class ConfigurationContext(Context.Context):
 		self.rules = Utils.to_list(rules)
 		for x in self.rules:
 			f = getattr(self, x)
-			if not f: self.fatal("No such method '%s'." % x)
-			try:
-				f()
-			except Exception as e:
-				ret = self.err_handler(x, e)
-				if ret == BREAK:
-					break
-				elif ret == CONTINUE:
-					continue
-				else:
-					raise
-
-	def err_handler(self, fun, error):
-		"""
-		Error handler for the configuration tests, the default is to let the exception raise
-
-		:param fun: configuration test
-		:type fun: method
-		:param error: exception
-		:type error: exception
-		"""
-		pass
+			if not f:
+				self.fatal('No such configuration function %r' % x)
+			f()
 
 def conf(f):
 	"""
@@ -347,12 +319,13 @@ def conf(f):
 			if mandatory:
 				raise
 
+	fun.__name__ = f.__name__
 	setattr(ConfigurationContext, f.__name__, fun)
 	setattr(Build.BuildContext, f.__name__, fun)
 	return f
 
 @conf
-def add_os_flags(self, var, dest=None, dup=True):
+def add_os_flags(self, var, dest=None, dup=False):
 	"""
 	Import operating system environment values into ``conf.env`` dict::
 
@@ -370,7 +343,6 @@ def add_os_flags(self, var, dest=None, dup=True):
 		flags = shlex.split(self.environ[var])
 	except KeyError:
 		return
-	# TODO: in waf 1.9, make dup=False the default
 	if dup or ''.join(flags) not in ''.join(Utils.to_list(self.env[dest or var])):
 		self.env.append_value(dest or var, flags)
 
@@ -382,21 +354,26 @@ def cmd_to_list(self, cmd):
 	:param cmd: command
 	:type cmd: a string or a list of string
 	"""
-	if isinstance(cmd, str) and cmd.find(' '):
-		try:
-			os.stat(cmd)
-		except OSError:
+	if isinstance(cmd, str):
+		if os.path.isfile(cmd):
+			# do not take any risk
+			return [cmd]
+		if os.sep == '/':
 			return shlex.split(cmd)
 		else:
-			return [cmd]
+			try:
+				return shlex.split(cmd, posix=False)
+			except TypeError:
+				# Python 2.5 on windows?
+				return shlex.split(cmd)
 	return cmd
 
 @conf
-def check_waf_version(self, mini='1.7.99', maxi='1.9.0', **kw):
+def check_waf_version(self, mini='1.8.99', maxi='2.0.0', **kw):
 	"""
 	Raise a Configuration error if the Waf version does not strictly match the given bounds::
 
-		conf.check_waf_version(mini='1.8.0', maxi='1.9.0')
+		conf.check_waf_version(mini='1.8.99', maxi='2.0.0')
 
 	:type  mini: number, tuple or string
 	:param mini: Minimum required version
@@ -422,7 +399,7 @@ def find_file(self, filename, path_list=[]):
 	"""
 	for n in Utils.to_list(filename):
 		for d in Utils.to_list(path_list):
-			p = os.path.join(d, n)
+			p = os.path.expanduser(os.path.join(d, n))
 			if os.path.exists(p):
 				return p
 	self.fatal('Could not find %r' % filename)
@@ -440,6 +417,8 @@ def find_program(self, filename, **kw):
 	:type param_list: list of string
 	:param var: store the result to conf.env[var], by default use filename.upper()
 	:type var: string
+	:param value: obtain the program from the value passed exclusively
+	:type value: list or string (list is preferred)
 	:param ext: list of extensions for the binary (do not add an extension for portability)
 	:type ext: list of string
 	:param msg: name to display in the log, by default filename is used
@@ -467,18 +446,15 @@ def find_program(self, filename, **kw):
 	else:
 		path_list = environ.get('PATH', '').split(os.pathsep)
 
-	if var in environ:
-		filename = environ[var]
-		if os.path.isfile(filename):
-			# typical CC=/usr/bin/gcc waf configure build
-			ret = [filename]
-		else:
-			# case  CC='ccache gcc' waf configure build
-			ret = self.cmd_to_list(filename)
+	if kw.get('value'):
+		# user-provided in command-line options and passed to find_program
+		ret = self.cmd_to_list(kw['value'])
+	elif var in environ:
+		# user-provided in the os environment
+		ret = self.cmd_to_list(environ[var])
 	elif self.env[var]:
-		# set by the user in the wscript file
-		ret = self.env[var]
-		ret = self.cmd_to_list(ret)
+		# a default option in the wscript file
+		ret = self.cmd_to_list(self.env[var])
 	else:
 		if not ret:
 			ret = self.find_binary(filename, exts.split(','), path_list)
@@ -488,7 +464,6 @@ def find_program(self, filename, **kw):
 			ret = Utils.get_registry_app_path(Utils.winreg.HKEY_LOCAL_MACHINE, filename)
 		ret = self.cmd_to_list(ret)
 
-
 	if ret:
 		if len(ret) == 1:
 			retmsg = ret[0]
@@ -497,14 +472,14 @@ def find_program(self, filename, **kw):
 	else:
 		retmsg = False
 
-	self.msg("Checking for program '%s'" % msg, retmsg, **kw)
-	if not kw.get('quiet', None):
+	self.msg('Checking for program %r' % msg, retmsg, **kw)
+	if not kw.get('quiet'):
 		self.to_log('find program=%r paths=%r var=%r -> %r' % (filename, path_list, var, ret))
 
 	if not ret:
 		self.fatal(kw.get('errmsg', '') or 'Could not find the program %r' % filename)
 
-	interpreter = kw.get('interpreter', None)
+	interpreter = kw.get('interpreter')
 	if interpreter is None:
 		if not Utils.check_exe(ret[0], env=environ):
 			self.fatal('Program %r is not executable' % ret)
@@ -528,7 +503,6 @@ def find_binary(self, filenames, exts, paths):
 					if os.path.isfile(x):
 						return x
 	return None
-
 
 @conf
 def run_build(self, *k, **kw):
@@ -560,7 +534,6 @@ def run_build(self, *k, **kw):
 		$ waf configure --confcache
 
 	"""
-
 	lst = [str(v) for (p, v) in kw.items() if p != 'env']
 	h = Utils.h_list(lst)
 	dir = self.bldnode.abspath() + os.sep + (not Utils.is_win32 and '.' or '') + 'conf_check_' + Utils.to_hex(h)
@@ -579,9 +552,7 @@ def run_build(self, *k, **kw):
 	if cachemode == 1:
 		try:
 			proj = ConfigSet.ConfigSet(os.path.join(dir, 'cache_run_build'))
-		except OSError:
-			pass
-		except IOError:
+		except EnvironmentError:
 			pass
 		else:
 			ret = proj['cache_run_build']
@@ -594,7 +565,8 @@ def run_build(self, *k, **kw):
 	if not os.path.exists(bdir):
 		os.makedirs(bdir)
 
-	self.test_bld = bld = Build.BuildContext(top_dir=dir, out_dir=bdir)
+	cls_name = getattr(self, 'run_build_cls', 'build')
+	self.test_bld = bld = Context.create_context(cls_name, top_dir=dir, out_dir=bdir)
 	bld.init_dirs()
 	bld.progress_bar = 0
 	bld.targets = '*'
@@ -603,11 +575,9 @@ def run_build(self, *k, **kw):
 	bld.all_envs.update(self.all_envs) # not really necessary
 	bld.env = kw['env']
 
-	# OMG huge hack
 	bld.kw = kw
 	bld.conf = self
 	kw['build_fun'](bld)
-
 	ret = -1
 	try:
 		try:
@@ -625,7 +595,6 @@ def run_build(self, *k, **kw):
 			proj.store(os.path.join(dir, 'cache_run_build'))
 		else:
 			shutil.rmtree(dir)
-
 	return ret
 
 @conf
@@ -641,7 +610,7 @@ def test(self, *k, **kw):
 		kw['env'] = self.env.derive()
 
 	# validate_c for example
-	if kw.get('validate', None):
+	if kw.get('validate'):
 		kw['validate'](kw)
 
 	self.start_msg(kw['msg'], **kw)
@@ -657,7 +626,7 @@ def test(self, *k, **kw):
 	else:
 		kw['success'] = ret
 
-	if kw.get('post_check', None):
+	if kw.get('post_check'):
 		ret = kw['post_check'](kw)
 
 	if ret:
