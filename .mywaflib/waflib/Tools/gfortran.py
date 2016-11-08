@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # encoding: utf-8
 # DC 2008
-# Thomas Nagy 2010 (ita)
+# Thomas Nagy 2016 (ita)
 
 import re
 from waflib import Utils
@@ -19,9 +19,9 @@ def find_gfortran(conf):
 @conf
 def gfortran_flags(conf):
 	v = conf.env
-	v['FCFLAGS_fcshlib']   = ['-fPIC']
-	v['FORTRANMODFLAG']  = ['-J', ''] # template for module path
-	v['FCFLAGS_DEBUG'] = ['-Werror'] # why not
+	v.FCFLAGS_fcshlib = ['-fPIC']
+	v.FORTRANMODFLAG = ['-J', ''] # template for module path
+	v.FCFLAGS_DEBUG = ['-Werror'] # why not
 
 @conf
 def gfortran_modifier_win32(conf):
@@ -37,7 +37,7 @@ def gfortran_modifier_darwin(conf):
 
 @conf
 def gfortran_modifier_platform(conf):
-	dest_os = conf.env['DEST_OS'] or Utils.unversioned_sys_platform()
+	dest_os = conf.env.DEST_OS or Utils.unversioned_sys_platform()
 	gfortran_modifier_func = getattr(conf, 'gfortran_modifier_' + dest_os, None)
 	if gfortran_modifier_func:
 		gfortran_modifier_func()
@@ -79,7 +79,7 @@ def get_gfortran_version(conf, fc):
 	def isT(var):
 		return var in k and k[var] != '0'
 
-	conf.env['FC_VERSION'] = (k['__GNUC__'], k['__GNUC_MINOR__'], k['__GNUC_PATCHLEVEL__'])
+	conf.env.FC_VERSION = (k['__GNUC__'], k['__GNUC_MINOR__'], k['__GNUC_PATCHLEVEL__'])
 
 def configure(conf):
 	conf.find_gfortran()

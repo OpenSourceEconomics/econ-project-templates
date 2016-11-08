@@ -1,12 +1,13 @@
 #! /usr/bin/env python
 # encoding: utf-8
 # DC 2008
-# Thomas Nagy 2010 (ita)
+# Thomas Nagy 2016 (ita)
 
-import re
-from waflib import Utils
-from waflib.Tools import fc, fc_config, fc_scan, ar
+import os, re
+from waflib import Utils, Logs, Errors
+from waflib.Tools import fc, fc_config, fc_scan, ar, ccroot
 from waflib.Configure import conf
+from waflib.TaskGen import after_method, feature
 
 @conf
 def find_ifort(conf):
@@ -54,8 +55,9 @@ def ifort_modifier_platform(conf):
 
 @conf
 def get_ifort_version(conf, fc):
-	"""get the compiler version"""
-
+	"""
+	Detects the compiler version and sets ``conf.env.FC_VERSION``
+	"""
 	version_re = re.compile(r"\bIntel\b.*\bVersion\s*(?P<major>\d*)\.(?P<minor>\d*)",re.I).search
 	if Utils.is_win32:
 		cmd = fc
@@ -67,9 +69,12 @@ def get_ifort_version(conf, fc):
 	if not match:
 		conf.fatal('cannot determine ifort version.')
 	k = match.groupdict()
-	conf.env['FC_VERSION'] = (k['major'], k['minor'])
+	conf.env.FC_VERSION = (k['major'], k['minor'])
 
 def configure(conf):
+	"""
+	Detects the Intel Fortran compilers
+	"""
 	if Utils.is_win32:
 		compiler, version, path, includes, libdirs, arch = conf.detect_ifort(True)
 		v = conf.env
@@ -94,21 +99,15 @@ def configure(conf):
 		conf.fc_add_flags()
 		conf.ifort_modifier_platform()
 
-import os, sys, re, tempfile
-from waflib import Task, Logs, Options, Errors
-from waflib.Logs import debug, warn
-from waflib.TaskGen import after_method, feature
-
-from waflib.Configure import conf
-from waflib.Tools import ccroot, ar, winres
-
 
 all_ifort_platforms = [ ('intel64', 'amd64'), ('em64t', 'amd64'), ('ia32', 'x86'), ('Itanium', 'ia64')]
 """List of icl platforms"""
 
 @conf
 def gather_ifort_versions(conf, versions):
-	# some logic to try and list installed fortran compilers
+	"""
+	List compiler versions by looking up registry keys
+	"""
 	version_pattern = re.compile('^...?.?\....?.?')
 	try:
 		all_versions = Utils.winreg.OpenKey(Utils.winreg.HKEY_LOCAL_MACHINE, 'SOFTWARE\\Wow6432node\\Intel\\Compilers\\Fortran')
@@ -123,80 +122,65 @@ def gather_ifort_versions(conf, versions):
 			version = Utils.winreg.EnumKey(all_versions, index)
 		except WindowsError:
 			break
-		index = index + 1
+		index += 1
 		if not version_pattern.match(version):
 			continue
-		targets = []
+		targets = {}
 		for target,arch in all_ifort_platforms:
+			if target=='intel64': targetDir='EM64T_NATIVE'
+			else: targetDir=target
 			try:
-				if target=='intel64': targetDir='EM64T_NATIVE'
-				else: targetDir=target
 				Utils.winreg.OpenKey(all_versions,version+'\\'+targetDir)
 				icl_version=Utils.winreg.OpenKey(all_versions,version)
 				path,type=Utils.winreg.QueryValueEx(icl_version,'ProductDir')
-				batch_file=os.path.join(path,'bin','iclvars.bat')
-				if os.path.isfile(batch_file):
-					try:
-						targets.append((target,(arch,get_compiler_env(conf,'intel',version,target,batch_file))))
-					except conf.errors.ConfigurationError:
-						pass
 			except WindowsError:
 				pass
+			else:
+				batch_file=os.path.join(path,'bin','iclvars.bat')
+				if os.path.isfile(batch_file):
+					targets[target] = target_compiler(conf, 'intel', arch, version, target, batch_file)
+
 		for target,arch in all_ifort_platforms:
 			try:
 				icl_version = Utils.winreg.OpenKey(all_versions, version+'\\'+target)
 				path,type = Utils.winreg.QueryValueEx(icl_version,'ProductDir')
-				batch_file=os.path.join(path,'bin','iclvars.bat')
-				if os.path.isfile(batch_file):
-					try:
-						targets.append((target, (arch, get_compiler_env(conf, 'intel', version, target, batch_file))))
-					except conf.errors.ConfigurationError:
-						pass
 			except WindowsError:
 				continue
+			else:
+				batch_file=os.path.join(path,'bin','iclvars.bat')
+				if os.path.isfile(batch_file):
+					targets[target] = target_compiler(conf, 'intel', arch, version, target, batch_file)
 		major = version[0:2]
-		versions.append(('intel ' + major, targets))
+		versions['intel ' + major] = targets
 
-
-def setup_ifort(conf, versions, arch = False):
+@conf
+def setup_ifort(conf, versiondict):
 	"""
 	Checks installed compilers and targets and returns the first combination from the user's
 	options, env, or the global supported lists that checks.
 
-	:param versions: A list of tuples of all installed compilers and available targets.
-	:param arch: Whether to return the target architecture.
-	:return: the compiler, revision, path, include dirs, library paths, and (optionally) target architecture
+	:param versiondict: dict(platform -> dict(architecture -> configuration))
+	:type versiondict: dict(string -> dict(string -> target_compiler)
+	:return: the compiler, revision, path, include dirs, library paths and target architecture
 	:rtype: tuple of strings
 	"""
-	#platforms = getattr(Options.options, 'msvc_targets', '').split(',')
-	#if platforms == ['']:
-	platforms=Utils.to_list(conf.env['MSVC_TARGETS']) or [i for i,j in all_ifort_platforms]
-	#desired_versions = getattr(Options.options, 'msvc_version', '').split(',')
-	#if desired_versions == ['']:
-	desired_versions = conf.env['MSVC_VERSIONS'] or [v for v,_ in versions][::-1]
-	versiondict = dict(versions)
-
+	platforms = Utils.to_list(conf.env.MSVC_TARGETS) or [i for i,j in all_ifort_platforms]
+	desired_versions = conf.env.MSVC_VERSIONS or list(reversed(list(versiondict.keys())))
 	for version in desired_versions:
 		try:
-			targets = dict(versiondict[version])
-			for target in platforms:
-				try:
-					try:
-						realtarget,(p1,p2,p3) = targets[target]
-					except conf.errors.ConfigurationError:
-						# lazytup target evaluation errors
-						del(targets[target])
-					else:
-						compiler,revision = version.rsplit(' ', 1)
-						if arch:
-							return compiler,revision,p1,p2,p3,realtarget
-						else:
-							return compiler,revision,p1,p2,p3
-				except KeyError:
-					continue
+			targets = versiondict[version]
 		except KeyError:
 			continue
-	conf.fatal('msvc: Impossible to find a valid architecture for building (in setup_ifort)')
+		for arch in platforms:
+			try:
+				cfg = targets[arch]
+			except KeyError:
+				continue
+			cfg.evaluate()
+			if cfg.is_valid:
+				compiler,revision = version.rsplit(' ', 1)
+				return compiler,revision,cfg.bindirs,cfg.incdirs,cfg.libdirs,cfg.cpu
+	conf.fatal('ifort: Impossible to find a valid architecture for building %r - %r' % (desired_versions, list(versiondict.keys())))
 
 @conf
 def get_ifort_version_win32(conf, compiler, version, target, vcvars):
@@ -231,7 +215,7 @@ echo LIB=%%LIB%%;%%LIBPATH%%
 		elif line.startswith('LIB='):
 			MSVC_LIBDIR = [i for i in line[4:].split(';') if i]
 	if None in (MSVC_PATH, MSVC_INCDIR, MSVC_LIBDIR):
-		conf.fatal('msvc: Could not find a valid architecture for building (get_ifort_version_win32)')
+		conf.fatal('ifort: Could not find a valid architecture for building (get_ifort_version_win32)')
 
 	# Check if the compiler is usable at all.
 	# The detection may return 64-bit versions even on 32-bit systems, and these would fail to run.
@@ -245,120 +229,84 @@ echo LIB=%%LIB%%;%%LIBPATH%%
 		del(env['CL'])
 
 	try:
-		try:
-			conf.cmd_and_log(fc + ['/help'], env=env)
-		except UnicodeError:
-			st = Utils.ex_stack()
-			if conf.logger:
-				conf.logger.error(st)
-			conf.fatal('msvc: Unicode error - check the code page?')
-		except Exception as e:
-			debug('msvc: get_ifort_version: %r %r %r -> failure %s' % (compiler, version, target, str(e)))
-			conf.fatal('msvc: cannot run the compiler in get_ifort_version (run with -v to display errors)')
-		else:
-			debug('msvc: get_ifort_version: %r %r %r -> OK', compiler, version, target)
+		conf.cmd_and_log(fc + ['/help'], env=env)
+	except UnicodeError:
+		st = Utils.ex_stack()
+		if conf.logger:
+			conf.logger.error(st)
+		conf.fatal('ifort: Unicode error - check the code page?')
+	except Exception as e:
+		Logs.debug('ifort: get_ifort_version: %r %r %r -> failure %s', compiler, version, target, str(e))
+		conf.fatal('ifort: cannot run the compiler in get_ifort_version (run with -v to display errors)')
+	else:
+		Logs.debug('ifort: get_ifort_version: %r %r %r -> OK', compiler, version, target)
 	finally:
 		conf.env[compiler_name] = ''
 
 	return (MSVC_PATH, MSVC_INCDIR, MSVC_LIBDIR)
 
-def get_compiler_env(conf, compiler, version, bat_target, bat, select=None):
+class target_compiler(object):
 	"""
-	Gets the compiler environment variables as a tuple. Evaluation is lazy by default,
-	which means destructuring can throw :py:class:`conf.errors.ConfigurationError`
-	If ``--no-msvc-lazy`` or ``env.MSVC_LAZY_AUTODETECT`` are set, then the values are
-	evaluated at once.
-
-	:param conf: configuration context to use to eventually get the version environment
-	:param compiler: compiler name
-	:param version: compiler version number
-	:param bat: path to the batch file to run
-	:param select: optional function to take the realized environment variables tup and map it (e.g. to combine other constant paths)
+	Wraps a compiler configuration; call evaluate() to determine
+	whether the configuration is usable.
 	"""
-	lazy = getattr(Options.options, 'msvc_lazy', True)
-	if conf.env.MSVC_LAZY_AUTODETECT is False:
-		lazy = False
+	def __init__(self, ctx, compiler, cpu, version, bat_target, bat, callback=None):
+		"""
+		:param ctx: configuration context to use to eventually get the version environment
+		:param compiler: compiler name
+		:param cpu: target cpu
+		:param version: compiler version number
+		:param bat_target: ?
+		:param bat: path to the batch file to run
+		:param callback: optional function to take the realized environment variables tup and map it (e.g. to combine other constant paths)
+		"""
+		self.conf = ctx
+		self.name = None
+		self.is_valid = False
+		self.is_done = False
 
-	def msvc_thunk():
-		vs = conf.get_ifort_version_win32(compiler, version, bat_target, bat)
-		if select:
-			return select(vs)
-		else:
-			return vs
-	return lazytup(msvc_thunk, lazy, ([], [], []))
+		self.compiler = compiler
+		self.cpu = cpu
+		self.version = version
+		self.bat_target = bat_target
+		self.bat = bat
+		self.callback = callback
 
-class lazytup(object):
-	"""
-	A tuple that evaluates its elements from a function when iterated or destructured.
-
-	:param fn: thunk to evaluate the tuple on demand
-	:param lazy: whether to delay evaluation or evaluate in the constructor
-	:param default: optional default for :py:func:`repr` if it should not evaluate
-	"""
-	def __init__(self, fn, lazy=True, default=None):
-		self.fn = fn
-		self.default = default
-		if not lazy:
-			self.evaluate()
-	def __len__(self):
-		self.evaluate()
-		return len(self.value)
-	def __iter__(self):
-		self.evaluate()
-		for i, v in enumerate(self.value):
-			yield v
-	def __getitem__(self, i):
-		self.evaluate()
-		return self.value[i]
-	def __repr__(self):
-		if hasattr(self, 'value'):
-			return repr(self.value)
-		elif self.default:
-			return repr(self.default)
-		else:
-			self.evaluate()
-			return repr(self.value)
 	def evaluate(self):
-		if hasattr(self, 'value'):
+		if self.is_done:
 			return
-		self.value = self.fn()
+		self.is_done = True
+		try:
+			vs = self.conf.get_msvc_version(self.compiler, self.version, self.bat_target, self.bat)
+		except Errors.ConfigurationError:
+			self.is_valid = False
+			return
+		if self.callback:
+			vs = self.callback(self, vs)
+		self.is_valid = True
+		(self.bindirs, self.incdirs, self.libdirs) = vs
+
+	def __str__(self):
+		return str((self.bindirs, self.incdirs, self.libdirs))
+
+	def __repr__(self):
+		return repr((self.bindirs, self.incdirs, self.libdirs))
 
 @conf
-def get_ifort_versions(conf, eval_and_save=True):
-	"""
-	:return: list of compilers installed
-	:rtype: list of string
-	"""
-	if conf.env['IFORT_INSTALLED_VERSIONS']:
-		return conf.env['IFORT_INSTALLED_VERSIONS']
-
-	# Gather all the compiler versions and targets. This phase can be lazy
-	# per lazy detection settings.
-	lst = []
-	conf.gather_ifort_versions(lst)
-
-	# Override lazy detection by evaluating after the fact.
-	if eval_and_save:
-		def checked_target(t):
-			target,(arch,paths) = t
-			try:
-				paths.evaluate()
-			except conf.errors.ConfigurationError:
-				return None
-			else:
-				return t
-		lst = [(version, list(filter(checked_target, targets))) for version, targets in lst]
-		conf.env['IFORT_INSTALLED_VERSIONS'] = lst
-
-	return lst
+def detect_ifort(self):
+	return self.setup_ifort(self.get_ifort_versions(False))
 
 @conf
-def detect_ifort(conf, arch = False):
-	# Save installed versions only if lazy detection is disabled.
-	versions = get_ifort_versions(conf, False)
-	return setup_ifort(conf, versions, arch)
+def get_ifort_versions(self, eval_and_save=True):
+	"""
+	:return: platforms to compiler configurations
+	:rtype: dict
+	"""
+	dct = {}
+	self.gather_ifort_versions(dct)
+	return dct
 
-def _get_prog_names(conf, compiler):
+def _get_prog_names(self, compiler):
 	if compiler=='intel':
 		compiler_name = 'ifort'
 		linker_name = 'XILINK'
@@ -374,9 +322,9 @@ def _get_prog_names(conf, compiler):
 def find_ifort_win32(conf):
 	# the autodetection is supposed to be performed before entering in this method
 	v = conf.env
-	path = v['PATH']
-	compiler = v['MSVC_COMPILER']
-	version = v['MSVC_VERSION']
+	path = v.PATH
+	compiler = v.MSVC_COMPILER
+	version = v.MSVC_VERSION
 
 	compiler_name, linker_name, lib_name = _get_prog_names(conf, compiler)
 	v.IFORT_MANIFEST = (compiler == 'intel' and version >= 11)
@@ -390,26 +338,24 @@ def find_ifort_win32(conf):
 	if not conf.cmd_and_log(fc + ['/nologo', '/help'], env=env):
 		conf.fatal('not intel fortran compiler could not be identified')
 
-	v['FC_NAME'] = 'IFORT'
+	v.FC_NAME = 'IFORT'
 
-	# linker
-	if not v['LINK_FC']:
+	if not v.LINK_FC:
 		conf.find_program(linker_name, var='LINK_FC', path_list=path, mandatory=True)
 
-	# staticlib linker
-	if not v['AR']:
+	if not v.AR:
 		conf.find_program(lib_name, path_list=path, var='AR', mandatory=True)
-		v['ARFLAGS'] = ['/NOLOGO']
+		v.ARFLAGS = ['/nologo']
 
 	# manifest tool. Not required for VS 2003 and below. Must have for VS 2005 and later
 	if v.IFORT_MANIFEST:
 		conf.find_program('MT', path_list=path, var='MT')
-		v['MTFLAGS'] = ['/NOLOGO']
+		v.MTFLAGS = ['/nologo']
 
 	try:
 		conf.load('winres')
 	except Errors.WafError:
-		warn('Resource compiler not found. Compiling resource file is disabled')
+		Logs.warn('Resource compiler not found. Compiling resource file is disabled')
 
 #######################################################################################################
 ##### conf above, build below
@@ -418,7 +364,7 @@ def find_ifort_win32(conf):
 @feature('fc')
 def apply_flags_ifort(self):
 	"""
-	Add additional flags implied by msvc, such as subsystems and pdb files::
+	Adds additional flags implied by msvc, such as subsystems and pdb files::
 
 		def build(bld):
 			bld.stlib(source='main.c', target='bar', subsystem='gruik')
@@ -442,15 +388,17 @@ def apply_flags_ifort(self):
 				self.link_task.outputs.append(pdbnode)
 
 				if getattr(self, 'install_task', None):
-					self.pdb_install_task = self.bld.install_files(self.install_task.dest, pdbnode, env=self.env)
+					self.pdb_install_task = self.add_install_files(install_to=self.install_task.install_to, install_from=pdbnode)
 
 				break
-
-# split the manifest file processing from the link task, like for the rc processing
 
 @feature('fcprogram', 'fcshlib', 'fcprogram_test')
 @after_method('apply_link')
 def apply_manifest_ifort(self):
+	"""
+	Enables manifest embedding in Fortran DLLs when using ifort on Windows
+	See: http://msdn2.microsoft.com/en-us/library/ms235542(VS.80).aspx
+	"""
 	if self.env.IFORT_WIN32 and getattr(self, 'link_task', None):
 		# it seems ifort.exe cannot be called for linking
 		self.link_task.env.FC = self.env.LINK_FC
@@ -459,142 +407,5 @@ def apply_manifest_ifort(self):
 		out_node = self.link_task.outputs[0]
 		man_node = out_node.parent.find_or_declare(out_node.name + '.manifest')
 		self.link_task.outputs.append(man_node)
-		self.link_task.do_manifest = True
-
-def exec_mf(self):
-	"""
-	Create the manifest file
-	"""
-	env = self.env
-	mtool = env['MT']
-	if not mtool:
-		return 0
-
-	self.do_manifest = False
-
-	outfile = self.outputs[0].abspath()
-
-	manifest = None
-	for out_node in self.outputs:
-		if out_node.name.endswith('.manifest'):
-			manifest = out_node.abspath()
-			break
-	if manifest is None:
-		# Should never get here.  If we do, it means the manifest file was
-		# never added to the outputs list, thus we don't have a manifest file
-		# to embed, so we just return.
-		return 0
-
-	# embedding mode. Different for EXE's and DLL's.
-	# see: http://msdn2.microsoft.com/en-us/library/ms235591(VS.80).aspx
-	mode = ''
-	if 'fcprogram' in self.generator.features or 'fcprogram_test' in self.generator.features:
-		mode = '1'
-	elif 'fcshlib' in self.generator.features:
-		mode = '2'
-
-	debug('msvc: embedding manifest in mode %r' % mode)
-
-	lst = [] + mtool
-	lst.extend(Utils.to_list(env['MTFLAGS']))
-	lst.extend(['-manifest', manifest])
-	lst.append('-outputresource:%s;%s' % (outfile, mode))
-
-	return self.exec_command(lst)
-
-def quote_response_command(self, flag):
-	if flag.find(' ') > -1:
-		for x in ('/LIBPATH:', '/IMPLIB:', '/OUT:', '/I'):
-			if flag.startswith(x):
-				flag = '%s"%s"' % (x, flag[len(x):])
-				break
-		else:
-			flag = '"%s"' % flag
-	return flag
-
-def exec_response_command(self, cmd, **kw):
-	# not public yet
-	try:
-		tmp = None
-		if sys.platform.startswith('win') and isinstance(cmd, list) and len(' '.join(cmd)) >= 8192:
-			program = cmd[0] #unquoted program name, otherwise exec_command will fail
-			cmd = [self.quote_response_command(x) for x in cmd]
-			(fd, tmp) = tempfile.mkstemp()
-			os.write(fd, '\r\n'.join(i.replace('\\', '\\\\') for i in cmd[1:]).encode())
-			os.close(fd)
-			cmd = [program, '@' + tmp]
-		# no return here, that's on purpose
-		ret = super(self.__class__, self).exec_command(cmd, **kw)
-	finally:
-		if tmp:
-			try:
-				os.remove(tmp)
-			except OSError:
-				pass # anti-virus and indexers can keep the files open -_-
-	return ret
-
-def exec_command_ifort(self, *k, **kw):
-	"""
-	Change the command-line execution for msvc programs.
-	Instead of quoting all the paths and keep using the shell, we can just join the options msvc is interested in
-	"""
-	if isinstance(k[0], list):
-		lst = []
-		carry = ''
-		for a in k[0]:
-			if a == '/Fo' or a == '/doc' or a[-1] == ':':
-				carry = a
-			else:
-				lst.append(carry + a)
-				carry = ''
-		k = [lst]
-
-	if self.env['PATH']:
-		env = dict(self.env.env or os.environ)
-		env.update(PATH = ';'.join(self.env['PATH']))
-		kw['env'] = env
-
-
-	if not 'cwd' in kw:
-		kw['cwd'] = self.generator.bld.variant_dir
-	ret = self.exec_response_command(k[0], **kw)
-	if not ret and getattr(self, 'do_manifest', None):
-		ret = self.exec_mf()
-	return ret
-
-def wrap_class(class_name):
-	"""
-	Manifest file processing and @response file workaround for command-line length limits on Windows systems
-	The indicated task class is replaced by a subclass to prevent conflicts in case the class is wrapped more than once
-	"""
-	cls = Task.classes.get(class_name, None)
-
-	if not cls:
-		return None
-
-	derived_class = type(class_name, (cls,), {})
-
-	def exec_command(self, *k, **kw):
-		if self.env.IFORT_WIN32:
-			return self.exec_command_ifort(*k, **kw)
-		else:
-			return super(derived_class, self).exec_command(*k, **kw)
-
-	# Chain-up monkeypatch needed since exec_command() is in base class API
-	derived_class.exec_command = exec_command
-
-	# No chain-up behavior needed since the following methods aren't in
-	# base class API
-	derived_class.exec_response_command = exec_response_command
-	derived_class.quote_response_command = quote_response_command
-	derived_class.exec_command_ifort = exec_command_ifort
-	derived_class.exec_mf = exec_mf
-
-	if hasattr(cls, 'hcode'):
-		derived_class.hcode = cls.hcode
-
-	return derived_class
-
-for k in 'fc fcprogram fcprogram_test fcshlib fcstlib'.split():
-	wrap_class(k)
+		self.env.DO_MANIFEST = True
 

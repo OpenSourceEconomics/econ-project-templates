@@ -57,7 +57,7 @@ part3 = 0
 id = 562000999
 def newid():
 	global id
-	id = id + 1
+	id += 1
 	return "%04X%04X%04X%012d" % (0, 10000, 0, id)
 
 class XCodeNode:
@@ -213,7 +213,7 @@ class PBXProject(XCodeNode):
 		XCodeNode.__init__(self)
 		self.buildConfigurationList = XCConfigurationList([XCBuildConfiguration('waf', {})])
 		self.compatibilityVersion = version[0]
-		self.hasScannedForEncodings = 1;
+		self.hasScannedForEncodings = 1
 		self.mainGroup = PBXGroup(name)
 		self.projectRoot = ""
 		self.projectDirPath = ""
@@ -295,7 +295,7 @@ class xcode(Build.BuildContext):
 				group.add(tg.path, self.collect_source(tg))
 				p.mainGroup.children.append(group)
 
-				if 'cprogram' or 'cxxprogram' in features:
+				if ('cprogram' in features) or ('cxxprogram' in features):
 					p.add_task_gen(tg)
 
 

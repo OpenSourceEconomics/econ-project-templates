@@ -25,15 +25,7 @@ class gen_sym(Task):
 		kw = {}
 		if 'msvc' in (self.env.CC_NAME, self.env.CXX_NAME):
 			re_nm = re.compile(r'External\s+\|\s+_(' + self.generator.export_symbols_regex + r')\b')
-
 			cmd = (self.env.DUMPBIN or ['dumpbin']) + ['/symbols', obj.abspath()]
-
-			# Dumpbin requires custom environment sniffed out by msvc.py earlier
-			if self.env['PATH']:
-				env = dict(self.env.env or os.environ)
-				env.update(PATH = os.pathsep.join(self.env['PATH']))
-				kw['env'] = env
-
 		else:
 			if self.env.DEST_BINFMT == 'pe': #gcc uses nm, and has a preceding _ on windows
 				re_nm = re.compile(r'T\s+_(' + self.generator.export_symbols_regex + r')\b')
@@ -41,7 +33,7 @@ class gen_sym(Task):
 				re_nm=re.compile(r'T\s+(_?'+self.generator.export_symbols_regex+r')\b')
 			else:
 				re_nm = re.compile(r'T\s+(' + self.generator.export_symbols_regex + r')\b')
-			cmd = [self.env.NM[0] or 'nm', '-g', obj.abspath()]
+			cmd = self.env.NM or ['nm'] + ['-g', obj.abspath()]
 		syms = re_nm.findall(self.generator.bld.cmd_and_log(cmd, quiet=STDOUT, **kw))
 		self.outputs[0].write('%r' % syms)
 

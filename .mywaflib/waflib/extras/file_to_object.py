@@ -39,7 +39,7 @@ def filename_c_escape(x):
 
 class file_to_object_s(Task.Task):
 	color = 'CYAN'
-	dep_vars = ('DEST_CPU', 'DEST_BINFMT')
+	vars = ['DEST_CPU', 'DEST_BINFMT']
 
 	def run(self):
 		name = []

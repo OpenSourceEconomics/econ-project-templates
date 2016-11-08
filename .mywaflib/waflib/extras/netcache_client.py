@@ -146,7 +146,7 @@ def check_cache(conn, ssig):
 			ret = ''.join(buf)
 
 		all_sigs_in_cache = (time.time(), ret.splitlines())
-		Logs.debug('netcache: server cache has %r entries' % len(all_sigs_in_cache[1]))
+		Logs.debug('netcache: server cache has %r entries', len(all_sigs_in_cache[1]))
 
 	if not ssig in all_sigs_in_cache[1]:
 		raise ValueError('no file %s in cache' % ssig)
@@ -214,12 +214,16 @@ def can_retrieve_cache(self):
 				p = node.abspath()
 				recv_file(conn, ssig, cnt, p)
 				cnt += 1
+			else:
+				Logs.debug('netcache: obtained %r from cache', self.outputs)
 		except MissingFile as e:
-			Logs.debug('netcache: file is not in the cache %r' % e)
+			Logs.debug('netcache: file is not in the cache %r', e)
 			err = True
 
 		except Exception as e:
-			Logs.debug('netcache: could not get the files %r' % e)
+			Logs.debug('netcache: could not get the files %r', self.outputs)
+			if Logs.verbose > 1:
+				Logs.debug('netcache: exception %r', e)
 			err = True
 
 			# broken connection? remove this one
@@ -229,11 +233,6 @@ def can_retrieve_cache(self):
 		release_connection(conn)
 	if err:
 		return False
-
-	for node in self.outputs:
-		node.sig = sig
-		#if self.generator.bld.progress_bar < 1:
-		#	self.generator.bld.to_log('restoring from cache %r\n' % node.abspath())
 
 	self.cached = True
 	return True
@@ -263,8 +262,9 @@ def put_files_cache(self):
 				if not conn:
 					conn = get_connection(push=True)
 				sock_send(conn, ssig, cnt, node.abspath())
+				Logs.debug('netcache: sent %r', node)
 			except Exception as e:
-				Logs.debug("netcache: could not push the files %r" % e)
+				Logs.debug('netcache: could not push the files %r', e)
 
 				# broken connection? remove this one
 				close_connection(conn)
@@ -326,6 +326,8 @@ def make_cached(cls):
 
 	m1 = cls.run
 	def run(self):
+		if getattr(self, 'nocache', False):
+			return m1(self)
 		if self.can_retrieve_cache():
 			return 0
 		return m1(self)
@@ -333,10 +335,15 @@ def make_cached(cls):
 
 	m2 = cls.post_run
 	def post_run(self):
+		if getattr(self, 'nocache', False):
+			return m2(self)
 		bld = self.generator.bld
 		ret = m2(self)
 		if bld.cache_global:
 			self.put_files_cache()
+		if hasattr(self, 'chmod'):
+			for node in self.outputs:
+				os.chmod(node.abspath(), self.chmod)
 		return ret
 	cls.post_run = post_run
 

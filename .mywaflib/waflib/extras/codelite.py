@@ -269,14 +269,14 @@ def compile_template(line):
                         app("lst.append(%r)" % params[x])
 
                 f = extr[x]
-                if f.startswith('if') or f.startswith('for'):
+                if f.startswith(('if', 'for')):
                         app(f + ':')
                         indent += 1
                 elif f.startswith('py:'):
                         app(f[3:])
-                elif f.startswith('endif') or f.startswith('endfor'):
+                elif f.startswith(('endif', 'endfor')):
                         indent -= 1
-                elif f.startswith('else') or f.startswith('elif'):
+                elif f.startswith(('else', 'elif')):
                         indent -= 1
                         app(f + ':')
                         indent += 1
@@ -303,7 +303,7 @@ def rm_blank_lines(txt):
 BOM = '\xef\xbb\xbf'
 try:
         BOM = bytes(BOM, 'iso8859-1') # python 3
-except NameError:
+except (TypeError, NameError):
         pass
 
 def stealth_write(self, data, flags='wb'):
@@ -315,7 +315,7 @@ def stealth_write(self, data, flags='wb'):
                 data = data.decode(sys.getfilesystemencoding(), 'replace')
                 data = data.encode('utf-8')
 
-        if self.name.endswith('.project') or self.name.endswith('.project'):
+        if self.name.endswith('.project'):
                 data = BOM + data
 
         try:
@@ -325,7 +325,7 @@ def stealth_write(self, data, flags='wb'):
         except (IOError, ValueError):
                 self.write(data, flags=flags)
         else:
-                Logs.debug('codelite: skipping %s' % self.abspath())
+                Logs.debug('codelite: skipping %r', self)
 Node.Node.stealth_write = stealth_write
 
 re_quote = re.compile("[^a-zA-Z0-9-]")
@@ -470,7 +470,7 @@ class vsnode_project(vsnode):
                 return lst
 
         def write(self):
-                Logs.debug('codelite: creating %r' % self.path)
+                Logs.debug('codelite: creating %r', self.path)
                 #print "self.name:",self.name
 
                 # first write the project file
@@ -491,7 +491,7 @@ class vsnode_project(vsnode):
                 required for writing the source files
                 """
                 name = node.name
-                if name.endswith('.cpp') or name.endswith('.c'):
+                if name.endswith(('.cpp', '.c')):
                         return 'sourcefile'
                 return 'headerfile'
 
@@ -511,7 +511,7 @@ class vsnode_project(vsnode):
                                 x.preprocessor_definitions = ''
                                 x.includes_search_path = ''
 
-                                # can specify "deploy_dir" too                                
+                                # can specify "deploy_dir" too
                                 ret.append(x)
                 self.build_properties = ret
 
@@ -737,22 +737,20 @@ class codelite_generator(BuildContext):
                                 return ''
                         return getattr(x, 'path', None) and x.path.abspath() or x.name
                 self.all_projects.sort(key=sortfun)
-                
 
         def write_files(self):
-                
                 """
                 Write the project and solution files from the data collected
                 so far. It is unlikely that you will want to change this
                 """
-                for p in self.all_projects:                        
+                for p in self.all_projects:
                         p.write()
 
                 # and finally write the solution file
                 node = self.get_solution_node()
                 node.parent.mkdir()
-                Logs.warn('Creating %r' % node)
-                #a = dir(self.root)                
+                Logs.warn('Creating %r', node)
+                #a = dir(self.root)
                 #for b in a:
                 #        print b
                 #print self.group_names

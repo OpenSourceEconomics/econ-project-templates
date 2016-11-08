@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2006-2015 (ita)
+# Thomas Nagy, 2006-2016 (ita)
 
 """
-
-Tool Description
-================
-
 This tool helps with finding Qt5 tools and libraries,
 and also provides syntactic sugar for using Qt5 tools.
 
@@ -21,7 +17,7 @@ The following snippet illustrates the tool usage::
 	def build(bld):
 		bld(
 			features = 'qt5 cxx cxxprogram',
-			uselib   = 'QTCORE QTGUI QTOPENGL QTSVG',
+			uselib   = 'QT5CORE QT5GUI QT5OPENGL QT5SVG',
 			source   = 'main.cpp textures.qrc aboutDialog.ui',
 			target   = 'window',
 		)
@@ -61,6 +57,8 @@ A few options (--qt{dir,bin,...}) and environment variables
 (QT5_{ROOT,DIR,MOC,UIC,XCOMPILE}) allow finer tuning of the tool,
 tool path selection, etc; please read the source for more info.
 
+The detection uses pkg-config on Linux by default. To force static library detection use:
+QT5_XCOMPILE=1 QT5_FORCE_STATIC=1 waf configure
 """
 
 try:
@@ -75,13 +73,13 @@ else:
 import os, sys
 from waflib.Tools import cxx
 from waflib import Task, Utils, Options, Errors, Context
-from waflib.TaskGen import feature, after_method, extension
+from waflib.TaskGen import feature, after_method, extension, before_method
 from waflib.Configure import conf
 from waflib import Logs
 
 MOC_H = ['.h', '.hpp', '.hxx', '.hh']
 """
-File extensions associated to the .moc files
+File extensions associated to .moc files
 """
 
 EXT_RCC = ['.qrc']
@@ -101,16 +99,30 @@ File extensions of C++ files that may require a .moc processing
 
 QT5_LIBS = '''
 qtmain
+Qt53DCore
+Qt53DExtras
+Qt53DInput
+Qt53DLogic
+Qt53DQuickExtras
+Qt53DQuickInput
+Qt53DQuickRender
+Qt53DQuick.so
+Qt53DRender
 Qt5Bluetooth
+Qt5Charts
 Qt5CLucene
 Qt5Concurrent
 Qt5Core
+Qt5DataVisualization
 Qt5DBus
 Qt5Declarative
 Qt5DesignerComponents
 Qt5Designer
+Qt5EglDeviceIntegration
+Qt5Gamepad
 Qt5Gui
 Qt5Help
+Qt5Location
 Qt5MultimediaQuick_p
 Qt5Multimedia
 Qt5MultimediaWidgets
@@ -119,22 +131,35 @@ Qt5Nfc
 Qt5OpenGL
 Qt5Positioning
 Qt5PrintSupport
+Qt5Purchasing
 Qt5Qml
+Qt5QuickControls2
 Qt5QuickParticles
 Qt5Quick
+Qt5QuickTemplates2
 Qt5QuickTest
+Qt5QuickWidgets
 Qt5Script
 Qt5ScriptTools
+Qt5Scxml
 Qt5Sensors
+Qt5SerialBus
 Qt5SerialPort
 Qt5Sql
 Qt5Svg
 Qt5Test
+Qt5WebChannel
+Qt5WebEngineCore
+Qt5WebEngine
+Qt5WebEngineWidgets
 Qt5WebKit
 Qt5WebKitWidgets
+Qt5WebSockets
+Qt5WebView
 Qt5Widgets
 Qt5WinExtras
 Qt5X11Extras
+Qt5XcbQpa
 Qt5XmlPatterns
 Qt5Xml'''
 
@@ -171,9 +196,6 @@ class qxx(Task.classes['cxx']):
 		If several libraries use the same classes, it is possible that moc will run several times (Issue 1318)
 		It is not possible to change the file names, but we can assume that the moc transformation will be identical,
 		and the moc tasks can be shared in a global cache.
-
-		The defines passed to moc will then depend on task generator order. If this is not acceptable, then
-		use the tool slow_qt5 instead (and enjoy the slow builds... :-( )
 		"""
 		try:
 			moc_cache = self.generator.bld.moc_cache
@@ -186,13 +208,14 @@ class qxx(Task.classes['cxx']):
 			tsk = moc_cache[h_node] = Task.classes['moc'](env=self.env, generator=self.generator)
 			tsk.set_inputs(h_node)
 			tsk.set_outputs(m_node)
+			tsk.env.append_unique('MOC_FLAGS', '-i')
 
 			if self.generator:
 				self.generator.tasks.append(tsk)
 
 			# direct injection in the build phase (safe because called from the main thread)
 			gen = self.generator.bld.producer
-			gen.outstanding.insert(0, tsk)
+			gen.outstanding.appendleft(tsk)
 			gen.total += 1
 
 			return tsk
@@ -201,19 +224,9 @@ class qxx(Task.classes['cxx']):
 			# remove the signature, it must be recomputed with the moc task
 			delattr(self, 'cache_sig')
 
-	def moc_h_ext(self):
-		ext = []
-		try:
-			ext = Options.options.qt_header_ext.split()
-		except AttributeError:
-			pass
-		if not ext:
-			ext = MOC_H
-		return ext
-
 	def add_moc_tasks(self):
 		"""
-		Create the moc tasks by looking in ``bld.raw_deps[self.uid()]``
+		Creates moc tasks by looking in the list of file dependencies ``bld.raw_deps[self.uid()]``
 		"""
 		node = self.inputs[0]
 		bld = self.generator.bld
@@ -231,7 +244,7 @@ class qxx(Task.classes['cxx']):
 		include_nodes = [node.parent] + self.generator.includes_nodes
 
 		moctasks = []
-		mocfiles = set([])
+		mocfiles = set()
 		for d in bld.raw_deps.get(self.uid(), []):
 			if not d.endswith('.moc'):
 				continue
@@ -243,29 +256,26 @@ class qxx(Task.classes['cxx']):
 
 			# find the source associated with the moc file
 			h_node = None
-
 			base2 = d[:-4]
-			for x in include_nodes:
-				for e in self.moc_h_ext():
-					h_node = x.find_node(base2 + e)
-					if h_node:
-						break
-				if h_node:
-					m_node = h_node.change_ext('.moc')
-					break
-			else:
-				# foo.cpp -> foo.cpp.moc
-				for k in EXT_QT5:
-					if base2.endswith(k):
-						for x in include_nodes:
-							h_node = x.find_node(base2)
-							if h_node:
-								break
-						if h_node:
-							m_node = h_node.change_ext(k + '.moc')
-							break
 
-			if not h_node:
+			# foo.moc from foo.cpp
+			prefix = node.name[:node.name.rfind('.')]
+			if base2 == prefix:
+				h_node = node
+			else:
+				# this deviates from the standard
+				# if bar.cpp includes foo.moc, then assume it is from foo.h
+				for x in include_nodes:
+					for e in MOC_H:
+						h_node = x.find_node(base2 + e)
+						if h_node:
+							break
+					else:
+						continue
+					break
+			if h_node:
+				m_node = h_node.change_ext('.moc')
+			else:
 				raise Errors.WafError('No source found for %r which is a moc file' % d)
 
 			# create the moc task
@@ -277,14 +287,13 @@ class qxx(Task.classes['cxx']):
 		self.moc_done = 1
 
 class trans_update(Task.Task):
-	"""Update a .ts files from a list of C++ files"""
+	"""Updates a .ts files from a list of C++ files"""
 	run_str = '${QT_LUPDATE} ${SRC} -ts ${TGT}'
 	color   = 'BLUE'
-Task.update_outputs(trans_update)
 
 class XMLHandler(ContentHandler):
 	"""
-	Parser for *.qrc* files
+	Parses ``.qrc`` files
 	"""
 	def __init__(self):
 		self.buf = []
@@ -300,7 +309,7 @@ class XMLHandler(ContentHandler):
 
 @extension(*EXT_RCC)
 def create_rcc_task(self, node):
-	"Create rcc and cxx tasks for *.qrc* files"
+	"Creates rcc and cxx tasks for ``.qrc`` files"
 	rcnode = node.change_ext('_rc.cpp')
 	self.create_task('rcc', node, rcnode)
 	cpptask = self.create_task('cxx', rcnode, rcnode.change_ext('.o'))
@@ -312,23 +321,45 @@ def create_rcc_task(self, node):
 
 @extension(*EXT_UI)
 def create_uic_task(self, node):
-	"hook for uic tasks"
+	"Create uic tasks for user interface ``.ui`` definition files"
 	uictask = self.create_task('ui5', node)
-	uictask.outputs = [self.path.find_or_declare(self.env['ui_PATTERN'] % node.name[:-3])]
+	uictask.outputs = [node.parent.find_or_declare(self.env.ui_PATTERN % node.name[:-3])]
 
 @extension('.ts')
 def add_lang(self, node):
-	"""add all the .ts file into self.lang"""
+	"""Adds all the .ts file into ``self.lang``"""
 	self.lang = self.to_list(getattr(self, 'lang', [])) + [node]
+
+@feature('qt5')
+@before_method('process_source')
+def process_mocs(self):
+	"""
+	Processes MOC files included in headers::
+
+		def build(bld):
+			bld.program(features='qt5', source='main.cpp', target='app', use='QT5CORE', moc='foo.h')
+
+	The build will run moc on foo.h to create moc_foo.n.cpp. The number in the file name
+	is provided to avoid name clashes when the same headers are used by several targets.
+	"""
+	lst = self.to_nodes(getattr(self, 'moc', []))
+	self.source = self.to_list(getattr(self, 'source', []))
+	for x in lst:
+		prefix = x.name[:x.name.rfind('.')] # foo.h -> foo
+		moc_target = 'moc_%s.%d.cpp' % (prefix, self.idx)
+		moc_node = x.parent.find_or_declare(moc_target)
+		self.source.append(moc_node)
+
+		self.create_task('moc', x, moc_node)
 
 @feature('qt5')
 @after_method('apply_link')
 def apply_qt5(self):
 	"""
-	Add MOC_FLAGS which may be necessary for moc::
+	Adds MOC_FLAGS which may be necessary for moc::
 
 		def build(bld):
-			bld.program(features='qt5', source='main.cpp', target='app', use='QTCORE')
+			bld.program(features='qt5', source='main.cpp', target='app', use='QT5CORE')
 
 	The additional parameters are:
 
@@ -362,7 +393,7 @@ def apply_qt5(self):
 			self.link_task.inputs.append(k.outputs[0])
 
 	lst = []
-	for flag in self.to_list(self.env['CXXFLAGS']):
+	for flag in self.to_list(self.env.CXXFLAGS):
 		if len(flag) < 2: continue
 		f = flag[0:2]
 		if f in ('-D', '-I', '/D', '/I'):
@@ -375,13 +406,13 @@ def apply_qt5(self):
 @extension(*EXT_QT5)
 def cxx_hook(self, node):
 	"""
-	Re-map C++ file extensions to the :py:class:`waflib.Tools.qt5.qxx` task.
+	Re-maps C++ file extensions to the :py:class:`waflib.Tools.qt5.qxx` task.
 	"""
 	return self.create_compiled_task('qxx', node)
 
 class rcc(Task.Task):
 	"""
-	Process *.qrc* files
+	Processes ``.qrc`` files
 	"""
 	color   = 'BLUE'
 	run_str = '${QT_RCC} -name ${tsk.rcname()} ${SRC[0].abspath()} ${RCC_ST} -o ${TGT}'
@@ -393,7 +424,7 @@ class rcc(Task.Task):
 	def scan(self):
 		"""Parse the *.qrc* files"""
 		if not has_xml:
-			Logs.error('no xml support was found, the rcc dependencies will be incomplete!')
+			Logs.error('No xml.sax support was found, rcc dependencies will be incomplete!')
 			return ([], [])
 
 		parser = make_parser()
@@ -416,14 +447,14 @@ class rcc(Task.Task):
 
 class moc(Task.Task):
 	"""
-	Create *.moc* files
+	Creates ``.moc`` files
 	"""
 	color   = 'BLUE'
 	run_str = '${QT_MOC} ${MOC_FLAGS} ${MOCCPPPATH_ST:INCPATHS} ${MOCDEFINES_ST:DEFINES} ${SRC} ${MOC_ST} ${TGT}'
 
 class ui5(Task.Task):
 	"""
-	Process *.ui* files
+	Processes ``.ui`` files
 	"""
 	color   = 'BLUE'
 	run_str = '${QT_UIC} ${SRC} -o ${TGT}'
@@ -431,18 +462,17 @@ class ui5(Task.Task):
 
 class ts2qm(Task.Task):
 	"""
-	Create *.qm* files from *.ts* files
+	Generates ``.qm`` files from ``.ts`` files
 	"""
 	color   = 'BLUE'
 	run_str = '${QT_LRELEASE} ${QT_LRELEASE_FLAGS} ${SRC} -qm ${TGT}'
 
 class qm2rcc(Task.Task):
 	"""
-	Transform *.qm* files into *.rc* files
+	Generates ``.qrc`` files from ``.qm`` files
 	"""
 	color = 'BLUE'
 	after = 'ts2qm'
-
 	def run(self):
 		"""Create a qrc file including the inputs"""
 		txt = '\n'.join(['<file>%s</file>' % k.path_from(self.outputs[0].parent) for k in self.inputs])
@@ -454,7 +484,7 @@ def configure(self):
 	Besides the configuration options, the environment variable QT5_ROOT may be used
 	to give the location of the qt5 libraries (absolute path).
 
-	The detection will use the program *pkg-config* through :py:func:`waflib.Tools.config_c.check_cfg`
+	The detection uses the program ``pkg-config`` through :py:func:`waflib.Tools.config_c.check_cfg`
 	"""
 	self.find_qt5_binaries()
 	self.set_qt5_libs_to_check()
@@ -463,8 +493,43 @@ def configure(self):
 	self.add_qt5_rpath()
 	self.simplify_qt5_libs()
 
+	# warn about this during the configuration too
+	if not has_xml:
+		Logs.error('No xml.sax support was found, rcc dependencies will be incomplete!')
+
+	if 'COMPILER_CXX' not in self.env:
+		self.fatal('No CXX compiler defined: did you forget to configure compiler_cxx first?')
+
+	# Qt5 may be compiled with '-reduce-relocations' which requires dependent programs to have -fPIE or -fPIC?
+	frag = '#include <QApplication>\nint main(int argc, char **argv) {return 0;}\n'
+	uses = 'QT5CORE QT5WIDGETS QT5GUI'
+	for flag in [[], '-fPIE', '-fPIC', '-std=c++11' , ['-std=c++11', '-fPIE'], ['-std=c++11', '-fPIC']]:
+		msg = 'See if Qt files compile '
+		if flag:
+			msg += 'with %s' % flag
+		try:
+			self.check(features='qt5 cxx', use=uses, uselib_store='qt5', cxxflags=flag, fragment=frag, msg=msg)
+		except self.errors.ConfigurationError:
+			pass
+		else:
+			break
+	else:
+		self.fatal('Could not build a simple Qt application')
+
+	# FreeBSD does not add /usr/local/lib and the pkg-config files do not provide it either :-/
+	from waflib import Utils
+	if Utils.unversioned_sys_platform() == 'freebsd':
+		frag = '#include <QApplication>\nint main(int argc, char **argv) { QApplication app(argc, argv); return NULL != (void*) (&app);}\n'
+		try:
+			self.check(features='qt5 cxx cxxprogram', use=uses, fragment=frag, msg='Can we link Qt programs on FreeBSD directly?')
+		except self.errors.ConfigurationError:
+			self.check(features='qt5 cxx cxxprogram', use=uses, uselib_store='qt5', libpath='/usr/local/lib', fragment=frag, msg='Is /usr/local/lib required?')
+
 @conf
 def find_qt5_binaries(self):
+	"""
+	Detects Qt programs such as qmake, moc, uic, lrelease
+	"""
 	env = self.env
 	opt = Options.options
 
@@ -478,16 +543,16 @@ def find_qt5_binaries(self):
 
 	# the qt directory has been given from QT5_ROOT - deduce the qt binary path
 	if not qtdir:
-		qtdir = os.environ.get('QT5_ROOT', '')
-		qtbin = os.environ.get('QT5_BIN', None) or os.path.join(qtdir, 'bin')
+		qtdir = self.environ.get('QT5_ROOT', '')
+		qtbin = self.environ.get('QT5_BIN') or os.path.join(qtdir, 'bin')
 
 	if qtbin:
 		paths = [qtbin]
 
 	# no qtdir, look in the path and in /usr/local/Trolltech
 	if not qtdir:
-		paths = os.environ.get('PATH', '').split(os.pathsep)
-		paths.append('/usr/share/qt5/bin/')
+		paths = self.environ.get('PATH', '').split(os.pathsep)
+		paths.extend(['/usr/share/qt5/bin', '/usr/local/lib/qt5/bin'])
 		try:
 			lst = Utils.listdir('/usr/local/Trolltech/')
 		except OSError:
@@ -543,7 +608,7 @@ def find_qt5_binaries(self):
 	else:
 		self.fatal('Could not find qmake for qt5')
 
-	self.env.QT_INSTALL_BINS = qtbin = self.cmd_and_log(self.env.QMAKE + ['-query', 'QT_INSTALL_BINS']).strip() + os.sep
+	self.env.QT_HOST_BINS = qtbin = self.cmd_and_log(self.env.QMAKE + ['-query', 'QT_HOST_BINS']).strip()
 	paths.insert(0, qtbin)
 
 	def find_bin(lst, var):
@@ -575,39 +640,69 @@ def find_qt5_binaries(self):
 	find_bin(['lrelease-qt5', 'lrelease'], 'QT_LRELEASE')
 	find_bin(['lupdate-qt5', 'lupdate'], 'QT_LUPDATE')
 
-	env['UIC_ST'] = '%s -o %s'
-	env['MOC_ST'] = '-o'
-	env['ui_PATTERN'] = 'ui_%s.h'
-	env['QT_LRELEASE_FLAGS'] = ['-silent']
+	env.UIC_ST = '%s -o %s'
+	env.MOC_ST = '-o'
+	env.ui_PATTERN = 'ui_%s.h'
+	env.QT_LRELEASE_FLAGS = ['-silent']
 	env.MOCCPPPATH_ST = '-I%s'
 	env.MOCDEFINES_ST = '-D%s'
 
 @conf
+def find_single_qt5_lib(self, name, uselib, qtlibs, qtincludes, force_static):
+	env = self.env
+	if force_static:
+		exts = ('.a', '.lib')
+		prefix = 'STLIB'
+	else:
+		exts = ('.so', '.lib')
+		prefix = 'LIB'
+
+	def lib_names():
+		for x in exts:
+			for k in ('', '5') if Utils.is_win32 else ['']:
+				for p in ('lib', ''):
+					yield (p, name, k, x)
+		raise StopIteration
+
+	for tup in lib_names():
+		k = ''.join(tup)
+		path = os.path.join(qtlibs, k)
+		if os.path.exists(path):
+			if env.DEST_OS == 'win32':
+				libval = ''.join(tup[:-1])
+			else:
+				libval = name
+			env.append_unique(prefix + '_' + uselib, libval)
+			env.append_unique('%sPATH_%s' % (prefix, uselib), qtlibs)
+			env.append_unique('INCLUDES_' + uselib, qtincludes)
+			env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, name.replace('Qt5', 'Qt')))
+			return k
+	return False
+
+@conf
 def find_qt5_libraries(self):
-	qtlibs = getattr(Options.options, 'qtlibs', None) or os.environ.get("QT5_LIBDIR", None)
+	env = self.env
+	qtlibs = getattr(Options.options, 'qtlibs', None) or self.environ.get('QT5_LIBDIR')
 	if not qtlibs:
 		try:
-			qtlibs = self.cmd_and_log(self.env.QMAKE + ['-query', 'QT_INSTALL_LIBS']).strip()
+			qtlibs = self.cmd_and_log(env.QMAKE + ['-query', 'QT_INSTALL_LIBS']).strip()
 		except Errors.WafError:
-			qtdir = self.cmd_and_log(self.env.QMAKE + ['-query', 'QT_INSTALL_PREFIX']).strip() + os.sep
+			qtdir = self.cmd_and_log(env.QMAKE + ['-query', 'QT_INSTALL_PREFIX']).strip()
 			qtlibs = os.path.join(qtdir, 'lib')
 	self.msg('Found the Qt5 libraries in', qtlibs)
 
-	qtincludes =  os.environ.get("QT5_INCLUDES", None) or self.cmd_and_log(self.env.QMAKE + ['-query', 'QT_INSTALL_HEADERS']).strip()
-	env = self.env
-	if not 'PKG_CONFIG_PATH' in os.environ:
-		os.environ['PKG_CONFIG_PATH'] = '%s:%s/pkgconfig:/usr/lib/qt5/lib/pkgconfig:/opt/qt5/lib/pkgconfig:/usr/lib/qt5/lib:/opt/qt5/lib' % (qtlibs, qtlibs)
-
+	qtincludes =  self.environ.get('QT5_INCLUDES') or self.cmd_and_log(env.QMAKE + ['-query', 'QT_INSTALL_HEADERS']).strip()
+	force_static = self.environ.get('QT5_FORCE_STATIC')
 	try:
-		if os.environ.get("QT5_XCOMPILE", None):
-			raise self.errors.ConfigurationError()
+		if self.environ.get('QT5_XCOMPILE'):
+			self.fatal('QT5_XCOMPILE Disables pkg-config detection')
 		self.check_cfg(atleast_pkgconfig_version='0.1')
 	except self.errors.ConfigurationError:
 		for i in self.qt5_vars:
 			uselib = i.upper()
-			if Utils.unversioned_sys_platform() == "darwin":
+			if Utils.unversioned_sys_platform() == 'darwin':
 				# Since at least qt 4.7.3 each library locates in separate directory
-				frameworkName = i + ".framework"
+				frameworkName = i + '.framework'
 				qtDynamicLib = os.path.join(qtlibs, frameworkName, i)
 				if os.path.exists(qtDynamicLib):
 					env.append_unique('FRAMEWORK_' + uselib, i)
@@ -615,58 +710,25 @@ def find_qt5_libraries(self):
 				else:
 					self.msg('Checking for %s' % i, False, 'YELLOW')
 				env.append_unique('INCLUDES_' + uselib, os.path.join(qtlibs, frameworkName, 'Headers'))
-			elif env.DEST_OS != "win32":
-				qtDynamicLib = os.path.join(qtlibs, "lib" + i + ".so")
-				qtStaticLib = os.path.join(qtlibs, "lib" + i + ".a")
-				if os.path.exists(qtDynamicLib):
-					env.append_unique('LIB_' + uselib, i)
-					self.msg('Checking for %s' % i, qtDynamicLib, 'GREEN')
-				elif os.path.exists(qtStaticLib):
-					env.append_unique('LIB_' + uselib, i)
-					self.msg('Checking for %s' % i, qtStaticLib, 'GREEN')
-				else:
-					self.msg('Checking for %s' % i, False, 'YELLOW')
-
-				env.append_unique('LIBPATH_' + uselib, qtlibs)
-				env.append_unique('INCLUDES_' + uselib, qtincludes)
-				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i))
 			else:
-				# Release library names are like QtCore5
-				for k in ("lib%s.a", "lib%s5.a", "%s.lib", "%s5.lib"):
-					lib = os.path.join(qtlibs, k % i)
-					if os.path.exists(lib):
-						env.append_unique('LIB_' + uselib, i + k[k.find("%s") + 2 : k.find('.')])
-						self.msg('Checking for %s' % i, lib, 'GREEN')
-						break
-				else:
-					self.msg('Checking for %s' % i, False, 'YELLOW')
-
-				env.append_unique('LIBPATH_' + uselib, qtlibs)
-				env.append_unique('INCLUDES_' + uselib, qtincludes)
-				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i.replace('Qt5', 'Qt')))
-
-				# Debug library names are like QtCore5d
-				uselib = i.upper() + "_debug"
-				for k in ("lib%sd.a", "lib%sd5.a", "%sd.lib", "%sd5.lib"):
-					lib = os.path.join(qtlibs, k % i)
-					if os.path.exists(lib):
-						env.append_unique('LIB_' + uselib, i + k[k.find("%s") + 2 : k.find('.')])
-						self.msg('Checking for %s' % i, lib, 'GREEN')
-						break
-				else:
-					self.msg('Checking for %s' % i, False, 'YELLOW')
-
-				env.append_unique('LIBPATH_' + uselib, qtlibs)
-				env.append_unique('INCLUDES_' + uselib, qtincludes)
-				env.append_unique('INCLUDES_' + uselib, os.path.join(qtincludes, i.replace('Qt5', 'Qt')))
+				for j in ('', 'd'):
+					k = '_DEBUG' if j == 'd' else ''
+					ret = self.find_single_qt5_lib(i + j, uselib + k, qtlibs, qtincludes, force_static)
+					if not force_static and not ret:
+						ret = self.find_single_qt5_lib(i + j, uselib + k, qtlibs, qtincludes, True)
+					self.msg('Checking for %s' % (i + j), ret, 'GREEN' if ret else 'YELLOW')
 	else:
+		path = '%s:%s:%s/pkgconfig:/usr/lib/qt5/lib/pkgconfig:/opt/qt5/lib/pkgconfig:/usr/lib/qt5/lib:/opt/qt5/lib' % (
+			self.environ.get('PKG_CONFIG_PATH', ''), qtlibs, qtlibs)
 		for i in self.qt5_vars_debug + self.qt5_vars:
-			self.check_cfg(package=i, args='--cflags --libs', mandatory=False)
+			self.check_cfg(package=i, args='--cflags --libs', mandatory=False, force_static=force_static, pkg_config_path=path)
 
 @conf
 def simplify_qt5_libs(self):
-	# the libpaths make really long command-lines
-	# remove the qtcore ones from qtgui, etc
+	"""
+	Since library paths make really long command-lines,
+	and since everything depends on qtcore, remove the qtcore ones from qtgui, etc
+	"""
 	env = self.env
 	def process_lib(vars_, coreval):
 		for d in vars_:
@@ -683,13 +745,14 @@ def simplify_qt5_libs(self):
 						continue
 					accu.append(lib)
 				env['LIBPATH_'+var] = accu
-
 	process_lib(self.qt5_vars,       'LIBPATH_QTCORE')
 	process_lib(self.qt5_vars_debug, 'LIBPATH_QTCORE_DEBUG')
 
 @conf
 def add_qt5_rpath(self):
-	# rpath if wanted
+	"""
+	Defines rpath entries for Qt libraries
+	"""
 	env = self.env
 	if getattr(Options.options, 'want_rpath', False):
 		def process_rpath(vars_, coreval):
@@ -714,7 +777,7 @@ def set_qt5_libs_to_check(self):
 		self.qt5_vars = QT5_LIBS
 	self.qt5_vars = Utils.to_list(self.qt5_vars)
 	if not hasattr(self, 'qt5_vars_debug'):
-		self.qt5_vars_debug = [a + '_debug' for a in self.qt5_vars]
+		self.qt5_vars_debug = [a + '_DEBUG' for a in self.qt5_vars]
 	self.qt5_vars_debug = Utils.to_list(self.qt5_vars_debug)
 
 @conf
@@ -731,15 +794,8 @@ def options(opt):
 	Command-line options
 	"""
 	opt.add_option('--want-rpath', action='store_true', default=False, dest='want_rpath', help='enable the rpath for qt libraries')
-
-	opt.add_option('--header-ext',
-		type='string',
-		default='',
-		help='header extension for moc files',
-		dest='qt_header_ext')
-
 	for i in 'qtdir qtbin qtlibs'.split():
 		opt.add_option('--'+i, type='string', default='', dest=i)
 
-	opt.add_option('--translate', action="store_true", help="collect translation strings", dest="trans_qt5", default=False)
+	opt.add_option('--translate', action='store_true', help='collect translation strings', dest='trans_qt5', default=False)
 

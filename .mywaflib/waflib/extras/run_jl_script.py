@@ -34,7 +34,6 @@ def configure(conf):
         conf.fatal("No Julia interpreter found!")
 
 
-@Task.update_outputs
 class run_jl_script(Task.Task):
 
     """Run a Julia script."""

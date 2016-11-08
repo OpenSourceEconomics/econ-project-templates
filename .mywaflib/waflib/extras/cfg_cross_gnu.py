@@ -65,7 +65,7 @@ def get_chost_stuff(conf):
 @Configure.conf
 def xcheck_envar(conf, name, wafname=None, cross=False):
 	wafname = wafname or name
-	envar = os.environ.get(name, None)
+	envar = os.environ.get(name)
 
 	if envar is None:
 		return
@@ -88,7 +88,7 @@ def xcheck_host_prog(conf, name, tool, wafname=None):
 
 	specific = None
 	if chost:
-		specific = os.environ.get('%s_%s' % (chost_envar, name), None)
+		specific = os.environ.get('%s_%s' % (chost_envar, name))
 
 	if specific:
 		value = Utils.to_list(specific)
@@ -98,7 +98,7 @@ def xcheck_host_prog(conf, name, tool, wafname=None):
 		 " ".join(quote(x) for x in value))
 		return
 	else:
-		envar = os.environ.get('HOST_%s' % name, None)
+		envar = os.environ.get('HOST_%s' % name)
 		if envar is not None:
 			value = Utils.to_list(envar)
 			conf.env[wafname] = value
@@ -127,7 +127,7 @@ def xcheck_host_envar(conf, name, wafname=None):
 
 	specific = None
 	if chost:
-		specific = os.environ.get('%s_%s' % (chost_envar, name), None)
+		specific = os.environ.get('%s_%s' % (chost_envar, name))
 
 	if specific:
 		value = Utils.to_list(specific)
@@ -138,7 +138,7 @@ def xcheck_host_envar(conf, name, wafname=None):
 		return
 
 
-	envar = os.environ.get('HOST_%s' % name, None)
+	envar = os.environ.get('HOST_%s' % name)
 	if envar is None:
 		return
 

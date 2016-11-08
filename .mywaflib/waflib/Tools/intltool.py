@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2006-2010 (ita)
+# Thomas Nagy, 2006-2016 (ita)
 
 """
 Support for translation tools such as msgfmt and intltool
@@ -48,7 +48,7 @@ _style_flags = {
 @taskgen_method
 def ensure_localedir(self):
 	"""
-	Expand LOCALEDIR from DATAROOTDIR/locale if possible, or fallback to PREFIX/share/locale
+	Expands LOCALEDIR from DATAROOTDIR/locale if possible, or falls back to PREFIX/share/locale
 	"""
 	# use the tool gnu_dirs to provide options to define this
 	if not self.env.LOCALEDIR:
@@ -61,7 +61,7 @@ def ensure_localedir(self):
 @feature('intltool_in')
 def apply_intltool_in_f(self):
 	"""
-	Create tasks to translate files by intltool-merge::
+	Creates tasks to translate files by intltool-merge::
 
 		def build(bld):
 			bld(
@@ -120,12 +120,12 @@ def apply_intltool_in_f(self):
 		task = self.create_task('intltool', node, node.change_ext(''))
 		inst = getattr(self, 'install_path', None)
 		if inst:
-			self.bld.install_files(inst, task.outputs)
+			self.add_install_files(install_to=inst, install_from=task.outputs)
 
 @feature('intltool_po')
 def apply_intltool_po(self):
 	"""
-	Create tasks to process po files::
+	Creates tasks to process po files::
 
 		def build(bld):
 			bld(features='intltool_po', appname='myapp', podir='po', install_path="${LOCALEDIR}")
@@ -171,31 +171,38 @@ def apply_intltool_po(self):
 					filename = task.outputs[0].name
 					(langname, ext) = os.path.splitext(filename)
 					inst_file = inst + os.sep + langname + os.sep + 'LC_MESSAGES' + os.sep + appname + '.mo'
-					self.bld.install_as(inst_file, task.outputs[0], chmod=getattr(self, 'chmod', Utils.O644), env=task.env)
+					self.add_install_as(install_to=inst_file, install_from=task.outputs[0],
+						chmod=getattr(self, 'chmod', Utils.O644))
 
 	else:
 		Logs.pprint('RED', "Error no LINGUAS file found in po directory")
 
 class po(Task.Task):
 	"""
-	Compile .po files into .gmo files
+	Compiles .po files into .gmo files
 	"""
 	run_str = '${MSGFMT} -o ${TGT} ${SRC}'
 	color   = 'BLUE'
 
 class intltool(Task.Task):
 	"""
-	Let intltool-merge translate an input file
+	Calls intltool-merge to update translation files
 	"""
 	run_str = '${INTLTOOL} ${INTLFLAGS} ${INTLCACHE_ST:INTLCACHE} ${INTLPODIR} ${SRC} ${TGT}'
 	color   = 'BLUE'
 
 @conf
 def find_msgfmt(conf):
+	"""
+	Detects msgfmt and sets the ``MSGFMT`` variable
+	"""
 	conf.find_program('msgfmt', var='MSGFMT')
 
 @conf
 def find_intltool_merge(conf):
+	"""
+	Detects intltool-merge
+	"""
 	if not conf.env.PERL:
 		conf.find_program('perl', var='PERL')
 	conf.env.INTLCACHE_ST = '--cache=%s'
@@ -204,8 +211,8 @@ def find_intltool_merge(conf):
 
 def configure(conf):
 	"""
-	Detect the program *msgfmt* and set *conf.env.MSGFMT*.
-	Detect the program *intltool-merge* and set *conf.env.INTLTOOL*.
+	Detects the program *msgfmt* and set *conf.env.MSGFMT*.
+	Detects the program *intltool-merge* and set *conf.env.INTLTOOL*.
 	It is possible to set INTLTOOL in the environment, but it must not have spaces in it::
 
 		$ INTLTOOL="/path/to/the program/intltool" waf configure
@@ -214,7 +221,6 @@ def configure(conf):
 	"""
 	conf.find_msgfmt()
 	conf.find_intltool_merge()
-
 	if conf.env.CC or conf.env.CXX:
 		conf.check(header_name='locale.h')
 

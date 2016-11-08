@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2006-2010 (ita)
+# Thomas Nagy, 2006-2016 (ita)
 
 """
 C# support. A simple example::
@@ -25,7 +25,6 @@ from waflib import Utils, Task, Options, Errors
 from waflib.TaskGen import before_method, after_method, feature
 from waflib.Tools import ccroot
 from waflib.Configure import conf
-import os, tempfile
 
 ccroot.USELIB_VARS['cs'] = set(['CSFLAGS', 'ASSEMBLIES', 'RESOURCES'])
 ccroot.lib_patterns['csshlib'] = ['%s']
@@ -55,7 +54,7 @@ def apply_cs(self):
 	if inst_to:
 		# note: we are making a copy, so the files added to cs_task.outputs won't be installed automatically
 		mod = getattr(self, 'chmod', bintype=='exe' and Utils.O755 or Utils.O644)
-		self.install_task = self.bld.install_files(inst_to, self.cs_task.outputs[:], env=self.env, chmod=mod)
+		self.install_task = self.add_install_files(install_to=inst_to, install_from=self.cs_task.outputs[:], chmod=mod)
 
 @feature('cs')
 @after_method('apply_cs')
@@ -126,46 +125,9 @@ class mcs(Task.Task):
 	run_str = '${MCS} ${CSTYPE} ${CSFLAGS} ${ASS_ST:ASSEMBLIES} ${RES_ST:RESOURCES} ${OUT} ${SRC}'
 
 	def exec_command(self, cmd, **kw):
-		bld = self.generator.bld
-
-		try:
-			if not kw.get('cwd', None):
-				kw['cwd'] = bld.cwd
-		except AttributeError:
-			bld.cwd = kw['cwd'] = bld.variant_dir
-
-		try:
-			tmp = None
-			if isinstance(cmd, list) and len(' '.join(cmd)) >= 8192:
-				program = cmd[0] #unquoted program name, otherwise exec_command will fail
-				cmd = [self.quote_response_command(x) for x in cmd]
-				(fd, tmp) = tempfile.mkstemp()
-				os.write(fd, '\r\n'.join(i.replace('\\', '\\\\') for i in cmd[1:]).encode())
-				os.close(fd)
-				cmd = [program, '@' + tmp]
-			# no return here, that's on purpose
-			ret = self.generator.bld.exec_command(cmd, **kw)
-		finally:
-			if tmp:
-				try:
-					os.remove(tmp)
-				except OSError:
-					pass # anti-virus and indexers can keep the files open -_-
-		return ret
-
-	def quote_response_command(self, flag):
-		# /noconfig is not allowed when using response files
-		if flag.lower() == '/noconfig':
-			return ''
-
-		if flag.find(' ') > -1:
-			for x in ('/r:', '/reference:', '/resource:', '/lib:', '/out:'):
-				if flag.startswith(x):
-					flag = '%s"%s"' % (x, '","'.join(flag[len(x):].split(',')))
-					break
-			else:
-				flag = '"%s"' % flag
-		return flag
+		if '/noconfig' in cmd:
+			raise ValueError('/noconfig is not allowed when using response files, check your flags!')
+		return super(self.__class__, self).exec_command(cmd, **kw)
 
 def configure(conf):
 	"""
@@ -198,8 +160,6 @@ class fake_csshlib(Task.Task):
 	inst_to = None
 
 	def runnable_status(self):
-		for x in self.outputs:
-			x.sig = Utils.h_file(x.abspath())
 		return Task.SKIP_ME
 
 @conf

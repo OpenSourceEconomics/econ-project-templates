@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-15
+# Hans-Martin von Gaudecker, 2012-14
 
 """
 Run a R script in the directory specified by **ctx.bldnode**.
@@ -22,9 +22,7 @@ Usage::
 """
 
 
-import os
-from waflib import Task, TaskGen, Logs, Node
-
+from waflib import Task, TaskGen, Logs
 
 R_COMMANDS = ['RScript', 'Rscript']
 
@@ -46,9 +44,7 @@ Else:\n
     ctx.env.RFLAGS = ''
 
 
-@Task.update_outputs
 class run_r_script(Task.Task):
-
     """Run a R script."""
 
     run_str = '${PREPEND} "${RCMD}" ${RFLAGS} "${SRC[0].abspath()}" ${APPEND}'
@@ -96,10 +92,6 @@ def apply_run_r_script(tg):
 
     # Convert sources and targets to nodes
     src_node = tg.path.find_resource(tg.source)
-    if src_node is None:
-        tg.bld.fatal(
-            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
-        )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
     tsk = tg.create_task('run_r_script', src=src_node, tgt=tgt_nodes)
@@ -107,21 +99,21 @@ def apply_run_r_script(tg):
     tsk.env.PREPEND = getattr(tg, 'prepend', '')
     tsk.buffer_output = getattr(tg, 'buffer_output', True)
 
-    # Dependencies (if the attribute 'deps' changes, trigger a recompilation)
-    deps = getattr(tg, 'deps', [])
-    if type(deps) == Node.Nod3:
-        deps = [deps]
-    for x in tg.to_list(deps):
-        if type(x) == Node.Nod3:
-            node = x
-        else:
-            node = tg.path.find_resource(x)
+    # dependencies (if the attribute 'deps' changes, trigger a recompilation)
+    for x in tg.to_list(getattr(tg, 'deps', [])):
+        node = tg.path.find_resource(x)
         if not node:
-            tg.bld.fatal('Could not find dependency %r for running %r' % (x, src_node.relpath()))
+            tg.bld.fatal(
+                'Could not find dependency %r for running %r'
+                % (x, src_node.relpath())
+            )
         else:
             tsk.dep_nodes.append(node)
+    Logs.debug(
+        'deps: found dependencies %r for running %r' % (
+            tsk.dep_nodes, src_node.relpath())
+    )
 
-    Logs.debug('deps: found dependencies %r for running %r' % (tsk.dep_nodes, src_node.relpath()))
-
-    # Bypass the execution of process_source by setting the source to an empty list
+    # Bypass the execution of process_source by setting the source to an empty
+    # list
     tg.source = []

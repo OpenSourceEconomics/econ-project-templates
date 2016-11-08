@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # Carlos Rafael Giani, 2007 (dv)
-# Thomas Nagy, 2010 (ita)
+# Thomas Nagy, 2016 (ita)
 
 """
 Try to detect a D compiler from the list of supported compilers::
@@ -40,10 +40,14 @@ def default_compilers():
 
 def configure(conf):
 	"""
-	Try to find a suitable D compiler or raise a :py:class:`waflib.Errors.ConfigurationError`.
+	Detects a suitable D compiler
+
+	:raises: :py:class:`waflib.Errors.ConfigurationError` when no suitable compiler is found
 	"""
-	try: test_for_compiler = conf.options.check_d_compiler or default_compilers()
-	except AttributeError: conf.fatal("Add options(opt): opt.load('compiler_d')")
+	try:
+		test_for_compiler = conf.options.check_d_compiler or default_compilers()
+	except AttributeError:
+		conf.fatal("Add options(opt): opt.load('compiler_d')")
 
 	for compiler in re.split('[ ,]+', test_for_compiler):
 		conf.env.stash()
@@ -53,19 +57,21 @@ def configure(conf):
 		except conf.errors.ConfigurationError as e:
 			conf.env.revert()
 			conf.end_msg(False)
-			Logs.debug('compiler_d: %r' % e)
+			Logs.debug('compiler_d: %r', e)
 		else:
 			if conf.env.D:
 				conf.end_msg(conf.env.get_flat('D'))
-				conf.env['COMPILER_D'] = compiler
+				conf.env.COMPILER_D = compiler
+				conf.env.commit()
 				break
+			conf.env.revert()
 			conf.end_msg(False)
 	else:
 		conf.fatal('could not configure a D compiler!')
 
 def options(opt):
 	"""
-	Restrict the compiler detection from the command-line::
+	This is how to provide compiler preferences on the command-line::
 
 		$ waf configure --check-d-compiler=dmd
 	"""
