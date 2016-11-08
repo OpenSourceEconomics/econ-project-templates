@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2006-2010 (ita)
+# Thomas Nagy, 2006-2016 (ita)
 # Ralf Habacker, 2006 (rh)
 
 from waflib.Tools import ccroot, ar
@@ -9,7 +9,7 @@ from waflib.Configure import conf
 @conf
 def find_sxx(conf):
 	"""
-	Detect the sun C++ compiler
+	Detects the sun C++ compiler
 	"""
 	v = conf.env
 	cc = conf.find_program(['CC', 'c++'], var='CXX')
@@ -27,36 +27,34 @@ def sxx_common_flags(conf):
 	"""
 	v = conf.env
 
-	v['CXX_SRC_F']           = []
-	v['CXX_TGT_F']           = ['-c', '-o']
+	v.CXX_SRC_F           = []
+	v.CXX_TGT_F           = ['-c', '-o', '']
 
-	# linker
-	if not v['LINK_CXX']: v['LINK_CXX'] = v['CXX']
-	v['CXXLNK_SRC_F']        = []
-	v['CXXLNK_TGT_F']        = ['-o']
-	v['CPPPATH_ST']          = '-I%s'
-	v['DEFINES_ST']          = '-D%s'
+	if not v.LINK_CXX:
+		v.LINK_CXX = v.CXX
 
-	v['LIB_ST']              = '-l%s' # template for adding libs
-	v['LIBPATH_ST']          = '-L%s' # template for adding libpaths
-	v['STLIB_ST']            = '-l%s'
-	v['STLIBPATH_ST']        = '-L%s'
+	v.CXXLNK_SRC_F        = []
+	v.CXXLNK_TGT_F        = ['-o', '']
+	v.CPPPATH_ST          = '-I%s'
+	v.DEFINES_ST          = '-D%s'
 
-	v['SONAME_ST']           = '-Wl,-h,%s'
-	v['SHLIB_MARKER']        = '-Bdynamic'
-	v['STLIB_MARKER']        = '-Bstatic'
+	v.LIB_ST              = '-l%s' # template for adding libs
+	v.LIBPATH_ST          = '-L%s' # template for adding libpaths
+	v.STLIB_ST            = '-l%s'
+	v.STLIBPATH_ST        = '-L%s'
 
-	# program
-	v['cxxprogram_PATTERN']  = '%s'
+	v.SONAME_ST           = '-Wl,-h,%s'
+	v.SHLIB_MARKER        = '-Bdynamic'
+	v.STLIB_MARKER        = '-Bstatic'
 
-	# shared library
-	v['CXXFLAGS_cxxshlib']   = ['-xcode=pic32', '-DPIC']
-	v['LINKFLAGS_cxxshlib']  = ['-G']
-	v['cxxshlib_PATTERN']    = 'lib%s.so'
+	v.cxxprogram_PATTERN  = '%s'
 
-	# static lib
-	v['LINKFLAGS_cxxstlib']  = ['-Bstatic']
-	v['cxxstlib_PATTERN']    = 'lib%s.a'
+	v.CXXFLAGS_cxxshlib   = ['-xcode=pic32', '-DPIC']
+	v.LINKFLAGS_cxxshlib  = ['-G']
+	v.cxxshlib_PATTERN    = 'lib%s.so'
+
+	v.LINKFLAGS_cxxstlib  = ['-Bstatic']
+	v.cxxstlib_PATTERN    = 'lib%s.a'
 
 def configure(conf):
 	conf.find_sxx()

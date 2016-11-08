@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2005-2010 (ita)
+# Thomas Nagy, 2005-2016 (ita)
 
 """
 Classes and methods shared by tools providing support for C-like language such
@@ -8,7 +8,7 @@ as C/C++/D/Assembly/Go (this support module is almost never used alone).
 """
 
 import os, re
-from waflib import Task, Utils, Node, Errors
+from waflib import Task, Utils, Node, Errors, Logs
 from waflib.TaskGen import after_method, before_method, feature, taskgen_method, extension
 from waflib.Tools import c_aliases, c_preproc, c_config, c_osx, c_tests
 from waflib.Configure import conf
@@ -25,8 +25,8 @@ USELIB_VARS['cxx']      = set(['INCLUDES', 'FRAMEWORKPATH', 'DEFINES', 'CPPFLAGS
 USELIB_VARS['d']        = set(['INCLUDES', 'DFLAGS'])
 USELIB_VARS['includes'] = set(['INCLUDES', 'FRAMEWORKPATH', 'ARCH'])
 
-USELIB_VARS['cprogram'] = USELIB_VARS['cxxprogram'] = set(['LIB', 'STLIB', 'LIBPATH', 'STLIBPATH', 'LINKFLAGS', 'RPATH', 'LINKDEPS', 'FRAMEWORK', 'FRAMEWORKPATH', 'ARCH'])
-USELIB_VARS['cshlib']   = USELIB_VARS['cxxshlib']   = set(['LIB', 'STLIB', 'LIBPATH', 'STLIBPATH', 'LINKFLAGS', 'RPATH', 'LINKDEPS', 'FRAMEWORK', 'FRAMEWORKPATH', 'ARCH'])
+USELIB_VARS['cprogram'] = USELIB_VARS['cxxprogram'] = set(['LIB', 'STLIB', 'LIBPATH', 'STLIBPATH', 'LINKFLAGS', 'RPATH', 'LINKDEPS', 'FRAMEWORK', 'FRAMEWORKPATH', 'ARCH', 'LDFLAGS'])
+USELIB_VARS['cshlib']   = USELIB_VARS['cxxshlib']   = set(['LIB', 'STLIB', 'LIBPATH', 'STLIBPATH', 'LINKFLAGS', 'RPATH', 'LINKDEPS', 'FRAMEWORK', 'FRAMEWORKPATH', 'ARCH', 'LDFLAGS'])
 USELIB_VARS['cstlib']   = USELIB_VARS['cxxstlib']   = set(['ARFLAGS', 'LINKDEPS'])
 
 USELIB_VARS['dprogram'] = set(['LIB', 'STLIB', 'LIBPATH', 'STLIBPATH', 'LINKFLAGS', 'RPATH', 'LINKDEPS'])
@@ -77,7 +77,7 @@ def to_incnodes(self, inlst):
 	:return: list of include folders as nodes
 	"""
 	lst = []
-	seen = set([])
+	seen = set()
 	for x in self.to_list(inlst):
 		if x in seen or not x:
 			continue
@@ -118,9 +118,10 @@ def apply_incpaths(self):
 	and the list of include paths in ``tg.env.INCLUDES``.
 	"""
 
-	lst = self.to_incnodes(self.to_list(getattr(self, 'includes', [])) + self.env['INCLUDES'])
+	lst = self.to_incnodes(self.to_list(getattr(self, 'includes', [])) + self.env.INCLUDES)
 	self.includes_nodes = lst
-	self.env['INCPATHS'] = [x.abspath() for x in lst]
+	cwd = self.get_cwd()
+	self.env.INCPATHS = [x.path_from(cwd) for x in lst]
 
 class link_task(Task.Task):
 	"""
@@ -142,6 +143,12 @@ class link_task(Task.Task):
 		The settings are retrieved from ``env.clsname_PATTERN``
 		"""
 		if isinstance(target, str):
+			base = self.generator.path
+			if target.startswith('#'):
+				# for those who like flat structures
+				target = target[1:]
+				base = self.generator.bld.bldnode
+
 			pattern = self.env[self.__class__.__name__ + '_PATTERN']
 			if not pattern:
 				pattern = '%s'
@@ -158,9 +165,54 @@ class link_task(Task.Task):
 					if len(nums) >= 2:
 						pattern += '.%s' % nums[1]
 
-			tmp = folder + os.sep + pattern % name
-			target = self.generator.path.find_or_declare(tmp)
+			if folder:
+				tmp = folder + os.sep + pattern % name
+			else:
+				tmp = pattern % name
+			target = base.find_or_declare(tmp)
 		self.set_outputs(target)
+
+	def exec_command(self, *k, **kw):
+		ret = super(link_task, self).exec_command(*k, **kw)
+		if not ret and self.env.DO_MANIFEST:
+			ret = self.exec_mf()
+		return ret
+
+	def exec_mf(self):
+		"""
+		Create manifest files for VS-like compilers (msvc, ifort, ...)
+		"""
+		if not self.env.MT:
+			return 0
+
+		manifest = None
+		for out_node in self.outputs:
+			if out_node.name.endswith('.manifest'):
+				manifest = out_node.abspath()
+				break
+		else:
+			# Should never get here.  If we do, it means the manifest file was
+			# never added to the outputs list, thus we don't have a manifest file
+			# to embed, so we just return.
+			return 0
+
+		# embedding mode. Different for EXE's and DLL's.
+		# see: http://msdn2.microsoft.com/en-us/library/ms235591(VS.80).aspx
+		mode = ''
+		for x in Utils.to_list(self.generator.features):
+			if x in ('cprogram', 'cxxprogram', 'fcprogram', 'fcprogram_test'):
+				mode = 1
+			elif x in ('cshlib', 'cxxshlib', 'fcshlib'):
+				mode = 2
+
+		Logs.debug('msvc: embedding manifest in mode %r', mode)
+
+		lst = [] + self.env.MT
+		lst.extend(Utils.to_list(self.env.MTFLAGS))
+		lst.extend(['-manifest', manifest])
+		lst.append('-outputresource:%s;%s' % (self.outputs[0].abspath(), mode))
+
+		return super(link_task, self).exec_command(lst)
 
 class stlink_task(link_task):
 	"""
@@ -219,7 +271,9 @@ def apply_link(self):
 		inst_to = self.link_task.__class__.inst_to
 	if inst_to:
 		# install a copy of the node list we have at this moment (implib not added)
-		self.install_task = self.bld.install_files(inst_to, self.link_task.outputs[:], env=self.env, chmod=self.link_task.chmod, task=self.link_task)
+		self.install_task = self.add_install_files(
+			install_to=inst_to, install_from=self.link_task.outputs[:],
+			chmod=self.link_task.chmod, task=self.link_task)
 
 @taskgen_method
 def use_rec(self, name, **kw):
@@ -279,7 +333,7 @@ def process_use(self):
 	See :py:func:`waflib.Tools.ccroot.use_rec`.
 	"""
 
-	use_not = self.tmp_use_not = set([])
+	use_not = self.tmp_use_not = set()
 	self.tmp_use_seen = [] # we would like an ordered set
 	use_prec = self.tmp_use_prec = {}
 	self.uselib = self.to_list(getattr(self, 'uselib', []))
@@ -294,7 +348,7 @@ def process_use(self):
 			del use_prec[x]
 
 	# topological sort
-	out = []
+	out = self.tmp_use_sorted = []
 	tmp = []
 	for x in self.tmp_use_seen:
 		for k in use_prec.values():
@@ -330,7 +384,7 @@ def process_use(self):
 			if var == 'LIB' or y.tmp_use_stlib or x in names:
 				self.env.append_value(var, [y.target[y.target.rfind(os.sep) + 1:]])
 				self.link_task.dep_nodes.extend(y.link_task.outputs)
-				tmp_path = y.link_task.outputs[0].parent.path_from(self.bld.bldnode)
+				tmp_path = y.link_task.outputs[0].parent.path_from(self.get_cwd())
 				self.env.append_unique(var + 'PATH', [tmp_path])
 		else:
 			if y.tmp_use_objects:
@@ -387,7 +441,7 @@ def get_uselib_vars(self):
 	:return: the *uselib* variables associated to the *features* attribute (see :py:attr:`waflib.Tools.ccroot.USELIB_VARS`)
 	:rtype: list of string
 	"""
-	_vars = set([])
+	_vars = set()
 	for x in self.features:
 		if x in USELIB_VARS:
 			_vars |= USELIB_VARS[x]
@@ -402,7 +456,7 @@ def propagate_uselib_vars(self):
 		def build(bld):
 			bld.env.AFLAGS_aaa = ['bar']
 			from waflib.Tools.ccroot import USELIB_VARS
-			USELIB_VARS['aaa'] = set('AFLAGS')
+			USELIB_VARS['aaa'] = ['AFLAGS']
 
 			tg = bld(features='aaa', aflags='test')
 
@@ -444,9 +498,9 @@ def apply_implib(self):
 		name = self.target.name
 	else:
 		name = os.path.split(self.target)[1]
-	implib = self.env['implib_PATTERN'] % name
+	implib = self.env.implib_PATTERN % name
 	implib = dll.parent.find_or_declare(implib)
-	self.env.append_value('LINKFLAGS', self.env['IMPLIB_ST'] % implib.bldpath())
+	self.env.append_value('LINKFLAGS', self.env.IMPLIB_ST % implib.bldpath())
 	self.link_task.outputs.append(implib)
 
 	if getattr(self, 'defs', None) and self.env.DEST_BINFMT == 'pe':
@@ -454,7 +508,7 @@ def apply_implib(self):
 		if not node:
 			raise Errors.WafError('invalid def file %r' % self.defs)
 		if 'msvc' in (self.env.CC_NAME, self.env.CXX_NAME):
-			self.env.append_value('LINKFLAGS', '/def:%s' % node.path_from(self.bld.bldnode))
+			self.env.append_value('LINKFLAGS', '/def:%s' % node.path_from(self.get_cwd()))
 			self.link_task.dep_nodes.append(node)
 		else:
 			#gcc for windows takes *.def file a an input without any special flag
@@ -472,10 +526,11 @@ def apply_implib(self):
 			except AttributeError:
 				# else, put the library in BINDIR and the import library in LIBDIR
 				inst_to = '${IMPLIBDIR}'
-				self.install_task.dest = '${BINDIR}'
+				self.install_task.install_to = '${BINDIR}'
 				if not self.env.IMPLIBDIR:
 					self.env.IMPLIBDIR = self.env.LIBDIR
-		self.implib_install_task = self.bld.install_files(inst_to, implib, env=self.env, chmod=self.link_task.chmod, task=self.link_task)
+		self.implib_install_task = self.add_install_files(install_to=inst_to, install_from=implib,
+			chmod=self.link_task.chmod, task=self.link_task)
 
 # ============ the code above must not know anything about vnum processing on unix platforms =========
 
@@ -532,29 +587,28 @@ def apply_vnum(self):
 
 	# the following task is just to enable execution from the build dir :-/
 	if self.env.DEST_OS != 'openbsd':
-		outs = [node.parent.find_or_declare(name3)]
+		outs = [node.parent.make_node(name3)]
 		if name2 != name3:
-			outs.append(node.parent.find_or_declare(name2))
+			outs.append(node.parent.make_node(name2))
 		self.create_task('vnum', node, outs)
 
 	if getattr(self, 'install_task', None):
 		self.install_task.hasrun = Task.SKIP_ME
-		bld = self.bld
-		path = self.install_task.dest
+		path = self.install_task.install_to
 		if self.env.DEST_OS == 'openbsd':
 			libname = self.link_task.outputs[0].name
-			t1 = bld.install_as('%s%s%s' % (path, os.sep, libname), node, env=self.env, chmod=self.link_task.chmod)
+			t1 = self.add_install_as(install_to='%s/%s' % (path, libname), install_from=node, chmod=self.link_task.chmod)
 			self.vnum_install_task = (t1,)
 		else:
-			t1 = bld.install_as(path + os.sep + name3, node, env=self.env, chmod=self.link_task.chmod)
-			t3 = bld.symlink_as(path + os.sep + libname, name3)
+			t1 = self.add_install_as(install_to=path + os.sep + name3, install_from=node, chmod=self.link_task.chmod)
+			t3 = self.add_symlink_as(install_to=path + os.sep + libname, install_from=name3)
 			if name2 != name3:
-				t2 = bld.symlink_as(path + os.sep + name2, name3)
+				t2 = self.add_symlink_as(install_to=path + os.sep + name2, install_from=name3)
 				self.vnum_install_task = (t1, t2, t3)
 			else:
 				self.vnum_install_task = (t1, t3)
 
-	if '-dynamiclib' in self.env['LINKFLAGS']:
+	if '-dynamiclib' in self.env.LINKFLAGS:
 		# this requires after(propagate_uselib_vars)
 		try:
 			inst_to = self.install_path
@@ -572,7 +626,6 @@ class vnum(Task.Task):
 	Create the symbolic links for a versioned shared library. Instances are created by :py:func:`waflib.Tools.ccroot.apply_vnum`
 	"""
 	color = 'CYAN'
-	quient = True
 	ext_in = ['.bin']
 	def keyword(self):
 		return 'Symlinking'
@@ -597,9 +650,6 @@ class fake_shlib(link_task):
 		for t in self.run_after:
 			if not t.hasrun:
 				return Task.ASK_LATER
-
-		for x in self.outputs:
-			x.sig = Utils.h_file(x.abspath())
 		return Task.SKIP_ME
 
 class fake_stlib(stlink_task):
@@ -610,9 +660,6 @@ class fake_stlib(stlink_task):
 		for t in self.run_after:
 			if not t.hasrun:
 				return Task.ASK_LATER
-
-		for x in self.outputs:
-			x.sig = Utils.h_file(x.abspath())
 		return Task.SKIP_ME
 
 @conf
@@ -655,7 +702,10 @@ def process_lib(self):
 		for y in names:
 			node = x.find_node(y)
 			if node:
-				node.sig = Utils.h_file(node.abspath())
+				try:
+					Utils.h_file(node.abspath())
+				except EnvironmentError:
+					raise ValueError('Could not read %r' % y)
 				break
 		else:
 			continue

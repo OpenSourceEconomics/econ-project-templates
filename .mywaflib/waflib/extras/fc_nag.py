@@ -22,7 +22,9 @@ def find_nag(conf):
 @conf
 def nag_flags(conf):
 	v = conf.env
-	v['FCFLAGS_DEBUG'] = ['-C=all']
+	v.FCFLAGS_DEBUG = ['-C=all']
+	v.FCLNK_TGT_F = ['-o', '']
+	v.FC_TGT_F = ['-c', '-o', '']
 
 @conf
 def nag_modifier_platform(conf):
@@ -36,7 +38,7 @@ def get_nag_version(conf, fc):
 	"""Get the NAG compiler version"""
 
 	version_re = re.compile(r"^NAG Fortran Compiler *Release *(?P<major>\d*)\.(?P<minor>\d*)", re.M).search
-	cmd = fc + ['-v']
+	cmd = fc + ['-V']
 
 	out, err = fc_config.getoutput(conf,cmd,stdin=False)
 	if out:

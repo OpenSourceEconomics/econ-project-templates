@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Thomas Nagy, 2005-2015
+# Thomas Nagy, 2005-2016
 
 """
 Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 import os
 import sys
 
-VERSION = "1.8.14"
+VERSION = "1.9.5"
 cwd = os.getcwd()
 join = os.path.join
 

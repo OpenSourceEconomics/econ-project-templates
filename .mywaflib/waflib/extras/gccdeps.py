@@ -5,6 +5,7 @@
 """
 Execute the tasks with gcc -MD, read the dependencies from the .d file
 and prepare the dependency calculation for the next run.
+This affects the cxx class, so make sure to load Qt5 after this tool.
 
 Usage:
 	def configure(conf):
@@ -27,9 +28,7 @@ supported_compilers = ['gcc', 'icc', 'clang']
 
 def scan(self):
 	if not self.__class__.__name__ in self.env.ENABLE_GCCDEPS:
-		if not self.env.GCCDEPS:
-			self.generator.bld.fatal('Load gccdeps in configure!')
-		return self.no_gccdeps_scan()
+		return super(self.derived_gccdeps, self).scan()
 	nodes = self.generator.bld.node_deps.get(self.uid(), [])
 	names = []
 	return (nodes, names)
@@ -70,13 +69,8 @@ def path_to_node(base_node, path, cached_nodes):
 	return node
 
 def post_run(self):
-	# The following code is executed by threads, it is not safe, so a lock is needed...
-
 	if not self.__class__.__name__ in self.env.ENABLE_GCCDEPS:
-		return self.no_gccdeps_post_run()
-
-	if getattr(self, 'cached', None):
-		return Task.Task.post_run(self)
+		return super(self.derived_gccdeps, self).post_run()
 
 	name = self.outputs[0].abspath()
 	name = re_o.sub('.d', name)
@@ -107,7 +101,6 @@ def post_run(self):
 	txt = txt.replace('\\\n', '')
 
 	val = txt.strip()
-	lst = val.split(':')
 	val = [x.replace('\\ ', ' ') for x in re_splitter.split(val) if x]
 
 	nodes = []
@@ -125,7 +118,8 @@ def post_run(self):
 		if os.path.isabs(x):
 			node = path_to_node(bld.root, x, cached_nodes)
 		else:
-			path = bld.bldnode
+			# TODO waf 1.9 - single cwd value
+			path = getattr(bld, 'cwdx', bld.bldnode)
 			# when calling find_resource, make sure the path does not contain '..'
 			x = [k for k in Utils.split_path(x) if k and k != '.']
 			while '..' in x:
@@ -147,39 +141,36 @@ def post_run(self):
 			continue
 		nodes.append(node)
 
-	Logs.debug('deps: gccdeps for %s returned %s' % (str(self), str(nodes)))
+	Logs.debug('deps: gccdeps for %s returned %s', self, nodes)
 
 	bld.node_deps[self.uid()] = nodes
 	bld.raw_deps[self.uid()] = []
 
 	try:
 		del self.cache_sig
-	except:
+	except AttributeError:
 		pass
 
 	Task.Task.post_run(self)
 
 def sig_implicit_deps(self):
 	if not self.__class__.__name__ in self.env.ENABLE_GCCDEPS:
-		return self.no_gccdeps_sig_implicit_deps()
+		return super(self.derived_gccdeps, self).sig_implicit_deps()
 	try:
 		return Task.Task.sig_implicit_deps(self)
 	except Errors.WafError:
 		return Utils.SIG_NIL
 
-for name in 'c cxx'.split():
-	try:
-		cls = Task.classes[name]
-	except KeyError:
-		pass
-	else:
-		cls.no_gccdeps_scan = cls.scan
-		cls.no_gccdeps_post_run = cls.post_run
-		cls.no_gccdeps_sig_implicit_deps = cls.sig_implicit_deps
+def wrap_compiled_task(classname):
+	derived_class = type(classname, (Task.classes[classname],), {})
+	derived_class.derived_gccdeps = derived_class
+	derived_class.post_run = post_run
+	derived_class.scan = scan
+	derived_class.sig_implicit_deps = sig_implicit_deps
 
-		cls.scan = scan
-		cls.post_run = post_run
-		cls.sig_implicit_deps = sig_implicit_deps
+for k in ('c', 'cxx'):
+	if k in Task.classes:
+		wrap_compiled_task(k)
 
 @before_method('process_source')
 @feature('force_gccdeps')
@@ -187,8 +178,9 @@ def force_gccdeps(self):
 	self.env.ENABLE_GCCDEPS = ['c', 'cxx']
 
 def configure(conf):
-	# record that the configuration was executed properly
-	conf.env.GCCDEPS = True
+	# in case someone provides a --enable-gccdeps command-line option
+	if not getattr(conf.options, 'enable_gccdeps', True):
+		return
 
 	global gccdeps_flags
 	flags = conf.env.GCCDEPS_FLAGS or gccdeps_flags

@@ -2,7 +2,6 @@
 # encoding: utf-8
 # harald at klimachs.de
 
-import re
 from waflib.Tools import fc, fc_config, fc_scan
 from waflib.Configure import conf
 

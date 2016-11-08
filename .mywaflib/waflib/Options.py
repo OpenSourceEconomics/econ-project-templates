@@ -1,57 +1,50 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # Scott Newton, 2005 (scottn)
-# Thomas Nagy, 2006-2010 (ita)
+# Thomas Nagy, 2006-2016 (ita)
 
 """
 Support for waf command-line options
 
-Provides default command-line options,
-as well as custom ones, used by the ``options`` wscript function.
-
+Provides default and command-line options, as well the command
+that reads the ``options`` wscript function.
 """
 
 import os, tempfile, optparse, sys, re
-from waflib import Logs, Utils, Context
-
-cmds = 'distclean configure build install clean uninstall check dist distcheck'.split()
-"""
-Constant representing the default waf commands displayed in::
-
-	$ waf --help
-
-"""
+from waflib import Logs, Utils, Context, Errors
 
 options = {}
 """
-A dictionary representing the command-line options::
+A global dictionary representing user-provided command-line options::
 
 	$ waf --foo=bar
-
 """
 
 commands = []
 """
-List of commands to execute extracted from the command-line. This list is consumed during the execution, see :py:func:`waflib.Scripting.run_commands`.
+List of commands to execute extracted from the command-line. This list
+is consumed during the execution by :py:func:`waflib.Scripting.run_commands`.
 """
 
 envvars = []
 """
 List of environment variable declarations placed after the Waf executable name.
-These are detected by searching for "=" in the rest arguments.
+These are detected by searching for "=" in the remaining arguments.
+You probably do not want to use this.
 """
 
 lockfile = os.environ.get('WAFLOCK', '.lock-waf_%s_build' % sys.platform)
-platform = Utils.unversioned_sys_platform()
-
+"""
+Name of the lock file that marks a project as configured
+"""
 
 class opt_parser(optparse.OptionParser):
 	"""
 	Command-line options parser.
 	"""
 	def __init__(self, ctx):
-		optparse.OptionParser.__init__(self, conflict_handler="resolve", version='waf %s (%s)' % (Context.WAFVERSION, Context.WAFREVISION))
-
+		optparse.OptionParser.__init__(self, conflict_handler="resolve",
+			version='waf %s (%s)' % (Context.WAFVERSION, Context.WAFREVISION))
 		self.formatter.width = Logs.get_term_cols()
 		self.ctx = ctx
 
@@ -60,7 +53,9 @@ class opt_parser(optparse.OptionParser):
 
 	def get_usage(self):
 		"""
-		Return the message to print on ``waf --help``
+		Builds the message to print on ``waf --help``
+
+		:rtype: string
 		"""
 		cmds_str = {}
 		for cls in Context.classes:
@@ -96,10 +91,9 @@ Main commands (example: ./waf build -j4)
 
 class OptionsContext(Context.Context):
 	"""
-	Collect custom options from wscript files and parses the command line.
-	Set the global :py:const:`waflib.Options.commands` and :py:const:`waflib.Options.options` values.
+	Collects custom options from wscript files and parses the command line.
+	Sets the global :py:const:`waflib.Options.commands` and :py:const:`waflib.Options.options` values.
 	"""
-
 	cmd = 'options'
 	fun = 'options'
 
@@ -115,10 +109,11 @@ class OptionsContext(Context.Context):
 		p = self.add_option
 		color = os.environ.get('NOCOLOR', '') and 'no' or 'auto'
 		p('-c', '--color',    dest='colors',  default=color, action='store', help='whether to use colors (yes/no/auto) [default: auto]', choices=('yes', 'no', 'auto'))
-		p('-j', '--jobs',     dest='jobs',    default=jobs, type='int', help='amount of parallel jobs (%r)' % jobs)
+		p('-j', '--jobs',     dest='jobs',    default=jobs,  type='int', help='amount of parallel jobs (%r)' % jobs)
 		p('-k', '--keep',     dest='keep',    default=0,     action='count', help='continue despite errors (-kk to try harder)')
 		p('-v', '--verbose',  dest='verbose', default=0,     action='count', help='verbosity level -v -vv or -vvv [default: 0]')
 		p('--zones',          dest='zones',   default='',    action='store', help='debugging zones (task_gen, deps, tasks, etc)')
+		p('--profile',        dest='profile', default='',    action='store_true', help=optparse.SUPPRESS_HELP)
 
 		gr = self.add_option_group('Configuration options')
 		self.option_groups['configure options'] = gr
@@ -132,7 +127,7 @@ class OptionsContext(Context.Context):
 
 		default_prefix = getattr(Context.g_module, 'default_prefix', os.environ.get('PREFIX'))
 		if not default_prefix:
-			if platform == 'win32':
+			if Utils.unversioned_sys_platform() == 'win32':
 				d = tempfile.gettempdir()
 				default_prefix = d[0].upper() + d[1:]
 				# win32 preserves the case, but gettempdir does not
@@ -161,8 +156,8 @@ class OptionsContext(Context.Context):
 
 	def jobs(self):
 		"""
-		Find the amount of cpu cores to set the default amount of tasks executed in parallel. At
-		runtime the options can be obtained from :py:const:`waflib.Options.options` ::
+		Finds the optimal amount of cpu cores to use for parallel jobs.
+		At runtime the options can be obtained from :py:const:`waflib.Options.options` ::
 
 			from waflib.Options import options
 			njobs = options.jobs
@@ -185,7 +180,7 @@ class OptionsContext(Context.Context):
 				if not count and os.name not in ('nt', 'java'):
 					try:
 						tmp = self.cmd_and_log(['sysctl', '-n', 'hw.ncpu'], quiet=0)
-					except Exception:
+					except Errors.WafError:
 						pass
 					else:
 						if re.match('^[0-9]+$', tmp):
@@ -198,21 +193,25 @@ class OptionsContext(Context.Context):
 
 	def add_option(self, *k, **kw):
 		"""
-		Wrapper for optparse.add_option::
+		Wraps ``optparse.add_option``::
 
 			def options(ctx):
-				ctx.add_option('-u', '--use', dest='use', default=False, action='store_true',
-					help='a boolean option')
+				ctx.add_option('-u', '--use', dest='use', default=False,
+					action='store_true', help='a boolean option')
+
+		:rtype: optparse option object
 		"""
 		return self.parser.add_option(*k, **kw)
 
 	def add_option_group(self, *k, **kw):
 		"""
-		Wrapper for optparse.add_option_group::
+		Wraps ``optparse.add_option_group``::
 
 			def options(ctx):
 				gr = ctx.add_option_group('some options')
 				gr.add_option('-u', '--use', dest='use', default=False, action='store_true')
+
+		:rtype: optparse option group object
 		"""
 		try:
 			gr = self.option_groups[k[0]]
@@ -223,13 +222,14 @@ class OptionsContext(Context.Context):
 
 	def get_option_group(self, opt_str):
 		"""
-		Wrapper for optparse.get_option_group::
+		Wraps ``optparse.get_option_group``::
 
 			def options(ctx):
 				gr = ctx.get_option_group('configure options')
 				gr.add_option('-o', '--out', action='store', default='',
 					help='build dir for the project', dest='out')
 
+		:rtype: optparse option group object
 		"""
 		try:
 			return self.option_groups[opt_str]
@@ -241,7 +241,7 @@ class OptionsContext(Context.Context):
 
 	def parse_args(self, _args=None):
 		"""
-		Parse arguments from a list (not bound to the command-line).
+		Parses arguments from a list which is not necesarily the command-line.
 
 		:param _args: arguments
 		:type _args: list of strings
@@ -256,7 +256,7 @@ class OptionsContext(Context.Context):
 				commands.append(arg)
 
 		if options.destdir:
-			options.destdir = os.path.abspath(os.path.expanduser(options.destdir))
+			options.destdir = Utils.sane_path(options.destdir)
 
 		if options.verbose >= 1:
 			self.load('errcheck')
@@ -270,4 +270,5 @@ class OptionsContext(Context.Context):
 		"""
 		super(OptionsContext, self).execute()
 		self.parse_args()
+		Utils.alloc_process_pool(options.jobs)
 

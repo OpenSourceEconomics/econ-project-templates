@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-15
+# Hans-Martin von Gaudecker, 2012-16
 
 """
 Run a Matlab script.
@@ -20,20 +20,19 @@ Matlab search path (defaults to True). Useful to include project paths etc..
 
 Usage::
 
-	ctx(
-		features='run_m_script',
-		source='some_script.m',
-		target=['some_table.tex', 'some_figure.eps'],
-		deps='some_data.mat',
-		append='',
-		prepend='',
-		add_build_to_path=True
-	)
+    ctx(
+        features='run_m_script',
+        source='some_script.m',
+        target=['some_table.tex', 'some_figure.eps'],
+        deps='some_data.mat',
+        append='',
+        prepend='',
+        add_build_to_path=True
+    )
 
 """
 
 import os
-import sys
 from waflib import Task, TaskGen, Logs
 
 MATLAB_COMMANDS = ['matlab']
@@ -46,19 +45,17 @@ def configure(ctx):
         errmsg="""\n
 No Matlab executable found!\n\n
 If Matlab is needed:\n
-	1) Check the settings of your system path.
-	2) Note we are looking for Matlab executables called: %s
-	   If yours has a different name, please report to hmgaudecker [at] gmail\n
+    1) Check the settings of your system path.
+    2) Note we are looking for Matlab executables called: %s
+       If yours has a different name, please report to hmgaudecker [at] gmail\n
 Else:\n
-	Do not load the 'run_m_script' tool in the main wscript.\n\n"""
+    Do not load the 'run_m_script' tool in the main wscript.\n\n"""
         % MATLAB_COMMANDS
     )
     ctx.env.MATLABFLAGS = '-wait -nodesktop -nosplash -minimize'
 
 
-@Task.update_outputs
 class run_m_script_base(Task.Task):
-
     """Run a Matlab script."""
 
     run_str = '${PREPEND} "${MATLABCMD}" ${MATLABFLAGS} -logfile "${LOGFILEPATH}" -r "try, ${ADDPATH} ${MSCRIPTTRUNK} ${APPEND}, exit(0), catch err, disp(err.getReport()), exit(1), end"'
@@ -70,10 +67,10 @@ class run_m_script_base(Task.Task):
             if not kw.get('cwd', None):
                 kw['cwd'] = bld.cwd
         except AttributeError:
-            bld.cwd = kw['cwd'] = bld.variant_dir
+                bld.cwd = kw['cwd'] = bld.variant_dir
         if not self.buffer_output:
             kw["stdout"] = kw["stderr"] = None
-        return bld.exec_command(cmd, **kw)
+        return bld.exec_command(cmd, **kw) 
 
     def keyword(self):
         """
@@ -90,16 +87,15 @@ class run_m_script_base(Task.Task):
         """
 
         return "{prepend} [Matlab] {matlabflags} -logfile {lfn} -r {fn} {append}".format(
-            prepend=self.env.PREPEND,
-            matlabflags=self.env.MATLABFLAGS,
-            lfn=self.env.LOGFILEPATH,
-            fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-            append=self.env.APPEND
-        )
+                prepend=self.env.PREPEND,
+                matlabflags=self.env.MATLABFLAGS,
+                lfn=self.env.LOGFILEPATH,
+                fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
+                append=self.env.APPEND
+            )
 
 
 class run_m_script(run_m_script_base):
-
     """Erase the Matlab overall log file if everything went okay, else raise an
     error and print its 10 last lines.
     """
@@ -134,6 +130,10 @@ def apply_run_m_script(tg):
 
     # Convert sources and targets to nodes
     src_node = tg.path.find_resource(tg.source)
+    if src_node is None:
+        tg.bld.fatal(
+            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
+        )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
     tsk = tg.create_task('run_m_script', src=src_node, tgt=tgt_nodes)

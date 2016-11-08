@@ -4,15 +4,13 @@
 """
 Windows-specific optimizations
 
-This module can help reducing the overhead of listing files on windows (more than 10000 files).
+This module can help reducing the overhead of listing files on windows
+(more than 10000 files). Python 3.5 already provides the listdir
+optimization though.
 """
 
 import os
-try:
-	import cPickle
-except ImportError:
-	import pickle as cPickle
-from waflib import Utils, Build, Context, Node, Logs
+from waflib import Utils, Build, Node, Logs
 
 try:
 	TP = '%s\\*'.decode('ascii')
@@ -20,7 +18,7 @@ except AttributeError:
 	TP = '%s\\*'
 
 if Utils.is_win32:
-	from waflib.extras import md5_tstamp
+	from waflib.Tools import md5_tstamp
 	import ctypes, ctypes.wintypes
 
 	FindFirstFile        = ctypes.windll.kernel32.FindFirstFileW
@@ -65,7 +63,7 @@ if Utils.is_win32:
 							lst_files[str(findData.cFileName)] = d
 					if not FindNextFile(find, ctypes.byref(findData)):
 						break
-			except Exception as e:
+			except Exception:
 				cache[id(self.parent)] = {}
 				raise IOError('Not a file')
 			finally:
@@ -103,13 +101,7 @@ if Utils.is_win32:
 			pass
 		except AttributeError:
 			self.ctx.hash_cache = {}
-
-		if not self.is_bld():
-			if self.is_child_of(self.ctx.srcnode):
-				self.sig = self.cached_hash_file()
-			else:
-				self.sig = Utils.h_file(self.abspath())
-		self.ctx.hash_cache[id(self)] = ret = self.sig
+		self.ctx.hash_cache[id(self)] = ret = Utils.h_file(self.abspath())
 		return ret
 	Node.Node.get_bld_sig = get_bld_sig_win32
 
@@ -130,7 +122,7 @@ if Utils.is_win32:
 			find     = FindFirstFile(TP % curpath, ctypes.byref(findData))
 
 			if find == INVALID_HANDLE_VALUE:
-				Logs.error("invalid win32 handle isfile_cached %r" % self.abspath())
+				Logs.error("invalid win32 handle isfile_cached %r", self.abspath())
 				return os.path.isfile(self.abspath())
 
 			try:
@@ -142,7 +134,7 @@ if Utils.is_win32:
 					if not FindNextFile(find, ctypes.byref(findData)):
 						break
 			except Exception as e:
-				Logs.error('exception while listing a folder %r %r' % (self.abspath(), e))
+				Logs.error('exception while listing a folder %r %r', self.abspath(), e)
 				return os.path.isfile(self.abspath())
 			finally:
 				FindClose(find)
@@ -152,12 +144,11 @@ if Utils.is_win32:
 	def find_or_declare_win32(self, lst):
 		# assuming that "find_or_declare" is called before the build starts, remove the calls to os.path.isfile
 		if isinstance(lst, str):
-			lst = [x for x in Node.split_path(lst) if x and x != '.']
+			lst = [x for x in Utils.split_path(lst) if x and x != '.']
 
-		node = self.get_bld().search(lst)
+		node = self.get_bld().search_node(lst)
 		if node:
 			if not node.isfile_cached():
-				node.sig = None
 				try:
 					node.parent.mkdir()
 				except OSError:
@@ -167,7 +158,6 @@ if Utils.is_win32:
 		node = self.find_node(lst)
 		if node:
 			if not node.isfile_cached():
-				node.sig = None
 				try:
 					node.parent.mkdir()
 				except OSError:

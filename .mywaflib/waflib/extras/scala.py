@@ -8,9 +8,8 @@ Scala support
 scalac outputs files a bit where it wants to
 """
 
-import os, re
-from waflib.Configure import conf
-from waflib import TaskGen, Task, Utils, Options, Build, Errors, Node
+import os
+from waflib import Task, Utils, Node
 from waflib.TaskGen import feature, before_method, after_method
 
 from waflib.Tools import ccroot
@@ -25,8 +24,6 @@ def apply_scalac(self):
 	Utils.def_attrs(self, jarname='', classpath='',
 		sourcepath='.', srcdir='.',
 		jar_mf_attributes={}, jar_mf_classpath=[])
-
-	nodes_lst = []
 
 	outdir = getattr(self, 'outdir', None)
 	if outdir:
