@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker, 2012-15
+# Hans-Martin von Gaudecker, 2012-16
 
 """
 Run a Stata do-script in the directory specified by **ctx.bldnode**. The
@@ -42,8 +42,7 @@ Usage::
 import os
 import re
 import sys
-from waflib import Task, TaskGen, Logs, Node
-
+from waflib import Task, TaskGen, Logs
 
 if sys.platform == 'darwin':
     STATA_NAMES = [
@@ -51,7 +50,8 @@ if sys.platform == 'darwin':
         'Stata64SE', 'StataSE',
         'Stata64', 'Stata'
     ]
-    STATA_PATHS = ['/Applications/Stata/%s.app/Contents/MacOS/%s' % (sv, sv) for sv in STATA_NAMES]
+    STATA_PATHS = ['/Applications/Stata/%s.app/Contents/MacOS/%s' % (sv, sv)
+                    for sv in STATA_NAMES]
     STATA_COMMANDS = STATA_NAMES + STATA_PATHS
     STATAFLAGS = '-e -q do'
     STATAENCODING = 'MacRoman'
@@ -66,7 +66,7 @@ elif sys.platform.lower().startswith('win'):
         'StataMP', 'StataSE-64',
         'StataSE-ia', 'StataSE',
         'Stata-64', 'Stata-ia',
-        'Stata.e', 'WMPSTATA',
+        'Stata', 'WMPSTATA',
         'WSESTATA', 'WSTATA'
     ]
     STATAFLAGS = '/e do'
@@ -95,9 +95,7 @@ Else:\n
     ctx.env.STATAENCODING = STATAENCODING
 
 
-@Task.update_outputs
 class run_do_script_base(Task.Task):
-
     """Run a Stata do-script from the bldnode directory."""
 
     run_str = '${PREPEND} "${STATACMD}" ${STATAFLAGS} "${SRC[0].abspath()}" "${DOFILETRUNK}" ${APPEND}'
@@ -138,7 +136,6 @@ class run_do_script_base(Task.Task):
 
 
 class run_do_script(run_do_script_base):
-
     """Use the log file automatically kept by Stata for error-catching.
     Erase it if the task finished without error. If not, it will show
     up as do_script.log in the bldnode directory.
@@ -164,20 +161,14 @@ Check the log file %s, last 10 lines\n\n%s\n\n\n"""
         """Parse Stata's default log file and erase it if everything okay.
 
         Parser is based on Brendan Halpin's shell script found here:
-                http://teaching.sociology.ul.ie/bhalpin/wordpress/?p=122
+                        http://teaching.sociology.ul.ie/bhalpin/wordpress/?p=122
         """
 
         if sys.version_info.major >= 3:
-            kwargs = {
-                'file': self.env.LOGFILEPATH,
-                'mode': 'r',
-                'encoding': self.env.STATAENCODING
-            }
+            kwargs = {'file': self.env.LOGFILEPATH, 'mode':
+                      'r', 'encoding': self.env.STATAENCODING}
         else:
-            kwargs = {
-                'name': self.env.LOGFILEPATH,
-                'mode': 'r'
-            }
+            kwargs = {'name': self.env.LOGFILEPATH, 'mode': 'r'}
         with open(**kwargs) as log:
             log_tail = log.readlines()[-10:]
             for line in log_tail:
@@ -208,26 +199,27 @@ def apply_run_do_script(tg):
 
     tsk = tg.create_task('run_do_script', src=src_node, tgt=tgt_nodes)
     tsk.env.DOFILETRUNK = os.path.splitext(src_node.name)[0]
-    tsk.env.LOGFILEPATH = os.path.join(tg.bld.bldnode.abspath(), '%s.log' % (tsk.env.DOFILETRUNK))
+    tsk.env.LOGFILEPATH = os.path.join(
+        tg.bld.bldnode.abspath(), '%s.log' % (tsk.env.DOFILETRUNK)
+    )
     tsk.env.APPEND = getattr(tg, 'append', '')
     tsk.env.PREPEND = getattr(tg, 'prepend', '')
     tsk.buffer_output = getattr(tg, 'buffer_output', True)
 
-    # Dependencies (if the attribute 'deps' changes, trigger a recompilation)
-    deps = getattr(tg, 'deps', [])
-    if type(deps) == Node.Nod3:
-        deps = [deps]
-    for x in tg.to_list(deps):
-        if type(x) == Node.Nod3:
-            node = x
-        else:
-            node = tg.path.find_resource(x)
+    # dependencies (if the attribute 'deps' changes, trigger a recompilation)
+    for x in tg.to_list(getattr(tg, 'deps', [])):
+        node = tg.path.find_resource(x)
         if not node:
-            tg.bld.fatal('Could not find dependency %r for running %r' % (x, src_node.relpath()))
-        else:
-            tsk.dep_nodes.append(node)
+            tg.bld.fatal(
+                'Could not find dependency %r for running %r'
+                % (x, src_node.relpath())
+            )
+        tsk.dep_nodes.append(node)
+    Logs.debug(
+        'deps: found dependencies %r for running %r'
+        % (tsk.dep_nodes, src_node.relpath())
+    )
 
-    Logs.debug('deps: found dependencies %r for running %r' % (tsk.dep_nodes, src_node.relpath()))
-
-    # Bypass the execution of process_source by setting the source to an empty list
+    # Bypass the execution of process_source by setting the source to an empty
+    # list
     tg.source = []

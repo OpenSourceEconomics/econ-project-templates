@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Hans-Martin von Gaudecker and David Birke, 2012-15
+# Hans-Martin von Gaudecker and David Birke, 2012-16
 
 """
 Run a Perl script in the directory specified by **ctx.bldnode**.
@@ -23,8 +23,7 @@ Usage::
 
 
 import os
-from waflib import Task, TaskGen, Logs, Node
-
+from waflib import Task, TaskGen, Logs
 
 PERL_COMMANDS = ['perl']
 
@@ -45,7 +44,6 @@ Else:\n
     )
 
 
-@Task.update_outputs
 class run_pl_script(Task.Task):
     """Run a Perl script."""
 
@@ -58,10 +56,10 @@ class run_pl_script(Task.Task):
             if not kw.get('cwd', None):
                 kw['cwd'] = bld.cwd
         except AttributeError:
-                bld.cwd = kw['cwd'] = bld.variant_dir
+            bld.cwd = kw['cwd'] = bld.variant_dir
         if not self.buffer_output:
             kw["stdout"] = kw["stderr"] = None
-        return bld.exec_command(cmd, **kw) 
+        return bld.exec_command(cmd, **kw)
 
     def keyword(self):
         """
@@ -78,10 +76,10 @@ class run_pl_script(Task.Task):
         """
 
         return "{prepend} [Perl] {fn} {append}".format(
-                prepend=self.env.PREPEND,
-                fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-                append=self.env.APPEND
-            )
+            prepend=self.env.PREPEND,
+            fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
+            append=self.env.APPEND
+        )
 
 
 @TaskGen.feature('run_pl_script')
@@ -104,21 +102,20 @@ def apply_run_pl_script(tg):
     tsk.env.PREPEND = getattr(tg, 'prepend', '')
     tsk.buffer_output = getattr(tg, 'buffer_output', True)
 
-    # Dependencies (if the attribute 'deps' changes, trigger a recompilation)
-    deps = getattr(tg, 'deps', [])
-    if type(deps) == Node.Nod3:
-        deps = [deps]
-    for x in tg.to_list(deps):
-        if type(x) == Node.Nod3:
-            node = x
-        else:
-            node = tg.path.find_resource(x)
+    # dependencies (if the attribute 'deps' changes, trigger a recompilation)
+    for x in tg.to_list(getattr(tg, 'deps', [])):
+        node = tg.path.find_resource(x)
         if not node:
-            tg.bld.fatal('Could not find dependency %r for running %r' % (x, src_node.relpath()))
-        else:
-            tsk.dep_nodes.append(node)
+            tg.bld.fatal(
+                'Could not find dependency %r for running %r'
+                % (x, src_node.relpath())
+            )
+        tsk.dep_nodes.append(node)
+    Logs.debug(
+        'deps: found dependencies %r for running %r'
+        % (tsk.dep_nodes, src_node.relpath())
+    )
 
-    Logs.debug('deps: found dependencies %r for running %r' % (tsk.dep_nodes, src_node.relpath()))
-
-    # Bypass the execution of process_source by setting the source to an empty list
+    # Bypass the execution of process_source by setting the source to an empty
+    # list
     tg.source = []

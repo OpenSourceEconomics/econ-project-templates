@@ -27,9 +27,9 @@ def apply_msgfmt(self):
 
 		inst = getattr(self, 'install_path', '${KDE4_LOCALE_INSTALL_DIR}')
 
-		self.bld.install_as(
-			inst + os.sep + langname + os.sep + 'LC_MESSAGES' + os.sep + getattr(self, 'appname', 'set_your_appname') + '.mo',
-			task.outputs[0],
+		self.add_install_as(
+			inst_to = inst + os.sep + langname + os.sep + 'LC_MESSAGES' + os.sep + getattr(self, 'appname', 'set_your_appname') + '.mo',
+			inst_from = task.outputs[0],
 			chmod = getattr(self, 'chmod', Utils.O644))
 
 class msgfmt(Task.Task):

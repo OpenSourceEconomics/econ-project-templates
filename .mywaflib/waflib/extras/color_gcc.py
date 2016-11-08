@@ -18,7 +18,7 @@ class ColorGCCFormatter(Logs.formatter):
 		while frame:
 			func = frame.f_code.co_name
 			if func == 'exec_command':
-				cmd = frame.f_locals['cmd']
+				cmd = frame.f_locals.get('cmd')
 				if isinstance(cmd, list) and ('gcc' in cmd[0] or 'g++' in cmd[0]):
 					lines = []
 					for line in rec.msg.splitlines():

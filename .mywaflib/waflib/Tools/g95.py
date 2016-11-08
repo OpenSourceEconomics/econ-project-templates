@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # encoding: utf-8
 # KWS 2010
-# Thomas Nagy 2010 (ita)
+# Thomas Nagy 2016 (ita)
 
 import re
 from waflib import Utils
@@ -17,9 +17,9 @@ def find_g95(conf):
 @conf
 def g95_flags(conf):
 	v = conf.env
-	v['FCFLAGS_fcshlib']   = ['-fPIC']
-	v['FORTRANMODFLAG']  = ['-fmod=', ''] # template for module path
-	v['FCFLAGS_DEBUG'] = ['-Werror'] # why not
+	v.FCFLAGS_fcshlib   = ['-fPIC']
+	v.FORTRANMODFLAG  = ['-fmod=', ''] # template for module path
+	v.FCFLAGS_DEBUG = ['-Werror'] # why not
 
 @conf
 def g95_modifier_win32(conf):
@@ -35,7 +35,7 @@ def g95_modifier_darwin(conf):
 
 @conf
 def g95_modifier_platform(conf):
-	dest_os = conf.env['DEST_OS'] or Utils.unversioned_sys_platform()
+	dest_os = conf.env.DEST_OS or Utils.unversioned_sys_platform()
 	g95_modifier_func = getattr(conf, 'g95_modifier_' + dest_os, None)
 	if g95_modifier_func:
 		g95_modifier_func()
@@ -54,7 +54,7 @@ def get_g95_version(conf, fc):
 	if not match:
 		conf.fatal('cannot determine g95 version')
 	k = match.groupdict()
-	conf.env['FC_VERSION'] = (k['major'], k['minor'])
+	conf.env.FC_VERSION = (k['major'], k['minor'])
 
 def configure(conf):
 	conf.find_g95()

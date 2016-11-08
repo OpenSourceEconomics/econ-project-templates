@@ -32,7 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 import os
 import sys
 
-VERSION = "1.8.19"
+VERSION = "1.9.5"
 cwd = os.getcwd()
 join = os.path.join
 

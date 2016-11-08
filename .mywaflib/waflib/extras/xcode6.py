@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # encoding: utf-8
-# XCode 3/XCode 4 generator for Waf
+# XCode 3/XCode 4/XCode 6/Xcode 7 generator for Waf
 # Based on work by Nicolas Mercier 2011
 # Extended by Simon Warg 2015, https://github.com/mimon
 # XCode project file format based on http://www.monobjc.net/xcode-project-file-format.html
@@ -48,14 +48,15 @@ def build(bld):
 
 	# You can also make bld.dylib, bld.app, bld.stlib ...
 
-$ waf configure xcode6
+# To generate your XCode project, open the folder with the wscript
+# in your terminal and run the following:
+# $ waf configure xcode6
 """
 
 # TODO: support iOS projects
 
-from waflib import Context, TaskGen, Build, Utils, ConfigSet, Configure, Errors
-from waflib.Build import BuildContext
-import os, sys, random, time
+from waflib import Context, TaskGen, Build, Utils, Errors, Logs
+import os, sys
 
 HEADERS_GLOB = '**/(*.h|*.hpp|*.H|*.inl)'
 
@@ -123,6 +124,13 @@ TARGET_TYPES = {
 	'exe' :TARGET_TYPE_EXECUTABLE,
 }
 
+def delete_invalid_values(dct):
+	""" Deletes entries that are dictionaries or sets """
+	for k, v in list(dct.items()):
+		if isinstance(v, dict) or isinstance(v, set):
+			del dct[k]
+	return dct
+
 """
 Configuration of the global project settings. Sets an environment variable 'PROJ_CONFIGURATION'
 which is a dictionary of configuration name and buildsettings pair.
@@ -150,9 +158,10 @@ def configure(self):
 
 	# Create default project configuration?
 	if 'PROJ_CONFIGURATION' not in self.env:
+		defaults = delete_invalid_values(self.env.get_merged_dict())
 		self.env.PROJ_CONFIGURATION = {
-			"Debug": self.env.get_merged_dict(),
-			"Release": self.env.get_merged_dict(),
+			"Debug": defaults,
+			"Release": defaults,
 		}
 
 	# Some build settings are required to be present by XCode. We will supply default values
@@ -173,7 +182,7 @@ part3 = 0
 id = 562000999
 def newid():
 	global id
-	id = id + 1
+	id += 1
 	return "%04X%04X%04X%012d" % (0, 10000, 0, id)
 
 class XCodeNode:
@@ -417,7 +426,7 @@ class PBXProject(XCodeNode):
 
 		self.buildConfigurationList = XCConfigurationList(configurations)
 		self.compatibilityVersion = version[0]
-		self.hasScannedForEncodings = 1;
+		self.hasScannedForEncodings = 1
 		self.mainGroup = PBXGroup(name)
 		self.projectRoot = ""
 		self.projectDirPath = ""
@@ -601,23 +610,28 @@ class xcode(Build.BuildContext):
 				files = [self.unique_filereference(PBXFileReference(n.name, n.abspath())) for n in hdrs]
 				target.add_build_phase(PBXHeadersBuildPhase([PBXBuildFile(f, {'ATTRIBUTES': ('Public',)}) for f in files]))
 
-				# Install path
-				installpaths = Utils.to_list(getattr(tg, 'install', []))
-				prodbuildfile = PBXBuildFile(target.productReference)
-				for instpath in installpaths:
-					target.add_build_phase(PBXCopyFilesBuildPhase([prodbuildfile], instpath))
-
 				# Merge frameworks and libs into one list, and prefix the frameworks
 				ld_flags = ['-framework %s' % lib.split('.framework')[0] for lib in Utils.to_list(tg.env.FRAMEWORK)]
 				ld_flags.extend(Utils.to_list(tg.env.STLIB) + Utils.to_list(tg.env.LIB))
-
+				
 				# Override target specfic build settings
 				bldsettings = {
 					'HEADER_SEARCH_PATHS': ['$(inherited)'] + tg.env['INCPATHS'],
 					'LIBRARY_SEARCH_PATHS': ['$(inherited)'] + Utils.to_list(tg.env.LIBPATH) + Utils.to_list(tg.env.STLIBPATH),
 					'FRAMEWORK_SEARCH_PATHS': ['$(inherited)'] + Utils.to_list(tg.env.FRAMEWORKPATH),
-					'OTHER_LDFLAGS': r'\n'.join(ld_flags)
+					'OTHER_LDFLAGS': r'\n'.join(ld_flags),
+					'INSTALL_PATH': []
 				}
+
+				# Install path
+				installpaths = Utils.to_list(getattr(tg, 'install', []))
+				prodbuildfile = PBXBuildFile(target.productReference)
+				for instpath in installpaths:
+					bldsettings['INSTALL_PATH'].append(instpath)
+					target.add_build_phase(PBXCopyFilesBuildPhase([prodbuildfile], instpath))
+
+				if len(bldsettings['INSTALL_PATH']) == 0:
+					del bldsettings['INSTALL_PATH']
 
 				# The keys represents different build configuration, e.g. Debug, Release and so on..
 				# Insert our generated build settings to all configuration names
@@ -640,10 +654,13 @@ class xcode(Build.BuildContext):
 	
 	def build_target(self, tgtype, *k, **kw):
 		"""
-		Provide user-friendly methods to build different target types
+		Provide aliases
 		E.g. bld.framework(source='..', ...) to build a Framework target.
 		E.g. bld.dylib(source='..', ...) to build a Dynamic library target. etc...
 		"""
+
+		# The following features are needed for this tool's use of
+		# env['INCPATHS'], env['LIB_xxx'] etc.
 		self.load('ccroot')
 		kw['features'] = 'cxx cxxprogram'
 		kw['target_type'] = tgtype
@@ -653,4 +670,7 @@ class xcode(Build.BuildContext):
 	def framework(self, *k, **kw): return self.build_target('framework', *k, **kw)
 	def dylib(self, *k, **kw): return self.build_target('dylib', *k, **kw)
 	def stlib(self, *k, **kw): return self.build_target('stlib', *k, **kw)
-	def exe(self, *k, **kw): return self.build_target('exe', *k, **kw)
+	def program(self, *k, **kw): return self.build_target('exe', *k, **kw)
+	def exe(self, *k, **kw):
+		Logs.warn("xcode6: alias 'bld.exe()' has changed name. Use 'bld.program()' instead.")
+		return self.build_target('exe', *k, **kw)

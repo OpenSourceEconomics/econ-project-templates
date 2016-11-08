@@ -67,19 +67,3 @@ class midl(Task.Task):
 	run_str = '${MIDL} ${MIDLFLAGS} ${CPPPATH_ST:INCLUDES} /tlb ${TGT[0].bldpath()} /header ${TGT[1].bldpath()} /iid ${TGT[2].bldpath()} /proxy ${TGT[3].bldpath()} /dlldata ${TGT[4].bldpath()} ${SRC}'
 	before  = ['winrc']
 
-	def exec_command(self, *k, **kw):
-		if self.env['PATH']:
-			env = self.env.env or dict(os.environ)
-			env.update(PATH = ';'.join(self.env['PATH']))
-			kw['env'] = env
-	
-		bld = self.generator.bld
-	
-		try:
-			if not kw.get('cwd', None):
-				kw['cwd'] = bld.cwd
-		except AttributeError:
-			bld.cwd = kw['cwd'] = bld.variant_dir
-	
-		return bld.exec_command(k[0], **kw)
-

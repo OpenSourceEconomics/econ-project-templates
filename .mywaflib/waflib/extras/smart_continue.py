@@ -19,8 +19,8 @@ def cancel_next(self, tsk):
 	try:
 		canceled_tasks, canceled_nodes = self.canceled_tasks, self.canceled_nodes
 	except AttributeError:
-		canceled_tasks = self.canceled_tasks = set([])
-		canceled_nodes = self.canceled_nodes = set([])
+		canceled_tasks = self.canceled_tasks = set()
+		canceled_nodes = self.canceled_nodes = set()
 
 	try:
 		canceled_nodes.update(tsk.outputs)

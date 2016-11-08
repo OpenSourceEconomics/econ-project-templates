@@ -22,7 +22,9 @@ def find_nag(conf):
 @conf
 def nag_flags(conf):
 	v = conf.env
-	v['FCFLAGS_DEBUG'] = ['-C=all']
+	v.FCFLAGS_DEBUG = ['-C=all']
+	v.FCLNK_TGT_F = ['-o', '']
+	v.FC_TGT_F = ['-c', '-o', '']
 
 @conf
 def nag_modifier_platform(conf):

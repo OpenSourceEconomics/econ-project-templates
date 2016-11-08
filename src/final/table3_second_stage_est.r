@@ -11,7 +11,7 @@ in the analysis directory. It writes the results to Latex file
 source("project_paths.r")
 
 library(xtable)
-library(rjson, lib=PATH_OUT_LIBRARY_R)
+library(rjson)
 
 models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
 

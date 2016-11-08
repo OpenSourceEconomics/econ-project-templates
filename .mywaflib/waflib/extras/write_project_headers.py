@@ -122,7 +122,6 @@ PROJECT_PATHS_STATA_COMMENT = '''//
 //\n\n\n'''
 
 
-@Task.update_outputs
 class WriteProjectPathsPython(Task.Task):
 
     r"""Autogenerate a header with paths for inclusion in Python scripts.
@@ -241,7 +240,6 @@ class WriteProjectPathsR(Task.Task):
                     pass
 
 
-@Task.update_outputs
 class WriteProjectPathsPerl(Task.Task):
 
     r"""Autogenerate a header with paths for inclusion in Perl scripts.
@@ -270,6 +268,7 @@ class WriteProjectPathsPerl(Task.Task):
         use project_paths qw(%project_paths);
 
     """
+
     def run(self):
         with open(self.outputs[0].abspath(), 'w')as out_file:
             out_file.write(PROJECT_PATHS_PERL_COMMENT)
@@ -286,7 +285,6 @@ class WriteProjectPathsPerl(Task.Task):
                     pass
 
 
-@Task.update_outputs
 class WriteProjectPathsStata(Task.Task):
 
     r"""Autogenerate a header with paths for inclusion in Stata do-files.

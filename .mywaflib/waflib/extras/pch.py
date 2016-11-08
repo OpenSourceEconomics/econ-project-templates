@@ -129,7 +129,7 @@ def add_pch(self):
 			x.env.append_value('CXXFLAGS', self.env['CXXPCH_F'] + [pch.target])
 
 class gchx(Task.Task):
-	run_str = '${CXX} ${ARCH_ST:ARCH} ${CXXFLAGS} ${CPPFLAGS} ${CXXPCH_FLAGS} ${FRAMEWORKPATH_ST:FRAMEWORKPATH} ${CPPPATH_ST:INCPATHS} ${DEFINES_ST:DEFINES} ${CXXPCH_F:SRC} ${CXX_SRC_F}${SRC[0].abspath()} ${CXX_TGT_F}${TGT[0].abspath()}'
+	run_str = '${CXX} ${ARCH_ST:ARCH} ${CXXFLAGS} ${CXXPCH_FLAGS} ${FRAMEWORKPATH_ST:FRAMEWORKPATH} ${CPPPATH_ST:INCPATHS} ${DEFINES_ST:DEFINES} ${CXXPCH_F:SRC} ${CXX_SRC_F}${SRC[0].abspath()} ${CXX_TGT_F}${TGT[0].abspath()} ${CPPFLAGS}'
 	scan    = c_preproc.scan
 	color   = 'BLUE'
 	ext_out=['.h']

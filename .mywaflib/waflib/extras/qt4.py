@@ -155,7 +155,7 @@ class qxx(Task.classes['cxx']):
 
 			# direct injection in the build phase (safe because called from the main thread)
 			gen = self.generator.bld.producer
-			gen.outstanding.insert(0, tsk)
+			gen.outstanding.appendleft(tsk)
 			gen.total += 1
 
 			return tsk
@@ -190,7 +190,7 @@ class qxx(Task.classes['cxx']):
 		include_nodes = [node.parent] + self.generator.includes_nodes
 
 		moctasks = []
-		mocfiles = set([])
+		mocfiles = set()
 		for d in bld.raw_deps.get(self.uid(), []):
 			if not d.endswith('.moc'):
 				continue
@@ -239,7 +239,6 @@ class trans_update(Task.Task):
 	"""Update a .ts files from a list of C++ files"""
 	run_str = '${QT_LUPDATE} ${SRC} -ts ${TGT}'
 	color   = 'BLUE'
-Task.update_outputs(trans_update)
 
 class XMLHandler(ContentHandler):
 	"""
@@ -442,7 +441,7 @@ def find_qt4_binaries(self):
 	# the qt directory has been given from QT4_ROOT - deduce the qt binary path
 	if not qtdir:
 		qtdir = os.environ.get('QT4_ROOT', '')
-		qtbin = os.environ.get('QT4_BIN', None) or os.path.join(qtdir, 'bin')
+		qtbin = os.environ.get('QT4_BIN') or os.path.join(qtdir, 'bin')
 
 	if qtbin:
 		paths = [qtbin]
@@ -532,7 +531,7 @@ def find_qt4_binaries(self):
 
 @conf
 def find_qt4_libraries(self):
-	qtlibs = getattr(Options.options, 'qtlibs', None) or os.environ.get("QT4_LIBDIR", None)
+	qtlibs = getattr(Options.options, 'qtlibs', None) or os.environ.get("QT4_LIBDIR")
 	if not qtlibs:
 		try:
 			qtlibs = self.cmd_and_log(self.env.QMAKE + ['-query', 'QT_INSTALL_LIBS']).strip()
@@ -541,13 +540,13 @@ def find_qt4_libraries(self):
 			qtlibs = os.path.join(qtdir, 'lib')
 	self.msg('Found the Qt4 libraries in', qtlibs)
 
-	qtincludes =  os.environ.get("QT4_INCLUDES", None) or self.cmd_and_log(self.env.QMAKE + ['-query', 'QT_INSTALL_HEADERS']).strip()
+	qtincludes =  os.environ.get("QT4_INCLUDES") or self.cmd_and_log(self.env.QMAKE + ['-query', 'QT_INSTALL_HEADERS']).strip()
 	env = self.env
 	if not 'PKG_CONFIG_PATH' in os.environ:
 		os.environ['PKG_CONFIG_PATH'] = '%s:%s/pkgconfig:/usr/lib/qt4/lib/pkgconfig:/opt/qt4/lib/pkgconfig:/usr/lib/qt4/lib:/opt/qt4/lib' % (qtlibs, qtlibs)
 
 	try:
-		if os.environ.get("QT4_XCOMPILE", None):
+		if os.environ.get("QT4_XCOMPILE"):
 			raise self.errors.ConfigurationError()
 		self.check_cfg(atleast_pkgconfig_version='0.1')
 	except self.errors.ConfigurationError:

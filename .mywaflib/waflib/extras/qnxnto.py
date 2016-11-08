@@ -26,7 +26,7 @@ class Popen(object):
 			if Popen.verbose:
 				sys.stdout.write("Popen created: %r, kw=%r..." % (prog, kw))
 
-			do_delegate = kw.get('stdout', None) == -1 and kw.get('stderr', None) == -1
+			do_delegate = kw.get('stdout') == -1 and kw.get('stderr') == -1
 			if do_delegate:
 				if Popen.verbose:
 					print("Delegating to real Popen")

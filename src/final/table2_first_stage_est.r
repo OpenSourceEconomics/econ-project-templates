@@ -11,7 +11,7 @@ It writes the results to Latex file {PATH_OUT_TABLES}/table2_first_stage_est.tex
 source("project_paths.r")
 
 library(xtable)
-library(rjson, lib=PATH_OUT_LIBRARY_R)
+library(rjson)
 
 
 models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))

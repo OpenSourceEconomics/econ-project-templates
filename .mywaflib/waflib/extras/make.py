@@ -86,12 +86,12 @@ class MakeContext(BuildContext):
 				result = all_tasks
 			else:
 				# this is like a big filter...
-				result = set([])
-				seen = set([])
+				result = set()
+				seen = set()
 				cur = set(tasks)
 				while cur:
 					result |= cur
-					tosee = set([])
+					tosee = set()
 					for tsk in cur:
 						for node in getattr(tsk, 'inputs', []):
 							if node in seen:
