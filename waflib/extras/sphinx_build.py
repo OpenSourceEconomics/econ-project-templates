@@ -33,10 +33,9 @@ import shutil
 import waflib
 from waflib.Configure import conf
 from sphinx.application import Sphinx
-from waflib import Task
 
 
-MAKEINFO_VERSION_RE = re.compile(r'(makeinfo|texi2any) \(GNU texinfo\) (\d+)\.(\d+)')
+MAKEINFO_VERSION_RE = re.compile(r'(?:texi2any|makeinfo) \(GNU texinfo\) (\d+)\.(\d+)')
 # UTF-8 support was introduced in this version. See the
 # 'warn_about_old_makeinfo' method.
 # http://svn.savannah.gnu.org/viewvc/*checkout*/trunk/NEWS?root=texinfo
