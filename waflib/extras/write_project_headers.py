@@ -334,13 +334,13 @@ class WriteProjectPathsStata(Task.Task):
     def _write_ado_paths(self, ado_paths, out_file):
         for name, val in ado_paths.items():
             if re.match('PERSONAL|PLUS', name):
-                out_file.write('sysdir set {} "{}/"\n'.format(
+                out_file.write('sysdir set {} "{}"\n'.format(
                     name,
                     val.abspath())
                 )
             else:
-                out_file.write('adopath ++ "{}/"\n'.format(val.abspath()))
-                out_file.write('adopath ++ "{}/"\n'.format(
+                out_file.write('adopath ++ "{}"\n'.format(val.abspath()))
+                out_file.write('adopath ++ "{}"\n'.format(
                     val.get_bld().abspath())
                 )
         out_file.write('\n')
@@ -352,7 +352,7 @@ class WriteProjectPathsStata(Task.Task):
                 val = self.env.PROJECT_PATHS[name]
                 if isinstance(val, Node.Node):
                     out_file.write(
-                        'global PATH_{n} "{p}/"\n'.format(
+                        'global PATH_{n} "{p}"\n'.format(
                             n=name,
                             p=val.abspath()
                         )
