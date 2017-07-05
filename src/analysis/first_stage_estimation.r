@@ -6,7 +6,7 @@ in the country on log mortality.
 The file requires to be called with a model specification as the argument,
 a corresponding json-file must exist in PATH_IN_MODEL_SPECS. That file
 needs to define a dictionary with keys:
-    
+
     * INSTD - the dependent variable (in the first stage)
     * INSTS - the instrument
     * KEEP_CONDITION - any sampling restrictions
@@ -25,10 +25,10 @@ source("project_paths.r")
 source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
 # Load required libraries.
-library(foreign)
-library(car)
-library(zoo)
-library(rjson)
+library(foreign, lib=PATH_OUT_LIBRARY_R)
+library(car, lib=PATH_OUT_LIBRARY_R)
+library(zoo, lib=PATH_OUT_LIBRARY_R)
+library(rjson, lib=PATH_OUT_LIBRARY_R)
 library(sandwich, lib=PATH_OUT_LIBRARY_R)
 library(lmtest, lib=PATH_OUT_LIBRARY_R)
 library(aod, lib=PATH_OUT_LIBRARY_R)
@@ -62,7 +62,7 @@ for (i in 1:7) {
 
     # Implement model-specific restrictions.
     if (model$KEEP_CONDITION != "") {
-        data <- subset(data, eval(parse(text = model$KEEP_CONDITION)))    
+        data <- subset(data, eval(parse(text = model$KEEP_CONDITION)))
     }
 
     # Implement geographical constraints.
@@ -83,11 +83,11 @@ for (i in 1:7) {
     reg <- lm(reg_formula, data)
 
     # Store regression output that is the same across models.
-    results[1, i] = reg$coef[[2]] 
+    results[1, i] = reg$coef[[2]]
     results[2, i] = sqrt(diag(vcov(reg))[2])
     results[3, i] = summaryw(reg)[[1]][2,2]
     results[4, i] = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2]
-    
+
     # p-value of log mortality, based on the appropriate standard errors.
     if (model_name == "baseline" | model_name == "addindic") {
         results[5, i] = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4]
@@ -101,18 +101,18 @@ for (i in 1:7) {
         if (model_name == "addindic") {
             results[6, i] = wald.test(
                 b = reg$coef,
-                Sigma = sigma, 
-                Terms = 3:4, 
+                Sigma = sigma,
+                Terms = 3:4,
                 df = reg$df
             )[[6]][[2]][4]
-        } 
+        }
     } else {
         sigma = summaryw(reg)[[2]]
         if (model_name == "rmconj_addindic" | model_name == "newdata") {
             results[6, i] = wald.test(
                 b = reg$coef,
-                Sigma = sigma, 
-                Terms = 3:4, 
+                Sigma = sigma,
+                Terms = 3:4,
                 df = reg$df
             )[[6]][[2]][4]
         }
@@ -127,8 +127,8 @@ for (i in 1:7) {
         }
         results[7, i] = wald.test(
             b = reg$coef,
-            Sigma = sigma, 
-            Terms = terms, 
+            Sigma = sigma,
+            Terms = terms,
             df = reg$df
         )[[6]][[2]][4]
     }
@@ -136,9 +136,9 @@ for (i in 1:7) {
 
 # Save data to disk.
 write.table(
-    results, 
+    results,
     file = paste(
-        PATH_OUT_ANALYSIS, 
+        PATH_OUT_ANALYSIS,
         paste("first_stage_estimation_", model_name, ".txt", sep=""),
         sep = "/"
     ),

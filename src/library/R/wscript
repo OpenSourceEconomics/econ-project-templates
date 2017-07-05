@@ -4,12 +4,17 @@
 def build(ctx):
 
     lib_names = [
-        "Formula",
+        "zoo",
+        "car",
+        "rjson",
         "sandwich",
-        "aod",
         "lmtest",
+        "aod",
+        "Formula",
         "AER",
-        "ivpack"
+        "ivpack",
+        "foreign",
+        "xtable"
     ]
 
     for lib_name in lib_names:

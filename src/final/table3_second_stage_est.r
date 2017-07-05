@@ -1,17 +1,17 @@
 '
- 
-The file "table3_second_stage_est.r" creates table 3 with the 
-IV estimates taking as input the regression results and confidence 
-intervals from the corresponding do-file "second_stage_estimates.r" 
-in the analysis directory. It writes the results to Latex file 
-{PATH_OUT_TABLES}/table3_second_stage_est.tex 
+
+The file "table3_second_stage_est.r" creates table 3 with the
+IV estimates taking as input the regression results and confidence
+intervals from the corresponding do-file "second_stage_estimates.r"
+in the analysis directory. It writes the results to Latex file
+{PATH_OUT_TABLES}/table3_second_stage_est.tex
 
 '
 
 source("project_paths.r")
 
-library(xtable)
-library(rjson)
+library(xtable, lib=PATH_OUT_LIBRARY_R)
+library(rjson, lib=PATH_OUT_LIBRARY_R)
 
 models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
 
@@ -41,17 +41,17 @@ for (model_name in models) {
     # Load model specs
     model_json <- paste(model_name, "json", sep=".")
     model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
-    
+
     # Create panel header for table
     panel_header <- data.frame(matrix(nrow=2, ncol=8))
     panel_header[2, 1] <- paste("\\multicolumn{8}{l}{\\textit{", model$TITLE, "}} \\\\ %", sep="")
     panel_header[is.na(panel_header)] <- ""
-        
+
     # Fill data into table
     model_table <- data.frame(matrix(nrow = 5, ncol = 8))
     model_table[1] <- rownames(reg_results)
     model_table[2:8] <- reg_results
-    
+
     # Append panel header to model_table
     model_table = rbind(panel_header, model_table)
 
@@ -61,23 +61,23 @@ for (model_name in models) {
 }
 
 tex_final_table = xtable(
-    final_table, 
+    final_table,
     caption= paste(
-        "\\footnotesize", "Instrumental Variables Estimates And Confidence Regions}",  
-        "{","(\\footnotesize First-stage dependent variable: expropriation risk;", 
+        "\\footnotesize", "Instrumental Variables Estimates And Confidence Regions}",
+        "{","(\\footnotesize First-stage dependent variable: expropriation risk;",
         "second-stage dependent variable,\\\\}",
         "{\\footnotesize log GDP per capita, 1995, PPP basis",")"
     )
-)              
+)
 
 align(tex_final_table) = "llccccccc"
 
 # Export the latex table
 print(
-    tex_final_table, 
-    sanitize.text.function = function(x){x}, 
+    tex_final_table,
+    sanitize.text.function = function(x){x},
     file=paste(PATH_OUT_TABLES, "table3_second_stage_est.tex", sep="/"),
-    include.rownames=FALSE, 
+    include.rownames=FALSE,
     include.colnames=FALSE,
     caption.placement="top",
     size ="\\tiny \\setlength{\\tabcolsep}{0.25em}"

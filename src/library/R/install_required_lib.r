@@ -7,7 +7,7 @@ fails. In case of failure, we require an Internet connection.
 
 source("project_paths.r")
 
-cran <- "http://cran.rstudio.com/"
+cran <- "https://cran.rstudio.com/"
 
 
 lib_name <- commandArgs(trailingOnly = TRUE)

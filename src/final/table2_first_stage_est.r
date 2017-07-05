@@ -1,17 +1,17 @@
 '
 
-The file "table2_first_stage_est.r" creates table 2 with the first 
-stage estimates taking as input the regression results and p-values 
-from the corresponding do-file in the analysis folder "first_stage_estimates.do"  
-It writes the results to Latex file {PATH_OUT_TABLES}/table2_first_stage_est.tex 
+The file "table2_first_stage_est.r" creates table 2 with the first
+stage estimates taking as input the regression results and p-values
+from the corresponding do-file in the analysis folder "first_stage_estimates.do"
+It writes the results to Latex file {PATH_OUT_TABLES}/table2_first_stage_est.tex
 
 '
 
 
 source("project_paths.r")
 
-library(xtable)
-library(rjson)
+library(xtable, lib=PATH_OUT_LIBRARY_R)
+library(rjson, lib=PATH_OUT_LIBRARY_R)
 
 
 models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
@@ -44,12 +44,12 @@ for (model_name in models) {
     # Load model specs
     model_json <- paste(model_name, "json", sep=".")
     model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
-    
+
     # Create panel header for table
     panel_header <- data.frame(matrix(nrow=2, ncol=8))
     panel_header[2, 1] <- paste("\\multicolumn{8}{l}{\\textit{", model$TITLE, "}} \\\\ %", sep="")
     panel_header[is.na(panel_header)] <- ""
-        
+
     # Fill data into table conditional on model.
     if (model_name == "baseline") {
         model_table = data.frame(matrix(nrow = 5, ncol = 8))
@@ -75,7 +75,7 @@ for (model_name in models) {
         model_table[1] <- rownames(reg_results)[rows]
         model_table[2:8] <- reg_results[rows, ]
     }
-    
+
     # Append panel header to model_table
     model_table = rbind(panel_header, model_table)
 
@@ -85,19 +85,19 @@ for (model_name in models) {
 }
 
 tex_final_table = xtable(
-    final_table, 
-    caption="First-Stage Estimates \\\\ (Dependent variable: expropriation risk)"              
+    final_table,
+    caption="First-Stage Estimates \\\\ (Dependent variable: expropriation risk)"
 )
 
 align(tex_final_table) = "llccccccc"
 
 # Export the latex table
 print(
-    tex_final_table, 
-    sanitize.text.function = function(x){x}, 
+    tex_final_table,
+    sanitize.text.function = function(x){x},
     file=paste(PATH_OUT_TABLES, "table2_first_stage_est.tex", sep="/"),
-    include.rownames=FALSE, 
+    include.rownames=FALSE,
     include.colnames=FALSE,
-    caption.placement="top", 
-    size ="\\scriptsize" 
+    caption.placement="top",
+    size ="\\scriptsize"
 )
