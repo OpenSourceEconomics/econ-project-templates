@@ -152,7 +152,9 @@ packages:
 #    - mychannel
 #
 
-channels: []
+channels:
+- https://repo.anaconda.com/pkgs/main/linux-64/
+- https://repo.anaconda.com/pkgs/free/linux-64/
 #
 # In the platforms section, list platforms the project should work on
 # Examples: "linux-64", "osx-64", "win-64"
