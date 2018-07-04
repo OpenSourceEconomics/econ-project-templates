@@ -149,6 +149,9 @@ def load_tool(tool, tooldir=None, ctx=None, with_sys_path=True):
 	try:
 		module = Context.load_tool_default(tool, tooldir, ctx, with_sys_path)
 	except ImportError as e:
+		if not ctx or not hasattr(Options.options, 'download'):
+			Logs.error('Could not load %r during options phase (download unavailable at this point)' % tool)
+			raise
 		if Options.options.download:
 			module = download_tool(tool, ctx=ctx)
 			if not module:

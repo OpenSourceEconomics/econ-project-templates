@@ -25,7 +25,6 @@ def proc(tsk):
 	gen = tsk.generator
 	inc_nodes = gen.to_incnodes(Utils.to_list(getattr(gen,'includes',[])) + env['INCLUDES'])
 
-	# FIXME the if-else construct will not work in python 2
 	cmd = (
 		[env.PROC] +
 		['SQLCHECK=SEMANTICS'] +

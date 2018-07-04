@@ -89,7 +89,8 @@ def halide(self):
 		# Return a node with a new extension, in an appropriate folder
 		name = src.name
 		xpos = src.name.rfind('.')
-		if xpos == -1: xpos = len(src.name)
+		if xpos == -1:
+			xpos = len(src.name)
 		newname = name[:xpos] + ext
 		if src.is_child_of(bld.bldnode):
 			node = src.get_src().parent.find_or_declare(newname)

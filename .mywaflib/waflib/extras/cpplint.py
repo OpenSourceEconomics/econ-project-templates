@@ -35,6 +35,7 @@ When using this tool, the wscript will look like:
         bld(features='cpplint', source=bld.path.ant_glob('**/*.hpp'))
 '''
 
+from __future__ import absolute_import
 import sys, re
 import logging
 import threading
@@ -69,6 +70,9 @@ def options(opt):
                    help='specify the log level (default: 1)')
     opt.add_option('--cpplint-break', default=5, type='int', dest='CPPLINT_BREAK',
                    help='break the build if error >= level (default: 5)')
+    opt.add_option('--cpplint-root', type='string',
+                   default=None, dest='CPPLINT_ROOT',
+                   help='root directory used to derive header guard')
     opt.add_option('--cpplint-skip', action='store_true',
                    default=False, dest='CPPLINT_SKIP',
                    help='skip cpplint during build')
@@ -87,7 +91,7 @@ def configure(conf):
         conf.end_msg('not found, skipping it.')
 
 
-class cpplint_formatter(Logs.formatter):
+class cpplint_formatter(Logs.formatter, object):
     def __init__(self, fmt):
         logging.Formatter.__init__(self, CPPLINT_FORMAT)
         self.fmt = fmt
@@ -101,7 +105,7 @@ class cpplint_formatter(Logs.formatter):
         return super(cpplint_formatter, self).format(rec)
 
 
-class cpplint_handler(Logs.log_handler):
+class cpplint_handler(Logs.log_handler, object):
     def __init__(self, stream=sys.stderr, **kw):
         super(cpplint_handler, self).__init__(stream, **kw)
         self.stream = stream
@@ -181,9 +185,10 @@ class cpplint(Task.Task):
         global critical_errors
         with cpplint_wrapper(get_cpplint_logger(self.env.CPPLINT_OUTPUT), self.env.CPPLINT_BREAK, self.env.CPPLINT_OUTPUT):
             if self.env.CPPLINT_OUTPUT != 'waf':
-                cpplint_tool._cpplint_state.output_format = self.env.CPPLINT_OUTPUT
-            cpplint_tool._cpplint_state.SetFilters(self.env.CPPLINT_FILTERS)
+                cpplint_tool._SetOutputFormat(self.env.CPPLINT_OUTPUT)
+            cpplint_tool._SetFilters(self.env.CPPLINT_FILTERS)
             cpplint_tool._line_length = self.env.CPPLINT_LINE_LENGTH
+            cpplint_tool._root = self.env.CPPLINT_ROOT
             cpplint_tool.ProcessFile(self.inputs[0].abspath(), self.env.CPPLINT_LEVEL)
         return critical_errors
 
@@ -194,15 +199,15 @@ def cpplint_includes(self, node):
 @TaskGen.feature('cpplint')
 @TaskGen.before_method('process_source')
 def post_cpplint(self):
-    if self.env.CPPLINT_SKIP:
-        return
-
     if not self.env.CPPLINT_INITIALIZED:
         for key, value in Options.options.__dict__.items():
             if not key.startswith('CPPLINT_') or self.env[key]:
-               continue
+                continue
             self.env[key] = value
         self.env.CPPLINT_INITIALIZED = True
+
+    if self.env.CPPLINT_SKIP:
+        return
 
     if not self.env.CPPLINT_OUTPUT in CPPLINT_RE:
         return
@@ -215,5 +220,3 @@ def post_cpplint(self):
         if not node:
             self.bld.fatal('Could not find %r' % src)
         self.create_task('cpplint', node)
-
-

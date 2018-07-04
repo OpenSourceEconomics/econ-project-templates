@@ -17,12 +17,7 @@ Usage:
 import sys, os, json, shlex, pipes
 from waflib import Logs, TaskGen, Task
 
-Task.TaskBase.keep_last_cmd = True
-
-if sys.hexversion >= 0x3030000:
-	quote = shlex.quote
-else:
-	quote = pipes.quote
+Task.Task.keep_last_cmd = True
 
 @TaskGen.feature('c', 'cxx')
 @TaskGen.after_method('process_use')
@@ -56,13 +51,35 @@ def write_compilation_database(ctx):
 		directory = getattr(task, 'cwd', ctx.variant_dir)
 		f_node = task.inputs[0]
 		filename = os.path.relpath(f_node.abspath(), directory)
-		cmd = " ".join(map(quote, cmd))
 		entry = {
 			"directory": directory,
-			"command": cmd,
+			"arguments": cmd,
 			"file": filename,
 		}
 		clang_db[filename] = entry
 	root = list(clang_db.values())
 	database_file.write(json.dumps(root, indent=2))
 
+# Override the runnable_status function to do a dummy/dry run when the file doesn't need to be compiled.
+# This will make sure compile_commands.json is always fully up to date.
+# Previously you could end up with a partial compile_commands.json if the build failed.
+for x in ('c', 'cxx'):
+	if x not in Task.classes:
+		continue
+
+	t = Task.classes[x]
+
+	def runnable_status(self):
+		def exec_command(cmd, **kw):
+			pass
+
+		run_status = self.old_runnable_status()
+		if run_status == Task.SKIP_ME:
+			setattr(self, 'old_exec_command', getattr(self, 'exec_command', None))
+			setattr(self, 'exec_command', exec_command)
+			self.run()
+			setattr(self, 'exec_command', getattr(self, 'old_exec_command', None))
+		return run_status
+
+	setattr(t, 'old_runnable_status', getattr(t, 'runnable_status', None))
+	setattr(t, 'runnable_status', runnable_status)

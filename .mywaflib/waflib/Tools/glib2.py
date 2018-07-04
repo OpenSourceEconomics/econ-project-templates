@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2006-2016 (ita)
+# Thomas Nagy, 2006-2018 (ita)
 
 """
 Support for GLib2 tools:
@@ -12,6 +12,7 @@ Support for GLib2 tools:
 """
 
 import os
+import functools
 from waflib import Context, Task, Utils, Options, Errors, Logs
 from waflib.TaskGen import taskgen_method, before_method, feature, extension
 from waflib.Configure import conf
@@ -69,7 +70,8 @@ class glib_genmarshal(Task.Task):
 		)
 
 		ret = bld.exec_command(cmd1)
-		if ret: return ret
+		if ret:
+			return ret
 
 		#print self.outputs[1].abspath()
 		c = '''#include "%s"\n''' % self.outputs[0].name
@@ -242,7 +244,7 @@ def add_settings_enums(self, namespace, filename_list):
 		raise Errors.WafError("Tried to add gsettings enums to %r more than once" % self.name)
 	self.settings_enum_namespace = namespace
 
-	if type(filename_list) != 'list':
+	if not isinstance(filename_list, list):
 		filename_list = [filename_list]
 	self.settings_enum_files = filename_list
 
@@ -301,20 +303,30 @@ def process_settings(self):
 
 	# 3. schemas install task
 	def compile_schemas_callback(bld):
-		if not bld.is_install: return
-		Logs.pprint ('YELLOW','Updating GSettings schema cache')
-		command = Utils.subst_vars("${GLIB_COMPILE_SCHEMAS} ${GSETTINGSSCHEMADIR}", bld.env)
-		self.bld.exec_command(command)
+		if not bld.is_install:
+			return
+		compile_schemas = Utils.to_list(bld.env.GLIB_COMPILE_SCHEMAS)
+		destdir = Options.options.destdir
+		paths = bld._compile_schemas_registered
+		if destdir:
+			paths = (os.path.join(destdir, path.lstrip(os.sep)) for path in paths)
+		for path in paths:
+			Logs.pprint('YELLOW', 'Updating GSettings schema cache %r' % path)
+			if self.bld.exec_command(compile_schemas + [path]):
+				Logs.warn('Could not update GSettings schema cache %r' % path)
 
 	if self.bld.is_install:
-		if not self.env.GSETTINGSSCHEMADIR:
+		schemadir = self.env.GSETTINGSSCHEMADIR
+		if not schemadir:
 			raise Errors.WafError ('GSETTINGSSCHEMADIR not defined (should have been set up automatically during configure)')
 
 		if install_files:
-			self.add_install_files(install_to=self.env.GSETTINGSSCHEMADIR, install_from=install_files)
-			if not hasattr(self.bld, '_compile_schemas_registered'):
+			self.add_install_files(install_to=schemadir, install_from=install_files)
+			registered_schemas = getattr(self.bld, '_compile_schemas_registered', None)
+			if not registered_schemas:
+				registered_schemas = self.bld._compile_schemas_registered = set()
 				self.bld.add_post_fun(compile_schemas_callback)
-				self.bld._compile_schemas_registered = True
+			registered_schemas.add(schemadir)
 
 class glib_validate_schema(Task.Task):
 	"""
@@ -440,7 +452,6 @@ def find_glib_compile_schemas(conf):
 	def getstr(varname):
 		return getattr(Options.options, varname, getattr(conf.env,varname, ''))
 
-	# TODO make this dependent on the gnu_dirs tool?
 	gsettingsschemadir = getstr('GSETTINGSSCHEMADIR')
 	if not gsettingsschemadir:
 		datadir = getstr('DATADIR')

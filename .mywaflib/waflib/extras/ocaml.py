@@ -20,9 +20,12 @@ foo = re.compile(r"""(\(\*)|(\*\))|("(\\.|[^"\\])*"|'(\\.|[^'\\])*'|.[^()*"'\\]*
 def filter_comments(txt):
 	meh = [0]
 	def repl(m):
-		if m.group(1): meh[0] += 1
-		elif m.group(2): meh[0] -= 1
-		elif not meh[0]: return m.group()
+		if m.group(1):
+			meh[0] += 1
+		elif m.group(2):
+			meh[0] -= 1
+		elif not meh[0]:
+			return m.group()
 		return ''
 	return foo.sub(repl, txt)
 
@@ -42,7 +45,8 @@ def scan(self):
 		nd = None
 		for x in self.incpaths:
 			nd = x.find_resource(name.lower()+'.ml')
-			if not nd: nd = x.find_resource(name+'.ml')
+			if not nd:
+				nd = x.find_resource(name+'.ml')
 			if nd:
 				found_lst.append(nd)
 				break
@@ -83,12 +87,14 @@ def init_envs_ml(self):
 	self.native_env = None
 	if self.type in native_lst:
 		self.native_env = self.env.derive()
-		if self.islibrary: self.native_env['OCALINKFLAGS']   = '-a'
+		if self.islibrary:
+			self.native_env['OCALINKFLAGS']   = '-a'
 
 	self.bytecode_env = None
 	if self.type in bytecode_lst:
 		self.bytecode_env = self.env.derive()
-		if self.islibrary: self.bytecode_env['OCALINKFLAGS'] = '-a'
+		if self.islibrary:
+			self.bytecode_env['OCALINKFLAGS'] = '-a'
 
 	if self.type == 'c_object':
 		self.native_env.append_unique('OCALINKFLAGS_OPT', '-output-obj')
@@ -126,8 +132,10 @@ def apply_vars_ml(self):
 		for vname in varnames:
 			cnt = self.env[vname+'_'+name]
 			if cnt:
-				if self.bytecode_env: self.bytecode_env.append_value(vname, cnt)
-				if self.native_env: self.native_env.append_value(vname, cnt)
+				if self.bytecode_env:
+					self.bytecode_env.append_value(vname, cnt)
+				if self.native_env:
+					self.native_env.append_value(vname, cnt)
 
 @feature('ocaml')
 @after_method('process_source')
@@ -143,9 +151,12 @@ def apply_link_ml(self):
 		self.linktasks.append(linktask)
 
 	if self.native_env:
-		if self.type == 'c_object': ext = '.o'
-		elif self.islibrary: ext = '.cmxa'
-		else: ext = ''
+		if self.type == 'c_object':
+			ext = '.o'
+		elif self.islibrary:
+			ext = '.cmxa'
+		else:
+			ext = ''
 
 		linktask = self.create_task('ocalinkx')
 		linktask.set_outputs(self.path.find_or_declare(self.target + ext))
@@ -207,8 +218,10 @@ def compile_may_start(self):
 
 		# the evil part is that we can only compute the dependencies after the
 		# source files can be read (this means actually producing the source files)
-		if getattr(self, 'bytecode', ''): alltasks = self.generator.bytecode_tasks
-		else: alltasks = self.generator.native_tasks
+		if getattr(self, 'bytecode', ''):
+			alltasks = self.generator.bytecode_tasks
+		else:
+			alltasks = self.generator.native_tasks
 
 		self.signature() # ensure that files are scanned - unfortunately
 		tree = self.generator.bld
@@ -216,7 +229,8 @@ def compile_may_start(self):
 			lst = tree.node_deps[self.uid()]
 			for depnode in lst:
 				for t in alltasks:
-					if t == self: continue
+					if t == self:
+						continue
 					if depnode in t.inputs:
 						self.set_run_after(t)
 
@@ -270,8 +284,10 @@ class ocamlyacc(Task.Task):
 
 def link_may_start(self):
 
-	if getattr(self, 'bytecode', 0): alltasks = self.generator.bytecode_tasks
-	else: alltasks = self.generator.native_tasks
+	if getattr(self, 'bytecode', 0):
+		alltasks = self.generator.bytecode_tasks
+	else:
+		alltasks = self.generator.native_tasks
 
 	for x in alltasks:
 		if not x.hasrun:
@@ -286,7 +302,8 @@ def link_may_start(self):
 		pendant = []+alltasks
 		while pendant:
 			task = pendant.pop(0)
-			if task in seen: continue
+			if task in seen:
+				continue
 			for x in task.run_after:
 				if not x in seen:
 					pendant.append(task)

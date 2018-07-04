@@ -76,7 +76,7 @@ Usage
 
 4. Setup the ssh server and ssh keys
 
-   The ssh key should not be protected by a password, or it will prompt for it everytime.
+   The ssh key should not be protected by a password, or it will prompt for it every time.
    Create the key on the client:
 
    .. code:: bash

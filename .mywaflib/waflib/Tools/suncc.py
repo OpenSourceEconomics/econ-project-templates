@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2006-2016 (ita)
+# Thomas Nagy, 2006-2018 (ita)
 # Ralf Habacker, 2006 (rh)
 
+from waflib import Errors
 from waflib.Tools import ccroot, ar
 from waflib.Configure import conf
 
@@ -15,7 +16,7 @@ def find_scc(conf):
 	cc = conf.find_program('cc', var='CC')
 	try:
 		conf.cmd_and_log(cc + ['-flags'])
-	except Exception:
+	except Errors.WafError:
 		conf.fatal('%r is not a Sun compiler' % cc)
 	v.CC_NAME = 'sun'
 	conf.get_suncc_version(cc)

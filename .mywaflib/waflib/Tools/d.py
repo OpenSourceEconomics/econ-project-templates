@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # Carlos Rafael Giani, 2007 (dv)
-# Thomas Nagy, 2007-2016 (ita)
+# Thomas Nagy, 2007-2018 (ita)
 
 from waflib import Utils, Task, Errors
 from waflib.TaskGen import taskgen_method, feature, extension

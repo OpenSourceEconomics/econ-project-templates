@@ -87,7 +87,8 @@ class scalac(javaw.javac):
 		bld = gen.bld
 		wd = bld.bldnode.abspath()
 		def to_list(xx):
-			if isinstance(xx, str): return [xx]
+			if isinstance(xx, str):
+				return [xx]
 			return xx
 		self.last_cmd = lst = []
 		lst.extend(to_list(env['SCALAC']))
@@ -122,5 +123,6 @@ def configure(self):
 		v['CLASSPATH'] = self.environ['CLASSPATH']
 
 	v.SCALACFLAGS = ['-verbose']
-	if not v['SCALAC']: self.fatal('scalac is required for compiling scala classes')
+	if not v['SCALAC']:
+		self.fatal('scalac is required for compiling scala classes')
 

@@ -22,7 +22,7 @@ import waflib.Tools.cxx
 
 @extension(*waflib.Tools.qt4.EXT_QT4)
 def cxx_hook(self, node):
-	self.create_compiled_task('cxx_qt', node)
+	return self.create_compiled_task('cxx_qt', node)
 
 class cxx_qt(Task.classes['cxx']):
 	def runnable_status(self):
@@ -63,7 +63,7 @@ class cxx_qt(Task.classes['cxx']):
 						# moc is trying to be too smart but it is too dumb:
 						# why forcing the #include when Q_OBJECT is in the cpp file?
 						gen = self.generator.bld.producer
-						gen.outstanding.appendleft(tsk)
+						gen.outstanding.append(tsk)
 						gen.total += 1
 						self.set_run_after(tsk)
 					else:

@@ -402,7 +402,6 @@ class package_reader(Context.Context):
 			if x.pkgname == self.myproject:
 				continue
 			yield x
-		raise StopIteration
 
 	def execute(self):
 		self.compute_dependencies()

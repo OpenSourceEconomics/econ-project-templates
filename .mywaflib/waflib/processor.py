@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2016 (ita)
+# Thomas Nagy, 2016-2018 (ita)
 
 import os, sys, traceback, base64, signal
 try:
@@ -16,7 +16,7 @@ except ImportError:
 try:
 	TimeoutExpired = subprocess.TimeoutExpired
 except AttributeError:
-	class TimeoutExpired(object):
+	class TimeoutExpired(Exception):
 		pass
 
 def run():

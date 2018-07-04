@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy 2008-2016 (ita)
+# Thomas Nagy 2008-2018 (ita)
 
 """
 MacOSX related tools
@@ -102,7 +102,7 @@ def create_task_macapp(self):
 			for node in self.to_nodes(self.mac_files):
 				relpath = node.path_from(mac_files_root or node.parent)
 				self.create_task('macapp', node, res_dir.make_node(relpath))
-				self.add_install_as(install_to=os.path.join(inst_to, relpath), install_source=node)
+				self.add_install_as(install_to=os.path.join(inst_to, relpath), install_from=node)
 
 		if getattr(self.bld, 'is_install', None):
 			# disable regular binary installation

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # Carlos Rafael Giani, 2007 (dv)
-# Thomas Nagy, 2016 (ita)
+# Thomas Nagy, 2016-2018 (ita)
 
 """
 Try to detect a D compiler from the list of supported compilers::

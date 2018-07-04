@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-# 
+# encoding: utf-8
 
 import os
 from waflib import Task
@@ -18,7 +18,7 @@ def resx_file(self, node):
 		self.bld.fatal('resx_file has no link task for use %r' % self)
 
 	# Given assembly 'Foo' and file 'Sub/Dir/File.resx', create 'Foo.Sub.Dir.File.resources'
-	assembly = os.path.splitext(self.gen)[0]
+	assembly = getattr(self, 'namespace', os.path.splitext(self.gen)[0])
 	res = os.path.splitext(node.path_from(self.path))[0].replace('/', '.').replace('\\', '.')
 	out = self.path.find_or_declare(assembly + '.' + res + '.resources')
 

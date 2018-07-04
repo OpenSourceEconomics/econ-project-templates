@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # John O'Meara, 2006
-# Thomas Nagy, 2006-2016 (ita)
+# Thomas Nagy, 2006-2018 (ita)
 
 """
 The **flex** program is a code generator which creates C or C++ files.
@@ -22,7 +22,8 @@ def flexfun(tsk):
 	bld = tsk.generator.bld
 	wd = bld.variant_dir
 	def to_list(xx):
-		if isinstance(xx, str): return [xx]
+		if isinstance(xx, str):
+			return [xx]
 		return xx
 	tsk.last_cmd = lst = []
 	lst.extend(to_list(env.FLEX))

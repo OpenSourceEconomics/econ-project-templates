@@ -3,7 +3,7 @@
 # Grygoriy Fuchedzhy 2009
 
 """
-Compile fluid files (fltk graphic library). Use the 'fluid' feature in conjuction with the 'cxx' feature.
+Compile fluid files (fltk graphic library). Use the 'fluid' feature in conjunction with the 'cxx' feature.
 """
 
 from waflib import Task

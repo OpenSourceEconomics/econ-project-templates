@@ -32,7 +32,7 @@ def get_emscripten_version(conf, cc):
 		conf.fatal('Could not determine emscripten version %r: %s' % (cmd, e))
 
 	if not isinstance(out, str):
-		out = out.decode(sys.stdout.encoding or 'iso8859-1')
+		out = out.decode(sys.stdout.encoding or 'latin-1')
 
 	k = {}
 	out = out.splitlines()
@@ -76,9 +76,12 @@ def configure(conf):
 	conf.env.ARFLAGS = ['rcs']
 	conf.env.cshlib_PATTERN = '%s.js'
 	conf.env.cxxshlib_PATTERN = '%s.js'
-	conf.env.cstlib_PATTERN = '%s.bc'
-	conf.env.cxxstlib_PATTERN = '%s.bc'
+	conf.env.cstlib_PATTERN = '%s.a'
+	conf.env.cxxstlib_PATTERN = '%s.a'
 	conf.env.cprogram_PATTERN = '%s.html'
 	conf.env.cxxprogram_PATTERN = '%s.html'
+	conf.env.CXX_TGT_F           = ['-c', '-o', '']
+	conf.env.CC_TGT_F            = ['-c', '-o', '']
+	conf.env.CXXLNK_TGT_F        = ['-o', '']
+	conf.env.CCLNK_TGT_F         = ['-o', '']
 	conf.env.append_value('LINKFLAGS',['-Wl,--enable-auto-import'])
-

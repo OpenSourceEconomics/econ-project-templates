@@ -33,7 +33,8 @@ def dcc_common_flags(conf):
 	v['CC_TGT_F']            = ['-c', '-o']
 
 	# linker
-	if not v['LINK_CC']: v['LINK_CC'] = v['CC']
+	if not v['LINK_CC']:
+		v['LINK_CC'] = v['CC']
 	v['CCLNK_SRC_F']         = []
 	v['CCLNK_TGT_F']         = ['-o']
 	v['CPPPATH_ST']          = '-I%s'

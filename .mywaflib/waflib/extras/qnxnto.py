@@ -43,9 +43,7 @@ class Popen(object):
 		if Popen.verbose:
 			sys.stdout.write("Getattr: %s..." % name)
 		if name in Popen.__slots__:
-			if Popen.verbose:
-				print("In slots!")
-			return object.__getattr__(self, name)
+			return object.__getattribute__(self, name)
 		else:
 			if self.popen is not None:
 				if Popen.verbose:

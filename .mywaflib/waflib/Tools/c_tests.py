@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2016 (ita)
+# Thomas Nagy, 2016-2018 (ita)
 
 """
 Various configuration tests.
@@ -199,7 +199,7 @@ class grep_for_endianness(Task.Task):
 	"""
 	color = 'PINK'
 	def run(self):
-		txt = self.inputs[0].read(flags='rb').decode('iso8859-1')
+		txt = self.inputs[0].read(flags='rb').decode('latin-1')
 		if txt.find('LiTTleEnDian') > -1:
 			self.generator.tmp.append('little')
 		elif txt.find('BIGenDianSyS') > -1:
@@ -211,7 +211,7 @@ class grep_for_endianness(Task.Task):
 @after_method('process_source')
 def grep_for_endianness_fun(self):
 	"""
-	Used by the endiannes configuration test
+	Used by the endianness configuration test
 	"""
 	self.create_task('grep_for_endianness', self.compiled_tasks[0].outputs[0])
 

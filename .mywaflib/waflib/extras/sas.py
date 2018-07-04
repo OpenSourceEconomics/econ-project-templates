@@ -53,9 +53,12 @@ def apply_sas(self):
 		deps = self.to_list(self.deps)
 		for filename in deps:
 			n = self.path.find_resource(filename)
-			if not n: n = self.bld.root.find_resource(filename)
-			if not n: raise Errors.WafError('cannot find input file %s for processing' % filename)
-			if not n in deps_lst: deps_lst.append(n)
+			if not n:
+				n = self.bld.root.find_resource(filename)
+			if not n:
+				raise Errors.WafError('cannot find input file %s for processing' % filename)
+			if not n in deps_lst:
+				deps_lst.append(n)
 
 	for node in self.to_nodes(self.source):
 		if self.type == 'sas':
