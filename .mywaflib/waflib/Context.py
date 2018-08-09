@@ -364,20 +364,35 @@ class Context(ctx):
 		except Exception as e:
 			raise Errors.WafError('Execution failure: %s' % str(e), ex=e)
 
+		red = '\x1b[01;31m'
+		normal = '\x1b[0m'
+		yellow = '\x1b[33m'
+		blue = '\x1b[01;34m'
+		green = '\x1b[32m'
+		module = 'src/' + cmd.split(' ')[3].split('/src/')[1]
+		args = ' '.join(cmd.split(' ')[4:])
+		line = 60 * '*'
+
+		frame = '\n' + line + '\n{type} ' + green + module + ' ' + \
+				args + normal + ':\n\n{message}' + line + '\n'
+
 		if out:
 			if not isinstance(out, str):
 				out = out.decode(encoding, errors='replace')
+			pretty_out = frame.format(type='Output', message=out)
 			if self.logger:
 				self.logger.debug('out: %s', out)
 			else:
-				Logs.info(out, extra={'stream':sys.stdout, 'c1': ''})
+				Logs.info(pretty_out, extra={'stream':sys.stdout, 'c1': ''})
 		if err:
 			if not isinstance(err, str):
 				err = err.decode(encoding, errors='replace')
+			pretty_err = frame.format(type=red + 'ERROR' + normal,
+							   		  message=yellow + err + normal)
 			if self.logger:
 				self.logger.error('err: %s' % err)
 			else:
-				Logs.info(err, extra={'stream':sys.stderr, 'c1': ''})
+				Logs.info(pretty_err, extra={'stream':sys.stderr, 'c1': ''})
 
 		return ret
 
