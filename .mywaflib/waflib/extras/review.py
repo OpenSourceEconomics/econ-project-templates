@@ -242,7 +242,8 @@ class ReviewContext(Context.Context):
 		"""
 		Return true if the review sets specified are equal.
 		"""
-		if len(set1.keys()) != len(set2.keys()): return False
+		if len(set1.keys()) != len(set2.keys()):
+			return False
 		for key in set1.keys():
 			if not key in set2 or set1[key] != set2[key]:
 				return False
@@ -259,7 +260,8 @@ class ReviewContext(Context.Context):
 			name = ", ".join(opt._short_opts + opt._long_opts)
 			help = opt.help
 			actual = None
-			if dest in review_set: actual = review_set[dest]
+			if dest in review_set:
+				actual = review_set[dest]
 			default = review_defaults[dest]
 			lines.append(self.format_option(name, help, actual, default, term_width))
 		return "Configuration:\n\n" + "\n\n".join(lines) + "\n"
@@ -278,7 +280,8 @@ class ReviewContext(Context.Context):
 
 		w = textwrap.TextWrapper()
 		w.width = term_width - 1
-		if w.width < 60: w.width = 60
+		if w.width < 60:
+			w.width = 60
 
 		out = ""
 

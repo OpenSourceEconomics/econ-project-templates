@@ -7,6 +7,7 @@ Detect the PGI C compiler
 """
 
 import sys, re
+from waflib import Errors
 from waflib.Configure import conf
 from waflib.Tools.compiler_c import c_compiler
 c_compiler['linux'].append('pgicc')
@@ -21,10 +22,14 @@ def find_pgi_compiler(conf, var, name):
 
 	v = conf.env
 	cc = None
-	if v[var]: cc = v[var]
-	elif var in conf.environ: cc = conf.environ[var]
-	if not cc: cc = conf.find_program(name, var=var)
-	if not cc: conf.fatal('PGI Compiler (%s) was not found' % name)
+	if v[var]:
+		cc = v[var]
+	elif var in conf.environ:
+		cc = conf.environ[var]
+	if not cc:
+		cc = conf.find_program(name, var=var)
+	if not cc:
+		conf.fatal('PGI Compiler (%s) was not found' % name)
 
 	v[var + '_VERSION'] = conf.get_pgi_version(cc)
 	v[var] = cc
@@ -38,11 +43,13 @@ def get_pgi_version(conf, cc):
 
 	try:
 		out, err = conf.cmd_and_log(cmd, output=0)
-	except Exception:
+	except Errors.WafError:
 		conf.fatal('Could not find pgi compiler %r' % cmd)
 
-	if out: match = version_re(out)
-	else: match = version_re(err)
+	if out:
+		match = version_re(out)
+	else:
+		match = version_re(err)
 
 	if not match:
 		conf.fatal('Could not verify PGI signature')
@@ -50,7 +57,7 @@ def get_pgi_version(conf, cc):
 	cmd = cc + ['-help=variable']
 	try:
 		out, err = conf.cmd_and_log(cmd, output=0)
-	except Exception:
+	except Errors.WafError:
 		conf.fatal('Could not find pgi compiler %r' % cmd)
 
 	version = re.findall('^COMPVER\s*=(.*)', out, re.M)

@@ -1,3 +1,4 @@
+name: text_python_env
 dependencies:
 - alabaster=0.7.6=py35_0
 - babel=2.1.1=py35_0
@@ -30,7 +31,7 @@ dependencies:
 - pygments=2.0.2=py35_0
 - pyparsing=2.0.3=py35_0
 - pyqt=4.11.4=py35_0
-- python=3.5.0=1
+- python=3.5.0
 - python-dateutil=2.4.2=py35_0
 - pytz=2015.7=py35_0
 - pyyaml=3.11=py35_1
@@ -65,3 +66,4 @@ dependencies:
   - pybtex-docutils==0.2.1
   - sphinx-rtd-theme==0.1.7
   - sphinxcontrib-bibtex==0.3.3
+  - tox==3.0.0

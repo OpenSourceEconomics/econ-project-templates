@@ -6,6 +6,7 @@
 Compiler definition for irix/MIPSpro cc compiler
 """
 
+from waflib import Errors
 from waflib.Tools import ccroot, ar
 from waflib.Configure import conf
 
@@ -24,7 +25,7 @@ def find_irixcc(conf):
 
 	try:
 		conf.cmd_and_log(cc + ['-version'])
-	except Exception:
+	except Errors.WafError:
 		conf.fatal('%r -version could not be executed' % cc)
 
 	v.CC = cc

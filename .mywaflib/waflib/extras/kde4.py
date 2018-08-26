@@ -53,11 +53,14 @@ def configure(self):
 	kdeconfig = self.find_program('kde4-config')
 	prefix = self.cmd_and_log(kdeconfig + ['--prefix']).strip()
 	fname = '%s/share/apps/cmake/modules/KDELibsDependencies.cmake' % prefix
-	try: os.stat(fname)
+	try:
+		os.stat(fname)
 	except OSError:
 		fname = '%s/share/kde4/apps/cmake/modules/KDELibsDependencies.cmake' % prefix
-		try: os.stat(fname)
-		except OSError: self.fatal('could not open %s' % fname)
+		try:
+			os.stat(fname)
+		except OSError:
+			self.fatal('could not open %s' % fname)
 
 	try:
 		txt = Utils.readf(fname)

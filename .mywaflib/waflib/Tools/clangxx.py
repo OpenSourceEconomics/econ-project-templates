@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy 2009-2016 (ita)
+# Thomas Nagy 2009-2018 (ita)
 
 """
 Detect the Clang++ C++ compiler

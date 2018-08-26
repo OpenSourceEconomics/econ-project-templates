@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # encoding: utf-8
 # KWS 2010
-# Thomas Nagy 2016 (ita)
+# Thomas Nagy 2016-2018 (ita)
 
 import re
 from waflib import Utils

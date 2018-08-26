@@ -35,7 +35,7 @@ def get_data(blob_out):
 	pbData = blob_out.pbData
 	buffer = c_buffer(cbData)
 	memcpy(buffer, pbData, cbData)
-	LocalFree(pbData);
+	LocalFree(pbData)
 	return buffer.raw
 
 @conf

@@ -7,9 +7,12 @@ Execute the tasks with gcc -MD, read the dependencies from the .d file
 and prepare the dependency calculation for the next run.
 This affects the cxx class, so make sure to load Qt5 after this tool.
 
-Usage:
+Usage::
+
+	def options(opt):
+		opt.load('compiler_cxx')
 	def configure(conf):
-		conf.load('gccdeps')
+		conf.load('compiler_cxx gccdeps')
 """
 
 import os, re, threading
@@ -74,7 +77,11 @@ def post_run(self):
 
 	name = self.outputs[0].abspath()
 	name = re_o.sub('.d', name)
-	txt = Utils.readf(name)
+	try:
+		txt = Utils.readf(name)
+	except EnvironmentError:
+		Logs.error('Could not find a .d dependency file, are cflags/cxxflags overwritten?')
+		raise
 	#os.remove(name)
 
 	# Compilers have the choice to either output the file's dependencies
@@ -201,4 +208,7 @@ def configure(conf):
 		else:
 			conf.env.append_value('CXXFLAGS', gccdeps_flags)
 			conf.env.append_unique('ENABLE_GCCDEPS', 'cxx')
+
+def options(opt):
+	raise ValueError('Do not load gccdeps options')
 

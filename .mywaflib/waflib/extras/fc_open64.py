@@ -39,8 +39,10 @@ def get_open64_version(conf, fc):
 	cmd = fc + ['-version']
 
 	out, err = fc_config.getoutput(conf,cmd,stdin=False)
-	if out: match = version_re(out)
-	else: match = version_re(err)
+	if out:
+		match = version_re(out)
+	else:
+		match = version_re(err)
 	if not match:
 		conf.fatal('Could not determine the Open64 version.')
 	k = match.groupdict()

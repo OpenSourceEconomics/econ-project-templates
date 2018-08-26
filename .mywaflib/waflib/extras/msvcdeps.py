@@ -16,12 +16,16 @@ The technique of gutting scan() and pushing the dependency calculation
 down to post_run() is cribbed from gccdeps.py.
 
 This affects the cxx class, so make sure to load Qt5 after this tool.
+
+Usage::
+
+	def options(opt):
+		opt.load('compiler_cxx')
+	def configure(conf):
+		conf.load('compiler_cxx msvcdeps')
 '''
 
-import os
-import sys
-import tempfile
-import threading
+import os, sys, tempfile, threading
 
 from waflib import Context, Errors, Logs, Task, Utils
 from waflib.Tools import c_preproc, c, cxx, msvc
@@ -203,7 +207,8 @@ def exec_command(self, cmd, **kw):
 		kw['output'] = Context.STDOUT
 
 		out = []
-
+		if Logs.verbose:
+			Logs.debug('argfile: @%r -> %r', tmp, args)
 		try:
 			raw_out = self.generator.bld.cmd_and_log(cmd + ['@' + tmp], **kw)
 			ret = 0
@@ -245,4 +250,7 @@ def wrap_compiled_task(classname):
 for k in ('c', 'cxx'):
 	if k in Task.classes:
 		wrap_compiled_task(k)
+
+def options(opt):
+	raise ValueError('Do not load msvcdeps options')
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2016 (ita)
+# Thomas Nagy, 2016-2018 (ita)
 
 """
 Provide a scanner for finding dependencies on d files
@@ -29,7 +29,8 @@ def filter_comments(filename):
 			i += 1
 			while i < max:
 				c = txt[i]
-				if c == delim: break
+				if c == delim:
+					break
 				elif c == '\\':  # skip the character following backslash
 					i += 1
 				i += 1
@@ -38,7 +39,8 @@ def filter_comments(filename):
 		elif c == '/':  # try to replace a comment with whitespace
 			buf.append(txt[begin:i])
 			i += 1
-			if i == max: break
+			if i == max:
+				break
 			c = txt[i]
 			if c == '+':  # eat nesting /+ +/ comment
 				i += 1
@@ -52,7 +54,8 @@ def filter_comments(filename):
 						c = None
 					elif prev == '+' and c == '/':
 						nesting -= 1
-						if nesting == 0: break
+						if nesting == 0:
+							break
 						c = None
 					i += 1
 			elif c == '*':  # eat /* */ comment
@@ -61,7 +64,8 @@ def filter_comments(filename):
 				while i < max:
 					prev = c
 					c = txt[i]
-					if prev == '*' and c == '/': break
+					if prev == '*' and c == '/':
+						break
 					i += 1
 			elif c == '/':  # eat // comment
 				i += 1
@@ -188,7 +192,8 @@ class d_parser(object):
 		names = self.get_strings(code) # obtain the import strings
 		for x in names:
 			# optimization
-			if x in self.allnames: continue
+			if x in self.allnames:
+				continue
 			self.allnames.append(x)
 
 			# for each name, see if it is like a node or not

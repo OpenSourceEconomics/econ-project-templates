@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Federico Pellegrin, 2016 (fedepell) adapted for Python
+# Federico Pellegrin, 2016-2018 (fedepell) adapted for Python
 
 """
 This tool helps with finding Python Qt5 tools and libraries,
@@ -163,8 +163,10 @@ class pyrcc(Task.Task):
 		root = self.inputs[0].parent
 		for x in curHandler.files:
 			nd = root.find_resource(x)
-			if nd: nodes.append(nd)
-			else: names.append(x)
+			if nd:
+				nodes.append(nd)
+			else:
+				names.append(x)
 		return (nodes, names)
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # John O'Meara, 2006
-# Thomas Nagy 2009-2016 (ita)
+# Thomas Nagy 2009-2018 (ita)
 
 """
 The **bison** program is a code generator which creates C or C++ files.

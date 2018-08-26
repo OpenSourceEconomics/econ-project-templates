@@ -19,7 +19,7 @@ Support for Python, detect the headers and libraries and provide
 """
 
 import os, sys
-from waflib import Utils, Options, Errors, Logs, Task, Node
+from waflib import Errors, Logs, Node, Options, Task, Utils
 from waflib.TaskGen import extension, before_method, after_method, feature
 from waflib.Configure import conf
 
@@ -50,7 +50,7 @@ import sys, py_compile
 py_compile.compile(sys.argv[1], sys.argv[2], sys.argv[3], True)
 '''
 """
-Piece of Python code used in :py:func:`waflib.Tools.python.pytask` for byte-compiling python files
+Piece of Python code used in :py:class:`waflib.Tools.python.pyo` and :py:class:`waflib.Tools.python.pyc` for byte-compiling python files
 """
 
 DISTUTILS_IMP = ['from distutils.sysconfig import get_config_var, get_python_lib']
@@ -79,7 +79,7 @@ def process_py(self, node):
 	"""
 	Add signature of .py file, so it will be byte-compiled when necessary
 	"""
-	assert(getattr(self, 'install_path')), 'add features="py"'
+	assert(hasattr(self, 'install_path')), 'add features="py"'
 
 	# where to install the python file
 	if self.install_path:
@@ -103,7 +103,7 @@ def process_py(self, node):
 		pyd = node.abspath()
 
 	for ext in lst:
-		if self.env.PYTAG:
+		if self.env.PYTAG and not self.env.NOPYCACHE:
 			# __pycache__ installation for python 3.2 - PEP 3147
 			name = node.name[:-3]
 			pyobj = node.parent.get_bld().make_node('__pycache__').make_node("%s.%s.%s" % (name, self.env.PYTAG, ext))
@@ -553,7 +553,7 @@ def check_python_module(conf, module_name, condition=''):
 	conf.start_msg(msg)
 	try:
 		ret = conf.cmd_and_log(conf.env.PYTHON + ['-c', PYTHON_MODULE_TEMPLATE % module_name])
-	except Exception:
+	except Errors.WafError:
 		conf.end_msg(False)
 		conf.fatal('Could not find the python module %r' % module_name)
 
@@ -584,12 +584,17 @@ def configure(conf):
 	Detect the python interpreter
 	"""
 	v = conf.env
-	if Options.options.pythondir:
+	if getattr(Options.options, 'pythondir', None):
 		v.PYTHONDIR = Options.options.pythondir
-	if Options.options.pythonarchdir:
+	if getattr(Options.options, 'pythonarchdir', None):
 		v.PYTHONARCHDIR = Options.options.pythonarchdir
+	if getattr(Options.options, 'nopycache', None):
+		v.NOPYCACHE=Options.options.nopycache
 
-	conf.find_program('python', var='PYTHON', value=Options.options.python or sys.executable)
+	if not v.PYTHON:
+		v.PYTHON = [getattr(Options.options, 'python', None) or sys.executable]
+	v.PYTHON = Utils.to_list(v.PYTHON)
+	conf.find_program('python', var='PYTHON')
 
 	v.PYFLAGS = ''
 	v.PYFLAGS_OPT = '-O'
@@ -611,6 +616,8 @@ def options(opt):
 					 help = 'Do not install bytecode compiled .pyc files (configuration) [Default:install]')
 	pyopt.add_option('--nopyo', dest='pyo', action='store_false', default=1,
 					 help='Do not install optimised compiled .pyo files (configuration) [Default:install]')
+	pyopt.add_option('--nopycache',dest='nopycache', action='store_true',
+					 help='Do not use __pycache__ directory to install objects [Default:auto]')
 	pyopt.add_option('--python', dest="python",
 					 help='python binary to be used [Default: %s]' % sys.executable)
 	pyopt.add_option('--pythondir', dest='pythondir',

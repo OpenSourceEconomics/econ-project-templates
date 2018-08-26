@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2010-2016 (ita)
+# Thomas Nagy, 2010-2018 (ita)
 
 """
 Exceptions used in the Waf code
@@ -17,6 +17,7 @@ class WafError(Exception):
 		:param ex: exception causing this error (optional)
 		:type ex: exception
 		"""
+		Exception.__init__(self)
 		self.msg = msg
 		assert not isinstance(msg, Exception)
 
@@ -49,7 +50,8 @@ class BuildError(WafError):
 		lst = ['Build failed']
 		for tsk in self.tasks:
 			txt = tsk.format_error()
-			if txt: lst.append(txt)
+			if txt:
+				lst.append(txt)
 		return '\n'.join(lst)
 
 class ConfigurationError(WafError):

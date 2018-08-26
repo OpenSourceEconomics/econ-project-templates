@@ -43,8 +43,10 @@ def get_solstudio_version(conf, fc):
 	cmd = fc + ['-V']
 
 	out, err = fc_config.getoutput(conf,cmd,stdin=False)
-	if out: match = version_re(out)
-	else: match = version_re(err)
+	if out:
+		match = version_re(out)
+	else:
+		match = version_re(err)
 	if not match:
 		conf.fatal('Could not determine the Sun Studio Fortran version.')
 	k = match.groupdict()

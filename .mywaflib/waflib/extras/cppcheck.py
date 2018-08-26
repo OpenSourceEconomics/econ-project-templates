@@ -43,6 +43,11 @@ building the task.
 The result of the source code analysis will be stored both as xml and html
 files in the build location for the task. Should any error be detected by
 cppcheck the build will be aborted and a link to the html report will be shown.
+By default, one index.html file is created for each task generator. A global
+index.html file can be obtained by setting the following variable
+in the configuration section:
+
+	conf.env.CPPCHECK_SINGLE_HTML = False
 
 When needed source code checking by cppcheck can be disabled per task, per
 detected error or warning for a particular task. It can be also be disabled for
@@ -134,6 +139,9 @@ def options(opt):
 		default='20', action='store',
 		help='maximum preprocessor (--max-configs) define iterations (default=20)')
 
+	opt.add_option('--cppcheck-jobs', dest='cppcheck_jobs',
+		default='1', action='store',
+		help='number of jobs (-j) to do the checking work (default=1)')
 
 def configure(conf):
 	if conf.options.cppcheck_skip:
@@ -143,12 +151,19 @@ def configure(conf):
 	conf.env.CPPCHECK_MAX_CONFIGS = conf.options.cppcheck_max_configs
 	conf.env.CPPCHECK_BIN_ENABLE = conf.options.cppcheck_bin_enable
 	conf.env.CPPCHECK_LIB_ENABLE = conf.options.cppcheck_lib_enable
+	conf.env.CPPCHECK_JOBS = conf.options.cppcheck_jobs
+	if conf.options.cppcheck_jobs != '1' and ('unusedFunction' in conf.options.cppcheck_bin_enable or 'unusedFunction' in conf.options.cppcheck_lib_enable or 'all' in conf.options.cppcheck_bin_enable or 'all' in conf.options.cppcheck_lib_enable):
+		Logs.warn('cppcheck: unusedFunction cannot be used with multiple threads, cppcheck will disable it automatically')
 	conf.find_program('cppcheck', var='CPPCHECK')
 
+	# set to True to get a single index.html file
+	conf.env.CPPCHECK_SINGLE_HTML = False
 
 @TaskGen.feature('c')
 @TaskGen.feature('cxx')
 def cppcheck_execute(self):
+	if hasattr(self.bld, 'conf'):
+		return
 	if len(self.env.CPPCHECK_SKIP) or Options.options.cppcheck_skip:
 		return
 	if getattr(self, 'cppcheck_skip', False):
@@ -167,10 +182,12 @@ def _tgen_create_cmd(self):
 	max_configs = self.env.CPPCHECK_MAX_CONFIGS
 	bin_enable = self.env.CPPCHECK_BIN_ENABLE
 	lib_enable = self.env.CPPCHECK_LIB_ENABLE
+	jobs = self.env.CPPCHECK_JOBS
 
 	cmd  = self.env.CPPCHECK
 	args = ['--inconclusive','--report-progress','--verbose','--xml','--xml-version=2']
 	args.append('--max-configs=%s' % max_configs)
+	args.append('-j %s' % jobs)
 
 	if 'cxx' in features:
 		args.append('--language=c++')
@@ -215,8 +232,11 @@ class cppcheck(Task.Task):
 		root = ElementTree.fromstring(s)
 		cmd = ElementTree.SubElement(root.find('cppcheck'), 'cmd')
 		cmd.text = str(self.cmd)
-		body = ElementTree.tostring(root)
-		node = self.generator.path.get_bld().find_or_declare('cppcheck.xml')
+		body = ElementTree.tostring(root).decode('us-ascii')
+		body_html_name = 'cppcheck-%s.xml' % self.generator.get_name()
+		if self.env.CPPCHECK_SINGLE_HTML:
+			body_html_name = 'cppcheck.xml'
+		node = self.generator.path.get_bld().find_or_declare(body_html_name)
 		node.write(header + body)
 
 	def _get_defects(self, xml_string):
@@ -244,10 +264,10 @@ class cppcheck(Task.Task):
 
 	def _create_html_files(self, defects):
 		sources = {}
-		defects = [defect for defect in defects if defect.has_key('file')]
+		defects = [defect for defect in defects if 'file' in defect]
 		for defect in defects:
 			name = defect['file']
-			if not sources.has_key(name):
+			if not name in sources:
 				sources[name] = [defect]
 			else:
 				sources[name].append(defect)
@@ -255,10 +275,13 @@ class cppcheck(Task.Task):
 		files = {}
 		css_style_defs = None
 		bpath = self.generator.path.get_bld().abspath()
-		names = sources.keys()
+		names = list(sources.keys())
 		for i in range(0,len(names)):
 			name = names[i]
-			htmlfile = 'cppcheck/%i.html' % (i)
+			if self.env.CPPCHECK_SINGLE_HTML:
+				htmlfile = 'cppcheck/%i.html' % (i)
+			else:
+				htmlfile = 'cppcheck/%s%i.html' % (self.generator.get_name(),i)
 			errors = sources[name]
 			files[name] = { 'htmlfile': '%s/%s' % (bpath, htmlfile), 'errors': errors }
 			css_style_defs = self._create_html_file(name, htmlfile, errors)
@@ -279,19 +302,25 @@ class cppcheck(Task.Task):
 			if div.get('id') == 'header':
 				h1 = div.find('h1')
 				h1.text = 'cppcheck report - %s' % name
+			if div.get('id') == 'menu':
+				indexlink = div.find('a')
+				if self.env.CPPCHECK_SINGLE_HTML:
+					indexlink.attrib['href'] = 'index.html'
+				else:
+					indexlink.attrib['href'] = 'index-%s.html' % name
 			if div.get('id') == 'content':
 				content = div
 				srcnode = self.generator.bld.root.find_node(sourcefile)
-				hl_lines = [e['line'] for e in errors if e.has_key('line')]
+				hl_lines = [e['line'] for e in errors if 'line' in e]
 				formatter = CppcheckHtmlFormatter(linenos=True, style='colorful', hl_lines=hl_lines, lineanchors='line')
-				formatter.errors = [e for e in errors if e.has_key('line')]
+				formatter.errors = [e for e in errors if 'line' in e]
 				css_style_defs = formatter.get_style_defs('.highlight')
 				lexer = pygments.lexers.guess_lexer_for_filename(sourcefile, "")
 				s = pygments.highlight(srcnode.read(), lexer, formatter)
 				table = ElementTree.fromstring(s)
 				content.append(table)
 
-		s = ElementTree.tostring(root, method='html')
+		s = ElementTree.tostring(root, method='html').decode('us-ascii')
 		s = CCPCHECK_HTML_TYPE + s
 		node = self.generator.path.get_bld().find_or_declare(htmlfile)
 		node.write(s)
@@ -315,10 +344,19 @@ class cppcheck(Task.Task):
 			if div.get('id') == 'content':
 				content = div
 				self._create_html_table(content, files)
+			if div.get('id') == 'menu':
+				indexlink = div.find('a')
+				if self.env.CPPCHECK_SINGLE_HTML:
+					indexlink.attrib['href'] = 'index.html'
+				else:
+					indexlink.attrib['href'] = 'index-%s.html' % name
 
-		s = ElementTree.tostring(root, method='html')
+		s = ElementTree.tostring(root, method='html').decode('us-ascii')
 		s = CCPCHECK_HTML_TYPE + s
-		node = self.generator.path.get_bld().find_or_declare('cppcheck/index.html')
+		index_html_name = 'cppcheck/index-%s.html' % name
+		if self.env.CPPCHECK_SINGLE_HTML:
+			index_html_name = 'cppcheck/index.html'
+		node = self.generator.path.get_bld().find_or_declare(index_html_name)
 		node.write(s)
 		return node
 
@@ -330,9 +368,9 @@ class cppcheck(Task.Task):
 			row = ElementTree.fromstring(s)
 			table.append(row)
 
-			errors = sorted(val['errors'], key=lambda e: int(e['line']) if e.has_key('line') else sys.maxint)
+			errors = sorted(val['errors'], key=lambda e: int(e['line']) if 'line' in e else sys.maxint)
 			for e in errors:
-				if not e.has_key('line'):
+				if not 'line' in e:
 					s = '<tr><td></td><td>%s</td><td>%s</td><td>%s</td></tr>\n' % (e['id'], e['severity'], e['msg'])
 				else:
 					attr = ''

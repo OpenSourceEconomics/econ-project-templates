@@ -17,8 +17,10 @@ from waflib import Task, Utils, Logs, Errors
 
 def signature(self):
 	# compute the result one time, and suppose the scan_signature will give the good result
-	try: return self.cache_sig
-	except AttributeError: pass
+	try:
+		return self.cache_sig
+	except AttributeError:
+		pass
 
 	self.m = Utils.md5()
 	self.m.update(self.hcode)

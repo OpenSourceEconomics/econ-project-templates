@@ -48,9 +48,11 @@ class sll_finder(Task):
 				result.seek(0)
 				for line in result.readlines():
 					words = line.split()
-					if len(words) < 3 or words[1] != '=>': continue
+					if len(words) < 3 or words[1] != '=>':
+						continue
 					lib = words[2]
-					if lib == 'not': continue
+					if lib == 'not':
+						continue
 					if any([lib.startswith(p) for p in
 							[bld.bldnode.abspath(), '('] +
 							self.env.SOFTLINK_EXCLUDE]):

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Thomas Nagy, 2005-2016 (ita)
+# Thomas Nagy, 2005-2018 (ita)
 
 """
 Utilities and platform-specific fixes
@@ -9,7 +9,10 @@ The portability fixes try to provide a consistent behavior of the Waf API
 through Python versions 2.5 to 3.X and across different platforms (win32, linux, etc)
 """
 
-import os, sys, errno, traceback, inspect, re, datetime, platform, base64, signal
+from __future__ import with_statement
+
+import atexit, os, sys, errno, inspect, re, datetime, platform, base64, signal, functools, time
+
 try:
 	import cPickle
 except ImportError:
@@ -27,7 +30,7 @@ else:
 try:
 	TimeoutExpired = subprocess.TimeoutExpired
 except AttributeError:
-	class TimeoutExpired(object):
+	class TimeoutExpired(Exception):
 		pass
 
 from collections import deque, defaultdict
@@ -123,7 +126,9 @@ class lru_node(object):
 		self.val = None
 
 class lru_cache(object):
-	"""A simple least-recently used cache that suits our purposes"""
+	"""
+	A simple least-recently used cache with lazy allocation
+	"""
 	__slots__ = ('maxlen', 'table', 'head')
 	def __init__(self, maxlen=100):
 		self.maxlen = maxlen
@@ -135,12 +140,8 @@ class lru_cache(object):
 		Mapping key-value
 		"""
 		self.head = lru_node()
-		for x in range(maxlen - 1):
-			node = lru_node()
-			node.prev = self.head.prev
-			node.next = self.head
-			node.prev.next = node
-			node.next.prev = node
+		self.head.next = self.head
+		self.head.prev = self.head
 
 	def __getitem__(self, key):
 		node = self.table[key]
@@ -155,30 +156,58 @@ class lru_cache(object):
 		# replace the head
 		node.next = self.head.next
 		node.prev = self.head
-		node.next.prev = node
-		node.prev.next = node
-		self.head = node
+		self.head = node.next.prev = node.prev.next = node
 
 		return node.val
 
 	def __setitem__(self, key, val):
-		# go past the head
-		node = self.head = self.head.next
+		if key in self.table:
+			# update the value for an existing key
+			node = self.table[key]
+			node.val = val
+			self.__getitem__(key)
+		else:
+			if len(self.table) < self.maxlen:
+				# the very first item is unused until the maximum is reached
+				node = lru_node()
+				node.prev = self.head
+				node.next = self.head.next
+				node.prev.next = node.next.prev = node
+			else:
+				node = self.head = self.head.next
+				try:
+					# that's another key
+					del self.table[node.key]
+				except KeyError:
+					pass
+
+			node.key = key
+			node.val = val
+			self.table[key] = node
+
+class lazy_generator(object):
+	def __init__(self, fun, params):
+		self.fun = fun
+		self.params = params
+
+	def __iter__(self):
+		return self
+
+	def __next__(self):
 		try:
-			# remove existing keys if present
-			del self.table[node.key]
-		except KeyError:
-			pass
-		node.key = key
-		node.val = val
-		self.table[key] = node
+			it = self.it
+		except AttributeError:
+			it = self.it = self.fun(*self.params)
+		return next(it)
+
+	next = __next__
 
 is_win32 = os.sep == '\\' or sys.platform == 'win32' # msys2
 """
 Whether this system is a Windows series
 """
 
-def readf(fname, m='r', encoding='ISO8859-1'):
+def readf(fname, m='r', encoding='latin-1'):
 	"""
 	Reads an entire file into a string. See also :py:meth:`waflib.Node.Node.readf`::
 
@@ -199,24 +228,18 @@ def readf(fname, m='r', encoding='ISO8859-1'):
 
 	if sys.hexversion > 0x3000000 and not 'b' in m:
 		m += 'b'
-		f = open(fname, m)
-		try:
+		with open(fname, m) as f:
 			txt = f.read()
-		finally:
-			f.close()
 		if encoding:
 			txt = txt.decode(encoding)
 		else:
 			txt = txt.decode()
 	else:
-		f = open(fname, m)
-		try:
+		with open(fname, m) as f:
 			txt = f.read()
-		finally:
-			f.close()
 	return txt
 
-def writef(fname, data, m='w', encoding='ISO8859-1'):
+def writef(fname, data, m='w', encoding='latin-1'):
 	"""
 	Writes an entire file from a string.
 	See also :py:meth:`waflib.Node.Node.writef`::
@@ -238,11 +261,8 @@ def writef(fname, data, m='w', encoding='ISO8859-1'):
 	if sys.hexversion > 0x3000000 and not 'b' in m:
 		data = data.encode(encoding)
 		m += 'b'
-	f = open(fname, m)
-	try:
+	with open(fname, m) as f:
 		f.write(data)
-	finally:
-		f.close()
 
 def h_file(fname):
 	"""
@@ -254,17 +274,14 @@ def h_file(fname):
 	:return: hash of the file contents
 	:rtype: string or bytes
 	"""
-	f = open(fname, 'rb')
 	m = md5()
-	try:
+	with open(fname, 'rb') as f:
 		while fname:
 			fname = f.read(200000)
 			m.update(fname)
-	finally:
-		f.close()
 	return m.digest()
 
-def readf_win32(f, m='r', encoding='ISO8859-1'):
+def readf_win32(f, m='r', encoding='latin-1'):
 	flags = os.O_NOINHERIT | os.O_RDONLY
 	if 'b' in m:
 		flags |= os.O_BINARY
@@ -277,24 +294,18 @@ def readf_win32(f, m='r', encoding='ISO8859-1'):
 
 	if sys.hexversion > 0x3000000 and not 'b' in m:
 		m += 'b'
-		f = os.fdopen(fd, m)
-		try:
+		with os.fdopen(fd, m) as f:
 			txt = f.read()
-		finally:
-			f.close()
 		if encoding:
 			txt = txt.decode(encoding)
 		else:
 			txt = txt.decode()
 	else:
-		f = os.fdopen(fd, m)
-		try:
+		with os.fdopen(fd, m) as f:
 			txt = f.read()
-		finally:
-			f.close()
 	return txt
 
-def writef_win32(f, data, m='w', encoding='ISO8859-1'):
+def writef_win32(f, data, m='w', encoding='latin-1'):
 	if sys.hexversion > 0x3000000 and not 'b' in m:
 		data = data.encode(encoding)
 		m += 'b'
@@ -307,25 +318,19 @@ def writef_win32(f, data, m='w', encoding='ISO8859-1'):
 		fd = os.open(f, flags)
 	except OSError:
 		raise OSError('Cannot write to %r' % f)
-	f = os.fdopen(fd, m)
-	try:
+	with os.fdopen(fd, m) as f:
 		f.write(data)
-	finally:
-		f.close()
 
 def h_file_win32(fname):
 	try:
 		fd = os.open(fname, os.O_BINARY | os.O_RDONLY | os.O_NOINHERIT)
 	except OSError:
 		raise OSError('Cannot read from %r' % fname)
-	f = os.fdopen(fd, 'rb')
 	m = md5()
-	try:
+	with os.fdopen(fd, 'rb') as f:
 		while fname:
 			fname = f.read(200000)
 			m.update(fname)
-	finally:
-		f.close()
 	return m.digest()
 
 # always save these
@@ -412,15 +417,6 @@ def num2ver(ver):
 		return ret
 	return ver
 
-def ex_stack():
-	"""
-	Extracts the stack to display exceptions. Deprecated: use traceback.format_exc()
-
-	:return: a string represening the last exception
-	"""
-	# TODO remove in waf 2.0
-	return traceback.format_exc()
-
 def to_list(val):
 	"""
 	Converts a string argument to a list by splitting it by spaces.
@@ -438,6 +434,21 @@ def to_list(val):
 	else:
 		return val
 
+def console_encoding():
+	try:
+		import ctypes
+	except ImportError:
+		pass
+	else:
+		try:
+			codepage = ctypes.windll.kernel32.GetConsoleCP()
+		except AttributeError:
+			pass
+		else:
+			if codepage:
+				return 'cp%d' % codepage
+	return sys.stdout.encoding or ('cp1252' if is_win32 else 'latin-1')
+
 def split_path_unix(path):
 	return path.split('/')
 
@@ -451,19 +462,21 @@ def split_path_cygwin(path):
 re_sp = re.compile('[/\\\\]+')
 def split_path_win32(path):
 	if path.startswith('\\\\'):
-		ret = re_sp.split(path)[2:]
-		ret[0] = '\\' + ret[0]
+		ret = re_sp.split(path)[1:]
+		ret[0] = '\\\\' + ret[0]
+		if ret[0] == '\\\\?':
+			return ret[1:]
 		return ret
 	return re_sp.split(path)
 
 msysroot = None
 def split_path_msys(path):
-	if path.startswith(('/', '\\')) and not path.startswith(('\\', '\\\\')):
+	if path.startswith(('/', '\\')) and not path.startswith(('//', '\\\\')):
 		# msys paths can be in the form /usr/bin
 		global msysroot
 		if not msysroot:
 			# msys has python 2.7 or 3, so we can use this
-			msysroot = subprocess.check_output(['cygpath', '-w', '/']).decode(sys.stdout.encoding or 'iso8859-1')
+			msysroot = subprocess.check_output(['cygpath', '-w', '/']).decode(sys.stdout.encoding or 'latin-1')
 			msysroot = msysroot.strip()
 		path = os.path.normpath(msysroot + os.sep + path)
 	return split_path_win32(path)
@@ -556,10 +569,26 @@ def quote_define_name(s):
 	fu = fu.upper()
 	return fu
 
+re_sh = re.compile('\\s|\'|"')
+"""
+Regexp used for shell_escape below
+"""
+
+def shell_escape(cmd):
+	"""
+	Escapes a command:
+	['ls', '-l', 'arg space'] -> ls -l 'arg space'
+	"""
+	if isinstance(cmd, str):
+		return cmd
+	return ' '.join(repr(x) if re_sh.search(x) else x for x in cmd)
+
 def h_list(lst):
 	"""
-	Hash lists. We would prefer to use hash(tup) for tuples because it is much more efficient,
-	but Python now enforces hash randomization by assuming everybody is running a web application.
+	Hashes lists of ordered data.
+
+	Using hash(tup) for tuples would be much more efficient,
+	but Python now enforces hash randomization
 
 	:param lst: list to hash
 	:type lst: list of strings
@@ -579,6 +608,18 @@ def h_fun(fun):
 	try:
 		return fun.code
 	except AttributeError:
+		if isinstance(fun, functools.partial):
+			code = list(fun.args)
+			# The method items() provides a sequence of tuples where the first element
+			# represents an optional argument of the partial function application
+			#
+			# The sorting result outcome will be consistent because:
+			# 1. tuples are compared in order of their elements
+			# 2. optional argument namess are unique
+			code.extend(sorted(fun.keywords.items()))
+			code.append(h_fun(fun.func))
+			fun.code = h_list(code)
+			return fun.code
 		try:
 			h = inspect.getsource(fun)
 		except EnvironmentError:
@@ -608,7 +649,7 @@ def h_cmd(ins):
 		# or just a python function
 		ret = str(h_fun(ins))
 	if sys.hexversion > 0x3000000:
-		ret = ret.encode('iso8859-1', 'xmlcharrefreplace')
+		ret = ret.encode('latin-1', 'xmlcharrefreplace')
 	return ret
 
 reg_subst = re.compile(r"(\\\\)|(\$\$)|\$\{([^}]+)\}")
@@ -702,7 +743,7 @@ def nada(*k, **kw):
 class Timer(object):
 	"""
 	Simple object for timing the execution of commands.
-	Its string representation is the current time::
+	Its string representation is the duration::
 
 		from waflib.Utils import Timer
 		timer = Timer()
@@ -710,10 +751,12 @@ class Timer(object):
 		s = str(timer)
 	"""
 	def __init__(self):
-		self.start_time = datetime.datetime.utcnow()
+		self.start_time = self.now()
 
 	def __str__(self):
-		delta = datetime.datetime.utcnow() - self.start_time
+		delta = self.now() - self.start_time
+		if not isinstance(delta, datetime.timedelta):
+			delta = datetime.timedelta(seconds=delta)
 		days = delta.days
 		hours, rem = divmod(delta.seconds, 3600)
 		minutes, seconds = divmod(rem, 60)
@@ -726,6 +769,13 @@ class Timer(object):
 		if days or hours or minutes:
 			result += '%dm' % minutes
 		return '%s%.3fs' % (result, seconds)
+
+	def now(self):
+		return datetime.datetime.utcnow()
+
+	if hasattr(time, 'perf_counter'):
+		def now(self):
+			return time.perf_counter()
 
 def read_la_file(path):
 	"""
@@ -781,7 +831,7 @@ def get_registry_app_path(key, filename):
 		return None
 	try:
 		result = winreg.QueryValue(key, "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\%s.exe" % filename[0])
-	except WindowsError:
+	except OSError:
 		pass
 	else:
 		if os.path.isfile(result):
@@ -831,7 +881,7 @@ def run_prefork_process(cmd, kwargs, cargs):
 		kwargs['env'] = dict(os.environ)
 	try:
 		obj = base64.b64encode(cPickle.dumps([cmd, kwargs, cargs]))
-	except TypeError:
+	except (TypeError, AttributeError):
 		return run_regular_process(cmd, kwargs, cargs)
 
 	proc = get_process()
@@ -846,7 +896,10 @@ def run_prefork_process(cmd, kwargs, cargs):
 		raise OSError('Preforked sub-process %r died' % proc.pid)
 
 	process_pool.append(proc)
-	ret, out, err, ex, trace = cPickle.loads(base64.b64decode(obj))
+	lst = cPickle.loads(base64.b64decode(obj))
+	# Jython wrapper failures (bash/execvp)
+	assert len(lst) == 5
+	ret, out, err, ex, trace = lst
 	if ex:
 		if ex == 'OSError':
 			raise OSError(trace)
@@ -950,7 +1003,19 @@ def alloc_process_pool(n, force=False):
 		for x in lst:
 			process_pool.append(x)
 
-if sys.platform == 'cli' or not sys.executable:
+def atexit_pool():
+	for k in process_pool:
+		try:
+			os.kill(k.pid, 9)
+		except OSError:
+			pass
+		else:
+			k.wait()
+# see #1889
+if (sys.hexversion<0x207000f and not is_win32) or sys.hexversion>=0x306000f:
+	atexit.register(atexit_pool)
+
+if os.environ.get('WAF_NO_PREFORK') or sys.platform == 'cli' or not sys.executable:
 	run_process = run_regular_process
 	get_process = alloc_process_pool = nada
 

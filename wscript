@@ -2,7 +2,7 @@
 
 
 import os
-
+from collections import OrderedDict
 
 # The project root directory and the build directory.
 top = '.'
@@ -12,7 +12,7 @@ out = 'bld'
 def set_project_paths(ctx):
     """Return a dictionary with project paths represented by Waf nodes."""
 
-    pp = {}
+    pp = OrderedDict()
     pp['PROJECT_ROOT'] = '.'
     pp['IN_DATA'] = 'src/original_data'
     pp['IN_MODEL_CODE'] = 'src/model_code'
