@@ -36,9 +36,9 @@ def test_remove_formatter(cookies):
 
     formatter = result.project.join("format_python_files.py")
     pyproject = result.project.join("pyproject.toml")
-    tox = result.project.join("tox.ini").read()
+
 
     assert result.exit_code == 0
     assert formatter.check(exists=0)
     assert pyproject.check(exists=0)
-    assert "[isort]" not in tox
+    
