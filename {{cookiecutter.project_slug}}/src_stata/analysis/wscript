@@ -1,0 +1,79 @@
+#! python
+
+
+'''
+DIFFERENT DATASET SPECIFICATIONS FOR REGRESSION ON INDICATOR VARIABLES:
+    'EST'  = OLS estimates from regressing main variables (mortality, expropr. risk, GDP) on
+             campaign and laborer indicators
+    'CORR' = Correlation of expropriation risk and GDP with mortality (with and without indicators)
+
+DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:
+    1 = PANEL_A: Original mortality data (64 countries)
+    2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)
+    3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators
+    4 = PANEL_D: Only countries with non-conjectured mortality rates, campaign + laborer indicators
+    5 = PANEL_E: As Panel D with new data provided by AJR
+'''
+
+
+def build(ctx):
+
+    def out_data(*args):
+        return ctx.path_to(ctx, 'OUT_DATA', *args)
+
+    def out_models(*args):
+        return ctx.path_to(ctx, 'OUT_MODEL_SPECS', *args)
+
+    def out_analysis(*args):
+        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
+
+    # Illustrate simple use of run_do_script for the data that underlies table 1.
+    ctx(
+        features='run_do_script',
+        source='regression_on_indicators.do',
+        target=[
+            out_analysis('log', 'regression_on_indicators.log'),
+            out_analysis('regression_on_indicators_est.dta'),
+            out_analysis('regression_on_indicators_corr.dta')
+        ],
+        deps=[out_data('ajrcomment_all.dta')]
+    )
+
+    # More complicated use: Read in the model specifications and run these things
+    # in parallel.
+    models = [
+        'baseline',
+        'rmconj',
+        'addindic',
+        'rmconj_addindic',
+        'newdata'
+    ]
+
+    for m in models:
+        for stage in 'first', 'second':
+
+            # Make a copy of the source files so that Stata can run in parallel
+            # (We have to rely on parsing the automatic log-file for error checks,
+            # these must have different names)
+            ctx(
+                features='subst',
+                source='{}_stage_estimation.do'.format(stage),
+                target='{}_stage_estimation_{}.do'.format(stage, m)
+            )
+
+            # Now run the do-file that was just copied over.
+            ctx(
+                features='run_do_script',
+                source='{}_stage_estimation_{}.do'.format(stage, m),
+                target=[
+                    out_analysis('log', '{}_stage_estimation_{}.log'.format(stage, m)),
+                    out_analysis('{}_stage_estimation_{}.dta'.format(stage, m))
+                ],
+                deps=[
+                    out_data('ajrcomment_all.dta'),
+                    out_models('{}.do'.format(m)),
+                    out_models('geography.do')
+                ],
+                name='{}_stage_estimation_{}'.format(stage, m),
+                append=m
+            )

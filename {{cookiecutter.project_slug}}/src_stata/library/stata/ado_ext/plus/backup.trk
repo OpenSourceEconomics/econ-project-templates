@@ -1,0 +1,154 @@
+* 00000005
+*! version 1.0.0
+* Do not erase or edit this file
+* It is used by Stata to track the ado and help
+* files you have installed.
+
+S http://fmwww.bc.edu/repec/bocode/l
+N listtab.pkg
+D 12 Feb 2014
+U 1
+d 'LISTTAB': module to list variables as rows of a TeX, HTML or word processor table
+d 
+d   listtab outputs a list of variables to the Stata log or to a
+d file as TeX, HTML or word processor table rows, which can then be
+d inserted into a TeX, HTML or word processor table by cutting and
+d pasting and/or file linking and/or embedding (eg using the TeX
+d \input command). listtab produces the table rows, but may also
+d produce a set of header lines before the table rows and/or footer
+d lines after the table rows, containing preambles and/or table
+d definitions and/or table headers and/or table footers, as
+d specified by the user.
+d 
+d KW: output
+d KW: LaTeX
+d KW: HTML
+d KW: RTF
+d 
+d Requires: Stata version 11.0
+d 
+d Distribution-Date: 20121105
+d 
+d Author: Roger Newson, National Heart and Lung Institute at Imperial College London
+d Support: email r.newson@@imperial.ac.uk
+d 
+f l/listtab.ado
+f l/listtab.sthlp
+f l/listtab_rstyle.ado
+f l/listtab_rstyle.sthlp
+f l/listtab_vars.ado
+f l/listtab_vars.sthlp
+e
+S http://fmwww.bc.edu/repec/bocode/t
+N tabout.pkg
+D  3 Mar 2014
+U 3
+d 'TABOUT': module to export publication quality cross-tabulations
+d 
+d  tabout is a table building program for oneway and twoway
+d tables of frequencies and percentages, and for summary tables. It
+d produces publication quality tables for export to a text file.
+d These tables can then be used with spreadsheets, word processors,
+d web browsers or compilers like LaTeX. The tables produced by
+d tabout allow multiple panels so that a number of variables can be
+d included in the one table. tabout also provides standard errors
+d and confidence intervals, as well as a range of table statistics
+d (chi2 etc). The output from tabout matches Stata's tabulate, most
+d of tabstat and some of table.
+d 
+d KW: tables
+d KW: latex
+d KW: html
+d KW: delimited text
+d 
+d Requires: Stata version 9.2
+d 
+d Distribution-Date: 20130121
+d 
+d Author: Ian Watson , Macquarie University, Australia
+d Support: email mail@@ianwatson.com.au
+d 
+f t/tabout.ado
+f t/tabstatout.ado
+f t/tabout.hlp
+f f/figout.ado
+f f/figout.hlp
+e
+S http://fmwww.bc.edu/repec/bocode/e
+N estout.pkg
+D 13 Feb 2015
+U 4
+d 'ESTOUT': module to make regression tables
+d 
+d  estout produces a table of regression results from one or
+d several models for use with spreadsheets, LaTeX, HTML, or a
+d word-processor table. eststo stores a quick copy of the active
+d estimation results for later tabulation. esttab is a wrapper for
+d estout. It displays a pretty looking publication-style regression
+d table without much typing. estadd adds additional results to the
+d e()-returns for one or several models previously fitted and
+d stored. This package subsumes the previously circulated esto,
+d esta, estadd,  and estadd_plus. An earlier version of estout is
+d available  as estout1.
+d 
+d KW: estimates
+d KW: LaTeX
+d KW: HTML
+d KW: word processor
+d KW: output
+d 
+d Requires: Stata version 8.2
+d 
+d Distribution-Date: 20140604
+d 
+d Author: Ben Jann, University of Bern
+d Support: email jann@@soz.unibe.ch
+d 
+f _/_eststo.ado
+f _/_eststo.hlp
+f e/estadd.ado
+f e/estadd.hlp
+f e/estout.ado
+f e/estout.hlp
+f e/eststo.ado
+f e/eststo.hlp
+f e/estpost.ado
+f e/estpost.hlp
+f e/esttab.ado
+f e/esttab.hlp
+e
+S http://fmwww.bc.edu/repec/bocode/t
+N tabout.pkg
+D 13 Feb 2015
+U 5
+d 'TABOUT': module to export publication quality cross-tabulations
+d 
+d  tabout is a table building program for oneway and twoway
+d tables of frequencies and percentages, and for summary tables. It
+d produces publication quality tables for export to a text file.
+d These tables can then be used with spreadsheets, word processors,
+d web browsers or compilers like LaTeX. The tables produced by
+d tabout allow multiple panels so that a number of variables can be
+d included in the one table. tabout also provides standard errors
+d and confidence intervals, as well as a range of table statistics
+d (chi2 etc). The output from tabout matches Stata's tabulate, most
+d of tabstat and some of table.
+d 
+d KW: tables
+d KW: latex
+d KW: html
+d KW: delimited text
+d 
+d Requires: Stata version 9.2
+d 
+d Distribution-Date: 20150112
+d 
+d Author: Ian Watson , Macquarie University, Australia
+d Support: email mail@@ianwatson.com.au
+d 
+f t/tabout.ado
+f t/tabstatout.ado
+f t/tabout.hlp
+f f/figout.ado
+f f/figout.hlp
+e

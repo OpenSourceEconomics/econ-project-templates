@@ -1,0 +1,119 @@
+{smcl}
+{* 21mar07}{...}
+{hline}
+help for {hi:figout}
+{hline}
+
+{title:Title}
+
+{p 4 4 2}{hi:figout} {hline 2} Ancillary program for {cmd:tabout} to create mini datatsets suitable for graphing
+
+{title:Table of contents}
+
+     {help figout##syn:Syntax}
+     {help figout##des:Description}
+     {help figout##opt:Options}
+     {help figout##exa:Examples}
+
+
+{marker syn}
+{title:Syntax}
+
+{p 8 15 2}    
+{cmdab:figout} {it:using}  {cmd:,}
+{cmd:infile(}{it:string}{cmd:)}
+{cmd:gvars(}{it:string}{cmd:)}
+{cmd:over(}{it:string}{cmd:)}
+{cmd:start(}{it:string}{cmd:)}
+{cmd:stop(}{it:string}{cmd:)}
+[{cmdab:rep:lace(}{it:string}{cmd:)}]
+
+
+
+{marker des}
+{title:Description}
+
+{p 4 4 2}{cmd:figout} is an ancillary program for {help tabout} to facilitate 
+the creation of graphs based on table panels. {cmd:figout} reads the output file 
+produced by {cmd:tabout} looking for a start word or phrase. It then extracts 
+the numbers it finds until it reaches the stop word or phrase.
+It only extracts the number of columns for which you indicate {cmd: gvars}, 
+which conveniently avoids extracting the totals column. Each line in the panel 
+becomes the basis for the {cmd:over} option in the subsequent graph. {cmd:figout} then loads those numbers into a mini dataset and saves it under the name you specify with {cmd:using}. If {cmd:figout} fails to find either the start word or the stop word, no mini dataset is produced and you are issued a warning. Once the mini dataset is created, it is an easy matter to create a {cmd:Stata} graph. The data is in a form suitable for graph's {cmd:over} option, and {cmd:figout} automatically creates an order variable for you, to preserve the same order that was used in your original table.
+
+{p 4 4 2}{cmd:tabout} has a comprehensive tutorial which includes a full 
+example of using {cmd:figout}. This is available from the SSC with this help 
+file. The tutorial is also available here: 
+{browse "http://www.ianwatson.com.au/stata/tabout_tutorial.pdf"}.
+
+
+{marker opt}
+{title:Options}
+
+{phang}
+{cmd:using} is required, and indicates the filename for the output of the mini Stata dataset. Note that you do not need to add the {cmd:dta} filename extension.
+
+{phang}
+{cmd:infile} is required the name of the output file produced by {\tt tabout}, for example, {\tt table1.tex}. Note that you do need to add the filename extension because you may be using {\tt figout} with any number of file types ({\LaTeX}, csv, or tab-delimited).
+
+{phang}
+{cmd:gvars} are names you wish to assign to your graph variables, and they need to match a contiguous block of cells in your table. They are basically the categories of the horizontal variable in your table.
+
+{phang}
+{cmd:over} is the name of the graph variable to be used by the {cmd:over} option in the {cmd:graph} command. It is one the panels in your table, and basically matches one of your vertical variables.
+
+{phang}
+{cmd:start} is a unique word or phrase on the line above the block of cells. It can usually refer to the panel title in a {cmd:tabout} table, unless the title is repeated in another panel.
+
+{phang}
+{cmd:stop} is a unique word or phrase on the line beneath the block of cells. In the case of LaTeX, you can just use \midrule since this generally indicates the end of a panel if you are using the {cmd:ptotal(single)} option.
+
+{phang}
+{cmd:replace} is optional and follows usual Stata convention and prevents you accidentally over-writing an existing Stata dataset with your new mini dataset. If you are confident that there are no other datasets with the same name, you can use the {cmd:replace} option and this makes it more convenient if you need to develop your {cmd:figout} code using several attempts. 
+
+
+{marker exa}
+{title:Examples}
+
+{p 4 4 2}
+The best example is the one given in the {cmd:tabout} tutorial 
+({browse "http://www.ianwatson.com.au/stata/tabout_tutorial.pdf"}) 
+where it's use in batch files is demonstrated. 
+
+
+    {com} sysuse nlsw88, clear
+    {com} gen wt = int(uniform()*10)
+
+    {com} tabout coll race smsa south [iw=wt] using fig_tab.tex, c(row) f(1) ///
+    {txt} style(tex) bt font(bold) topf(top.tex) botf(bot.tex) topstr(10cm) ///
+    {txt} botstr(nlsw88.dta) cl1(2-4) ptot(single)
+
+    {com} figout using fig_fig, infile(fig_tab.tex) rep ///
+    {txt} gvars(not_south south) ///
+    {txt} over(race) start(Race) stop(\midrule) 
+
+    {com} gr hbar not_south south, over(race, sort(order)) ///
+    {txt} ytitle("Percentage", size(medium) ) ///
+    {txt} ylab(0(10)80, angle(0) format(%9.0f) ) ///
+    {txt} bar(1,bcolor(gs4)) bar(2,bcolor(gs8)) ///
+    {txt} legend(label( 1 "Does not live in south") ///
+    {txt} label(2 "Lives in south") ///
+    {txt} pos(4) cols(1) symxsize(3) ring(0) size(medium) ) ///
+    {txt} graphregion(lstyle(solid)) ///
+    {txt} scheme(s2mono) scale(1.1) saving(fig_fig,replace) 
+    {com} gr use fig_fig.gph
+    {com} grexportpdf using fig_fig
+
+
+{title:Author}
+
+   Ian Watson
+   Freelance researcher and
+   Visiting Senior Research Fellow
+   Macquarie University
+   Sydney Australia
+   mail@ianwatson.com.au
+   www.ianwatson.com.au
+
+Version 1.0.1 21mar2007
+

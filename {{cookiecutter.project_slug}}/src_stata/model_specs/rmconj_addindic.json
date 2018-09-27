@@ -1,0 +1,8 @@
+{
+    "DEPVAR": "loggdp",
+    "INSTD": "risk",
+    "INSTS": "logmort0",
+    "KEEP_CONDITION": "keep if source0 == 1",
+    "DUMMIES": "campaign slave",
+    "TITLE": "Panel D: Removing conjectured data, adding campaign and laborer indicators"
+}

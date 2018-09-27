@@ -1,0 +1,692 @@
+{smcl}
+{* 5jan2015}{...}
+{hline}
+help for {hi:tabout}
+{hline}
+
+{title:Title}
+
+{p 4 4 2}{hi:tabout} {hline 2} Building publication quality tables for export to a text file
+
+{title:Table of contents}
+
+     {help tabout##syn:Syntax}
+     {help tabout##des:Description}
+     {help tabout##opt:Options}
+     {help tabout##exa:Examples}
+
+
+{marker syn}
+{title:Syntax}
+
+{p 8 15 2}    
+{cmdab:tabout} [ {it:varlist} ] [ {cmd:if} {it:exp} ] [ {cmd:in} {it:range} ] 
+[ {it:weight}{cmd: = }{it:exp} ] {cmd:using} {it:filename}
+[ {cmd:,} {it:options} ]
+
+
+    {it:options}{col 38}alternatives
+    {hline 70}
+    
+        {help tabout##cor:core options}
+      {cmdab:rep:lace} {cmdab:app:end} 
+      {cmdab:c:ells(}{it:contents}{cmd:)}{col 38}see below
+      {cmdab:f:ormat(}{it:string}{cmd:)}
+      {cmd:clab(}{it:string}{cmd:)}
+      {cmdab:lay:out(}{it:layouts}{cmd:)}{col 38} col row cblock rblock
+      {cmd:one}way
+      {cmd:sum}
+      {cmd:stats(}{it:statstypes}{cmd:)} {col 38} chi2 gamma V taub lrchi2
+    {help tabout##sam:sample size (n) options}  
+      {cmd:npos(}{it:positions}{cmd:)}{col 38} col row both lab tufte
+      {cmd:nlab(}{it:string}{cmd:)}
+      {cmd:nwt(}{it:string}{cmd:)}
+      {cmd:nnoc}
+      {cmdab:noff:set(}{it:string}{cmd:)}
+    {help tabout##sur:survey options}       
+      {cmd:svy}
+      {cmdab:seb:none}
+      {cmdab:cib:none}
+      {cmd:cisep}{it:string}{cmd:)}
+      {cmd:ci2col}
+      {cmdab:per}cent
+      {cmdab:l:evel(}{it:#}{cmd:)}
+      {cmdab:pop}
+    {help tabout##tot:total options}    
+      {cmdab:tot:al(}{it:string}{cmd:)}
+      {cmdab:ptot:al(}{it:totaltype}{cmd:)} {col 38} none single all
+      {cmd:h1(}{it:string}{cmd:)}
+      {cmd:h2(}{it:string}{cmd:)}
+      {cmd:h3(}{it:string}{cmd:)}
+    {help tabout##sty:style options}        
+      {cmd:style(}{it:styles}{cmd:)} {col 38} tab tex htm csv semi
+      {cmd:lines(}{it:linetypes}{cmd:)}{col 38} single double none
+      {cmd:font(}{it:fontstyles}{cmd:)}{col 38} bold italic
+      {cmd:bt}
+      {cmdab:rot:ate(}{it:#}{cmd:)}
+      {cmd:cl1(}{it:#-#}{cmd:)}
+      {cmd:cl2(}{it:#-#}{cmd:)}
+      {cmd:cltr1(}{it:string}{cmd:)}
+      {cmd:cltr2(}{it:string}{cmd:)}
+    {help tabout##add:additional output options}    
+      {cmd:body}
+      {cmd:topf(}{it:string}{cmd:)}
+      {cmd:botf(}{it:string}{cmd:)}
+      {cmd:topstr(}{it:string}{cmd:)}
+      {cmd:botstr(}{it:string}{cmd:)}
+      {cmdab:ps:ymbol(}{it:string}{cmd:)}
+      {cmd:delim(}{it:string}{cmd:)}
+    {help tabout##mis:miscellaneous options}    
+      {cmdab:dpc:omma}
+      {cmdab:mon:ey(}{it:string}{cmd:)}
+      {cmdab:mi}
+      {cmdab:sort}
+      {cmdab:chkwt:none}
+      {cmd:debug}
+      {cmdab:nobord:er}
+      {cmd:show(}{it:showtypes}{cmd:)}{col 38} output none all 
+      {cmd:wide(}{it:#}{cmd:)}
+
+
+{p 8 14 2}
+{cmd:where:}
+
+{p 12 12 2}
+{it:varlist} is [list] of vertical (row) variables, followed by
+the horizontal (column) variable last. if the {cmd:oneway} option is
+specified, then all the variables are regarded as vertical.
+
+{p 12 12 2}
+{it:contents} for basic tables any of the following are permitted: 
+{it: freq} {it: cell} {it: row} {it: col} {it: cum}. The default is {it: freq}. 
+
+{p 12 12 2} 
+For summary tables any of the following are permitted:
+
+{p 16 16 10}
+{it}
+      N count mean median var sd skewness kurtosis uwsum sum min max 
+      p1 p5 p10 p25 p50 p75 p90 p95 p99 iqr r9010 r9050 r7525 r1050
+      
+{sf}
+{p 12 12 2} 
+Note that you may enter the median as either {it:p50} or {it:median} and you
+may enter N as either {it:N} or {it:count}.
+
+{p 12 12 2}
+When the {cmd: svy} option is used, you can also specify any of the following: 
+{it} se ci lb ub {sf}
+
+{p 8 8 2}
+{cmd: fweights} {cmd: aweights} {cmd: iweights} and {cmd: pweights} are allowed 
+with {cmd: tabout}, depending on the underlying command; see Manual: {bf:[U] 14.1.6 weight} 
+and individual entries for 
+{bf: [R] tabulate} and {bf: [R] summarize}. For tables of summary statistics, 
+{cmd:iweight}s are not allowed, because {cmd:tabout} uses the {cmd:detail} 
+option in {it:Stata}'s {help summarize} command (which does not allow 
+{cmd:iweight}s). The {cmd: svy} option requires that the data be already 
+{cmd: svyset} and an error message reminds you of this if you forget.
+
+{p 8 8 2}
+Note that {cmd: tabout} will work under Stata 9.2 onward. An older version of 
+{cmd:tabout} (which works with Stata 8.2) called {cmd:tabout8} is available 
+here: {browse "http://www.ianwatson.com.au/stata/tabout8.ado"}.
+
+{marker des}
+{title:Description}
+
+{p 4 4 2}{cmd:tabout} is a table building program for oneway and twoway tables
+of frequencies and percentages, and for summary tables. It produces publication
+quality tables for export to a text file. These tables can then be used with 
+spreadsheets, word processors, web browsers or compilers like LaTeX. The tables
+produced by {cmd:tabout} allow multiple panels so that a number of variables can
+be included in the one table. {cmd:tabout} also provides standard errors and 
+confidence intervals, as well as a range of table statistics (chi2 etc). The
+output from {cmd:tabout} matches {it:Stata's} {cmd: tabulate}, most of {cmd: tabstat} and 
+some of {cmd: table}.
+
+{p 4 4 2}{cmd:tabout} has a comprehensive tutorial which includes numerous 
+examples. This is available from the SSC with this help file. The tutorial is 
+also available here: {browse "http://www.ianwatson.com.au/stata/tabout_tutorial.pdf"}.
+
+
+{marker opt}
+{title:Options}
+
+    Contents
+
+     {help tabout##cor:core options}
+     {help tabout##sam:sample size (n) options} 
+     {help tabout##sur:survey options}      
+     {help tabout##tot:total options}   
+     {help tabout##sty:style options}       
+     {help tabout##add:additional output options}   
+     {help tabout##mis:miscellaneous options}   
+{marker cor}
+{dlgtab:core options}
+
+{phang}
+{opt using} is required, and indicates the filename for 
+the output. Some applications (particularly MS Excel) "lock" files when they're 
+open. {cmd: tabout} cannot write to these files and consequently issues an error 
+message, warning you to check if the file is already open in another application. 
+
+{phang}
+{cmd: replace} and {cmd: append} are file options, and determine whether the 
+current output will overwrite an existing file, or be appended to the end of 
+that file. If you omit {cmd: append} or {cmd: replace}, {cmd: tabout} issues a warning if the file already exists.
+
+{phang}
+{cmd: cells} determines the contents of table cells. As the table below shows, 
+you can enter any one or more of {it: freq cell row col cum} in a basic table. 
+They can be in any order. When you choose the {cmd: svy} option, you can only 
+have one of these choices, and it must come first.  The additional choices 
+which are then available are: {it: se ci lb ub}. 
+
+{p 8 8 2}
+For summary tables, you can have any of the {it: contents} listed earlier. 
+If you are creating a twoway table, only one summary statistic may go in a 
+cell (eg. {it: median wage}); if it's a oneway table, any number of statistics
+(followed by a variable name) may go in the cell 
+(eg. {it: median wage mean age iqr weight}). When you choose the {cmd: svy} 
+option with summary tables, only {it:mean} is allowed (eg. {cmd: mean wage se ci}.)
+
+        {c TLC}{hline 22}{c TT}{hline 38}{c TT}{hline 22}{c TRC}
+        {c |} {it:Type of table}        {c |}      {it:Allowable cell contents}         {c |}   {it:Available layout}   {c |}
+        {c |} {it:}                     {c |}             {it:cells( )}                 {c |}     {it:layout( )}        {c |}
+        {c LT}{hline 22}{c +}{hline 38}{c +}{hline 22}{c RT}
+        {c |} {bf:basic}                {c |} freq cell row col cum                {c |} col row  cb rb       {c |}
+        {c |} {bf:}                     {c |} {bf:any number of above, in any order}    {c |}                      {c |}
+        {c |} {bf:}                     {c |} {it:for example: cells(freq col)}         {c |}                      {c |}
+        {c LT}{hline 22}{c +}{hline 38}{c +}{hline 22}{c RT}
+        {c |} {bf:basic with SE or CI}  {c |} freq cell row col se ci lb ub        {c |} col row cb rb        {c |}
+        {c |} {bf:}                     {c |} {bf:only one of:} freq cell row col       {c |}                      {c |}
+        {c |} (turn on {it:svy} option) {c |} {it:(must come first in the cell)}        {c |}                      {c |}
+        {c |} {bf:}                     {c |} {bf:and any number of:} se ci lb ub       {c |}                      {c |}
+        {c |} {bf:}                     {c |} {it:for example: cells(col se lb ub)}     {c |}                      {c |}
+        {c LT}{hline 22}{c +}{hline 38}{c +}{hline 22}{c RT}
+        {c |} {bf:summary}              {c |} {bf:any number of:} N mean var sd skewness{c |} no options (fixed)   {c |}
+        {c |} {bf:}-as a oneway table   {c |} kurtosis sum uwsum min max count     {c |}                      {c |}
+        {c |} {bf:}                     {c |} median iqr r9010 r9050 r7525 r1050   {c |}                      {c |}
+        {c |} (turn on {it:sum} option; {c |} p1 p5 p10 p25 p50 p75 p90 p95 p99    {c |}                      {c |}
+        {c |} also may need to turn{c |} {bf:with each followed by variable name}  {c |}                      {c |}
+        {c |} on {it:oneway} option)    {c |} {it:for example: cells(min wage mean age)}{c |}                      {c |}
+        {c LT}{hline 22}{c +}{hline 38}{c +}{hline 22}{c RT}
+        {c |} {bf:summary}              {c |} {bf:only one of:} N mean var sd skewness  {c |} no options (fixed)   {c |}
+        {c |} {bf:}-as a twoway table   {c |} kurtosis sum uwsum min max count     {c |}                      {c |}
+        {c |} {bf:}                     {c |} median iqr r9010 r9050 r7525 r1050   {c |}                      {c |}
+        {c |} (turn on {it:sum} option) {c |} p1 p5 p10 p25 p50 p75 p90 p95 p99    {c |}                      {c |}
+        {c |} {bf:}                     {c |} {bf:followed by one variable name}        {c |}                      {c |}
+        {c |} {bf:}                     {c |} {it:for example: cells(sum income)}       {c |}                      {c |}
+        {c LT}{hline 22}{c +}{hline 38}{c +}{hline 22}{c RT}
+        {c |} {bf:summary with SE or CI}{c |} mean {bf:followed by one variable name}   {c |} col row cb rb        {c |}
+        {c |} turn on {it:sum} option   {c |} {bf:and any number of:} se ci lb ub       {c |}                      {c |}
+        {c |} and {it:svy} option)      {c |} {it:for example: cells(mean weight se ci)}{c |}                      {c |}
+        {c BLC}{hline 22}{c BT}{hline 38}{c BT}{hline 22}{c BRC}
+
+
+{phang}
+{cmd: format} indicates the number of decimal points. Unlike mainstream {it:Stata}, 
+this option only requires a number. Do not enter % or f symbols. You can 
+however, enter {cmd: c} for comma, {cmd: p} for percentage, and {cmd: m} for 
+money (currency) and you can use the {cmd: money} option (see below) to 
+specify the currency. For example, you might enter {cmd: f(0c 1p 1p 2)} to 
+produce: 1,291 9.2% 10.3% 23.93. The entries should be in the same order as 
+the {cmd: cells} order, that is, if {cmd: freq} comes first, then {cmd: 0c} 
+should come first if you want 0 decimal points (with commas) as the format 
+for frequencies. You do not have to type in the same number of format entries 
+as there are cell entries. If you include more, {cmd: tabout} ignores them; 
+if you include less, the last {cmd: format} entry is repeated for the remaining 
+cell entries.
+
+{phang}
+{cmd: clab} determines the column headings for the third row of the table, 
+that is, the headings just above the data. By default, {cmd: tabout} places 
+the horizontal variable's name in the first row, its value labels in the 
+second row, and an abbreviation for the cell contents (eg. No. Row % etc) in 
+the third row. You can over-ride all of these defaults using the {cmd: h1} 
+{cmd: h2} and {cmd: h3} options (see below). Most of the time, however, it 
+will only be the third row which you need to change, so the {cmd: clab} option 
+makes this easy for you.  Just enter the column titles as you want them to 
+display, without quote marks or other symbols. {it:However}, you must include 
+underscores between words if there are spaces in the column title, for example 
+{cmd: clab(No. Row_% Col_%)}. You do not have to type in the same number of 
+{cmd: clab} entries as there are cell entries. If you include more, 
+{cmd: tabout} ignores them; if you include less, the last {cmd: clab} entry 
+is repeated for the remaining cell entries. For example if your cell entry 
+was {cmd: freq col row cum} you could just enter {cmd: clab(No. %)}and all 
+but the first column of data would have % symbols at the top.
+
+{phang}
+{cmd: layout} determines how the columns will be laid out. They can be in 
+alternating columns  (No. % No. %  No. %) and alternating rows (No. on the 
+first row, % on the next two, then back to No. and so on). They can be in 
+column blocks, or in row blocks, where the data is kept contiguous, for 
+example: No. No. No. % % %. The exception to this is summary tables 
+where the layout is fixed and you have no choice. (However, an exception 
+to this is the {cmd: svy} option, which can be laid out using all of 
+these options. See the earlier table for clarification.)
+
+{phang}
+{cmd: oneway} tells {cmd: tabout} that the list of variables are all vertical. 
+Normally, {cmd: tabout} assumes that the last variable in the list is the 
+horizontal variable, to be used in a twoway cross-tabulation. To override 
+this default behaviour, specify {cmd: oneway}.
+
+{phang}
+{cmd: sum} tells {cmd: tabout} that the table is to be a summary table. 
+Normally, {cmd: tabout} assumes that the table will be a basic table and 
+checks to see if the {cmd: cells} contents have the correct entries 
+({cmd: freq row col} etc). By telling {cmd: tabout} that the table 
+is a summary table, this checking process  includes checks for the 
+various summary statistics and the variables in the data set. The 
+{cmd: sum} option is essential if you wish to produce a summary table. 
+
+{phang}
+{cmd: stats} allows you to include additional information based on the various
+statistics available in {cmd: tabulate}.  Note that, unlike {cmd: tabulate}, 
+{cmd: tabout} requires that you enter the full term (and not an abbreviation) 
+and will only allow {it:one} statistic in a table. You must enter {cmd: chi2}, 
+not just {cmd: chi}.
+
+{marker sam}
+{dlgtab:sample size (n) options}
+
+{phang}
+{cmd: npos} determines where the n information will be place. The various n 
+options ({cmd: npos} {cmd: nlab} {cmd: nwt} {cmd: nnoc}) provide sample counts
+for the table. You need only enter one of these options for the n to be 
+included. For the options you have not entered, {cmd: tabout} places make 
+use of the default values.
+
+{phang}
+{cmd: lab} determines the label for the n counts. The default for {cmd: col} 
+and {cmd: row} positions is a simple uppercase N; for the {cmd: lab} position 
+it is {cmd: (n=#)} where # stands for number; and for the {cmd: tufte} position
+it is {cmd: (#%)}. You can change all of these except the {cmd: tufte} position 
+(which is fixed), and if you wish to alter the {cmd: lab} position, use the # 
+symbol to indicate where the number should go. For example, {cmd: npos(lab) 
+nlab(Sample count=#)}.  The {cmd: npos(tufte)} option provides a convenient 
+way of displaying a percentage breakdown, rather than a count, for the main 
+vertical variables. The name comes from the approach adopted by Edward Tufte 
+in his construction of a supertable, which he designed for the 
+{it:New York Times} in 1980. 
+
+{phang}
+{cmd: nwt} indicates that the n count be weighted by this variable. This can
+be useful for producing population estimates in a table, rather than just
+sample counts. Note that {cmd: tabout} always uses {it:Stata}'s {cmd: iweight}
+option for this weighting.
+
+{phang}
+{cmd: nnoc} stands for  n-no-comma and turns off the comma in the n count. 
+Because {cmd: tabout} does not provide a {cmd: format} option for n counts 
+(decimal points don't really make sense here), the default behaviour is to 
+include commas. The {cmd: nnoc} option over-rides this default behaviour.
+
+{phang}
+{cmd:noffset}stands for n offset and determines where the n counts should be placed. The default is 1, which means the n counts will be in 
+the first data column and/or the first data row in a table. 
+Setting {cmd:noff(2)} for example, allows you to shift the n 
+counts further along (or down) in the table, into either the second data column 
+or the second data row. If you are using block layouts ({cmd:layout(cb)} or 
+{cmd: layout(rb)}), the {cmd: noffset} option applies to blocks rather than 
+individual columns or rows. 
+
+{marker sur}
+{dlgtab:survey options}
+
+{phang}
+{cmd: svy} tells {cmd: tabout} that the {cmd: cell} contents include survey 
+output, and so the checking procedure (mentioned earlier) looks for things 
+like {cmd: se}, {cmd: ci} and so forth. You must turn on {cmd: svy} is you 
+wish to include survey output in your table.
+
+{phang}
+{cmd: sebnone} stands for se-brackets-none and tells {cmd: tabout} to suppress
+the parentheses which normally surround the standard errors.
+
+{phang}
+{cmd: cibnone} stands for ci-brackets-none and tells {cmd: tabout} to suppress
+the square brackets which normally surround the confidence intervals.
+
+{phang}
+{cmd: cisep} stands for ci-separator and tells {cmd: tabout} to replace the 
+default (which is a comma) by whatever the user enters (for example, a dash).
+
+{phang}
+{cmd: ci2col} stands for ci-in-two-columns and tells {cmd: tabout} to place 
+the {cmd: lb} and {cmd: ub} estimates in two columns (as it normally does), 
+and to place a [ and a , in the first column, and a ] in the second column. 
+This can be useful for layout in a word processor, because the first column 
+can be right aligned (to the comma) and the second column can be left aligned, 
+and it appears that you have a single column for your ci, which is neatly 
+aligned according to the commas. Note that if you select {cmd: ci} in the 
+{cmd: cells}, {cmd: tabout} normally places both the lower bound and the 
+upper bound in a single cell and includes brackets and separator. The 
+{cmd: ci2col} does not apply in this case. For it to work, you need to 
+specify the upper and lower bound options, for example: {cmd: cell(freq lb ub)
+ci2col}. 
+
+{phang}
+{cmd: percent} tells {cmd: tabout} that the {cmd: svy} output should be shown 
+as percentages, not proportions. This follows the default behaviour of 
+{cmd: svy:tab}. 
+
+{phang}
+{cmd: level} specifies the level for the {cmd: svy} estimates. The default 
+is 95%.
+
+{phang}
+{cmd: pop}  specifies that a weighted population estimate should be provided
+for the n in the table, rather than the sample size. This option makes use of
+the weight specified by the {cmd: nwt} option. This makes the {cmd: svy} 
+option work the same as the {cmd: nwt} option with non-survey tables.
+
+{marker tot}
+{dlgtab:total options}
+
+{phang}
+{cmd: total} tells {cmd: tabout} what labels to use for totals. The vertical 
+total comes first, the horizontal second. The default labels for these variables
+are {it: Total}. If there are spaces in either of the labels which you wish to enter, use
+underscores. For example, {it: total(All_persons Total)}.
+
+{phang}
+{cmd: ptotal} tells {cmd: tabout} how to treat the totals for each panel, 
+when you have multiple panels in a table. The default behaviour is to show 
+all totals, but this can sometimes be repetitive, so you can specify 
+{cmd: ptotal(single)} to have a single total row shown at the bottom of the 
+table. You can also turn off all totals with {cmd: ptotal(none)}.
+
+{phang}
+{cmd: h1} through to {cmd: h3} over-ride the default headings for a table. 
+If you choose to use these, there are a couple of requirements. If you have 
+selected either {cmd: tex} or {cmd: htm} as your output style, you are 
+responsible for all the various code needed. {cmd: tabout} does not make 
+{it:any} adjustments to what you enter, it just outputs it as it finds it. 
+If you have chosen {cmd: tab} or {cmd: csv} as your output style, you must 
+enter a delimiter to indicate where the columns are in your heading. Unlike 
+the usual {cmd: tabout} practice, you do not need to worry about spaces in 
+your titles (no need for underscores!) because this column delimiter takes 
+care of things. However, the number of delimiters must match the number of 
+columns in the table or the headings may be out of alignment. You might 
+enter: {cmd: h2( | Very good | Good | Bad | Very bad | Total | N)} and the
+first column heading would be empty, and the remaining columns would have 
+the appropriate labels. Note that the {cmd: npos(col)} option usually places 
+the {cmd: nlab} on the {cmd: h2} line so you may need to include this yourself 
+in your {cmd: h2} label, as in the example just given. To suppress the 
+display of any of these headings, enter `nil' into the appropriate option 
+(for example, {cmd: h3(nil)}).
+
+{marker sty}
+{dlgtab:style options}
+
+{phang}
+{cmd: style} The default is {cmd: style(tab)}, which is useful for importing
+into spreadsheets or word processors. Note that the first row always has the
+correct number of tabs, even when a single title is involved. This helps other
+applications parse the table correctly. Note also that the repetition of labels
+in headings can be easily dealt with by using a merge cells command in your 
+spreadsheet or word processor. The {cmd: style(csv)} option is useful for 
+importing into spreadsheets (like MS Excel) because it opens immediately as a 
+spreadsheet. The {cmd: style(semi)} uses semi-colons as the delimiter.
+Note, however, that some spreadsheets ignore trailing 0s, so this 
+may muck up your neat formatting. To avoid this, export the table from 
+{cmd: tabout} as {cmd: style(tab)} and use the wizard in your spreadsheet to
+indicate that all columns are text rather than general.
+
+{phang}
+{cmd: lines} indicates how much space (for {cmd: style(tab)} and 
+{cmd: style(csv)}) or how many lines (for {cmd: style(tex)}) should separate
+tables between panels. The default is {cmd: single}.
+
+{phang}
+{cmd: font} only applies to {cmd: style(tex)} and {cmd: style(htm)} and
+provides bold and italic fonts for the vertical variable names and the 
+horizontal variable names and value labels. The totals are also given this 
+font. You can also use the {cmd: h1} to {cmd: h3} options to manually set up 
+fonts for your titles. 
+
+{phang}
+{cmd: bt} only applies to users of LaTeX, and requires that you have the 
+{cmd: booktabs} package installed. This allows the use of the toprule, 
+midrule and bottomrule commands, rather than the usual hline command. 
+It produces more pleasing output.
+
+{phang}
+{cmd: rotate} only applies to users of LaTeX, and can be used to rotate 
+the horizontal variable's labels through whatever angle is entered in this 
+option. For example, {cmd: rotate(60)} produces quite a pleasing effect.
+
+
+{phang}
+{cmd: cl1} and {cmd: cl2} only apply to users of LaTeX, and also requires 
+that you use the booktabs package in your LaTeX document. These options can 
+be used to place column lines (hence cl) between the first and second heading 
+rows, and between the second and third heading rows (hence two sets). You 
+enter the column numbers which you wish to span, separated with a dash. For 
+example, to place a line under the horizontal variable's name, you might 
+enter: {cmd: cl1(2-6)} in a table with six columns. If you are entering 
+lines spanning blocks of columns (2-4 5-7), you might need to fine tune 
+the gap between them using {cmd: cltr1} and {cmd: cltr2}. By default, whenever 
+you specify either of the {cmd: cl} options, {cmd: tabout} places a small 
+gap (0.75em) between adjacent lines.
+
+{phang}
+{cmd: cltr1} and {cmd: cltr2} stand for column-line-trim, and allow you to 
+specify an amount of trim to be applied to the left side of the {cmd: cl1} or 
+{cmd: cl2} lines which you have entered. You can specify the amount in whatever
+acceptable tex measurement you like. For example: 
+{cmd: cl2(2-3 4-5 6-7) cltr2(1.5em)}. As just noted, the default amount is
+0.75em.
+
+{marker add}
+{dlgtab:additional output options}
+
+{phang}
+{cmd: body} is used to insert some basic html or LaTeX code above and
+below the table. This allows you to view the table without further
+coding.
+
+{phang}
+{cmd: topf} and {cmd: botf} allow you to insert code stored in files which
+{cmd: tabout} can insert above and below the tables. These are particularly 
+useful for html and LaTeX users, and allow you to control the layout of
+the tables more precisely. All users will find them useful as a way of inserting
+additional information above and below the table, such as notes, populations, 
+data sources (for the bottom of the table) and titles (for the top of the 
+table).
+
+{phang}
+{cmd: topstr} and {cmd: botstr} contain text which you can pass to the 
+{cmd: topf} and {cmd: botf} files. This text will be inserted into the files 
+where ever the placeholder (default #) has been placed. Note that each 
+placeholder must be on a separate line in these files. The strings designated 
+in the {cmd: topstr} and {cmd: botstr} must be separated with the pipe 
+delimiter (or other user-chosen delimiter) if there is more than one block of 
+text being passed.
+
+{phang}
+{cmd: psymbol} stands for placeholder-symbol and can be any symbol the user 
+chooses. The default is # and it provides a placeholder in the stored files 
+(the {cmd: topf} and {cmd: botf}) which {cmd: tabout} places above and below 
+the tables.
+
+{phang}
+{cmd: delimit} can be any symbol the user chooses. The default is the pipe 
+delimiter (|) as shown in the earlier example. It is used to specify columns 
+within the {cmd: h1} to {cmd: h3} options, and for separating the contents of 
+the {cmd: topstr} and {cmd: botstr} options. Note, unlike earlier versions of 
+{cmd: tabout}, the delimit symbol is no longer used for labels. Instead, 
+underscores are used to close-up spaces and parsing is done on the remaining 
+spaces.
+
+{marker mis}
+{dlgtab:miscellaneous options}
+
+{phang}
+{cmd: dpcomma}
+specifies that {cmd: tabout} should use commas for decimal points and periods
+(full-stops) for thousand separators. This style is common in many European 
+countries. This option affects the presentation of both the tabular 
+output and the statistics when these are requested (such as chi2).
+
+{phang}
+{cmd: money} indicates the currency to be used if you have chosen the money 
+format. For example, {cmd: format(2m) money(\pounds)}. You can enter any symbol
+that your keyboard allows. For LaTeX users, you can enter any text which LaTeX
+accepts, though you may need to include quotes.
+
+{phang}
+{cmd: mi} specifies that tabout should display missing values. This works the 
+same as the mi option in Stata's tabulate command.
+
+{phang}
+{cmd: sort} specifies that tabout should display values in descending order of frequecy.
+This works the same as the sort option in Stata's tabulate oneway command. Note that
+you cannot use this option with twoway tables.
+
+{phang}
+{cmd:chkwtnone} prevents {cmd:tabout} from checking the legality of your 
+weights. {cmd:Stata} commands will not allow you to use non-integer 
+frequency weights and {cmd:tabout} normally checks for this. You can over-ride 
+this behaviour with the {cmd:chkwtnone} option. Note that this option does not 
+stop {cmd:Stata} itself from refusing to use non-integer frequency weights.
+
+{phang}
+{cmd: debug} shows you most of the underlying {it:Stata} commands (though not for 
+summary tables) from which the tables are built. This can be useful for 
+confirming your results.
+
+{phang}
+{cmd: noborder} only applies to html output, and determines whether the 
+table and cells should be surrounded by borders. This only applies when the 
+{cmd: body} option is turned on.
+
+{phang}
+{cmd: show} determines what will be seen on the screen. The {cmd: show(all)}
+option displays the final table output as well as the Mata string matrices 
+which are used to build this final output. The contents of these matrices may 
+not exactly match the final output, in terms of formatting and labelling. The 
+{cmd: show(none)} option suppresses all output except for the name of the file 
+to which the table has been exported. The default option is to show the output 
+which has been sent to a file. It may look messy on the screen, but open it in 
+the appropriate application to check it first before panicking. 
+
+{phang}
+{cmd: wide} is used in conjunction with {cmd: show(all)} and specifies the
+width of the columns in the Mata matrices. The default is 10 spaces. Note 
+that even if you reduce this to a very small number, {cmd: tabout} will 
+always increase the width of the columns to accommodate the widest cell 
+entry in the data.
+
+{marker exa}
+{title:Examples}
+
+{p 4 4 2}
+The best examples are to be found in the tutorial 
+({browse "http://www.ianwatson.com.au/stata/tabout_tutorial.pdf"}) 
+where both the syntax and the final table can be viewed, side by side. The 
+following examples illustrate each of the types of table outlined earlier.
+The datasets used in the following examples are all built-in Stata datasets, 
+namely, nlsw88.dta and voter.dta.
+
+
+{dlgtab:basic tables}
+
+        {com}. sysuse nlsw88.dta, clear
+        {txt} tabout south race smsa coll [iw=wt] ///
+        {txt} using  table2.txt, /// 
+        {txt} c(freq row col) f(0c 1p 1p) clab(_ _ _) ///  
+        {txt} layout(rb) h3(nil) 
+        
+        {com}. tabout race south smsa coll [iw=wt] ///
+        {txt} using  table3.txt, c(freq row col) f(0c 1p 1p) /// 
+        {txt} layout(cb) h1(nil) h3(nil) npos(row) 
+
+        {com}. tabout coll smsa south race ///
+        {txt} using table4.txt, c(col) f(1) ///
+        {txt} clab(Col_%) stats(gamma) npos(row) 
+
+        {com}. tabout occupation industry south /// 
+        {txt} using table5.txt, c(col cell) f(1) ///
+        {txt} clab(Col_% Cell_%) npos(row) nlab(Sample size)
+        
+        {com}. tabout occupation industry south ///
+        {txt} using table6.txt, c(col cell) f(1) ///
+        {txt} npos(row) nlab(Sample size) layout(cb) 
+
+{dlgtab:Basic tables with survey data}
+
+        {com}. tabout coll race smsa south using table7.txt, ///
+        {txt} c(row ci) f(1 1) clab(Row_% 95%_CI) svy stats(chi2) /// 
+        {txt] npos(lab) per
+
+        {com}. tabout smsa race south using table8.txt, ///
+        {txt} c(mean wage lb ub) f(2m) svy sum 
+
+{dlgtab:Summary tables}
+
+        {com}. sysuse voter, clear
+        {com}. tabout inc candidat using table9.txt,  ///
+        {txt} c(mean pfrac) f(1) clab(%) sum 
+           
+        {txt} {com}. tabout rep78 foreign using table10.txt, ///
+        {txt} c(iqr weight) f(0c) sum h3(nil) npos(both)
+           
+        {com}. tabout foreign rep78 using table11.txt, ///
+        {txt} c(mean mpg mean weight mean length median price median headroom) ///
+        {txt} f(1c 1c 1c 2cm 1c) ///
+        {txt} clab(MPG Weight_(lbs) Length_(in) Price Headroom_(in))  ///
+        {txt} sum npos(tufte) 
+
+
+{dlgtab:Summary tables with survey data}
+
+        {com}. tabout occ south race coll using table12.txt, /// 
+        {txt} c(mean wage se) f(2 2) clab(Mean_wage SE) ///
+        {txt} sum svy npos(lab) 
+           
+        {com}. tabout south race coll using table13.txt,  ///
+        {txt} c(mean wage se ci) f(2 2) sum svy npos(lab) layout(row) ///
+        {txt} level(90) clab(_ (SE) (90%_CI)) ///
+        {txt} h3( | Average wage | Average wage | Average wage) 
+           
+        {com}. tabout south race coll using table14.txt, ///
+        {txt} c(mean wage lb ub) f(2 2) sum svy /// 
+        {txt} npos(lab) nlab((Sample size = #)) ///
+        {txt} layout(row) level(90) clab(_  Lower_bound Upper_bound) /// 
+        {txt} h3( | | Average wage | )
+
+
+{title:Acknowledgements}
+
+{p 4 4 2}
+Numerous people have provided feedback and advice over the last two years 
+and I am very grateful for their comments. In particular I'd like to thank:  
+Mitch Abdon, Ulrich Atz, JP Azevedo, Megan Blaxland, Eric Booth, Simon Coulombe, 
+Enzo Coviello, Nick Cox, Anwar Dudekula, Axel Engellandt,  David L. Eckles, Richard Fox, 
+Jonathan Gardner, Johannes Geyer, Bill Gould, Daniel Hoechle, Ben Jann, 
+Stephen Jenkins, Stas Kolenikov, Thomas Masterson, Scott Merryman, 
+Nirmala Devi Naidoo, Thomas Odeny, Cathy Redmond, Mikko Ronkko, 
+Rafael Martins de Souza, Benjamin Schirge, Urvi Shah, Tim Stegmann,
+Herve Stolowy, Amanda Tzy-Chyi Yu and Chris Wallace. 
+
+{p 4 4 2}
+Thanks also to Arjan Soede for contributing the code for the dpcomma option. 
+
+{title:Author}
+
+   Ian Watson
+   Freelance researcher and
+   Visiting Senior Research Fellow
+   Macquarie University and
+   Social Policy Research Centre
+   University of New South Wales
+   Sydney Australia
+   mail@ianwatson.com.au
+   www.ianwatson.com.au
+
+
+Version 2.0.7 5jan2015

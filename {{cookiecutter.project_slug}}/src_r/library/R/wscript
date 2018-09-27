@@ -1,0 +1,27 @@
+#! python
+
+
+def build(ctx):
+
+    lib_names = [
+        "zoo",
+        "car",
+        "rjson",
+        "sandwich",
+        "lmtest",
+        "aod",
+        "Formula",
+        "AER",
+        "ivpack",
+        "foreign",
+        "xtable"
+    ]
+
+    for lib_name in lib_names:
+        ctx(
+            features='run_r_script',
+            source='install_required_lib.r',
+            target=lib_name + '/DESCRIPTION',
+            append=lib_name
+        )
+        ctx.add_group()

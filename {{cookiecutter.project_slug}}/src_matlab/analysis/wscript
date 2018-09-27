@@ -1,0 +1,26 @@
+#! python
+
+
+def build(ctx):
+
+    def out_analysis(*args):
+        "Just a simple wrapper for quick access"
+        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
+
+    # Illustrate use of run_m_script with automatic model specification.
+    for model in 'baseline', 'max_moves_2':
+        source = 'schelling'
+        ctx(
+            features='run_m_script',
+            source='{}.m'.format(source),
+            target=[
+                out_analysis('{}_{}.mat'.format(source, model)),
+            ],
+            deps=[
+                ctx.path_to(ctx, 'IN_MODEL_SPECS', '{}.json'.format(model)),
+                ctx.path_to(ctx, 'IN_MODEL_CODE', 'move_until_happy.m'),
+                ctx.path_to(ctx, 'OUT_DATA', 'sample.mat'),
+            ],
+            append="('{}')".format(model),
+            name='{}_{}'.format(source, model)
+        )

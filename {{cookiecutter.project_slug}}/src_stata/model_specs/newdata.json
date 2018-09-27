@@ -1,0 +1,8 @@
+{
+    "DEPVAR": "loggdp",
+    "INSTD": "risk",
+    "INSTS": "logmort0_new",
+    "KEEP_CONDITION": "keep if source0_new == 1",
+    "DUMMIES": "campaign_new slave",
+    "TITLE": "Panel E: Removing conjectured data, adding campaign and laborer indic. and new data"
+}

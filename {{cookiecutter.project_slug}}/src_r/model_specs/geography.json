@@ -1,0 +1,16 @@
+{
+    "GEO_CONTROLS_1": "",
+    "GEO_KEEP_CONDITION_1": "",
+    "GEO_CONTROLS_2": " + latitude",
+    "GEO_KEEP_CONDITION_2": "",
+    "GEO_CONTROLS_3": "",
+    "GEO_KEEP_CONDITION_3": "neoeuro == 0",
+    "GEO_CONTROLS_4": " + asia + africa + other",
+    "GEO_KEEP_CONDITION_4": "",
+    "GEO_CONTROLS_5": " + asia + africa + other + latitude",
+    "GEO_KEEP_CONDITION_5": "",
+    "GEO_CONTROLS_6": " + edes1975",
+    "GEO_KEEP_CONDITION_6": "",
+    "GEO_CONTROLS_7": " + malaria",
+    "GEO_KEEP_CONDITION_7": "malaria != 'NA'"
+}
