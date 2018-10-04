@@ -40,27 +40,17 @@ if __name__ == "__main__":
         environment_name = "{{ cookiecutter.create_environment_with_name }}"
         subprocess.call("conda env create --name {} --file environment.yml".format(environment_name),shell=True)
 
+    if "{{ cookiecutter.set_up_git }}" == "y":
+
+        subprocess.call(['git','init'])
+        subprocess.call(['git','remote','add','origin','{{ cookiecutter.git_remote_url }}'])
+
+    if "{{ cookiecutter.make_initial_commit }}" == "y":
+        subprocess.call(['git','commit','-m','"Initial commit"'])
+
     if "{{ cookiecutter.add_pytest }}" != "y":
         # TODO
         remove_file("tests/__init__.py")
-
-    if "{{ cookiecutter.add_pyup }}" != "y":
-        remove_file(".pyup.yml")
-
-    if "{{ cookiecutter.add_tox }}" != "y":
-        remove_file("tox.ini")
-
-    if "{{ cookiecutter.add_travis }}" != "y":
-        remove_file(".travis.yml")
-
-    if "{{ cookiecutter.add_downloader }}" != "y":
-        remove_file("prepare_data_for_project.py")
-
-    if "{{ cookiecutter.add_cleaner }}" != "y":
-        remove_file("clean.py")
-
-    if "{{ cookiecutter.add_debugger }}" != "y":
-        remove_file("debug.ps1")
 
     if "{{ cookiecutter.add_formatter }}" != "y":
         remove_file("format_python_files.py")
