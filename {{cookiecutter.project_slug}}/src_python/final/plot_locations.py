@@ -2,6 +2,8 @@ import json
 import pickle
 import sys
 import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 from bld.project_paths import project_paths_join as ppj
@@ -32,7 +34,7 @@ def plot_locations(locations_by_round, model_name):
         locs = locations_by_round[n_cycle]
         ax.set_title("Cycle {}".format(n_cycle))
         ax.tick_params(labelbottom="off", labelleft="off")
-        ax.set_axis_bgcolor("azure")
+        ax.set_facecolor("azure")
         ax.plot(locs[0][:, 0], locs[0][:, 1], "o", markerfacecolor="orange", **PLOT_ARGS)
         ax.plot(locs[1][:, 0], locs[1][:, 1], "o", markerfacecolor="green", **PLOT_ARGS)
 

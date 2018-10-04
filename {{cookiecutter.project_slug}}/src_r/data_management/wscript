@@ -11,6 +11,6 @@ def build(ctx):
         ],
         deps=[
             '../../project_paths.r',
-            ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
+            ctx.path_to(ctx, 'IN_DATA_EXTERNAL', 'ajrcomment.dta')
         ]
     )
