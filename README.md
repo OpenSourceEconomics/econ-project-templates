@@ -10,14 +10,8 @@ This is a collection of templates where much of this automation is pre-configure
 * Run Waf, which will build your entire project the first time you run it. Later, it will automatically figure out which parts of the project need to be rebuilt.
 
 
-Full documentation
-------------------
-
-*See* http://hmgaudecker.github.io/econ-project-templates/ *for the full documentation. Please read it before continuing with instructions that follow.*
-
-
-Getting started (Python-based project)
---------------------------------------
+Getting started 
+----------------
 
 1. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system. 
 
@@ -27,7 +21,7 @@ Getting started (Python-based project)
 
 3. Now move to your designated directory in a shell and set up your research project by typing:
     
-        $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/tree/cookie-devel
+        $ cookiecutter cookiecutter https://github.com/hmgaudecker/econ-project-templates.git --checkout cookie-devel
 
 4. The dialog will move you through the installation. After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
 
@@ -55,4 +49,8 @@ Getting started (Python-based project)
 
         python waf.py build -j1
 
-   If everything worked without error, you may now find more information on how to use the project template in "project_documentation/index.html".
+Full documentation
+------------------
+
+*See* http://hmgaudecker.github.io/econ-project-templates/ *for the full documentation. Please read it before continuing with your project.
+
