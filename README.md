@@ -5,11 +5,9 @@ An empirical or computational research project only becomes a useful building bl
 
 This is a collection of templates where much of this automation is pre-configured via describing the research workflow as a directed acyclic graph ([DAG](http://en.wikipedia.org/wiki/Directed_acyclic_graph)) using [Waf](https://code.google.com/p/waf/). You just need to:
 
-* Download the template for the main language in your project (Stata, R, Matlab, Python, ...)
+* Install the template for the main language in your project (Stata, R, Matlab, Python, ...)
 * Move your programs to the right places and change the placeholder scripts
 * Run Waf, which will build your entire project the first time you run it. Later, it will automatically figure out which parts of the project need to be rebuilt.
-
-The branch names follow the main language used in a particular example. You should base your project on the branch that specifies the language that you will use most. So the first thing to do is to switch branches using the button above, unless you plan on using Python mainly. You can easily add more languages to your projects, this is just a single line if the language is supported.
 
 
 Full documentation
@@ -21,33 +19,31 @@ Full documentation
 Getting started (Python-based project)
 --------------------------------------
 
-1. Clone the project template repository (or download the [zip file](https://github.com/hmgaudecker/econ-project-templates/archive/python.zip) and copy its contents to the place on your machine where you want the resulting project to live, e.g.
+1. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system. 
 
-        C:\Projects\structural-retirement-model\
+        $ pip install cookiecutter
 
-   Make sure that the entire path **does not contain any spaces**. Things may work in the beginning, but they will break eventually.
+2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path.
 
-2. Use the "find in project"-functionality of your editor to search and replace the following terms:
+3. Now move to your designated directory in a shell and set up your research project by typing:
+    
+        $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/tree/cookie-devel
 
-        NNN -> Your name
-        UUU -> Your affiliation
-        TTT -> The title of the project
+4. The dialog will move you through the installation. After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
 
-3. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A a modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path.
-
-4. Navigate to the folder in a shell. Execute 
+5. Navigate to the folder in the shell. Execute: 
 
    **(Mac, Linux)**
 
-        source set-env.sh
+        source activate <env_name>
 
     **(Windows)**
 
-        set-env.bat
+        activate <env_name>
 
-    This will create a conda environment named as the current directory (structural-retirement-model in the above example) with a sufficiently rich Python setup.
+    This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
 
-4.  Type the following commands to see whether the examples are working:
+4. Type the following commands to see whether the examples are working:
 
         python waf.py configure
         python waf.py build
@@ -59,4 +55,4 @@ Getting started (Python-based project)
 
         python waf.py build -j1
 
-    If everything worked without error, you may now find more information on how to use the project template in "project_documentation/index.html".
+   If everything worked without error, you may now find more information on how to use the project template in "project_documentation/index.html".
