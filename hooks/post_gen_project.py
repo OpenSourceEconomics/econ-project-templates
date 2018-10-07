@@ -40,6 +40,7 @@ if __name__ == "__main__":
         environment_name = "{{ cookiecutter.create_environment_with_name }}"
         subprocess.call("conda env create --name {} --file environment.yml".format(environment_name),shell=True)
 
+
     if "{{ cookiecutter.set_up_git }}" == "y":
 
         subprocess.call(['git','init'])

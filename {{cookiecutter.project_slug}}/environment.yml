@@ -6,7 +6,7 @@ dependencies:
   - python={{ cookiecutter.python_version }}
   - python-graphviz=0.8.2
   - pip:
-    - pytest-cookies=0.3.0
+    - pytest-cookies==0.3.0
 {% if cookiecutter.add_formatter == 'y' %}
     - black==18.6b4
 {% endif %}

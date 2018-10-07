@@ -16,3 +16,9 @@ def build(ctx):
             append=model,
             name='plot_locations_{}'.format(model)
         )
+
+    from src.final.project_dependency_graph import(
+        make_project_dependency_graph
+    )
+
+    ctx.add_post_fun(make_project_dependency_graph)
