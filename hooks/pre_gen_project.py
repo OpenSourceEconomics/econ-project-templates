@@ -16,7 +16,7 @@ if not re.match(MODULE_REGEX, module_name):
     # Exit to cancel project
     sys.exit(1)
 
-environment_name = "{{ cookiecutter.create_environment_with_name }}"
+environment_name = "{{ cookiecutter.create_conda_environment_with_name }}"
 environ_regex = r"^[_a-zA-Z][_a-zA-Z0-9]+$"
 
 if not re.match(environ_regex,environment_name):
