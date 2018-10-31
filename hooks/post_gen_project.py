@@ -44,10 +44,12 @@ if __name__ == "__main__":
     if "{{ cookiecutter.set_up_git }}" == "y":
 
         subprocess.call(['git','init'])
-        subprocess.call(['git','remote','add','origin','{{ cookiecutter.git_remote_url }}'])
 
-    if "{{ cookiecutter.make_initial_commit }}" == "y":
-        subprocess.call(['git','commit','-m','"Initial commit"'])
+        if "{{ cookiecutter.git_remote_url }}" != "":
+            subprocess.call(['git','remote','add','origin','{{ cookiecutter.git_remote_url }}'])
+
+        if "{{ cookiecutter.make_initial_commit }}" == "y":
+            subprocess.call(['git','commit','-m','"Initial commit"'])
 
     if "{{ cookiecutter.add_pytest_to_project }}" != "y":
         # TODO

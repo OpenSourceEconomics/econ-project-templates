@@ -6,7 +6,7 @@ dependencies:
   - python={{ cookiecutter.python_version }}
   - python-graphviz=0.8.4
   - pip:
-    - pytest-cookies==0.3.0
+    #- pytest-cookies==0.3.0
     - click==6.7
 {% if cookiecutter.add_tox_to_project == 'y' %}
     - doc8==0.8.0
