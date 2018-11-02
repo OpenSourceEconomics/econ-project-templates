@@ -88,6 +88,5 @@ def build(ctx):
     {% if cookiecutter.configure_running_matlab_from_waf == "y" %}ctx(features="write_project_paths", target="project_paths.m"){% endif %}
     {% if cookiecutter.configure_running_r_from_waf == "y" %}ctx(features="write_project_paths", target="project_paths.r"){% endif %}
     {% if cookiecutter.configure_running_julia_from_waf == "y" %}ctx(features="write_project_paths", target="project_paths.py"){% endif %}
-    ctx(features='write_project_paths', target='project_paths.py')
     ctx.add_group()
     ctx.recurse("src")
