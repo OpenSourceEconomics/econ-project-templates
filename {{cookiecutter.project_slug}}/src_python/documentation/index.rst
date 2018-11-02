@@ -1,10 +1,10 @@
-.. This the TTT project's documentation master file.
+.. This the {{ cookiecutter.project_name }} project's documentation master file.
 
 .. You can adapt this file completely to your liking,
 .. but it should at least contain the `toctree` directive.
 
 
-Welcome to the TTT project's documentation!
+Welcome to the {{ cookiecutter.project_name }} project's documentation!
 ================================================
 
 .. toctree::

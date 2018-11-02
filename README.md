@@ -19,23 +19,48 @@ Getting started
 
 2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path.
 
-3. Now move to your designated directory in a shell and set up your research project by typing:
+3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
+ 
+3. Navigate to your designated parent directory in a shell and set up your research project by typing:
     
         $ cookiecutter https://github.com/hmgaudecker/econ-project-templates.git --checkout cookie_template
 
-4. The dialog will move you through the installation. After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
+
+4. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
+
+   * **author** -- Obvious, separate multiple authors by commas
+   * **email** -- Obvious, but just use one in case of multiple authors
+   * **affiliation** -- Obvious, separate by commas for multiple authors with different affiliations
+   * **project_name** -- The title of your project
+   * **project_slug** -- This will become your project identifier (e.g., the directory will be called this way). The project slug **must** be a valid Python identifier, i.e., no spaces, hyphens, or the like. Just letters, numbers, underscores. Do not start with a number. There must not be a directory of this name in your current location.
+   * **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x".
+   * **set_up_git** -- Usually yes
+   * **git_remote_url** -- Usually you want to paste your remote URL here
+   * **make_initial_commit** -- Usually yes
+   * **example_to_install** -- This should be the dominant language you will use in your project. A working example will be installed in the language you choose; the easiest way to get going is simply to adjust the examples for your needs.
+   * **configure_running_python_from_waf** -- Select "y" if and only if you intend to use Python in your project and the Python executable may be found on your path.
+   * **configure_running_matlab_from_waf** -- Select "y" if and only if you intend to use Matlab in your project and the Matlab executable may be found on your path.
+   * **configure_running_r_from_waf** -- Select "y" if and only if you intend to use R in your project and the R executable may be found on your path.
+   * **configure_running_stata_from_waf** -- Select "y" if and only if you intend to use Stata in your project and the Stata executable may be found on your path.
+   * **configure_running_julia_from_waf** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
+   * **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
+   * **python_version** -- Usually accept the default. Must be a valid Python version. 
+   * **add_formatter_to_project** -- Choose yes if using Python
+   * **add_pytest_to_project** -- More for internal use, usually select no
+   * **add_tox_to_project** -- Usually you do not want that
+   * **create_author_file** -- 
+   * **create_history_file** -- 
+   * **open_source_license** -- 
+
+
+
+   After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
 
 5. Navigate to the folder in the shell. Execute: 
 
-   **(Mac, Linux)**
+   conda activate <env_name>
 
-        source activate <env_name>
-
-    **(Windows)**
-
-        activate <env_name>
-
-    This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
+   This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
 
 4. Type the following commands to see whether the examples are working:
 

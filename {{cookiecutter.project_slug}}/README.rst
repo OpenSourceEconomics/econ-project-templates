@@ -22,17 +22,9 @@ The framework relies on ``conda`` to manage the environment. If you don't have t
 
 The environment needs to be activated before you can execute waf. Run
 
-**(Mac, Linux)**
-
 .. code-block:: bash
 
-    $ source activate <env-name>
-
-**(Windows)**
-
-.. code-block:: bash
-
-    $ activate <env-name>
+    $ conda activate <env-name>
 
 
 To delete the environment, type
@@ -49,6 +41,7 @@ The following commands are used to run the project:
     $ python waf.py
     $ python waf.py install
 
-Feautures
+
+Features
 ---------
 

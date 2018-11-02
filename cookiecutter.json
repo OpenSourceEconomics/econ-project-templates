@@ -1,32 +1,79 @@
 {
-  "Do_you_have_http://hmgaudecker.github.io/econ-project-templates/_open_alongside_this_dialogue_or_do_you_know_exactly_what_you_are_doing?":"yes",
-  "author": "Albert Einstein",
-  "email": "albert@swiss-patent-office.com",
-  "affiliation": "Swiss Patent Office",
-  "project_name": "General Theory of Relativity",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-  "project_short_description": "Develop a revolutionary idea regarding the universe.",
-  "version": "0.1.0",
-  "create_conda_environment_with_name": "{{ cookiecutter.project_slug.lower().replace(' ', '_').replace('-', '_') }}",
-  "set_up_git": ["y","n"],
-  "git_remote_url": "",
-  "make_initial_commit":["y","n"],
-  "example_to_install": ["Python","Matlab","R","Stata","Julia"],
-  "configure_running_python_from_waf": ["y","n"],
-  "configure_running_matlab_from_waf": ["y","n"],
-  "configure_running_r_from_waf": ["y","n"],
-  "configure_running_stata_from_waf": ["y","n"],
-  "configure_running_julia_from_waf": ["y","n"],
-  "configure_running_sphinx_from_waf": ["y","n"],
-  "configure_running_latex_from_waf": ["y","n"],
-  "python_version": "3.7",
-  "add_formatter_to_project": ["y","n"],
-  "add_pytest_to_project": ["y","n"],
-  "add_tox_to_project": ["y","n"],
-  "create_author_file": ["y","n"],
-  "create_history_file": ["y","n"],
-  "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],
-  "_copy_without_render": [
-    ".mywaflib", "*.bib","src_matlab/*","src_stata/*","src_julia/*","src_r/*"
-  ]
+    "Do_you_have_https://github.com/hmgaudecker/econ-project-templates/tree/cookie_template_open_alongside_this_dialogue_or_do_you_know_exactly_what_you_are_doing?": "yes",
+    "author": "Albert Einstein",
+    "email": "albert@swiss-patent-office.com",
+    "affiliation": "Swiss Patent Office",
+    "project_name": "General Theory of Relativity",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "project_short_description": "Develop a revolutionary idea regarding the universe.",
+    "create_conda_environment_with_name": "{{ cookiecutter.project_slug.lower().replace(' ', '_').replace('-', '_') }}",
+    "set_up_git": [
+        "y",
+        "n"
+    ],
+    "git_remote_url": "",
+    "make_initial_commit": [
+        "y",
+        "n"
+    ],
+    "example_to_install": [
+        "Python",
+        "Matlab",
+        "R",
+        "Stata",
+        "Julia"
+    ],
+    "configure_running_python_from_waf": [
+        "y",
+        "n"
+    ],
+    "configure_running_matlab_from_waf": [
+        "y",
+        "n"
+    ],
+    "configure_running_r_from_waf": [
+        "y",
+        "n"
+    ],
+    "configure_running_stata_from_waf": [
+        "y",
+        "n"
+    ],
+    "configure_running_julia_from_waf": [
+        "y",
+        "n"
+    ],
+    "configure_running_sphinx_from_waf": [
+        "y",
+        "n"
+    ],
+    "python_version": "3.7",
+    "add_formatter_to_project": [
+        "y",
+        "n"
+    ],
+    "add_pytest_to_project": [
+        "y",
+        "n"
+    ],
+    "add_tox_to_project": [
+        "y",
+        "n"
+    ],
+    "open_source_license": [
+        "MIT license",
+        "BSD license",
+        "ISC license",
+        "Apache Software License 2.0",
+        "GNU General Public License v3",
+        "Not open source"
+    ],
+    "_copy_without_render": [
+        ".mywaflib",
+        "*.bib",
+        "src_matlab/*",
+        "src_stata/*",
+        "src_julia/*",
+        "src_r/*"
+    ]
 }
