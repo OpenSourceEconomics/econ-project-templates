@@ -77,7 +77,7 @@ A variety of project paths are defined in the top-level wscript file. These are 
 The following is taken from the top-level wscript file. Modify any project-wide path settings there.
 
 .. literalinclude:: ../../wscript
-    :start-after: out = 'bld'
+    :start-after: out = "bld"
     :end-before:     # Convert the directories into Waf nodes
 
 As should be evident from the similarity of the names, the paths follow the steps of the analysis in the :file:`src` directory:

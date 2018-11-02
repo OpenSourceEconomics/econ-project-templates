@@ -19,7 +19,7 @@
   "configure_running_julia_from_waf": ["y","n"],
   "configure_running_sphinx_from_waf": ["y","n"],
   "configure_running_latex_from_waf": ["y","n"],
-  "python_version": "3.6",
+  "python_version": "3.7",
   "add_formatter_to_project": ["y","n"],
   "add_pytest_to_project": ["y","n"],
   "add_tox_to_project": ["y","n"],

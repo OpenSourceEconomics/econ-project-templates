@@ -21,7 +21,7 @@ Getting started
 
 3. Now move to your designated directory in a shell and set up your research project by typing:
     
-        $ cookiecutter https://github.com/hmgaudecker/econ-project-templates.git --checkout cookie-devel
+        $ cookiecutter https://github.com/hmgaudecker/econ-project-templates.git --checkout cookie_template
 
 4. The dialog will move you through the installation. After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
 
