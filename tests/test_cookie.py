@@ -81,3 +81,11 @@ def test_remove_formatter(cookies,basic_project_dict):
     assert formatter.check(exists=0)
     assert pyproject.check(exists=0)
     
+def test_template_without_sphinx(cookies, basic_project_dict):
+    result = cookies.bake(extra_context={**basic_project_dict,**{"configure_running_sphinx_from_waf": "n"}})
+
+    documentation_folder = result.project.join("src/documentation")
+    wscript = result.project.join("src/wscript").read()
+    assert result.exit_code == 0
+    assert documentation_folder.check(exists=0)
+    assert "ctx.recurse('documentation')" not in wscript
