@@ -28,13 +28,6 @@ if __name__ == "__main__":
         else:
             rename("src_{}".format(example), "src")
 
-    if "{{ cookiecutter.create_conda_environment_with_name }}" != "x":
-        environment_name = "{{ cookiecutter.create_conda_environment_with_name }}"
-        subprocess.call(
-            "${CONDA_EXE} env create --name {} --file environment.yml".format(environment_name),
-            shell=True,
-        )
-
     if "{{ cookiecutter.add_pytest_to_project }}" != "y":
         # TODO
         pass

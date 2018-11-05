@@ -33,7 +33,7 @@ Getting started
    * **affiliation** -- Obvious, separate by commas for multiple authors with different affiliations
    * **project_name** -- The title of your project
    * **project_slug** -- This will become your project identifier (e.g., the directory will be called this way). The project slug **must** be a valid Python identifier, i.e., no spaces, hyphens, or the like. Just letters, numbers, underscores. Do not start with a number. There must not be a directory of this name in your current location.
-   * **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x".
+   <!-- * **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x". -->
    * **set_up_git** -- Usually yes
    * **git_remote_url** -- Usually you want to paste your remote URL here
    * **make_initial_commit** -- Usually yes

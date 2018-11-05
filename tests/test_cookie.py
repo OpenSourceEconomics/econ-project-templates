@@ -28,9 +28,9 @@ def test_project_slug_assertion(cookies,basic_project_dict):
     assert result.exit_code == -1
 
 
-def test_environment_name_assertion(cookies,basic_project_dict):
-    result = cookies.bake(extra_context={**basic_project_dict,**{"create_conda_environment_with_name": "1- a"}})
-    assert result.exit_code == -1
+# def test_environment_name_assertion(cookies,basic_project_dict):
+#     result = cookies.bake(extra_context={**basic_project_dict,**{"create_conda_environment_with_name": "1- a"}})
+#     assert result.exit_code == -1
 
 
 def test_install_Stata_example(cookies,basic_project_dict):
