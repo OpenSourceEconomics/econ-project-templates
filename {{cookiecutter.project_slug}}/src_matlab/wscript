@@ -3,7 +3,9 @@
 
 def build(ctx):
     ctx.recurse('manual_input')
+    {% if cookiecutter.configure_running_sphinx_from_waf == 'y' %}
     ctx.recurse('documentation')
+    {% endif %}
     ctx.recurse('data_management')
     ctx.recurse('analysis')
     ctx.recurse('final')

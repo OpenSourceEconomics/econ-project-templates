@@ -55,3 +55,6 @@ if __name__ == "__main__":
     if "{{ cookiecutter.add_formatter_to_project }}" != "y":
         remove_file("format_python_files.py")
         remove_file("pyproject.toml")
+
+    if "{{ cookiecutter.configure_running_sphinx_from_waf }}" != "y":
+        remove_dir("src/documentation")
