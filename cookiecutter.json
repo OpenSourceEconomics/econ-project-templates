@@ -3,9 +3,9 @@
     "author": "Albert Einstein",
     "email": "albert@swiss-patent-office.com",
     "affiliation": "Swiss Patent Office",
-    "project_name": "General Theory of Relativity",
+    "project_name": "The General Theory of Relativity",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "project_short_description": "Develop a revolutionary idea regarding the universe.",
+    "project_short_description": "Explain the relationship of space and time.",
     "create_conda_environment_with_name": "{{ cookiecutter.project_slug.lower().replace(' ', '_').replace('-', '_') }}",
     "set_up_git": [
         "y",

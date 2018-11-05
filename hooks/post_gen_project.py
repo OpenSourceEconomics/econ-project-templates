@@ -31,7 +31,7 @@ if __name__ == "__main__":
     if "{{ cookiecutter.create_conda_environment_with_name }}" != "x":
         environment_name = "{{ cookiecutter.create_conda_environment_with_name }}"
         subprocess.call(
-            "conda env create --name {} --file environment.yml".format(environment_name),
+            "${CONDA_EXE} env create --name {} --file environment.yml".format(environment_name),
             shell=True,
         )
 
