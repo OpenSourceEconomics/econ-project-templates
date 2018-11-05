@@ -1,5 +1,5 @@
 import re
-import sys
+
 
 MODULE_REGEX = r"^[_a-zA-Z][_a-zA-Z0-9]*$"
 ENVIRON_REGEX = r"^[_a-zA-Z][_a-zA-Z0-9]*$"

@@ -57,19 +57,20 @@
 
 \begin{document}
 
-\title{%
-{{ cookiecutter.project_name }}
-\thanks{%
-{{ cookiecutter.author }}: {{ cookiecutter.affiliation }}, Address. \href{mailto:{{ cookiecutter.email }}}{\nolinkurl{x [at] y [dot] z}}, tel.~+00000.}
-% subtitle: 
-% \\[1ex] 
-% \large Subtitle here
+{% raw -%}\title{{%- endraw %}
+    {{ cookiecutter.project_name }}
+    {% raw -%}\thanks{{%- endraw %}
+        {{ cookiecutter.author }}, {{ cookiecutter.affiliation }}. 
+        Email: {% raw -%}\href{{%- endraw %}
+        mailto:{{ cookiecutter.email }}
+        } {% raw -%}\nolinkurl{{%- endraw %} 
+        {{ cookiecutter.email.replace('@', ' [at] ').replace('.', ' [dot] ') }}
+        }.
+    }
 }
 
-\author{%
-{{ cookiecutter.author }}
-% \\[1ex]
-% Additional authors here
+{% raw -%}\author{{%- endraw %}
+    {{ cookiecutter.author }}
 }
 
 \date{
