@@ -75,6 +75,7 @@ def configure(ctx):
 
     ctx.load("write_project_headers")
     ctx.find_program("dot")
+    ctx.load("biber")
 
 
 def build(ctx):

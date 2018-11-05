@@ -35,6 +35,17 @@ if __name__ == "__main__":
             shell=True,
         )
 
+    if "{{ cookiecutter.add_pytest_to_project }}" != "y":
+        # TODO
+        pass
+
+    if "{{ cookiecutter.add_formatter_to_project }}" != "y":
+        remove_file("format_python_files.py")
+        remove_file("pyproject.toml")
+
+    if "{{ cookiecutter.configure_running_sphinx_from_waf }}" != "y":
+        remove_dir("src/documentation")
+
     if "{{ cookiecutter.set_up_git }}" == "y":
 
         subprocess.call(["git", "init"])
@@ -47,14 +58,3 @@ if __name__ == "__main__":
         if "{{ cookiecutter.make_initial_commit }}" == "y":
             subprocess.call(["git", "add", "."])
             subprocess.call(["git", "commit", "-m", '"Initial commit"'])
-
-    if "{{ cookiecutter.add_pytest_to_project }}" != "y":
-        # TODO
-        pass
-
-    if "{{ cookiecutter.add_formatter_to_project }}" != "y":
-        remove_file("format_python_files.py")
-        remove_file("pyproject.toml")
-
-    if "{{ cookiecutter.configure_running_sphinx_from_waf }}" != "y":
-        remove_dir("src/documentation")
