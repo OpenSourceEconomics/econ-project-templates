@@ -48,11 +48,7 @@ Getting started
    * **add_formatter_to_project** -- Choose yes if using Python
    * **add_pytest_to_project** -- More for internal use, usually select no
    * **add_tox_to_project** -- Usually you do not want that
-   * **create_author_file** -- 
-   * **create_history_file** -- 
-   * **open_source_license** -- 
-
-
+   * **open_source_license** -- Whatever you prefer.
 
    After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
 
