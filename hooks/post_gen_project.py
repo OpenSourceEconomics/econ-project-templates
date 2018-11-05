@@ -50,4 +50,4 @@ if __name__ == "__main__":
 
         if "{{ cookiecutter.make_initial_commit }}" == "y":
             subprocess.call(["git", "add", "."])
-            subprocess.call(["git", "commit", "-m", '"Initial commit"'])
+            subprocess.call(["git", "commit", "-m", 'Initial commit with template from https://github.com/hmgaudecker/econ-project-templates'])
