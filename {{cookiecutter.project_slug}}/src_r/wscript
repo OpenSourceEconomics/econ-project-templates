@@ -2,9 +2,7 @@
 
 
 def build(ctx):
-    {% if cookiecutter.configure_running_sphinx_from_waf == 'y' %}
-    ctx.recurse('documentation')
-    {% endif %}
+{% if cookiecutter.configure_running_sphinx_from_waf == "y" %}    ctx.recurse('documentation'){% endif %}
     ctx.recurse('library')
     # Adding the build group is required because the project
     # paths have to be generated first. It should not entail

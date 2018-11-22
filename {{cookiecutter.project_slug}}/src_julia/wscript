@@ -9,6 +9,4 @@ def build(ctx):
     # '.tex'-source file has not been generated.
     ctx.add_group()
     ctx.recurse('paper')
-    {% if cookiecutter.configure_running_sphinx_from_waf == 'y' %}
-    ctx.recurse('documentation')
-    {% endif %}
+{% if cookiecutter.configure_running_sphinx_from_waf == "y" %}    ctx.recurse('documentation'){% endif %}
