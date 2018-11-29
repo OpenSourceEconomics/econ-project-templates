@@ -52,11 +52,11 @@ Getting started
 
    After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
 
-5. Navigate to the folder in the shell. Execute: 
+<!--5. Navigate to the folder in the shell. Execute: 
 
    conda activate <env_name>
 
-   This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
+   This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window. -->
 
 4. Type the following commands to see whether the examples are working:
 
