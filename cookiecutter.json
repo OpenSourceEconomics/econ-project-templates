@@ -69,10 +69,6 @@
     ],
     "_copy_without_render": [
         ".mywaflib",
-        "*.bib",
-        "src_matlab/*",
-        "src_stata/*",
-        "src_julia/*",
-        "src_r/*"
+        "*.bib"
     ]
 }
