@@ -1,11 +1,7 @@
-# Currently need to run these two lines manually upfront.
-# 
-# Pkg.add("NPZ")
-# Pkg.add("PyPlot")
-
 using NPZ
+using Random
 
-srand(42)  # set seed for random numbers. Reproducible output
+Random.seed!(42)  # set seed for random numbers. Reproducible output
 
 n_types = 2
 n_draws = 30000

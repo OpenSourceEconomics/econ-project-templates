@@ -20,7 +20,7 @@
         "Matlab",
         "R",
         "Stata",
-        "Julia"
+        "Julia (Warning: You will need to fix a lot yourself! Patches welcome!)"
     ],
     "configure_running_python_from_waf": [
         "y",
