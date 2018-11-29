@@ -22,20 +22,12 @@
 
 \begin{document}
 
-\title{%
-{{ cookiecutter.project_name }}}
+{% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name }}}
 
-\author[{{ cookiecutter.author }}] 
+\author[{{ cookiecutter.author }}]
 {
 {\bf {{ cookiecutter.author }}}\\
 {\small {{ cookiecutter.affiliation }}}\\[1ex]
-%{\bf Add other authors}\\
-%{\small and affilitations}\\[1ex]
-}
-
-\date{
-{\bf location here}\\
-{\small date here}
 }
 
 

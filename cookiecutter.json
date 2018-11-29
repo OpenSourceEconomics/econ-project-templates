@@ -69,6 +69,8 @@
     ],
     "_copy_without_render": [
         ".mywaflib",
-        "*.bib"
+        "*.bib",
+        "src_matlab/library/matlab-json/*",
+        "src_stata/library/stata/ado_ext/*"
     ]
 }
