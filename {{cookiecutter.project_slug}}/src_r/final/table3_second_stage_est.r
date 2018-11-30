@@ -10,8 +10,8 @@ in the analysis directory. It writes the results to Latex file
 
 source("project_paths.r")
 
-library(xtable, lib=PATH_OUT_LIBRARY_R)
-library(rjson, lib=PATH_OUT_LIBRARY_R)
+library(xtable)
+library(rjson)
 
 models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
 

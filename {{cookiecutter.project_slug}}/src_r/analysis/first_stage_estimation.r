@@ -24,14 +24,14 @@ options(digits=3)
 source("project_paths.r")
 source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
 
-# Load required libraries.
-library(foreign, lib=PATH_OUT_LIBRARY_R)
-library(car, lib=PATH_OUT_LIBRARY_R)
-library(zoo, lib=PATH_OUT_LIBRARY_R)
-library(rjson, lib=PATH_OUT_LIBRARY_R)
-library(sandwich, lib=PATH_OUT_LIBRARY_R)
-library(lmtest, lib=PATH_OUT_LIBRARY_R)
-library(aod, lib=PATH_OUT_LIBRARY_R)
+# Load required libraries
+library(foreign)
+library(car)
+library(zoo)
+library(rjson)
+library(sandwich)
+library(lmtest)
+library(aod)
 
 # Load model and geographic specification.
 model_name <- commandArgs(trailingOnly = TRUE)
