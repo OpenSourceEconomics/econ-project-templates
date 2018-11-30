@@ -66,11 +66,11 @@ def configure(ctx):
     # Disable on a machine where security risks could arise
     ctx.env.PDFLATEXFLAGS = "-shell-escape"
 
-{% if cookiecutter.configure_running_python_from_waf == "y" %}    ctx.load("run_py_script"){% endif %}
-{% if cookiecutter.configure_running_stata_from_waf == "y" %}    ctx.load("run_do_script"){% endif %}
-{% if cookiecutter.configure_running_matlab_from_waf == "y" %}    ctx.load("run_m_script") {% endif %}
-{% if cookiecutter.configure_running_r_from_waf == "y" %}    ctx.load("run_r_script") {% endif %}
-{% if cookiecutter.configure_running_julia_from_waf == "y" %}    ctx.load("run_jl_script") {% endif %}
+{% if cookiecutter.configure_running_python_from_waf == "y" or cookiecutter.example_to_install.lower() == "python" %}    ctx.load("run_py_script"){% endif %}
+{% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}    ctx.load("run_do_script"){% endif %}
+{% if cookiecutter.configure_running_matlab_from_waf == "y" or cookiecutter.example_to_install.lower() == "matlab" %}    ctx.load("run_m_script") {% endif %}
+{% if cookiecutter.configure_running_r_from_waf == "y" or cookiecutter.example_to_install.lower() == "r" %}    ctx.load("run_r_script") {% endif %}
+{% if cookiecutter.configure_running_julia_from_waf == "y" or cookiecutter.example_to_install.lower() == "julia" %}    ctx.load("run_jl_script") {% endif %}
 {% if cookiecutter.configure_running_sphinx_from_waf == "y" %}    ctx.load("sphinx_build"){% endif %}
 
     ctx.load("write_project_headers")
@@ -83,10 +83,10 @@ def build(ctx):
     ctx.path_to = path_to
     # Generate header file with project paths in "bld" directory
 
-{% if cookiecutter.configure_running_python_from_waf == "y" %}    ctx(features="write_project_paths", target="project_paths.py") {% endif %}
-{% if cookiecutter.configure_running_stata_from_waf == "y" %}    ctx(features="write_project_paths", target="project_paths.do"){% endif %}
-{% if cookiecutter.configure_running_matlab_from_waf == "y" %}    ctx(features="write_project_paths", target="project_paths.m"){% endif %}
-{% if cookiecutter.configure_running_r_from_waf == "y" %}    ctx(features="write_project_paths", target="project_paths.r"){% endif %}
-{% if cookiecutter.configure_running_julia_from_waf == "y" %}    ctx(features="write_project_paths", target="project_paths.py"){% endif %}
+{% if cookiecutter.configure_running_python_from_waf == "y" or cookiecutter.example_to_install.lower() == "python" %}    ctx(features="write_project_paths", target="project_paths.py") {% endif %}
+{% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}    ctx(features="write_project_paths", target="project_paths.do"){% endif %}
+{% if cookiecutter.configure_running_matlab_from_waf == "y" or cookiecutter.example_to_install.lower() == "matlab" %}    ctx(features="write_project_paths", target="project_paths.m"){% endif %}
+{% if cookiecutter.configure_running_r_from_waf == "y" or cookiecutter.example_to_install.lower() == "r" %}    ctx(features="write_project_paths", target="project_paths.r"){% endif %}
+{% if cookiecutter.configure_running_julia_from_waf == "y" or cookiecutter.example_to_install.lower() == "julia" %}    ctx(features="write_project_paths", target="project_paths.py"){% endif %}
     ctx.add_group()
     ctx.recurse("src")
