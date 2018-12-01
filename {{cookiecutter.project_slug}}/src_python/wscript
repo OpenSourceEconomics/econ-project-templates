@@ -2,6 +2,7 @@
 
 
 def build(ctx):
+    ctx.recurse('library')
     ctx.recurse('data_management')
     ctx.recurse('analysis')
     ctx.recurse('final')
