@@ -43,4 +43,4 @@ sys.path.insert(0, wafdir)
 
 if __name__ == "__main__":
     from waflib import Scripting
-    Scripting.waf_entry_point(cwd, VERSION, wafdir)
+    Scripting.waf_entry_point(base, VERSION, wafdir)
