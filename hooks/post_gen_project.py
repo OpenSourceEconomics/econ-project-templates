@@ -23,8 +23,8 @@ def rename(filepath, new_filepath):
 if __name__ == "__main__":
 
     specified_example = "{{ cookiecutter.example_to_install }}".lower()
-    if specified_example.startswith('julia'):
-        specified_example = 'julia'
+    if specified_example.startswith("julia"):
+        specified_example = "julia"
 
     for example in ["julia", "matlab", "python", "stata", "r"]:
         if example != specified_example:
@@ -32,16 +32,12 @@ if __name__ == "__main__":
         else:
             rename("src_{}".format(example), "src")
 
-    if "{{ cookiecutter.add_pytest_to_project }}" != "y":
-        # TODO
-        pass
+    if not "{{ cookiecutter.configure_running_sphinx_from_waf }}" == "y":
+        remove_dir("src/documentation")
 
-    if "{{ cookiecutter.add_formatter_to_project }}" != "y":
+    if not "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y":
         remove_file("format_python_files.py")
         remove_file("pyproject.toml")
-
-    if "{{ cookiecutter.configure_running_sphinx_from_waf }}" != "y":
-        remove_dir("src/documentation")
 
     if "{{ cookiecutter.set_up_git }}" == "y":
 
@@ -54,4 +50,12 @@ if __name__ == "__main__":
 
         if "{{ cookiecutter.make_initial_commit }}" == "y":
             subprocess.call(["git", "add", "."])
-            subprocess.call(["git", "commit", "-m", 'Initial commit with template from https://github.com/hmgaudecker/econ-project-templates'])
+            subprocess.call(
+                [
+                    "git",
+                    "commit",
+                    "-m",
+                    "'Initial commit with template from "
+                    "https://github.com/hmgaudecker/econ-project-templates'",
+                ]
+            )

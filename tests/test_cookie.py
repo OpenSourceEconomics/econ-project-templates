@@ -1,4 +1,3 @@
-import subprocess
 import pytest
 
 
@@ -22,9 +21,7 @@ def basic_project_dict():
         "configure_running_julia_from_waf": "n",
         "configure_running_sphinx_from_waf": "n",
         "python_version": "3.7",
-        "add_formatter_to_project": "n",
-        "add_pytest_to_project": "n",
-        "add_tox_to_project": "n",
+        "add_python_code_formatter_to_project": "n",
         "open_source_license": "n",
         "_copy_without_render": [
             ".mywaflib",
@@ -78,7 +75,7 @@ def test_install_run_stata_from_waf(cookies, basic_project_dict):
 
 
 def test_remove_formatter(cookies, basic_project_dict):
-    basic_project_dict["add_formatter_to_project"] = "n"
+    basic_project_dict["add_python_code_formatter_to_project"] = "n"
     result = cookies.bake(extra_context=basic_project_dict)
     formatter = result.project.join("format_python_files.py")
     pyproject = result.project.join("pyproject.toml")

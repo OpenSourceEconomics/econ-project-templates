@@ -45,9 +45,7 @@ Getting started
    * **configure_running_julia_from_waf** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
    * **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
    * **python_version** -- Usually accept the default. Must be a valid Python version. 
-   * **add_formatter_to_project** -- Choose yes if using Python
-   * **add_pytest_to_project** -- More for internal use, usually select no
-   * **add_tox_to_project** -- Usually you do not want that
+   * **add_python_code_formatter_to_project** -- Choose yes if using Python
    * **open_source_license** -- Whatever you prefer.
 
    After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
