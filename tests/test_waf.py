@@ -22,8 +22,19 @@ def _check_configure(result):
         log_configure = e.output
         print(log_configure)
 
-    assert "finished successfully" in str(log_configure)
+    assert "'configure' finished successfully" in str(log_configure)
 
+
+def _check_build(result):
+    try:
+        log_configure = subprocess.check_output(
+            ["python", "{}".format(result.project.join("waf.py")), "build"]
+        )
+    except subprocess.CalledProcessError as e:
+        log_configure = e.output
+        print(log_configure)
+
+    assert "'build' finished successfully" in str(log_configure)
 
 def _check_configure_build(result):
     try:
@@ -33,8 +44,8 @@ def _check_configure_build(result):
     except subprocess.CalledProcessError as e:
         log_configure = e.output
         print(log_configure)
-
-    assert "finished successfully" in str(log_configure)
+    assert "'configure' finished successfully" in str(log_configure)
+    assert "'build' finished successfully" in str(log_configure)
 
 
 def test_waf_configure_python(cookies, basic_project_dict):
@@ -76,7 +87,14 @@ def test_waf_configure_julia(cookies, basic_project_dict):
     result = cookies.bake(extra_context=basic_project_dict)
     _check_configure(result)
 
+@pytest.mark.xfail
+def test_waf_build_matlab(cookies, basic_project_dict):
+    basic_project_dict["example_to_install"] = "Matlab"
+    result = cookies.bake(extra_context=basic_project_dict)
+    _check_build(result)
 
+
+@pytest.mark.skip(reason="Currently tested with cookies-pytest")
 def test_waf_configure_without_cookies_pytest():
 
     template = subprocess.check_output(
