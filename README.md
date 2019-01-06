@@ -17,7 +17,9 @@ Getting started
 
         $ pip install cookiecutter
 
-2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path.
+2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. Additionally install graphviz.
+        
+        $ conda install python-graphviz
 
 3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
  
@@ -56,7 +58,9 @@ Getting started
 
    This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window. -->
 
-4. Type the following commands to see whether the examples are working:
+4. For Windows users: Execute the following commands in the Anaconda prompt unless you know what you are doing.
+  
+5. Type the following commands to see whether the examples are working:
 
         python waf.py configure
         python waf.py build
@@ -67,6 +71,21 @@ Getting started
    If the second step fails, try the following in order to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
 
         python waf.py build -j1
+
+
+Additional Prerequisites
+------------------------
+
+If you installed the R template, make sure to have the following libraries installed before you try to run the project:
+ 
+- foreign
+- zoo
+- car
+- rjson
+- sandwich
+- lmtest
+- AER
+- ivpack
 
 Full documentation
 ------------------

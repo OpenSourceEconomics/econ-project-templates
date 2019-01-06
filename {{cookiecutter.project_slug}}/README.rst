@@ -13,7 +13,9 @@ Todo
 Managing the environment
 ------------------------
 
-The framework relies on ``conda`` to manage the environment. If you don't have the necessary conda environment installed you can create it from the file environment.yml. Use the command:
+The framework relies on ``conda`` to manage the environment. If you work with the full Anaconda distribution, jump to the commands for executing the project.
+
+If you don't have the necessary conda environment installed you can create it from the file environment.yml. Use the command:
 
 .. code-block:: bash
 
@@ -33,6 +35,12 @@ To delete the environment, type
 
     $ conda env remove -n <env-name>
 
+
+Executing the project
+---------------------
+
+If you are a Windows user use the Anaconda prompt unless you know what you are doing.
+
 The following commands are used to run the project:
 
 .. code-block:: bash
@@ -43,5 +51,5 @@ The following commands are used to run the project:
 
 
 Features
----------
+--------
 
