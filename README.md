@@ -25,7 +25,7 @@ Getting started
  
 3. Navigate to your designated parent directory in a shell and set up your research project by typing:
     
-        $ cookiecutter https://github.com/hmgaudecker/econ-project-templates.git --checkout cookie_template
+        $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v1.0.zip
 
 
 4. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
