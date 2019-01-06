@@ -8,15 +8,17 @@ dependencies:
   - python-graphviz=0.8
   - pip:
     - click==7.0
-{% if cookiecutter.add_python_code_formatter_to_project == 'y' %}    - isort==4.3.4
-    - black==18.9b0{% endif %}
+{% if cookiecutter.add_python_code_formatter_to_project == 'y' %}
+    - isort==4.3.4
+    - black==18.9b0
+{% endif %}
     - matplotlib==3
     - nbsphinx==0.3
     - pytest==3.8
     - pytest-cov==2.5
     - pytest-pythonpath==0.7
 {% if cookiecutter.configure_running_sphinx_from_waf == 'y' %}
-    - sphinx==1.8.2
+    - sphinx==1.7.6
     - sphinx-autobuild==0.7.1
     - sphinx-rtd-theme==0.4.1
     - sphinxcontrib-bibtex==0.4
