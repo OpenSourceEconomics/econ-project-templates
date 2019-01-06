@@ -15,3 +15,9 @@ def build(ctx):
             append="('{}')".format(model),
             name='{}_{}'.format(source, model)
         )
+
+    from src.final.project_dependency_graph import(
+        make_project_dependency_graph
+    )
+
+    #ctx.add_post_fun(make_project_dependency_graph)

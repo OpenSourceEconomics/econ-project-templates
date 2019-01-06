@@ -22,4 +22,4 @@ def build(ctx):
         make_project_dependency_graph
     )
 
-    ctx.add_post_fun(make_project_dependency_graph)
+    #ctx.add_post_fun(make_project_dependency_graph)
