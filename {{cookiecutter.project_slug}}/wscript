@@ -84,7 +84,7 @@ def configure(ctx):
 {% endif %}{% if cookiecutter.configure_running_sphinx_from_waf == "y" %}    ctx.load("sphinx_build")
 {% endif %}
     ctx.load("write_project_headers")
-    ctx.find_program("dot")
+    # ctx.find_program("dot")
     ctx.load("biber")
 
 

@@ -39,6 +39,9 @@ if __name__ == "__main__":
         remove_file("format_python_files.py")
         remove_file("pyproject.toml")
 
+    # Don't do this before having environments again.
+    remove_file("environment.yml")
+
     if "{{ cookiecutter.set_up_git }}" == "y":
 
         subprocess.call(["git", "init"])

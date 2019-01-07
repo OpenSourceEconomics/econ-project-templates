@@ -36,6 +36,7 @@ def _check_build(result):
 
     assert "'build' finished successfully" in str(log_configure)
 
+
 def _check_configure_build(result):
     try:
         log_configure = subprocess.check_output(
@@ -87,36 +88,9 @@ def test_waf_configure_julia(cookies, basic_project_dict):
     result = cookies.bake(extra_context=basic_project_dict)
     _check_configure(result)
 
+
 @pytest.mark.xfail
 def test_waf_build_matlab(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "Matlab"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_build(result)
-
-
-@pytest.mark.skip(reason="Currently tested with cookies-pytest")
-def test_waf_configure_without_cookies_pytest():
-
-    template = subprocess.check_output(
-        [
-            "cookiecutter",
-            ".",
-            "--no-input",
-            "configure_running_stata_from_waf=n",
-            "configure_running_matlab_from_waf=n",
-            "configure_running_r_from_waf=n",
-            "configure_running_julia_from_waf=n",
-        ]
-    )
-
-    output = None
-    try:
-        output = subprocess.check_output(
-            ["python", "the_general_theory_of_relativity/waf.py", "configure"]
-        )
-    except subprocess.CalledProcessError as e:
-        output = e.output
-
-    print(output)
-    assert "success" in str(output)  # just to make pytest print the stderr
-    remove_dir("the_general_theory_of_relativity")

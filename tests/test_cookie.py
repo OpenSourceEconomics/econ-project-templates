@@ -20,7 +20,6 @@ def basic_project_dict():
         "configure_running_stata_from_waf": "n",
         "configure_running_julia_from_waf": "n",
         "configure_running_sphinx_from_waf": "n",
-        "python_version": "3.7",
         "add_python_code_formatter_to_project": "n",
         "open_source_license": "n",
         "_copy_without_render": [
@@ -34,6 +33,7 @@ def basic_project_dict():
 
 def test_bake_project(cookies, basic_project_dict):
 
+    print(cookies.bake(extra_context=basic_project_dict))
     result = cookies.bake(extra_context=basic_project_dict)
 
     assert result.exit_code == 0

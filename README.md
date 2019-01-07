@@ -17,9 +17,9 @@ Getting started
 
         $ pip install cookiecutter
 
-2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. Additionally install graphviz.
+2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. <!-- Additionally install graphviz.
         
-        $ conda install python-graphviz
+        $ conda install python-graphviz -->
 
 3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
  
@@ -46,7 +46,7 @@ Getting started
    * **configure_running_stata_from_waf** -- Select "y" if and only if you intend to use Stata in your project and the Stata executable may be found on your path.
    * **configure_running_julia_from_waf** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
    * **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
-   * **python_version** -- Usually accept the default. Must be a valid Python version. 
+   <!--* **python_version** -- Usually accept the default. Must be a valid Python version.--> 
    * **add_python_code_formatter_to_project** -- Choose yes if using Python
    * **open_source_license** -- Whatever you prefer.
 
