@@ -17,9 +17,12 @@ Getting started
 
         $ pip install cookiecutter
 
-2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. <!-- Additionally install graphviz.
+2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. 
+
+<!-- Additionally install graphviz.
         
-        $ conda install python-graphviz -->
+        $ conda install python-graphviz 
+-->
 
 3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
  
