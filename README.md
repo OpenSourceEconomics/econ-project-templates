@@ -55,15 +55,17 @@ Getting started
 
    After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
 
-<!--5. Navigate to the folder in the shell. Execute: 
+5. For Windows users: Execute the following commands in the Anaconda prompt unless you know what you are doing.
+
+6. Navigate to the folder in the shell.  
+
+<!--Execute: 
 
    conda activate <env_name>
 
    This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window. -->
 
-4. For Windows users: Execute the following commands in the Anaconda prompt unless you know what you are doing.
-  
-5. Type the following commands to see whether the examples are working:
+7. Type the following commands to see whether the examples are working:
 
         python waf.py configure
         python waf.py build
