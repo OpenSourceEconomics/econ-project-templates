@@ -15,16 +15,19 @@ def set_project_paths(ctx):
 
     pp = OrderedDict()
     pp["PROJECT_ROOT"] = "."
-    pp["IN_DATA"] = "src/data/"
+    pp["IN_DATA"] = "src/original_data/"
     pp["IN_MODEL_CODE"] = "src/model_code"
     pp["IN_MODEL_SPECS"] = "src/model_specs"
+    pp["LIBRARY"] = "src/library"
     pp["BLD"] = ""
     pp["OUT_DATA"] = f"{out}/out/data"
     pp["OUT_ANALYSIS"] = f"{out}/out/analysis"
     pp["OUT_FINAL"] = f"{out}/out/final"
     pp["OUT_FIGURES"] = f"{out}/out/figures"
+    # OUT_MODEL_SPECS is only required for using Stata with JSON and
+    # can be safely deleted otherwise
+    pp["OUT_MODEL_SPECS"] = f"{out}/src/model_specs"
     pp["OUT_TABLES"] = f"{out}/out/tables"
-    pp["LIBRARY"] = "src/library"
 
 {% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}
     # Stata's adopaths get special treatment.
@@ -34,7 +37,6 @@ def set_project_paths(ctx):
     pp["ADO"]["PLUS"] = os.path.join(lib, "stata/ado_ext/plus")
     pp["ADO"]["LOCAL"] = os.path.join(lib, "stata")
 {% endif %}
-
 
     # Convert the directories into Waf nodes.
     for key, val in pp.items():
@@ -82,8 +84,7 @@ def configure(ctx):
 {% endif %}{% if cookiecutter.configure_running_r_from_waf == "y" or cookiecutter.example_to_install.lower() == "r" %}    ctx.load("run_r_script")
 {% endif %}{% if cookiecutter.configure_running_julia_from_waf == "y" or cookiecutter.example_to_install.lower().startswith("julia") %}    ctx.load("run_jl_script")
 {% endif %}{% if cookiecutter.configure_running_sphinx_from_waf == "y" %}    ctx.load("sphinx_build")
-{% endif %}
-    ctx.load("write_project_headers")
+{% endif %}    ctx.load("write_project_headers")
     # ctx.find_program("dot")
     ctx.load("biber")
 

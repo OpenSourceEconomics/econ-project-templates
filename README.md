@@ -79,16 +79,40 @@ Getting started
 Additional Prerequisites
 ------------------------
 
-If you installed the R template, make sure to have the following libraries installed before you try to run the example:
+* Running Sphinx requires the extension sphinxcontrib.bibtex. Install via pip:
+
+      pip install sphinxcontrib-bibtex
+
+
+* For the R example, make sure to have the following libraries installed before you try to run Waf:
  
-- foreign
-- zoo
-- car
-- rjson
-- sandwich
-- lmtest
-- AER
-- ivpack
+  - AER
+  - aod
+  - car
+  - foreign
+  - ivpack
+  - lmtest
+  - rjson
+  - sandwich
+  - xtable
+  - zoo
+
+  Quick 'n' dirty command in an R shell:
+
+      install.packages(
+          c(
+              "foreign",
+              "AER",
+              "aod",
+              "car",
+              "ivpack",
+              "lmtest",
+              "rjson",
+              "sandwich",
+              "xtable",
+              "zoo"
+          )
+      )
 
 Full documentation
 ------------------
