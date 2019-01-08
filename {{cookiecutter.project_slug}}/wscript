@@ -29,16 +29,16 @@ def set_project_paths(ctx):
 {% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}
     # Stata's adopaths get special treatment.
     lib = pp["LIBRARY"]
-    pp['ADO'] = {}
-    pp['ADO']['PERSONAL'] = os.path.join(lib, 'stata/ado_ext/personal')
-    pp['ADO']['PLUS'] = os.path.join(lib, 'stata/ado_ext/plus')
-    pp['ADO']['LOCAL'] = os.path.join(lib, 'stata')
+    pp["ADO"] = {}
+    pp["ADO"]["PERSONAL"] = os.path.join(lib, "stata/ado_ext/personal")
+    pp["ADO"]["PLUS"] = os.path.join(lib, "stata/ado_ext/plus")
+    pp["ADO"]["LOCAL"] = os.path.join(lib, "stata")
 {% endif %}
 
 
     # Convert the directories into Waf nodes.
     for key, val in pp.items():
-        if not key == 'ADO':
+        if not key == "ADO":
             pp[key] = ctx.path.make_node(val)
         else:
             for adokey, adoval in val.items():
@@ -91,7 +91,7 @@ def configure(ctx):
 def build(ctx):
     ctx.env.PROJECT_PATHS = set_project_paths(ctx)
     ctx.path_to = path_to
-    # Generate header file with project paths in "bld" directory
+    # Generate header file(s) with project paths in "bld" directory
 {% if cookiecutter.configure_running_python_from_waf == "y" or cookiecutter.example_to_install.lower() == "python" %}    ctx(features="write_project_paths", target="project_paths.py")
 {% endif %}{% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}    ctx(features="write_project_paths", target="project_paths.do")
 {% endif %}{% if cookiecutter.configure_running_matlab_from_waf == "y" or cookiecutter.example_to_install.lower() == "matlab" %}    ctx(features="write_project_paths", target="project_paths.m")
