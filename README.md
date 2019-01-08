@@ -17,7 +17,7 @@ Getting started
 
         $ pip install cookiecutter
 
-2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. 
+2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. **Tested with Python 3.6 and higher.** Python 2 will not work. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. 
 
 <!-- Additionally install graphviz.
         
