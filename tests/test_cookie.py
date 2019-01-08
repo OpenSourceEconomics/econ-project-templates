@@ -95,12 +95,14 @@ def test_template_without_sphinx(cookies, basic_project_dict):
     assert documentation_folder.check(exists=0)
     assert "ctx.recurse('documentation')" not in wscript
 
-def test_template_with_git_setup(cookies,basic_project_dict):
+
+def test_template_with_git_setup(cookies, basic_project_dict):
     basic_project_dict["set_up_git"] = "y"
     basic_project_dict["make_initial_commit"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
     assert result.exit_code == 0
     assert result.project.join(".git").check(exists=1)
+
 
 # def test_anaconda_environment_creation(cookies, basic_project_dict):
 #     basic_project_dict["create_conda_environment_with_name"] = "reproducible_research_template"
