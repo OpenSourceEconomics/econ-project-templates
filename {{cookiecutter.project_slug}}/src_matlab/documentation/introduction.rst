@@ -17,7 +17,7 @@ The Matlab version of the template uses a modified and translated version of Sta
 Getting started
 ---------------
 
-**This assumes you have completed the steps in the** `README.md file <https://github.com/hmgaudecker/econ-project-templates/blob/cookie_template/README.md>`_ **and everything worked.**
+**This assumes you have completed the steps in the** `README.md file <https://github.com/hmgaudecker/econ-project-templates/>`_ **and everything worked.**
 
 The logic of the project template works by step of the analysis: 
 
