@@ -26,17 +26,17 @@ Getting started
 
 3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
  
-3. Navigate to your designated parent directory in a shell and set up your research project by typing:
+4. Navigate to your designated parent directory in a shell and set up your research project by typing:
     
         $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.1.zip
 
 
-4. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
+5. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
 
    * **author** -- Obvious, separate multiple authors by commas
    * **email** -- Obvious, but just use one in case of multiple authors
    * **affiliation** -- Obvious, separate by commas for multiple authors with different affiliations
-   * **project_name** -- The title of your project
+   * **project_name** -- The title of your project as it should appear in papers / presentation. **Must not contain underscores** or anything that would be an invalid LaTeX title.
    * **project_slug** -- This will become your project identifier (i.e., the directory will be called this way). The project slug **must** be a valid Python identifier, i.e., no spaces, hyphens, or the like. Just letters, numbers, underscores. Do not start with a number. There must not be a directory of this name in your current location.
    <!-- * **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x". -->
    * **set_up_git** -- Usually yes
@@ -55,17 +55,15 @@ Getting started
 
    After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
 
-5. For Windows users: Execute the following commands in the Anaconda prompt unless you know what you are doing.
+6. For Windows users: Execute the following commands in the Anaconda prompt unless you know what you are doing.
 
-6. Navigate to the folder in the shell.  
-
+7. Navigate to the folder in the shell.  
 <!--Execute: 
 
    conda activate <env_name>
 
    This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window. -->
-
-7. Type the following commands to see whether the examples are working:
+8. Type the following commands to see whether the examples are working:
 
         python waf.py configure
         python waf.py build
