@@ -19,6 +19,7 @@
 % \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
 % \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some submissions.
 
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
 \usepackage[
     natbib=true,
     bibencoding=inputenc,
@@ -34,6 +35,13 @@
 \AtBeginBibliography{\togglefalse{blx@useprefix}}
 \setlength{\bibitemsep}{1.5ex}
 \addbibresource{refs.bib}
+{% endif %}
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
+\usepackage{natbib}
+\bibliographystyle{rusnat}
+{% endif %}
+
+
 
 \usepackage[unicode=true]{hyperref}
 \hypersetup{
@@ -58,7 +66,7 @@
 
 \begin{document}
 
-{% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name }}{% raw -%}\thanks{{%- endraw %}{{ cookiecutter.author }}, {{ cookiecutter.affiliation }}. Email: {% raw -%}\href{{%- endraw %}mailto:{{ cookiecutter.email }}}{% raw -%}{\nolinkurl{{%- endraw %}{{ cookiecutter.email.replace('@', ' [at] ').replace('.', ' [dot] ') }}}}.}}
+{% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name.replace('_', ' ') }}{% raw -%}\thanks{{%- endraw %}{{ cookiecutter.author }}, {{ cookiecutter.affiliation }}. Email: {% raw -%}\href{{%- endraw %}mailto:{{ cookiecutter.email }}}{% raw -%}{\nolinkurl{{%- endraw %}{{ cookiecutter.email.replace('@', ' [at] ').replace('.', ' [dot] ') }}}}.}}
 
 {% raw -%}\author{{%- endraw %}{{ cookiecutter.author }}}
 
@@ -81,22 +89,10 @@
 
 If you are using this template, please cite this item from the references: \citet{GaudeckerEconProjectTemplates}
 
-Some text here. Example for a formula inclusion:
+\citet{Schelling69} example in the code is taken from \citet{StachurskiSargent13}
 
-\input{formulas/some_formula}
-
-\begin{table}[h!]
-    \caption{Demonstrating inclusion of files}
-    \label{tab:demonstrating_inclusion_of_files}
-    \begin{center}
-        \input{../../out/tables/some_table}
-    \end{center}
-    \footnotesize
-    \emph{Note:} One could also define commands in {\LaTeX} for the paths to the graphics and tables directories. I prefer not to do so since the Waf scanner won't find them automatically (I believe), but in the end it's a matter of taste where you want to do manual work (i.e. in the {\LaTeX} files or in the wscript files).
-\end{table}
-
-
-Some text here. Example for a formula inclusion:
+The decision rule of an agent is the following:
+\input{formulas/decision_rule}
 
 \begin{figure}
     \caption{Segregation by cycle in the baseline \citet{Schelling69} model as in the \citet{StachurskiSargent13} example}
@@ -105,6 +101,7 @@ Some text here. Example for a formula inclusion:
 
 \end{figure}
 
+
 \begin{figure}
     \caption{Segregation by cycle in the baseline \citet{Schelling69} model, limiting the number of potential moves per period to two}
     
@@ -112,14 +109,19 @@ Some text here. Example for a formula inclusion:
 
 \end{figure}
 
-
 % section introduction (end)
 
 
 
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
 \setstretch{1}
 \printbibliography
 \setstretch{1.5}
+{% endif %}
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
+\bibliography{refs}
+{% endif %}
+
 
 % \appendix
 

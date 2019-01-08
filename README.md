@@ -36,7 +36,7 @@ Getting started
    * **author** -- Obvious, separate multiple authors by commas
    * **email** -- Obvious, but just use one in case of multiple authors
    * **affiliation** -- Obvious, separate by commas for multiple authors with different affiliations
-   * **project_name** -- The title of your project as it should appear in papers / presentation. **Must not contain underscores** or anything that would be an invalid LaTeX title.
+   * **project_name** -- The title of your project as it should appear in papers / presentations. **Must not contain underscores** or anything that would be an invalid LaTeX title.
    * **project_slug** -- This will become your project identifier (i.e., the directory will be called this way). The project slug **must** be a valid Python identifier, i.e., no spaces, hyphens, or the like. Just letters, numbers, underscores. Do not start with a number. There must not be a directory of this name in your current location.
    <!-- * **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x". -->
    * **set_up_git** -- Usually yes
@@ -51,6 +51,7 @@ Getting started
    * **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
    <!--* **python_version** -- Usually accept the default. Must be a valid Python version.--> 
    * **add_python_code_formatter_to_project** -- Choose yes if using Python
+   * **use_biber_biblatex_for_tex_bibliographies** -- This is a modern replacement for bibtex, but often this does not seem to be stable in MikTeX distributions. Choose yes only if you know what you are doing.
    * **open_source_license** -- Whatever you prefer.
 
    After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 

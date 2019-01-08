@@ -50,6 +50,10 @@
         "y",
         "n"
     ],
+    "use_biber_biblatex_for_tex_bibliographies": [
+        "y",
+        "n"
+    ],
     "open_source_license": [
         "MIT license",
         "BSD license",

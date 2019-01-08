@@ -3,19 +3,18 @@
 
 def build(ctx):
 
-    source_trunks = [
-        'research_paper',
-        'research_pres_30min'
-    ]
-
-    for source in source_trunks:
+    for s in 'research_paper', 'research_pres_30min':
         ctx(
             features='tex',
-            source=source + '.tex',
+            source=s + '.tex',
             prompt=1,
-            name=source
+            name=s
         )
+        # Install to the project root.
         ctx.install_files(
             ctx.env.PROJECT_PATHS['PROJECT_ROOT'].abspath(),
-            source + '.pdf'
+            s + '.pdf'
         )
+        # Running LaTeX processes in parallel leads to
+        # too many potential problems.
+        ctx.add_group()

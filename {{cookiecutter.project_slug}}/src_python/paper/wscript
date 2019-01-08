@@ -15,3 +15,6 @@ def build(ctx):
             ctx.env.PROJECT_PATHS['PROJECT_ROOT'].abspath(),
             s + '.pdf'
         )
+        # Running LaTeX processes in parallel leads to
+        # too many potential problems.
+        ctx.add_group()

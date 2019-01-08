@@ -9,13 +9,30 @@
 \usepackage{eurosym, calc}
 \usepackage{amsmath, amssymb, amsfonts, amsthm, bm} 
 
-\usepackage[backend=biber, natbib=true, bibencoding=inputenc, bibstyle=authoryear-ibid, citestyle=authoryear-comp, maxcitenames=3, maxbibnames=10]{biblatex}
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
+\usepackage[
+    natbib=true,
+    bibencoding=inputenc,
+    bibstyle=authoryear-ibid,
+    citestyle=authoryear-comp,
+    maxcitenames=3,
+    maxbibnames=10,
+    useprefix=false,
+    sortcites=true,
+    backend=biber
+]{biblatex}
+\AtBeginDocument{\toggletrue{blx@useprefix}}
+\AtBeginBibliography{\togglefalse{blx@useprefix}}
 \setlength{\bibitemsep}{1.5ex}
 \addbibresource{refs.bib}
+{% endif %}
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
+\usepackage{natbib}
+\bibliographystyle{rusnat}
+{% endif %}
 
 \hypersetup{colorlinks=true, linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black, menucolor=black, runcolor=black, urlcolor=black}
 
-\usefonttheme{serif}
 \setbeamertemplate{footline}[frame number]
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{frametitle}{\centering\vspace{1ex}\insertframetitle\par}
@@ -23,7 +40,7 @@
 
 \begin{document}
 
-{% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name }}}
+{% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name.replace('_', ' ') }}}
 
 \author[{{ cookiecutter.author }}]
 {
@@ -61,8 +78,13 @@
 
 \begin{frame}[allowframebreaks]
     \frametitle{References}
+    {% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
     \renewcommand{\bibfont}{\normalfont\footnotesize}
     \printbibliography
+    {% endif %}
+    {% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
+    \bibliography{refs}
+    {% endif %}
 \end{frame}
 
 \end{document}

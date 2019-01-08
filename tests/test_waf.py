@@ -47,6 +47,24 @@ def test_waf_build_python(cookies, basic_project_dict):
     _check_build(result)
 
 
+def test_waf_configure_python_bibtex(cookies, basic_project_dict):
+    basic_project_dict["use_biber_biblatex_for_tex_bibliographies"] = "n"
+    result = cookies.bake(extra_context=basic_project_dict)
+    _check_configure(result)
+
+
+def test_waf_build_python_bibtex(cookies, basic_project_dict):
+    basic_project_dict["use_biber_biblatex_for_tex_bibliographies"] = "n"
+    result = cookies.bake(extra_context=basic_project_dict)
+    _check_build(result)
+
+
+def test_waf_build_python_normalise_title(cookies, basic_project_dict):
+    basic_project_dict["project_name"] = "x_y"
+    result = cookies.bake(extra_context=basic_project_dict)
+    _check_build(result)
+
+
 @pytest.mark.xfail
 def test_waf_configure_r(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "R"

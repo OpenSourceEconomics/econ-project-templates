@@ -19,6 +19,7 @@
 % \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
 % \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some submissions.
 
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
 \usepackage[
     natbib=true,
     bibencoding=inputenc,
@@ -34,6 +35,13 @@
 \AtBeginBibliography{\togglefalse{blx@useprefix}}
 \setlength{\bibitemsep}{1.5ex}
 \addbibresource{refs.bib}
+{% endif %}
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
+\usepackage{natbib}
+\bibliographystyle{rusnat}
+{% endif %}
+
+
 
 \usepackage[unicode=true]{hyperref}
 \hypersetup{
@@ -58,7 +66,7 @@
 
 \begin{document}
 
-{% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name }}{% raw -%}\thanks{{%- endraw %}{{ cookiecutter.author }}, {{ cookiecutter.affiliation }}. Email: {% raw -%}\href{{%- endraw %}mailto:{{ cookiecutter.email }}}{% raw -%}{\nolinkurl{{%- endraw %}{{ cookiecutter.email.replace('@', ' [at] ').replace('.', ' [dot] ') }}}}.}}
+{% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name.replace('_', ' ') }}{% raw -%}\thanks{{%- endraw %}{{ cookiecutter.author }}, {{ cookiecutter.affiliation }}. Email: {% raw -%}\href{{%- endraw %}mailto:{{ cookiecutter.email }}}{% raw -%}{\nolinkurl{{%- endraw %}{{ cookiecutter.email.replace('@', ' [at] ').replace('.', ' [dot] ') }}}}.}}
 
 {% raw -%}\author{{%- endraw %}{{ cookiecutter.author }}}
 
@@ -97,12 +105,14 @@ The remaining tables and figures are included without annotations.\\[4ex]
 
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{../../out/figures/risk_mort}
+    \centering
+    \includegraphics[width=.85\textwidth]{../../out/figures/risk_mort}
 \end{figure}
 
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{../../out/figures/gdp_mort}
+    \centering
+    \includegraphics[width=.85\textwidth]{../../out/figures/gdp_mort}
 \end{figure}
 
 
@@ -112,9 +122,15 @@ The remaining tables and figures are included without annotations.\\[4ex]
 \input{../../out/tables/table3_second_stage_est.tex}
 
 \clearpage
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
 \setstretch{1}
 \printbibliography
 \setstretch{1.5}
+{% endif %}
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
+\bibliography{refs}
+{% endif %}
+
 
 % \appendix
 
