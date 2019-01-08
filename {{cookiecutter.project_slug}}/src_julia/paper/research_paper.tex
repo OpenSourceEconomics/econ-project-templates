@@ -6,7 +6,8 @@
 \usepackage{epstopdf}
 \usepackage{longtable, booktabs, tabularx}
 \usepackage{fancyvrb, moreverb, relsize}
-\usepackage{eurosym, calc, chngcntr}
+\usepackage{eurosym, calc}
+% \usepackage{chngcntr}
 \usepackage{amsmath, amssymb, amsfonts, amsthm, bm}
 \usepackage{caption}
 \usepackage{mdwlist}
@@ -108,8 +109,10 @@ The decision rule of an agent is the following:
 \printbibliography
 \setstretch{1.5}
 
-%\appendix
-%\counterwithin{table}{section}
-%\counterwithin{figure}{section}
+% \appendix
+
+% The chngctr package is needed for the following lines.
+% \counterwithin{table}{section}
+% \counterwithin{figure}{section}
 
 \end{document}
