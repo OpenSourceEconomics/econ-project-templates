@@ -45,8 +45,8 @@ source_encoding = 'utf-8'
 master_doc = 'index'
 
 # General information about the project.
-project = u'{{ cookiecutter.project_name }}'
-copyright = u'2013-, {{ cookiecutter.author }}'
+project = u'{{ cookiecutter.project_name.replace('_', ' ') }}'
+copyright = u'2019-, {{ cookiecutter.author.replace('_', ' ') }}'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -194,8 +194,8 @@ latex_elements = {
 latex_documents = [(
     'index',
     'project_documentation.tex',
-    'Documentation of the {{ cookiecutter.project_name }} project',
-    '{{ cookiecutter.author }}',
+    'Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }} project',
+    '{{ cookiecutter.author.replace('_', ' ') }}',
     'manual'
 )]
 

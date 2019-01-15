@@ -42,9 +42,9 @@
 
 {% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name.replace('_', ' ') }}}
 
-\author[{{ cookiecutter.author }}]
+\author[{{ cookiecutter.author.replace('_', ' ') }}]
 {
-{\bf {{ cookiecutter.author }}}\\
+{\bf {{ cookiecutter.author.replace('_', ' ') }}}\\
 {\small {{ cookiecutter.affiliation }}}\\[1ex]
 }
 
