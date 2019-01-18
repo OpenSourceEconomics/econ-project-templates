@@ -28,7 +28,6 @@ def set_project_paths(ctx):
     # can be safely deleted otherwise
     pp["OUT_MODEL_SPECS"] = f"{out}/src/model_specs"
     pp["OUT_TABLES"] = f"{out}/out/tables"
-
 {% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}
     # Stata's adopaths get special treatment.
     lib = pp["LIBRARY"]
@@ -37,7 +36,6 @@ def set_project_paths(ctx):
     pp["ADO"]["PLUS"] = os.path.join(lib, "stata/ado_ext/plus")
     pp["ADO"]["LOCAL"] = os.path.join(lib, "stata")
 {% endif %}
-
     # Convert the directories into Waf nodes.
     for key, val in pp.items():
         if not key == "ADO":
@@ -77,7 +75,7 @@ def path_to(ctx, pp_key, *args):
 def configure(ctx):
     ctx.env.PYTHONPATH = os.getcwd()
     # Disable on a machine where security risks could arise
-    ctx.env.PDFLATEXFLAGS = "-shell-escape"
+    ctx.env.PDFLATEXFLAGS = ["-shell-escape", "-halt-on-error"]
 {% if cookiecutter.configure_running_python_from_waf == "y" or cookiecutter.example_to_install.lower() == "python" %}    ctx.load("run_py_script")
 {% endif %}{% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}    ctx.load("run_do_script")
 {% endif %}{% if cookiecutter.configure_running_matlab_from_waf == "y" or cookiecutter.example_to_install.lower() == "matlab" %}    ctx.load("run_m_script")
