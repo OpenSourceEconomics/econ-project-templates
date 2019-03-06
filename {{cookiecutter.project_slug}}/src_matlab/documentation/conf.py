@@ -16,8 +16,8 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath("../.."))
-
+sys.path.insert(0, os.path.abspath(os.path.join('.', '..')))
+matlab_src_dir = os.path.abspath("..")
 # -- General configuration ----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -29,8 +29,9 @@ needs_sphinx = "1.1"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
+    "sphinx.ext.mathjax",
     "sphinxcontrib.bibtex",
-    "sphinx.ext.mathjax"
+    "sphinxcontrib.matlab"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -46,8 +47,8 @@ source_encoding = "utf-8"
 master_doc = "index"
 
 # General information about the project.
-project = u"{{ cookiecutter.project_name.replace('_', ' ') }}"
-copyright = u"2019-, {{ cookiecutter.author.replace('_', ' ') }}"
+project = u"The General Theory of Relativity"
+copyright = u"2019-, Albert Einstein"
 
 # The version info for the project you"re documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -183,7 +184,8 @@ latex_elements = {
     "pointsize": "11pt",
 
     # Remove the "Release ..." subtitle from the LaTeX frontpage.
-    "releasename": ""
+    "releasename": "",
+    "extraclassoptions": "openany,oneside"
 
     # Additional stuff for the LaTeX preamble.
     #"preamble": "",
@@ -195,8 +197,8 @@ latex_elements = {
 latex_documents = [(
     "index",
     "project_documentation.tex",
-    "Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }} project",
-    "{{ cookiecutter.author.replace('_', ' ') }}",
+    "Documentation of the The General Theory of Relativity project",
+    "Albert Einstein",
     "manual"
 )]
 

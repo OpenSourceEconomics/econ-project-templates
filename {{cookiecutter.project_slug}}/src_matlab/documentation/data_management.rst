@@ -5,9 +5,10 @@ Data management
 
 Documentation of the code in **data_management**.
 
-Schelling example, :file:`get_simulation_draws.m`:
+.. automodule:: data_management
 
-.. include:: ../data_management/get_simulation_draws.m
-   :start-after: %{
-   :end-before: %}
+Schelling example, :file:`get_simulation_draws.m`:
+--------------------------------------------------
+.. autofunction:: get_simulation_draws
+
 

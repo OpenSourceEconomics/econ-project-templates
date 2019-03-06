@@ -1,8 +1,8 @@
 function [new_loc] = move_until_happy(loc, A, n, r, m)
-%{
-If not happy, then randomly choose new locations until happy or max_moves reached.
-Return new location, or old location if already happy.
-%}
+
+% If not happy, then randomly choose new locations until happy or max_moves reached.
+% Return new location, or old location if already happy.
+
     function [zero_one] = happy(loc, typ, A, n, r)
     % 1, if sufficient number of nearest neighbours are of the same type,
     % 0 otherwise.

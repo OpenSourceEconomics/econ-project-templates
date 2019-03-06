@@ -5,7 +5,7 @@
 .. _introduction:
 
 Introduction
-===============
+============
 
 Documentation on the design rationale, Waf, and more background is at http://hmgaudecker.github.io/econ-project-templates/ (The running example is the same, but it uses Python instead of Matlab as the language for the analysis)
 

@@ -23,3 +23,7 @@ dependencies:
     - sphinx-rtd-theme==0.4.1
     - sphinxcontrib-bibtex==0.4
 {% endif %}
+{% if cookiecutter.configure_running_sphinx_from_waf == 'y' and cookiecutter.configure_running_matlab_from_waf == 'y' %}
+    - sphinxcontrib-matlabdomain==0.5.0
+{% endif %}
+

@@ -1,9 +1,10 @@
-%{
-Load agents' location at each cycle from bld/out/analysis. Create a 
-Matlab figure by plotting each agent's location at every cycle. 
-%}
+
 
 function plot_locations(model_name)
+
+% Load agents' location at each cycle from bld/out/analysis. Create a 
+% Matlab figure by plotting each agent's location at every cycle. 
+
 
 load(project_paths('OUT_ANALYSIS', ['schelling_', model_name, '.mat']));
 
