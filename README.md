@@ -60,7 +60,7 @@ Getting started
 
 7. Navigate to the folder in the shell. Execute: 
 
-   conda activate <env_name>
+        conda activate <env_name>
 
    This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
 8. Type the following commands to see whether the examples are working:
