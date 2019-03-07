@@ -35,12 +35,25 @@ if __name__ == "__main__":
     if not "{{ cookiecutter.configure_running_sphinx_from_waf }}" == "y":
         remove_dir("src/documentation")
 
+    if not "{{ cookiecutter.create_conda_environment_with_name }}" == "x":
+        environment_name = "{{ cookiecutter.create_conda_environment_with_name }}"
+        subprocess.call([
+            "conda",
+            "env",
+            "create",
+            "--name",
+            "{}".format(environment_name),
+            "--file",
+            "environment.yml",
+            ]
+        )
+
     if not "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y":
         remove_file("format_python_files.py")
         remove_file("pyproject.toml")
 
     # Don't do this before having environments again.
-    remove_file("environment.yml")
+    # remove_file("environment.yml")
 
     if "{{ cookiecutter.set_up_git }}" == "y":
 

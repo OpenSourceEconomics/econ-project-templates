@@ -4,7 +4,7 @@ channels:
 dependencies:
   - jupyterlab=0.32
   - pandas=0.23
-  - python={xxx{ cookiecutter.python_version }xxx}
+  - python={{ cookiecutter.python_version }}
   - python-graphviz=0.8
   - pip:
     - click==7.0
