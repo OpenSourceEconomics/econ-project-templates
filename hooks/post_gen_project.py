@@ -52,9 +52,6 @@ if __name__ == "__main__":
         remove_file("format_python_files.py")
         remove_file("pyproject.toml")
 
-    # Don't do this before having environments again.
-    # remove_file("environment.yml")
-
     if "{{ cookiecutter.set_up_git }}" == "y":
 
         subprocess.call(["git", "init"])
@@ -75,3 +72,8 @@ if __name__ == "__main__":
                     "https://github.com/hmgaudecker/econ-project-templates'",
                 ]
             )
+
+    if "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y" and "{{ cookiecutter.set_up_git }}" == "y":
+        subprocess.call(["pre-commit","install"])
+    else:
+        remove_file(".pre-commit-config.yaml")
