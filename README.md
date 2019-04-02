@@ -49,7 +49,7 @@ Getting started
    * **configure_running_stata_from_waf** -- Select "y" if and only if you intend to use Stata in your project and the Stata executable may be found on your path.
    * **configure_running_julia_from_waf** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
    * **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
-   * **python_version** -- Usually accept the default. Must be a valid Python version. 
+   * **python_version** -- Usually accept the default. Must be a valid Python version >= 3.6
    * **add_python_code_formatter_to_project** -- Choose yes if using Python
    * **use_biber_biblatex_for_tex_bibliographies** -- This is a modern replacement for bibtex, but often this does not seem to be stable in MikTeX distributions. Choose yes only if you know what you are doing.
    * **open_source_license** -- Whatever you prefer.
