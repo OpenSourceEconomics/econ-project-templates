@@ -20,3 +20,8 @@ install:
 
 script:
   - pytest
+
+branches:
+  except:
+  - gh-pages
+  - z-howto-release
