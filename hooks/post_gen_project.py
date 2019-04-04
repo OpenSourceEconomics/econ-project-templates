@@ -35,16 +35,19 @@ if __name__ == "__main__":
     if not "{{ cookiecutter.configure_running_sphinx_from_waf }}" == "y":
         remove_dir("src/documentation")
 
-    if not "{{ cookiecutter.create_conda_environment_with_name }}" == "x":
+    if "{{ cookiecutter.create_conda_environment_with_name }}" == "x":
+        environment_name = None
+    else:
         environment_name = "{{ cookiecutter.create_conda_environment_with_name }}"
-        subprocess.call([
-            "conda",
-            "env",
-            "create",
-            "--name",
-            "{}".format(environment_name),
-            "--file",
-            "environment.yml",
+        subprocess.call(
+            [
+                "conda",
+                "env",
+                "create",
+                "--name",
+                "{}".format(environment_name),
+                "--file",
+                "environment.yml",
             ]
         )
 
@@ -73,7 +76,50 @@ if __name__ == "__main__":
                 ]
             )
 
-    if "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y" and "{{ cookiecutter.set_up_git }}" == "y":
-        subprocess.call(["pre-commit","install"])
+        if "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y":
+            try:
+                subprocess.call(["pre-commit", "install"])
+            except FileNotFoundError:
+                if environment_name is None:
+                    print(
+                        """
+
+********************************************************************************
+
+pre-commit could not be found on your path.
+
+Type:
+
+    cd {{ cookiecutter.project_slug }}
+    pip install pre-commit
+    pre-commit install
+
+********************************************************************************
+
+
+                """.format()
+                    )
+                else:
+                    print(
+                        """
+
+********************************************************************************
+
+pre-commit could not be found on your path and we cannot activate the
+environment from cookiecutter.
+
+Type:
+
+    cd {{ cookiecutter.project_slug }}
+    conda activate {}
+    pre-commit install
+
+********************************************************************************
+
+
+                """.format(
+                            environment_name
+                        )
+                    )
     else:
         remove_file(".pre-commit-config.yaml")
