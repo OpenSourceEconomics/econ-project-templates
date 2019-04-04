@@ -2,28 +2,29 @@ name: {{ cookiecutter.project_slug }}
 channels:
   - defaults
 dependencies:
-  - jupyterlab=0.32
-  - pandas=0.23
+  - jupyterlab
+  - pandas
+  - pip
   - python={{ cookiecutter.python_version }}
   - python-graphviz=0.8
   - pip:
     - click==7.0
 {% if cookiecutter.add_python_code_formatter_to_project == 'y' %}
-    - isort==4.3.4
-    - black==18.9b0
+    - black
+    - pre-commit
 {% endif %}
-    - matplotlib==3
-    - nbsphinx==0.3
-    - pytest==3.8
-    - pytest-cov==2.5
-    - pytest-pythonpath==0.7
+    - matplotlib
+    - nbsphinx
+    - pytest
+    - pytest-cov
+    - pytest-pythonpath
 {% if cookiecutter.configure_running_sphinx_from_waf == 'y' %}
-    - sphinx==1.7.6
-    - sphinx-autobuild==0.7.1
-    - sphinx-rtd-theme==0.4.1
-    - sphinxcontrib-bibtex==0.4
+    - sphinx
+    - sphinx-autobuild
+    - sphinx-rtd-theme
+    - sphinxcontrib-bibtex
 {% endif %}
 {% if cookiecutter.configure_running_sphinx_from_waf == 'y' and cookiecutter.configure_running_matlab_from_waf == 'y' %}
-    - sphinxcontrib-matlabdomain==0.5.0
+    - sphinxcontrib-matlabdomain
 {% endif %}
 
