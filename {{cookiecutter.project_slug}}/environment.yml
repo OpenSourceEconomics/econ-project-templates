@@ -1,30 +1,29 @@
-name: {{ cookiecutter.project_slug }}
+name: blabla
 channels:
   - defaults
 dependencies:
   - jupyterlab
   - pandas
   - pip
-  - python={{ cookiecutter.python_version }}
+  - python=3.7
   - python-graphviz=0.8
   - pip:
     - click==7.0
-{% if cookiecutter.add_python_code_formatter_to_project == 'y' %}
-    - black
+
+    - black==18.9b0
+    - doc8
     - pre-commit
-{% endif %}
     - matplotlib
-    - nbsphinx
+
     - pytest
     - pytest-cov
     - pytest-pythonpath
-{% if cookiecutter.configure_running_sphinx_from_waf == 'y' %}
-    - sphinx
+
+    - sphinx==1.8.5
     - sphinx-autobuild
     - sphinx-rtd-theme
     - sphinxcontrib-bibtex
-{% endif %}
-{% if cookiecutter.configure_running_sphinx_from_waf == 'y' and cookiecutter.configure_running_matlab_from_waf == 'y' %}
-    - sphinxcontrib-matlabdomain
-{% endif %}
+    - nbsphinx
+
+
 

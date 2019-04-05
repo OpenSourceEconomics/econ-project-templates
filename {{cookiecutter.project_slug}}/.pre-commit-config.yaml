@@ -10,7 +10,10 @@ repos:
     rev: v2.1.0
     hooks:
     -   id: check-yaml
+    -   id: check-added-large-files
+        args: ['--maxkb=100000']  # Set to max file size in Github
     -   id: check-byte-order-marker
+        types: [text]
     -   id: check-merge-conflict
     -   id: check-json
     -   id: pretty-format-json
@@ -31,8 +34,8 @@ repos:
     rev: v0.3.0
     hooks:
     -   id: blacken-docs
-        additional_dependencies: [black]
-        types: [markdown, rst]
+        additional_dependencies: [black==18.9b0]
+        files: '(\.md|\.rst)$'
         args: [--line-length=99, --py36]
 -   repo: https://github.com/ambv/black
     rev: 18.9b0
@@ -44,10 +47,10 @@ repos:
     - id: doc8
       entry: doc8
       language: system
-      types: [markdown, rst]
+      files: '(\.md|\.rst)$'
       name: doc8 - Lint the documentation.
     - id: restructuredtext-lint
       entry: rst-lint
       language: system
-      files: '(README.rst)'
+      files: '(README\.rst)'
       name: restructuredtext-lint - Is the README PyPi-compliant?
