@@ -16,7 +16,8 @@ def remove_dir(dirpath):
 
 def rename(filepath, new_filepath):
     os.rename(
-        os.path.join(PROJECT_DIRECTORY, filepath), os.path.join(PROJECT_DIRECTORY, new_filepath)
+        os.path.join(PROJECT_DIRECTORY, filepath),
+        os.path.join(PROJECT_DIRECTORY, new_filepath)
     )
 
 
@@ -61,7 +62,8 @@ if __name__ == "__main__":
 
         if "{{ cookiecutter.git_remote_url }}" != "":
             subprocess.call(
-                ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"]
+                ["git", "remote", "add", "origin",
+                 "{{ cookiecutter.git_remote_url }}"]
             )
 
         if "{{ cookiecutter.make_initial_commit }}" == "y":
@@ -77,6 +79,8 @@ if __name__ == "__main__":
             )
 
         if "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y":
+            remove_file("format_python_files.py")
+            remove_file("pyproject.toml")
             try:
                 subprocess.call(["pre-commit", "install"])
             except FileNotFoundError:

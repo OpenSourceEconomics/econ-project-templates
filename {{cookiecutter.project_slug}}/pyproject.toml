@@ -11,10 +11,8 @@ exclude = '''
 /(
     \.git
   | \.tox
-  | \.idea
-  | \.cache
   | \.mywaflib
   | \.pytest_cache
-  | bld
 )/
 '''
+verbose = true
