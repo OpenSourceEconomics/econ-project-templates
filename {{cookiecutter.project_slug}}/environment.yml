@@ -13,6 +13,8 @@ dependencies:
     - black==18.9b0
     - doc8
     - pre-commit
+    - restructuredtext_lint
+
     - matplotlib
 
     - pytest
