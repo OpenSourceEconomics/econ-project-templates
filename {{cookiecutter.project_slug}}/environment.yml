@@ -10,7 +10,7 @@ dependencies:
   - pip:
     - click==7.0
 {% if cookiecutter.add_python_code_formatter_to_project == 'y' %}
-    - black==18.9b0
+    - black==19.3b0
     - doc8
     - pre-commit
     - restructuredtext_lint
