@@ -52,10 +52,6 @@ if __name__ == "__main__":
             ]
         )
 
-    if not "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y":
-        remove_file("format_python_files.py")
-        remove_file("pyproject.toml")
-
     if "{{ cookiecutter.set_up_git }}" == "y":
 
         subprocess.call(["git", "init"])
@@ -79,8 +75,6 @@ if __name__ == "__main__":
             )
 
         if "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y":
-            remove_file("format_python_files.py")
-            remove_file("pyproject.toml")
             try:
                 subprocess.call(["pre-commit", "install"])
             except FileNotFoundError:
@@ -125,5 +119,7 @@ Type:
                             environment_name
                         )
                     )
+        else:
+            remove_file(".pre-commit-config.yaml")
     else:
         remove_file(".pre-commit-config.yaml")
