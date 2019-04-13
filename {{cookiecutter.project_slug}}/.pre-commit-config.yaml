@@ -23,7 +23,7 @@ repos:
     rev: v0.4.0
     hooks:
     -   id: blacken-docs
-        additional_dependencies: [black==19.3b0]
+        additional_dependencies: [black==18.9b0]
         files: '(\.md|\.rst)$'
 -   repo: https://github.com/ambv/black
     rev: stable
@@ -46,7 +46,7 @@ repos:
       # Harmonizing flake8 and black
       args: [
         '--max-line-length=88',
-        '--ignore=E203,E266,E501,W503,F403,F401',
+        '--ignore=E203,E501,W503,C814',
         '--select=B,C,E,F,W,T4,B9'
       ]
 -   repo: local
