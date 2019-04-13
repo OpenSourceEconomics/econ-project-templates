@@ -19,6 +19,19 @@ repos:
     -   id: pretty-format-json
         args: [--autofix, --no-sort-keys]
     -   id: trailing-whitespace
+-   repo: https://github.com/asottile/blacken-docs
+    rev: v0.4.0
+    hooks:
+    -   id: blacken-docs
+        additional_dependencies: [black==19.3b0]
+        files: '(\.md|\.rst)$'
+-   repo: https://github.com/ambv/black
+    rev: stable
+    hooks:
+    -   id: black
+        files: '(\.pyi?|wscript)$'
+        language_version: python{{ cookiecutter.python_version }}
+{% if cookiecutter.add_pre_commit_linting == 'y' %}
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 3.7.7
     hooks:
@@ -36,18 +49,6 @@ repos:
         '--ignore=E203,E266,E501,W503,F403,F401',
         '--select=B,C,E,F,W,T4,B9'
       ]
--   repo: https://github.com/asottile/blacken-docs
-    rev: v0.4.0
-    hooks:
-    -   id: blacken-docs
-        additional_dependencies: [black==19.3b0]
-        files: '(\.md|\.rst)$'
--   repo: https://github.com/ambv/black
-    rev: 19.3b0
-    hooks:
-    -   id: black
-        files: '(\.pyi?|wscript)$'
-        language_version: python{{ cookiecutter.python_version }}
 -   repo: local
     hooks:
     - id: doc8
@@ -62,3 +63,4 @@ repos:
       language: system
       files: '(README\.rst)'
       name: restructuredtext-lint - Is the README PyPi-compliant?
+{% endif %}

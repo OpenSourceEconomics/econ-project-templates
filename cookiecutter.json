@@ -52,6 +52,10 @@
         "y",
         "n"
     ],
+    "add_pre_commit_linting": [
+        "y",
+        "n"
+    ],
     "use_biber_biblatex_for_tex_bibliographies": [
         "y",
         "n"
