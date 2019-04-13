@@ -30,7 +30,7 @@ repos:
     hooks:
     -   id: black
         files: '(\.pyi?|wscript)$'
-        language_version: python{{ cookiecutter.python_version }}
+        language_version: python3.7
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 3.7.7
     hooks:
