@@ -10,8 +10,10 @@ dependencies:
   - pip:
     - click==7.0
 {% if cookiecutter.add_python_code_formatter_to_project == 'y' %}
-    - doc8
     - pre-commit
+{% endif %}
+{% if cookiecutter.add_pre_commit_linting == 'y' %}
+    - doc8
     - restructuredtext_lint
 {% endif %}
     - matplotlib
@@ -20,7 +22,7 @@ dependencies:
     - pytest-cov
     - pytest-pythonpath
 {% if cookiecutter.configure_running_sphinx_from_waf == 'y' %}
-    - sphinx==1.8.5
+    - sphinx
     - sphinx-autobuild
     - sphinx-rtd-theme
     - sphinxcontrib-bibtex
