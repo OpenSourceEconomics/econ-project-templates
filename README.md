@@ -10,24 +10,24 @@ This is a collection of templates where much of this automation is pre-configure
 * Run Waf, which will build your entire project the first time you run it. Later, it will automatically figure out which parts of the project need to be rebuilt.
 
 
-Getting started 
+Getting started
 ----------------
 
-1. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system. 
+1. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
 
         $ pip install cookiecutter
 
-2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. **Tested with Python 3.6 and higher.** Python 2 will not work. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. 
+2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. **Tested with Python 3.6 and higher.** Python 2 will not work. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path.
 
 <!-- Additionally install graphviz.
-        
-        $ conda install python-graphviz 
+
+        $ conda install python-graphviz
 -->
 
 3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
- 
+
 4. Navigate to your designated parent directory in a shell and set up your research project by typing:
-    
+
         $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.1.zip
 
 
@@ -50,19 +50,21 @@ Getting started
    * **configure_running_julia_from_waf** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
    * **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
    * **python_version** -- Usually accept the default. Must be a valid Python version >= 3.6
-   * **add_python_code_formatter_to_project** -- Choose yes if using Python
+   * **add_python_code_formatter_to_project** -- Choose yes if using Python.  <!--Implements black and other utilities as [pre-commit hooks]<https://pre-commit.com/>. For a full list of pre-commit hooks take a look at the [documentation]<http://hmgaudecker.github.io/econ-project-templates/>. -->
+   <!--* **add_pre_commit_linting** -- adds doc8, flake8, and restructuredtext-lint to the pre-commit hooks. -->
    * **use_biber_biblatex_for_tex_bibliographies** -- This is a modern replacement for bibtex, but often this does not seem to be stable in MikTeX distributions. Choose yes only if you know what you are doing.
    * **open_source_license** -- Whatever you prefer.
 
-   After successfully answering all the prompts a folder with your chosen name will be created in your current directory. 
+   After successfully answering all the prompts a folder with your chosen name will be created in your current directory.
 
 6. For Windows users: Execute the following commands in the Anaconda prompt unless you know what you are doing.
 
-7. Navigate to the folder in the shell. Execute: 
+7. Navigate to the folder in the shell. Execute:
 
         conda activate <env_name>
 
    This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
+
 8. Type the following commands to see whether the examples are working:
 
         python waf.py configure
@@ -85,7 +87,7 @@ Additional Prerequisites
 
 
 * For the R example, make sure to have the following libraries installed before you try to run Waf:
- 
+
   - AER
   - aod
   - car
