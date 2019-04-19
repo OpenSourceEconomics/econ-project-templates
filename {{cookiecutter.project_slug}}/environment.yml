@@ -9,7 +9,7 @@ dependencies:
   - python-graphviz=0.8
   - pip:
     - click==7.0
-{% if cookiecutter.add_python_code_formatter_to_project == 'y' %}
+{% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
     - pre-commit
 {% endif %}
     - matplotlib

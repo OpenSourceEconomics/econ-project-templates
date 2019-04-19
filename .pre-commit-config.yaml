@@ -46,6 +46,6 @@ repos:
       # Harmonizing flake8 and black
       args: [
         '--max-line-length=88',
-        '--ignore=E203,E501,W503,C812,C814',
+        '--ignore=E203,E501,E800,W503,C812,C814',
         '--select=B,C,E,F,W,T4,B9'
       ]

@@ -1,8 +1,5 @@
 #! python
-
-
 import os
-
 from collections import OrderedDict
 
 # The project root directory and the build directory.
@@ -58,7 +55,6 @@ def path_to(ctx, pp_key, *args):
     care of the correct placing of targets and sources.
 
     """
-
     # Implementation detail:
     #   We find the path to the directory where the file lives, so that
     #   we do not accidentally declare a node that does not exist.
@@ -86,9 +82,8 @@ def configure(ctx):
     # ctx.find_program("dot")
 {% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}    ctx.load("biber")
 {% endif %}{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}    ctx.load("tex")
+
 {% endif %}
-
-
 def build(ctx):
     ctx.env.PROJECT_PATHS = set_project_paths(ctx)
     ctx.path_to = path_to

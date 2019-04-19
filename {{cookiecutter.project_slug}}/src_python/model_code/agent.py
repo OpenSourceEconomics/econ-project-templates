@@ -48,7 +48,7 @@ class Agent:
         if self._happy(agents):
             return
         else:
-            for m in range(self._max_moves):
+            for _m in range(self._max_moves):
                 self._draw_new_location()
                 if self._happy(agents):
                     return

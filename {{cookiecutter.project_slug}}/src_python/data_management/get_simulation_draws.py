@@ -7,8 +7,8 @@ from the "IN_MODEL_SPECS" file, this is to demonstrate the most basic
 use of *run_py_script* only.
 
 """
-
 import numpy as np
+
 from bld.project_paths import project_paths_join as ppj
 
 
