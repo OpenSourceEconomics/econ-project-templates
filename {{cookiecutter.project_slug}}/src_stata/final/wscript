@@ -2,84 +2,77 @@
 
 
 def build(ctx):
-
     def out_data(*args):
-        return ctx.path_to(ctx, 'OUT_DATA', *args)
+        return ctx.path_to(ctx, "OUT_DATA", *args)
 
     def out_analysis(*args):
-        return ctx.path_to(ctx, 'OUT_ANALYSIS', *args)
+        return ctx.path_to(ctx, "OUT_ANALYSIS", *args)
 
     def out_models(*args):
-        return ctx.path_to(ctx, 'OUT_MODEL_SPECS', *args)
+        return ctx.path_to(ctx, "OUT_MODEL_SPECS", *args)
 
     def out_figures(*args):
-        return ctx.path_to(ctx, 'OUT_FIGURES', *args)
+        return ctx.path_to(ctx, "OUT_FIGURES", *args)
 
     def out_tables(*args):
-        return ctx.path_to(ctx, 'OUT_TABLES', *args)
+        return ctx.path_to(ctx, "OUT_TABLES", *args)
 
     # Figures 2a, 2b.
     ctx(
-        features='run_do_script',
-        source='figure1_mortality.do',
+        features="run_do_script",
+        source="figure1_mortality.do",
         target=[
-            out_analysis('log', 'figure1_mortality.log'),
-            out_figures('risk_mort.eps'),
-            out_figures('gdp_mort.eps')
+            out_analysis("log", "figure1_mortality.log"),
+            out_figures("risk_mort.eps"),
+            out_figures("gdp_mort.eps"),
         ],
-        deps=[out_data('ajrcomment_all.dta')]
+        deps=[out_data("ajrcomment_all.dta")],
     )
 
     # Table 1.
     ctx(
-        features='run_do_script',
-        source='table1_reg_on_indicators.do',
+        features="run_do_script",
+        source="table1_reg_on_indicators.do",
         target=[
-            out_analysis('log', 'table1_reg_on_indicators.log'),
-            out_tables('table1_reg_on_indicators.tex'),
+            out_analysis("log", "table1_reg_on_indicators.log"),
+            out_tables("table1_reg_on_indicators.tex"),
         ],
         deps=[
-            out_analysis('regression_on_indicators_est.dta'),
-            out_analysis('regression_on_indicators_corr.dta')
-        ]
+            out_analysis("regression_on_indicators_est.dta"),
+            out_analysis("regression_on_indicators_corr.dta"),
+        ],
     )
 
-    models = [
-        'baseline',
-        'rmconj',
-        'addindic',
-        'rmconj_addindic',
-        'newdata'
-    ]
+    models = ["baseline", "rmconj", "addindic", "rmconj_addindic", "newdata"]
 
-    deps = {'first_stage': [], 'second_stage': []}
+    deps = {"first_stage": [], "second_stage": []}
 
     for m in models:
         for stage, deps_list in deps.items():
-            deps_list.append(out_models('{}.do'.format(m)))
-            deps_list.append(out_analysis('{}_estimation_{}.dta'.format(stage, m)))
+            deps_list.append(out_models("{}.do".format(m)))
+            deps_list.append(out_analysis("{}_estimation_{}.dta".format(stage, m)))
 
     # Table 2.
     ctx(
-        features='run_do_script',
-        source='table2_first_stage_est.do',
+        features="run_do_script",
+        source="table2_first_stage_est.do",
         target=[
-            out_analysis('log', 'table2_first_stage_est.log'),
-            out_tables('table2_first_stage_est.tex')
+            out_analysis("log", "table2_first_stage_est.log"),
+            out_tables("table2_first_stage_est.tex"),
         ],
-        deps=deps['first_stage'],
-        append=' '.join(models)
+        deps=deps["first_stage"],
+        append=" ".join(models),
     )
 
     ctx(
-        features='run_do_script',
-        source='table3_second_stage_est.do',
+        features="run_do_script",
+        source="table3_second_stage_est.do",
         target=[
-            out_analysis('log', 'table3_second_stage_est.log'),
-            out_tables('table3_second_stage_est.tex')
+            out_analysis("log", "table3_second_stage_est.log"),
+            out_tables("table3_second_stage_est.tex"),
         ],
-        deps=deps['second_stage'],
-        append=' '.join(models)
+        deps=deps["second_stage"],
+        append=" ".join(models),
     )
 
     from src.final.project_dependency_graph import make_project_dependency_graph

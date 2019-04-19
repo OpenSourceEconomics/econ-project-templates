@@ -1,9 +1,7 @@
 import functools
-
 from pathlib import Path
 
 import graphviz as gv
-
 from waflib import Utils
 
 graph = functools.partial(gv.Graph, format="png")
@@ -85,8 +83,7 @@ def make_dot_file(ctx):
             # Add sources
             sources = Utils.to_list(getattr(taskgen, "source", []))
             for source in source:
-                print("This is a source: "+str(source)+" "+str(Path(source).name))
-
+                print("This is a source: " + str(source) + " " + str(Path(source).name))
 
             # Write targets
             targets = Utils.to_list(getattr(taskgen, "target", []))

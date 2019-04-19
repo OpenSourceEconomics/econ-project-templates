@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # Hans-Martin von Gaudecker and Philipp Kloke, 2012-14
-
 """
 Run a Python script in the directory specified by **ctx.bldnode**.
 
@@ -25,13 +24,15 @@ Usage::
     )
 
 """
-
 import os
-from waflib import Task, TaskGen, Logs
+
+from waflib import Logs
+from waflib import Task
+from waflib import TaskGen
 
 
 def configure(conf):
-    conf.find_program('python', var='PYCMD', mandatory=False)
+    conf.find_program("python", var="PYCMD", mandatory=False)
     if not conf.env.PYCMD:
         conf.fatal("No Python interpreter found!")
 
@@ -40,16 +41,16 @@ class run_py_script(Task.Task):
 
     """Run a Python script."""
 
-    run_str = '${PREPEND} ${PYCMD} ${SRC[0].abspath()} ${APPEND}'
+    run_str = "${PREPEND} ${PYCMD} ${SRC[0].abspath()} ${APPEND}"
     shell = True
 
     def exec_command(self, cmd, **kw):
         bld = self.generator.bld
         try:
-            if not kw.get('cwd', None):
-                kw['cwd'] = bld.cwd
+            if not kw.get("cwd", None):
+                kw["cwd"] = bld.cwd
         except AttributeError:
-            bld.cwd = kw['cwd'] = bld.variant_dir
+            bld.cwd = kw["cwd"] = bld.variant_dir
         if not self.buffer_output:
             kw["stdout"] = kw["stderr"] = None
         return bld.exec_command(cmd, **kw)
@@ -60,7 +61,7 @@ class run_py_script(Task.Task):
 
         """
 
-        return 'Running'
+        return "Running"
 
     def __str__(self):
         """
@@ -71,12 +72,12 @@ class run_py_script(Task.Task):
         return "{prepend} [Python] {fn} {append}".format(
             prepend=self.env.PREPEND,
             fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-            append=self.env.APPEND
+            append=self.env.APPEND,
         )
 
 
-@TaskGen.feature('run_py_script')
-@TaskGen.before_method('process_source')
+@TaskGen.feature("run_py_script")
+@TaskGen.before_method("process_source")
 def apply_run_py_script(tg):
     """Task generator for running a single Python module.
 
@@ -100,41 +101,40 @@ def apply_run_py_script(tg):
     # Convert sources and targets to nodes
     src_node = tg.path.find_resource(tg.source)
     if not src_node:
-        tg.bld.fatal(
-            'Cannot find input file %s for processing' % tg.source
-        )
+        tg.bld.fatal("Cannot find input file %s for processing" % tg.source)
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
     # Create the task.
-    tsk = tg.create_task('run_py_script', src=src_node, tgt=tgt_nodes)
+    tsk = tg.create_task("run_py_script", src=src_node, tgt=tgt_nodes)
 
-    tsk.env.APPEND = getattr(tg, 'append', '')
-    tsk.env.PREPEND = getattr(tg, 'prepend', '')
-    tsk.buffer_output = getattr(tg, 'buffer_output', True)
+    tsk.env.APPEND = getattr(tg, "append", "")
+    tsk.env.PREPEND = getattr(tg, "prepend", "")
+    tsk.buffer_output = getattr(tg, "buffer_output", True)
 
     # Custom execution environment
     tsk.env.env = dict(os.environ)
-    if tsk.env.env.get('PYTHONPATH', None):
-        pythonpath = [tsk.env.env['PYTHONPATH']]
+    if tsk.env.env.get("PYTHONPATH", None):
+        pythonpath = [tsk.env.env["PYTHONPATH"]]
     else:
         pythonpath = []
-    if getattr(tsk.env, 'PYTHONPATH', None):
+    if getattr(tsk.env, "PYTHONPATH", None):
         pythonpath.append(tsk.env.PYTHONPATH)
-    if getattr(tg, 'add_to_pythonpath', None):
+    if getattr(tg, "add_to_pythonpath", None):
         pythonpath.append(tg.add_to_pythonpath)
     if pythonpath:
-        tsk.env.env['PYTHONPATH'] = os.pathsep.join(pythonpath)
+        tsk.env.env["PYTHONPATH"] = os.pathsep.join(pythonpath)
 
     # dependencies (if the attribute 'deps' changes, trigger a recompilation)
-    for x in tg.to_list(getattr(tg, 'deps', [])):
+    for x in tg.to_list(getattr(tg, "deps", [])):
         node = tg.path.find_resource(x)
         if not node:
             tg.bld.fatal(
-                'Could not find dependency %r for running %r'
-                % (x, src_node.relpath())
+                "Could not find dependency %r for running %r" % (x, src_node.relpath())
             )
         tsk.dep_nodes.append(node)
-    Logs.debug('deps: found dependencies %r for running %r', tsk.dep_nodes, src_node.abspath())
+    Logs.debug(
+        "deps: found dependencies %r for running %r", tsk.dep_nodes, src_node.abspath()
+    )
 
     # Bypass the execution of process_source by setting the source to an empty list
     tg.source = []

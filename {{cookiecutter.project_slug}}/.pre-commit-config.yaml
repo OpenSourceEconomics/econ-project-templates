@@ -43,10 +43,11 @@ repos:
         flake8-quotes, flake8-rst-docstrings, flake8-todo, flake8-type-annotations,
         pep8-naming
       ]
+      exclude: 'conf.py$'
       # Harmonizing flake8 and black
       args: [
         '--max-line-length=88',
-        '--ignore=E203,E501,W503,C814',
+        '--ignore=E203,E501,W503,C812,C814',
         '--select=B,C,E,F,W,T4,B9'
       ]
 {% endif %}

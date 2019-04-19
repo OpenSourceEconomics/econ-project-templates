@@ -2,19 +2,20 @@
 
 
 def build(ctx):
-    for model in 'baseline', 'max_moves_2':
-        source = 'plot_locations'
+    for model in "baseline", "max_moves_2":
+        source = "plot_locations"
         ctx(
-            features='run_m_script',
-            source='{}.m'.format(source),
-            target=ctx.path_to(ctx, 'OUT_FIGURES', 'schelling_{}.png'.format(model)),
+            features="run_m_script",
+            source="{}.m".format(source),
+            target=ctx.path_to(ctx, "OUT_FIGURES", "schelling_{}.png".format(model)),
             deps=[
-                ctx.path_to(ctx, 'OUT_ANALYSIS', 'schelling_{}.mat'.format(model)),
-                ctx.path_to(ctx, 'IN_MODEL_SPECS', '{}.json'.format(model))
+                ctx.path_to(ctx, "OUT_ANALYSIS", "schelling_{}.mat".format(model)),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", "{}.json".format(model)),
             ],
             append="('{}')".format(model),
-            name='{}_{}'.format(source, model)
+            name="{}_{}".format(source, model),
         )
 
     from src.final.project_dependency_graph import make_project_dependency_graph
+
     ctx.add_post_fun(make_project_dependency_graph)
