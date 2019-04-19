@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
-import subprocess
 import shutil
+import subprocess
 
 PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
 
@@ -17,7 +17,7 @@ def remove_dir(dirpath):
 def rename(filepath, new_filepath):
     os.rename(
         os.path.join(PROJECT_DIRECTORY, filepath),
-        os.path.join(PROJECT_DIRECTORY, new_filepath)
+        os.path.join(PROJECT_DIRECTORY, new_filepath),
     )
 
 
@@ -58,8 +58,7 @@ if __name__ == "__main__":
 
         if "{{ cookiecutter.git_remote_url }}" != "":
             subprocess.call(
-                ["git", "remote", "add", "origin",
-                 "{{ cookiecutter.git_remote_url }}"]
+                ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"]
             )
 
         if "{{ cookiecutter.make_initial_commit }}" == "y":
@@ -74,7 +73,7 @@ if __name__ == "__main__":
                 ]
             )
 
-        if "{{ cookiecutter.add_python_code_formatter_to_project }}" == "y":
+        if "{{ cookiecutter.add_basic_pre_commit_hooks }}" == "y":
             try:
                 subprocess.call(["pre-commit", "install"])
             except FileNotFoundError:

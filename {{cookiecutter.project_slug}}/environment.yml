@@ -12,10 +12,6 @@ dependencies:
 {% if cookiecutter.add_python_code_formatter_to_project == 'y' %}
     - pre-commit
 {% endif %}
-{% if cookiecutter.add_pre_commit_linting == 'y' %}
-    - doc8
-    - restructuredtext_lint
-{% endif %}
     - matplotlib
     - nbsphinx
     - pytest

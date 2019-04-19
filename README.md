@@ -19,11 +19,6 @@ Getting started
 
 2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. **Tested with Python 3.6 and higher.** Python 2 will not work. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path.
 
-<!-- Additionally install graphviz.
-
-        $ conda install python-graphviz
--->
-
 3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
 
 4. Navigate to your designated parent directory in a shell and set up your research project by typing:
@@ -50,12 +45,12 @@ Getting started
    * **configure_running_julia_from_waf** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
    * **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
    * **python_version** -- Usually accept the default. Must be a valid Python version >= 3.6
-   * **add_python_code_formatter_to_project** -- Choose yes if using Python.  <!--Implements black and other utilities as [pre-commit hooks]<https://pre-commit.com/>. For a full list of pre-commit hooks take a look at the [documentation]<http://hmgaudecker.github.io/econ-project-templates/>. -->
-   <!--* **add_pre_commit_linting** -- adds doc8, flake8, and restructuredtext-lint to the pre-commit hooks. -->
+   * **add_basic_pre_commit_hooks** -- Choose yes if using Python.  <!--Implements black and some basic checks as [pre-commit hooks]<https://pre-commit.com/>. Pre-commit hooks run before every commit and prohibit committing before they are resolved. For a full list of pre-commit hooks implemented here take a look at the [documentation]<http://hmgaudecker.github.io/econ-project-templates/>. -->
+   <!--* **add_intrusive_pre_commit** -- adds [flake8]<http://flake8.pycqa.org/en/latest/> to the pre-commit hooks. flake8 is a python  code linting tool. It checks your code for style guide (PEP8) adherence. -->
    * **use_biber_biblatex_for_tex_bibliographies** -- This is a modern replacement for bibtex, but often this does not seem to be stable in MikTeX distributions. Choose yes only if you know what you are doing.
    * **open_source_license** -- Whatever you prefer.
 
-   After successfully answering all the prompts a folder with your chosen name will be created in your current directory.
+   After successfully answering all the prompts a folder named according to your project_slug will be created in your current directory.
 
 6. For Windows users: Execute the following commands in the Anaconda prompt unless you know what you are doing.
 
