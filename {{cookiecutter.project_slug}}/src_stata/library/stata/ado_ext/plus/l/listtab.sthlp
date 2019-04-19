@@ -2,7 +2,7 @@
 {.-}
 help for {cmd:listtab} {right:(Roger Newson)}
 {.-}
- 
+
 {title:List a variable list to a file or to the log for inclusion in a TeX, HTML or word processor table}
 
 {p 8 21 2}
@@ -37,7 +37,7 @@ help for {cmd:listtab} {right:(Roger Newson)}
   {cmdab:e:nd}{cmd:(}{it:string}{cmd:)} {cmdab:m:issnum}{cmd:(}{it:string}{cmd:)}
   {cmdab:rs:tyle}{cmd:(}{it:rowstyle}{cmd:)}
   {cmdab:lo:cal}{cmd:(}{help macro:{it:local_macro_name_list}}{cmd:)}
-  ]  
+  ]
 
 {pstd}
 where {it:rowstyle} is a {help listtab##listtab_row_styles:row style} as defined below under {helpb listtab##listtab_row_styles:Row Styles},
@@ -474,7 +474,7 @@ From resultssets to resultstables in Stata.
 Download from {browse "http://www.stata-journal.com/article.html?article=st0254":{it:The Stata Journal} website}.
 
 {phang}
-Newson, R.  2006. 
+Newson, R.  2006.
 Resultssets, resultsspreadsheets and resultsplots in Stata.
 Presented at {browse "http://ideas.repec.org/s/boc/dsug06.html" :the 4th German Stata User Meeting, Mannheim, 31 March, 2006}.
 

@@ -17,12 +17,12 @@ Getting started
 
 **This assumes you have completed the steps in the** `README.md file <https://github.com/hmgaudecker/econ-project-templates/>`_ **and everything worked.**
 
-The logic of the project template works by step of the analysis: 
+The logic of the project template works by step of the analysis:
 
 1. Data management
 2. The actual estimations / simulations / ?
 3. Visualisation and results formatting (e.g. exporting of LaTeX tables)
-4. Research paper and presentations. 
+4. Research paper and presentations.
 
 It can be useful to have code and model parameters available to more than one of these steps, in that case see sections :ref:`model_specifications`, :ref:`model_code`, and :ref:`library`.
 

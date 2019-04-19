@@ -362,12 +362,12 @@ be added.
 {p 4 8 2}
 {cmd:estadd} {cmd:margins} [{it:marginlist}] [{it:if}] [{it:in}] [{it:weight}] [, {it:options} ]
 
-{p 8 8 2} 
-adds results from the {cmd:margins} command, which was introduced 
-in Stata 11. See help {helpb margins} for options. All results returned by 
-{cmd:margins} except {cmd:e(V)} are added using "{cmd:margins_}" as a default 
-prefix. For example, the margins are added in {cmd:e(margins_b)}. The 
-standard errors are added in {cmd:e(margins_se)}. Use the {helpb estadd##opts:prefix()} 
+{p 8 8 2}
+adds results from the {cmd:margins} command, which was introduced
+in Stata 11. See help {helpb margins} for options. All results returned by
+{cmd:margins} except {cmd:e(V)} are added using "{cmd:margins_}" as a default
+prefix. For example, the margins are added in {cmd:e(margins_b)}. The
+standard errors are added in {cmd:e(margins_se)}. Use the {helpb estadd##opts:prefix()}
 option to change the default prefix.
 
 {marker spost}
@@ -408,7 +408,7 @@ help {helpb brant}. The following results are added:
                       (rows: chi2, p<chi2)
         {hline 60}
 
-{p 4 4 2}To address the rows of {cmd:e(brant)} in {helpb estout}'s {cmd:cells()} 
+{p 4 4 2}To address the rows of {cmd:e(brant)} in {helpb estout}'s {cmd:cells()}
 option type {cmd:brant[chi2]} and {cmd:brant[p<chi2]}.
 
 {marker fitstat}
@@ -458,7 +458,7 @@ and options, a selection of the following scalar statistics is added:
 applies {helpb listcoef} from Long and
 Freese's {helpb SPost} package and adds the returned results to
 {cmd:e()}. You may specify {it:listcoef_options} as described in
-help {helpb listcoef}. Furthermore,  option {cmd:nosd} suppresses 
+help {helpb listcoef}. Furthermore,  option {cmd:nosd} suppresses
 adding the standard deviations of the variables in {cmd:e(b_sdx)}.
 
 {p 8 8 2}Depending on the estimation command and options, several of the
@@ -476,11 +476,11 @@ following matrices are added:
         {cmd:b_sdx}         Standard deviation of the Xs
         {hline 60}
 
-{p 8 8 2}For nominal models ({helpb mlogit}, {helpb mprobit}) the 
-original parametrization of {cmd:e(b)} may not match the contrasts 
-computed by {cmd:listcoef}. To be able to tabulate standardized 
-coefficients along with the raw coefficients for the requested 
-contrasts, the following additional matrices are added for 
+{p 8 8 2}For nominal models ({helpb mlogit}, {helpb mprobit}) the
+original parametrization of {cmd:e(b)} may not match the contrasts
+computed by {cmd:listcoef}. To be able to tabulate standardized
+coefficients along with the raw coefficients for the requested
+contrasts, the following additional matrices are added for
 these models:
 
         {cmd:e(}{it:...}{cmd:)}        Contents
@@ -542,8 +542,8 @@ returns are added:
                              (rows: chi2, df, p)
         {hline 60}
 
-{p 4 4 2}To address the rows of {cmd:e(wald)} and {cmd:e(lrtest)} in {helpb estout}'s 
-{cmd:cells()} option type the row names in brackets, for example, {cmd:wald[p]} or 
+{p 4 4 2}To address the rows of {cmd:e(wald)} and {cmd:e(lrtest)} in {helpb estout}'s
+{cmd:cells()} option type the row names in brackets, for example, {cmd:wald[p]} or
 {cmd:lrtest[chi2]}.
 
 {marker prchange}
@@ -583,17 +583,17 @@ type of the added effects individually for each regressor. For example,
 {cmd:sd} for the second, and {cmd:delta} for the third, and then proceed
 using the defaults for the remaining variables.
 
-{p 8 12 2}{cmd:avg} to request that only the average results over 
+{p 8 12 2}{cmd:avg} to request that only the average results over
 all outcomes are added if applied to ordered
-or nominal models ({helpb ologit}, {helpb oprobit}, {helpb slogit}, {helpb mlogit}, {helpb mprobit}). The 
-default is to add the average results as well as the individual results for 
-the different outcomes (unless {helpb prchange}'s {cmd:outcome()} option is 
-specified, in which case only results for the indicated outcome are 
-added). Furthermore, specify {cmd:noavg} to suppress the average results 
-and only add the outcome-specific results. {cmd:avg} cannot be combined with {cmd:split} 
-or {cmd:outcome()}. 
+or nominal models ({helpb ologit}, {helpb oprobit}, {helpb slogit}, {helpb mlogit}, {helpb mprobit}). The
+default is to add the average results as well as the individual results for
+the different outcomes (unless {helpb prchange}'s {cmd:outcome()} option is
+specified, in which case only results for the indicated outcome are
+added). Furthermore, specify {cmd:noavg} to suppress the average results
+and only add the outcome-specific results. {cmd:avg} cannot be combined with {cmd:split}
+or {cmd:outcome()}.
 
-{p 8 12 2}{cmd:split}[{cmd:(}{it:prefix}{cmd:)}] to save 
+{p 8 12 2}{cmd:split}[{cmd:(}{it:prefix}{cmd:)}] to save
 each outcome's results in a separate estimation set if applied to ordered
 or nominal models ({helpb ologit}, {helpb oprobit}, {helpb slogit}, {helpb mlogit},
 {helpb mprobit}). The estimation sets are named
@@ -631,7 +631,7 @@ and scalars are added:
 The second and following rows contain the separate results for each type of
 effect using the labels provided by {cmd:prchange} as row names. Type
 {cmd:dc[}{it:#}{cmd:]} or {cmd:dc[}{it:rowname}{cmd:]} to address the rows
-in {helpb estout}'s {cmd:cells()} option, where {it:#} is the row number 
+in {helpb estout}'s {cmd:cells()} option, where {it:#} is the row number
 or {it:rowname} is the
 row name. For example, type {cmd:dc[-+sd/2]} to address the centered
 standard deviation change effects. To tabulate the main results (1st row),
@@ -642,7 +642,7 @@ for the {cmd:delta()} change effect, 4 for the standard deviation change
 effect, and 5 for the marginal effect. {cmd:e(X)} has four rows
 containing the base values, standard deviations, minimums, and maximums. If
 the {cmd:fromto} option is specified, two additional matrices,
-{cmd:e(dcfrom)} and {cmd:e(dcto)} are added. 
+{cmd:e(dcfrom)} and {cmd:e(dcto)} are added.
 
 {marker prvalue}
 {p 4 8 2}
@@ -928,8 +928,8 @@ for an example.
  {helpb estimates},
  {helpb ereturn},
  {helpb program},
- {helpb esttab}, 
- {helpb estout}, 
- {helpb eststo}, 
+ {helpb esttab},
+ {helpb estout},
+ {helpb eststo},
  {helpb estpost}
 {p_end}

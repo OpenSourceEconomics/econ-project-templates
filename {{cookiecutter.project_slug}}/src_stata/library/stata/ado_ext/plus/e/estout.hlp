@@ -602,14 +602,14 @@ label the table's left stub
     {p_end}
 {marker omitted}
 {p 4 8 2}
-    {cmd:omitted} includes omitted coefficients (only relevant in Stata 11 or 
-    newer). This is the default. Type {cmd:noomitted} to drop omitted 
+    {cmd:omitted} includes omitted coefficients (only relevant in Stata 11 or
+    newer). This is the default. Type {cmd:noomitted} to drop omitted
     coefficients.
     {p_end}
 {marker baselevels}
 {p 4 8 2}
-    {cmd:baselevels} includes base levels of factor variables (only relevant 
-    in Stata 11 or newer). This is the default. Type {cmd:nobaselevels} to drop 
+    {cmd:baselevels} includes base levels of factor variables (only relevant
+    in Stata 11 or newer). This is the default. Type {cmd:nobaselevels} to drop
     base levels of factor variables.
     {p_end}
 {marker keep}
@@ -649,7 +649,7 @@ label the table's left stub
 {p 8 8 2}
     and {it:list} is a list of coefficient specifications as defined in
     {cmd:drop()} above. The single groups should be enclosed in quotes
-    unless there is only one group and {it:name} is specified. Note that 
+    unless there is only one group and {it:name} is specified. Note that
     {it:name} may contain spaces.
 
 {p 8 8 2}
@@ -661,10 +661,10 @@ label the table's left stub
 {p 8 8 2}
     to drop the dummies from the table and add a "year effects" row
     containing "Yes" for models in which {it:at least one} of the dummies
-    is present, and "No" for the other models. Furthermore, if some models 
-    also contain a set of region dummies, say {cmd:reg_1} through 
+    is present, and "No" for the other models. Furthermore, if some models
+    also contain a set of region dummies, say {cmd:reg_1} through
     {cmd:reg_17}, you could type
-    
+
             {com}estout{txt} {it:...}{com}, indicate("years = y1 y2 y3" "regions = reg_*"){txt}
 
 {p 8 8 2}
@@ -816,23 +816,23 @@ label the table's left stub
     specify the {cmd:meqs()} option. Alternatively, use the {cmd:keep()} and
     {cmd:drop()} options to eliminate redundant rows. The {cmd:equations()}
     option might also be of help here.
-    
+
 {p 8 8 2}
-    As of Stata 11, the use of {helpb mfx} is no longer suggested, since 
-    {helpb mfx} has been superseded by {helpb margins}. Results from 
+    As of Stata 11, the use of {helpb mfx} is no longer suggested, since
+    {helpb mfx} has been superseded by {helpb margins}. Results from
     {helpb margins} can directly be tabulated by {cmd:estout} as long as
-    the {cmd:post} option is specified with {helpb margins}. Alternatively, 
-    you may add results from {helpb margins} to an existing 
-    model using {helpb estadd:estadd margins} or 
+    the {cmd:post} option is specified with {helpb margins}. Alternatively,
+    you may add results from {helpb margins} to an existing
+    model using {helpb estadd:estadd margins} or
     {helpb estpost:estpost margins}. See the examples on tabulating results
-    from {helpb margins} at 
+    from {helpb margins} at
     {browse "http://repec.org/bocode/e/estout/advanced.html"}.
     {p_end}
 {marker discrete}
 {p 4 8 2}
     {cmd:discrete(}{it:string}{cmd:)} may be used to override the default symbol and
-    explanatory text used to identify dummy variables when applying the 
-    {helpb estout##margin:margin} option. The first token in {it:string} is 
+    explanatory text used to identify dummy variables when applying the
+    {helpb estout##margin:margin} option. The first token in {it:string} is
     used as the symbol. The default is:
 
 {p 12 12 2}
@@ -852,7 +852,7 @@ label the table's left stub
     {p_end}
 {marker meqs}
 {p 4 8 2}
-    {cmd:meqs(}{it:eq_list}{cmd:)} specifies that marginal effects requested 
+    {cmd:meqs(}{it:eq_list}{cmd:)} specifies that marginal effects requested
     by the {helpb estout##margin:margin} option be printed only for the
     equations in {it:eq_list}. Specifying this option does not affect how the
     marginal effects are calculated.  An {it:eq_list} comprises one or more equation
@@ -1188,9 +1188,9 @@ label the table's left stub
     {p_end}
 {marker interaction}
 {p 4 8 2}
-    {cmd:interaction(}{it:string}{cmd:)} specifies the string to be used 
+    {cmd:interaction(}{it:string}{cmd:)} specifies the string to be used
     as delimiter for interaction terms (only relevant in Stata 11 or newer). The
-    default is {cmd:interaction(" # ")}. For {cmd:style(tex)} the default is 
+    default is {cmd:interaction(" # ")}. For {cmd:style(tex)} the default is
     {cmd:interaction(" $\times$ ")}.
     {p_end}
 {marker title}

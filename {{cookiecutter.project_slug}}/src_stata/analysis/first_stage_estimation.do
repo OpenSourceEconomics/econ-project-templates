@@ -8,7 +8,7 @@ intervals for the Anderson-Rubin (1949) statistic.
 The file requires to be called with a model specification as the argument,
 a corresponding do-file must exist in ${PATH_OUT_MODEL_SPECS}. That file needs
 to define globals:
-    
+
     * ${INSTD} - the dependent variable (in the first stage)
     * ${INSTS} - the instrument
     * ${KEEP_CONDITION} - any sampling restrictions (full command)

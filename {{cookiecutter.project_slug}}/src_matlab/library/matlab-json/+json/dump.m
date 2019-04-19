@@ -39,7 +39,7 @@ function str = dump(value, varargin)
 %
 %   >> str = json.dump([1,2,3;4,5,6], 'Indent', 2)
 %     str =
-% 
+%
 %     [
 %       [
 %         1,
@@ -83,7 +83,7 @@ function obj = dump_data_(value, options)
     obj = org.json.JSONObject.NULL;
   elseif ~isscalar(value)
     obj = org.json.JSONArray();
-    
+
     if ndims(value) > 2
       split_value = num2cell(value, 1:ndims(value)-1);
       for i = 1:numel(split_value)

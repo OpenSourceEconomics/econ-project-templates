@@ -6,7 +6,7 @@ function [new_loc] = move_until_happy(loc, A, n, r, m)
     function [zero_one] = happy(loc, typ, A, n, r)
     % 1, if sufficient number of nearest neighbours are of the same type,
     % 0 otherwise.
-    
+
     % Obtain row indeces of *n*-nearest neighbours in *A*
     N = KDTreeSearcher(A(:, 1:2), 'Distance', 'euclidean');
     idx = knnsearch(N, loc(1:2), 'K', n);
@@ -25,7 +25,7 @@ this_type = loc(3);
     % Check if agent is happy
     if happy(loc, this_type, A, n, r) == 1;
         new_loc = loc;
-    else 
+    else
         for i = 1 : m;
             % Draw new location and pass agent's type
             new_loc = [rand(1, 2), this_type];

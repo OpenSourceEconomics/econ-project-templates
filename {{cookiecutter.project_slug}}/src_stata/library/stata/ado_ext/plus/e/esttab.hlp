@@ -25,8 +25,8 @@
 {it:options} ]
 
 
-{p 4 4 2}where {it:namelist} is a name, a list of names, or {cmd:_all}. The 
-{cmd:*} and {cmd:?} wildcards are allowed in {it:namelist}. A name may also be {cmd:.}, 
+{p 4 4 2}where {it:namelist} is a name, a list of names, or {cmd:_all}. The
+{cmd:*} and {cmd:?} wildcards are allowed in {it:namelist}. A name may also be {cmd:.},
 meaning the current (active) estimates.
 
 
@@ -194,12 +194,12 @@ results. An alternative to the {cmd:estimates store} command is
 provided by {helpb eststo}.
 
 {p 4 4 2}
-{cmd:esttab} can also be used to tabulate a Stata matrix applying syntax 
-{bind:{cmd:esttab} {cmdab:m:atrix:(}{it:name}{cmd:)}}, where {it:name} 
+{cmd:esttab} can also be used to tabulate a Stata matrix applying syntax
+{bind:{cmd:esttab} {cmdab:m:atrix:(}{it:name}{cmd:)}}, where {it:name}
 is the name of the matrix. Furthermore, an {cmd:e()}-matrix or {cmd:r()}-matrix
-can be tabulated specifying {cmd:esttab e(}{it:name}{cmd:)} or 
-{cmd:esttab r(}{it:name}{cmd:)}. Most options under the headings  
-'Main', 'Significance stars', and 'Summary statistics' are irrelevant 
+can be tabulated specifying {cmd:esttab e(}{it:name}{cmd:)} or
+{cmd:esttab r(}{it:name}{cmd:)}. Most options under the headings
+'Main', 'Significance stars', and 'Summary statistics' are irrelevant
 in this case. See help {helpb estout} for further details on tabulating matrices.
 
 {marker opt}
@@ -241,8 +241,8 @@ t-statistics. The default is to display two decimal places.
 
 {p 4 8 2}
 {cmd:z}[{cmd:(}{it:{help esttab##fmt:fmt}}{cmd:)}] requests that
-z-statistics be displayed. z-statistics are the same as t-statistics. Hence, 
-specifying {cmd:z} does not change the table contents, it only changes the 
+z-statistics be displayed. z-statistics are the same as t-statistics. Hence,
+specifying {cmd:z} does not change the table contents, it only changes the
 label.
 
 {p 4 8 2}
@@ -357,12 +357,12 @@ etc.) to be printed beside one another instead of beneath one another.
 {marker onecell}
 {p 4 8 2}
 {cmd:onecell} causes point estimates and t-statistics (or standard errors,
-etc.) to be combined in a single table cell. This option is useful primarily 
-in {cmd:rtf} or {cmd:html} mode. In these modes a line break is 
-inserted between the two statistics. The benefit from using {cmd:onecell} 
-in {cmd:rtf} or {cmd:html} mode is that long coefficients labels do not 
+etc.) to be combined in a single table cell. This option is useful primarily
+in {cmd:rtf} or {cmd:html} mode. In these modes a line break is
+inserted between the two statistics. The benefit from using {cmd:onecell}
+in {cmd:rtf} or {cmd:html} mode is that long coefficients labels do not
 derange the table layout. The default for other modes is to insert
-a blank between the statistics. Use {cmd:estout}'s 
+a blank between the statistics. Use {cmd:estout}'s
 {helpb estout##incelldel:incelldelimiter()} option to change this.
 
 {p 4 8 2}
@@ -384,13 +384,13 @@ spacing.
 
 {p 4 8 2}
 {cmd:lines} adds horizontal lines to the table separating the table's
-header, body, and footer and, in the case of multiple 
+header, body, and footer and, in the case of multiple
 equation models, the equations. This is the default. Specify {cmd:nolines}
 to suppress the lines. Lines are always suppressed in the {cmd:tab}
-and {cmd:csv} modes. 
+and {cmd:csv} modes.
 
 {p 4 8 2}
-{cmd:noeqlines} suppresses the horizontal lines between equations 
+{cmd:noeqlines} suppresses the horizontal lines between equations
 in the case of multiple equation models.{p_end}
 {marker compress}
 {p 4 8 2}
@@ -424,9 +424,9 @@ estimation set names). Furthermore, {cmd:label} prints "Constant"
 instead of "_cons".
 
 {p 4 8 2}
-{cmd:interaction(}{it:string}{cmd:)} specifies the string to be used 
+{cmd:interaction(}{it:string}{cmd:)} specifies the string to be used
 as delimiter for interaction terms (only relevant in Stata 11 or newer). The
-default is {cmd:interaction(" # ")}. For {cmd:tex} and {cmd:booktabs} the 
+default is {cmd:interaction(" # ")}. For {cmd:tex} and {cmd:booktabs} the
 default is {cmd:interaction(" $\times$ ")}.
 {p_end}
 {marker title}
@@ -439,15 +439,15 @@ referencing in this case. For example, if you type
 {cmd:title(...\label{tab1})}, then "\ref{tab1}" could be used in the
 LaTeX document to point to the table.
 
-{p 4 8 2} 
-{cmd:mtitles}, without argument, specifies that for each model the title 
-(or, if empty, the name) of the stored estimation set be printed as the model's 
-title in the table header. If {cmd:mtitles} is omitted, the default is to 
-use name or label of the dependent variable as the model's title (see the 
-{cmd:depvar} option). Alternatively, use {cmd:mtitles(}{it:list}{cmd:)} 
+{p 4 8 2}
+{cmd:mtitles}, without argument, specifies that for each model the title
+(or, if empty, the name) of the stored estimation set be printed as the model's
+title in the table header. If {cmd:mtitles} is omitted, the default is to
+use name or label of the dependent variable as the model's title (see the
+{cmd:depvar} option). Alternatively, use {cmd:mtitles(}{it:list}{cmd:)}
 specifies a list of model titles. Enclose the titles
 in double quotes if they contain spaces,
-e.g. {bind:{cmd:mtitles("Model 1" "Model 2")}}. 
+e.g. {bind:{cmd:mtitles("Model 1" "Model 2")}}.
 
 {p 4 8 2}
 {cmd:nomtitles} suppresses printing of model titles.
@@ -486,16 +486,16 @@ e.g. {cmd:addnotes({bind:"Line 1"} {bind:"Line 2"})}.
 {p 4 8 2}
 {cmd:smcl}, {cmd:fixed}, {cmd:tab}, {cmd:csv},  {cmd:scsv}, {cmd:rtf},
 {cmd:html}, {cmd:tex}, and {cmd:booktabs} choose the table's basic
-output format. The default format is {cmd:smcl} unless 
+output format. The default format is {cmd:smcl} unless
 {cmd:using} is specified, in which case the default format
-depends on the filename's suffix ({cmd:smcl} for ".smcl", {cmd:csv} 
-for ".csv", {cmd:rtf} for ".rtf", 
+depends on the filename's suffix ({cmd:smcl} for ".smcl", {cmd:csv}
+for ".csv", {cmd:rtf} for ".rtf",
 {cmd:html} for ".htm" or ".html", {cmd:tex} for ".tex", and {cmd:fixed}
-for all other filenames). To override the default behavior, specify one of the 
+for all other filenames). To override the default behavior, specify one of the
 following format options.
 
 {p 8 8 2}
-{cmd:smcl} produces a {help SMCL} formatted table to be displayed in the 
+{cmd:smcl} produces a {help SMCL} formatted table to be displayed in the
 Stata results window or the Stata viewer.
 
 {p 8 8 2}
@@ -602,8 +602,8 @@ the width of the table columns.
 {cmdab:longtable} causes the {it:longtable} environment to be used in
 LaTeX. Use {cmdab:longtable} for tables that are too
 long to fit on a single page. {cmdab:longtable} cannot be combined
-with {cmd:width()}. Make sure to load the {it:longtable} package 
-in the LaTeX document, i.e. include {cmd:\usepackage{longtable}} in the 
+with {cmd:width()}. Make sure to load the {it:longtable} package
+in the LaTeX document, i.e. include {cmd:\usepackage{longtable}} in the
 document's preamble.
 
 {marker output}
@@ -645,11 +645,11 @@ equation names, and not to the original equation names in the models,
 when using the {cmd:equations()} option to match equations.
 
 {p 4 8 2}
-{cmd:noomitted} drops omitted coefficients (only relevant in Stata 11 or 
+{cmd:noomitted} drops omitted coefficients (only relevant in Stata 11 or
 newer).
 
 {p 4 8 2}
-{cmd:nobaselevels} drops base levels of factor variables (only relevant 
+{cmd:nobaselevels} drops base levels of factor variables (only relevant
 in Stata 11 or newer).
 
 {p 4 8 2}
@@ -692,7 +692,7 @@ the equations below one another in a single column.
 {p 8 20 2}
 {cmd:cells()}{space 5}disables {cmd:b()}, {cmd:beta()}, {cmd:main()},
 {cmd:t()}, {cmd:abs}, {cmd:not}, {cmd:se()}, {cmd:p()}, {cmd:ci()},
-{cmd:aux()}, {cmd:star}, {cmd:staraux}, {cmd:wide}, {cmd:onecell}, 
+{cmd:aux()}, {cmd:star}, {cmd:staraux}, {cmd:wide}, {cmd:onecell},
 {cmd:parentheses}, and {cmd:brackets},
 
 {p 8 20 2}
@@ -704,8 +704,8 @@ and {cmd:obslast}.
 Other {cmd:estout} options that should be used with care are
 {cmd:begin()}, {cmd:delimiter()}, {cmd:end()}, {cmd:prehead()},
 {cmd:posthead()}, {cmd:prefoot()}, {cmd:postfoot()}, {cmd:mlabels()},
-and {cmd:varlabels()}. Furthermore, note that {cmd:estout}'s {cmd:style()} 
-option does not have much effect because most options that would be affected 
+and {cmd:varlabels()}. Furthermore, note that {cmd:estout}'s {cmd:style()}
+option does not have much effect because most options that would be affected
 by {cmd:style()} are set explicitly by {cmd:esttab}.
 
 {marker fmt}
@@ -729,7 +729,7 @@ with three decimal places.
 {p 5 8 2}
 3. Automatic format: You may specify {cmd:a1}, {cmd:a2}, ..., or
 {cmd:a9} to cause {cmd:esttab} to choose a reasonable display format for
-each number depending on the number's value. {cmd:a} may be used as a 
+each number depending on the number's value. {cmd:a} may be used as a
 synonym for {cmd:a3}. The {it:#} in
 {cmd:a}{it:#} determines the minimum precision according to the
 following rules:
@@ -760,37 +760,37 @@ exponential format.
 {p 4 4 2}
 The following examples are intended to illustrate the basic usage of
 {cmd:esttab}.  Additional examples can be found at
-{browse "http://repec.org/bocode/e/estout"}. 
+{browse "http://repec.org/bocode/e/estout"}.
 
-{p 4 4 2} The procedure is to first fit and store some models (see {helpb eststo}) and then apply 
+{p 4 4 2} The procedure is to first fit and store some models (see {helpb eststo}) and then apply
 {cmd:esttab} to these stored estimates:
 
         {com}. eststo clear
         {txt}
         {com}. sysuse auto
         {txt}(1978 Automobile Data)
-        
+
         {com}. eststo: quietly regress price weight mpg
         {txt}({res}est1{txt} stored)
-        
+
         {com}. eststo: quietly regress price weight mpg foreign
         {txt}({res}est2{txt} stored)
-        
+
         {com}. esttab, ar2
         {res}
         {txt}{hline 44}
-        {txt}                      (1)             (2)   
-        {txt}                    price           price   
+        {txt}                      (1)             (2)
+        {txt}                    price           price
         {txt}{hline 44}
         {txt}weight      {res}        1.747**         3.465***{txt}
                     {res} {ralign 12:{txt:(}2.72{txt:)}}    {ralign 12:{txt:(}5.49{txt:)}}   {txt}
-        
+
         {txt}mpg         {res}       -49.51           21.85   {txt}
                     {res} {ralign 12:{txt:(}-0.57{txt:)}}    {ralign 12:{txt:(}0.29{txt:)}}   {txt}
-        
+
         {txt}foreign     {res}                       3673.1***{txt}
                     {res}                 {ralign 12:{txt:(}5.37{txt:)}}   {txt}
-        
+
         {txt}_cons       {res}       1946.1         -5853.7   {txt}
                     {res} {ralign 12:{txt:(}0.54{txt:)}}    {ralign 12:{txt:(}-1.73{txt:)}}   {txt}
         {txt}{hline 44}
@@ -807,18 +807,18 @@ The same table using labels:
         {com}. esttab, ar2 label
         {res}
         {txt}{hline 52}
-        {txt}                              (1)             (2)   
-        {txt}                            Price           Price   
+        {txt}                              (1)             (2)
+        {txt}                            Price           Price
         {txt}{hline 52}
         {txt}Weight (lbs.)       {res}        1.747**         3.465***{txt}
                             {res} {ralign 12:{txt:(}2.72{txt:)}}    {ralign 12:{txt:(}5.49{txt:)}}   {txt}
-        
+
         {txt}Mileage (mpg)       {res}       -49.51           21.85   {txt}
                             {res} {ralign 12:{txt:(}-0.57{txt:)}}    {ralign 12:{txt:(}0.29{txt:)}}   {txt}
-        
+
         {txt}Car type            {res}                       3673.1***{txt}
                             {res}                 {ralign 12:{txt:(}5.37{txt:)}}   {txt}
-        
+
         {txt}Constant            {res}       1946.1         -5853.7   {txt}
                             {res} {ralign 12:{txt:(}0.54{txt:)}}    {ralign 12:{txt:(}-1.73{txt:)}}   {txt}
         {txt}{hline 52}
@@ -859,13 +859,13 @@ Using standard errors in brackets and suppress significance stars:
         {txt}{hline 38}
         {txt}weight      {res}        1.747        3.465{txt}
                     {res} {ralign 12:{txt:[}0.641{txt:]}} {ralign 12:{txt:[}0.631{txt:]}}{txt}
-        
+
         {txt}mpg         {res}       -49.51        21.85{txt}
                     {res} {ralign 12:{txt:[}86.16{txt:]}} {ralign 12:{txt:[}74.22{txt:]}}{txt}
-        
+
         {txt}foreign     {res}                    3673.1{txt}
                     {res}              {ralign 12:{txt:[}684.0{txt:]}}{txt}
-        
+
         {txt}_cons       {res}       1946.1      -5853.7{txt}
                     {res} {ralign 12:{txt:[}3597.0{txt:]}} {ralign 12:{txt:[}3377.0{txt:]}}{txt}
         {txt}{hline 38}
@@ -880,15 +880,15 @@ Printing beta coefficients:
         {com}. esttab, beta
         {res}
         {txt}{hline 44}
-        {txt}                      (1)             (2)   
-        {txt}                    price           price   
+        {txt}                      (1)             (2)
+        {txt}                    price           price
         {txt}{hline 44}
         {txt}weight      {res}        0.460**         0.913***{txt}
                     {res} {ralign 12:{txt:(}2.72{txt:)}}    {ralign 12:{txt:(}5.49{txt:)}}   {txt}
-        
+
         {txt}mpg         {res}       -0.097           0.043   {txt}
                     {res} {ralign 12:{txt:(}-0.57{txt:)}}    {ralign 12:{txt:(}0.29{txt:)}}   {txt}
-        
+
         {txt}foreign     {res}                        0.573***{txt}
                     {res}                 {ralign 12:{txt:(}5.37{txt:)}}   {txt}
         {txt}{hline 44}

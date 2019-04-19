@@ -11,5 +11,5 @@ Here we have a few functions that are used in various R-scripts of the project.
 
 .. include:: ../model_code/functions.r
     :start-after: '
-    :end-before: ' 
+    :end-before: '
 

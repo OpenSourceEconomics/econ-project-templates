@@ -2,8 +2,8 @@
 
 function plot_locations(model_name)
 
-% Load agents' location at each cycle from bld/out/analysis. Create a 
-% Matlab figure by plotting each agent's location at every cycle. 
+% Load agents' location at each cycle from bld/out/analysis. Create a
+% Matlab figure by plotting each agent's location at every cycle.
 
 
 load(project_paths('OUT_ANALYSIS', ['schelling_', model_name, '.mat']));
@@ -29,8 +29,8 @@ for i = 1 : n_cycles;
     hold on
     for t = 1 : n_types;
         this_type = this_round( :, 3) == t;
-        plot( ... 
-            this_round(this_type, 1), this_round(this_type, 2), ... 
+        plot( ...
+            this_round(this_type, 1), this_round(this_type, 2), ...
             'o', 'MarkerEdgeColor', colors(t) , 'MarkerSize', 4 ...
         );
     end

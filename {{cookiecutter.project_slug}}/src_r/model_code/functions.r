@@ -6,17 +6,17 @@ clx -> Return clustered-standard errors for "fm".
 
 wald.ci -> Return Wald Confidenceintervall for second "coef" of "reg"
 
-anderson.rubin.ci -> Return "Anderson Rubin CI" for "ivmodel" with sig. niveau 
+anderson.rubin.ci -> Return "Anderson Rubin CI" for "ivmodel" with sig. niveau
                      "conflevel". Default is "conflevel=.95"
 
 '
 
 
-summaryw = function(model) {        
+summaryw = function(model) {
     '
     Return Heteroskedastic robust standard errors for "model"
     '
-                   
+
     s = summary(model)
     X = model.matrix(model)
     u2 = residuals(model)^2
@@ -53,7 +53,7 @@ summaryw = function(model) {
 }
 
 clx = function(fm, dfcw, cluster) {
-    # Return clustered-standard errors for "fm". 
+    # Return clustered-standard errors for "fm".
     # Mahmood Arai, Jan 26, 2008.
 
     # The arguments of the function are:
@@ -65,20 +65,20 @@ clx = function(fm, dfcw, cluster) {
     library(lmtest)
     M = length(
         unique(cluster)
-    )   
-    N = length(cluster)           
-    K = fm$rank                        
-    dfc = ( M / (M-1) ) * ( (N-1) / (N-K) )  
+    )
+    N = length(cluster)
+    K = fm$rank
+    dfc = ( M / (M-1) ) * ( (N-1) / (N-K) )
     uj  = apply(
-        estfun(fm),2, function(x) tapply(x, cluster, sum) 
+        estfun(fm),2, function(x) tapply(x, cluster, sum)
      )
     vcovCL = dfc * sandwich(fm, meat=crossprod(uj) / N) * dfcw
-    list(coeftest(fm, vcovCL), vcovCL) 
+    list(coeftest(fm, vcovCL), vcovCL)
 }
 
 wald.ci = function (reg , alpha, cluster){
     # Return Wald Confidenceintervall for second "coef" of
-    # "reg" 
+    # "reg"
     df = summary(reg)$df[2]
     c = summary(reg)$df[1]
     h = clx(fm = reg, dfcw = 1, cluster = cluster)[[1]][c + 2] * qt(1 - alpha/2,df)
@@ -90,22 +90,22 @@ wald.ci = function (reg , alpha, cluster){
 }
 
 anderson.rubin.ci = function(ivmodel, conflevel=.95){
-    ## Return "Anderson Rubin CI" for "ivmodel" with sig. niveau 
+    ## Return "Anderson Rubin CI" for "ivmodel" with sig. niveau
     ## "conflevel". Default is "conflevel=.95"
-                                        
+
     y = ivmodel$y
     n = length(y)
-    
+
     if( is.null(ivmodel$x)==TRUE ){
         print("Refit ivmodel with x=TRUE option in the ivreg function.")
         stop()
     }
-                                        
+
     regressors = ivmodel$x$regressors
     instruments = ivmodel$x$instruments
-    
+
     # Use notation in Davidson and MacKinnon, 2011
-    # Figure out based on ivmodel fit from ivreg, the elements in Davidson and MacKinnon 
+    # Figure out based on ivmodel fit from ivreg, the elements in Davidson and MacKinnon
     W = instruments;
     # Figure out which columns in regressors and instruments are the same
     regressors.same.vec = rep(0,ncol(regressors))
@@ -119,41 +119,41 @@ anderson.rubin.ci = function(ivmodel, conflevel=.95){
         if (sum(tempsum==0)>0) {
             instruments.columns.same[count] = i
             count = count + 1
-        } 
+        }
     }
-    
+
     y2column = which(regressors.same.vec==0)
     y2 = regressors[,y2column]
     Z = regressors[,-y2column]
     W2 = instruments[,-instruments.columns.same]
-    
+
     l = ncol(W)
-    
+
     if ( is.null(ncol(Z)) ){
         Z = matrix(Z)
         k = ncol(Z)
     } else {
         k = ncol(Z)
     }
-                                        
+
     q = qf( conflevel, l-k, n-l )
     cval = q * (l-k) / (n-l)
     y1 = matrix(y, ncol=1)
-    
+
     y2hat.given.W = fitted( lm(y2 ~ W - 1) )
     y2hat.given.Z = fitted( lm(y2 ~ Z) )
     y1hat.given.W = fitted( lm(y1 ~ W-1) )
     y1hat.given.Z = fitted( lm(y1 ~ Z) )
-    
+
     coef.beta0sq = cval * sum(y2^2) - (cval+1) * sum(y2 * y2hat.given.W) + sum(y2 * y2hat.given.Z)
-               
+
     a = sum( y1 * y2hat.given.Z)
     coef.beta0 = -2 * cval * sum(y1*y2) + 2 * (cval+1) * sum(y1 * y2hat.given.W) - 2 * a
-                  
+
     coef.constant = cval * sum(y1^2) - (cval + 1) * sum(y1 * y1hat.given.W) + sum(y1 * y1hat.given.Z)
-      
+
     D = coef.beta0^2 - 4 * coef.constant * coef.beta0sq
-    
+
     if(coef.beta0sq==0){
         if (coef.beta0>0) {
             ci=c(
@@ -170,7 +170,7 @@ anderson.rubin.ci = function(ivmodel, conflevel=.95){
             )
          }
         if (coef.beta0==0) {
-                          
+
                 if (coef.constant>=0) {
                                      ci="\\text{Whole Real Line}"
                 }
@@ -178,8 +178,8 @@ anderson.rubin.ci = function(ivmodel, conflevel=.95){
                                     ci="\\text{Empty Set}"
                 }
          }
-    } 
-                                        
+    }
+
     if (coef.beta0sq!=0) {
         if (D<0) {
             if (coef.beta0sq>0) {
@@ -196,7 +196,7 @@ anderson.rubin.ci = function(ivmodel, conflevel=.95){
             root2=( -coef.beta0 - sqrt(D) ) / (2 * coef.beta0sq)
             upper.root = round( max(root1,root2), 2)
             lower.root = round( min(root1,root2), 2)
-            
+
             if (coef.beta0sq<0) {
                 ci = paste(
                     "[",

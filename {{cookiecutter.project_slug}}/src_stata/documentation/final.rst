@@ -33,7 +33,7 @@ Table 2 - First stage estimation of expropriation risk on log mortality
 
 .. include:: ../final/table2_first_stage_est.do
     :start-after: /*
-    :end-before: */    
+    :end-before: */
 
 
 Table 3 - Second stage estimation of GDP on expropriation risk
@@ -41,4 +41,4 @@ Table 3 - Second stage estimation of GDP on expropriation risk
 
 .. include:: ../final/table3_second_stage_est.do
     :start-after: /*
-    :end-before: */     
+    :end-before: */

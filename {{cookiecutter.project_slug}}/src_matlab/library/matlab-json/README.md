@@ -66,11 +66,11 @@ For example, a nested array with the same sized elements is treated as an N-D
 array.
 
     >> x = json.load('[[[1,2],[3,4]],[[5,6],[7,8]]]')
-    
+
     x(:,:,1) =
          1     2
          3     4
-    
+
     x(:,:,2) =
          5     6
          7     8

@@ -2,7 +2,7 @@ program define figout
 
 *! 1.0.1 Ian Watson 21mar07
 * 1.0.0 Ian Watson 30mar05
-* Program to create mini datasets extracted 
+* Program to create mini datasets extracted
 * from tabout results for use in graphs
 
 
@@ -11,7 +11,7 @@ syntax using/ ///
    , [REPlace] infile(string) ///
    gvars(string) over(string) ///
    start(string) stop(string)
-   
+
 
 if "`infile'" ~="" {
      local infile = "`infile'"
@@ -27,7 +27,7 @@ if "`replace'" == "replace" {
 }
 
 
-tempfile tempfile 
+tempfile tempfile
 tempname tablefile
 tempname mainfile
 
@@ -71,12 +71,12 @@ file read `tablefile' line
                     di as err "figout failed to find your stop word or phrase"
                     exit
                 }
-               }     
-          }     
+               }
+          }
           else {
              file read `tablefile' line
-          }  
-      } // end while not eof 
+          }
+      } // end while not eof
       file write `mainfile' _n
 
 file close `mainfile'
