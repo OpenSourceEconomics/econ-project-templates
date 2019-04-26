@@ -2,7 +2,8 @@
 # encoding: utf-8
 #
 # written by Sylvain Rouquette, 2014
-"""
+
+'''
 
 This is an extra tool, not bundled with the default waf binary.
 To add the cpplint tool to the waf file:
@@ -32,20 +33,13 @@ When using this tool, the wscript will look like:
         bld(features='cpplint', source='main.cpp', target='app')
         # add include files, because they aren't usually built
         bld(features='cpplint', source=bld.path.ant_glob('**/*.hpp'))
-"""
+'''
+
 from __future__ import absolute_import
-
+import sys, re
 import logging
-import re
-import sys
 import threading
-
-from waflib import Logs
-from waflib import Node
-from waflib import Options
-from waflib import Task
-from waflib import TaskGen
-
+from waflib import Task, TaskGen, Logs, Options, Node
 try:
     import cpplint.cpplint as cpplint_tool
 except ImportError:
@@ -56,82 +50,45 @@ except ImportError:
 
 
 critical_errors = 0
-CPPLINT_FORMAT = "[CPPLINT] %(filename)s:\nline %(linenum)s, severity %(confidence)s, category: %(category)s\n%(message)s\n"
-RE_EMACS = re.compile(
-    "(?P<filename>.*):(?P<linenum>\d+):  (?P<message>.*)  \[(?P<category>.*)\] \[(?P<confidence>\d+)\]"
-)
+CPPLINT_FORMAT = '[CPPLINT] %(filename)s:\nline %(linenum)s, severity %(confidence)s, category: %(category)s\n%(message)s\n'
+RE_EMACS = re.compile('(?P<filename>.*):(?P<linenum>\d+):  (?P<message>.*)  \[(?P<category>.*)\] \[(?P<confidence>\d+)\]')
 CPPLINT_RE = {
-    "waf": RE_EMACS,
-    "emacs": RE_EMACS,
-    "vs7": re.compile(
-        "(?P<filename>.*)\((?P<linenum>\d+)\):  (?P<message>.*)  \[(?P<category>.*)\] \[(?P<confidence>\d+)\]"
-    ),
-    "eclipse": re.compile(
-        "(?P<filename>.*):(?P<linenum>\d+): warning: (?P<message>.*)  \[(?P<category>.*)\] \[(?P<confidence>\d+)\]"
-    ),
+    'waf': RE_EMACS,
+    'emacs': RE_EMACS,
+    'vs7': re.compile('(?P<filename>.*)\((?P<linenum>\d+)\):  (?P<message>.*)  \[(?P<category>.*)\] \[(?P<confidence>\d+)\]'),
+    'eclipse': re.compile('(?P<filename>.*):(?P<linenum>\d+): warning: (?P<message>.*)  \[(?P<category>.*)\] \[(?P<confidence>\d+)\]'),
 }
 
-
 def options(opt):
-    opt.add_option(
-        "--cpplint-filters",
-        type="string",
-        default="",
-        dest="CPPLINT_FILTERS",
-        help="add filters to cpplint",
-    )
-    opt.add_option(
-        "--cpplint-length",
-        type="int",
-        default=80,
-        dest="CPPLINT_LINE_LENGTH",
-        help="specify the line length (default: 80)",
-    )
-    opt.add_option(
-        "--cpplint-level",
-        default=1,
-        type="int",
-        dest="CPPLINT_LEVEL",
-        help="specify the log level (default: 1)",
-    )
-    opt.add_option(
-        "--cpplint-break",
-        default=5,
-        type="int",
-        dest="CPPLINT_BREAK",
-        help="break the build if error >= level (default: 5)",
-    )
-    opt.add_option(
-        "--cpplint-root",
-        type="string",
-        default=None,
-        dest="CPPLINT_ROOT",
-        help="root directory used to derive header guard",
-    )
-    opt.add_option(
-        "--cpplint-skip",
-        action="store_true",
-        default=False,
-        dest="CPPLINT_SKIP",
-        help="skip cpplint during build",
-    )
-    opt.add_option(
-        "--cpplint-output",
-        type="string",
-        default="waf",
-        dest="CPPLINT_OUTPUT",
-        help="select output format (waf, emacs, vs7)",
-    )
+    opt.add_option('--cpplint-filters', type='string',
+                   default='', dest='CPPLINT_FILTERS',
+                   help='add filters to cpplint')
+    opt.add_option('--cpplint-length', type='int',
+                   default=80, dest='CPPLINT_LINE_LENGTH',
+                   help='specify the line length (default: 80)')
+    opt.add_option('--cpplint-level', default=1, type='int', dest='CPPLINT_LEVEL',
+                   help='specify the log level (default: 1)')
+    opt.add_option('--cpplint-break', default=5, type='int', dest='CPPLINT_BREAK',
+                   help='break the build if error >= level (default: 5)')
+    opt.add_option('--cpplint-root', type='string',
+                   default=None, dest='CPPLINT_ROOT',
+                   help='root directory used to derive header guard')
+    opt.add_option('--cpplint-skip', action='store_true',
+                   default=False, dest='CPPLINT_SKIP',
+                   help='skip cpplint during build')
+    opt.add_option('--cpplint-output', type='string',
+                   default='waf', dest='CPPLINT_OUTPUT',
+                   help='select output format (waf, emacs, vs7)')
 
 
 def configure(conf):
-    conf.start_msg("Checking cpplint")
+    conf.start_msg('Checking cpplint')
     try:
         cpplint_tool._cpplint_state
-        conf.end_msg("ok")
+        conf.end_msg('ok')
     except NameError:
         conf.env.CPPLINT_SKIP = True
-        conf.end_msg("not found, skipping it.")
+        conf.end_msg('not found, skipping it.')
 
 
 class cpplint_formatter(Logs.formatter, object):
@@ -140,7 +97,7 @@ class cpplint_formatter(Logs.formatter, object):
         self.fmt = fmt
 
     def format(self, rec):
-        if self.fmt == "waf":
+        if self.fmt == 'waf':
             result = CPPLINT_RE[self.fmt].match(rec.msg).groupdict()
             rec.msg = CPPLINT_FORMAT % result
         if rec.levelno <= logging.INFO:
@@ -194,7 +151,7 @@ class cpplint_wrapper(object):
         result = CPPLINT_RE[self.fmt].match(message)
         if not result:
             return
-        level = int(result.groupdict()["confidence"])
+        level = int(result.groupdict()['confidence'])
         if level >= self.threshold:
             critical_errors += 1
         if level <= 2:
@@ -206,13 +163,11 @@ class cpplint_wrapper(object):
 
 
 cpplint_logger = None
-
-
 def get_cpplint_logger(fmt):
     global cpplint_logger
     if cpplint_logger:
         return cpplint_logger
-    cpplint_logger = logging.getLogger("cpplint")
+    cpplint_logger = logging.getLogger('cpplint')
     hdlr = cpplint_handler()
     hdlr.setFormatter(cpplint_formatter(fmt))
     cpplint_logger.addHandler(hdlr)
@@ -221,19 +176,15 @@ def get_cpplint_logger(fmt):
 
 
 class cpplint(Task.Task):
-    color = "PINK"
+    color = 'PINK'
 
     def __init__(self, *k, **kw):
         super(cpplint, self).__init__(*k, **kw)
 
     def run(self):
         global critical_errors
-        with cpplint_wrapper(
-            get_cpplint_logger(self.env.CPPLINT_OUTPUT),
-            self.env.CPPLINT_BREAK,
-            self.env.CPPLINT_OUTPUT,
-        ):
-            if self.env.CPPLINT_OUTPUT != "waf":
+        with cpplint_wrapper(get_cpplint_logger(self.env.CPPLINT_OUTPUT), self.env.CPPLINT_BREAK, self.env.CPPLINT_OUTPUT):
+            if self.env.CPPLINT_OUTPUT != 'waf':
                 cpplint_tool._SetOutputFormat(self.env.CPPLINT_OUTPUT)
             cpplint_tool._SetFilters(self.env.CPPLINT_FILTERS)
             cpplint_tool._line_length = self.env.CPPLINT_LINE_LENGTH
@@ -241,18 +192,16 @@ class cpplint(Task.Task):
             cpplint_tool.ProcessFile(self.inputs[0].abspath(), self.env.CPPLINT_LEVEL)
         return critical_errors
 
-
-@TaskGen.extension(".h", ".hh", ".hpp", ".hxx")
+@TaskGen.extension('.h', '.hh', '.hpp', '.hxx')
 def cpplint_includes(self, node):
     pass
 
-
-@TaskGen.feature("cpplint")
-@TaskGen.before_method("process_source")
+@TaskGen.feature('cpplint')
+@TaskGen.before_method('process_source')
 def post_cpplint(self):
     if not self.env.CPPLINT_INITIALIZED:
         for key, value in Options.options.__dict__.items():
-            if not key.startswith("CPPLINT_") or self.env[key]:
+            if not key.startswith('CPPLINT_') or self.env[key]:
                 continue
             self.env[key] = value
         self.env.CPPLINT_INITIALIZED = True
@@ -263,11 +212,11 @@ def post_cpplint(self):
     if not self.env.CPPLINT_OUTPUT in CPPLINT_RE:
         return
 
-    for src in self.to_list(getattr(self, "source", [])):
+    for src in self.to_list(getattr(self, 'source', [])):
         if isinstance(src, Node.Node):
             node = src
         else:
             node = self.path.find_or_declare(src)
         if not node:
-            self.bld.fatal("Could not find %r" % src)
-        self.create_task("cpplint", node)
+            self.bld.fatal('Could not find %r' % src)
+        self.create_task('cpplint', node)

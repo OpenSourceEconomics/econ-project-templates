@@ -1,5 +1,5 @@
 # Exclude every file or folder starting with a dot.
-exclude: '^\.'
+exclude: ^\.
 repos:
 -   repo: https://github.com/asottile/reorder_python_imports
     rev: v1.4.0
@@ -42,7 +42,6 @@ repos:
         flake8-quotes, flake8-rst-docstrings, flake8-todo, flake8-type-annotations,
         pep8-naming
       ]
-      exclude: 'conf.py$'
       # Harmonizing flake8 and black
       args: [
         '--max-line-length=88',

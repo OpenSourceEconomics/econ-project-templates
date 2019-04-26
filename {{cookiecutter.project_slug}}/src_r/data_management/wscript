@@ -4,8 +4,13 @@
 def build(ctx):
 
     ctx(
-        features="run_r_script",
-        source="add_variables.r",
-        target=[ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt")],
-        deps=["../../project_paths.r", ctx.path_to(ctx, "IN_DATA", "ajrcomment.dta")],
+        features='run_r_script',
+        source='add_variables.r',
+        target=[
+            ctx.path_to(ctx, 'OUT_DATA', 'ajrcomment_all.txt')
+        ],
+        deps=[
+            '../../project_paths.r',
+            ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')
+        ]
     )

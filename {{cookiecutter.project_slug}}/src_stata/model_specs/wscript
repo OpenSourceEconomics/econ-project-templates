@@ -1,7 +1,9 @@
 #! python
-import json
+
+
 import os
 import sys
+import json
 
 # Required to work with Python 2 and 3.
 if sys.version_info.major == 3:
@@ -10,7 +12,7 @@ else:
     pass
 
 
-STATA_MODEL_COMMENT = """//
+STATA_MODEL_COMMENT = '''//
 // Header with configuration for model:
 //    {}
 //
@@ -18,7 +20,7 @@ STATA_MODEL_COMMENT = """//
 //
 // Adjust model parameters in:
 //    {}
-//\n\n\n"""
+//\n\n\n'''
 
 
 def convert_model_json_to_stata(task):
@@ -34,12 +36,14 @@ def convert_model_json_to_stata(task):
     model_pars = json.load(open(task.inputs[0].abspath()))
     model_name = os.path.splitext(task.inputs[0].name)[0]
 
-    tgt_content = STATA_MODEL_COMMENT.format(model_name, task.inputs[0].abspath())
+    tgt_content = STATA_MODEL_COMMENT.format(
+        model_name, task.inputs[0].abspath()
+    )
     for key, val in sorted(model_pars.items()):
         # Adjust for Stata string notation
         if isinstance(val, (str, unicode)):
             val = '"{}"'.format(val)
-        tgt_content += "global {k} = {v}\n".format(k=key, v=val)
+        tgt_content += 'global {k} = {v}\n'.format(k=key, v=val)
     return task.outputs[0].write(tgt_content)
 
 
@@ -55,14 +59,16 @@ def convert_geography_json_to_stata(task):
     geo_dict_list = json.load(open(task.inputs[0].abspath()))
     model_name = os.path.splitext(task.inputs[0].name)[0]
 
-    tgt_content = STATA_MODEL_COMMENT.format(model_name, task.inputs[0].abspath())
+    tgt_content = STATA_MODEL_COMMENT.format(
+        model_name, task.inputs[0].abspath()
+    )
     i = 1
     for geo_dict in geo_dict_list:
         for key, val in geo_dict.items():
             # Adjust for Stata string notation
             if isinstance(val, (str, unicode)):
                 val = '"{}"'.format(val)
-            tgt_content += "global {k}_{i} = {v}\n".format(k=key, i=i, v=val)
+            tgt_content += 'global {k}_{i} = {v}\n'.format(k=key, i=i, v=val)
         i += 1
     return task.outputs[0].write(tgt_content)
 
@@ -70,15 +76,15 @@ def convert_geography_json_to_stata(task):
 def build(ctx):
 
     for node in ctx.path.ant_glob("*.json"):
-        if node.name == "geography.json":
+        if node.name == 'geography.json':
             ctx(
                 rule=convert_geography_json_to_stata,
                 source=node,
-                target=node.change_ext(".do"),
+                target=node.change_ext('.do'),
             )
         else:
             ctx(
                 rule=convert_model_json_to_stata,
                 source=node,
-                target=node.change_ext(".do"),
+                target=node.change_ext('.do'),
             )

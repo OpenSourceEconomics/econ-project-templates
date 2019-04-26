@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # Thomas Nagy, 2005-2016
+
 """
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -27,6 +28,7 @@ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
+
 import os
 import sys
 
@@ -41,5 +43,4 @@ sys.path.insert(0, wafdir)
 
 if __name__ == "__main__":
     from waflib import Scripting
-
     Scripting.waf_entry_point(base, VERSION, wafdir)

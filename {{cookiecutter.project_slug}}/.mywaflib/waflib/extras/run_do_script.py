@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 # Hans-Martin von Gaudecker, 2012-16
+
 """
 Run a Stata do-script in the directory specified by **ctx.bldnode**. The
 first and only argument will be the name of the do-script (no extension),
@@ -36,44 +37,40 @@ Usage::
     )
 
 """
+
+
 import os
 import re
 import sys
+from waflib import Task, TaskGen, Logs
 
-from waflib import Logs
-from waflib import Task
-from waflib import TaskGen
-
-if sys.platform == "darwin":
-    STATA_NAMES = ["Stata64MP", "StataMP", "Stata64SE", "StataSE", "Stata64", "Stata"]
-    STATA_PATHS = [
-        "/Applications/Stata/%s.app/Contents/MacOS/%s" % (sv, sv) for sv in STATA_NAMES
+if sys.platform == 'darwin':
+    STATA_NAMES = [
+        'Stata64MP', 'StataMP',
+        'Stata64SE', 'StataSE',
+        'Stata64', 'Stata'
     ]
+    STATA_PATHS = ['/Applications/Stata/%s.app/Contents/MacOS/%s' % (sv, sv)
+                    for sv in STATA_NAMES]
     STATA_COMMANDS = STATA_NAMES + STATA_PATHS
-    STATAFLAGS = "-e -q do"
-    STATAENCODING = "MacRoman"
-elif sys.platform.startswith("linux"):
-    STATA_COMMANDS = ["stata-mp", "stata-se", "stata"]
-    STATAFLAGS = "-b -q do"
+    STATAFLAGS = '-e -q do'
+    STATAENCODING = 'MacRoman'
+elif sys.platform.startswith('linux'):
+    STATA_COMMANDS = ['stata-mp', 'stata-se', 'stata']
+    STATAFLAGS = '-b -q do'
     # Not sure whether this is correct...
-    STATAENCODING = "Latin-1"
-elif sys.platform.lower().startswith("win"):
+    STATAENCODING = 'Latin-1'
+elif sys.platform.lower().startswith('win'):
     STATA_COMMANDS = [
-        "StataMP-64",
-        "StataMP-ia",
-        "StataMP",
-        "StataSE-64",
-        "StataSE-ia",
-        "StataSE",
-        "Stata-64",
-        "Stata-ia",
-        "Stata",
-        "WMPSTATA",
-        "WSESTATA",
-        "WSTATA",
+        'StataMP-64', 'StataMP-ia',
+        'StataMP', 'StataSE-64',
+        'StataSE-ia', 'StataSE',
+        'Stata-64', 'Stata-ia',
+        'Stata', 'WMPSTATA',
+        'WSESTATA', 'WSTATA'
     ]
-    STATAFLAGS = "/e do"
-    STATAENCODING = "Latin-1"
+    STATAFLAGS = '/e do'
+    STATAENCODING = 'Latin-1'
 else:
     raise Exception("Unknown sys.platform: %s " % sys.platform)
 
@@ -81,7 +78,7 @@ else:
 def configure(ctx):
     ctx.find_program(
         STATA_COMMANDS,
-        var="STATACMD",
+        var='STATACMD',
         errmsg="""\n
 No Stata executable found!\n\n
 If Stata is needed:\n
@@ -92,7 +89,7 @@ If Stata is needed:\n
        If yours has a different name, please report to hmgaudecker [at] gmail\n
 Else:\n
     Do not load the 'run_do_script' tool in the main wscript.\n\n"""
-        % STATA_COMMANDS,
+        % STATA_COMMANDS
     )
     ctx.env.STATAFLAGS = STATAFLAGS
     ctx.env.STATAENCODING = STATAENCODING
@@ -107,10 +104,10 @@ class run_do_script_base(Task.Task):
     def exec_command(self, cmd, **kw):
         bld = self.generator.bld
         try:
-            if not kw.get("cwd", None):
-                kw["cwd"] = bld.cwd
+            if not kw.get('cwd', None):
+                kw['cwd'] = bld.cwd
         except AttributeError:
-            bld.cwd = kw["cwd"] = bld.variant_dir
+            bld.cwd = kw['cwd'] = bld.variant_dir
         if not self.buffer_output:
             kw["stdout"] = kw["stderr"] = None
         return bld.exec_command(cmd, **kw)
@@ -121,7 +118,7 @@ class run_do_script_base(Task.Task):
 
         """
 
-        return "Running"
+        return 'Running'
 
     def __str__(self):
         """
@@ -134,7 +131,7 @@ class run_do_script_base(Task.Task):
             stataflags=self.env.STATAFLAGS,
             fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
             dofiletrunk=self.env.DOFILETRUNK,
-            append=self.env.APPEND,
+            append=self.env.APPEND
         )
 
 
@@ -151,7 +148,12 @@ class run_do_script(run_do_script_base):
             Logs.error(
                 """Running Stata on %s failed with code %r.\n
 Check the log file %s, last 10 lines\n\n%s\n\n\n"""
-                % (self.inputs[0].relpath(), ret, self.env.LOGFILEPATH, log_tail)
+                % (
+                    self.inputs[0].relpath(),
+                    ret,
+                    self.env.LOGFILEPATH,
+                    log_tail
+                )
             )
         return ret
 
@@ -163,19 +165,16 @@ Check the log file %s, last 10 lines\n\n%s\n\n\n"""
         """
 
         if sys.version_info.major >= 3:
-            kwargs = {
-                "file": self.env.LOGFILEPATH,
-                "mode": "r",
-                "encoding": self.env.STATAENCODING,
-            }
+            kwargs = {'file': self.env.LOGFILEPATH, 'mode':
+                      'r', 'encoding': self.env.STATAENCODING}
         else:
-            kwargs = {"name": self.env.LOGFILEPATH, "mode": "r"}
+            kwargs = {'name': self.env.LOGFILEPATH, 'mode': 'r'}
         with open(**kwargs) as log:
             log_tail = log.readlines()[-10:]
             for line in log_tail:
                 error_found = re.match("r\(([0-9]+)\)", line)
                 if error_found:
-                    return error_found.group(1), "".join(log_tail)
+                    return error_found.group(1), ''.join(log_tail)
                 else:
                     pass
         # Only end up here if the parser did not identify an error.
@@ -183,8 +182,8 @@ Check the log file %s, last 10 lines\n\n%s\n\n\n"""
         return None, None
 
 
-@TaskGen.feature("run_do_script")
-@TaskGen.before_method("process_source")
+@TaskGen.feature('run_do_script')
+@TaskGen.before_method('process_source')
 def apply_run_do_script(tg):
     """Task generator customising the options etc. to call Stata in batch
     mode for running a do-script.
@@ -194,31 +193,30 @@ def apply_run_do_script(tg):
     src_node = tg.path.find_resource(tg.source)
     if src_node is None:
         tg.bld.fatal(
-            "Could not find source file: {}".format(
-                os.path.join(tg.path.relpath(), tg.source)
-            )
+            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
         )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
-    tsk = tg.create_task("run_do_script", src=src_node, tgt=tgt_nodes)
+    tsk = tg.create_task('run_do_script', src=src_node, tgt=tgt_nodes)
     tsk.env.DOFILETRUNK = os.path.splitext(src_node.name)[0]
     tsk.env.LOGFILEPATH = os.path.join(
-        tg.bld.bldnode.abspath(), "%s.log" % (tsk.env.DOFILETRUNK)
+        tg.bld.bldnode.abspath(), '%s.log' % (tsk.env.DOFILETRUNK)
     )
-    tsk.env.APPEND = getattr(tg, "append", "")
-    tsk.env.PREPEND = getattr(tg, "prepend", "")
-    tsk.buffer_output = getattr(tg, "buffer_output", True)
+    tsk.env.APPEND = getattr(tg, 'append', '')
+    tsk.env.PREPEND = getattr(tg, 'prepend', '')
+    tsk.buffer_output = getattr(tg, 'buffer_output', True)
 
     # dependencies (if the attribute 'deps' changes, trigger a recompilation)
-    for x in tg.to_list(getattr(tg, "deps", [])):
+    for x in tg.to_list(getattr(tg, 'deps', [])):
         node = tg.path.find_resource(x)
         if not node:
             tg.bld.fatal(
-                "Could not find dependency %r for running %r" % (x, src_node.relpath())
+                'Could not find dependency %r for running %r'
+                % (x, src_node.relpath())
             )
         tsk.dep_nodes.append(node)
     Logs.debug(
-        "deps: found dependencies %r for running %r"
+        'deps: found dependencies %r for running %r'
         % (tsk.dep_nodes, src_node.relpath())
     )
 
