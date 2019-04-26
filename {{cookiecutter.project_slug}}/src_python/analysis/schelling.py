@@ -17,7 +17,6 @@ from bld.project_paths import project_paths_join as ppj
 from src.model_code.agent import Agent
 
 
-
 def setup_agents(model):
     """Load the simulated initial locations and return a list
     that holds all agents.
