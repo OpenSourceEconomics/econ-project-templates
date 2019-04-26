@@ -22,7 +22,6 @@ def setup_agents(model):
     that holds all agents.
 
     """
-
     initial_locations = np.loadtxt(
         ppj("OUT_DATA", "initial_locations.csv"), delimiter=","
     )
