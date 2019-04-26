@@ -12,9 +12,10 @@ import pickle
 import sys
 
 import numpy as np
+from bld.project_paths import project_paths_join as ppj
+
 from src.model_code.agent import Agent
 
-from bld.project_paths import project_paths_join as ppj
 
 
 def setup_agents(model):
