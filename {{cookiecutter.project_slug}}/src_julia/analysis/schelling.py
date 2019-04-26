@@ -38,7 +38,7 @@ def setup_agents(model):
                     initial_location=initial_locations[typ, :, i],
                     n_neighbours=model["n_neighbours"],
                     require_same_type=model["require_same_type"],
-                    max_moves=model["max_moves"]
+                    max_moves=model["max_moves"],
                 )
             )
 
@@ -94,19 +94,25 @@ def run_analysis(agents, model):
             break
 
     if someone_moved:
-        logging.info("No convergence achieved after {} iterations".format(model["max_iterations"]))
+        logging.info(
+            "No convergence achieved after {} iterations".format(
+                model["max_iterations"]
+            )
+        )
 
     return locations_by_round
 
 
 if __name__ == "__main__":
     model_name = sys.argv[1]
-    model = json.load(open(ppj("IN_MODEL_SPECS", model_name + ".json"), encoding="utf-8"))
+    model = json.load(
+        open(ppj("IN_MODEL_SPECS", model_name + ".json"), encoding="utf-8")
+    )
 
     logging.basicConfig(
         filename=ppj("OUT_ANALYSIS", "log", "schelling_{}.log".format(model_name)),
         filemode="w",
-        level=logging.INFO
+        level=logging.INFO,
     )
     np.random.seed(model["rng_seed"])
     logging.info(model["rng_seed"])
@@ -116,5 +122,7 @@ if __name__ == "__main__":
     # Run the main analysis
     locations_by_round = run_analysis(agents, model)
     # Store list with locations after each round
-    with open(ppj("OUT_ANALYSIS", "schelling_{}.pickle".format(model_name)), "wb") as out_file:
+    with open(
+        ppj("OUT_ANALYSIS", "schelling_{}.pickle".format(model_name)), "wb"
+    ) as out_file:
         pickle.dump(locations_by_round, out_file)
