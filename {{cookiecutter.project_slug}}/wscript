@@ -80,10 +80,9 @@ def configure(ctx):
 {% endif %}{% if cookiecutter.configure_running_sphinx_from_waf == "y" %}    ctx.load("sphinx_build")
 {% endif %}    ctx.load("write_project_headers")
     # ctx.find_program("dot")
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}    ctx.load("biber")
-{% endif %}{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}    ctx.load("tex")
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}    ctx.load("biber"){% endif %}{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}    ctx.load("tex"){% endif %}
 
-{% endif %}
+
 def build(ctx):
     ctx.env.PROJECT_PATHS = set_project_paths(ctx)
     ctx.path_to = path_to
