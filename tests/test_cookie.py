@@ -61,7 +61,9 @@ def test_install_Julia_example(cookies, basic_project_dict):
         "example_to_install"
     ] = "Julia (Warning: You will need to fix a lot yourself! Patches welcome!)"
     result = cookies.bake(extra_context=basic_project_dict)
-    get_simulation_draws_jl = result.project.join("src/data_management/get_simulation_draws.jl")
+    get_simulation_draws_jl = result.project.join(
+        "src/data_management/get_simulation_draws.jl"
+    )
     assert result.exit_code == 0
     assert get_simulation_draws_jl.check(exists=1)
 
