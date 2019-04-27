@@ -14,7 +14,7 @@ Getting started
 ----------------
 
 1. Make sure you have the following programs installed and that these can be found on your path. This template requires
-    * *[Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda.*  Windows users please follow the [following installation instructions for Anaconda](https://cookiecutter-research-template.readthedocs.io/en/latest/anaconda-on-windows.html) unless you know what you are doing. Make sure you have a conda version of 4.6.14 or higher installed by running conda --version.
+    * *[Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda.*  Windows users please follow the [following installation instructions for Anaconda](https://cookiecutter-research-template.readthedocs.io/en/latest/anaconda-on-windows.html) unless you know what you are doing. Make sure you have a conda version of 4.6.14 or higher installed by running conda --version in your shell.
 
     * LaTex. Examples: [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/).
 
