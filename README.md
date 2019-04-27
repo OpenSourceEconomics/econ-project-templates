@@ -14,14 +14,11 @@ Getting started
 ----------------
 
 1. Make sure you have the following programs installed and that these can be found on your path. This template requires
-    * *[Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda.*  Windows users please follow the [following installation instructions for Anaconda](https://cookiecutter-research-template.readthedocs.io/en/latest/anaconda-on-windows.html) unless you know what you are doing. Make sure you have a conda version of 4.6.14 or higher installed by running
+    * *[Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda.*  Windows users please follow the [following installation instructions for Anaconda](https://cookiecutter-research-template.readthedocs.io/en/latest/anaconda-on-windows.html) unless you know what you are doing. Make sure you have a conda version of 4.6.14 or higher installed by running conda --version.
 
-          $ conda --version
-
-      This template is tested with **Python 3.6 and higher**. Python 2 will not work.
     * LaTex. Examples: [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/).
 
-    Additionally note that if you want to run the template with Stata, R, Matlab, or Julia, the respective executables need to be found on your path as well. An instruction on how to add things to your path in Windows can be found [here](https://www.computerhope.com/issues/ch000549.htm). Note that you may have to restart your shell before the respective executables may be found on your path.
+    This template is tested with **Python 3.6 and higher**. Python 2 will not work. Additionally note that if you want to run the template with Stata, R, Matlab, or Julia, the respective executables need to be found on your path as well. An instruction on how to add things to your path in Windows can be found [here](https://www.computerhope.com/issues/ch000549.htm). Note that you may have to restart your shell before the respective executables may be found on your path.
 
 2. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
 
