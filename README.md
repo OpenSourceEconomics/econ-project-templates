@@ -32,7 +32,6 @@ Getting started
 
         $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.1.zip
 
-
 5. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
 
    * **author** -- Obvious, separate multiple authors by commas
@@ -72,15 +71,15 @@ Getting started
 
 8. Type the following commands to see whether the examples are working:
 
-        python waf.py configure
-        python waf.py build
-        python waf.py install
+        $ python waf.py configure
+        $ python waf.py build
+        $ python waf.py install
 
    The first command will fail if any one of the required programs cannot be found.
 
    If the second step fails, try the following in order to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
 
-        python waf.py build -j1
+        $ python waf.py build -j1
 
 
 Additional Prerequisites
