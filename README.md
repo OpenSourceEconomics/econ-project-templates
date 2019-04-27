@@ -13,11 +13,21 @@ This is a collection of templates where much of this automation is pre-configure
 Getting started
 ----------------
 
-1. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
+1. Make sure you have the following programs installed and that these can be found on your path. This template requires
+    * *[Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda.*  Windows users please follow the [following installation instructions for Anaconda](https://cookiecutter-research-template.readthedocs.io/en/latest/anaconda-on-windows.html) unless you know what you are doing. Make sure you have a conda version of 4.6.14 or higher installed by running
+
+        $ conda --version
+
+     This template is tested with **Python 3.6 and higher**. Python 2 will not work.
+    * LaTex. Examples: [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/).
+
+    Additionally note that if you want to run the template with Stata, R, Matlab, or Julia, the respective executables need to be found on your path as well. An instruction on how to add things to your path in Windows can be found [here](https://www.computerhope.com/issues/ch000549.htm). Note that you may have to restart your shell before the respective executables may be found on your path.
+
+2. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
 
         $ pip install cookiecutter
 
-2. Make sure to have [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda installed. **Tested with Python 3.6 and higher.** Python 2 will not work. A modern LaTeX distribution (e.g. [TeXLive](www.tug.org/texlive/), [MacTex](http://tug.org/mactex/), or [MikTex](http://miktex.org/)) needs to be found on your path. Check that `conda --version` shows 4.6.x, else run conda update conda first.
+    All additional dependencies will be installed into a newly created conda environment which is installed upon poject creation. Note that if you don't opt for the conda environment later on, you need to take care of these dependencies on your own. <!-- Should link a list of dependencies-->
 
 3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
 
@@ -45,20 +55,23 @@ Getting started
    * **configure_running_julia_from_waf** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
    * **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
    * **python_version** -- Usually accept the default. Must be a valid Python version >= 3.6
-   * **add_basic_pre_commit_hooks** -- Choose yes if using Python.  <!--Implements black and some basic checks as [pre-commit hooks]<https://pre-commit.com/>. Pre-commit hooks run before every commit and prohibit committing before they are resolved. For a full list of pre-commit hooks implemented here take a look at the [documentation]<http://hmgaudecker.github.io/econ-project-templates/>. -->
-   <!--* **add_intrusive_pre_commit** -- adds [flake8]<http://flake8.pycqa.org/en/latest/> to the pre-commit hooks. flake8 is a python  code linting tool. It checks your code for style guide (PEP8) adherence. -->
+   * **add_basic_pre_commit_hooks** -- Choose yes if you are using python. Implements black and some basic checks as [pre-commit hooks]<https://pre-commit.com/>. Pre-commit hooks run before every commit and prohibit committing before they are resolved. For a full list of pre-commit hooks implemented here take a look at the [documentation]<http://hmgaudecker.github.io/econ-project-templates/>.
+   * **add_intrusive_pre_commit** -- adds [flake8]<http://flake8.pycqa.org/en/latest/> to the pre-commit hooks. flake8 is a python code linting tool. It checks your code for style guide (PEP8) adherence.
    * **use_biber_biblatex_for_tex_bibliographies** -- This is a modern replacement for bibtex, but often this does not seem to be stable in MikTeX distributions. Choose yes only if you know what you are doing.
    * **open_source_license** -- Whatever you prefer.
 
    After successfully answering all the prompts a folder named according to your project_slug will be created in your current directory.
 
-6. For Windows users: Execute the following commands in the Anaconda prompt unless you know what you are doing.
+6. For Windows users: Execute the following commands in the Anaconda prompt or initialize a shell of your choosing by running conda init in this shell.
+
+*Skip step 7 if you did not opt for the conda enviornment.*
 
 7. Navigate to the folder in the shell. Execute:
 
-        conda activate <env_name>
+        $ conda activate <env_name>
 
    This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
+
 
 8. Type the following commands to see whether the examples are working:
 
@@ -76,9 +89,20 @@ Getting started
 Additional Prerequisites
 ------------------------
 
-* Running Sphinx requires the extension sphinxcontrib.bibtex. Install via pip:
+* Additional dependencies that are installed via the conda environment:
 
-      pip install sphinxcontrib-bibtex
+  General:
+
+        $ conda install pandas python-graphviz=0.8
+        $ pip install maplotlib click==7.0
+
+  For sphinx users:
+
+        $ pip install sphinx nbsphinx sphinx-autobuild sphinx-rtd-theme sphinxcontrib-bibtex
+
+  For Matlab and sphinx users:
+
+        $ pip install sphinxcontrib-matlabdomain
 
 
 * For the R example, make sure to have the following libraries installed before you try to run Waf:
