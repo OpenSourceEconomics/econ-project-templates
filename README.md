@@ -58,7 +58,11 @@ Getting started
 
    After successfully answering all the prompts a folder named according to your project_slug will be created in your current directory.
 
-6. For Windows users: Execute the following commands in the Anaconda prompt or initialize a shell of your choosing by running conda init in this shell.
+6. For Windows users: Execute the following commands in the Anaconda prompt or initialize a shell of your choosing by running:
+
+        $ conda init
+
+    in the shell of your choosing.
 
 *Skip step 7 if you did not opt for the conda enviornment.*
 
