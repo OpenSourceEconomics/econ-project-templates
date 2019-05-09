@@ -1,5 +1,6 @@
-import pytest
 import subprocess
+
+import pytest
 
 
 @pytest.fixture
@@ -112,10 +113,11 @@ def test_template_with_git_setup(cookies, basic_project_dict):
 
 
 def test_anaconda_environment_creation(cookies, basic_project_dict):
-    basic_project_dict["create_conda_environment_with_name"] = "reproducible_research_template"
+    basic_project_dict[
+        "create_conda_environment_with_name"
+    ] = "reproducible_research_template"
     result = cookies.bake(extra_context=basic_project_dict)
-    env = subprocess.check_output(['conda', 'env', 'list']).decode()
+    env = subprocess.check_output(["conda", "env", "list"]).decode()
     # Make sure to remove environment again!
     subprocess.run("""conda remove --name reproducible_research_template --all""")
-    assert 'template_for_reproducible_research' in env
-
+    assert "template_for_reproducible_research" in env
