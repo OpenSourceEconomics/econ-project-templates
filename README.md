@@ -62,7 +62,7 @@ Getting started
 
         $ conda init
 
-    in the shell of your choosing.
+    in this shell.
 
 *Skip step 7 if you did not opt for the conda enviornment.*
 

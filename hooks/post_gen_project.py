@@ -76,7 +76,7 @@ if __name__ == "__main__":
         if "{{ cookiecutter.add_basic_pre_commit_hooks }}" == "y":
             try:
                 subprocess.call(["pre-commit", "install"])
-            except FileNotFoundError:
+            except FileNotFoundError as err:
                 if environment_name is None:
                     print(
                         """
@@ -96,6 +96,7 @@ Type:
 
                 """.format()
                     )
+                    raise err
                 else:
                     print(
                         """
@@ -118,6 +119,7 @@ Type:
                             environment_name
                         )
                     )
+                    raise err
         else:
             remove_file(".pre-commit-config.yaml")
     else:
