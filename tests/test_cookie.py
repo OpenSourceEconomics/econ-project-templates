@@ -14,6 +14,7 @@ def basic_project_dict():
         "project_short_description": "Nothing, really",
         "create_conda_environment_with_name": "x",
         "set_up_git": "n",
+        "make_initial_commit": "n",
         "git_remote_url": "",
         "make_initial_commit": "n",
         "example_to_install": "Python",
@@ -120,4 +121,4 @@ def test_anaconda_environment_creation(cookies, basic_project_dict):
     env = subprocess.check_output(["conda", "env", "list"]).decode()
     # Make sure to remove environment again!
     subprocess.run("""conda remove --name reproducible_research_template --all""")
-    assert "template_for_reproducible_research" in env
+    assert "reproducible_research_template" in env

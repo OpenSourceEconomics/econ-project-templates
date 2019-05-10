@@ -82,7 +82,7 @@ def make_dot_file(ctx):
 
             # Add sources
             sources = Utils.to_list(getattr(taskgen, "source", []))
-            for source in source:
+            for source in sources:
                 print("This is a source: " + str(source) + " " + str(Path(source).name))
 
             # Write targets
