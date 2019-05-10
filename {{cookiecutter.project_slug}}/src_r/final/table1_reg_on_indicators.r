@@ -1,9 +1,9 @@
 '
 
 The file "table1_reg_on_indicators.r" creates table 1 with the regression
-estimates and correlations of the main indicators (mortality, 
-expropriation risk and GDP) from the corresponding r-file in 
-the analysis directory "regression_on_indicators.r" 
+estimates and correlations of the main indicators (mortality,
+expropriation risk and GDP) from the corresponding r-file in
+the analysis directory "regression_on_indicators.r"
 
 '
 
@@ -31,7 +31,7 @@ for (i in 1:3) {
 }
 
 ## add header and row names, make latex table
-header = matrix( 
+header = matrix(
     c(
         "",
         "Log mortality ", "Expropriation risk", "Log GDP", "Dependent variable", "(1)", "(2)", "(3)",
@@ -40,19 +40,19 @@ header = matrix(
     ),
     c(4,4),
     byrow=TRUE
-) 
+)
 
 
 row_names = c(
     "Original sample (64 countries)",
-    "~~ Campaign indicator", 
+    "~~ Campaign indicator",
     "",
-    "~~ Laborer indicator",     
+    "~~ Laborer indicator",
     "",
     "~~ $R^{2}$",
-    "", 
-    "Correlation with log mortality", 
-    "~~ Full", 
+    "",
+    "Correlation with log mortality",
+    "~~ Full",
     "~~ Partial, controlling for indicators"
 )
 

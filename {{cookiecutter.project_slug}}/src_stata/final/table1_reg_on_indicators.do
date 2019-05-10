@@ -14,7 +14,7 @@ log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
 // Estimation results
 
 use `"${PATH_OUT_ANALYSIS}/regression_on_indicators_est"', clear
-	
+
 listtab E_colstring E_1 E_2 E_3 ///
 	using `"${PATH_OUT_TABLES}/table1_reg_on_indicators.tex"', replace type rstyle(tabular) ///
 	head("\begin{table}[htb]" "\caption{Relationship of Main Variables to Campaign and Laborer Indicators}" ///

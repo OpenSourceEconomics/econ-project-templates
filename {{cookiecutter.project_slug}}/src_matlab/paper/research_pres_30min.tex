@@ -7,7 +7,7 @@
 \usepackage{longtable, booktabs, tabularx}
 \usepackage{fancyvrb, moreverb, relsize}
 \usepackage{eurosym, calc}
-\usepackage{amsmath, amssymb, amsfonts, amsthm, bm} 
+\usepackage{amsmath, amssymb, amsfonts, amsthm, bm}
 
 {% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
 \usepackage[
@@ -76,15 +76,14 @@
     \beamersetaveragebackground{white}
 }
 
+
 \begin{frame}[allowframebreaks]
     \frametitle{References}
-    {% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
     \renewcommand{\bibfont}{\normalfont\footnotesize}
-    \printbibliography
-    {% endif %}
-    {% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
-    \bibliography{refs}
-    {% endif %}
+    \printbibliography{% endif %}
+{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
+    \bibliography{refs}{% endif %}
 \end{frame}
 
 \end{document}

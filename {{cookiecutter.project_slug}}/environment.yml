@@ -1,4 +1,4 @@
-name: {{ cookiecutter.project_slug }}
+name: {{ cookiecutter.create_conda_environment_with_name }}
 channels:
   - defaults
 dependencies:
@@ -9,8 +9,7 @@ dependencies:
   - python-graphviz=0.8
   - pip:
     - click==7.0
-{% if cookiecutter.add_python_code_formatter_to_project == 'y' %}
-    - black
+{% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
     - pre-commit
 {% endif %}
     - matplotlib
@@ -27,4 +26,3 @@ dependencies:
 {% if cookiecutter.configure_running_sphinx_from_waf == 'y' and cookiecutter.configure_running_matlab_from_waf == 'y' %}
     - sphinxcontrib-matlabdomain
 {% endif %}
-

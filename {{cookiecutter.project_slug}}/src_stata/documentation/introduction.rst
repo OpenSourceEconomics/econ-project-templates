@@ -5,7 +5,7 @@
 Introduction
 ************
 
-Documentation on the rationale, Waf, and more background is at http://hmgaudecker.github.io/econ-project-templates/ in the context of the Python version of this template. 
+Documentation on the rationale, Waf, and more background is at http://hmgaudecker.github.io/econ-project-templates/ in the context of the Python version of this template.
 
 Most of the things mentioned there are valid for the Stata version of the template as well, only the example is different. In particular, we use Albouy's :cite:`Albouy12` replication study of Acemoglu, Johnson, and Robinson's :cite:`AcemogluJohnsonRobinson01` classic 2001 paper.
 
@@ -18,13 +18,13 @@ Getting started
 
 **This assumes you have completed the steps in the** `README.md file <https://github.com/hmgaudecker/econ-project-templates/>`_ **and everything worked.**
 
-The logic of the project template works by step of the analysis: 
+The logic of the project template works by step of the analysis:
 
 1. Data management
 2. The actual estimations / simulations / ?
 3. Visualisation and results formatting (e.g. exporting of LaTeX tables)
-4. Research paper and presentations. 
-   
+4. Research paper and presentations.
+
 It can be useful to have code and model parameters available to more than one of these steps, in that case see sections :ref:`model_specifications`, :ref:`model_code`, and :ref:`library`.
 
 First of all, think about whether this structure fits your needs -- if it does not, you need to adjust (delete/add/rename) directories and files in the following locations:
@@ -48,7 +48,7 @@ See :download:`this pdf document </../../bld/src/documentation/dependency_graph.
 
 
 .. raw:: latex
-    
+
     \vspace*{2ex}
 
     Forget about the previous sentence in the context of this pdf document because in LaTeX, we can include the pdf directly as a graphic:\\[2ex]
@@ -91,7 +91,7 @@ These will re-appear in automatically generated header files by calling the ``wr
 By default, these header files are generated in the top-level build directory, i.e. ``bld``. Since this is where Stata is launched, you can just get globals with the project paths by adding a line ``include project_paths`` at the top of you do-files.
 
 To see what these variables are, here is the content of *bld/project_paths.do*:
-    
+
 .. literalinclude:: ../../bld/project_paths.do
 
 .. note::

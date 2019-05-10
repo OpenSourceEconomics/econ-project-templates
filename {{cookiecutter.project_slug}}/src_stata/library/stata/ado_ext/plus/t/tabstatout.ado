@@ -1,7 +1,7 @@
 program define tabstatout, rclass byable(recall) sort
 *! 2.1 Ian Watson 19feb2009. New version for spreadsheet textfile output only. Based on latabstat
-*! 1.1 Ian Watson 18jan2003. Modification of tabstat version 2.5.2  09nov2000 
-* Note the shallow indentation mostly indicates modifications. Deeper indentations are 
+*! 1.1 Ian Watson 18jan2003. Modification of tabstat version 2.5.2  09nov2000
+* Note the shallow indentation mostly indicates modifications. Deeper indentations are
 * generally from original tabstat coding.
 
 	version 6
@@ -15,7 +15,7 @@ program define tabstatout, rclass byable(recall) sort
 
 	if "`tx'" ~=""{
 		if "`tx'"=="0" {
-			local wide="\linewidth" 
+			local wide="\linewidth"
 		}
 		else {
 			local wide="`tx'cm"
@@ -32,7 +32,7 @@ program define tabstatout, rclass byable(recall) sort
 	}
 
 
-	tempname hh 
+	tempname hh
 
 	if "`casewise'" != "" {
 		local same same
@@ -288,9 +288,9 @@ program define tabstatout, rclass byable(recall) sort
 	if "`descr'" != "" & "`by'" != "" {
 		local aby "-"
 	}
-	
 
-	
+
+
 	if "`incol'" == "statistics" {
 
 		* display the results: horizontal = statistics (block wise)
@@ -338,14 +338,14 @@ program define tabstatout, rclass byable(recall) sort
 			local is `is1'
 			while `is' <= `is2' {
 				di in gr %10s "`name`is''" _c
-				if `is' < `is2'{  
+				if `is' < `is2'{
 			* < ensures last column does not end with column separator
-					di in gr "} & \textbf{" _c 
+					di in gr "} & \textbf{" _c
 				}
 				local is = `is' + 1
 			}
-	di in gr "} \\\" 
-	di in gr "\\hline" 
+	di in gr "} \\\"
+	di in gr "\\hline"
 
 			* loop over the categories of -by- (1..nby) and -total- (nby+1)
 			local nbyt = `nby' + ("`total'"=="")
@@ -387,7 +387,7 @@ program define tabstatout, rclass byable(recall) sort
 		di in gr "\end{tabularx}"
 	}
 	else {
-		di in gr "\end{tabular}"      
+		di in gr "\end{tabular}"
 	}
 	di in gr "\end{table}"
 
@@ -449,13 +449,13 @@ program define tabstatout, rclass byable(recall) sort
 			while `i' <= `i2' {
 				di in gr %`fhwide's abbrev("`var`i''",`hwide') _c
 					if `i' < `i2'{
-					di in gr "} & \textbf{" _c 
+					di in gr "} & \textbf{" _c
 					}
 				local i = `i' + 1
 			}
-	di in gr "} \\\" 
-	di in gr "\\hline" 
-	
+	di in gr "} \\\"
+	di in gr "\\hline"
+
 			* loop over the categories of -by- (1..nby) and -total- (nby+1)
 			local nbyt = `nby' + ("`total'"=="")
 			local iby 1
@@ -496,7 +496,7 @@ program define tabstatout, rclass byable(recall) sort
 		di in gr "\end{tabularx}"
 	}
 	else {
-		di in gr "\end{tabular}"      
+		di in gr "\end{tabular}"
 	}
 	di in gr "\end{table}"
 
@@ -525,11 +525,11 @@ program define tabstatout, rclass byable(recall) sort
 			local iby = `iby' + 1
 		}
 	}
-	
-	
+
+
 	* send to file if requested
 	* --------------------------
-	
+
 if "`tf'" ~="" {
 	if "`replace'" == "replace" {local opt "replace"}
 	if "`append'" == "append" {local opt "append"}
@@ -580,9 +580,9 @@ if "`tf'" ~="" {
 	if "`descr'" != "" & "`by'" != "" {
 		local aby "-"
 	}
-	
 
-	
+
+
 	if "`incol'" == "statistics" {
 
 		* send to file the results: horizontal = statistics (block wise)
@@ -615,13 +615,13 @@ if "`tf'" ~="" {
 			* display header
 			if "`by'" != "" { file write `hh' %`aby'`wby's "`by'" " "  }
 			if "`descr'" != "" { file write `hh' "variable" 	}
-	file write `hh'  _tab 
+	file write `hh'  _tab
 			local is `is1'
 			while `is' <= `is2' {
-				file write `hh' %10s "`name`is''" 
-				if `is' < `is2'{  
+				file write `hh' %10s "`name`is''"
+				if `is' < `is2'{
 			* < ensures last column does not end with column separator
-					file write `hh' _tab  
+					file write `hh' _tab
 				}
 				local is = `is' + 1
 			}
@@ -635,9 +635,9 @@ if "`tf'" ~="" {
 					if "`by'" != "" {
 						if `i' == 1 {
 							local lab = substr(`"`lab`iby''"'0, 1, `wby')
-							file write `hh' % `aby'`wby's `"`lab'"' " " 
+							file write `hh' % `aby'`wby's `"`lab'"' " "
 						}
-						else	file write `hh' _skip(`wby') " " 
+						else	file write `hh' _skip(`wby') " "
 					}
 					if "`descr'" != "" {
 						file write `hh' (abbrev("`var`i''",`hwide')) " "
@@ -645,7 +645,7 @@ if "`tf'" ~="" {
 					local is `is1'
 					while `is' <= `is2' {
 						GetMat s : `fmt`i'' `Stat`iby''[`is',`i']
-	file write `hh'  _tab 
+	file write `hh'  _tab
 						file write `hh' %10s "`s'"
 						local is = `is' + 1
 					}
@@ -667,7 +667,7 @@ if "`tf'" ~="" {
 	di
 	di in white "The table has been written to the file:`tf'.csv"
 	file close `hh'
-	 
+
 
 
 
@@ -713,12 +713,12 @@ if "`tf'" ~="" {
 			if "`by'" != "" { file write `hh' %`aby'`wby's "`by'" " "  }
 			if "`descr'" != "" { file write `hh' "stats" 	}
 
-	file write `hh'  _tab 
+	file write `hh'  _tab
 			local i `i1'
 			while `i' <= `i2' {
 				file write `hh' %`fhwide's (abbrev("`var`i''",`hwide'))
 					if `i' < `i2'{
-					file write `hh' _tab  
+					file write `hh' _tab
 					}
 				local i = `i' + 1
 			}
@@ -733,19 +733,19 @@ if "`tf'" ~="" {
 					if "`by'" != "" {
 						if `is' == 1 {
 							local lab = substr(`"`lab`iby''"'0, 1, `wby')
-							file write `hh' %`aby'`wby's `"`lab'"' " " 
+							file write `hh' %`aby'`wby's `"`lab'"' " "
 						}
-						else	file write `hh'  _skip(`wby') " " 
+						else	file write `hh'  _skip(`wby') " "
 					}
 					if "`descr'" != "" {
-						file write `hh' %8s "`name`is''" " " 
+						file write `hh' %8s "`name`is''" " "
 					}
 
 					local i `i1'
 					while `i' <= `i2' {
 						GetMat s : `fmt`i'' `Stat`iby''[`is',`i']
-	file write `hh' _tab 
-						file write `hh' %10s "`s'" 
+	file write `hh' _tab
+						file write `hh' %10s "`s'"
 						local i = `i' + 1
 					}
 	file write `hh'  _n
@@ -761,11 +761,11 @@ if "`tf'" ~="" {
 	if "`tx'"~=""{
 		file write `hh'  "\end{tabularx}" _n
 	}
-	file write `hh' _n 
+	file write `hh' _n
 	di
 	di in white "The table has been written to the file:`tf'.csv"
 	file close `hh'
- 
+
 
 			local iblock = `iblock' + 1
 			if `iblock' <= `nvblock' {

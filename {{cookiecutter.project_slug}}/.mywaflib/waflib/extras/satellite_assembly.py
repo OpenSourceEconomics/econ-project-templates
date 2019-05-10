@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # encoding: utf-8
 # vim: tabstop=4 noexpandtab
-
 """
 Create a satellite assembly from "*.??.txt" files. ?? stands for a language code.
 
@@ -11,10 +10,12 @@ The build folder will hold the satellite assemblies as ./??/ExeName.resources.dl
 #gen becomes template (It is called gen because it also uses resx.py).
 bld(source='Resources/resources.de.txt',gen=ExeName)
 """
+import os
+import re
 
-import os, re
 from waflib import Task
-from waflib.TaskGen import feature,before_method
+from waflib.TaskGen import before_method
+from waflib.TaskGen import feature
 
 class al(Task.Task):
 	run_str = '${AL} ${ALFLAGS}'
@@ -54,4 +55,3 @@ def satellite_assembly(self):
 def configure(ctx):
 	ctx.find_program('al', var='AL', mandatory=True)
 	ctx.load('resx')
-

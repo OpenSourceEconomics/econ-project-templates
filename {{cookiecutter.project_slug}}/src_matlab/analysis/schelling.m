@@ -1,10 +1,10 @@
 
 function schelling(model_name)
 
-% Run a Schelling (1969) segregation model and store a database with locations 
-% and types at each cycle. The scripts expects a model name to be passed on 
-% the command line that needs to correspond to a file called [model_name].json 
-% in the "IN_MODEL_SPECS" directory. The model name is then recovered form the 
+% Run a Schelling (1969) segregation model and store a database with locations
+% and types at each cycle. The scripts expects a model name to be passed on
+% the command line that needs to correspond to a file called [model_name].json
+% in the "IN_MODEL_SPECS" directory. The model name is then recovered form the
 % command line and made available through the matlab variable named "append".
 
 
@@ -47,21 +47,21 @@ locations_by_round( :, :, 1) = agents;
 n_rounds = 1;
 
 for loop_counter = 2 : model.max_iterations;
-    
+
     locations_by_round( :, :, loop_counter) = ( ...
         locations_by_round( :, :, loop_counter - 1) ...
     );
-    
+
     someone_moved = 0;
     for a = 1 : size(agents, 1); % Loop through agents
-                
+
         % Obtain this agent's current location
         old_location = locations_by_round(a, :, loop_counter);
-        
+
         % Obtain all other agents' current locations
         other_agents = locations_by_round( :, :, loop_counter);
         other_agents(a, :) = [];
-                
+
         % Obtain this agent's new location conditioned on his happiness
         new_location = move_until_happy(...
             old_location, ...
@@ -70,17 +70,17 @@ for loop_counter = 2 : model.max_iterations;
             model.require_same_type, ...
             model.max_moves ...
         );
-        
+
         % Check if this agent moved
         if (new_location(1 : 2) ~= old_location(1 : 2));
             someone_moved = 1;
             n_rounds = loop_counter;
         end
-        
+
         % Update this agent's location
         locations_by_round(a, :, loop_counter) = new_location;
     end
-    
+
     % We are done if everybody is happy
     if someone_moved == 0;
         break;
@@ -93,4 +93,4 @@ if someone_moved == 1;
 end
 
 locations_by_round = locations_by_round( :, :, (1 : n_rounds));
-save(project_paths('OUT_ANALYSIS', ['schelling_', model_name , '.mat']), 'locations_by_round');   
+save(project_paths('OUT_ANALYSIS', ['schelling_', model_name , '.mat']), 'locations_by_round');

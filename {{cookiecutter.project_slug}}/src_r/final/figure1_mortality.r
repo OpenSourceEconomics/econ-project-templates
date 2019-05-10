@@ -1,8 +1,8 @@
 '
 
-The file "figure1_mortality.r" creates two figures, plotting 
-expropriation risk and log GDP against settler mortality respectively. 
-It accounts for campaign/laborer indicators and distinguishes between 
+The file "figure1_mortality.r" creates two figures, plotting
+expropriation risk and log GDP against settler mortality respectively.
+It accounts for campaign/laborer indicators and distinguishes between
 countries with original data and countries with conjectured mortality data.
 
 '
@@ -13,7 +13,7 @@ rm(list=ls())
 source("project_paths.r")
 
 library(foreign)
- 
+
 
 data <- read.table(paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep = "/"))
 
@@ -39,10 +39,10 @@ datalabcon <- datalab[grep(0,datalab$source0),]
 
 png(filename=paste(PATH_OUT_FIGURES, "risk_mort.png", sep="/"))
 plot(
-     datacamphome$logmort0, datacamphome$risk, pch=15, 
+     datacamphome$logmort0, datacamphome$risk, pch=15,
      xlab="Logarithm of settler mortality", ylab="Expropriation risk",
-     ylim=c(3,10), xlim=c(2,8), bty="L" 
-) 
+     ylim=c(3,10), xlim=c(2,8), bty="L"
+)
 lines(datacampcon$logmort0, datacampcon$risk, pch=22, type="p")
 
 lines(databarhome$logmort0, databarhome$risk, pch=16, type="p")
@@ -58,10 +58,10 @@ plot.new()
 png(filename=paste(PATH_OUT_FIGURES, "gdp_mort.png", sep="/"))
 ## Plot that data against loggdp
 plot(
-     datacamphome$logmort0, datacamphome$loggdp, pch=15, 
+     datacamphome$logmort0, datacamphome$loggdp, pch=15,
      xlab="Logarithm of settler mortality", ylab="Logarithm of GDP per capita",
-     ylim=c(6,10.5), xlim=c(2,8), bty="L" 
-) 
+     ylim=c(6,10.5), xlim=c(2,8), bty="L"
+)
 lines(datacampcon$logmort0, datacampcon$loggdp, pch=22, type="p")
 
 lines(databarhome$logmort0, databarhome$loggdp, pch=16, type="p")

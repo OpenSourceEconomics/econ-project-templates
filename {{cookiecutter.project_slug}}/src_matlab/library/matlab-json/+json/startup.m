@@ -9,7 +9,7 @@ function startup(varargin)
 % any matlab internal states, such as global/persistent variables or mex
 % functions. To avoid unexpected state reset, execute this function once before
 % using other json API functions.
-% 
+%
 % OPTIONS
 %
 % The function takes a following option.

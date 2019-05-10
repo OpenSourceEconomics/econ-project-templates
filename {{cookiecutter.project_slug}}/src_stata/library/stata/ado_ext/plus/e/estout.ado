@@ -2476,7 +2476,7 @@ program _estout_getres, rclass
         if `rc' {
             exit `rc'
         }
-        
+
         if (c(stata_version)>=11) & (`hasbc'>0) {
             mata: estout_omitted_and_base() // sets local hasbc
         }
@@ -4619,7 +4619,7 @@ void estout_omitted_and_base()
     real matrix         bc
     string matrix       rstripe, cstripe
     string colvector    coefnm
-    
+
     bc = st_matrix(st_local("bc"))
     rstripe = st_matrixrowstripe(st_local("bc"))
     cstripe = st_matrixcolstripe(st_local("bc"))

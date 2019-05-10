@@ -1,5 +1,5 @@
-/* 
-In the file "second_stage_estimation.do", we compute IV estimates for log GDP 
+/*
+In the file "second_stage_estimation.do", we compute IV estimates for log GDP
 per capita with expropriation risk as the first stage dependent variable.
 
 We also compute confidence intervals for a usual Wald statistic and confidence
@@ -8,7 +8,7 @@ intervals for the Anderson-Rubin (1949) statistic.
 The file requires to be called with a model specification as the argument,
 a corresponding do-file must exist in ${PATH_OUT_MODEL_SPECS}. That file needs
 to define globals:
-    
+
     * ${DEPVAR} - the dependent variable
     * ${INSTD} - the instrumented variable
     * ${INSTS} - the instrument
@@ -34,7 +34,7 @@ do `"${PATH_OUT_MODEL_SPECS}/geography"'
 tempfile ci_base ci_1 ci_2 ci_3 ci_4 ci_5 ci_6 ci_7 tempdata
 
 
-// The step is 0.01 in the original code accompanying Albouy (2012), 
+// The step is 0.01 in the original code accompanying Albouy (2012),
 // but 4000 regressions are a bit too much for demonstration purposes.
 local range = "-20 (0.2) 20"
 
@@ -49,7 +49,7 @@ save `ci_base', replace
 
 
 forvalues N = 1 / 7 {
-        
+
     use `ci_base', replace
     save `ci_`N'', replace
 
@@ -102,7 +102,7 @@ forvalues N = 1 / 7 {
 
         drop _all
         qui set obs 1
-        gen fstat = f 
+        gen fstat = f
         gen beta = beta0
         gen pval = Ftail(1, `j'-1 , fstat)
         gen inci = pval>=0.05
@@ -125,7 +125,7 @@ forvalues N = 1 / 7 {
         drop _all
         qui set obs 1
         // Adjustment needed since controls taken out
-        gen fstat = f 
+        gen fstat = f
         gen beta = beta0
         gen pval = Ftail(1, `j'-1, fstat)
         gen inci = pval >= 0.05
@@ -215,8 +215,8 @@ gen str cilmT_ci = ""
 svmat statT, names(statT_)
 
 replace cilmT_ci = "[" + cilmT_1_str + "," + cilmT_2_str + "]" if statT_1 < statT_2
-replace cilmT_ci = "(-$\infty$,+$\infty$)" if statT_1 > statT_3 & statT_1 > statT_2 
-replace cilmT_ci = "\begin{tabular}[c]{@{}c@{}}(-$\infty$," + cilmT_1_str + "] U \\\ [" + cilmT_2_str + ",+$\infty$)\end{tabular}" if statT_1 > statT_2 & statT_1 > statT_2 & statT_1 < statT_3 
+replace cilmT_ci = "(-$\infty$,+$\infty$)" if statT_1 > statT_3 & statT_1 > statT_2
+replace cilmT_ci = "\begin{tabular}[c]{@{}c@{}}(-$\infty$," + cilmT_1_str + "] U \\\ [" + cilmT_2_str + ",+$\infty$)\end{tabular}" if statT_1 > statT_2 & statT_1 > statT_2 & statT_1 < statT_3
 
 keep pointT_1 waldT_ci cilmT_ci
 

@@ -13,7 +13,9 @@ class Agent:
 
     """
 
-    def __init__(self, typ, initial_location, n_neighbours, require_same_type, max_moves):
+    def __init__(
+        self, typ, initial_location, n_neighbours, require_same_type, max_moves
+    ):
         self.type = typ
         self.location = np.asarray(initial_location)
         self._n_neighbours = n_neighbours
@@ -30,10 +32,12 @@ class Agent:
     def _happy(self, agents):
         """True if sufficient number of nearest neighbours are of the same type."""
         # Create a sorted list of pairs (d, agent), where d is distance from self
-        distances = [(self._get_distance(other), other) for other in agents if not self == other]
+        distances = [
+            (self._get_distance(other), other) for other in agents if not self == other
+        ]
         distances.sort()
         # Extract the types of neighbouring agents
-        neighbour_types = [other.type for d, other in distances[:self._n_neighbours]]
+        neighbour_types = [other.type for d, other in distances[: self._n_neighbours]]
         # Count how many neighbours have the same type as self
         n_same_type = sum(self.type == nt for nt in neighbour_types)
         return n_same_type >= self._require_same_type
@@ -44,7 +48,7 @@ class Agent:
         if self._happy(agents):
             return
         else:
-            for m in range(self._max_moves):
+            for _m in range(self._max_moves):
                 self._draw_new_location()
                 if self._happy(agents):
                     return

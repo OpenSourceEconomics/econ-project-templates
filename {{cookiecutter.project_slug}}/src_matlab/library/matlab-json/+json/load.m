@@ -24,8 +24,8 @@ function value = load(str, varargin)
 % EXAMPLE
 %
 %   >> value = json.load('{"char":"hello","matrix":[[1,3],[4,2]]}')
-%   value = 
-% 
+%   value =
+%
 %         char: 'hello'
 %       matrix: [2x2 double]
 %
@@ -42,7 +42,7 @@ function value = load(str, varargin)
 %        3     6
 %
 %   >> value = json.load('[[1,2,3],[4,5,6]]', 'MergeCell', false)
-%   value = 
+%   value =
 %
 %       {1x3 cell}    {1x3 cell}
 %

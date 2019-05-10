@@ -36,10 +36,10 @@ program define tabout
 * removed wtstr in ta from summary tables
 * fixed typo in cblock rblock
 * fixed typo in nwt option
-* 2.0.0 Ian Watson 30nov2006 
+* 2.0.0 Ian Watson 30nov2006
 * 1.2.0 Ian Watson 13mar2005
 * 1.1.8 Ian Watson 30nov2004
-* 1.1.0 Ian Watson 28oct2004 
+* 1.1.0 Ian Watson 28oct2004
 * Program to produce publication quality tables
 * See tabout_tutorial.pdf at www.ianwatson.com.au
 
@@ -47,10 +47,10 @@ program define tabout
      version 9.2
 
     syntax varlist [if] [in] [fweight aweight iweight] using/ ///
-    [, REPlace APPend Cells(string) Format(string) clab(string) /// 
+    [, REPlace APPend Cells(string) Format(string) clab(string) ///
     LAYout(string) ONEway sum mi sort ///
-    npos(string) nlab(string) nwt(string) nnoc NOFFset(string) /// 
-    stats(string) /// 
+    npos(string) nlab(string) nwt(string) nnoc NOFFset(string) ///
+    stats(string) ///
     svy SEBnone CIBnone cisep(string) ci2col PERcent Level(string) pop ///
     delim(string) DPComma MONey(string) CHKWTnone debug NOBORDer ///
     show(string) wide(string) ///
@@ -58,25 +58,25 @@ program define tabout
     style(string) lines(string) font(string) ///
     bt ROTate(string) cl1(string) cl2(string) cltr1(string) cltr2(string) ///
     body topf(string) botf(string) topstr(string) botstr(string) ///
-    PSymbol(string)] 
+    PSymbol(string)]
 
 *------------------------ setup -------------------------
 
 global dotss "nois _dots 0, title(Survey results being calculated)"
 global dots "nois _dots 5 0"
 
-tempvar touse 
+tempvar touse
 mark `touse' `if' `in'
 
 
     global mainfile = "`using'"
-    
+
     local opt ""
     local opt = cond("`replace'" == "replace","replace", ///
                     cond("`append'" == "append","append", ///
                         ""))
 
-    if ("`opt'"=="") { 
+    if ("`opt'"=="") {
         capture confirm file "$mainfile"
         if !_rc {
          di
@@ -88,8 +88,8 @@ mark `touse' `if' `in'
          exit
         }
     }
-    
-    if ("`opt'"=="replace") { 
+
+    if ("`opt'"=="replace") {
         tempname outfile
         capture file open `outfile' using "$mainfile", write replace
         capture file write `outfile' ""
@@ -107,8 +107,8 @@ mark `touse' `if' `in'
 
     local weightstr1 = cond("`weight'"~="","`weight'","none")
     local weightstr2 = cond("`weight'"~="",subinstr("`exp'"," ","",.),"none")
-    
-    if ("`weightstr1'"~="none") { 
+
+    if ("`weightstr1'"~="none") {
         local wtvar = substr("`weightstr2'",2,.)
         local wttype : type `wtvar'
         if ("`weightstr1'"=="fweight" & "`wttype'" ~= "byte" & "`wttype'" ~= "int" & "`wttype'" ~= "long" & "`chkwtnone'"=="") {
@@ -119,13 +119,13 @@ mark `touse' `if' `in'
             exit
         }
     }
-        
+
     global oneway = cond("`oneway'"~="",1,0)
     global debug = cond("`debug'"~="","","qui")
-    
-*------------------------ set critical defaults -------------------------   
 
-    
+*------------------------ set critical defaults -------------------------
+
+
     if ("`svy'"~="") {
         global do_svy = 1
         if ("`sum'"~="") global do_sum = 1
@@ -136,17 +136,17 @@ mark `touse' `if' `in'
         if ("`sum'"~="") global do_sum = 1
             else global do_sum = 0
     }
-	
+
 	if ("`dpcomma'"~="") {
-        global dpcomma = ","        
-	}	
+        global dpcomma = ","
+	}
     else {
-		global dpcomma = "."        
+		global dpcomma = "."
     }
-	
+
 
 *------------------------ cells options -------------------------
-        
+
         local nogood = 0
         local vnogood = 0
         local snogood = 0
@@ -154,7 +154,7 @@ mark `touse' `if' `in'
         local a = "freq cell row col cum"
         local b = "se ci lb ub"
         local c = "N mean var sd skewness kurtosis sum uwsum min max count median iqr r9010 r9050 r7525 r1050 p1 p5 p10 p25 p50 p75 p90 p95 p99"
-                
+
         local n : word count `cells'
         tokenize `cells'
         forval x = 1/`n' {
@@ -166,17 +166,17 @@ mark `touse' `if' `in'
                 if (strpos("`a'","`testwd'")~=0) local nogood = 1
             }
         }
-        
+
         if (`nogood'==1) {
         di
         di as err "Invalid type of entry in cells option, or you may"
-        di as err "have forgotten to turn on the sum or svy option" 
+        di as err "have forgotten to turn on the sum or svy option"
         di
         show_allowtable
         clearglobs
         exit
         }
-        
+
         if ($do_sum==1) {
             local k : word count `cells'
             local fword : word 1 of `cells'
@@ -233,7 +233,7 @@ mark `touse' `if' `in'
     if (`snogood'==1) {
         di
         di as err "Invalid type of entry in cells option, or you may"
-        di as err "have forgotten to turn on the sum or svy option" 
+        di as err "have forgotten to turn on the sum or svy option"
         di
         show_allowtable
         clearglobs
@@ -247,16 +247,16 @@ mark `touse' `if' `in'
         exit
     }
 
-    
-*------------------------ survey options -------------------------      
 
-    
+*------------------------ survey options -------------------------
+
+
     local svyporp = cond("`percent'"~="",100,1)
     local svylevel = cond("`level'"~="",real("`level'"),95)
 
 
 *------------------------ cell labelling options -------------------------
-    
+
     if ("`clab'"~="") global clab = "`clab'"
     else {
         if ($do_sum==1) {
@@ -292,8 +292,8 @@ mark `touse' `if' `in'
                 global clab = "$clab `hstr'"
             }
         }
-    }       
-    
+    }
+
     local categ = cond("`cells'"~="","`cells'","FR")
     global numcat : word count `categ'
     tokenize "`categ'"
@@ -317,7 +317,7 @@ mark `touse' `if' `in'
             else {
                 if ("`cat'"=="FR" | "`cat'"=="CE" | "`cat'"=="CO" | ///
                 "`cat'"=="RO") {
-                    local nogood = 1 
+                    local nogood = 1
                 }
             }
         }
@@ -336,24 +336,24 @@ mark `touse' `if' `in'
     global nocib = cond("`cibnone'"~="",1,0)
     global cisep = cond("`cisep'"~="","`cisep'",",")
     global do_pseudo = cond("`ci2col'"~="",1,0)
-    
+
     local formbad = 0
     local format = cond("`format'"~="","`format'","1c")
     tokenize "a b d e f g h i j k l n o q r s t u v w x y z"
     forval x = 1/23 {
         if (strpos(lower("`format'"),"``x''")~=0) local formbad = 1
     }
-    if (`formbad'==1) { 
+    if (`formbad'==1) {
         di
         di as err "Error in format. Only the letters c, m and p are allowed."
         di
         clearglobs
         exit
     }
-    
-    
+
+
     global layout = cond("`layout'"~="","`layout'","col")
-    
+
     if ("`layout'"~=""){
         if ("`layout'"=="cb" | "`layout'"=="cblock")  ///
             global layout = "c_block"
@@ -364,22 +364,22 @@ mark `touse' `if' `in'
         else global layout = "col"
     }
     else global layout = "col"
-        
-    
+
+
 *------------------------ output options -------------------------
     if ("`style'"~="") {
         if ("`style'"=="tex") global style = "tex"
             else if ("`style'"=="csv") global style = "csv"
                 else if ("`style'"=="semi") global style = "semi"
-                    else if (substr("`style'",1,3)=="htm") global style = "htm" 
+                    else if (substr("`style'",1,3)=="htm") global style = "htm"
                         else global style = "tab"
     }
     else global style = "tab"
-    
+
     global h1 = cond("`h1'"~="","`h1'","")
     global h2 = cond("`h2'"~="","`h2'","")
     global h3 = cond("`h3'"~="","`h3'","")
-    
+
     if ("`ptotal'"=="none"){
         global showtot = 0
         global finaltot = 0
@@ -392,13 +392,13 @@ mark `touse' `if' `in'
         global showtot = 1
         global finaltot = 0
     }
-        
-    
+
+
     if ("`total'")~="" {
         if ("`total'"=="d"){
             global vtotal = "Total"
             global htotal = "Total"
-            
+
         }
         else {
             tokenize "`total'"
@@ -411,20 +411,20 @@ mark `touse' `if' `in'
     else {
         global vtotal = "Total"
         global htotal = "Total"
-    }       
-    
+    }
+
     if "`lines'" ~= "" {
         if "`lines'" == "double" {
             global lspace 2
         }
         else if "`lines'" == "single" {
             global lspace 1
-        }   
+        }
         else if "`lines'" == "none" {
             global lspace 0
         }
         else global lspace 1
-    }   
+    }
     else global lspace 1
 
     if "`font'" ~= "" {
@@ -440,16 +440,16 @@ mark `touse' `if' `in'
     global cltr1 = cond("`cltr1'" ~= "","`cltr1'",".75em")
     global cltr2 = cond("`cltr2'" ~= "","`cltr2'",".75em")
 
-    
+
     if ("`rotate'"~="") {
         global angle = "`rotate'"
     }
     else global angle = "0"
-   
+
     global money = cond("`money'"~="","`money'","$")
-    
+
     global do_body = cond("`body'" ~= "", 1, 0)
-    
+
     global prefile = cond("`topf'" ~= "", "`topf'" , "")
     global postfile = cond("`botf'" ~= "", "`botf'", "")
     global topinsert = cond("`topstr'" ~= "", "`topstr'", "nil")
@@ -459,12 +459,12 @@ mark `touse' `if' `in'
     global do_top = cond("$prefile" ~= "", 1, 0)
     global do_bot = cond("$postfile" ~= "", 1, 0)
     global delim = cond("`delim'"~="","`delim'","|")
-    
+
     global mi = cond("`mi'"~="","`mi'","")
-    
+
     global sort = cond("`sort'"~="",1, 0)
-    
-    if ($do_top==1) { 
+
+    if ($do_top==1) {
     tempname infile
     capture file open `infile' using "$prefile", read
         if _rc~=0 {
@@ -474,20 +474,20 @@ mark `touse' `if' `in'
             di
             clearglobs
             capture file close `infile'
-            exit        
+            exit
         }
     capture file close `infile'
     }
 
     if ("$botinsert"~="" & "$ps"=="") {
-        di 
+        di
         di as err "You must specify the psymbol as well as the filename"
         di
         clearglobs
         exit
     }
-    
-    if ($do_bot==1) { 
+
+    if ($do_bot==1) {
     tempname infile
     capture file open `infile' using "$postfile", read
         if _rc~=0 {
@@ -497,31 +497,31 @@ mark `touse' `if' `in'
             di
             clearglobs
             capture file close `infile'
-            exit        
+            exit
         }
     capture file close `infile'
     }
 
     global border = cond("`noborder'" ~= "", "", " border=3")
-    
+
 *------------------------ display options -------------------------
 
-    
-    global colwide = cond("`wide'"~="", "`wide'","10")
-    global show = cond("`show'"~="","`show'","output") 
 
-*------------------------ n options -------------------------   
-    
+    global colwide = cond("`wide'"~="", "`wide'","10")
+    global show = cond("`show'"~="","`show'","output")
+
+*------------------------ n options -------------------------
+
     global do_n = 0
     global n_pos = "col"
     global n_wt = ""
     global n_offset = "0"
-    
+
     if "`noffset'"!="" {
         local noffs = real("`noffset'")-1
         global n_offset = string(`noffs')
     }
-    
+
     if "`npos'"~="" {
             if ("`npos'")=="d" global n_pos = "col"
                 else global n_pos = "`npos'"
@@ -539,9 +539,9 @@ mark `touse' `if' `in'
     else {
         if ("`npos'"=="lab") global n_lab = "(n=#)"
             else global n_lab = "N"
-    }       
-        
-    
+    }
+
+
     if "`nwt'"~="" {
             if ("`nwt'")=="d" global n_wt = ""
                 else global n_wt = "[iw=`nwt']"
@@ -549,9 +549,9 @@ mark `touse' `if' `in'
     }
 
     global do_nnoc = cond("`nnoc'"~="",1,0)
-    
+
     global do_pop = cond("`pop'"~="",1,0)
-        
+
 *------------------------ stats options -------------------------
 
     if ("`stats'"~="") {
@@ -565,8 +565,8 @@ mark `touse' `if' `in'
     global statstr = ""
     global statstr1 = ""
     global statstr2 = ""
-    
-    if ($do_svy==0 & "$stats"~="" & /// 
+
+    if ($do_svy==0 & "$stats"~="" & ///
     ("`weightstr1'"=="aweight" | "`weightstr1'"=="iweight")) {
         di
         di as err "Only fweights are allowed with the stats option"
@@ -574,12 +574,12 @@ mark `touse' `if' `in'
         clearglobs
         exit
     }
-    
-*===================== main routine =============================   
-    
+
+*===================== main routine =============================
+
     if ($do_svy==1) {
         local fvar : word 1 of `varlist'
-        capture qui svy: total `fvar'   
+        capture qui svy: total `fvar'
             if (_rc==119) {
             di
             di as err "Your data needs to be {help svyset} for this table"
@@ -592,7 +592,7 @@ mark `touse' `if' `in'
 
     local nvars : word count `varlist'
     if `nvars'==1 global oneway 1
-    
+
     if ($oneway==0 & $sort==1) {
             di
             di as err "The sort option is only allowed for oneway tables"
@@ -600,11 +600,11 @@ mark `touse' `if' `in'
             clearglobs
             exit
     }
-    
+
     local hvar : word `nvars' of `varlist'
     local hvarname : variable label `hvar'
-    if ("`hvarname'"=="") label var `hvar' "`hvar'" 
-    
+    if ("`hvarname'"=="") label var `hvar' "`hvar'"
+
     tokenize `varlist'
     local n = `nvars'-1
     forval i = 1/`n' {
@@ -624,15 +624,15 @@ mark `touse' `if' `in'
 
     global droph = ""
     if ("`hvar'"~="") local htype : type `hvar'
-    if (substr("`htype'",1,3)=="str") { 
+    if (substr("`htype'",1,3)=="str") {
         capture encode `hvar', gen(_`hvar'_x)
         local hvar = "_`hvar'_x"
         global droph = "`hvar'"
     }
-    
+
 
     if ("$style"=="tex") texfix
-    
+
     if ($finaltot==1) {
         tempvar paneltot
         gen `paneltot' = 1
@@ -648,22 +648,22 @@ mark `touse' `if' `in'
     mat check = J(1,1,0)
     global dropv = ""
             /* core loop starts here */
-    
+
     foreach v of local vvar {
         if ("`v'"=="`lastvar'") global lpass = 1
         local vvarname : variable label `v'
-        if ("`vvarname'"=="") label var `v' "`v'" 
+        if ("`vvarname'"=="") label var `v' "`v'"
 
         local vtype : type `v'
-        if (substr("`vtype'",1,3)=="str") { 
+        if (substr("`vtype'",1,3)=="str") {
             capture encode `v', gen(_`v'_x)
             local v = "_`v'_x"
             global dropv = "$dropv `v'"
         }
-                 
+
         if $do_svy==0 {
-            if $oneway==1 local hvar = "_xx_ph_xx_" 
-            if ($do_sum==0) { 
+            if $oneway==1 local hvar = "_xx_ph_xx_"
+            if ($do_sum==0) {
                 do_mat `v' `hvar' `weightstr1' `weightstr2' `colmat' `touse'
                 do_write `v' `hvar' "`format'"
             }
@@ -680,8 +680,8 @@ mark `touse' `if' `in'
             if $oneway==1 local hvar = "_xx_ph_xx_"
             if ($do_sum==0) ///
                 svy_mat `v' `hvar' `svycat' `svylevel' `svyporp' `touse'
-                else svy_sum `svy_sumvar' `v' `hvar' `svylevel' `colmat' `touse' 
-            do_write `v' `hvar' "`format'" 
+                else svy_sum `svy_sumvar' `v' `hvar' `svylevel' `colmat' `touse'
+            do_write `v' `hvar' "`format'"
         }
     global fpass = 0
     }
@@ -761,12 +761,12 @@ end
 program do_mat
     args  v hvar weightstr1 weightstr2 colmat touse
 
-	
+
     local format93f = "%9"+"$dpcomma"+"3f"
 	local format94f = "%9"+"$dpcomma"+"4f"
-	
-	if ("`colmat'"=="nil") local colmat = "" 
-    local wtstr = cond("`weightstr1'"=="none","","[`weightstr1'`weightstr2']") 
+
+	if ("`colmat'"=="nil") local colmat = ""
+    local wtstr = cond("`weightstr1'"=="none","","[`weightstr1'`weightstr2']")
      if $oneway==1 local hvar = ""
      if $sort==1 local dosort = "sort"
     $debug ta `v' `hvar' `wtstr' if `touse', matcell(raw) ///
@@ -815,7 +815,7 @@ program do_mat
         }
          global statstr "`ststr' `pstr'"
      }
-    
+
     if $do_n==1 {
         $debug ta `v' `hvar' $n_wt if `touse', matcell(obs)
         mata: build_nmats("obs")
@@ -828,13 +828,13 @@ end
 
 program svy_mat
     args v hvar svycat svylevel svyporp touse
-    
+
     $dots
     if ("$stats"=="chi2") global stats = "pearson"
     if "`svycat'"=="count" local extra = "count"
         else local extra = ""
-    if "`svycat'"=="cell" local svycat = "" 
-    if $oneway==1 local hvar = ""   
+    if "`svycat'"=="cell" local svycat = ""
+    if $oneway==1 local hvar = ""
     $dots
     $debug svy, subpop(`touse'): tab `v' `hvar', `svycat' se ci
     local studt = invttail(e(N_psu)-e(N_strata),(1-`svylevel'/100)/2)
@@ -847,7 +847,7 @@ program svy_mat
     mat svymain = e(V)
     mat raw = e(b)
     $dots
-		
+
     local format92f = "%9"+"$dpcomma"+"2f"
 	local format93f = "%9"+"$dpcomma"+"3f"
 	local format94f = "%9"+"$dpcomma"+"4f"
@@ -864,11 +864,11 @@ program svy_mat
         "Design-based F(`F1df', `F2df') = `F1' Pr = `pval'"
         }
     }
-    
+
     if $oneway==1 {
         $dots
         mata: svy_oneway(`svyporp')
-        mata: svy_se_oneway(`svyporp',`row') 
+        mata: svy_se_oneway(`svyporp',`row')
     }
     else {
         $dots
@@ -882,7 +882,7 @@ program svy_mat
         if "`svycat'"=="" | "`svycat'"=="count" ///
             mata: svy_cell(`svyporp',`col')
         else    mata: svy_rowcol(`svyporp',`row',`col')
-        mata: svy_se(`svyporp',`row',`col') 
+        mata: svy_se(`svyporp',`row',`col')
     }
     $dots
     if $do_pop==1 {
@@ -899,7 +899,7 @@ end
 *------------------------ summary tables with svy option -------------------
 program svy_sum
     args svy_sumvar v hvar svylevel colmat touse
-    
+
     $dots
     if ("`colmat'"=="nil") local colmat = ""
     if $oneway==1 {
@@ -932,10 +932,10 @@ program svy_sum
     mat svygmean = e(V)
     $dots
     $debug ta `v' `hvar' $n_wt if `touse', matcell(obs) ///
-            matrow(rowvals) `colmat' 
-    local row = r(r)        
+            matrow(rowvals) `colmat'
+    local row = r(r)
     local col = r(c)
-    
+
     $dots
     mata: svy_mean(`row',`col',$oneway)
     $dots
@@ -950,11 +950,11 @@ end
 *------------------------ summary tables as twoway (not svy) ----------------
 program sum_twoway
     args  v hvar weightstr1 weightstr2 colmat statkind statvar touse
-    
+
     $debug ta `v' `hvar' $n_wt if `touse', matcell(obs) ///
                 matrow(rowvals) `colmat'
-            
-    local r = rowsof(obs)       
+
+    local r = rowsof(obs)
     local c = colsof(obs)
     mat mstat = J(`r',`c',0)
     mat rhs = J(`r',1,0)
@@ -978,7 +978,7 @@ program sum_twoway
         do_statres `statkind'  `statvar' ///
             `v' `hvar' `vvalnum' `hvalnum' ///
             `weightstr1' `weightstr2' `mtype' `touse'
-        mat rhs[`x',1] = real(r(statres))   
+        mat rhs[`x',1] = real(r(statres))
     }
     local mtype = "bot"
     forval y = 1/`c' {
@@ -987,7 +987,7 @@ program sum_twoway
         do_statres  `statkind'  `statvar' ///
             `v' `hvar' `vvalnum' `hvalnum' ///
             `weightstr1' `weightstr2' `mtype' `touse'
-        mat bot[1,`y'] = real(r(statres))   
+        mat bot[1,`y'] = real(r(statres))
     }
     local mtype = "gm"
         local vvalnum = 0
@@ -995,7 +995,7 @@ program sum_twoway
         do_statres `statkind'  `statvar' ///
             `v' `hvar' `vvalnum' `hvalnum' ///
             `weightstr1' `weightstr2' `mtype' `touse'
-        mat gm[1,1] = real(r(statres))  
+        mat gm[1,1] = real(r(statres))
 
     mat mstat = mstat , rhs
     mat bot = bot, gm
@@ -1007,7 +1007,7 @@ end
 
 program sum_oneway
     args  cells v weightstr1 weightstr2 touse
-    
+
     $debug ta `v' $n_wt if `touse', matcell(obs) ///
             matrow(rowvals)
     local r = rowsof(obs)
@@ -1027,7 +1027,7 @@ program sum_oneway
             do_statres `statkind'  `statvar' ///
                 `v' `hvar' `vvalnum' `hvalnum' ///
                 `weightstr1' `weightstr2' `mtype' `touse'
-            mat m`j'[`x',1] = real(r(statres))  
+            mat m`j'[`x',1] = real(r(statres))
         }
         local mtype = "onet"
         local vvalnum = 0
@@ -1039,8 +1039,8 @@ program sum_oneway
         mat full`j' = m`j' \ t`j'
         if (`j'==1) mat raw = full`j'
             else mat raw = raw, full`j'
-            
-    mac shift 2     
+
+    mac shift 2
     }
     mata: build_nmats("obs")
 end
@@ -1049,32 +1049,32 @@ end
 program do_statres , rclass
     args statkind  statvar v hvar ///
         vvalnum hvalnum weightstr1 weightstr2 mtype touse
-    
+
     local wtstr = cond("`weightstr1'"=="none","","[`weightstr1'`weightstr2']")
     if ("`statkind'"=="uwsum") {
         local wtstr = ""
         local statkind = "sum"
     }
-    if "`statkind'" == "median" local statkind "p50" 
+    if "`statkind'" == "median" local statkind "p50"
     if "`statkind'" == "count" local statkind "N"
     if ("`mtype'"=="mstat") ///
         qui sum `statvar' `wtstr' if `touse' ///
             & `v' == `vvalnum' & `hvar' == `hvalnum', detail
     else if ("`mtype'"=="rhs") ///
-        qui sum `statvar' `wtstr' if `touse' /// 
+        qui sum `statvar' `wtstr' if `touse' ///
             & `v' == `vvalnum' & !mi(`hvar'), detail
     else if ("`mtype'"=="bot") ///
-        qui sum `statvar' `wtstr' if `touse' /// 
+        qui sum `statvar' `wtstr' if `touse' ///
             & !mi(`v') & `hvar' == `hvalnum', detail
     else if ("`mtype'"=="gm") ///
-        qui sum `statvar' `wtstr' if `touse' /// 
+        qui sum `statvar' `wtstr' if `touse' ///
             & !mi(`v') & !mi(`hvar'), detail
     else if ("`mtype'"=="onew") ///
-        qui sum `statvar' `wtstr' if `touse' /// 
+        qui sum `statvar' `wtstr' if `touse' ///
             & `v' == `vvalnum' , detail
     else if ("`mtype'"=="onet") ///
-        qui sum `statvar' `wtstr' if `touse' /// 
-            & !mi(`v') , detail     
+        qui sum `statvar' `wtstr' if `touse' ///
+            & !mi(`v') , detail
         if "`statkind'" == "iqr" local statres = r(p75)-r(p25)
         else if "`statkind'" == "r9010" local statres = r(p90)/r(p10)
         else if "`statkind'" == "r9050" local statres = r(p90)/r(p50)
@@ -1083,13 +1083,13 @@ program do_statres , rclass
         else local statres = r(`statkind')
     return local statres "`statres'"
 end
-    
+
 *--------------- prepare for sending to mata output routines --------------
 
 program do_write
-    args v hvar format 
-    
-    if $oneway==1 local hvar = ""   
+    args v hvar format
+
+    if $oneway==1 local hvar = ""
     if $oneway==0 {
         local colname : value label `hvar'
         global hvarname : variable label `hvar'
@@ -1103,8 +1103,8 @@ end
 
 program sum_write
     args v hvar format cells
-    
-    if $oneway==1 local hvar = ""   
+
+    if $oneway==1 local hvar = ""
     if $oneway==0 {
         local colname : value label `hvar'
         global hvarname : variable label `hvar'
@@ -1125,8 +1125,8 @@ program texfix
         if (strpos("$vtotal","``x''")~=0) ///
             local tot = subinstr("$vtotal","``x''","\\``x''",.)
     }
-    if ("$tfont"=="bold") local z = "\textbf{`tot'}" 
-        else if ("$tfont"=="italic") local z = "\emph{`tot'}" 
+    if ("$tfont"=="bold") local z = "\textbf{`tot'}"
+        else if ("$tfont"=="italic") local z = "\emph{`tot'}"
         else if ("$tfont"=="plain") local z = "`tot'"
     global vtotal= "`z'"
 end
@@ -1135,62 +1135,62 @@ end
 *------------------------ clearglobs -------------------------
 program clearglobs
 
-capture mac drop fpass          
-capture mac drop vvarname       
-capture mac drop hvarname       
-capture mac drop lpass          
-capture mac drop single         
-capture mac drop vtotal         
-capture mac drop do_stats       
-capture mac drop do_nnoc        
+capture mac drop fpass
+capture mac drop vvarname
+capture mac drop hvarname
+capture mac drop lpass
+capture mac drop single
+capture mac drop vtotal
+capture mac drop do_stats
+capture mac drop do_nnoc
 capture mac drop do_pop
 capture mac drop mi
-capture mac drop do_n           
-capture mac drop n_lab          
-capture mac drop n_pos          
-capture mac drop show           
-capture mac drop colwide        
-capture mac drop border         
-capture mac drop delim          
-capture mac drop do_bot         
-capture mac drop do_top         
-capture mac drop ps             
-capture mac drop botinsert      
-capture mac drop topinsert      
-capture mac drop postfile       
-capture mac drop prefile        
-capture mac drop do_body        
-capture mac drop money          
-capture mac drop angle          
-capture mac drop cltr2          
-capture mac drop cltr1          
-capture mac drop cl2            
-capture mac drop cl1            
-capture mac drop bt             
-capture mac drop tfont          
-capture mac drop lspace         
-capture mac drop htotal         
-capture mac drop finaltot       
-capture mac drop showtot        
-capture mac drop h3             
-capture mac drop style          
-capture mac drop layout         
-capture mac drop do_pseudo      
-capture mac drop cisep          
-capture mac drop nocib          
-capture mac drop noseb          
-capture mac drop category       
-capture mac drop numcat         
-capture mac drop clab           
-capture mac drop do_sum         
-capture mac drop do_svy         
-capture mac drop debug          
-capture mac drop oneway         
-capture mac drop mainfile       
-capture mac drop nogood       
-capture mac drop stats       
-capture mac drop statstr1       
-capture mac drop statstr2       
+capture mac drop do_n
+capture mac drop n_lab
+capture mac drop n_pos
+capture mac drop show
+capture mac drop colwide
+capture mac drop border
+capture mac drop delim
+capture mac drop do_bot
+capture mac drop do_top
+capture mac drop ps
+capture mac drop botinsert
+capture mac drop topinsert
+capture mac drop postfile
+capture mac drop prefile
+capture mac drop do_body
+capture mac drop money
+capture mac drop angle
+capture mac drop cltr2
+capture mac drop cltr1
+capture mac drop cl2
+capture mac drop cl1
+capture mac drop bt
+capture mac drop tfont
+capture mac drop lspace
+capture mac drop htotal
+capture mac drop finaltot
+capture mac drop showtot
+capture mac drop h3
+capture mac drop style
+capture mac drop layout
+capture mac drop do_pseudo
+capture mac drop cisep
+capture mac drop nocib
+capture mac drop noseb
+capture mac drop category
+capture mac drop numcat
+capture mac drop clab
+capture mac drop do_sum
+capture mac drop do_svy
+capture mac drop debug
+capture mac drop oneway
+capture mac drop mainfile
+capture mac drop nogood
+capture mac drop stats
+capture mac drop statstr1
+capture mac drop statstr2
 capture mac drop dpcomma
 
 capture mat drop   check
@@ -1263,7 +1263,7 @@ void build_mats (real scalar oneway)
                CE[i,j] = FR[i,j] / FR[rows(FR),cols(FR)] * 100
                RO[i,j] = FR[i,j] / FR[i,cols(FR)] * 100
             CO[i,j] = FR[i,j] / FR[rows(FR),j] * 100
-               if (i==1) CU[i,j] = CO[i,j] 
+               if (i==1) CU[i,j] = CO[i,j]
                 else if (i<rows(FR)) CU[i,j] = CU[h,j] + CO[i,j]
         }
      }
@@ -1273,7 +1273,7 @@ void build_mats (real scalar oneway)
     st_matrix("RO",RO)
     st_matrix("CU",CU)
 }
- 
+
 
 
 /* ------------------ svy data building routines ------------------ */
@@ -1282,13 +1282,13 @@ void build_mats (real scalar oneway)
 void svy_mean   (real scalar r, ///
             real scalar c, ///
             real scalar oneway)
-{   
+{
     real matrix SV
 
     RM = st_matrix("raw")
     OB = st_matrix("obs")
     GM = st_matrix("gmean")
-    if (oneway==0){ 
+    if (oneway==0){
         RT = st_matrix("rawrt")
         CT = st_matrix("rawct")
 
@@ -1313,10 +1313,10 @@ void svy_mean   (real scalar r, ///
     st_matrix("SV",SV)
 }
 
-void svy_meanse (real scalar r, /// 
+void svy_meanse (real scalar r, ///
             real scalar c, ///
             real scalar oneway)
-                
+
 {
     M = st_matrix("svymain")
     M = diagonal(M)
@@ -1338,7 +1338,7 @@ void svy_meanse (real scalar r, ///
         if (rows(SE)==rows(C)) SE = SE , C
         R = R'
         R = R, GM
-        if (cols(SE)==cols(R)) SE = SE \ R 
+        if (cols(SE)==cols(R)) SE = SE \ R
     }
     else {
         G = st_matrix("svygmean")
@@ -1346,7 +1346,7 @@ void svy_meanse (real scalar r, ///
     }
     SE = sqrt(SE)
     st_matrix("SE",SE)
-}     
+}
 
 
 void meancis    (real scalar studt)
@@ -1374,7 +1374,7 @@ void meancis    (real scalar studt)
 void svy_rowcol     (real scalar porp, ///
                 real scalar r, ///
                 real scalar c)
-{   
+{
      RM = st_matrix("raw")
      RT = st_matrix("rawrt")
     CT = st_matrix("rawct")
@@ -1383,7 +1383,7 @@ void svy_rowcol     (real scalar porp, ///
     if (type=="row") {
         SV = RM, RT
         SV = rowshape(SV,r)
-        TT = J(r,1,1) 
+        TT = J(r,1,1)
         SV = SV, TT
     }
     else if (type=="col") {
@@ -1397,12 +1397,12 @@ void svy_rowcol     (real scalar porp, ///
     SV = SV*porp
     st_matrix("SV",SV)
 }
-    
+
 
 void svy_col    (real scalar porp, ///
             real scalar r, ///
             real scalar c)
-{   
+{
      RM = st_matrix("raw")
     CT = st_matrix("rawct")
     c = c+1
@@ -1426,32 +1426,32 @@ void svy_cell   (real scalar porp, ///
     C = rowsum(RM)
      R = colsum(RM)
     type = st_local("svycat")
-     if (type=="count") T = rgtotal(R) 
+     if (type=="count") T = rgtotal(R)
         else T = 1
      M = RM,C
      BR = R,T
      SV = M \ BR
     SV = SV*porp
     st_matrix("SV",SV)
-}     
+}
 
 void svy_oneway (real scalar porp) ///
-            
+
 {
     RM = st_matrix("raw")
     RM = colshape(RM,1)
     type = st_local("svycat")
-     if (type=="count") T = cgtotal(RM) 
+     if (type=="count") T = cgtotal(RM)
         else T = 1
      SV = RM \ T
      SV = SV*porp
     st_matrix("SV",SV)
-}     
+}
 
 void svy_se (real scalar porp, ///
             real scalar r, ///
             real scalar c)
-                
+
 {
     M = st_matrix("svymain")
     M = diagonal(M)
@@ -1480,7 +1480,7 @@ void svy_se (real scalar porp, ///
     SE[r+1,c+1] = .
     SE = SE*porp
     st_matrix("SE",SE)
-}     
+}
 
 
 void svy_se_oneway  (real scalar porp, ///
@@ -1493,7 +1493,7 @@ void svy_se_oneway  (real scalar porp, ///
     SE = sqrt(SE)
     SE = SE*porp
     st_matrix("SE",SE)
-}     
+}
 
 
 void cis    (real scalar porp, ///
@@ -1517,7 +1517,7 @@ void cis    (real scalar porp, ///
             else {
                 d = SV[i,j]
                 se = SE[i,j]
-                if (porp==100) d = d/100 
+                if (porp==100) d = d/100
                 LB[i,j] = porp/(1 + exp(-(log(d/(1-d)) ///
                     - studt*se/(porp*d*(1-d)))))
                 UB[i,j] = porp/(1 + exp(-(log(d/(1-d)) ///
@@ -1549,7 +1549,7 @@ void build_nmats (string scalar obs)
     st_matrix("COBS",COBS)
     st_matrix("PCOBS",PCOBS)
     st_matrix("OBS",OBS)
-}     
+}
 
 
 /* ------- output matrices standard (incl svy) --------------------- */
@@ -1564,16 +1564,16 @@ void do_output (real scalar oneway, ///
     do_pseudo = strtoreal(st_global("do_pseudo"))
     htotal = st_global("htotal")
     vtotal = st_global("vtotal")
-    
+
     categ = st_global("category")
-    if (do_n==1) { 
+    if (do_n==1) {
         COBS = st_matrix("COBS")
         ROBS = st_matrix("ROBS")
         npos = st_global("n_pos")
         nlab = st_global("n_lab")
         noffset = strtoreal(st_global("n_offset"))
         do_nnoc = strtoreal(st_global("do_nnoc"))
-		dpcomma = st_global("dpcomma")				
+		dpcomma = st_global("dpcomma")
 		if (do_nnoc==0) nform = "%14"+dpcomma+"0fc"
             else nform = "%14"+ dpcomma + "0f"
     }
@@ -1587,7 +1587,7 @@ void do_output (real scalar oneway, ///
         DP = (&st_matrix("SV"), &st_matrix("SE"), &st_matrix("LB"), ///
             &st_matrix("UB"))
         LIST = ("SV", "SE", "LB", "UB" \ "1", "2", "3", "4")
-        
+
         if (strpos(categ,"CI") ~=0) {
             categ = subinstr(categ,"CI","LB UB")
             do_ci = 1
@@ -1595,8 +1595,8 @@ void do_output (real scalar oneway, ///
         CAT = tokens(categ)
         CAT[1,1] ="SV"
     }
-    
-        
+
+
     FORMAT = tokens(st_local("format"))
     clab = st_local("clab")
     CLAB = tokens(clab)
@@ -1614,7 +1614,7 @@ void do_output (real scalar oneway, ///
         formback = fixformat(formout)
         FORMAT[1,j] = formback
     }
-    
+
     ENTRY = CAT \ FORMAT \ EXTRA \CLAB
     CCOUNT = J(1,cols(ENTRY),"")
     for (j=1; j<=cols(ENTRY); j++) {
@@ -1625,19 +1625,19 @@ void do_output (real scalar oneway, ///
     }
     ENTRY = ENTRY \ CCOUNT
     for (j=1; j<=cols(ENTRY); j++) {
-        if (ENTRY[5,j]=="") { 
+        if (ENTRY[5,j]=="") {
             ""
             "One of your cell entries is invalid"
             exit(0)
         }
     }
-    
+
     layout = st_local("layout")
     fpass = 1
     k = 1
-    if (do_ci==0){ 
+    if (do_ci==0){
         for (j=1; j<=cols(ENTRY); j++) {
-            i = strtoreal(ENTRY[5,j])       
+            i = strtoreal(ENTRY[5,j])
             M = *DP[i]
             numcols = cols(M)
             if (ENTRY[1,j]=="SE") do_se = 1
@@ -1664,19 +1664,19 @@ void do_output (real scalar oneway, ///
             if (layout=="r_block") {
                 if (fpass==1) DATA = *DP[i]
                 else DATA = DATA \ *DP[i]
-               
+
             }
             fpass = fpass+1
-            
+
         }
     }
     else {
         slast = cols(ENTRY)-1
         last = cols(ENTRY)
         for (j=1; j<=cols(ENTRY); j++) {
-            i = strtoreal(ENTRY[5,j])       
-            p = strtoreal(ENTRY[5,slast])       
-            q = strtoreal(ENTRY[5,last])        
+            i = strtoreal(ENTRY[5,j])
+            p = strtoreal(ENTRY[5,slast])
+            q = strtoreal(ENTRY[5,last])
             M = *DP[i]
             SLM = *DP[p]
             LM = *DP[q]
@@ -1726,7 +1726,7 @@ void do_output (real scalar oneway, ///
         }
     ENTRY = NENTRY
     }
-    if (layout=="col") { 
+    if (layout=="col") {
         fpass = 1
         for (j=1; j<=numcols; j++) {
             for (k=1; k<=cols(ENTRY); k++) {
@@ -1750,7 +1750,7 @@ void do_output (real scalar oneway, ///
             else if (npos=="lab") ///
                 RLABELS = add_nlab(RLABELS,COBS,0,nlab,nform)
     }
-    if (layout=="row") { 
+    if (layout=="row") {
         fpass = 1
         if (oneway==0) stpt=2
             else stpt=1
@@ -1785,7 +1785,7 @@ void do_output (real scalar oneway, ///
             DATA = BLANKS \ DATA
         }
         if (layout=="r_block") {
-            if (do_n==1) { 
+            if (do_n==1) {
                 k = rows(COBS)+2
                 BLANKCOBS = J(k,1,-1)
             }
@@ -1802,7 +1802,7 @@ void do_output (real scalar oneway, ///
         DATA = RLABELS, DATA
     }
     if (do_svy==1 & (layout=="col" | layout=="c_block")) ///
-        DATA = empty_col(DATA) 
+        DATA = empty_col(DATA)
 
     if (do_n==1) {
         if (npos=="col") ///
@@ -1816,11 +1816,11 @@ void do_output (real scalar oneway, ///
         }
     }
     DATA = strip_neg(DATA)
-    DATA = strip_rows(DATA) 
-    
+    DATA = strip_rows(DATA)
+
     if (layout=="row") numrows=numcat
         else numrows = 1
-    if (do_n==1 & (npos=="row" | npos=="both")) numrows = numrows+1     
+    if (do_n==1 & (npos=="row" | npos=="both")) numrows = numrows+1
     wrap_up(DATA, oneway, numrows)
 }
 
@@ -1833,7 +1833,7 @@ void sum_output (real scalar oneway, ///
 {
     htotal = st_global("htotal")
     vtotal = st_global("vtotal")
-    if (do_n==1) {      
+    if (do_n==1) {
         npos = st_global("n_pos")
         nlab = st_global("n_lab")
         noffset = strtoreal(st_global("n_offset"))
@@ -1842,7 +1842,7 @@ void sum_output (real scalar oneway, ///
         if (do_nnoc==0) nform = "%14"+dpcomma+"0fc"
             else nform = "%14"+dpcomma+"0f"
     }
-    
+
     RM = st_matrix("raw")
     numcols = cols(RM)
     FORMAT = tokens(st_local("format"))
@@ -1858,7 +1858,7 @@ void sum_output (real scalar oneway, ///
     if (oneway==0) DATA = makestr(RM,FORMAT[1,1],EXTRA[1,1],0,0,"NIL")
     else if (oneway==1) {
         for (j=1; j<=cols(RM); j++) {
-            if (j==1) { 
+            if (j==1) {
                 OM = RM[.,j]
                 M = makestr(OM,FORMAT[1,j],EXTRA[1,j],0,0,"NIL")
                 DATA = M
@@ -1903,7 +1903,7 @@ void sum_output (real scalar oneway, ///
     else {
         H3LAB = CELL2
     }
-    
+
     if (oneway==1) {
             TOPROW =  CELL1
             NEXTROW =  H3LAB
@@ -1919,14 +1919,14 @@ void sum_output (real scalar oneway, ///
             else cstr = CELL1[1,1]+"_"+CELL2[1,1]+" "
         NEXTROW = tokens(numcols*cstr)
     }
-    
-    TEMP = NEXTROW  
-    NEXTROW = subinstr(TEMP,"_"," ",.) 
-        
+
+    TEMP = NEXTROW
+    NEXTROW = subinstr(TEMP,"_"," ",.)
+
     DATA = TOPROW \ NEXTROW \ DATA
     RLABELS = "#H2" \ "#H3" \ RLABELS
     DATA = RLABELS, DATA
-    
+
     if (do_n==1) {
         numcat = 0
         layout = "nil"
@@ -1945,48 +1945,48 @@ void sum_output (real scalar oneway, ///
     }
     DATA = strip_neg(DATA)
     numrows = 1
-    if (do_n==1 & (npos=="row" | npos=="both")) numrows = numrows+1     
+    if (do_n==1 & (npos=="row" | npos=="both")) numrows = numrows+1
     wrap_up(DATA, oneway, numrows)
 }
 
 /* ------------- misc routines for processing ------------------ */
 
-    
-            
+
+
 void wrap_up (string matrix DATA, ///
             real scalar oneway, ///
             real scalar numrows)
-{           
+{
     show = st_global("show")
     if (show=="all") show_data(DATA)
     fpass = strtoreal(st_global("fpass"))
     lpass = strtoreal(st_global("lpass"))
     style = st_global("style")
-    
+
     do_body = strtoreal(st_global("do_body"))
     if (do_body==1 & fpass==1) ///
         write_body(1,style,cols(DATA))
-    
+
     do_top = strtoreal(st_global("do_top"))
-    if (do_top==1 & fpass==1) /// 
+    if (do_top==1 & fpass==1) ///
         write_prepost(st_global("prefile"), ///
                 st_global("topinsert"), ///
                 st_global("ps"), ///
                 st_global("delim"))
-    
-    
+
+
     if (style=="tex") write_tex(DATA,oneway,numrows)
         else if (style=="htm") write_htm(DATA,oneway,numrows)
             else write_tab(DATA,oneway,numrows,style)
-    
+
     do_bot = strtoreal(st_global("do_bot"))
-    if (do_bot==1 & lpass==1) /// 
+    if (do_bot==1 & lpass==1) ///
         write_prepost(st_global("postfile"), ///
                 st_global("botinsert"), ///
                 st_global("ps"), ///
                 st_global("delim"))
-    
-                
+
+
     if (do_body==1 & lpass==1) ///
         write_body(0,style,cols(DATA))
 
@@ -2018,9 +2018,9 @@ function empty_col(string matrix X)
     }
     return(Y)
 }
-        
-        
-        
+
+
+
 function strip_rows (string matrix X)
 {
     Z = X
@@ -2030,34 +2030,34 @@ function strip_rows (string matrix X)
         Y[i,.] = Z[i,.]
     }
     for (i=3; i<=rows(Z); i++) {
-        if (Z[i,1]~="#H2") { 
+        if (Z[i,1]~="#H2") {
             if (Z[i,1]=="#H3") Z[i,1] = ""
             Y = Y \ Z[i,.]
         }
     }
     return(Y)
-}           
-            
+}
+
 function strip_neg (string matrix X)
 {
     p = rows(X)
     q = cols(X)
     Z = J(p,q,"")
-    
+
     for (i=1; i<=rows(Z); i++) {
         for (j=1; j<=cols(Z); j++) {
             if (X[i,j]~="-999") Z[i,j] = X[i,j]
         }
     }
     return(Z)
-}           
+}
 
 
 
 function hvtostr( real matrix X)
 {
     string matrix Z
-    
+
     Y = X
     Z = J(1,cols(Y),"")
     for (j=1; j<=cols(Y); j++) {
@@ -2069,7 +2069,7 @@ function hvtostr( real matrix X)
 function vvtostr( real matrix X)
 {
     string matrix Z
-    
+
     Y = X
     Z = J(rows(Y),1,"")
     for (i=1; i<=rows(Y); i++) {
@@ -2102,34 +2102,34 @@ function extraformat (string matrix Z)
     string matrix Y
     Y = J(2,cols(Z),"")
     for (j=1; j<=cols(Z); j++) {
-        if (strpos(Z[1,j],"p")) { 
+        if (strpos(Z[1,j],"p")) {
             a = subinstr(Z[1,j],"p","")
             Y[1,j] = a
             Y[2,j] = "p"
         }
-        if (strpos(Z[1,j],"m")) { 
+        if (strpos(Z[1,j],"m")) {
             a = subinstr(Z[1,j],"m","")
             Y[1,j] = a
             Y[2,j] = "m"
         }
         if (Y[1,j]=="") {
-            Y[1,j] = Z[1,j] 
+            Y[1,j] = Z[1,j]
             Y[2,j] = "nil"
         }
     }
     return(Y)
 }
-        
+
 
 function fixformat (string scalar Z)
 {
     string scalar X
-    dpcomma = st_global("dpcomma")	
+    dpcomma = st_global("dpcomma")
     fmt = substr(Z,1,1)
     k = strpos(Z,"c")
     if (k~=0) X = "%14"+dpcomma+fmt+"fc"
         else X = "%14"+dpcomma+fmt+"f"
-    return(X)   
+    return(X)
 }
 
 
@@ -2153,7 +2153,7 @@ function fixgaps (string matrix Z, ///
     }
     return(X)
 }
-            
+
 
 
 function makestr (real matrix Z, ///
@@ -2195,13 +2195,13 @@ function makestr (real matrix Z, ///
             a = strofreal(Z[i,j],form)
             if (extra~="nil") {
                 if (extra=="p") a = a + "%"
-                else if (extra=="m") a = money + a 
+                else if (extra=="m") a = money + a
             }
             X[i,j] = a
             if (do_se==1)   X[i,j] = lbrack+a+rbrack
-            if (do_pseudo & ctype=="LB") X[i,j] = lcbrack+a+cisep   
+            if (do_pseudo & ctype=="LB") X[i,j] = lcbrack+a+cisep
             if (do_pseudo & ctype=="UB") X[i,j] = a+rcbrack
-            if (Z[i,j]==.) X[i,j] = "" 
+            if (Z[i,j]==.) X[i,j] = ""
         }
     }
     return(X)
@@ -2237,18 +2237,18 @@ function make_cistr (real matrix Z, ///
                     b = b + "%"
                 }
                 else if (extra=="m") {
-                    a = money + a 
+                    a = money + a
                     b = money + b
                 }
             }
             X[i,j] = lcbrack+a+cisep+b+rcbrack
-            if (Z[i,j]==. & Y[i,j]==.) X[i,j] = "" 
+            if (Z[i,j]==. & Y[i,j]==.) X[i,j] = ""
         }
     }
     return(X)
 }
 
-                    
+
 function labcols (string scalar z, ///
                 real scalar j) ///
 {
@@ -2258,7 +2258,7 @@ function labcols (string scalar z, ///
     }
     return(X)
 }
-                
+
 
 function labrows (string scalar z, ///
                 real scalar j) ///
@@ -2278,15 +2278,15 @@ function add_nlab   (string matrix X, ///
                 string scalar nlab, ///
                 string scalar nform)
 {
-    if (tufte==1){ 
+    if (tufte==1){
         LB = J(rows(X),1," (")
         RB = J(rows(X),1,"%)")
     }
     else {
         lbreak = strpos(nlab,"#")-1
         rbreak = strpos(nlab,"#")+1
-        LB = " " + substr(nlab,1,lbreak)  
-        RB = substr(nlab,rbreak,.) 
+        LB = " " + substr(nlab,1,lbreak)
+        RB = substr(nlab,rbreak,.)
     }
     A = X:+LB
     B = A:+strofreal(Y,nform)
@@ -2357,7 +2357,7 @@ function build_ncol (string matrix X, ///
                 string scalar layout, ///
                 real scalar noffset, ///
                 string scalar nform)
-{               
+{
     if (noffset>=numcat) noffset = numcat-1
     string colvector A
     A = strofreal(Y,nform)
@@ -2405,9 +2405,9 @@ function build_ncol (string matrix X, ///
     }
     B[1,1] = nlab
     W = X,B
-return(W)   
+return(W)
 }
-    
+
 
 
 /* ------------------ misc routines ------------------------ */
@@ -2459,7 +2459,7 @@ function counts (real matrix Z)
      BR = C,T
      X = MR \ BR
      return(X)
-}     
+}
 
 
 function exvector (real matrix Z)
@@ -2474,11 +2474,11 @@ function exvector (real matrix Z)
 /* -------------------- displaying the results ---------------------- */
 
 void show_data (string matrix X)
-{           
-            
+{
+
     finaltot = strtoreal(st_global("finaltot"))
     lpass = strtoreal(st_global("lpass"))
-    
+
     if (finaltot==1 & lpass==1) show = 0
         else show = 1
     if (show==1) {
@@ -2504,33 +2504,33 @@ void write_tab(string matrix X, ///
             real scalar oneway, ///
             real scalar numrows, ///
             string scalar style)
-{               
+{
     done = 0
     outfile = st_global("mainfile")
     fh_out = fopen(outfile,"a")
     do_n = strtoreal(st_global("do_n"))
     npos = st_global("n_pos")
-        
+
     statstr = st_global("statstr")
     statstr1 = st_global("statstr1")
     statstr2 = st_global("statstr2")
-    
+
     single = strtoreal(st_global("single"))
     fpass = strtoreal(st_global("fpass"))
     lpass = strtoreal(st_global("lpass"))
     showtot = strtoreal(st_global("showtot"))
     finaltot = strtoreal(st_global("finaltot"))
-    
+
     h1 = st_global("h1")
     h2 = st_global("h2")
     h3 = st_global("h3")
     lspace = strtoreal(st_global("lspace"))
     vvarname = st_global("vvarname")
     delim = st_global("delim")
-    if (oneway==1 & do_n==1 & (npos=="col" | npos=="both")) fixn =1 
+    if (oneway==1 & do_n==1 & (npos=="col" | npos=="both")) fixn =1
         else fixn = 0
 
-    if (style=="csv") { 
+    if (style=="csv") {
         ptab = ","
         X = fix_commas(X)
     }
@@ -2538,10 +2538,10 @@ void write_tab(string matrix X, ///
         ptab = ";"
     }
     else ptab = char(09)
-    
+
     if (fpass==1) {
         if (oneway==0)  {
-            if (h1~="nil") { 
+            if (h1~="nil") {
                 if (h1~="") {
                     topstr = subinstr(h1,delim,ptab)
                     fput(fh_out, topstr)
@@ -2554,7 +2554,7 @@ void write_tab(string matrix X, ///
                 }
             }
         }
-        if (h2~="nil"){ 
+        if (h2~="nil"){
             if (h2~="") {
                 midstr = subinstr(h2,delim,ptab)
                 fput(fh_out, midstr)
@@ -2573,7 +2573,7 @@ void write_tab(string matrix X, ///
                 }
             }
         }
-        if (h3~="nil") { 
+        if (h3~="nil") {
             if (h3~="") {
                 botstr = subinstr(h3,delim,ptab)
                 fput(fh_out, botstr)
@@ -2598,7 +2598,7 @@ void write_tab(string matrix X, ///
 
     if (showtot==0) size = rows(X) - numrows
         else size = rows(X)
-        
+
     for (i=3; i<=size; i++) {
         line = X[i,1]
         for (j=2; j<=cols(X); j++) {
@@ -2609,8 +2609,8 @@ void write_tab(string matrix X, ///
     }
 
     if (finaltot==1 & lpass==1) do_stat = 0
-        else do_stat = 1    
-    if (do_stat==1) { 
+        else do_stat = 1
+    if (do_stat==1) {
         if (statstr~="") {
             numtabs = cols(X)-1
             outstr = statstr + numtabs*ptab
@@ -2626,7 +2626,7 @@ void write_tab(string matrix X, ///
             fput(fh_out, outstr2)
         }
     }
-        
+
     k = rows(X)
     if (lpass==1 & substr(X[k,1],1,3)=="@N@") {
         line = X[k,1]
@@ -2637,42 +2637,42 @@ void write_tab(string matrix X, ///
         line = subinstr(line,"@N@","")
         fput(fh_out, line)
     }
-    
+
     for (j=1; j<=lspace; j++) {
         fput(fh_out, "")
     }
-        
+
     fclose(fh_out)
-}   
+}
 
 
 void write_tex(string matrix X, ///
             real scalar oneway, ///
             real scalar numrows)
-{               
+{
 
     done = 0
     outfile = st_global("mainfile")
     fh_out = fopen(outfile,"a")
     do_n = strtoreal(st_global("do_n"))
     npos = st_global("n_pos")
-    
+
     statstr = st_global("statstr")
     statstr1 = st_global("statstr1")
     statstr2 = st_global("statstr2")
-    
+
     single = strtoreal(st_global("single"))
     fpass = strtoreal(st_global("fpass"))
     lpass = strtoreal(st_global("lpass"))
     showtot = strtoreal(st_global("showtot"))
     finaltot = strtoreal(st_global("finaltot"))
-    
+
     h1 = st_global("h1")
     h2 = st_global("h2")
     h3 = st_global("h3")
     lspace = strtoreal(st_global("lspace"))
     vvarname = st_global("vvarname")
-    
+
     ptab = "&"
     pterm = " \\"
     cl1 = st_global("cl1")
@@ -2685,16 +2685,16 @@ void write_tex(string matrix X, ///
     CLTR2 = tokens(cltr2)
     if (cl1~="") CLTR1 = fixgaps(CLTR1,cols(CL1))
     if (cl2~="") CLTR2 = fixgaps(CLTR1,cols(CL2))
-    
-    if (oneway==1 & do_n==1 & (npos=="col" | npos=="both")) fixn =1 
+
+    if (oneway==1 & do_n==1 & (npos=="col" | npos=="both")) fixn =1
         else fixn = 0
-    
+
     if (strtoreal(st_global("bt"))==1) rule = "\midrule"
         else rule = "\hline"
 
     if (fpass==1) {
         if (oneway==0)  {
-            if (h1~="nil") { 
+            if (h1~="nil") {
                 if (h1~="") {
                     topstr = h1
                     fput(fh_out, topstr)
@@ -2719,7 +2719,7 @@ void write_tex(string matrix X, ///
             }
             fput(fh_out,cline)
         }
-        if (h2~="nil"){ 
+        if (h2~="nil"){
             if (h2~="") {
                 midstr = h2
                 fput(fh_out, midstr)
@@ -2731,11 +2731,11 @@ void write_tex(string matrix X, ///
                         done = 1
                     }
                     else line =""
-                    mcol=fixmulti(X[1,.]) 
+                    mcol=fixmulti(X[1,.])
                     if (mcol[2,1]~="na"){
                         for (j=1; j<=cols(mcol); j++) {
                             name = fixfont(texclean(mcol[1,j]))
-                            if (mcol[2,j]~="1") { 
+                            if (mcol[2,j]~="1") {
                             line = line + ///
                                 " & \multicolumn{" + ///
                                 mcol[2,j] + ///
@@ -2763,7 +2763,7 @@ void write_tex(string matrix X, ///
             }
             fput(fh_out,cline)
         }
-        if (h3~="nil") { 
+        if (h3~="nil") {
             if (h3~="") {
                 botstr = h3
                 fput(fh_out, botstr)
@@ -2781,7 +2781,7 @@ void write_tex(string matrix X, ///
             }
         }
     }
-    
+
     for (j=1; j<=lspace; j++) {
         fput(fh_out, rule)
     }
@@ -2803,10 +2803,10 @@ void write_tex(string matrix X, ///
         if (substr(X[i,1],1,3)~="@N@") ///
             fput(fh_out, line+pterm)
     }
-    
+
     if (finaltot==1 & lpass==1) do_stat = 0
-        else do_stat = 1    
-    if (do_stat==1) { 
+        else do_stat = 1
+    if (do_stat==1) {
         if (statstr~="") {
             a = subinstr(statstr,"=","=&")
             b = subinstr(a,"Pr","&Pr")
@@ -2826,7 +2826,7 @@ void write_tex(string matrix X, ///
             fput(fh_out, outstr1)
             a = subinstr(statstr2,"=","=&")
             b = subinstr(a,"Pr","&Pr")
-            numtabs = cols(X)-4 
+            numtabs = cols(X)-4
             outstr2 = b + numtabs*ptab + pterm
             fput(fh_out, outstr2)
         }
@@ -2841,48 +2841,48 @@ void write_tex(string matrix X, ///
         line = subinstr(line,"@N@","")
         fput(fh_out, line+pterm)
     }
-    
+
     fclose(fh_out)
-}   
+}
 
 void write_htm(string matrix X, ///
             real scalar oneway, ///
             real scalar numrows)
-{               
+{
 
     done = 0
     outfile = st_global("mainfile")
     fh_out = fopen(outfile,"a")
     do_n = strtoreal(st_global("do_n"))
     npos = st_global("n_pos")
-    
+
     statstr = st_global("statstr")
     statstr1 = st_global("statstr1")
     statstr2 = st_global("statstr2")
-    
+
     single = strtoreal(st_global("single"))
     fpass = strtoreal(st_global("fpass"))
     lpass = strtoreal(st_global("lpass"))
     showtot = strtoreal(st_global("showtot"))
     finaltot = strtoreal(st_global("finaltot"))
-    
+
     h1 = st_global("h1")
     h2 = st_global("h2")
     h3 = st_global("h3")
     vvarname = st_global("vvarname")
-    
+
     pre = "<TD>"
     post = "</TD>"
     rbeg = "<TR>"
     rend = "</TR>"
-    
-    if (oneway==1 & do_n==1 & (npos=="col" | npos=="both")) fixn =1 
+
+    if (oneway==1 & do_n==1 & (npos=="col" | npos=="both")) fixn =1
         else fixn = 0
 
-    
+
     if (fpass==1) {
         if (oneway==0)  {
-            if (h1~="nil") { 
+            if (h1~="nil") {
                 if (h1~="") {
                     topstr = h1
                     fput(fh_out, topstr)
@@ -2901,7 +2901,7 @@ void write_htm(string matrix X, ///
                 }
             }
         }
-        if (h2~="nil"){ 
+        if (h2~="nil"){
             if (h2~="") {
                 midstr = h2
                 fput(fh_out, midstr)
@@ -2913,11 +2913,11 @@ void write_htm(string matrix X, ///
                         done = 1
                     }
                     else line =""
-                    mcol=fixmulti(X[1,.]) 
+                    mcol=fixmulti(X[1,.])
                     if (mcol[2,1]~="na"){
                         for (j=1; j<=cols(mcol); j++) {
                             name = fixfont(mcol[1,j])
-                            if (mcol[2,j]~="1") { 
+                            if (mcol[2,j]~="1") {
                             line = line + ///
                                 "<TD colspan=" + ///
                                 mcol[2,j] + ///
@@ -2937,7 +2937,7 @@ void write_htm(string matrix X, ///
                 }
             }
         }
-        if (h3~="nil") { 
+        if (h3~="nil") {
             if (h3~="") {
                 botstr = h3
                 fput(fh_out, botstr)
@@ -2957,13 +2957,13 @@ void write_htm(string matrix X, ///
             }
         }
     }
-    
+
     if (single==0) {
         numcols = cols(X)-1
-        varstr = fixfont(vvarname) 
+        varstr = fixfont(vvarname)
         if (vvarname~="!PTOTAL!") {
             fput(fh_out, rbeg)
-            fput(fh_out, pre+varstr+post)   
+            fput(fh_out, pre+varstr+post)
             fput(fh_out, rend)
         }
     }
@@ -2978,13 +2978,13 @@ void write_htm(string matrix X, ///
         }
         if (substr(X[i,1],1,3)~="@N@") {
             fput(fh_out, rbeg)
-            fput(fh_out, line)  
+            fput(fh_out, line)
             fput(fh_out, rend)
-        }           
+        }
     }
-    
+
     if (finaltot==1 & lpass==1) do_stat = 0
-        else do_stat = 1    
+        else do_stat = 1
     if (do_stat==1) {
         j = strofreal(cols(X))
         if (statstr~="") {
@@ -3018,9 +3018,9 @@ void write_htm(string matrix X, ///
             fput(fh_out, line)
             fput(fh_out, rend)
     }
-    
+
     fclose(fh_out)
-}   
+}
 
 
 /* ------------------ misc routines for writing  ---------------------- */
@@ -3036,13 +3036,13 @@ void write_prepost (string scalar pfilename,
     infile = pfilename
 
     fh_in = fopen(infile,"r")
-    if (insert~="nil"){ 
+    if (insert~="nil"){
         INS = tokens(insert,delim)
         INS = strip_delim(INS,delim)
         k = 1
         while ((line=fget(fh_in))!=J(0,0,"")) {
             if (strpos(line,ps)>0) {
-                if (k<=cols(INS)) { 
+                if (k<=cols(INS)) {
                     line = subinstr(line,ps,INS[1,k])
                     k = k+1
                 }
@@ -3055,20 +3055,20 @@ void write_prepost (string scalar pfilename,
             fput(fh_out,line)
         }
     }
-    
+
     fclose(fh_out)
     fclose(fh_in)
 }
 
 
-void write_body (real scalar top, ///                 
+void write_body (real scalar top, ///
             string scalar style, ///
             real scalar cols)
 {
     outfile = st_global("mainfile")
     fh_out = fopen(outfile,"a")
-    
-    if (style=="tex") { 
+
+    if (style=="tex") {
         if (top==1){
             cols = cols-1
             fput(fh_out,"\documentclass{article}")
@@ -3086,14 +3086,14 @@ void write_body (real scalar top, ///
     }
     else if (style=="htm") {
         border = st_global("border")
-        if (top==1) { 
+        if (top==1) {
             fput(fh_out,"<HTML>")
             fput(fh_out,"<BODY> <TABLE "+border+">")
         }
         else {
             fput(fh_out,"</TABLE>")
-            fput(fh_out,"</BODY>") 
-            fput(fh_out,"</HTML>") 
+            fput(fh_out,"</BODY>")
+            fput(fh_out,"</HTML>")
         }
     }
     fclose(fh_out)
@@ -3124,22 +3124,22 @@ function strip_delim (string matrix X, ///
     }
     return(Y)
 }
-        
+
 
 function fixfont (string scalar X)
 {
     font = st_global("tfont")
     style = st_global("style")
-    if (style=="tex"){ 
-        if (font=="bold") Z = "\textbf{"+X+"}" 
-            else if (font=="italic") Z = "\emph{"+X+"}" 
+    if (style=="tex"){
+        if (font=="bold") Z = "\textbf{"+X+"}"
+            else if (font=="italic") Z = "\emph{"+X+"}"
             if (font=="plain") Z = X
     }
     else if (style=="htm") {
         if (font=="bold") Z = "<B>"+X+"</B>"
-            else if (font=="italic") Z = "<I>"+X+"</I>" 
+            else if (font=="italic") Z = "<I>"+X+"</I>"
             if (font=="plain") Z = X
-    }   
+    }
     else Z = X
     return(Z)
 }
@@ -3160,7 +3160,7 @@ function texclean( string scalar X)
 {
     a = X
     style = st_global("style")
-    if (style=="tex"){ 
+    if (style=="tex"){
         b = subinstr(a,"$","\\$")
         c = subinstr(b,"&","\&")
         d = subinstr(c,"_","\_")
@@ -3186,7 +3186,7 @@ function fixmulti (string matrix inrow)
             k = k+1
             mstr[1,k] = inrow[1,j]
             mnum[1,k] = 1
-        } 
+        }
     }
     count = sum(mnum)
     multi1 = mstr[1,1]

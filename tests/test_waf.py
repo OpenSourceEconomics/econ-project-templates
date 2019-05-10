@@ -1,9 +1,9 @@
-import subprocess
 import os
 import re
 import shutil
-import pytest
+import subprocess
 
+import pytest
 from test_cookie import basic_project_dict
 
 
