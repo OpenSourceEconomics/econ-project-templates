@@ -1,3 +1,5 @@
+import subprocess
+
 import pytest
 
 
@@ -10,7 +12,9 @@ def basic_project_dict():
         "project_name": "Research Project",
         "project_slug": "research_project",
         "project_short_description": "Nothing, really",
+        "create_conda_environment_with_name": "x",
         "set_up_git": "n",
+        "make_initial_commit": "n",
         "git_remote_url": "",
         "make_initial_commit": "n",
         "example_to_install": "Python",
@@ -20,7 +24,8 @@ def basic_project_dict():
         "configure_running_stata_from_waf": "n",
         "configure_running_julia_from_waf": "n",
         "configure_running_sphinx_from_waf": "n",
-        "add_python_code_formatter_to_project": "n",
+        "add_basic_pre_commit_hooks": "n",
+        "add_intrusive_pre_commit": "n",
         "open_source_license": "n",
         "_copy_without_render": [
             ".mywaflib",
@@ -101,14 +106,19 @@ def test_template_without_sphinx(cookies, basic_project_dict):
 def test_template_with_git_setup(cookies, basic_project_dict):
     basic_project_dict["set_up_git"] = "y"
     basic_project_dict["make_initial_commit"] = "y"
+    basic_project_dict["add_basic_pre_commit_hooks"] = "y"
+    basic_project_dict["add_intrusive_pre_commit"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
     assert result.exit_code == 0
     assert result.project.join(".git").check(exists=1)
 
 
-# def test_anaconda_environment_creation(cookies, basic_project_dict):
-#     basic_project_dict["create_conda_environment_with_name"] = "reproducible_research_template"
-#     result = cookies.bake(extra_context=basic_project_dict)
-#     env = subprocess.check_output(['conda', 'env', 'list']).decode()
-#     assert 'template_for_reproducible_research' in env
-#     # Make sure to remove environment again!
+def test_anaconda_environment_creation(cookies, basic_project_dict):
+    basic_project_dict[
+        "create_conda_environment_with_name"
+    ] = "reproducible_research_template"
+    result = cookies.bake(extra_context=basic_project_dict)
+    env = subprocess.check_output(["conda", "env", "list"]).decode()
+    # Make sure to remove environment again!
+    subprocess.run("""conda remove --name reproducible_research_template --all""")
+    assert "reproducible_research_template" in env

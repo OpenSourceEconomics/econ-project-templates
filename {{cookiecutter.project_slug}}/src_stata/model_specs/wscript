@@ -1,9 +1,7 @@
 #! python
-
-
+import json
 import os
 import sys
-import json
 
 # Required to work with Python 2 and 3.
 if sys.version_info.major == 3:

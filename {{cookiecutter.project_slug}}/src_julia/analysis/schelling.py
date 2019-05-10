@@ -12,9 +12,9 @@ import pickle
 import sys
 
 import numpy as np
-from src.model_code.agent import Agent
-
 from bld.project_paths import project_paths_join as ppj
+
+from src.model_code.agent import Agent
 
 
 def setup_agents(model):
@@ -25,7 +25,6 @@ def setup_agents(model):
     initial_locations = np.loadtxt(
         ppj("OUT_DATA", "initial_locations.csv"), delimiter=","
     )
-
     initial_locations = initial_locations.reshape(2, model["n_types"], 30000)
 
     agents = []
@@ -58,7 +57,6 @@ def _store_locations_by_round(loc, agents):
     Doing so is a bit tedious because we do so by type.
 
     """
-
     counter = {0: 0, 1: 0}
     for agent in agents:
         typ = agent.type
@@ -71,7 +69,6 @@ def run_analysis(agents, model):
     return a list of dictionaries with *type: N x 2* items.
 
     """
-
     locations_by_round = [_get_locations_by_round_dict(model)]
     _store_locations_by_round(locations_by_round[-1], agents)
 
