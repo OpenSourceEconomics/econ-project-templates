@@ -87,8 +87,8 @@ def build(ctx):
     ctx.env.PROJECT_PATHS = set_project_paths(ctx)
     ctx.path_to = path_to
     # Generate header file(s) with project paths in "bld" directory
-{% if cookiecutter.configure_running_python_from_waf == "y" or cookiecutter.example_to_install.lower() == "python" %}    ctx(features="write_project_paths", target="project_paths.py")
-{% endif %}{% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}    ctx(features="write_project_paths", target="project_paths.do")
+    ctx(features="write_project_paths", target="project_paths.py")
+{% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}    ctx(features="write_project_paths", target="project_paths.do")
 {% endif %}{% if cookiecutter.configure_running_matlab_from_waf == "y" or cookiecutter.example_to_install.lower() == "matlab" %}    ctx(features="write_project_paths", target="project_paths.m")
 {% endif %}{% if cookiecutter.configure_running_r_from_waf == "y" or cookiecutter.example_to_install.lower() == "r" %}    ctx(features="write_project_paths", target="project_paths.r")
 {% endif %}{% if cookiecutter.configure_running_julia_from_waf == "y" or cookiecutter.example_to_install.lower().startswith("julia") %}    ctx(features="write_project_paths", target="project_paths.py")
