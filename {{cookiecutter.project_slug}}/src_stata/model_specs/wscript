@@ -1,13 +1,6 @@
 #! python
 import json
 import os
-import sys
-
-# Required to work with Python 2 and 3.
-if sys.version_info.major == 3:
-    unicode = str
-else:
-    pass
 
 
 STATA_MODEL_COMMENT = """//
@@ -37,7 +30,7 @@ def convert_model_json_to_stata(task):
     tgt_content = STATA_MODEL_COMMENT.format(model_name, task.inputs[0].abspath())
     for key, val in sorted(model_pars.items()):
         # Adjust for Stata string notation
-        if isinstance(val, (str, unicode)):
+        if isinstance(val, str):
             val = '"{}"'.format(val)
         tgt_content += "global {k} = {v}\n".format(k=key, v=val)
     return task.outputs[0].write(tgt_content)
@@ -60,7 +53,7 @@ def convert_geography_json_to_stata(task):
     for geo_dict in geo_dict_list:
         for key, val in geo_dict.items():
             # Adjust for Stata string notation
-            if isinstance(val, (str, unicode)):
+            if isinstance(val, str):
                 val = '"{}"'.format(val)
             tgt_content += "global {k}_{i} = {v}\n".format(k=key, i=i, v=val)
         i += 1

@@ -3,6 +3,8 @@ from pathlib import Path
 
 import graphviz as gv
 from waflib import Utils
+from waflib.Node import Nod3
+
 
 graph = functools.partial(gv.Graph, format="png")
 digraph = functools.partial(gv.Digraph, format="png")
@@ -41,6 +43,14 @@ def apply_styles(graph, styles):
     return graph
 
 
+def get_name(str_or_nod):
+    try:
+        out = Path(str_or_nod).name
+    except TypeError:
+        out = Path(str_or_nod.abspath()).name
+    return out
+
+
 def add_nodes(graph, nodes):
     for n in nodes:
         if isinstance(n, tuple):
@@ -76,16 +86,23 @@ def make_dot_file(ctx):
             # Add dependencies
             deps = Utils.to_list(getattr(taskgen, "deps", []))
             for dep in deps:
-                dep = Path(dep).name
-                add_nodes(dag, [dep])
-                add_edges(dag, [(dep, name)])
+                d = get_name(dep)
+                add_nodes(dag, [d])
+                add_edges(dag, [(d, name)])
+
+            # Add sources
+            sources = Utils.to_list(getattr(taskgen, "source", []))
+            for source in sources:
+                s = get_name(source)
+                add_nodes(dag, [s])
+                add_edges(dag, [(s, name)])
 
             # Write targets
             targets = Utils.to_list(getattr(taskgen, "target", []))
             for target in targets:
-                target = Path(target).name
-                add_nodes(dag, [target])
-                add_edges(dag, [(name, target)])
+                t = get_name(target)
+                add_nodes(dag, [t])
+                add_edges(dag, [(name, t)])
 
     dag = apply_styles(dag, styles)
 
