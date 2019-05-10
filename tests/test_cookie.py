@@ -113,12 +113,15 @@ def test_template_with_git_setup(cookies, basic_project_dict):
     assert result.project.join(".git").check(exists=1)
 
 
-def test_anaconda_environment_creation(cookies, basic_project_dict):
+def test_conda_environment_creation(cookies, basic_project_dict):
     basic_project_dict[
         "create_conda_environment_with_name"
-    ] = "reproducible_research_template"
+    ] = "test_of_reproducible_research_template"
     result = cookies.bake(extra_context=basic_project_dict)
     env = subprocess.check_output(["conda", "env", "list"]).decode()
     # Make sure to remove environment again!
-    subprocess.run("""conda remove --name reproducible_research_template --all""")
-    assert "reproducible_research_template" in env
+    subprocess.run(
+        """conda remove --name test_of_reproducible_research_template --all""",
+        shell=True
+    )
+    assert "test_of_reproducible_research_template" in env
