@@ -9,7 +9,7 @@ def _check_pre_commit(result):
         "pre-commit run --all-files",
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        shell=False,
+        shell=True,
         cwd=result.project,
     )
     output, error = c.communicate()

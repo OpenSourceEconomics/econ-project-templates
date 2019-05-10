@@ -3,7 +3,6 @@ from pathlib import Path
 
 import graphviz as gv
 from waflib import Utils
-from waflib.Node import Nod3
 
 
 graph = functools.partial(gv.Graph, format="png")
