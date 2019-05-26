@@ -1,10 +1,8 @@
 
 ***********************************
-Current Stata/R - Table of Contents
+R/STATA
 ***********************************
 
-
-Warning: This is work-in progress, most things still just resemble the description of the Python example...
 
 .. raw:: html
 
@@ -14,11 +12,7 @@ Warning: This is work-in progress, most things still just resemble the descripti
 .. toctree::
     :maxdepth: 2
 
-    introduction
     rationale
     waf
     organisation
-    getting_started
-    program_environments
-    faq
-    zreferences
+

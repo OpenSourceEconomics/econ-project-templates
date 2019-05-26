@@ -1,7 +1,8 @@
 
-*****************************************
-Current Python/Matlab - Table of Contents
-*****************************************
+***********************************
+Python/Matlab
+***********************************
+
 
 .. raw:: html
 
@@ -11,11 +12,7 @@ Current Python/Matlab - Table of Contents
 .. toctree::
     :maxdepth: 2
 
-    introduction
     rationale
     waf
     organisation
-    getting_started
-    program_environments
-    faq
-    zreferences
+

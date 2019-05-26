@@ -1,13 +1,21 @@
 
-*****************
-Table of Contents
-*****************
+*****************************************
+Current Python/Matlab - Table of Contents
+*****************************************
 
+.. raw:: html
+
+	<p><a class="reference download internal" href="_downloads/tutorial-econ-project-templates.pdf"><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">this</span> <span class="pre">tutorial</span> <span class="pre">as</span> <span class="pre">pdf</span></code></a></p>
 
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
-    current/python/index
-    current/stata/index
-
+    quickstart
+    introduction
+    python/index
+    r/index
+    getting_started
+    program_environments
+    faq
+    zreferences

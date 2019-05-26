@@ -4,8 +4,6 @@ channels:
 {% if cookiecutter.configure_running_r_from_waf == 'y' %}
   - r
   - conda-forge
-  - rholler
-  - endrebak
 {% endif %}
 dependencies:
   - jupyterlab
