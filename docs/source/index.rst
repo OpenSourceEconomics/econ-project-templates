@@ -1,7 +1,7 @@
 
-*****************************************
-Current Python/Matlab - Table of Contents
-*****************************************
+*********************************************************
+Templates for Reproducible Research Projects in Economics
+*********************************************************
 
 .. raw:: html
 
@@ -17,5 +17,6 @@ Current Python/Matlab - Table of Contents
     r/index
     getting_started
     program_environments
+    pre-commit
     faq
     zreferences

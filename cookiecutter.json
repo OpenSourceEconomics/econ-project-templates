@@ -17,6 +17,14 @@
     "y",
     "n"
   ],
+  "add_basic_pre_commit_hooks": [
+    "y",
+    "n"
+  ],
+  "add_intrusive_pre_commit": [
+    "y",
+    "n"
+  ],
   "example_to_install": [
     "Python",
     "Matlab",
@@ -45,14 +53,6 @@
     "n"
   ],
   "configure_running_sphinx_from_waf": [
-    "y",
-    "n"
-  ],
-  "add_basic_pre_commit_hooks": [
-    "y",
-    "n"
-  ],
-  "add_intrusive_pre_commit": [
     "y",
     "n"
   ],
