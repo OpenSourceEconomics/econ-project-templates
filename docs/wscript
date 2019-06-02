@@ -1,34 +1,30 @@
+#! python
 import os
-
+from collections import OrderedDict
 
 # The project root directory and the build directory.
-top = '.'
-out = 'bld'
+top = "."
+out = "bld"
 
 
 def set_project_paths(ctx):
-    """Define the project paths."""
+    """Return a dictionary with project paths represented by Waf nodes."""
 
-    pp = {}
-    # The PROJECT_ROOT path will be appended to the PYTHONPATH environmental
-    # variable.
-    pp['PROJECT_ROOT'] = '.'
-    pp['BLD_EXAMPLES'] = '{}/examples'.format(out)
-    # The rest really pertains to the example template.
-    pp['SRC_EXAMPLE_PYTHON_TEMPLATE'] = 'example_python_template'
-    pp['BLD_EXAMPLE_PYTHON_TEMPLATE'] = '{}/{}/out/'.format(out, pp['SRC_EXAMPLE_PYTHON_TEMPLATE'])
-    pp['IN_DATA'] = '{}/src/original_data'.format(pp['SRC_EXAMPLE_PYTHON_TEMPLATE'])
-    pp['IN_MODEL_CODE'] = '{}/src/model_code'.format(pp['SRC_EXAMPLE_PYTHON_TEMPLATE'])
-    pp['IN_MODEL_SPECS'] = '{}/src/model_specs'.format(pp['SRC_EXAMPLE_PYTHON_TEMPLATE'])
-    pp['OUT_DATA'] = '{}/data'.format(pp['BLD_EXAMPLE_PYTHON_TEMPLATE'])
-    pp['OUT_ANALYSIS'] = '{}/analysis'.format(pp['BLD_EXAMPLE_PYTHON_TEMPLATE'])
-    pp['OUT_FINAL'] = '{}/final'.format(pp['BLD_EXAMPLE_PYTHON_TEMPLATE'])
-    pp['OUT_FIGURES'] = '{}/figures'.format(pp['BLD_EXAMPLE_PYTHON_TEMPLATE'])
-    pp['OUT_TABLES'] = '{}/tables'.format(pp['BLD_EXAMPLE_PYTHON_TEMPLATE'])
+    pp = OrderedDict()
+    pp["PROJECT_ROOT"] = "."
+    pp["IN_DOCU"] = "src"
+    pp["BLD"] = ""
+    pp["BLD_EXAMPLES"] = f"{out}/example"
+    pp["OUT_PYTHON_EXAMPLE"] = f"{out}/r/r_example"
+    pp["OUT_R_EXAMPLE"] = f"{out}/python/python_example"
 
-    # Convert the directories into waf nodes.
+    # Convert the directories into Waf nodes.
     for key, val in pp.items():
-        pp[key] = ctx.path.make_node(val)
+        if not key == "ADO":
+            pp[key] = ctx.path.make_node(val)
+        else:
+            for adokey, adoval in val.items():
+                pp[key][adokey] = ctx.path.make_node(adoval)
 
     return pp
 
@@ -49,7 +45,7 @@ def path_to(ctx, pp_key, *args):
     # Implementation detail:
     #   We find the path to the directory where the file lives, so that
     #   we do not accidentally declare a node that does not exist.
-    dir_path_in_tree = os.path.join('.', *args[:-1])
+    dir_path_in_tree = os.path.join(".", *args[:-1])
     # Find/declare the directory node. Use an alias to shorten the line.
     pp_key_fod = ctx.env.PROJECT_PATHS[pp_key].find_or_declare
     dir_node = pp_key_fod(dir_path_in_tree).get_src()
@@ -60,26 +56,23 @@ def path_to(ctx, pp_key, *args):
 
 
 def options(opt):
-    opt.load('compiler_c')
+    opt.load("compiler_c")
 
 
 def configure(ctx):
-    pp = set_project_paths(ctx)
-    ctx.env.PYTHONPATH = '{}:{}'.format(
-        pp['PROJECT_ROOT'].abspath(),
-        pp['SRC_EXAMPLE_PYTHON_TEMPLATE'].abspath()
-    )
-    ctx.env.PDFLATEXFLAGS = ['-shell-escape', '-halt-on-error']
-    ctx.load('biber')
-    ctx.load('run_py_script')
-    ctx.load('sphinx_build')
-    ctx.load('write_project_headers')
+    # pp = set_project_paths(ctx)
+    ctx.env.PYTHONPATH = os.getcwd()
+    ctx.env.PDFLATEXFLAGS = ["-shell-escape", "-halt-on-error"]
+    ctx.load("biber")
+    ctx.load("run_py_script")
+    ctx.load("sphinx_build")
+    ctx.load("write_project_headers")
 
 
 def build(ctx):
     ctx.env.PROJECT_PATHS = set_project_paths(ctx)
     ctx.path_to = path_to
-    ctx(features='write_project_paths', target='project_paths.py')
+    ctx(features="write_project_paths", target="project_paths.py")
     ctx.add_group()
 
-    ctx.recurse('source')
+    ctx.recurse("src")
