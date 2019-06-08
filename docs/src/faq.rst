@@ -78,7 +78,7 @@ The machinery of the imports in Python scripts requires the PYTHONPATH environme
 
 In order to do so, first create a Spyder project in the directory where you want your research to be (click "Yes" on the question "The following directory is not empty: ... Do you want to continue?"). Then right-click on the project's root folder and select "Add to PYTHONPATH".
 
-   .. image:: examples/spyder_pythonpath.png
+   .. image:: python/examples/spyder_pythonpath.png
        :width: 18cm
 
 Any ``ImportErrors`` are likely due to this not being done correctly. Note that you **must** set the run configuration (F6 or select "Run" from the menu bar and then "Configure") to "Execute in a new dedicated Python console".

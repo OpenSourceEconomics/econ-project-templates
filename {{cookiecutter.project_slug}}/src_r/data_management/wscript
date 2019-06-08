@@ -8,4 +8,5 @@ def build(ctx):
         source="add_variables.r",
         target=[ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt")],
         deps=["../../project_paths.r", ctx.path_to(ctx, "IN_DATA", "ajrcomment.dta")],
+        name="add_variables_r",
     )

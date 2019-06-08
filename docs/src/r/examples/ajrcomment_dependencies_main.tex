@@ -1,6 +1,6 @@
-\documentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
+\rcumentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
 \usepackage{tkz-graph}
-\usetikzlibrary{arrows,positioning,shapes,shapes.multipart,patterns,mindmap,shadows}
+\usetikzlibrary{arrows,positioning,shapes,shapes.multipart,patterns,mindmap,sharws}
 \usepackage{xcolor}
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
@@ -16,51 +16,51 @@
     draw,
     fill=brown!25
 }]
-    \node (ajrcomment_all_dta) [shift={(2, 0)}]
+    \node (ajrcomment_all_txt) [shift={(2, 0)}]
     {
-        ajrcomment\_all.dta
+        ajrcomment\_all.txt
     };
 
 
 
-    \node (geography_do) [fill=blue!15, shift={(5, 0)}]
+    \node (geography_r) [fill=blue!15, shift={(5, 0)}]
     {
-        geography.do
+        geography.r
     };
-    \node (baseline_do) [fill=blue!15, shift={(7, 0)}]
+    \node (baseline_r) [fill=blue!15, shift={(7, 0)}]
     {
-        baseline.do
-    };
-
-
-
-
-    \node (second_stage_estimation_baseline_dta) [shift={(5, -1)}]
-    {
-        second\_stage\_estimation\_baseline.dta
-    };
-
-
-
-    \node (second_stage_estimation_baseline_do) [fill=blue!15, shift={(4.5, -2)}]
-    {
-        second\_stage\_estimation\_baseline.do
-    };
-
-
-    \node (second_stage_estimation_do) [fill=blue!15, shift={(6, -3)}]
-    {
-        second\_stage\_estimation.do
+        baseline.r
     };
 
 
 
 
-    \draw[->, orange, thick] (second_stage_estimation_baseline_dta) to (second_stage_estimation_baseline_do);
-    \draw[->, orange, thick] (second_stage_estimation_baseline_dta) to (geography_do);
-    \draw[->, orange, thick] (second_stage_estimation_baseline_dta) to (ajrcomment_all_dta);
-    \draw[->, orange, thick] (second_stage_estimation_baseline_dta) to (baseline_do);
-    \draw[->, orange, thick] (second_stage_estimation_baseline_do) to (second_stage_estimation_do);
+    \node (second_stage_estimation_baseline_txt) [shift={(5, -1)}]
+    {
+        second\_stage\_estimation\_baseline.txt
+    };
+
+
+
+    \node (second_stage_estimation_baseline_r) [fill=blue!15, shift={(4.5, -2)}]
+    {
+        second\_stage\_estimation\_baseline.r
+    };
+
+
+    \node (second_stage_estimation_r) [fill=blue!15, shift={(6, -3)}]
+    {
+        second\_stage\_estimation.r
+    };
+
+
+
+
+    \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (second_stage_estimation_baseline_r);
+    \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (geography_r);
+    \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (ajrcomment_all_txt);
+    \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (baseline_r);
+    \draw[->, orange, thick] (second_stage_estimation_baseline_r) to (second_stage_estimation_r);
 
 
 \end{tikzpicture}

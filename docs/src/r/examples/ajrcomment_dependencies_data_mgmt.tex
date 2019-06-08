@@ -21,17 +21,17 @@
     {
         ajrcomment.dta
     };
-    \node (add_variables_do) [fill=blue!15, shift={(4, 0)}]
+    \node (add_variables_r) [fill=blue!15, shift={(4, 0)}]
     {
-        add\_variables.do
+        add\_variables.r
     };
-    \node (ajrcomment_all_dta) [shift={(0, 0)}]
+    \node (ajrcomment_all_txt) [shift={(0, 0)}]
     {
-        ajrcomment\_all.dta
+        ajrcomment\_all.txt
     };
 
-    \draw[->, blue, thick] (ajrcomment_all_dta) to (add_variables_do);
-    \draw[->, blue, thick] (ajrcomment_all_dta) to (ajrcomment_dta);
+    \draw[->, blue, thick] (ajrcomment_all_txt) to (add_variables_r);
+    \draw[->, blue, thick] (ajrcomment_all_txt) to (ajrcomment_dta);
 
 \end{tikzpicture}
 
