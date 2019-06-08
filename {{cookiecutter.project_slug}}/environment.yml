@@ -17,7 +17,6 @@ dependencies:
   - r-base
   - r-car
   - r-essentials
-  - r-ivpack
   - r-rjson
   - r-lmtest
   - r-sandwich

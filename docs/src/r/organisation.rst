@@ -14,7 +14,7 @@ Directory structure
 
 The left node of the following graph shows the contents of the project root directory after executing ``python waf.py configure build install``:
 
-.. figure:: ../../../bld/examples/stata/project_hierarchies_big_pic.png
+.. figure:: ../../bld/examples/r/project_hierarchies_big_pic.png
    :width: 50em
 
 Files and directories in brownish colours are constructed by Waf; those with a bluish background are added directly by the researcher. You immediately see the **separation of inputs and outputs** (one of our guiding principles) at work:
@@ -45,7 +45,7 @@ Some differences:
 
 As an example of how things look further down in the hierarchy, consider the *analysis* step that was described :ref:`here <waf_analysis>`:
 
-.. figure:: ../../../bld/examples/stata/project_hierarchies_analysis.png
+.. figure:: ../../bld/examples/r/project_hierarchies_analysis.png
    :width: 30em
 
 Remember that the script *root/src/analysis/schelling.py* is run with an argument *baseline* or *max_moves_2*. The code then accesses the respective file in *root/src/model_specs*, *root/src/model_code/agent.py*, and *bld/out/data/initial_locations.csv* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
@@ -76,7 +76,7 @@ Specifying project paths in the main *wscript* file
 
 This is how the project paths are specified in the main wscript file:
 
-.. literalinclude:: example_project/wscript
+.. literalinclude:: ../../bld/examples/r/r_example/wscript
     :start-after: # The project root directory and the build directory.
     :end-before: def path_to
 
@@ -96,7 +96,7 @@ Usage of the project paths within *wscript* files
 
 The first thing to do is to make these project paths available in *wscript* files further down the directory hierarchy. We do so in the *build* function of *root/wscript*; the relevant lines are:
 
-.. literalinclude:: example_project/wscript
+.. literalinclude:: ../../bld/examples/r/r_example/wscript
     :start-after: ctx.load("write_project_headers")
     :end-before: # Generate header
 
@@ -119,7 +119,7 @@ This description may be a bit cryptic, but it says it all: Waf needs paths relat
 
 Let us look at *root/src/analysis/wscript* as an example again:
 
-.. literalinclude:: example_project/src/analysis/wscript
+.. literalinclude:: ../../bld/examples/r/r_example/src/analysis/wscript
 
 Note that the order of the arguments is the same in each of the five calls of ``ctx.path_to()``. The last one has an example of a nested directory structure: We do not need the log-files very often and they only clutter up the *OUT_ANALYSIS* directory, so we put them in a subdirectory.
 
@@ -129,7 +129,7 @@ Usage of the project paths in substantial code
 
 The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the ``write_project_paths`` feature. The following line is taken from the ``build`` function in *root/wscript*:
 
-.. literalinclude:: example_project/wscript
+.. literalinclude:: ../../bld/examples/r/r_example/wscript
     :start-after: ctx.path_to
     :end-before: ctx.add_group()
 

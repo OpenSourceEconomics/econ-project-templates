@@ -2,10 +2,27 @@ import os
 
 
 def bld_examples(ctx, *args):
-    return ctx.path_to(ctx, 'BLD_EXAMPLES', 'stata', *args)
+    return ctx.path_to(ctx, 'BLD_EXAMPLES', 'r', *args)
 
 
 def build(ctx):
+
+    # Execute cookiecuter to copy python example
+    folder = os.path.abspath("").replace("docs", "")
+    command = (
+        "cookiecutter -f --no-input "
+        + "--output-dir example/r "
+        + folder
+        + " project_slug=r_example"
+        + " example_to_install=R"
+        + " configure_running_python_from_waf=n"
+        + " configure_running_r_from_waf=y"
+        + " set_up_git=n"
+        + " create_conda_environment_with_name=x"
+    )
+    ctx(
+        rule=command
+    )
 
     model_graphs = [
         'steps_only_full.png',
@@ -54,7 +71,7 @@ def build(ctx):
         for g in graph_types:
             fn = '{}.{}'.format(f, g)
             src = os.path.join(ctx.path.get_bld().abspath(), fn)
-            tgt = os.path.join(ctx.env.PROJECT_PATHS['BLD_EXAMPLES'].abspath(), 'stata', fn)
+            tgt = os.path.join(ctx.env.PROJECT_PATHS['BLD_EXAMPLES'].abspath(), 'r', fn)
 
             # LaTeX does not create a node for png files.
             if g == 'png':

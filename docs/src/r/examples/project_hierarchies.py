@@ -651,9 +651,7 @@ end_doc = """
 
 if __name__ == "__main__":
     key = sys.argv[1]
-    with open(
-        "source/current/stata/examples/project_hierarchies_{}.tex".format(key), "w"
-    ) as f:
+    with open("src/r/examples/project_hierarchies_{}.tex".format(key), "w") as f:
         f.write(prelude)
         f.write(project_hierarchies[key])
         f.write(end_doc)

@@ -1,7 +1,4 @@
 import os
-import json
-
-from bld.project_paths import project_paths_join as ppj
 
 
 def bld_examples(ctx, *args):
@@ -11,15 +8,17 @@ def bld_examples(ctx, *args):
 def build(ctx):
 
     # Execute cookiecuter to copy python example
-    folder = ppj("PROJECT_ROOT")
-    f = open(ppj("IN_DOCU", "python/examples/python-example.json"), "rb")
-    python_example = json.load(f)
-    f.close
+    folder = os.path.abspath("").replace("docs", "")
+    command = (
+        "cookiecutter -f --no-input "
+        + "--output-dir example/python "
+        + folder
+        + " project_slug=python_example"
+        + " set_up_git=n"
+        + " create_conda_environment_with_name=x"
+    )
     ctx(
-        rule="cookiecutter('{}', no_imput=True, extra_context={})".format(
-            folder.replace("docs", ""), python_example
-        ),
-        target=bld_examples(ctx, "python-example")
+        rule=command
     )
 
     model_graphs = [

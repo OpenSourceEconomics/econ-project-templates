@@ -18,7 +18,7 @@ Additionally, there are two phases for cleanup which are useful to enforce a reb
 
 The project directory is always the root directory of the project, the build directory is usually called *bld*. This is how we implement it in the main *wscript* file:
 
-.. literalinclude:: example_project/wscript
+.. literalinclude:: ../../bld/example/python/python_example/wscript
     :start-after: import os
     :end-before: def set_project_paths
 
@@ -36,7 +36,7 @@ The first time you fire up a project you need to invoke Waf by changing to the p
 
 You only need to do this once, or whenever the location of the programs that your project requires changes (say, you installed a new version of LaTeX), you performed a distclean, or manually removed the entire build directory. Because of the ``configure`` argument Waf will call the function by the same name, which lives in the main *wscript* file:
 
-.. literalinclude:: example_project/wscript
+.. literalinclude:: ../../bld/example/python/python_example/wscript
     :start-after: return os.path.join(path_to_dir, args[-1])
     :end-before: def build
 
@@ -61,7 +61,7 @@ Specifying dependencies and the build phase
 
 Let us go step-by-step through the entire dependency graph of the project from the section on :ref:`DAG's <dag_s>`, which is reproduced here for convenience:
 
-.. figure:: ../../../bld/examples/python/schelling_dependencies.png
+.. figure:: ../../bld/example/python/schelling_dependencies.png
    :width: 50em
 
 Remember the colors of the edges follow the step of the analysis; we will split  our description along the same lines. First, we need to show how to keep the Waf code in separate directories (else it would become quickly unmanageable).
@@ -95,12 +95,12 @@ The "data management" step
 
 The dependency structure at this step of the analysis is particularly simple, as we have one source and one target:
 
-.. figure:: ../../../bld/examples/python/schelling_dependencies_data_mgmt.png
+.. figure:: ../../bld/example/python/schelling_dependencies_data_mgmt.png
    :width: 30em
 
 This is the entire content of the file *src/data_management/wscript*:
 
-.. literalinclude:: example_project/src/data_management/wscript
+.. literalinclude:: ../../bld/example/python/python_example/src/data_management/wscript
 
 The ``ctx()`` call is a shortcut for creating a **task generator**. We will be more specific about that below in the section :ref:`build_phase`. Let us look at the lines one-by-one again:
 
@@ -118,7 +118,7 @@ The "analysis" step
 
 We concentrate our discussion on the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:
 
-.. figure:: ../../../bld/examples/python/schelling_dependencies_main.png
+.. figure:: ../../bld/example/python/schelling_dependencies_main.png
    :width: 40em
 
 Just a reminder on the purpose of each of these files:
@@ -131,7 +131,7 @@ Just a reminder on the purpose of each of these files:
 
 In addition to this, we keep a *log-file*, which is omitted from the graph for legibility. We specify this dependency structure in the file *src/analysis/wscript*, which has the following contents:
 
-.. literalinclude:: example_project/src/analysis/wscript
+.. literalinclude:: ../../bld/example/python/python_example/src/analysis/wscript
 
 Some points to note about this:
 
@@ -156,12 +156,12 @@ The "final" step
 
 Again, we concentrate on the baseline model.
 
-.. figure:: ../../../bld/examples/python/schelling_dependencies_final.png
+.. figure:: ../../bld/example/python/schelling_dependencies_final.png
    :width: 40em
 
 This step is shown here mostly for completeness, there is nothing really new in the *wscript* file:
 
-.. literalinclude:: example_project/src/final/wscript
+.. literalinclude:: ../../bld/example/python/python_example/src/final/wscript
 
 Everything works just as before: We set *plot_locations.py* as the source, specify additional dependencies (among them the relevant target from the **analysis** step), and append the model name on the command line.
 
@@ -171,12 +171,12 @@ The "paper" step
 
 The pdf with the final "paper" depends on two additional files that were not shown in the full dependency graph for legibility reasons, a reference bibliography, and a LaTeX-file with the formula for the agents' decision rule (specified in a separate file so it can be re-used in the presentation, which is omitted from the graph as well):
 
-.. figure:: ../../../bld/examples/python/schelling_dependencies_paper.png
+.. figure:: ../../bld/example/python/schelling_dependencies_paper.png
    :width: 40em
 
 The corresponding file *src/paper/wscript* is particularly simple:
 
-.. literalinclude:: example_project/src/paper/wscript
+.. literalinclude:: ../../bld/example/python/python_example/src/paper/wscript
     :end-before: # Install to the project root.
 
 Note that we only request Waf to execute the *tex* machinery for the source file (*research_paper.tex*).
@@ -215,7 +215,7 @@ Some targets you want to have easily accessible. This is particularly true for t
 
 In order to achieve this, the following code is found in *src/paper/wscript* (still in the loop where ``s`` takes on the values ``'research_paper'`` or ``'research_pres_30min'``):
 
-.. literalinclude:: example_project/src/paper/wscript
+.. literalinclude:: ../../bld/example/python/python_example/src/paper/wscript
     :start-after: # Install to the project root.
 
 This installation of targets can be triggered by typing either of the following commands in a shell

@@ -15,8 +15,8 @@ def set_project_paths(ctx):
     pp["IN_DOCU"] = "src"
     pp["BLD"] = ""
     pp["BLD_EXAMPLES"] = f"{out}/example"
-    pp["OUT_PYTHON_EXAMPLE"] = f"{out}/r/r_example"
-    pp["OUT_R_EXAMPLE"] = f"{out}/python/python_example"
+    pp["OUT_R_EXAMPLE"] = f"{out}/r/r_example"
+    pp["OUT_PYTHON_EXAMPLE"] = f"{out}/python/python_example"
 
     # Convert the directories into Waf nodes.
     for key, val in pp.items():
