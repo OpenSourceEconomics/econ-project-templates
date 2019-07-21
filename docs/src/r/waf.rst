@@ -104,10 +104,10 @@ This is the entire content of the file *src/data_management/wscript*:
 
 The ``ctx()`` call is a shortcut for creating a **task generator**. We will be more specific about that below in the section :ref:`build_phase`. Let us look at the lines one-by-one again:
 
-  * ``features='run_do_script'`` tells Waf what **action** it needs to perform. In this case, it should run a Stata script.
-  * ``source='add_variables.do'`` tells Waf that it should perform the action on the file *add_variables.do* in the current directory.
-  * ``target=[ctx.path_to(ctx, 'OUT_DATA', 'log', 'add_variables.log'), ctx.path_to(ctx, 'OUT_DATA', 'ajrcomment_all.dta')]`` tells Waf that the specified action will produce a file called *add_variables.log* in a directory that is determined in the ``ctx.path_to()``. Same holds for the second file *ajrcomment_all.dta* in the target list. We will examine this in detail in the :ref:`organisation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored.
-  * ``deps=[ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')]`` tells Waf that the execution of the Stata script depends on a file *ajrcomment.dta* which needs to be in a directory referenced by the keyword ``IN_DATA``.
+  * ``features='run_r_script'`` tells Waf what **action** it needs to perform. In this case, it should run a Stata script.
+  * ``source='add_variables.r'`` tells Waf that it should perform the action on the file *add_variables.r* in the current directory.
+  * ``target=[ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt")]`` tells Waf that the specified action will produce a file called *ajrcomment_all.txt* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`organisation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored.
+  * ``deps=[ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')]`` tells Waf that the execution of the R script depends on a file *ajrcomment.dta* which needs to be in a directory referenced by the keyword ``IN_DATA``.
 
 And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.
 
@@ -123,30 +123,33 @@ We concentrate our discussion on the top part of the graph, i.e. the baseline mo
 
 Just a reminder on the purpose of each of these files:
 
-  * *schelling_baseline.pickle* is the file that contains the locations of agents after each round
-  * *initial_locations.csv* is the file we produced before
-  * *schelling.py* is the file with the main code to run the analysis
-  * *agent.py* contains a class ``Agent`` that specifies how a Schelling-agent behaves in given circumstances (i.e. move or stay)
-  * *baseline.json* contains the specification for the baseline model.
+  * *baseline.json* is the file that contains the baseline model specification/sample (Panel A)
+  * *geography.json* contains different sets of geographic controls to use for each Panel.
+  * *ajrcomment_all.txt* is the file we produced before
+  * *second_stage_estimation.r* is the file that generates the iv estimates
+  * *second_stage_estimation_baseline.txt* contains the results of the iv estimation of the baseline specification using varying sets of geographic controls.
 
-In addition to this, we keep a *log-file*, which is omitted from the graph for legibility. We specify this dependency structure in the file *src/analysis/wscript*, which has the following contents:
+We specify this dependency structure in the file *src/analysis/wscript*, which has the following contents:
 
 .. literalinclude:: ../../bld/example/r/r_example/src/analysis/wscript
 
 Some points to note about this:
 
-  * The loop over both models allows us to specify the code in one go; we focus on the case where the variable ``model`` takes on the value ``'baseline'``.
+  * The loop over the different specifactions (Panel A, B, C ...) allows us to specify the code in one go; we focus on the case where the variable ``model`` takes on the value ``'baseline'`` and the ``stage`` is ``'second'``.
   * Note the difference between the ``source`` and the ``deps``: Even though the dependency graph above neglects the difference, Waf needs to know on which file it needs to run the task. This is done via the ``source`` keyword. The other files will only be used for setting the dependencies.
   * The first item in the list of ``deps`` is **exactly** the same as the target in the data management step.
   * Don't worry about the directories in the ``ctx.path_to()`` calls until the section ":ref:`organisation`" below
-  * We keep a log-file called *schelling_baseline.log*, which we left out of the dependency tree.
-  * The ``append`` keyword allows us to pass arguments to the Python script. In particular, *schelling.py* will be invoked as follows::
+  * The ``append`` keyword allows us to pass arguments to the R script. In particular, *second_stage_estimation.r* will be invoked as follows:
 
-        python /path/to/project/src/analysis/schelling.py baseline
+    .. code-block:: bash
 
-    In *schelling.py*, the model name is then read in using::
+        $ Rscript /path/to/project/src/analysis/second_stage_estimation.r baseline
 
-          model_name = sys.argv[1]
+    In *second_stage_estimation.r*, the model name is then read in using:
+
+    .. code-block:: r
+
+        model_name <- commandArgs(trailingOnly = TRUE)
 
     and we can load the correct model specification (i.e., *baseline.json*). This works similarly in other languages; see the respective project template as an example.
 
@@ -163,8 +166,11 @@ This step is shown here mostly for completeness, there is nothing really new in 
 
 .. literalinclude:: ../../bld/example/r/r_example/src/final/wscript
 
-Everything works just as before: We set *plot_locations.py* as the source, specify additional dependencies (among them the relevant target from the **analysis** step), and append the model name on the command line.
+Everything works just as before. For instance, consider the creation of table 1. We set *table1_regression_on_indicators.r* as the source. The dependency is *table1_reg_on_indicators.txt* which contains the regression estimates for table 1. Additionally, we set *table1_reg_on_indicators.tex* as the target because this is the output of our source.
 
+.. note::
+
+    For the creation of table 2 and table 3, a more python based way of creating dependency lists is employed which involves nested loops and the creation of a dictionary. In principle, however, this can be done in a simpler but a bit lengthy way. You could just type in every dependency manually.
 
 The "paper" step
 ----------------
@@ -259,7 +265,7 @@ By default, Waf will execute tasks in parallel if your computer is sufficiently 
 
 .. code:: console
 
-    $ python waf -j1
+    $ python waf.py -j1
 
 Other useful options are:
 

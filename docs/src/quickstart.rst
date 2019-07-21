@@ -26,6 +26,7 @@ Getting started
   * a modern LaTeX distribution (e.g. `TeXLive <www.tug.org/texlive/>`_, `MacTex <http://tug.org/mactex/>`_, or `MikTex <http://miktex.org/>`_)
 
   .. warning::
+
     All programs used within this project template need to be found on your path. This also includes those that are not listed here, but you would like to use within this project template, i.e. Matlab, R, Stata or Julia. If you are a Windows user, you can find more information on how to add executables to path `here <https://www.computerhope.com/issues/ch000549.htm>`_.
 
 2. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
@@ -95,6 +96,7 @@ Getting started
   After successfully answering all the prompts a folder named according to your project_slug will be created in your current directory.
 
 *Skip step 6 if you did not opt for the conda enviornment.*
+
 6. Navigate to the folder in the shell.
 
   .. code-block:: bash

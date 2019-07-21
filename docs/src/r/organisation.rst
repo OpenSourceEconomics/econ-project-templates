@@ -48,7 +48,7 @@ As an example of how things look further down in the hierarchy, consider the *an
 .. figure:: ../../bld/examples/r/project_hierarchies_analysis.png
    :width: 30em
 
-Remember that the script *root/src/analysis/schelling.py* is run with an argument *baseline* or *max_moves_2*. The code then accesses the respective file in *root/src/model_specs*, *root/src/model_code/agent.py*, and *bld/out/data/initial_locations.csv* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
+Remember that the script *root/src/analysis/first_stage_estimation.r* is run with an argument *baseline*, *rmconj*, *addindic*, *rmconj_addindic*, *newdata*. The code then accesses the respective file in *root/src/model_specs*, and *bld/out/data/ajrcomment_all.txt* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
 
 
 .. _project_paths:
@@ -58,12 +58,12 @@ Project paths
 
 The first question to ask is whether we should be working with absolute or relative paths. Let us first consider the pros and cons of each.
 
-    * **Relative paths** (e.g., *..\\model_code\\agent.py* or *../../../model_code/agent.py*)
+    * **Relative paths** (e.g., *..\\model_code\\functions.r* or *../../../model_code/functions.r*)
 
         * **Pro**: Portable across machines; provide abstraction from irrelevant parts of underlying directory structure.
         * **Con**: Introduction of *state* (the directory used as starting point), which is bad for maintainability and reproducibility.
 
-    * **Absolute paths** (e.g., *C:\\projects\\schelling\\src\\model_code\\agent.py* or */Users/xxx/projects/schelling/src/model_code/agent.py*)
+    * **Absolute paths** (e.g., *C:\\projects\\ajr_replication\\src\\model_code\\functions.r* or */Users/xxx/projects/ajr_replication/src/model_code/functions.r*)
 
         * **Pro**: Any file or directory is unambiguously specified.
         * **Con**: Not portable across machines.
@@ -121,7 +121,7 @@ Let us look at *root/src/analysis/wscript* as an example again:
 
 .. literalinclude:: ../../bld/examples/r/r_example/src/analysis/wscript
 
-Note that the order of the arguments is the same in each of the five calls of ``ctx.path_to()``. The last one has an example of a nested directory structure: We do not need the log-files very often and they only clutter up the *OUT_ANALYSIS* directory, so we put them in a subdirectory.
+
 
 
 Usage of the project paths in substantial code
@@ -137,12 +137,18 @@ The ``write_project_paths`` feature is smart: It will recognise the syntax for i
 
 The paths contained in the resulting file (*root/bld/project_paths.py*) are **absolute** paths, so you do not need to worry about the location of your interpreter etc.
 
-The exact usage varies a little bit by language; see the respective template for examples. In Python, you first import a function called *project_paths_join*::
+The exact usage varies a little bit by language; see the respective template for examples. In R, you import the project paths by:
 
-    from bld.project_paths import project_paths_join as ppj
+.. code-block:: r
 
-You can then use it to obtain absolute paths to any location within your project. E.g., for the log-file in the analysis step, you would use::
+    source("project_paths.r")
 
-    ppj("OUT_ANALYSIS", "log", "schelling_{}.log".format(model_name))
+You can then use it to obtain absolute paths to any location within your project. For instance, to obtain the full path to the first stage baseline estimation results, you would use:
+
+.. code-block:: r
+
+    paste(PATH_OUT_ANALYSIS, "first_stage_estimation_baseline".txt, sep ="")
+
+Note that you need to prepend PATH to the respective key specified in the wscript. For instance, instead of using *OUT_ANALYSIS* to access the output folder of the analysis, you need to use *PATH_OUT_ANALYSIS*.
 
 When you need to change the paths for whatever reason, you just need to updated them once in the main *wscript* file; everything else will work automatically. Even if you need to change the keys -- e.g. because you want to break the *analysis* step into two -- you can easiliy search and replace *OUT_ANALYSIS* in the entire project.
