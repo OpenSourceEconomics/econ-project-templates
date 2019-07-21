@@ -18,7 +18,7 @@ I will not touch upon the last point until the :ref:`organisation` section below
 Running example
 ---------------
 
-To fix ideas, let's look at the example of Albouy's :cite:`Albouy12` replication study of Acemoglu, Johnson, and Robinson's (AJR) :cite:`AcemogluJohnsonRobinson01` classic 2001 paper. In his replication, Albouy :cite:`Albouy12` raises two main issues: lack of appropriate clustering and measurement error in the instrument (settler's mortality) that is correlated with exproparation risk and GDP. The replication of Albouy's :cite:`Albouy12` requires two main steps.
+To fix ideas, let's look at the example of Albouy's :cite:`Albouy2012` replication study of Acemoglu, Johnson, and Robinson's (AJR) :cite:`AcemogluEtAl2001` classic 2001 paper. In his replication, Albouy :cite:`Albouy12` raises two main issues: lack of appropriate clustering and measurement error in the instrument (settler's mortality) that is correlated with exproparation risk and GDP. The replication of Albouy's :cite:`Albouy12` requires two main steps.
 
     1. Combine Albouy's (2012) and AJR's (2005) data
     2. Replicate tables and figures of Albouy (2012) using this data
