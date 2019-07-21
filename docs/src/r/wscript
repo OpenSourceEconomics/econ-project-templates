@@ -3,11 +3,11 @@ import os
 
 def post_install(ctx):
     install_root = os.path.join(ctx.srcnode.abspath())
-    ctx.install_files(
-        os.path.join(install_root, 'r'),
-        'src/r/latexpdf/tutorial-econ-project-templates.pdf',
-        postpone=False
-    )
+    # ctx.install_files(
+    #     os.path.join(install_root, 'r'),
+    #     'src/r/latexpdf/tutorial-econ-project-templates-r.pdf',
+    #     postpone=False
+    # )
 
     # Now the entire directory tree of the html build, except for hidden stuff.
     html_root = ctx.bldnode.find_node('src/r/html')
@@ -27,7 +27,7 @@ def build(ctx):
     # Build the documentation in pdf (via LaTeX) and html format.
     ctx(
         features='sphinx',
-        builders=['latexpdf', 'html'],
+        builders=['html'],
         source='conf.py',
 
     )

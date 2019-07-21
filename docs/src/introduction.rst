@@ -26,7 +26,7 @@ The credibility of (economic) research is undermined if erroneous results appear
 It is sad if not the substance, but controversies about the replicability of results make it to the first page of the Wall Street Journal :cite:`WSJ05`, covering the exchange between Hoxby and Rothstein (:cite:`Hoxby00` -- :cite:`Rothstein07comment` -- :cite:`Hoxby07` -- :cite:`Rothstein07rejoinder`). There are some other well-known cases from top journals, see for example Levitt and McCrary (:cite:`Levitt97` -- :cite:`McCrary02` -- :cite:`Levitt02`) or the experiences reported in McCullough and Vinod :cite:`McCulloughVinod03`. The Reinhart and Rogoff controversy is another case in point, `Google <https://www.google.com/?gfe_rd=cr&ei=b3YEU4GqIcLa8gfGvYHQCA#q=reinhart+rogoff+excel>`_ is your friend in case you do not remember it. Assuming that the incentives for replication are much smaller in lower-ranked journals, this is probably just the tip of the iceberg. As a consequence, many journals have implemented relatively strict replication policies, see this figure taken from :cite:`McCullough09`:
 
 
-.. figure:: examples/McCullough09Fig1.jpg
+.. figure:: python/examples/McCullough09Fig1.jpg
    :width: 35em
 
    *Economic Journals with Mandatory Data + Code Archives, Figure 1 in*  McCullough (2009)

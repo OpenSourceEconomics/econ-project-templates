@@ -14,7 +14,7 @@ Directory structure
 
 The left node of the following graph shows the contents of the project root directory after executing ``python waf.py configure build install``:
 
-.. figure:: ../../bld/examples/r/project_hierarchies_big_pic.png
+.. figure:: ../../bld/example/r/project_hierarchies_big_pic.png
    :width: 50em
 
 Files and directories in brownish colours are constructed by Waf; those with a bluish background are added directly by the researcher. You immediately see the **separation of inputs and outputs** (one of our guiding principles) at work:
@@ -45,7 +45,7 @@ Some differences:
 
 As an example of how things look further down in the hierarchy, consider the *analysis* step that was described :ref:`here <waf_analysis>`:
 
-.. figure:: ../../bld/examples/r/project_hierarchies_analysis.png
+.. figure:: ../../bld/example/r/project_hierarchies_analysis.png
    :width: 30em
 
 Remember that the script *root/src/analysis/first_stage_estimation.r* is run with an argument *baseline*, *rmconj*, *addindic*, *rmconj_addindic*, *newdata*. The code then accesses the respective file in *root/src/model_specs*, and *bld/out/data/ajrcomment_all.txt* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
@@ -76,7 +76,7 @@ Specifying project paths in the main *wscript* file
 
 This is how the project paths are specified in the main wscript file:
 
-.. literalinclude:: ../../bld/examples/r/r_example/wscript
+.. literalinclude:: ../../bld/example/r/r_example/wscript
     :start-after: # The project root directory and the build directory.
     :end-before: def path_to
 
@@ -96,7 +96,7 @@ Usage of the project paths within *wscript* files
 
 The first thing to do is to make these project paths available in *wscript* files further down the directory hierarchy. We do so in the *build* function of *root/wscript*; the relevant lines are:
 
-.. literalinclude:: ../../bld/examples/r/r_example/wscript
+.. literalinclude:: ../../bld/example/r/r_example/wscript
     :start-after: ctx.load("write_project_headers")
     :end-before: # Generate header
 
@@ -119,7 +119,7 @@ This description may be a bit cryptic, but it says it all: Waf needs paths relat
 
 Let us look at *root/src/analysis/wscript* as an example again:
 
-.. literalinclude:: ../../bld/examples/r/r_example/src/analysis/wscript
+.. literalinclude:: ../../bld/example/r/r_example/src/analysis/wscript
 
 
 
@@ -129,7 +129,7 @@ Usage of the project paths in substantial code
 
 The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the ``write_project_paths`` feature. The following line is taken from the ``build`` function in *root/wscript*:
 
-.. literalinclude:: ../../bld/examples/r/r_example/wscript
+.. literalinclude:: ../../bld/example/r/r_example/wscript
     :start-after: ctx.path_to
     :end-before: ctx.add_group()
 
@@ -137,7 +137,7 @@ The ``write_project_paths`` feature is smart: It will recognise the syntax for i
 
 The paths contained in the resulting file (*root/bld/project_paths.py*) are **absolute** paths, so you do not need to worry about the location of your interpreter etc.
 
-The exact usage varies a little bit by language; see the respective template for examples. In R, you import the project paths by:
+The exact usage varies a little bit by language; see the respective template for example. In R, you import the project paths by:
 
 .. code-block:: r
 

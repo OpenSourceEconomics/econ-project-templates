@@ -1,6 +1,6 @@
-\rcumentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
+\documentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
 \usepackage{tkz-graph}
-\usetikzlibrary{arrows,positioning,shapes,shapes.multipart,patterns,mindmap,sharws}
+\usetikzlibrary{arrows,positioning,shapes,shapes.multipart,patterns,mindmap,shadows}
 \usepackage{xcolor}
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
@@ -25,7 +25,7 @@
     {
         add\_variables.r
     };
-    \node (ajrcomment_all_dta) [shift={(-4, 0)}]
+    \node (ajrcomment_all_txt) [shift={(-4, 0)}]
     {
         ajrcomment\_all.txt
     };
@@ -59,12 +59,12 @@
     };
 
 
-    \node (first_stage_estimation_baseline_dta) [shift={(4.5, 2)}]
+    \node (first_stage_estimation_baseline_txt) [shift={(4.5, 2)}]
     {
         first\_stage\_estimation\_baseline.txt
     };
 
-    \node (first_stage_estimation_rmconj_dta) [shift={(9, 2)}]
+    \node (first_stage_estimation_rmconj_txt) [shift={(9, 2)}]
     {
         first\_stage\_estimation\_rmconj.txt
     };
@@ -87,11 +87,12 @@
 
 
 
-    \node (second_stage_estimation_baseline_dta) [shift={(5, -2)}]
+    \node (second_stage_estimation_baseline_txt) [shift={(5, -2)}]
     {
         second\_stage\_estimation\_baseline.txt
+    };
 
-    \node (second_stage_estimation_rmconj_dta) [shift={(10, -2)}]
+    \node (second_stage_estimation_rmconj_txt) [shift={(10, -2)}]
     {
         second\_stage\_estimation\_rmconj.txt
     };
@@ -120,13 +121,13 @@
         figure1\_mortality.r
     };
 
-    \node (risk_mort_eps) [shift={(14, 1)}]
+    \node (risk_mort_png) [shift={(14, 1)}]
     {
-        risk\_mort.eps
+        risk\_mort.png
     };
-    \node (gdp_mort_eps) [shift={(14, -1)}]
+    \node (gdp_mort_png) [shift={(14, -1)}]
     {
-        gdp\_mort.eps
+        gdp\_mort.png
     };
 
     \node (table1_reg_on_indicators_tex) [shift={(15, 0)}]
@@ -191,12 +192,6 @@
         refs.bib
     };
 
-
-
-
-
-
-
     %data
     \draw[->, blue, thick] (ajrcomment_all_txt) to (add_variables_r);
     \draw[->, blue, thick] (ajrcomment_all_txt) to (ajrcomment_dta);
@@ -212,14 +207,14 @@
 
     \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (first_stage_estimation_baseline_r);
     \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (geography_r);
-    \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (ajrcomment_all_dta);
+    \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (ajrcomment_all_txt);
     \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (baseline_r);
     \draw[->, orange, thick] (first_stage_estimation_baseline_r) to (first_stage_estimation_r);
 
 
     \draw[->, orange, thick] (first_stage_estimation_rmconj_txt) to (first_stage_estimation_rmconj_r);
     \draw[->, orange, thick] (first_stage_estimation_rmconj_txt) to (geography_r);
-    \draw[->, orange, thick] (first_stage_estimation_rmconj_txt to (ajrcomment_all_txt);
+    \draw[->, orange, thick] (first_stage_estimation_rmconj_txt) to (ajrcomment_all_txt);
     \draw[->, orange, thick] (first_stage_estimation_rmconj_txt) to (rmconj_r);
     \draw[->, orange, thick] (first_stage_estimation_rmconj_r) to (first_stage_estimation_r);
 
@@ -231,27 +226,27 @@
 
     \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (second_stage_estimation_rmconj_r);
     \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (geography_r);
-    \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (ajrcomment_all_dta);
+    \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (ajrcomment_all_txt);
     \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (rmconj_r);
     \draw[->, orange, thick] (second_stage_estimation_rmconj_r) to (second_stage_estimation_r);
 
 
     %final
-    \draw[->, teal, thick] (risk_mort_eps) to (ajrcomment_all_txt);
-    \draw[->, teal, thick] (gdp_mort_eps) to (ajrcomment_all_txt);
-    \draw[->, teal, thick] (risk_mort_eps) to (figure1_mortality_r);
-    \draw[->, teal, thick] (gdp_mort_eps) to (figure1_mortality_r);
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_est_dta);
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_corr_dta);
+    \draw[->, teal, thick] (risk_mort_png) to (ajrcomment_all_txt);
+    \draw[->, teal, thick] (gdp_mort_png) to (ajrcomment_all_txt);
+    \draw[->, teal, thick] (risk_mort_png) to (figure1_mortality_r);
+    \draw[->, teal, thick] (gdp_mort_png) to (figure1_mortality_r);
+    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_est_txt);
+    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_corr_txt);
     \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (table1_reg_on_indicators_r);
 
     \draw[->, teal, thick] (table2_first_stage_est_tex) to (table2_first_stage_est_r);
     \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_baseline_txt);
-    \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_rmconj_dta);
+    \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_rmconj_txt);
 
     \draw[->, teal, thick] (table3_second_stage_est_tex) to (table3_second_stage_est_r);
     \draw[->, teal, thick] (table3_second_stage_est_tex) to (second_stage_estimation_baseline_txt);
-    \draw[->, teal, thick] (table3_second_stage_est_tex) to (second_stage_estimation_rmconj_dta);
+    \draw[->, teal, thick] (table3_second_stage_est_tex) to (second_stage_estimation_rmconj_txt);
 
 
     %paper
@@ -263,8 +258,8 @@
     \draw[->, red, thick] (research_paper_tex) to (table2_first_stage_est_tex);
     \draw[->, red, thick] (research_paper_tex) to (table3_second_stage_est_tex);
     \draw[->, red, thick] (research_paper_tex) to (refs_bib);
-    \draw[->, red, thick] (research_paper_tex) to (risk_mort_eps);
-    \draw[->, red, thick] (research_paper_tex) to (gdp_mort_eps);
+    \draw[->, red, thick] (research_paper_tex) to (risk_mort_png);
+    \draw[->, red, thick] (research_paper_tex) to (gdp_mort_png);
 
 
 \end{tikzpicture}
