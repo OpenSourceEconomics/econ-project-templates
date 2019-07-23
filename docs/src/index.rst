@@ -13,8 +13,8 @@ Templates for Reproducible Research Projects in Economics
 
     quickstart
     introduction
-    python/index
-    r/index
+    pyexample
+    rexample
     getting_started
     program_environments
     pre-commit
