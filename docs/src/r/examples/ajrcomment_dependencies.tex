@@ -31,19 +31,6 @@
     };
 
     %analysis
-    \node (regression_on_indicators_r) [fill=blue!15, shift={(2, 0)}]
-    {
-        regression\_on\_indicators.r
-    };
-    \node (regression_on_indicators_corr_txt) [shift={(0, 2)}]
-    {
-        regression\_on\_indicators\_corr.txt
-    };
-    \node (regression_on_indicators_est_txt) [shift={(0, -2)}]
-    {
-        regression\_on\_indicators\_est.txt
-    };
-
 
     \node (geography_r) [fill=blue!15, shift={(5, 0)}]
     {
@@ -58,6 +45,10 @@
         rmconj.r
     };
 
+    \node (function_r) [fill=blue!15, shift={(9, 0)}]
+    {
+        functions.r
+    };
 
     \node (first_stage_estimation_baseline_txt) [shift={(4.5, 2)}]
     {
@@ -197,12 +188,6 @@
     \draw[->, blue, thick] (ajrcomment_all_txt) to (ajrcomment_dta);
 
     %analysis
-    \draw[->, orange, thick] (regression_on_indicators_corr_txt) to (regression_on_indicators_r);
-    \draw[->, orange, thick] (regression_on_indicators_corr_txt) to (ajrcomment_all_txt);
-
-
-    \draw[->, orange, thick] (regression_on_indicators_est_txt) to (regression_on_indicators_r);
-    \draw[->, orange, thick] (regression_on_indicators_est_txt) to (ajrcomment_all_txt);
 
 
     \draw[->, orange, thick] (first_stage_estimation_baseline_txt) to (first_stage_estimation_baseline_r);
@@ -220,12 +205,14 @@
 
     \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (second_stage_estimation_baseline_r);
     \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (geography_r);
+    \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (functions_r);
     \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (ajrcomment_all_txt);
     \draw[->, orange, thick] (second_stage_estimation_baseline_txt) to (baseline_r);
     \draw[->, orange, thick] (second_stage_estimation_baseline_r) to (second_stage_estimation_r);
 
     \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (second_stage_estimation_rmconj_r);
     \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (geography_r);
+    \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (functions_r);
     \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (ajrcomment_all_txt);
     \draw[->, orange, thick] (second_stage_estimation_rmconj_txt) to (rmconj_r);
     \draw[->, orange, thick] (second_stage_estimation_rmconj_r) to (second_stage_estimation_r);
@@ -236,9 +223,6 @@
     \draw[->, teal, thick] (gdp_mort_png) to (ajrcomment_all_txt);
     \draw[->, teal, thick] (risk_mort_png) to (figure1_mortality_r);
     \draw[->, teal, thick] (gdp_mort_png) to (figure1_mortality_r);
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_est_txt);
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_corr_txt);
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (table1_reg_on_indicators_r);
 
     \draw[->, teal, thick] (table2_first_stage_est_tex) to (table2_first_stage_est_r);
     \draw[->, teal, thick] (table2_first_stage_est_tex) to (first_stage_estimation_baseline_txt);

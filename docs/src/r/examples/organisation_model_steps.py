@@ -28,7 +28,7 @@ Y_LABEL_TEXT = "Model specification"
 
 STEP_CATEGORIES = ["Data mgmt.", "Analysis", "Final", "Paper"]
 N_STEPS = len(STEP_CATEGORIES)
-MODEL_CATEGORIES = ["Panel E", "Panel D", "Panel C", "Panel B", "Panel A"]
+MODEL_CATEGORIES = ["Panel B", "Panel A"]
 N_MODELS = len(MODEL_CATEGORIES)
 
 X_UNIT = AXIS_MAX / N_STEPS

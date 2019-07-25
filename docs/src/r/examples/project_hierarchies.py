@@ -257,7 +257,7 @@ model_code = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                agent.py
+                functions.r
         };
 """
 
@@ -283,7 +283,9 @@ model_specs = r"""
             \nodepart{two}
                 baseline.json
             \nodepart{three}
-                max\_moves\_2.json
+                rmconj.json
+            \nodepart{four}
+                geography.json
         };
 """
 
@@ -308,11 +310,7 @@ original_data = r"""
                     \textbf{original\_data}
                 \end{small}
             \nodepart{two}
-                dataset\_1
-            \nodepart{three}
-                dataset\_2
-            \nodepart{four}
-                documentation
+                ajrcomment.dta
         };
 """
 
@@ -340,7 +338,7 @@ data_management = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                get\_simulation\_draws.py
+                add_variables.r
             \nodepart{four}
                 wscript
         };
@@ -369,8 +367,10 @@ analysis = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                schelling.py
+                first_stage_estimation.r
             \nodepart{four}
+                second_stage_estimation.r
+            \nodepart{five}
                 wscript
         };
 """
@@ -397,8 +397,12 @@ final = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                plot\_locations.py
+                figure1_mortality.r
             \nodepart{four}
+                table2_first_stage.r
+            \nodepart{five}
+                table3_second_stage.r
+            \nodepart{six}
                 wscript
         };
 """
@@ -426,38 +430,13 @@ paper = r"""
                     \textbf{paper}
                 \end{small}
             \nodepart{two}
-                formulas
-            \nodepart{three}
                 refs.bib
-            \nodepart{four}
+            \nodepart{three}
                 reserch\_paper.tex
-            \nodepart{five}
+            \nodepart{four}
                 research\_pres\_30min.tex
-            \nodepart{six}
+            \nodepart{five}
                 wscript
-        };
-"""
-
-
-formulas = r"""
-        \node (14) [
-            rectangle split,
-            rectangle split parts=2,
-            rectangle split part fill={
-                blue!15,
-                blue!15,
-            },
-            draw,
-            text width=2.50cm,
-            right=of 13
-        ]
-        {
-            \nodepart{one}
-                \begin{small}
-                    \textbf{formulas}
-                \end{small}
-            \nodepart{two}
-                decision\_rule.tex
         };
 """
 

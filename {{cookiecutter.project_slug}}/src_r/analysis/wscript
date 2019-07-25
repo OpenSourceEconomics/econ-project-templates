@@ -2,29 +2,10 @@
 
 
 def build(ctx):
-    def out_data(*args):
-        return ctx.path_to(ctx, "OUT_DATA", *args)
-
-    def in_model_specs(*args):
-        return ctx.path_to(ctx, "IN_MODEL_SPECS", *args)
-
-    def in_model_code(*args):
-        return ctx.path_to(ctx, "IN_MODEL_CODE", *args)
-
-    def out_analysis(*args):
-        return ctx.path_to(ctx, "OUT_ANALYSIS", *args)
-
-    ctx(
-        features="run_r_script",
-        source="regression_on_indicators.r",
-        target=out_analysis("regression_on_indicators.txt"),
-        deps=[in_model_code("functions.r"), out_data("ajrcomment_all.txt")],
-        name="table_main_variables.r",
-    )
 
     # More complicated use: Read in the model specifications and run these things
     # in parallel.
-    models = ["baseline", "rmconj", "addindic", "rmconj_addindic", "newdata"]
+    models = ["baseline", "rmconj"]
 
     for m in models:
         for stage in ["first", "second"]:
@@ -33,12 +14,17 @@ def build(ctx):
             ctx(
                 features="run_r_script",
                 source="{}_stage_estimation.r".format(stage),
-                target=[out_analysis("{}_stage_estimation_{}.txt".format(stage, m))],
+                target=[
+                    ctx.path_to(
+                        ctx,
+                        "OUT_ANALYSIS",
+                        "{}_stage_estimation_{}.txt".format(stage, m),
+                    )
+                ],
                 deps=[
-                    "../../project_paths.r",
-                    out_data("ajrcomment_all.txt"),
-                    in_model_code("functions.r"),
-                    in_model_specs("geography.json"),
+                    ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt"),
+                    ctx.path_to(ctx, "IN_MODEL_CODE", "functions.r"),
+                    ctx.path_to(ctx, "IN_MODEL_SPECS", "geography.json"),
                 ],
                 name="{}_stage_estimation_{}".format(stage, m),
                 append=m,
