@@ -265,11 +265,12 @@ model_code = r"""
 model_specs = r"""
         \node (222) [
             rectangle split,
-            rectangle split parts=3,
+            rectangle split parts=4,
             rectangle split part fill={
                 blue!15,
                 blue!15,
                 blue!15,
+                blue!15
             },
             draw,
             text width=2.5cm,
@@ -338,7 +339,7 @@ data_management = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                add_variables.r
+                add\_variables.r
             \nodepart{four}
                 wscript
         };
@@ -367,9 +368,9 @@ analysis = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                first_stage_estimation.r
+                first\_stage\_estimation.r
             \nodepart{four}
-                second_stage_estimation.r
+                second\_stage\_estimation.r
             \nodepart{five}
                 wscript
         };
@@ -397,11 +398,11 @@ final = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                figure1_mortality.r
+                figure1\_mortality.r
             \nodepart{four}
-                table2_first_stage.r
+                table2\_first\_stage.r
             \nodepart{five}
-                table3_second_stage.r
+                table3\_second\_stage.r
             \nodepart{six}
                 wscript
         };
@@ -587,7 +588,6 @@ project_hierarchies["paper"] = (
     \begin{tikzpicture}[node distance=1cm, auto]"""
     + src_no_loc
     + paper
-    + formulas
     + r"""
         \draw[-, out=-52, in=140] (3) to (13);
         \draw[-, out=10, in=160] (13) to (14);
