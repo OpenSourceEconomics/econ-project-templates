@@ -141,4 +141,4 @@ You can then use it to obtain absolute paths to any location within your project
 
     ppj("OUT_ANALYSIS", "log", "schelling_{}.log".format(model_name))
 
-When you need to change the paths for whatever reason, you just need to updated them once in the main *wscript* file; everything else will work automatically. Even if you need to change the keys -- e.g. because you want to break the *analysis* step into two -- you can easiliy search and replace *OUT_ANALYSIS* in the entire project.
+When you need to change the paths for whatever reason, you just need to update them once in the main *wscript* file; everything else will work automatically. Even if you need to change the keys -- e.g. because you want to break the *analysis* step into two -- you can easiliy search and replace *OUT_ANALYSIS* in the entire project.

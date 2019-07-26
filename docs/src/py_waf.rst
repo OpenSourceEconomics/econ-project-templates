@@ -23,7 +23,7 @@ We will have more to say about the directory structure in the :ref:`organisation
 
 
 The configure phase
-===================
+--------------------
 
 The first time you fire up a project you need to invoke Waf by changing to the project root directory in a shell and typing
 
@@ -40,11 +40,11 @@ You only need to do this once, or whenever the location of the programs that you
 Let us dissect this function line-by-line:
 
   * ``ctx.env.PYTHONPATH = os.getcwd()`` sets the PYTHONPATH environmental variable to the project root folder so we can use hierarchical imports in our Python scripts
-  * ``ctx.load('why')`` loads a tool that helps in debugging dependencies, very useful in complicated situations.
   * ``ctx.load('biber')`` loads a `modern replacement <http://biblatex-biber.sourceforge.net/>`_ for BibTeX and the entire LaTeX machinery with it.
   * ``ctx.load('run_py_script')`` loads a little tool for running Python scripts. Similar tools exist for Matlab, Stata, R, and Perl. More can be easily created.
   * ``ctx.load('sphinx_build')`` loads the tool required to build the project's documentation.
   * ``ctx.load('write_project_headers')`` loads a tool for handling project paths. We postpone the discussion until the :ref:`section <project_paths>` by the same name.
+  * ``ctx.load('biber')`` loads a `modern replacement <http://biblatex-biber.sourceforge.net/>`_ for BibTeX and the entire LaTeX machinery with it.
 
 Waf now knows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.
 
@@ -54,7 +54,7 @@ Waf now knows everything about your computer system that it needs to know in ord
 
 
 Specifying dependencies and the build phase
-===========================================
+--------------------------------------------
 
 Let us go step-by-step through the entire dependency graph of the project from the section on :ref:`DAG's <dag_s>`, which is reproduced here for convenience:
 
@@ -65,7 +65,7 @@ Remember the colors of the edges follow the step of the analysis; we will split 
 
 
 Distributing the dependencies by step of the analysis
------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Waf makes it easy to proceed in a step-wise manner by letting the user distribute *wscript* files across a directory hierarchy. This is an excerpt from the ``build`` function in the main *wscript* file:
 
@@ -88,7 +88,7 @@ The same comments as before apply to what the ``ctx.recurse`` calls do. Hence yo
 
 
 The "data management" step
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The dependency structure at this step of the analysis is particularly simple, as we have one source and one target:
 
@@ -111,7 +111,7 @@ And this is it! The rest are slight variations on this procedure and straightfor
 .. _waf_analysis:
 
 The "analysis" step
--------------------
+^^^^^^^^^^^^^^^^^^^^
 
 We concentrate our discussion on the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:
 
@@ -137,19 +137,23 @@ Some points to note about this:
   * The first item in the list of ``deps`` is **exactly** the same as the target in the data management step.
   * Don't worry about the directories in the ``ctx.path_to()`` calls until the section ":ref:`organisation`" below
   * We keep a log-file called *schelling_baseline.log*, which we left out of the dependency tree.
-  * The ``append`` keyword allows us to pass arguments to the Python script. In particular, *schelling.py* will be invoked as follows::
+  * The ``append`` keyword allows us to pass arguments to the Python script. In particular, *schelling.py* will be invoked as follows:
 
-        python /path/to/project/src/analysis/schelling.py baseline
+  .. code-block:: bash
 
-    In *schelling.py*, the model name is then read in using::
+      $ python /path/to/project/src/analysis/schelling.py baseline
 
-          model_name = sys.argv[1]
+In *schelling.py*, the model name is then read in using:
 
-    and we can load the correct model specification (i.e., *baseline.json*). This works similarly in other languages; see the respective project template as an example.
+.. code-block:: python
+
+    model_name = sys.argv[1]
+
+and we can load the correct model specification (i.e., *baseline.json*). This works similarly in other languages; see the respective project template as an example.
 
 
 The "final" step
-----------------
+^^^^^^^^^^^^^^^^
 
 Again, we concentrate on the baseline model.
 
@@ -164,7 +168,7 @@ Everything works just as before: We set *plot_locations.py* as the source, speci
 
 
 The "paper" step
-----------------
+^^^^^^^^^^^^^^^^
 
 The pdf with the final "paper" depends on two additional files that were not shown in the full dependency graph for legibility reasons, a reference bibliography, and a LaTeX-file with the formula for the agents' decision rule (specified in a separate file so it can be re-used in the presentation, which is omitted from the graph as well):
 
@@ -206,9 +210,9 @@ as a shortcut; it has exactly the same effect.
 
 
 The installation phase
-======================
+-----------------------
 
-Some targets you want to have easily accessible. This is particularly true for the paper and the presentation. Instead of having to plow through lots of byproducts of the LaTeX compilation in *bld/src/paper*, it would be nice to have the two pdf's in the project root folder.
+In the installation step, you specify targets that you want to have in your project root directory. This is particularly true for the paper and the presentation. Instead of having to plow through lots of byproducts of the LaTeX compilation in *bld/src/paper*, it would be nice to have the two pdf's in the project root folder.
 
 In order to achieve this, the following code is found in *src/paper/wscript* (still in the loop where ``s`` takes on the values ``'research_paper'`` or ``'research_pres_30min'``):
 
@@ -220,7 +224,7 @@ This installation of targets can be triggered by typing either of the following 
 .. code:: console
 
     $ python waf.py build install
-    python waf.py install
+    $ python waf.py install
 
 Conversely, you can remove all installed targets by
 
@@ -232,7 +236,7 @@ Conversely, you can remove all installed targets by
 .. _build_phase:
 
 A closer look at the build phase
-================================
+--------------------------------
 
 The following figure shows a little bit of how Waf works internally during the build phase:
 
@@ -268,7 +272,7 @@ Other useful options are:
 .. _waf_conclusions:
 
 Concluding notes on Waf
-=======================
+-------------------------
 
 To conclude, Waf roughly works in the following way:
 

@@ -17,11 +17,11 @@ The project directory is always the root directory of the project, the build dir
     :start-after: import os
     :end-before: def set_project_paths
 
-We will have more to say about the directory structure in the :ref:`organisation` section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed -- everything in it will be reconstructed automatically the next time Waf is run.
+We will have more to say about the directory structure in the :ref:`rorganisation` section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed -- everything in it will be reconstructed automatically the next time Waf is run.
 
 
 The configure phase
-===================
+--------------------
 
 The first time you fire up a project you need to invoke Waf by changing to the project root directory in a shell and typing
 
@@ -38,11 +38,10 @@ You only need to do this once, or whenever the location of the programs that you
 Let us dissect this function line-by-line:
 
   * ``ctx.env.PYTHONPATH = os.getcwd()`` sets the PYTHONPATH environmental variable to the project root folder so we can use hierarchical imports in our Python scripts
-  * ``ctx.load('why')`` loads a tool that helps in debugging dependencies, very useful in complicated situations.
-  * ``ctx.load('biber')`` loads a `modern replacement <http://biblatex-biber.sourceforge.net/>`_ for BibTeX and the entire LaTeX machinery with it.
   * ``ctx.load('run_r_script')`` loads a little tool for running R scripts. Similar tools exist for Matlab, Stata, Python, and Perl. More can be easily created.
   * ``ctx.load('sphinx_build')`` loads the tool required to build the project's documentation.
   * ``ctx.load('write_project_headers')`` loads a tool for handling project paths. We postpone the discussion until the :ref:`section <project_paths>` by the same name.
+  ``ctx.load('biber')`` loads a `modern replacement <http://biblatex-biber.sourceforge.net/>`_ for BibTeX and the entire LaTeX machinery with it.
 
 Waf now knows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.
 
@@ -52,7 +51,7 @@ Waf now knows everything about your computer system that it needs to know in ord
 
 
 Specifying dependencies and the build phase
-===========================================
+--------------------------------------------
 
 Let us go step-by-step through the entire dependency graph of the project from the section on :ref:`DAG's <dag_s>`, which is reproduced here for convenience:
 
@@ -63,7 +62,7 @@ Remember the colors of the edges follow the step of the analysis; we will split 
 
 
 Distributing the dependencies by step of the analysis
------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Waf makes it easy to proceed in a step-wise manner by letting the user distribute *wscript* files across a directory hierarchy. This is an excerpt from the ``build`` function in the main *wscript* file:
 
@@ -86,7 +85,7 @@ The same comments as before apply to what the ``ctx.recurse`` calls do. Hence yo
 
 
 The "data management" step
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The dependency structure at this step of the analysis is particularly simple, as we have one source, one dependency and one target:
 
@@ -99,7 +98,7 @@ This is the entire content of the file *src/data_management/wscript*:
 
 The ``ctx()`` call is a shortcut for creating a **task generator**. We will be more specific about that below in the section :ref:`build_phase`. Let us look at the lines one-by-one again:
 
-  * ``features='run_r_script'`` tells Waf what **action** it needs to perform. In this case, it should run a Stata script.
+  * ``features='run_r_script'`` tells Waf what **action** it needs to perform. In this case, it should run a R script.
   * ``source='add_variables.r'`` tells Waf that it should perform the action on the file *add_variables.r* in the current directory.
   * ``target=[ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt")]`` tells Waf that the specified action will produce a file called *ajrcomment_all.txt* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`organisation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored.
   * ``deps=[ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')]`` tells Waf that the execution of the R script depends on a file *ajrcomment.dta* which needs to be in a directory referenced by the keyword ``IN_DATA``.
@@ -109,9 +108,9 @@ And this is it! The rest are slight variations on this procedure and straightfor
 .. _rwaf_analysis:
 
 The "analysis" step
--------------------
+^^^^^^^^^^^^^^^^^^^^
 
-We concentrate our discussion on the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:
+We concentrate our discussion on the bottom left part of the graph, i.e. the second stage estimation using Panel A (Baseline). The lower part is the exact mirror image. We have the following structure:
 
 .. figure:: ../bld/example/r/ajrcomment_dependencies_main.png
    :width: 40em
@@ -154,7 +153,7 @@ Some points to note about this:
 
 
 The "final" step
-----------------
+^^^^^^^^^^^^^^^^
 
 Again, we concentrate on the baseline model.
 
@@ -173,9 +172,9 @@ There are two innovations in this *wscripts*. First, before specifying each task
     def out_data(*args):
         return ctx.path_to(ctx, "OUT_DATA", *args)
 
-There is nothing complicated regarding this function, it is just supposed to avoid that we havt to type ``ctx.path_to(ctx, "OUT_DATA", *args)`` several times and thus make the code more readable. For instance, if we want to specify the dependency *ajrcomment_all.txt* which lies in our *bld/out/data* folder, we now just have to call the above function using the argument "ajrcomment_all.txt", i.e. ``out_data("ajrcomment_all.txt")``. It then returns the ``ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt")`` object that we need to define the dependency.
+There is nothing complicated regarding this function.We use it to avoid that we havt to type ``ctx.path_to(ctx, "OUT_DATA", *args)`` several times and thus make the code more readable. For instance, if we want to specify the dependency *ajrcomment_all.txt* which lies in our *bld/out/data* folder, we now just have to call the above function using the argument "ajrcomment_all.txt", i.e. ``out_data("ajrcomment_all.txt")``. It then returns the ``ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt")`` object that we need to define the dependency.
 
-The second innovation regards the creation of the dependency lista for the creation of table 2 and table 3. A more python based way of creating dependency lists is employed which involves the creation of a dictionary and nested loops. The following part of the code creates a dictionary with keys *first_stage* and *second_stage*:
+The second innovation regards the creation of the dependency lists for the creation of table 2 and table 3. A more pythoninc way of creating dependency lists is employed which involves the creation of a dictionary and nested loops. The following part of the code creates a dictionary with keys *first_stage* and *second_stage*:
 
 .. code-block:: python
 
@@ -212,7 +211,7 @@ After creating the dictionary of dependency lists, we can access the respective 
 In principle, the dependency lists could by created in a simpler but a bit lengthy way. You could just type in every dependency manually as we did before.
 
 The "paper" step
-----------------
+^^^^^^^^^^^^^^^^
 
 The pdf with the final "paper" depends on two additional files that were not shown in the full dependency graph for legibility reasons, a reference bibliography, and a LaTeX-file with the formula for the agents' decision rule (specified in a separate file so it can be re-used in the presentation, which is omitted from the graph as well):
 
@@ -231,7 +230,7 @@ The line ``prompt=1`` only tells Waf to invoke pdflatex in such a way that the l
 So how does Waf know about the additional four dependencies? The *tex* tool is smart enough to find out by itself!
 
 Invoking the build
-------------------
+^^^^^^^^^^^^^^^^^^
 
 You start building the project by typing
 
@@ -249,7 +248,7 @@ as a shortcut; it has exactly the same effect.
 
 
 The installation phase
-======================
+------------------------
 
 Some targets you want to have easily accessible. This is particularly true for the paper and the presentation. Instead of having to plow through lots of byproducts of the LaTeX compilation in *bld/src/paper*, it would be nice to have the two pdf's in the project root folder.
 
@@ -275,7 +274,7 @@ Conversely, you can remove all installed targets by
 .. _rbuild_phase:
 
 A closer look at the build phase
-================================
+---------------------------------
 
 The following figure shows a little bit of how Waf works internally during the build phase:
 
@@ -311,7 +310,7 @@ Other useful options are:
 .. _rwaf_conclusions:
 
 Concluding notes on Waf
-=======================
+------------------------
 
 To conclude, Waf roughly works in the following way:
 

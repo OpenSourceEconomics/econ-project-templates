@@ -25,7 +25,7 @@ Files and directories in brownish colours are constructed by Waf; those with a b
         * *wscript* is the main entry point for the instructions we give to Waf.
         * *.mywaflib* contains Waf's internals.
 
-The contents of both the *root/bld/out* and the *root/src* directories directly follow the steps of the analysis from the :ref:`workflow <workflow>` section (you can usually ignore the *ro../../../bld* directory, except when you need to take a look at LaTeX log-files).
+The contents of both the *root/bld/out* and the *root/src* directories directly follow the steps of the analysis from the :ref:`workflow <rworkflow>` section (you can usually ignore the *ro../../../bld* directory, except when you need to take a look at LaTeX log-files).
 
 The idea is that everything that needs to be run during the, say, **analysis** step, is specified in *root/src/analysis* and all its output is placed in *root/bld/out/analysis*.
 
@@ -45,7 +45,7 @@ As an example of how things look further down in the hierarchy, consider the *an
 .. figure:: ../bld/example/r/project_hierarchies_analysis.png
    :width: 30em
 
-Remember that the script *root/src/analysis/first_stage_estimation.r* is run with an argument *baseline*, *rmconj*, *addindic*, *rmconj_addindic*, *newdata*. The code then accesses the respective file in *root/src/model_specs*, and *bld/out/data/ajrcomment_all.txt* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
+Remember that the script *root/src/analysis/first_stage_estimation.r* is run with an argument *baseline*, *rmconj*. The code then accesses the respective file in *root/src/model_specs*, and *bld/out/data/ajrcomment_all.txt* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
 
 
 .. _rproject_paths:
@@ -148,4 +148,4 @@ You can then use it to obtain absolute paths to any location within your project
 
 Note that you need to prepend PATH to the respective key specified in the wscript. For instance, instead of using *OUT_ANALYSIS* to access the output folder of the analysis, you need to use *PATH_OUT_ANALYSIS* within an R script.
 
-When you need to change the paths for whatever reason, you just need to updated them once in the main *wscript* file; everything else will work automatically. Even if you need to change the keys -- e.g. because you want to break the *analysis* step into two -- you can easiliy search and replace *OUT_ANALYSIS* in the entire project.
+When you need to change the paths for whatever reason, you just need to update them once in the main *wscript* file; everything else will work automatically. Even if you need to change the keys -- e.g. because you want to break the *analysis* step into two -- you can easiliy search and replace *OUT_ANALYSIS* in the entire project.

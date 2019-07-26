@@ -6,7 +6,7 @@ Quickstart
 
 An empirical or computational research project only becomes a useful building block for science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse or, more generally, keeping track yourself of what needs to be done.
 
-This is a collection of templates where much of this automation is pre-configured via describing the research workflow as a directed acyclic graph ([DAG](http://en.wikipedia.org/wiki/Directed_acyclic_graph)) using [Waf](https://code.google.com/p/waf/). You just need to:
+This is a collection of templates where much of this automation is pre-configured via describing the research workflow as a directed acyclic graph (`DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_) using `Waf <https://code.google.com/p/waf/>`_. You just need to:
 
 * Install the template for the main language in your project (Stata, R, Matlab, Python, ...)
 * Move your programs to the right places and change the placeholder scripts
@@ -93,7 +93,7 @@ Getting started
 
   **open_source_license** -- Whatever you prefer.
 
-  After successfully answering all the prompts a folder named according to your project_slug will be created in your current directory.
+  After successfully answering all the prompts, a folder named according to your project_slug will be created in your current directory.
 
 *Skip step 6 if you did not opt for the conda enviornment.*
 
@@ -105,7 +105,7 @@ Getting started
 
   This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
 
-7. Type the following commands to see whether the examples are working:
+7. Type the following commands into your command line to see whether the examples are working:
 
   .. code-block:: bash
 
@@ -123,13 +123,11 @@ Getting started
 
 
 .. _windows_user:
-Anconda as Windows User
-========================
 
-Steps for Anaconda Installations
---------------------------------
+Anaconda Installation Notes for Windows Users
+==============================================
 
-Please follows these steps unless you know what you are doing.
+Please follow these steps unless you know what you are doing.
 
 1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>` for Python 3.x.
 
@@ -151,11 +149,15 @@ Please follows these steps unless you know what you are doing.
 
 .. warning::
 
-  If you still run into problems when running conda and python from powershell, it is advisable to use the built-in Anaconda Prompt for that purpose.
+  If you still run into problems when running conda and python from powershell, it is advisable to use the built-in Anaconda Prompt instead.
 
 .. _dependencies:
-Additional Prerequisites
+
+Prerequisites
 ========================
+
+No conda environment
+---------------------
 
 Additional dependencies that are installed via the conda environment:
 
@@ -203,6 +205,9 @@ For the R example, make sure to have the following libraries installed before yo
   - zoo
 
   Quick 'n' dirty command in an R shell:
+
+
+.. code-block:: r
 
       install.packages(
           c(
