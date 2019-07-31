@@ -126,7 +126,7 @@ Usage of the project paths in substantial code
 
 The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the ``write_project_paths`` feature. The following line is taken from the ``build`` function in *root/wscript*:
 
-.. literalinclude:: ../../bld/example/r/r_example/wscript
+.. literalinclude:: ../bld/example/r/r_example/wscript
     :start-after: ctx.path_to
     :end-before: ctx.add_group()
 
