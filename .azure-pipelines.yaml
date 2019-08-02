@@ -22,13 +22,13 @@ jobs:
   - bash: |
       source activate econ-project-templates
       pytest
-      displayName: Run pytests.
+    displayName: Run pytests.
 
   - bash: |
       source activate econ-project-templates
       cd docs
       python waf.py configure build install
-      displayName: Compile Docs.
+    displayName: Compile Docs.
 
 
 - job:
@@ -55,10 +55,10 @@ jobs:
   - bash: |
       source activate econ-project-templates
       pytest
-      displayName: Run pytests.
+    displayName: Run pytests.
 
   - bash: |
       source activate econ-project-templates
       cd docs
       python waf.py configure build install
-      displayName: Compile Docs.
+    displayName: Compile Docs.
