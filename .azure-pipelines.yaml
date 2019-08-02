@@ -20,6 +20,11 @@ jobs:
     displayName: Install git.
 
   - bash: |
+      git config --global user.name "John Doe"
+      git config --global user.email johndoe@example.com
+    displayName: Configure git.
+
+  - bash: |
       source activate econ-project-templates
       pytest
     displayName: Run pytests.
@@ -54,6 +59,11 @@ jobs:
 
   - bash: brew install git
     displayName: Install git.
+
+  - bash: |
+      git config --global user.name "John Doe"
+      git config --global user.email johndoe@example.com
+    displayName: Configure git.
 
   - bash: |
       source activate econ-project-templates
