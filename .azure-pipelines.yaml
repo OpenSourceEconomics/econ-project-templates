@@ -52,6 +52,9 @@ jobs:
   - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
 
+  - bash: brew install git
+    displayName: Install git.
+
   - bash: |
       source activate econ-project-templates
       pytest
