@@ -17,21 +17,21 @@
     fill=brown!25
 }]
 
-    \node (ajrcomment_dta) [fill=blue!15, shift={(-4, 0)}]
+    \node (ajrcomment_dta) [fill=blue!15, shift={(0, -1)}]
     {
         ajrcomment.dta
     };
-    \node (add_variables_r) [fill=blue!15, shift={(4, 0)}]
+    \node (add_variables_r) [fill=blue!15, shift={(0, 1)}]
     {
         add\_variables.r
     };
-    \node (ajrcomment_all_txt) [shift={(0, 0)}]
+    \node (ajrcomment_all_csv) [shift={(0, 0)}]
     {
-        ajrcomment\_all.txt
+        ajrcomment\_all.csv
     };
 
-    \draw[->, blue, thick] (ajrcomment_all_txt) to (add_variables_r);
-    \draw[->, blue, thick] (ajrcomment_all_txt) to (ajrcomment_dta);
+    \draw[->, blue, thick] (ajrcomment_all_csv) to (add_variables_r);
+    \draw[->, blue, thick] (ajrcomment_all_csv) to (ajrcomment_dta);
 
 \end{tikzpicture}
 

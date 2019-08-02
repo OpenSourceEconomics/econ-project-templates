@@ -17,14 +17,14 @@ Your general strategy should be one of **divide and conquer**. If you are not us
 
 
 #. I suggest you leave the examples in place.
-#. Now add your own data and code bit by bit, append the wscript files as necessary. To see what is happening, it might be useful to commment out some steps by
+#. Now add your own data and code bit by bit, append the wscript files as necessary. To see what is happening, it might be useful to comment out some steps by
 #. Once you got the hang of how things work, remove the examples (both the files and the code in the wscript files)
 
 
 Porting an existing project
 ===========================
 
-Your general strategy should be one of **divide and conquer**. If you are not used to thinking in conputer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
+Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
 
 * Assuming that you use git, first move all the code in the existing project to a subdirectory called old_code. Commit.
 * Now move the code from the econ-project-templates over into this project, as described in the basic steps above. Make sure the examples work. Commit.

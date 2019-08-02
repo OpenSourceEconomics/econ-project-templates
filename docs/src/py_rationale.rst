@@ -14,7 +14,7 @@ I will not touch upon the last point until the :ref:`organisation` section below
 Running example
 ---------------
 
-To fix ideas, let's look at the example of Schelling's (1969, :cite:`Schelling69`) segregation model, as outlined `here <http://quant-econ.net/py/schelling.html>`_ in Stachurski's and Sargent's online course :cite:`StachurskiSargent13`. Please look at their `description <http://quant-econ.net/py/schelling.html>`_ of the Schelling model. Say we are thinking of two variants for the moment:
+To fix ideas, let's look at the example of Schelling's (1969, :cite:`Schelling1969`) segregation model, as outlined `here <http://quant-econ.net/py/schelling.html>`_ in Stachurski's and Sargent's online course :cite:`StachurskiSargent2019`. Please look at their `description <http://quant-econ.net/py/schelling.html>`_ of the Schelling model. Say we are thinking of two variants for the moment:
 
     1. Replicate the `figures <http://quant-econ.net/py/schelling.html#results>`_ from Stachurski's and Sargent's course.
     2. Check what happens when agents are restricted to two random moves per period; after that they have to stop regardless whether they are happy or not.
@@ -77,9 +77,9 @@ Bluish nodes are pure source files -- they do not depend on any other file and h
 
 In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct **dependencies** changes. E.g. when we make changes to *baseline.json*, we will need to build *schelling_baseline.pickle* and  *schelling_baseline.png* anew. Depending on whether *schelling_baseline.png* actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section. The only important thing at this point is to understand the general idea.
 
-Of course this is overkill for a textbook example -- we could easily keep the code closer together than this. But such a strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of :cite:`Gaudecker14`:
+Of course this is overkill for a textbook example -- we could easily keep the code closer together than this. But such a strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of :cite:`Gaudecker2015`:
 
-.. figure:: python/examples/pfefficiency.jpg
+.. figure:: python/pfefficiency.jpg
    :width: 35em
 
 Do you want to keep those dependencies in your head? Or would it be useful to specify them once and for all in order to have more time for thinking about research? The next section shows you how to do that.

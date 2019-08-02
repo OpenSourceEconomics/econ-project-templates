@@ -8,6 +8,7 @@ There are three phases to building a project:
   * **install**: Copy a selection of targets to places where you find them more easily.
 
 Additionally, there are two phases for cleanup which are useful to enforce a rebuild of the project:
+
   * **clean**: Cleans up project so that all tasks will be performed anew upon the next build.
   * **distclean**: Cleans up more thoroughly (by deleting the build directory), requiring configure again.
 
@@ -100,7 +101,7 @@ The ``ctx()`` call is a shortcut for creating a **task generator**. We will be m
 
   * ``features='run_r_script'`` tells Waf what **action** it needs to perform. In this case, it should run a R script.
   * ``source='add_variables.r'`` tells Waf that it should perform the action on the file *add_variables.r* in the current directory.
-  * ``target=[ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt")]`` tells Waf that the specified action will produce a file called *ajrcomment_all.txt* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`organisation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored.
+  * ``target=[ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.csv")]`` tells Waf that the specified action will produce a file called *ajrcomment_all.csv* in a directory that is determined in the ``ctx.path_to()``. We will examine this in detail in the :ref:`organisation` section, for now we abstract from it beyond noting that the ``OUT_DATA`` keyword refers to the directory where output data are stored.
   * ``deps=[ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')]`` tells Waf that the execution of the R script depends on a file *ajrcomment.dta* which needs to be in a directory referenced by the keyword ``IN_DATA``.
 
 And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.
@@ -110,7 +111,7 @@ And this is it! The rest are slight variations on this procedure and straightfor
 The "analysis" step
 ^^^^^^^^^^^^^^^^^^^^
 
-We concentrate our discussion on the bottom left part of the graph, i.e. the second stage estimation using Panel A (Baseline). The lower part is the exact mirror image. We have the following structure:
+We concentrate our discussion on the top right part of the graph, i.e. the second stage estimation using Panel A (Baseline). The lower part is the exact mirror image. We have the following structure:
 
 .. figure:: ../bld/example/r/ajrcomment_dependencies_main.png
    :width: 40em
@@ -121,10 +122,10 @@ To recap:
 
   * *baseline.json* is the file that contains the baseline model specification/sample (Panel A)
   * *geography.json* contains different sets of geographic controls to use for each Panel.
-  * *ajrcomment_all.txt* is the file we produced before
+  * *ajrcomment_all.csv* is the file we produced before
   * *functions.r* contains functions to calculate the different standard errors
   * *second_stage_estimation.r* is the file that generates the iv estimates
-  * *second_stage_estimation_baseline.txt* contains the results of the iv estimation of the baseline specification using varying sets of geographic controls.
+  * *second_stage_estimation_baseline.csv* contains the results of the iv estimation of the baseline specification using varying sets of geographic controls.
 
 We specify this dependency structure in the file *src/analysis/wscript*, which has the following contents:
 
@@ -172,9 +173,9 @@ There are two innovations in this *wscripts*. First, before specifying each task
     def out_data(*args):
         return ctx.path_to(ctx, "OUT_DATA", *args)
 
-There is nothing complicated regarding this function.We use it to avoid that we havt to type ``ctx.path_to(ctx, "OUT_DATA", *args)`` several times and thus make the code more readable. For instance, if we want to specify the dependency *ajrcomment_all.txt* which lies in our *bld/out/data* folder, we now just have to call the above function using the argument "ajrcomment_all.txt", i.e. ``out_data("ajrcomment_all.txt")``. It then returns the ``ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt")`` object that we need to define the dependency.
+We use this function to avoid having to type ``ctx.path_to(ctx, "OUT_DATA", *args)`` several times and thus make the code more readable. For instance, if we want to specify the dependency *ajrcomment_all.csv* which lies in our *bld/out/data* folder, we now just have to call the above function using the argument "ajrcomment_all.csv", i.e. ``out_data("ajrcomment_all.csv")``. It then returns the ``ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.csv")`` object that we need to define the dependency.
 
-The second innovation regards the creation of the dependency lists for the creation of table 2 and table 3. A more pythoninc way of creating dependency lists is employed which involves the creation of a dictionary and nested loops. The following part of the code creates a dictionary with keys *first_stage* and *second_stage*:
+The second innovation regards the creation of the dependency lists for the creation of the tables. It involves the creation of a dictionary and nested loops. The following part of the code creates a dictionary with keys *first_stage* and *second_stage*:
 
 .. code-block:: python
 
@@ -193,15 +194,15 @@ the keys (``stage``) and values (``dep_list``) in our dictionary:
 
       for m in models:
           for stage, deps_list in deps.items():
-              deps_list.append(out_analysis("{}_estimation_{}.txt".format(stage, m)))
+              deps_list.append(out_analysis("{}_estimation_{}.csv".format(stage, m)))
 
-In each iteration of the loop, it appends a dependency to our formely empty dependency list. For instance, consider the first iteration where ``m`` takes on the value ``baseline`` and stage takes the value ``first_stage``. Then ``ctx.path_to(ctx, "OUT_ANALYSIS", first_stage_estimation_baseline.txt)`` is appended to our formerly empty dependency so that our intermediate dictionary looks like the following:
+In each iteration of the loop, it appends a dependency to our formely empty dependency list. For instance, consider the first iteration where ``m`` takes on the value ``baseline`` and stage takes the value ``first_stage``. Then ``ctx.path_to(ctx, "OUT_ANALYSIS", first_stage_estimation_baseline.csv)`` is appended to our formerly empty dependency so that our intermediate dictionary looks like the following:
 
 .. code-block:: python
 
     deps = {
         "first_stage": [
-            ctx.path_to(ctx, "OUT_ANALYSIS", first_stage_estimation_baseline.txt)
+            ctx.path_to(ctx, "OUT_ANALYSIS", first_stage_estimation_baseline.csv)
         ],
         "second_stage": [],
     }
@@ -278,10 +279,10 @@ A closer look at the build phase
 
 The following figure shows a little bit of how Waf works internally during the build phase:
 
-    .. figure:: r/examples/waf_build_phase.png
+    .. figure:: r/waf_build_phase.png
        :width: 30em
 
-       *The build phase of a project, reproduced from* Nagy (2013), *section 4.1.4*
+       *The build phase of a project, reproduced from* Nagy (2019), *section 4.1.4*
 
 The important part to remember is that there is a logical and temporal separation between
 
@@ -292,7 +293,7 @@ In between, it has to set the order in which it would execute the tasks and whet
 
 While developing your code, errors will usually show up in the last step: The task returns an error and Waf stops. However, the errors do not have anything to do with Waf, it simply runs the code you wrote on your behalf.
 
-"Genuine" Waf errors will occur only if you made errors in writing the *wscript* files (e.g., syntax errors) or specify the dependencies in a way that is not compatible with a DAG (e.g., circular dependencies or multiple ways to build a target). A hybrid error will occur, for example, if a task did not produce one of the targets you told Waf about. Waf will stop with an error again and it lies in your best judgement of whether you misspecified things in your *wscript* file or in your research code.
+"Genuine" Waf errors will occur only if you made errors in writing the *wscript* files (e.g., syntax errors) or specify the dependencies in a way that is not compatible with a DAG (e.g., circular dependencies or multiple ways to build a target). A hybrid error will occur, for example, if a task did not produce one of the targets you told Waf about. Waf will stop with an error again and it lies in your best judgment of whether you misspecified things in your *wscript* file or in your research code.
 
 By default, Waf will execute tasks in parallel if your computer is sufficiently powerful and if the dependency graphs allows for it. This often leads to a major speed gain, which comes as a free lunch. However, it can be annoying during the development phase because error messages from different tasks get into each others' way. You can force execution of a single task at a time by starting Waf with the ``-j1`` switch
 
@@ -324,6 +325,6 @@ To conclude, Waf roughly works in the following way:
 
       * A signature roughly is a sufficient statistic for file contents.
       * Minimal rebuilds are a huge speed gain compared to a *master-script*.
-      * These gains are large enought to make projects break or succeed.
+      * These gains are large enough to make projects break or succeed.
 
-We have just touched upon the tip of the iceberg here; Waf has many more goodies to offer. The Waf book :cite:`Nagy17` is an excellent source -- you just need to get used to the programmer jargon a little bit and develop a feeling for its background in building software.
+We have just touched upon the tip of the iceberg here; Waf has many more goodies to offer. The Waf book :cite:`Nagy2019` is an excellent source -- you just need to get used to the programmer jargon a little bit and develop a feeling for its background in building software.

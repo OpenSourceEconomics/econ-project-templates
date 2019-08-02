@@ -17,7 +17,7 @@ def build(ctx):
     # Figure 1
     ctx(
         features="run_r_script",
-        source="figure1_mortality.r",
+        source="figure_mortality.r",
         target=[out_figures("risk_mort.png"), out_figures("gdp_mort.png")],
         deps=out_data("ajrcomment_all.txt"),
         name="plot_figure.r",
@@ -34,16 +34,16 @@ def build(ctx):
     # Table 2
     ctx(
         features="run_r_script",
-        source="table2_first_stage_est.r",
-        target=[out_tables("table2_first_stage_est.tex")],
+        source="table_first_stage_est.r",
+        target=[out_tables("table_first_stage_est.tex")],
         deps=deps["first_stage"],
         append=" ".join(models),
     )
     # Table 3
     ctx(
         features="run_r_script",
-        source="table3_second_stage_est.r",
-        target=[out_tables("table3_second_stage_est.tex")],
+        source="table_second_stage_est.r",
+        target=[out_tables("table_second_stage_est.tex")],
         deps=deps["second_stage"],
         append=" ".join(models),
     )

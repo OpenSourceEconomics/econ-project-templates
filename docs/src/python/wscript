@@ -1,32 +1,105 @@
-#! python
 import os
+import platform
 
 
-# def post_install(ctx):
-
-#     install_root = os.path.join(ctx.srcnode.abspath())
-#     # ctx.install_files(
-#     #     os.path.join(install_root, "python"),
-#     #     "src/python/latexpdf/tutorial-econ-project-templates-python.pdf",
-#     #     postpone=False,
-#     # )
-
-#     # Now the entire directory tree of the html build, except for hidden stuff.
-#     html_root = ctx.bldnode.find_node("src/python/html")
-#     for n in html_root.ant_glob("**", remove=False, quiet=True):
-#         rel_path = n.path_from(html_root)
-#         if not n.name.startswith(".") and not rel_path.startswith("."):
-#             rel_path = "python/" + rel_path
-#             ctx.install_as(os.path.join(install_root, rel_path), n, postpone=False)
-#             # print(install_root + " " + rel_path)
+def bld_examples(ctx, *args):
+    return ctx.path_to(ctx, 'BLD_EXAMPLES', 'python', *args)
 
 
 def build(ctx):
 
-    ctx.recurse("examples")
+    # Execute cookiecuter to copy python example
+    folder = os.path.abspath("").replace("docs", "")
+    command = (
+        "cookiecutter -f --no-input "
+        + "--output-dir example/python "
+        + folder
+        + " project_slug=python_example"
+        + " set_up_git=n"
+        + " create_conda_environment_with_name=x"
+    )
+    ctx(
+        rule=command
+    )
 
-    # # Build the documentation in pdf (via LaTeX) and html format.
-    # ctx(features="sphinx", builders=["html"], source="conf.py")
+    model_graphs = [
+        'steps_only_full.png',
+        'model_steps_full.png',
+        'model_steps_select.png'
+    ]
 
-    # # Install only after the build has finished.
-    # ctx.add_post_fun(post_install)
+    ctx(
+        features='run_py_script',
+        source='organisation_model_steps.py',
+        target=[bld_examples(ctx, m) for m in model_graphs]
+    )
+
+    project_hierarchies_keys = [
+        'big_pic',
+        'analysis'
+    ]
+    project_hierarchies_trunks = []
+    for key in project_hierarchies_keys:
+        project_hierarchies_trunks.append('project_hierarchies_' + key)
+        ctx(
+            features='run_py_script',
+            source='project_hierarchies.py',
+            target='{}.tex'.format(project_hierarchies_trunks[-1]),
+            append=key
+        )
+
+    ctx.add_group()
+
+    schelling_trunks = [
+        'schelling_dependencies',
+        'schelling_dependencies_data_mgmt',
+        'schelling_dependencies_main',
+        'schelling_dependencies_final',
+        'schelling_dependencies_paper'
+    ]
+
+    # Get OS to distinguish command line arguments
+    operating_system = platform.system()
+
+    for f in schelling_trunks + project_hierarchies_trunks:
+        graph_types = ['pdf', 'png']
+        ctx(
+            features='tex',
+            source='{}.tex'.format(f),
+            outs=' '.join(graph_types)
+        )
+        ctx.add_group()
+        for g in graph_types:
+            fn = '{}.{}'.format(f, g)
+            src = os.path.join(ctx.path.get_bld().abspath(), fn)
+            tgt = os.path.join(
+                ctx.env.PROJECT_PATHS['BLD_EXAMPLES'].abspath(), 'python', fn
+            )
+
+            # LaTeX does not create a node for png files.
+            if g == 'png':
+
+                if operating_system == "Windows":
+                    command_touch = "type nul >> {}".format(tgt)
+                else:
+                    command_touch = 'touch ${TGT}'
+
+                ctx(
+                    rule=command_touch,
+                    target=fn,
+                    always=True,
+                    on_results=True
+                )
+
+            if operating_system == "Windows":
+                command_copy = "copy {} {}".format(src, tgt)
+            else:
+                command_copy = "cp {} {}".format(src, tgt)
+
+            ctx(
+                rule=command_copy,
+                source=fn,
+                target=bld_examples(ctx, fn)
+            )
+
+    ctx.add_group()

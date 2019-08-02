@@ -257,7 +257,7 @@ model_code = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                agent.py
+                functions.r
         };
 """
 
@@ -265,11 +265,12 @@ model_code = r"""
 model_specs = r"""
         \node (222) [
             rectangle split,
-            rectangle split parts=3,
+            rectangle split parts=4,
             rectangle split part fill={
                 blue!15,
                 blue!15,
                 blue!15,
+                blue!15
             },
             draw,
             text width=2.5cm,
@@ -283,7 +284,9 @@ model_specs = r"""
             \nodepart{two}
                 baseline.json
             \nodepart{three}
-                max\_moves\_2.json
+                rmconj.json
+            \nodepart{four}
+                geography.json
         };
 """
 
@@ -308,11 +311,7 @@ original_data = r"""
                     \textbf{original\_data}
                 \end{small}
             \nodepart{two}
-                dataset\_1
-            \nodepart{three}
-                dataset\_2
-            \nodepart{four}
-                documentation
+                ajrcomment.dta
         };
 """
 
@@ -340,7 +339,7 @@ data_management = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                get\_simulation\_draws.py
+                add\_variables.r
             \nodepart{four}
                 wscript
         };
@@ -369,8 +368,10 @@ analysis = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                schelling.py
+                first\_stage\_estimation.r
             \nodepart{four}
+                second\_stage\_estimation.r
+            \nodepart{five}
                 wscript
         };
 """
@@ -397,8 +398,12 @@ final = r"""
             \nodepart{two}
                 \_\_init.py\_\_
             \nodepart{three}
-                plot\_locations.py
+                figure1\_mortality.r
             \nodepart{four}
+                table2\_first\_stage.r
+            \nodepart{five}
+                table3\_second\_stage.r
+            \nodepart{six}
                 wscript
         };
 """
@@ -426,38 +431,13 @@ paper = r"""
                     \textbf{paper}
                 \end{small}
             \nodepart{two}
-                formulas
-            \nodepart{three}
                 refs.bib
-            \nodepart{four}
+            \nodepart{three}
                 reserch\_paper.tex
-            \nodepart{five}
+            \nodepart{four}
                 research\_pres\_30min.tex
-            \nodepart{six}
+            \nodepart{five}
                 wscript
-        };
-"""
-
-
-formulas = r"""
-        \node (14) [
-            rectangle split,
-            rectangle split parts=2,
-            rectangle split part fill={
-                blue!15,
-                blue!15,
-            },
-            draw,
-            text width=2.50cm,
-            right=of 13
-        ]
-        {
-            \nodepart{one}
-                \begin{small}
-                    \textbf{formulas}
-                \end{small}
-            \nodepart{two}
-                decision\_rule.tex
         };
 """
 
@@ -608,7 +588,6 @@ project_hierarchies["paper"] = (
     \begin{tikzpicture}[node distance=1cm, auto]"""
     + src_no_loc
     + paper
-    + formulas
     + r"""
         \draw[-, out=-52, in=140] (3) to (13);
         \draw[-, out=10, in=160] (13) to (14);
@@ -644,13 +623,14 @@ prelude = r"""\documentclass[convert={density=300,size=1080x800,outext=.png}]{st
 """
 
 end_doc = """
+
 \end{document}
 """
 
 
 if __name__ == "__main__":
     key = sys.argv[1]
-    with open("src/python/examples/project_hierarchies_{}.tex".format(key), "w") as f:
+    with open("src/r/project_hierarchies_{}.tex".format(key), "w") as f:
         f.write(prelude)
         f.write(project_hierarchies[key])
         f.write(end_doc)

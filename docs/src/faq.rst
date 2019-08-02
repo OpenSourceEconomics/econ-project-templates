@@ -64,7 +64,7 @@ In the context of these project templates, there are just two issues to consider
 Debugging wscript files
 ------------------------
 
-Sometimes it is helpful to debug your build code directly. As the wscript files are just pure Python code Spyder can handle them in principle. The tricky bit is to make Spyder recognise the them as Python scripts -- usually it just uses the extension ``.py`` to infer that fact. As you cannot simply add this extension to wscript files, you must tell Spyder inside the wscript file using a so-called "shebang". Simply add the following line as the first thing to all your wscripts::
+Sometimes it is helpful to debug your build code directly. As the wscript files are just pure Python code Spyder can handle them in principle. The tricky bit is to make Spyder recognize the them as Python scripts -- usually it just uses the extension ``.py`` to infer that fact. As you cannot simply add this extension to wscript files, you must tell Spyder inside the wscript file using a so-called "shebang". Simply add the following line as the first thing to all your wscripts::
 
     #! python
 
@@ -78,7 +78,7 @@ The machinery of the imports in Python scripts requires the PYTHONPATH environme
 
 In order to do so, first create a Spyder project in the directory where you want your research to be (click "Yes" on the question "The following directory is not empty: ... Do you want to continue?"). Then right-click on the project's root folder and select "Add to PYTHONPATH".
 
-   .. image:: python/examples/spyder_pythonpath.png
+   .. image:: python/spyder_pythonpath.png
        :width: 18cm
 
 Any ``ImportErrors`` are likely due to this not being done correctly. Note that you **must** set the run configuration (F6 or select "Run" from the menu bar and then "Configure") to "Execute in a new dedicated Python console".
@@ -90,7 +90,7 @@ Any ``ImportErrors`` are likely due to this not being done correctly. Note that 
 Stata packages
 ==============
 
-Note that when you include (or input) the file ``project_paths.do`` in your Stata script, the system directories get changed. **This means that Stata will not find any packages you installed system-wide anymore.** This is desired behaviour to ensure that you (and your coauthors) run the same versions of different packages that you installed via ``ssc`` or the like. The project template comes with a few of them, see *src/library/stata/ado_ext* in the stata branch.
+Note that when you include (or input) the file ``project_paths.do`` in your Stata script, the system directories get changed. **This means that Stata will not find any packages you installed system-wide anymore.** This is desired behaviour to ensure that you (and your coauthors) run the same versions of different packages that you installed via ``ssc`` or the like. The project template comes with a few of them, see *src/library/stata/ado_ext* in the Stata branch.
 
 
 Adding additional Stata packages to a project

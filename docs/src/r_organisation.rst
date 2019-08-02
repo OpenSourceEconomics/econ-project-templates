@@ -45,7 +45,7 @@ As an example of how things look further down in the hierarchy, consider the *an
 .. figure:: ../bld/example/r/project_hierarchies_analysis.png
    :width: 30em
 
-Remember that the script *root/src/analysis/first_stage_estimation.r* is run with an argument *baseline*, *rmconj*. The code then accesses the respective file in *root/src/model_specs*, and *bld/out/data/ajrcomment_all.txt* (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
+Remember that the script *root/src/analysis/first_stage_estimation.r* is run with an argument *baseline*, *rmconj*. The code then accesses the respective file in *root/src/model_specs*, and *bld/out/data/ajrcomment_all.csv* (not shown). These are many different locations to keep track of; your project organization will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.
 
 
 .. _rproject_paths:
@@ -130,7 +130,7 @@ The first thing to do is to specify a task generator that writes a header with p
     :start-after: ctx.path_to
     :end-before: ctx.add_group()
 
-The ``write_project_paths`` feature is smart: It will recognise the syntax for its target by the extension you add to the latter. Currently supported: *.py*, *.do*, *.m*, *.r*, *.pm*.
+The ``write_project_paths`` feature is smart: It will recognize the syntax for its target by the extension you add to the latter. Currently supported: *.py*, *.do*, *.m*, *.r*, *.pm*.
 
 The paths contained in the resulting file (*root/bld/project_paths.py*) are **absolute** paths, so you do not need to worry about the location of your interpreter etc.
 
@@ -144,8 +144,8 @@ You can then use it to obtain absolute paths to any location within your project
 
 .. code-block:: r
 
-    paste(PATH_OUT_ANALYSIS, "first_stage_estimation_baseline".txt, sep ="")
+    paste(PATH_OUT_ANALYSIS, "first_stage_estimation_baseline".csv, sep ="")
 
 Note that you need to prepend PATH to the respective key specified in the wscript. For instance, instead of using *OUT_ANALYSIS* to access the output folder of the analysis, you need to use *PATH_OUT_ANALYSIS* within an R script.
 
-When you need to change the paths for whatever reason, you just need to update them once in the main *wscript* file; everything else will work automatically. Even if you need to change the keys -- e.g. because you want to break the *analysis* step into two -- you can easiliy search and replace *OUT_ANALYSIS* in the entire project.
+When you need to change the paths for whatever reason, you just need to update them once in the main *wscript* file; everything else will work automatically. Even if you need to change the keys -- e.g. because you want to break the *analysis* step into two -- you can easily search and replace *OUT_ANALYSIS* in the entire project.

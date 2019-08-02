@@ -25,9 +25,8 @@ Getting started
 
   * a modern LaTeX distribution (e.g. `TeXLive <www.tug.org/texlive/>`_, `MacTex <http://tug.org/mactex/>`_, or `MikTex <http://miktex.org/>`_)
 
-  .. warning::
+  * `Git <https://git-scm.com/downloads>`_
 
-    All programs used within this project template need to be found on your path. This also includes those that are not listed here, but you would like to use within this project template, i.e. Matlab, R, Stata or Julia. If you are a Windows user, you can find more information on how to add executables to path `here <https://www.computerhope.com/issues/ch000549.htm>`_.
 
 2. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
 
@@ -35,7 +34,7 @@ Getting started
 
     $ pip install cookiecutter
 
-  All additional dependencies will be installed into a newly created conda environment which is installed upon poject creation.
+  All additional dependencies will be installed into a newly created conda environment which is installed upon project creation.
 
   .. warning::
 
@@ -109,18 +108,29 @@ Getting started
 
   .. code-block:: bash
 
-    $ python waf.py configure
-    $ python waf.py build
-    $ python waf.py install
+      $ python waf.py configure
 
-  The first command will fail if any one of the required programs cannot be found.
 
-  If the second step fails, try the following in order to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
+  All programs used within this project template need to be found on your path. Otherwise, this step will fail. If you are a Windows user, you can find more information on how to add executables to path `here <https://www.computerhope.com/issues/ch000549.htm>`_.
 
   .. code-block:: bash
 
-    $ python waf.py build -j1
+      $ python waf.py build
 
+  If this step fails, try the following in order to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
+
+
+  .. code-block:: bash
+
+      $ python waf.py build -j1
+
+  At last, type:
+
+  .. code-block:: bash
+
+      $ python waf.py install
+
+  If all went well, you are now ready to adapt the template to your project.
 
 .. _windows_user:
 
@@ -129,7 +139,7 @@ Anaconda Installation Notes for Windows Users
 
 Please follow these steps unless you know what you are doing.
 
-1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>` for Python 3.x.
+1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_ for Python 3.x.
 
 2. Start the installer and click yourselve throug the menu. If you have administer priviledges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
 

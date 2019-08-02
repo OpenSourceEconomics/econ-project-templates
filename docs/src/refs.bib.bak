@@ -1,4 +1,14 @@
-% Encoding: UTF-8
+
+@article{Gaudecker2015,
+  title = {How {{Does Household Portfolio Diversification Vary}} with {{Financial Sophistication}} and {{Financial Advice}}?},
+  volume = {70},
+  number = {2},
+  journal = {Journal of Finance},
+  author = {von Gaudecker, Hans-Martin},
+  month = apr,
+  year = {2015},
+  pages = {489-507}
+}
 
 @article{AcemogluJohnsonRobinson2001,
   title = {The {{Colonial Origins}} of {{Comparative Development}}: {{An Empirical Investigation}}},
@@ -19,27 +29,6 @@
   author = {Albouy, David Y.},
   year = {2012},
   pages = {3059-3076}
-}
-@article{Gaudecker2015,
-  title = {How {{Does Household Portfolio Diversification Vary}} with {{Financial Sophistication}} and {{Financial Advice}}?},
-  volume = {70},
-  number = {2},
-  journal = {Journal of Finance},
-  author = {von Gaudecker, Hans-Martin},
-  month = apr,
-  year = {2015},
-  pages = {489-507}
-}
-
-@article{GaudeckerSoestWengstrom2011,
-  title = {Heterogeneity in {{Risky Choice Behaviour}} in a {{Broad Population}}},
-  volume = {101},
-  number = {2},
-  journal = {American Economic Review},
-  author = {von Gaudecker, Hans-Martin and van Soest, Arthur and Wengstr{\"o}m, Erik},
-  month = apr,
-  year = {2011},
-  pages = {664-694}
 }
 
 @article{Hoxby2000,
@@ -64,6 +53,22 @@
   pages = {2038-2055}
 }
 
+@unpublished{Rothstein2007rejoinder,
+  title = {Rejoinder to {{Hoxby}}},
+  author = {Rothstein, Jesse},
+  month = nov,
+  year = {2007},
+  note = {Available at http://gsppi.berkeley.edu/faculty/jrothstein/hoxby/rejoinder.pdf}
+}
+
+@unpublished{WSJ2005,
+  title = {Novel {{Way}} to {{Assess School Competition Stirs Academic Row}}},
+  author = {{Wall Street Journal}},
+  month = oct,
+  year = {2005},
+  note = {Available at http://gsppi.berkeley.edu/faculty/jrothstein/hoxby/wsj.pdf}
+}
+
 @article{Levitt1997,
   title = {Using {{Electoral Cycles}} in {{Police Hiring}} to {{Estimate}} the {{Effect}} of {{Police}} on {{Crime}}},
   volume = {87},
@@ -84,6 +89,51 @@
   month = sep,
   year = {2002},
   pages = {1244-1250}
+}
+
+@book{Nagy2019,
+  title = {The {{Waf Book}}},
+  author = {Nagy, Thomas},
+  year = {2019}
+}
+
+@article{Rothstein2007comment,
+  title = {Does {{Competition}} among {{Public Schools Benefit Students}} and {{Taxpayers}}? {{Comment}}},
+  volume = {97},
+  number = {5},
+  journal = {American Economic Review},
+  author = {Rothstein, Jesse},
+  month = dec,
+  year = {2007},
+  pages = {2026-2037}
+}
+
+@article{Schelling1969,
+  title = {Models of {{Segregation}}},
+  volume = {59},
+  number = {2},
+  journal = {American Economic Review},
+  author = {Schelling, Thomas C.},
+  year = {1969},
+  pages = {488-493}
+}
+
+@misc{StachurskiSargent2019,
+  title = {Quantitative {{Economics}}},
+  howpublished = {http://quant-econ.net/index.html},
+  author = {Stachurski, John and Sargent, Thomas J.},
+  year = {2019}
+}
+
+@article{GaudeckerSoestWengstrom2011,
+  title = {Heterogeneity in {{Risky Choice Behaviour}} in a {{Broad Population}}},
+  volume = {101},
+  number = {2},
+  journal = {American Economic Review},
+  author = {von Gaudecker, Hans-Martin and van Soest, Arthur and Wengstr{\"o}m, Erik},
+  month = apr,
+  year = {2011},
+  pages = {664-694}
 }
 
 @article{McCrary2002,
@@ -117,57 +167,6 @@
   month = jun,
   year = {2003},
   pages = {873-892}
-}
-
-@Book{Nagy2019,
-  title =     {The {{Waf Book}}},
-  publisher = {https://waf.io/book/},
-  year =      {2019},
-  author =    {Nagy, Thomas}
-}
-
-@article{Rothstein2007comment,
-  title = {Does {{Competition}} among {{Public Schools Benefit Students}} and {{Taxpayers}}? {{Comment}}},
-  volume = {97},
-  number = {5},
-  journal = {American Economic Review},
-  author = {Rothstein, Jesse},
-  month = dec,
-  year = {2007},
-  pages = {2026-2037}
-}
-
-@unpublished{Rothstein2007rejoinder,
-  title = {Rejoinder to {{Hoxby}}},
-  author = {Rothstein, Jesse},
-  month = nov,
-  year = {2007},
-  note = {Available at http://gsppi.berkeley.edu/faculty/jrothstein/hoxby/rejoinder.pdf}
-}
-
-@article{Schelling1969,
-  title = {Models of {{Segregation}}},
-  volume = {59},
-  number = {2},
-  journal = {American Economic Review},
-  author = {Schelling, Thomas C.},
-  year = {1969},
-  pages = {488-493}
-}
-
-@misc{StachurskiSargent2019,
-  title = {Quantitative {{Economics}}},
-  howpublished = {http://quant-econ.net/index.html},
-  author = {Stachurski, John and Sargent, Thomas J.},
-  year = {2019}
-}
-
-@unpublished{WSJ2005,
-  title = {Novel {{Way}} to {{Assess School Competition Stirs Academic Row}}},
-  author = {{Wall Street Journal}},
-  month = oct,
-  year = {2005},
-  note = {Available at http://gsppi.berkeley.edu/faculty/jrothstein/hoxby/wsj.pdf}
 }
 
 

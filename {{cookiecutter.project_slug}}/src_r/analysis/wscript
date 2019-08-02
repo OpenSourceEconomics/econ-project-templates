@@ -18,11 +18,11 @@ def build(ctx):
                     ctx.path_to(
                         ctx,
                         "OUT_ANALYSIS",
-                        "{}_stage_estimation_{}.txt".format(stage, m),
+                        "{}_stage_estimation_{}.csv".format(stage, m),
                     )
                 ],
                 deps=[
-                    ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.txt"),
+                    ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.csv"),
                     ctx.path_to(ctx, "IN_MODEL_CODE", "functions.r"),
                     ctx.path_to(ctx, "IN_MODEL_SPECS", "geography.json"),
                 ],

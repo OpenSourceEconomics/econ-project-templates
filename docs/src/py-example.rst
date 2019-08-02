@@ -1,8 +1,10 @@
 .. _pyexample:
 
 ***********************
-Python/Matlab Example
+Python/ Matlab Example
 ***********************
+
+Note that this instruction is written for the Python example. The Matlab example works analogously.
 
 .. _rationale:
 

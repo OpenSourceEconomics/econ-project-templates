@@ -1,8 +1,10 @@
 .. _rexample:
 
 *********************************
- R/Stata Example
+ R/ Stata Example
 *********************************
+
+Note that this instruction is written for the R example. The Stata example works analogously.
 
 .. _rrationale:
 
