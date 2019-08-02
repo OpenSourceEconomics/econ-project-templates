@@ -21,7 +21,7 @@ Getting started
   * `Miniconda <http://conda.pydata.org/miniconda.html>`_ or Anaconda. Windows users: please consult :ref:`windows_user`
 
     .. note::
-        This template is tested with python 3.6 and higher and conda version 4.6.14. Python 2 will not work.
+        This template is tested with python 3.6 and higher and conda version 4.6.14.
 
   * a modern LaTeX distribution (e.g. `TeXLive <www.tug.org/texlive/>`_, `MacTex <http://tug.org/mactex/>`_, or `MikTex <http://miktex.org/>`_)
 
