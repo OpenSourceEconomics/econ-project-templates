@@ -6,7 +6,7 @@ dependencies:
   - pip
   - pandas
   - python=3.7
-  - python-gaphviz
+  - python-graphviz
   - pip:
     - click==7.0
     - cookiecutter
