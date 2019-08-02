@@ -16,16 +16,19 @@ jobs:
   - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
 
+  - bash: sudo apt-get install git
+    displayName: Install git.
+
   - bash: |
       source activate econ-project-templates
       pytest
-
+      displayName: Run pytests.
 
   - bash: |
       source activate econ-project-templates
       cd docs
       python waf.py configure build install
-
+      displayName: Compile Docs.
 
 
 - job:
@@ -52,9 +55,10 @@ jobs:
   - bash: |
       source activate econ-project-templates
       pytest
+      displayName: Run pytests.
 
   - bash: |
       source activate econ-project-templates
       cd docs
       python waf.py configure build install
-
+      displayName: Compile Docs.
