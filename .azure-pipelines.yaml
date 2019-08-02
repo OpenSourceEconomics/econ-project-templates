@@ -25,6 +25,10 @@ jobs:
     displayName: Configure git.
 
   - bash: |
+      sudo apt-get install texlive-base
+    displayName: Install Latex.
+
+  - bash: |
       source activate econ-project-templates
       pytest
     displayName: Run pytests.
@@ -64,6 +68,11 @@ jobs:
       git config --global user.name "John Doe"
       git config --global user.email johndoe@example.com
     displayName: Configure git.
+
+  - bash: |
+      brew install caskroom/cask/brew-cask
+      brew cask install mactex
+    displayName: Install Latex.
 
   - bash: |
       source activate econ-project-templates
