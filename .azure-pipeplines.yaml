@@ -1,0 +1,48 @@
+pr: none
+
+jobs:
+- job:
+  displayName: Linux
+  pool:
+    vmImage: "ubuntu-16.04"
+
+  steps:
+  - bash: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH.
+
+  - bash: conda update conda --yes --quiet
+    displayName: Update conda.
+
+  - bash: conda env create -n econ-project-templates -f environment.yml
+    displayName: Create Anaconda environment.
+
+  - bash: |
+      source activate econ-project-templates
+      pytest
+      displayName: Run pytests.
+
+- job:
+  displayName: MacOS
+  pool:
+    vmImage: "macOS-10.13"
+
+  steps:
+  - bash: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH.
+
+  # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation
+  # directory. We need to take ownership if we want to update conda or install packages
+  # globally.
+  - bash: sudo chown -R $USER $CONDA
+    displayName: Take ownership of conda installation
+
+  - bash: conda update conda --yes --quiet
+    displayName: Update conda.
+
+  - bash: conda env create -n econ-project-templates -f environment.yml
+    displayName: Create Anaconda environment.
+
+  - bash: |
+      source activate econ-project-templates
+      pytest
+      displayName: Run pytests.
