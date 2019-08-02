@@ -21,6 +21,13 @@ jobs:
       pytest
       displayName: Run pytests.
 
+  - bash: |
+      source activate econ-project-templates
+      cd docs
+      python waf.py configure build install
+      displayName: Compile Docs.
+
+
 - job:
   displayName: MacOS
   pool:
@@ -46,3 +53,9 @@ jobs:
       source activate econ-project-templates
       pytest
       displayName: Run pytests.
+
+  - bash: |
+      source activate econ-project-templates
+      cd docs
+      python waf.py configure build install
+      displayName: Compile Docs.
