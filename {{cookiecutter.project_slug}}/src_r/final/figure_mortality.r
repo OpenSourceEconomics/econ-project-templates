@@ -1,7 +1,7 @@
 '
 
-The file "figure1_mortality.r" creates two figures, plotting
-expropriation risk and log GDP against settler mortality respectively.
+The file "figure1_mortality.r" creates a figure, plotting
+expropriation risk against settler mortality respectively.
 It accounts for campaign/laborer indicators and distinguishes between
 countries with original data and countries with conjectured mortality data.
 
