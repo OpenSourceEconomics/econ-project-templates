@@ -68,3 +68,4 @@ ___*
 .env/installed_pip_pkgs
 .env/installed_spec.json
 !.pre-commit-config.yaml
+!.azure-pipelines.yaml
