@@ -35,7 +35,8 @@ for (model_name in models) {
     this_file = paste(PATH_OUT_ANALYSIS, paste("second_stage_estimation_", model_name, ".csv", sep = ""), sep="/")
     reg_results <- read.csv(
         file = this_file,
-        header = TRUE
+        header = TRUE,
+        row.names = 1
     )
 
     # Load model specs

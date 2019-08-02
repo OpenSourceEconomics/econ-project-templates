@@ -36,7 +36,8 @@ for (model_name in models) {
     this_file = paste(PATH_OUT_ANALYSIS, paste("first_stage_estimation_", model_name, ".csv", sep = ""), sep="/")
     reg_results <- read.csv(
         file = this_file,
-        header = TRUE
+        header = TRUE,
+        row.names = 1
     )
     reg_results <- round(reg_results, 2)
     reg_results[is.na(reg_results)] <- "-"
@@ -63,6 +64,7 @@ for (model_name in models) {
         model_table[1] <- rownames(reg_results)[rows]
         model_table[2:8] <- reg_results[rows, ]
 
+    }
 
     # Append panel header to model_table
     model_table = rbind(panel_header, model_table)

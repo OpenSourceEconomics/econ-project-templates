@@ -52,24 +52,3 @@ lines(datalabhome$logmort0, datalabhome$risk, pch=17, type="p")
 lines(datalabcon$logmort0, datalabcon$risk, pch=2, type="p")
 
 dev.off()
-
-
-plot.new()
-png(filename=paste(PATH_OUT_FIGURES, "gdp_mort.png", sep="/"))
-## Plot that data against loggdp
-plot(
-     datacamphome$logmort0, datacamphome$loggdp, pch=15,
-     xlab="Logarithm of settler mortality", ylab="Logarithm of GDP per capita",
-     ylim=c(6,10.5), xlim=c(2,8), bty="L"
-)
-lines(datacampcon$logmort0, datacampcon$loggdp, pch=22, type="p")
-
-lines(databarhome$logmort0, databarhome$loggdp, pch=16, type="p")
-lines(databarcon$logmort0, databarcon$loggdp, pch=21, type="p")
-
-lines(datalabhome$logmort0, datalabhome$loggdp, pch=17, type="p")
-lines(datalabcon$logmort0, datalabcon$loggdp, pch=2, type="p")
-
-# coordinates of legend box using plot units
-
-dev.off()
