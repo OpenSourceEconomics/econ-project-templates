@@ -1,0 +1,16 @@
+name: econ-project-templates
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - pip:
+    - cookiecutter
+    - nbsphinx
+    - pytest
+    - pytest-cookies
+    - pytest-cov
+    - pytest-pythonpath
+    - sphinx
+    - sphinx-autobuild
+    - sphinx-rtd-theme
+    - sphinxcontrib-bibtex
