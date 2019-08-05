@@ -15,9 +15,9 @@ This is a collection of templates where much of this automation is pre-configure
 For Newcomers
 =============
 
-For newcomers, it is advisable to first follow the steps of installation listed here :ref:`dialogue`. Every installation comes with a working example in the language of your choosing (Python, R, Stata or Matlab). The documentation then guides you through this example step-by-step.
+For newcomers, it is advisable to first follow the steps of installation listed here :ref:`dialog`. Every installation comes with a working example in the language of your choosing (Python, R, Stata or Matlab). The documentation, then, guides you through this example step-by-step.
 
-.. _dialogue:
+.. _dialog:
 
 Getting started
 ===============
