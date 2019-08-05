@@ -74,7 +74,6 @@ jobs:
   - bash: |
       echo $PATH
       ls -l /usr/local
-      ls -l /usr/local/texlive/2019/
       ls -l /usr/local/texlive/2019/bin/x86_64-darwin
     displayName: Is it on PATH?
 
