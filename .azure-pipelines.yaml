@@ -71,7 +71,7 @@ jobs:
     displayName: Configure git.
 
   - bash: |
-      brew install caskroom/cask/brew-cask
+      brew install caskroom/cask
       brew cask install mactex-no-gui
     displayName: Install Latex.
 
