@@ -42,7 +42,7 @@ Let us dissect this function line-by-line:
   * ``ctx.load('run_r_script')`` loads a little tool for running R scripts. Similar tools exist for Matlab, Stata, Python, and Perl. More can be easily created.
   * ``ctx.load('sphinx_build')`` loads the tool required to build the project's documentation.
   * ``ctx.load('write_project_headers')`` loads a tool for handling project paths. We postpone the discussion until the :ref:`section <project_paths>` by the same name.
-  ``ctx.load('biber')`` loads a `modern replacement <http://biblatex-biber.sourceforge.net/>`_ for BibTeX and the entire LaTeX machinery with it.
+  * ``ctx.load('biber')`` loads a `modern replacement <http://biblatex-biber.sourceforge.net/>`_ for BibTeX and the entire LaTeX machinery with it.
 
 Waf now knows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.
 

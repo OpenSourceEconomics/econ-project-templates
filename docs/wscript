@@ -60,9 +60,11 @@ def options(opt):
 
 
 def configure(ctx):
-    # pp = set_project_paths(ctx)
     ctx.env.PYTHONPATH = os.getcwd()
-    ctx.env.PDFLATEXFLAGS = ["-shell-escape", "-halt-on-error"]
+    ctx.env.PDFLATEXFLAGS = [
+        # "-shell-escape",
+        "-halt-on-error"
+    ]
     ctx.load("biber")
     ctx.load("run_py_script")
     ctx.load("sphinx_build")

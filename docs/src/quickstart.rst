@@ -144,6 +144,7 @@ Please follow these steps unless you know what you are doing.
 2. Start the installer and click yourselve throug the menu. If you have administer priviledges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
 
 3. Make sure to tick the following boxes:
+
   - ''Add Anaconda to my PATH environment variable''
   - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
@@ -198,6 +199,7 @@ Additional dependencies that are installed via the conda environment:
 
 
 .. _r_dependencies:
+
 To run the R example
 --------------------
 

@@ -1,5 +1,3 @@
-.. _rationale:
-
 The design of the project templates is guided by the following main thoughts:
 
     #. **Separation of logical chunks:** A minimal requirement for a project to scale.
