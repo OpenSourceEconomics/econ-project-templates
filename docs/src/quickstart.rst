@@ -12,6 +12,12 @@ This is a collection of templates where much of this automation is pre-configure
 * Move your programs to the right places and change the placeholder scripts
 * Run Waf, which will build your entire project the first time you run it. Later, it will automatically figure out which parts of the project need to be rebuilt.
 
+For Newcomers
+=============
+
+For newcomers, it is advisable to first follow the steps of installation listed here :ref:`dialogue`. Every installation comes with a working example in the language of your choosing (Python, R, Stata or Matlab). The documentation then guides you through this example step-by-step.
+
+.. _dialogue:
 
 Getting started
 ===============
