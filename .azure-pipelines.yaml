@@ -72,7 +72,7 @@ jobs:
 
   - bash: |
       brew install caskroom/cask/brew-cask
-      brew cask install mactex
+      brew cask install mactex-no-gui
     displayName: Install Latex.
 
   - bash: |
