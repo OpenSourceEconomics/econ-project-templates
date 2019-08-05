@@ -40,27 +40,6 @@ jobs:
 
   steps:
 
-
-  - bash: |
-      brew install caskroom/cask
-      brew cask install basictex
-    displayName: Install Latex.
-
-  - bash: |
-      echo "##vso[task.prependpath]/usr/local/texlive/2019basic/bin/x86_64-darwin"
-    displayName: Add Latex to PATH.
-
-  - bash: |
-      echo $PATH
-      ls -l /usr/local
-      ls -l /usr/local/texlive/
-      ls -l /usr/local/texlive/2019basic
-      ls -l /usr/local/texlive/2019basic/bin
-      ls -l /usr/local/texlive/2019basic/bin/x86_64-darwin
-    displayName: Is it on PATH?
-
-  - bash: pdflatex
-
   - bash: echo "##vso[task.prependpath]$CONDA/bin"
     displayName: Add conda to PATH.
 
@@ -83,6 +62,15 @@ jobs:
       git config --global user.name "John Doe"
       git config --global user.email johndoe@example.com
     displayName: Configure git.
+
+  - bash: |
+      brew install caskroom/cask
+      brew cask install basictex
+    displayName: Install Latex.
+
+  - bash: |
+      echo "##vso[task.prependpath]/usr/local/texlive/2019basic/bin/x86_64-darwin"
+    displayName: Add Latex to PATH.
 
   - bash: |
       source activate econ-project-templates
