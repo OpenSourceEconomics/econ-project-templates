@@ -33,13 +33,6 @@ jobs:
       pytest
     displayName: Run pytests.
 
-  - bash: |
-      source activate econ-project-templates
-      cd docs
-      python waf.py configure build install
-    displayName: Compile Docs.
-
-
 - job:
   displayName: MacOS
   pool:
@@ -74,16 +67,11 @@ jobs:
       brew cask install mactex-no-gui
     displayName: Install Latex.
 
-  - bash: echo $PATH
-    displayName: Look at path environment.
+  - bash: echo "##vso[task.prependpath]/usr/local/texlive/2019"
+    displayName: Add Latex to PATH.
 
   - bash: |
       source activate econ-project-templates
       pytest
     displayName: Run pytests.
 
-  - bash: |
-      source activate econ-project-templates
-      cd docs
-      python waf.py configure build install
-    displayName: Compile Docs.
