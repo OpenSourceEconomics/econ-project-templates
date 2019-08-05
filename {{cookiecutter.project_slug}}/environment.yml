@@ -1,12 +1,26 @@
 name: {{ cookiecutter.create_conda_environment_with_name }}
 channels:
   - defaults
+{% if cookiecutter.configure_running_r_from_waf == 'y' %}
+  - r
+  - conda-forge
+{% endif %}
 dependencies:
   - jupyterlab
   - pandas
   - pip
   - python={{ cookiecutter.python_version }}
   - python-graphviz=0.8
+{% if cookiecutter.configure_running_r_from_waf == 'y' %}
+  - r-aer
+  - r-aod
+  - r-base
+  - r-car
+  - r-essentials
+  - r-rjson
+  - r-lmtest
+  - r-sandwich
+{% endif %}
   - pip:
     - click==7.0
 {% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}

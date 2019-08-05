@@ -36,4 +36,4 @@ data[grep("SLE", data$shortnam),]$source0_new = 1
 
 data[grep("HND", data$shortnam),]$campaign_new = 0
 
-write.table(data, file = paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep="/"))
+write.csv(data, file = paste(PATH_OUT_DATA, "ajrcomment_all.csv", sep="/"))

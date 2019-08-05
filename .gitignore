@@ -69,3 +69,4 @@ ___*
 .env/installed_spec.json
 !.pre-commit-config.yaml
 !.azure-pipelines.yaml
+!.readthedocs.yml

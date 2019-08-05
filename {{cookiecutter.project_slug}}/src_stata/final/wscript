@@ -20,30 +20,15 @@ def build(ctx):
     # Figures 2a, 2b.
     ctx(
         features="run_do_script",
-        source="figure1_mortality.do",
+        source="figure_mortality.do",
         target=[
-            out_analysis("log", "figure1_mortality.log"),
+            out_analysis("log", "figure_mortality.log"),
             out_figures("risk_mort.eps"),
-            out_figures("gdp_mort.eps"),
         ],
         deps=[out_data("ajrcomment_all.dta")],
     )
 
-    # Table 1.
-    ctx(
-        features="run_do_script",
-        source="table1_reg_on_indicators.do",
-        target=[
-            out_analysis("log", "table1_reg_on_indicators.log"),
-            out_tables("table1_reg_on_indicators.tex"),
-        ],
-        deps=[
-            out_analysis("regression_on_indicators_est.dta"),
-            out_analysis("regression_on_indicators_corr.dta"),
-        ],
-    )
-
-    models = ["baseline", "rmconj", "addindic", "rmconj_addindic", "newdata"]
+    models = ["baseline", "rmconj"]
 
     deps = {"first_stage": [], "second_stage": []}
 
@@ -55,10 +40,10 @@ def build(ctx):
     # Table 2.
     ctx(
         features="run_do_script",
-        source="table2_first_stage_est.do",
+        source="table_first_stage_est.do",
         target=[
-            out_analysis("log", "table2_first_stage_est.log"),
-            out_tables("table2_first_stage_est.tex"),
+            out_analysis("log", "table_first_stage_est.log"),
+            out_tables("table_first_stage_est.tex"),
         ],
         deps=deps["first_stage"],
         append=" ".join(models),
@@ -66,10 +51,10 @@ def build(ctx):
 
     ctx(
         features="run_do_script",
-        source="table3_second_stage_est.do",
+        source="table_second_stage_est.do",
         target=[
-            out_analysis("log", "table3_second_stage_est.log"),
-            out_tables("table3_second_stage_est.tex"),
+            out_analysis("log", "table_second_stage_est.log"),
+            out_tables("table_second_stage_est.tex"),
         ],
         deps=deps["second_stage"],
         append=" ".join(models),

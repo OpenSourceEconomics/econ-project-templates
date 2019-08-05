@@ -1,19 +1,10 @@
 pr: none
 
-variables:
-  CI: true
-
 jobs:
 - job:
   displayName: Linux
   pool:
     vmImage: "ubuntu-16.04"
-  strategy:
-    matrix:
-      Python36:
-        python.version: "3.6"
-      Python37:
-        python.version: "3.7"
 
   steps:
   - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -22,53 +13,37 @@ jobs:
   - bash: conda update conda --yes --quiet
     displayName: Update conda.
 
-  - bash: conda create --yes --quiet --name cc -c defaults -c conda-forge python=$PYTHON_VERSION tox
+  - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
+
+  - bash: sudo apt-get install git
+    displayName: Install git.
 
   - bash: |
-      source activate cc
-      tox -e pytest
-      tox -e sphinx -e linting -p auto
-- job:
-  displayName: Windows
-  pool:
-    vmImage: "windows-2019"
-  strategy:
-    matrix:
-      Python36:
-        python.version: "3.6"
-      Python37:
-        python.version: "3.7"
+      git config --global user.name "John Doe"
+      git config --global user.email johndoe@example.com
+    displayName: Configure git.
 
-  steps:
-  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
-    displayName: Add conda to PATH.
+  - bash: |
+      sudo DEBIAN_FRONTEND=noninteractive apt-get -y install texlive-latex-extra texlive-bibtex-extra biber
+    displayName: Install Latex.
 
-  - powershell: conda update conda --yes --quiet
-    displayName: Update conda.
+  - bash: |
+      source activate econ-project-templates
+      pytest
+    displayName: Run pytests.
 
-  - powershell: conda create --yes --quiet --name cc -c defaults -c conda-forge python=$env:PYTHON_VERSION tox
-    displayName: Create Anaconda environment.
-
-  - script: |
-      call activate cc
-      tox -e pytest
 - job:
   displayName: MacOS
   pool:
-    vmImage: "macOS-10.13"
-  strategy:
-    matrix:
-      Python36:
-        python.version: "3.6"
-      Python37:
-        python.version: "3.7"
+    vmImage: "macOS-latest"
 
   steps:
+
   - bash: echo "##vso[task.prependpath]$CONDA/bin"
     displayName: Add conda to PATH.
 
-  # On hosted macOS, the agent user doesn't have ownership of Miniconda's installation
+  # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation
   # directory. We need to take ownership if we want to update conda or install packages
   # globally.
   - bash: sudo chown -R $USER $CONDA
@@ -77,13 +52,28 @@ jobs:
   - bash: conda update conda --yes --quiet
     displayName: Update conda.
 
-  - bash: conda info -a
-
-  - bash: conda create --yes --quiet --name cc -c defaults -c conda-forge python=$PYTHON_VERSION tox
+  - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
 
-  - bash: conda list
+  - bash: brew install git
+    displayName: Install git.
 
   - bash: |
-      source activate cc
-      tox -e pytest
+      git config --global user.name "John Doe"
+      git config --global user.email johndoe@example.com
+    displayName: Configure git.
+
+  - bash: |
+      brew install caskroom/cask
+      brew cask install mactex-no-gui
+    displayName: Install Latex.
+
+  - bash: |
+      echo "##vso[task.prependpath]/usr/local/texlive/2019/bin/x86_64-darwin"
+    displayName: Add Latex to PATH.
+
+  - bash: |
+      source activate econ-project-templates
+      pytest
+    displayName: Run pytests.
+

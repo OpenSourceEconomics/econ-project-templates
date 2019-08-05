@@ -1,0 +1,39 @@
+\documentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows,positioning,shapes,shapes.multipart,patterns,mindmap,shadows}
+\usepackage{xcolor}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\begin{document}
+
+\footnotesize
+\begin{tikzpicture}[every node/.style={
+    rectangle,
+    rounded corners,
+    inner sep=3pt,
+    draw,
+    fill=brown!25
+}]
+
+    \node (ajrcomment_dta) [fill=blue!15, shift={(0, -1)}]
+    {
+        ajrcomment.dta
+    };
+    \node (add_variables_r) [fill=blue!15, shift={(0, 1)}]
+    {
+        add\_variables.r
+    };
+    \node (ajrcomment_all_csv) [shift={(0, 0)}]
+    {
+        ajrcomment\_all.csv
+    };
+
+    \draw[->, blue, thick] (ajrcomment_all_csv) to (add_variables_r);
+    \draw[->, blue, thick] (ajrcomment_all_csv) to (ajrcomment_dta);
+
+\end{tikzpicture}
+
+\end{document}
+

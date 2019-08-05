@@ -24,10 +24,7 @@
     {
         ajrcomment.dta
     };
-    \node (newdata_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.6, 0.1)}] {};
-    \node (rmconj_addindic_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.7, 0.2)}] {};
     \node (rmconj_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.8, 0.3)}] {};
-    \node (addindic_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-5.9, 0.4)}] {};
     \node (baseline_json) [fill=blue!15, minimum width=3cm, minimum height=0.4cm, shift={(-6, 0.5)}]
     {
         baseline.json
@@ -45,55 +42,30 @@
     {
         first\_stage\_estimation.do
     };
-    \node (regression_on_indicators_do) [fill=blue!15, shift={(-2, 3.5)}]
-    {
-        regression\_on\_indicators.do
-    };
     \node (geography_do) [shift={(-2, -1)}]
     {
         geography.do
     };
-    \node (newdata_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.6, 0.1)}] {};
-    \node (rmconj_addindic_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.7, 0.2)}] {};
     \node (rmconj_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.8, 0.3)}] {};
-    \node (addindic_do) [minimum width=3cm, minimum height=0.4cm, shift={(-1.9, 0.4)}] {};
     \node (baseline_do) [minimum width=3cm, minimum height=0.4cm, shift={(-2, 0.5)}]
     {
         baseline.do
     };
 
 
-
-    \node (regression_on_indicators_dta) [shift={(3.5, 3.5)}]
-    {
-        regression\_on\_indicators.dta
-    };
-
-
-    \node (first_stage_estimation_newdata_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.9, -2.9)}] {};
-    \node (first_stage_estimation_rmconj_addindic_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.8, -2.8)}] {};
     \node (first_stage_estimation_rmconj_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.7, -2.7)}] {};
-    \node (first_stage_estimation_addindic_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.6, -2.6)}] {};
     \node (first_stage_estimation_baseline_dta) [minimum width=5.2cm, minimum height=0.4cm, shift={(3.5, -2.5)}]
     {
         first\_stage\_estimation\_baseline.dta
     };
 
-    \node (table2_first_stage_est_tex) [shift={(9, -2.5)}]
+    \node (table_first_stage_est_tex) [shift={(9, -2.5)}]
     {
-        table2\_first\_stage\_est.tex
+        table\_first\_stage\_est.tex
     };
-    \node (table2_first_stage_est_do) [fill=blue!15, shift={(9, -1)}]
+    \node (table_first_stage_est_do) [fill=blue!15, shift={(9, -1)}]
     {
-        table2\_first\_stage\_est.do
-    };
-    \node (table1_reg_on_indicators_do) [fill=blue!15, shift={(9, 2)}]
-    {
-        table1\_reg\_on\_indicators.do
-    };
-    \node (table1_reg_on_indicators_tex) [shift={(9, 3.5)}]
-    {
-        table1\_reg\_on\_indicators.tex
+        table\_first\_stage\_est.do
     };
 
     \node (research_paper_tex) [fill=blue!15, shift={(13, -1)}]
@@ -111,20 +83,14 @@
     \draw[->, brown, thick] (geography_do) to (geography_json);
 
     \draw[->, orange, thick] (first_stage_estimation_baseline_dta) to (first_stage_estimation_do);
-    \draw[->, orange, thick] (first_stage_estimation_baseline_dta.west) to (newdata_do.east);
     \draw[->, orange, thick] (first_stage_estimation_baseline_dta.west) to (geography_do.east);
+    \draw[->, orange, thick] (first_stage_estimation_baseline_dta.west) to (baseline_do.east);
     \draw[->, orange, thick] (first_stage_estimation_baseline_dta) to (ajrcomment_all_dta.355);
-    \draw[->, orange, thick] (regression_on_indicators_dta) to (regression_on_indicators_do);
-    \draw[->, orange, thick] (regression_on_indicators_dta) to (ajrcomment_all_dta.5);
-
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (regression_on_indicators_dta);
-    \draw[->, teal, thick] (table1_reg_on_indicators_tex) to (table1_reg_on_indicators_do);
-    \draw[->, teal, thick] (table2_first_stage_est_tex) to (6.35, -2.5);
-    \draw[->, teal, thick] (table2_first_stage_est_tex) to (table2_first_stage_est_do);
+    \draw[->, teal, thick] (table_first_stage_est_tex) to (6.35, -2.5);
+    \draw[->, teal, thick] (table_first_stage_est_tex) to (table_first_stage_est_do);
 
     \draw[->, red, thick] (research_paper_pdf) to (research_paper_tex.north);
-    \draw[->, red, thick] (research_paper_pdf) to (table1_reg_on_indicators_tex.east);
-    \draw[->, red, thick] (research_paper_pdf) .. controls (11, -1) .. (table2_first_stage_est_tex.8);
+    \draw[->, red, thick] (research_paper_pdf) .. controls (11, -1) .. (table_first_stage_est_tex.8);
 \end{tikzpicture}
 
 \end{document}

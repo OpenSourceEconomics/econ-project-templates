@@ -55,8 +55,8 @@ row.names(results) <- c(
 for (i in 1:7) {
 
     # Load data
-    data <- read.table(
-        file = paste(PATH_OUT_DATA, "ajrcomment_all.txt", sep="/"),
+    data <- read.csv(
+        file = paste(PATH_OUT_DATA, "ajrcomment_all.csv", sep="/"),
         header = TRUE
     )
 
@@ -135,11 +135,11 @@ for (i in 1:7) {
 }
 
 # Save data to disk.
-write.table(
+write.csv(
     results,
     file = paste(
         PATH_OUT_ANALYSIS,
-        paste("first_stage_estimation_", model_name, ".txt", sep=""),
+        paste("first_stage_estimation_", model_name, ".csv", sep=""),
         sep = "/"
     ),
     col.names = TRUE
