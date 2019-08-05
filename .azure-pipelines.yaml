@@ -71,10 +71,11 @@ jobs:
 
   - bash: |
       brew install caskroom/cask
-      brew cask install basictex
+      brew cask install mactex-no-gui
     displayName: Install Latex.
 
-  - bash: pdflatex
+  - bash: echo $PATH
+    displayName: Look at path environment.
 
   - bash: |
       source activate econ-project-templates
