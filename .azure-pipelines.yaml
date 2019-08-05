@@ -69,8 +69,10 @@ jobs:
 
   - bash: |
       echo "##vso[task.prependpath]/usr/local/texlive/2019/bin"
-      echo $PATH
     displayName: Add Latex to PATH.
+
+  - bash: echo $PATH
+    displayName: Is it on PATH?
 
   - bash: |
       source activate econ-project-templates
