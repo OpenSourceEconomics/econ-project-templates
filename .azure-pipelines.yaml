@@ -67,7 +67,9 @@ jobs:
       brew cask install mactex-no-gui
     displayName: Install Latex.
 
-  - bash: echo "##vso[task.prependpath]/usr/local/texlive/2019"
+  - bash: |
+      echo "##vso[task.prependpath]/usr/local/texlive/2019/bin"
+      echo $PATH
     displayName: Add Latex to PATH.
 
   - bash: |
