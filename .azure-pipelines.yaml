@@ -71,9 +71,11 @@ jobs:
 
   - bash: |
       brew install caskroom/cask
-      brew cask install mactex-no-gui
+      brew cask install basictex
     displayName: Install Latex.
 
+  - bash: which pdflatex
+  
   - bash: |
       source activate econ-project-templates
       pytest
