@@ -43,7 +43,7 @@ jobs:
 - job:
   displayName: MacOS
   pool:
-    vmImage: "macOS-10.13"
+    vmImage: "macOS-latest"
 
   steps:
   - bash: echo "##vso[task.prependpath]$CONDA/bin"
