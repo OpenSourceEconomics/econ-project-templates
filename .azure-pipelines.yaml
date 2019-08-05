@@ -74,8 +74,8 @@ jobs:
       brew cask install basictex
     displayName: Install Latex.
 
-  - bash: which pdflatex
-  
+  - bash: pdflatex
+
   - bash: |
       source activate econ-project-templates
       pytest
