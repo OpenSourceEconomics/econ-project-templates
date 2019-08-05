@@ -73,7 +73,7 @@ jobs:
 
   - bash: |
       echo $PATH
-      pdflatex
+      ls -l/usr/local
     displayName: Is it on PATH?
 
   - bash: |
