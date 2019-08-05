@@ -71,7 +71,9 @@ jobs:
       echo "##vso[task.prependpath]/usr/local/texlive/2019/bin"
     displayName: Add Latex to PATH.
 
-  - bash: echo $PATH
+  - bash: |
+      echo $PATH
+      pdflatex
     displayName: Is it on PATH?
 
   - bash: |
