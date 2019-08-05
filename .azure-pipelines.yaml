@@ -67,7 +67,7 @@ jobs:
       brew cask install basictex
     displayName: Install Latex.
 
-    - bash: |
+  - bash: |
       echo "##vso[task.prependpath]/usr/local/texlive/2019/bin/x86_64-darwin"
     displayName: Add Latex to PATH.
 
