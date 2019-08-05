@@ -25,6 +25,7 @@ jobs:
     displayName: Configure git.
 
   - bash: |
+      export DEBIAN_FRONTEND=noninteractive
       sudo apt-get install texlive-base
     displayName: Install Latex.
 
