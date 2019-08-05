@@ -39,6 +39,21 @@ jobs:
     vmImage: "macOS-latest"
 
   steps:
+
+  - bash: |
+      echo "##vso[task.prependpath]/usr/local/texlive/2019basic/bin/x86_64-darwin"
+    displayName: Add Latex to PATH.
+
+  - bash: |
+      echo $PATH
+      ls -l /usr/local
+      ls -l /usr/local/texlive/
+      ls -l /usr/local/texlive/2019basic
+      ls -l /usr/local/texlive/2019basic/bin/x86_64-darwin
+    displayName: Is it on PATH?
+
+  - bash: pdflatex
+
   - bash: echo "##vso[task.prependpath]$CONDA/bin"
     displayName: Add conda to PATH.
 
@@ -66,18 +81,6 @@ jobs:
       brew install caskroom/cask
       brew cask install basictex
     displayName: Install Latex.
-
-  - bash: |
-      echo "##vso[task.prependpath]/usr/local/texlive/2019basic/bin/x86_64-darwin"
-    displayName: Add Latex to PATH.
-
-  - bash: |
-      echo $PATH
-      ls -l /usr/local
-      ls -l /usr/local/texlive/
-      ls -l /usr/local/texlive/2019basic
-      ls -l /usr/local/texlive/2019basic/bin
-    displayName: Is it on PATH?
 
   - bash: |
       source activate econ-project-templates
