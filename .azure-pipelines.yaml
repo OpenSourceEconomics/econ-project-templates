@@ -65,11 +65,11 @@ jobs:
 
   - bash: |
       brew install caskroom/cask
-      brew cask install basictex
+      brew cask install maclatex-no-gui
     displayName: Install Latex.
 
   - bash: |
-      echo "##vso[task.prependpath]/usr/local/texlive/2019basic/bin/x86_64-darwin"
+      echo "##vso[task.prependpath]/usr/local/texlive/2019/bin/x86_64-darwin"
     displayName: Add Latex to PATH.
 
   - bash: |
