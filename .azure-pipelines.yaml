@@ -25,7 +25,7 @@ jobs:
     displayName: Configure git.
 
   - bash: |
-      sudo DEBIAN_FRONTEND=noninteractive apt-get -y install texlive-latex-extra
+      sudo DEBIAN_FRONTEND=noninteractive apt-get -y install texlive-latex-extra texlive-bibtex-extra
     displayName: Install Latex.
 
   - bash: |
