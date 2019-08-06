@@ -67,5 +67,6 @@ ___*
 .env/installed_conda_pkgs
 .env/installed_pip_pkgs
 !.readthedocs.yml
-
 .env/installed_spec.json
+!docs/bld/python_example
+!docs/bld/stata_example
