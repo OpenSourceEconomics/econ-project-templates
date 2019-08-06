@@ -3,6 +3,7 @@
 ****************
 Pre-Commit Hooks
 ****************
+
 Pre-commit hooks are checks and syntax formatters that run upon every commit. If one of the hooks fails, the commit is aborted and you have to commit again after you resolved the issues raised by the hooks. Pre-commit hooks are defined in the *.pre-commit-config.yaml*. If you opt for the basic pre-commits, the following checks will be installed into your project:
 
   - `reorder-python-imports <https://github.com/asottile/reorder_python_imports>`_: Reorders your python imports according to PEP8 guidelines.
@@ -26,4 +27,3 @@ If you additionally opt for intrusive pre-commit hooks, then python syntax linte
       $ git commit -am <your commit message> --no-verify
 
 For more advanced usages of pre-commit please consult its `website <https://github.com/pre-commit/pre-commit-hooks>`_.
-

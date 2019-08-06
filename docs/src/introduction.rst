@@ -1,8 +1,8 @@
 .. _introduction:
 
-************
-Introduction
-************
+********************************
+Introduction to the example code
+********************************
 
 An empirical or computational research project only becomes a useful building block of science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse. This code base aims to provide two stepping stones to assist you in achieving this goal:
 
@@ -33,5 +33,3 @@ It is sad if not the substance, but controversies about the replicability of res
 
 
 Exchanges such as those above are a huge waste of time and resources. Why waste? Because it is almost costless to ensure reproducibility from the beginning of a project --- much is gained by just following a handful of simple rules. They just have to be known. The earlier, the better. From my own experience, I can confirm that replication policies are enforced these days --- and that it is rather painful to ensure *ex-post* that you can follow them. The number of journals implementing replication policies is likely to grow further --- if you aim at publishing in any of them, you should seriously think about reproducibility from the beginning. And I did not even get started on research ethics...
-
-
