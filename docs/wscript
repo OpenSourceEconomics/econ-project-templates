@@ -62,7 +62,7 @@ def options(opt):
 def configure(ctx):
     ctx.env.PYTHONPATH = os.getcwd()
     ctx.env.PDFLATEXFLAGS = [
-        # "-shell-escape",
+        "-shell-escape",
         "-halt-on-error"
     ]
     ctx.load("biber")
