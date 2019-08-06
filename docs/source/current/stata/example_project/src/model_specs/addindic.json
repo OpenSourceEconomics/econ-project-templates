@@ -1,0 +1,8 @@
+{
+    "DEPVAR": "loggdp",
+    "INSTD": "risk",
+    "INSTS": "logmort0",
+    "KEEP_CONDITION": "",
+    "DUMMIES": "campaign slave",
+    "TITLE": "Panel C: Original data, adding campaign and laborer indicators"
+}

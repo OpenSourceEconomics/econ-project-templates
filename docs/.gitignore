@@ -1,0 +1,7 @@
+.*
+!.gitignore
+!.mywaflib
+*.sublime-*
+bld
+.lock-*
+__pycache__

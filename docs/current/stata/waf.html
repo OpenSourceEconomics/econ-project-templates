@@ -1,0 +1,715 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction to Waf &mdash; Tutorial: Templates for reproducible research projects</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Organisation" href="organisation.html" />
+    <link rel="prev" title="Design rationale" href="rationale.html" />
+ 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24904064-4', 'hmgaudecker.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Templates for reproducible research projects
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rationale.html">Design rationale</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to Waf</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-configure-phase">The configure phase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specifying-dependencies-and-the-build-phase">Specifying dependencies and the build phase</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#distributing-the-dependencies-by-step-of-the-analysis">Distributing the dependencies by step of the analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-data-management-step">The “data management” step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-analysis-step">The “analysis” step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-final-step">The “final” step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-paper-step">The “paper” step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#invoking-the-build">Invoking the build</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-installation-phase">The installation phase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-closer-look-at-the-build-phase">A closer look at the build phase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#concluding-notes-on-waf">Concluding notes on Waf</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="organisation.html">Organisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="program_environments.html">Project-specific Program Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Answered Questions / Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Templates for reproducible research projects</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction to Waf</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/waf.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction-to-waf">
+<span id="waf-intro"></span><h1>Introduction to Waf<a class="headerlink" href="#introduction-to-waf" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://waf.io">Waf</a> is our tool of choice to automate the dependency tracking via a DAG (directed acyclic graph) structure. Written in Python and originally designed to build software, it directly extends to our purposes. You find the program in the root folder of the project template (the file <em>waf.py</em> and the hidden folder <em>.mywaflib</em>). The settings for a particular project are controlled via files called <em>wscript</em>, which are kept in the root directory (required) and usually in the directories close to the tasks that need to be performed.</p>
+<p>There are three phases to building a project:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>configure</strong>: Set the project and build directories, find required programs on a particular machine</li>
+<li><strong>build</strong>: Build the targets (intermediate and final: cleaned datasets, graphs, tables, paper, presentation, documentation)</li>
+<li><strong>install</strong>: Copy a selection of targets to places where you find them more easily.</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Additionally, there are two phases for cleanup which are useful to enforce a rebuild of the project:</dt>
+<dd><ul class="first last simple">
+<li><strong>clean</strong>: Cleans up project so that all tasks will be performed anew upon the next build.</li>
+<li><strong>distclean</strong>: Cleans up more thoroughly (by deleting the build directory), requiring configure again.</li>
+</ul>
+</dd>
+</dl>
+<p>The project directory is always the root directory of the project, the build directory is usually called <em>bld</em>. This is how we implement it in the main <em>wscript</em> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+
+<span class="c1"># The project root directory and the build directory.</span>
+<span class="n">top</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+<span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;bld&quot;</span>
+
+
+</pre></div>
+</div>
+<p>We will have more to say about the directory structure in the <a class="reference internal" href="organisation.html#organisation"><span class="std std-ref">Organisation</span></a> section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed – everything in it will be reconstructed automatically the next time Waf is run.</p>
+<div class="section" id="the-configure-phase">
+<h2>The configure phase<a class="headerlink" href="#the-configure-phase" title="Permalink to this headline">¶</a></h2>
+<p>The first time you fire up a project you need to invoke Waf by changing to the project root directory in a shell and typing</p>
+<div class="code console highlight-default notranslate"><div class="highlight"><pre><span></span>$ python waf.py configure
+</pre></div>
+</div>
+<p>You only need to do this once, or whenever the location of the programs that your project requires changes (say, you installed a new version of LaTeX), you performed a distclean, or manually removed the entire build directory. Because of the <code class="docutils literal notranslate"><span class="pre">configure</span></code> argument Waf will call the function by the same name, which lives in the main <em>wscript</em> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PYTHONPATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="c1"># Disable on a machine where security risks could arise</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PDFLATEXFLAGS</span> <span class="o">=</span> <span class="s2">&quot;-shell-escape&quot;</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;run_do_script&quot;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;write_project_headers&quot;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">find_program</span><span class="p">(</span><span class="s2">&quot;dot&quot;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;biber&quot;</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+<p>Let us dissect this function line-by-line:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">ctx.env.PYTHONPATH</span> <span class="pre">=</span> <span class="pre">os.getcwd()</span></code> sets the PYTHONPATH environmental variable to the project root folder so we can use hierarchical imports in our Python scripts</li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx.load('why')</span></code> loads a tool that helps in debugging dependencies, very useful in complicated situations.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx.load('biber')</span></code> loads a <a class="reference external" href="http://biblatex-biber.sourceforge.net/">modern replacement</a> for BibTeX and the entire LaTeX machinery with it.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx.load('run_py_script')</span></code> loads a little tool for running Python scripts. Similar tools exist for Matlab, Stata, R, and Perl. More can be easily created.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx.load('sphinx_build')</span></code> loads the tool required to build the project’s documentation.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx.load('write_project_headers')</span></code> loads a tool for handling project paths. We postpone the discussion until the <a class="reference internal" href="organisation.html#project-paths"><span class="std std-ref">section</span></a> by the same name.</li>
+</ul>
+</div></blockquote>
+<p>Waf now knows everything about your computer system that it needs to know in order to perform the tasks you ask it to perform. Of course, other projects may require different tools, but you load them in the same way.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">ctx</span></code> argument that is passed to all functions (configure, build, …) in Waf is short for “context”. It holds all kinds of methods and variables relevant for executing the task (configure, build, …) at hand. See the Waf documentation (<a class="reference external" href="http://docs.waf.googlecode.com/git/book_17/single.html">here</a> or <a class="reference external" href="http://docs.waf.googlecode.com/git/apidocs_17/index.html#">here</a>).</p>
+</div>
+</div>
+<div class="section" id="specifying-dependencies-and-the-build-phase">
+<h2>Specifying dependencies and the build phase<a class="headerlink" href="#specifying-dependencies-and-the-build-phase" title="Permalink to this headline">¶</a></h2>
+<p>Let us go step-by-step through the entire dependency graph of the project from the section on <a class="reference internal" href="rationale.html#dag-s"><span class="std std-ref">DAG’s</span></a>, which is reproduced here for convenience:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/stata_model_dependencies.png"><img alt="_images/stata_model_dependencies.png" src="_images/stata_model_dependencies.png" style="width: 50em;" /></a>
+</div>
+<p>Remember the colors of the edges follow the step of the analysis; we will split  our description along the same lines. First, we need to show how to keep the Waf code in separate directories (else it would become quickly unmanageable).</p>
+<div class="section" id="distributing-the-dependencies-by-step-of-the-analysis">
+<h3>Distributing the dependencies by step of the analysis<a class="headerlink" href="#distributing-the-dependencies-by-step-of-the-analysis" title="Permalink to this headline">¶</a></h3>
+<p>Waf makes it easy to proceed in a step-wise manner by letting the user distribute <em>wscript</em> files across a directory hierarchy. This is an excerpt from the <code class="docutils literal notranslate"><span class="pre">build</span></code> function in the main <em>wscript</em> file:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When this function is called, it will descend into a subfolder <em>src</em>, look for a file called <em>wscript</em> and invoke the <code class="docutils literal notranslate"><span class="pre">build</span></code> function defined therein. If any of the three does not exist, it will fail. In the file <em>src/wscript</em>, you will find (among other calls), the following statements:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s1">&#39;data_management&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s1">&#39;analysis&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s1">&#39;final&#39;</span><span class="p">)</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">recurse</span><span class="p">(</span><span class="s1">&#39;paper&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The same comments as before apply to what the <code class="docutils literal notranslate"><span class="pre">ctx.recurse</span></code> calls do. Hence you can specify the dependencies separately for each step of the analysis.</p>
+</div>
+<div class="section" id="the-data-management-step">
+<h3>The “data management” step<a class="headerlink" href="#the-data-management-step" title="Permalink to this headline">¶</a></h3>
+<p>The dependency structure at this step of the analysis is particularly simple, as we have one source and one target:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/schelling_dependencies_data_mgmt.png"><img alt="_images/schelling_dependencies_data_mgmt.png" src="_images/schelling_dependencies_data_mgmt.png" style="width: 30em;" /></a>
+</div>
+<p>This is the entire content of the file <em>src/data_management/wscript</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#! python</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+
+    <span class="n">ctx</span><span class="p">(</span>
+        <span class="n">features</span><span class="o">=</span><span class="s1">&#39;run_do_script&#39;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="s1">&#39;add_variables.do&#39;</span><span class="p">,</span>
+        <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;add_variables.log&#39;</span><span class="p">),</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s1">&#39;ajrcomment_all.dta&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">deps</span><span class="o">=</span><span class="p">[</span><span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;IN_DATA&#39;</span><span class="p">,</span> <span class="s1">&#39;ajrcomment.dta&#39;</span><span class="p">)]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ctx()</span></code> call is a shortcut for creating a <strong>task generator</strong>. We will be more specific about that below in the section <a class="reference internal" href="#build-phase"><span class="std std-ref">A closer look at the build phase</span></a>. Let us look at the lines one-by-one again:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">features='run_py_script'</span></code> tells Waf what <strong>action</strong> it needs to perform. In this case, it should run a Python script.</li>
+<li><code class="docutils literal notranslate"><span class="pre">source='get_simulation_draws.py'</span></code> tells Waf that it should perform the action on the file <em>get_simulation_draws.py</em> in the current directory.</li>
+<li><code class="docutils literal notranslate"><span class="pre">target=ctx.path_to(ctx,</span> <span class="pre">'OUT_DATA',</span> <span class="pre">'initial_locations.csv')</span></code> tells Waf that the specified action will produce a file called <em>initial_locations.csv</em> in a directory that is determined in the <code class="docutils literal notranslate"><span class="pre">ctx.path_to()</span></code>. We will examine this in detail in the <a class="reference internal" href="organisation.html#organisation"><span class="std std-ref">Organisation</span></a> section, for now we abstract from it beyond noting that the <code class="docutils literal notranslate"><span class="pre">OUT_DATA</span></code> keyword refers to the directory where output data are stored.</li>
+<li><code class="docutils literal notranslate"><span class="pre">name='get_simulation_draws'</span></code> gives this task generator a name, which can be useful if we only want to produce a subset of all targets.</li>
+</ul>
+</div></blockquote>
+<p>And this is it! The rest are slight variations on this procedure and straightforward generalisations thereof.</p>
+</div>
+<div class="section" id="the-analysis-step">
+<span id="waf-analysis"></span><h3>The “analysis” step<a class="headerlink" href="#the-analysis-step" title="Permalink to this headline">¶</a></h3>
+<p>We concentrate our discussion on the top part of the graph, i.e. the baseline model. The lower part is the exact mirror image. We have the following structure:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/schelling_dependencies_main.png"><img alt="_images/schelling_dependencies_main.png" src="_images/schelling_dependencies_main.png" style="width: 40em;" /></a>
+</div>
+<p>Just a reminder on the purpose of each of these files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>schelling_baseline.pickle</em> is the file that contains the locations of agents after each round</li>
+<li><em>initial_locations.csv</em> is the file we produced before</li>
+<li><em>schelling.py</em> is the file with the main code to run the analysis</li>
+<li><em>agent.py</em> contains a class <code class="docutils literal notranslate"><span class="pre">Agent</span></code> that specifies how a Schelling-agent behaves in given circumstances (i.e. move or stay)</li>
+<li><em>baseline.json</em> contains the specification for the baseline model.</li>
+</ul>
+</div></blockquote>
+<p>In addition to this, we keep a <em>log-file</em>, which is omitted from the graph for legibility. We specify this dependency structure in the file <em>src/analysis/wscript</em>, which has the following contents:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#! python</span>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">DIFFERENT DATASET SPECIFICATIONS FOR REGRESSION ON INDICATOR VARIABLES:</span>
+<span class="sd">    &#39;EST&#39;  = OLS estimates from regressing main variables (mortality, expropr. risk, GDP) on</span>
+<span class="sd">             campaign and laborer indicators</span>
+<span class="sd">    &#39;CORR&#39; = Correlation of expropriation risk and GDP with mortality (with and without indicators)</span>
+
+<span class="sd">DIFFERENT DATASET SPECIFICATIONS FOR FIRST STAGE AND IV ESTIMATION:</span>
+<span class="sd">    1 = PANEL_A: Original mortality data (64 countries)</span>
+<span class="sd">    2 = PANEL_B: Only countries with non-conjectured mortality rates (rest: 28 countries)</span>
+<span class="sd">    3 = PANEL_C: Original data (64 countries) with campaign and laborer indicators</span>
+<span class="sd">    4 = PANEL_D: Only countries with non-conjectured mortality rates, campaign + laborer indicators</span>
+<span class="sd">    5 = PANEL_E: As Panel D with new data provided by AJR</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">out_data</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">out_models</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_MODEL_SPECS&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">out_analysis</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_ANALYSIS&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="c1"># Illustrate simple use of run_do_script for the data that underlies table 1.</span>
+    <span class="n">ctx</span><span class="p">(</span>
+        <span class="n">features</span><span class="o">=</span><span class="s1">&#39;run_do_script&#39;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="s1">&#39;regression_on_indicators.do&#39;</span><span class="p">,</span>
+        <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;regression_on_indicators.log&#39;</span><span class="p">),</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;regression_on_indicators_est.dta&#39;</span><span class="p">),</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;regression_on_indicators_corr.dta&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">deps</span><span class="o">=</span><span class="p">[</span><span class="n">out_data</span><span class="p">(</span><span class="s1">&#39;ajrcomment_all.dta&#39;</span><span class="p">)]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># More complicated use: Read in the model specifications and run these things</span>
+    <span class="c1"># in parallel.</span>
+    <span class="n">models</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;baseline&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;rmconj&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;addindic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;rmconj_addindic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;newdata&#39;</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">:</span>
+
+            <span class="c1"># Make a copy of the source files so that Stata can run in parallel</span>
+            <span class="c1"># (We have to rely on parsing the automatic log-file for error checks,</span>
+            <span class="c1"># these must have different names)</span>
+            <span class="n">ctx</span><span class="p">(</span>
+                <span class="n">features</span><span class="o">=</span><span class="s1">&#39;subst&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stage_estimation.do&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stage</span><span class="p">),</span>
+                <span class="n">target</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stage_estimation_</span><span class="si">{}</span><span class="s1">.do&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Now run the do-file that was just copied over.</span>
+            <span class="n">ctx</span><span class="p">(</span>
+                <span class="n">features</span><span class="o">=</span><span class="s1">&#39;run_do_script&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stage_estimation_</span><span class="si">{}</span><span class="s1">.do&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stage_estimation_</span><span class="si">{}</span><span class="s1">.log&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">m</span><span class="p">)),</span>
+                    <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stage_estimation_</span><span class="si">{}</span><span class="s1">.dta&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
+                <span class="p">],</span>
+                <span class="n">deps</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">out_data</span><span class="p">(</span><span class="s1">&#39;ajrcomment_all.dta&#39;</span><span class="p">),</span>
+                    <span class="n">out_models</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.do&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)),</span>
+                    <span class="n">out_models</span><span class="p">(</span><span class="s1">&#39;geography.do&#39;</span><span class="p">)</span>
+                <span class="p">],</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_stage_estimation_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="n">append</span><span class="o">=</span><span class="n">m</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p>Some points to note about this:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">The loop over both models allows us to specify the code in one go; we focus on the case where the variable <code class="docutils literal notranslate"><span class="pre">model</span></code> takes on the value <code class="docutils literal notranslate"><span class="pre">'baseline'</span></code>.</p>
+</li>
+<li><p class="first">Note the difference between the <code class="docutils literal notranslate"><span class="pre">source</span></code> and the <code class="docutils literal notranslate"><span class="pre">deps</span></code>: Even though the dependency graph above neglects the difference, Waf needs to know on which file it needs to run the task. This is done via the <code class="docutils literal notranslate"><span class="pre">source</span></code> keyword. The other files will only be used for setting the dependencies.</p>
+</li>
+<li><p class="first">The first item in the list of <code class="docutils literal notranslate"><span class="pre">deps</span></code> is <strong>exactly</strong> the same as the target in the data management step.</p>
+</li>
+<li><p class="first">Don’t worry about the directories in the <code class="docutils literal notranslate"><span class="pre">ctx.path_to()</span></code> calls until the section “<a class="reference internal" href="organisation.html#organisation"><span class="std std-ref">Organisation</span></a>” below</p>
+</li>
+<li><p class="first">We keep a log-file called <em>schelling_baseline.log</em>, which we left out of the dependency tree.</p>
+</li>
+<li><p class="first">The <code class="docutils literal notranslate"><span class="pre">append</span></code> keyword allows us to pass arguments to the Python script. In particular, <em>schelling.py</em> will be invoked as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">project</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">analysis</span><span class="o">/</span><span class="n">schelling</span><span class="o">.</span><span class="n">py</span> <span class="n">baseline</span>
+</pre></div>
+</div>
+<p>In <em>schelling.py</em>, the model name is then read in using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>and we can load the correct model specification (i.e., <em>baseline.json</em>). This works similarly in other languages; see the respective project template as an example.</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="the-final-step">
+<h3>The “final” step<a class="headerlink" href="#the-final-step" title="Permalink to this headline">¶</a></h3>
+<p>Again, we concentrate on the baseline model.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/schelling_dependencies_final.png"><img alt="_images/schelling_dependencies_final.png" src="_images/schelling_dependencies_final.png" style="width: 40em;" /></a>
+</div>
+<p>This step is shown here mostly for completeness, there is nothing really new in the <em>wscript</em> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#! python</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">out_data</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">out_analysis</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_ANALYSIS&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">out_models</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_MODEL_SPECS&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">out_figures</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_FIGURES&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">out_tables</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_TABLES&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="c1"># Figures 2a, 2b.</span>
+    <span class="n">ctx</span><span class="p">(</span>
+        <span class="n">features</span><span class="o">=</span><span class="s1">&#39;run_do_script&#39;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="s1">&#39;figure1_mortality.do&#39;</span><span class="p">,</span>
+        <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;figure1_mortality.log&#39;</span><span class="p">),</span>
+            <span class="n">out_figures</span><span class="p">(</span><span class="s1">&#39;risk_mort.eps&#39;</span><span class="p">),</span>
+            <span class="n">out_figures</span><span class="p">(</span><span class="s1">&#39;gdp_mort.eps&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">deps</span><span class="o">=</span><span class="p">[</span><span class="n">out_data</span><span class="p">(</span><span class="s1">&#39;ajrcomment_all.dta&#39;</span><span class="p">)]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Table 1.</span>
+    <span class="n">ctx</span><span class="p">(</span>
+        <span class="n">features</span><span class="o">=</span><span class="s1">&#39;run_do_script&#39;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="s1">&#39;table1_reg_on_indicators.do&#39;</span><span class="p">,</span>
+        <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;table1_reg_on_indicators.log&#39;</span><span class="p">),</span>
+            <span class="n">out_tables</span><span class="p">(</span><span class="s1">&#39;table1_reg_on_indicators.tex&#39;</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">deps</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;regression_on_indicators_est.dta&#39;</span><span class="p">),</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;regression_on_indicators_corr.dta&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">models</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;baseline&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;rmconj&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;addindic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;rmconj_addindic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;newdata&#39;</span>
+    <span class="p">]</span>
+
+    <span class="n">deps</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;first_stage&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;second_stage&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">stage</span><span class="p">,</span> <span class="n">deps_list</span> <span class="ow">in</span> <span class="n">deps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">deps_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_models</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.do&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)))</span>
+            <span class="n">deps_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_estimation_</span><span class="si">{}</span><span class="s1">.dta&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">m</span><span class="p">)))</span>
+
+    <span class="c1"># Table 2.</span>
+    <span class="n">ctx</span><span class="p">(</span>
+        <span class="n">features</span><span class="o">=</span><span class="s1">&#39;run_do_script&#39;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="s1">&#39;table2_first_stage_est.do&#39;</span><span class="p">,</span>
+        <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;table2_first_stage_est.log&#39;</span><span class="p">),</span>
+            <span class="n">out_tables</span><span class="p">(</span><span class="s1">&#39;table2_first_stage_est.tex&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">deps</span><span class="o">=</span><span class="n">deps</span><span class="p">[</span><span class="s1">&#39;first_stage&#39;</span><span class="p">],</span>
+        <span class="n">append</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">ctx</span><span class="p">(</span>
+        <span class="n">features</span><span class="o">=</span><span class="s1">&#39;run_do_script&#39;</span><span class="p">,</span>
+        <span class="n">source</span><span class="o">=</span><span class="s1">&#39;table3_second_stage_est.do&#39;</span><span class="p">,</span>
+        <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">out_analysis</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;table3_second_stage_est.log&#39;</span><span class="p">),</span>
+            <span class="n">out_tables</span><span class="p">(</span><span class="s1">&#39;table3_second_stage_est.tex&#39;</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">deps</span><span class="o">=</span><span class="n">deps</span><span class="p">[</span><span class="s1">&#39;second_stage&#39;</span><span class="p">],</span>
+        <span class="n">append</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">src.final.project_dependency_graph</span> <span class="k">import</span><span class="p">(</span>
+        <span class="n">make_project_dependency_graph</span>
+    <span class="p">)</span>
+
+    <span class="c1">#ctx.add_post_fun(make_project_dependency_graph)</span>
+</pre></div>
+</div>
+<p>Everything works just as before: We set <em>plot_locations.py</em> as the source, specify additional dependencies (among them the relevant target from the <strong>analysis</strong> step), and append the model name on the command line.</p>
+</div>
+<div class="section" id="the-paper-step">
+<h3>The “paper” step<a class="headerlink" href="#the-paper-step" title="Permalink to this headline">¶</a></h3>
+<p>The pdf with the final “paper” depends on two additional files that were not shown in the full dependency graph for legibility reasons, a reference bibliography, and a LaTeX-file with the formula for the agents’ decision rule (specified in a separate file so it can be re-used in the presentation, which is omitted from the graph as well):</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/schelling_dependencies_paper.png"><img alt="_images/schelling_dependencies_paper.png" src="_images/schelling_dependencies_paper.png" style="width: 40em;" /></a>
+</div>
+<p>The corresponding file <em>src/paper/wscript</em> is particularly simple:</p>
+<p>Note that we only request Waf to execute the <em>tex</em> machinery for the source file (<em>research_paper.tex</em>).</p>
+<p>The line <code class="docutils literal notranslate"><span class="pre">prompt=1</span></code> only tells Waf to invoke pdflatex in such a way that the log-file is printed to the screen. You can shut this off (it is often very long and obfuscates the remaining output from Waf) by setting it to 0.</p>
+<p>So how does Waf know about the additional four dependencies? The <em>tex</em> tool is smart enough to find out by itself! In particular, it parses the contents of <em>research_paper.tex</em> and looks for lines such as:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span><span class="k">\input</span><span class="nb">{</span>formulas/decision<span class="nb">_</span>rule<span class="nb">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="invoking-the-build">
+<h3>Invoking the build<a class="headerlink" href="#invoking-the-build" title="Permalink to this headline">¶</a></h3>
+<p>You start building the project by typing</p>
+<div class="code console highlight-default notranslate"><div class="highlight"><pre><span></span>$ python waf.py build
+</pre></div>
+</div>
+<p>at a command prompt. Because this is the most frequent command to execute, you can leave out the <code class="docutils literal notranslate"><span class="pre">build</span></code> qualifier and use</p>
+<div class="code console highlight-default notranslate"><div class="highlight"><pre><span></span>$ python waf.py
+</pre></div>
+</div>
+<p>as a shortcut; it has exactly the same effect.</p>
+</div>
+</div>
+<div class="section" id="the-installation-phase">
+<h2>The installation phase<a class="headerlink" href="#the-installation-phase" title="Permalink to this headline">¶</a></h2>
+<p>Some targets you want to have easily accessible. This is particularly true for the paper and the presentation. Instead of having to plow through lots of byproducts of the LaTeX compilation in <em>bld/src/paper</em>, it would be nice to have the two pdf’s in the project root folder.</p>
+<p>In order to achieve this, the following code is found in <em>src/paper/wscript</em> (still in the loop where <code class="docutils literal notranslate"><span class="pre">s</span></code> takes on the values <code class="docutils literal notranslate"><span class="pre">'research_paper'</span></code> or <code class="docutils literal notranslate"><span class="pre">'research_pres_30min'</span></code>):</p>
+<p>This installation of targets can be triggered by typing either of the following commands in a shell</p>
+<div class="code console highlight-default notranslate"><div class="highlight"><pre><span></span>$ python waf.py build install
+python waf.py install
+</pre></div>
+</div>
+<p>Conversely, you can remove all installed targets by</p>
+<div class="code console highlight-default notranslate"><div class="highlight"><pre><span></span>$ python waf.py uninstall
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-closer-look-at-the-build-phase">
+<span id="build-phase"></span><h2>A closer look at the build phase<a class="headerlink" href="#a-closer-look-at-the-build-phase" title="Permalink to this headline">¶</a></h2>
+<p>The following figure shows a little bit of how Waf works internally during the build phase:</p>
+<blockquote>
+<div><div class="figure" id="id3">
+<a class="reference internal image-reference" href="_images/waf_build_phase.png"><img alt="_images/waf_build_phase.png" src="_images/waf_build_phase.png" style="width: 30em;" /></a>
+<p class="caption"><span class="caption-text"><em>The build phase of a project, reproduced from</em> Nagy (2013), <em>section 4.1.4</em></span></p>
+</div>
+</div></blockquote>
+<p>The important part to remember is that there is a logical and temporal separation between</p>
+<blockquote>
+<div><ul class="simple">
+<li>the execution of the functions we discussed above;</li>
+<li>and Waf’s execution of the tasks.</li>
+</ul>
+</div></blockquote>
+<p>In between, it has to set the order in which it would execute the tasks and whether a target is up-to-date or not (hence the reading from and writing to an internal cache).</p>
+<p>While developing your code, errors will usually show up in the last step: The task returns an error and Waf stops. However, the errors do not have anything to do with Waf, it simply runs the code you wrote on your behalf.</p>
+<p>“Genuine” Waf errors will occur only if you made errors in writing the <em>wscript</em> files (e.g., syntax errors) or specify the dependencies in a way that is not compatible with a DAG (e.g., circular dependencies or multiple ways to build a target). A hybrid error will occur, for example, if a task did not produce one of the targets you told Waf about. Waf will stop with an error again and it lies in your best judgement of whether you misspecified things in your <em>wscript</em> file or in your research code.</p>
+<p>By default, Waf will execute tasks in parallel if your computer is sufficiently powerful and if the dependency graphs allows for it. This often leads to a major speed gain, which comes as a free lunch. However, it can be annoying during the development phase because error messages from different tasks get into each others’ way. You can force execution of a single task at a time by starting Waf with the <code class="docutils literal notranslate"><span class="pre">-j1</span></code> switch</p>
+<div class="code console highlight-default notranslate"><div class="highlight"><pre><span></span>$ python waf -j1
+</pre></div>
+</div>
+<p>Other useful options are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">-vv</span></code> or <code class="docutils literal notranslate"><span class="pre">-vvv</span></code> for making Waf’s output ever more <strong>verbose</strong> – this is helpful for diagnosing problems with what you specified in your <em>wscript</em> files. Verbose output is especially useful when combined with the following options.</li>
+<li><code class="docutils literal notranslate"><span class="pre">--zones=deps</span></code> tells you about the dependencies that Waf finds for a particular task</li>
+<li><code class="docutils literal notranslate"><span class="pre">--zones=task</span></code> tells you why a target needs to be rebuilt (i.e. which dependency changed)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="concluding-notes-on-waf">
+<span id="waf-conclusions"></span><h2>Concluding notes on Waf<a class="headerlink" href="#concluding-notes-on-waf" title="Permalink to this headline">¶</a></h2>
+<p>To conclude, Waf roughly works in the following way:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Waf reads your instructions and sets the build order.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Think of a dependency graph here.</li>
+<li>It stops when it detects a circular dependency or ambiguous ways to build a target.</li>
+<li>Both are major advantages over a <em>master-script</em>, let alone doing the dependency tracking in your mind.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Waf decides which tasks need to be executed based on the nodes’ signatures and performs the required actions.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A signature roughly is a sufficient statistic for file contents.</li>
+<li>Minimal rebuilds are a huge speed gain compared to a <em>master-script</em>.</li>
+<li>These gains are large enought to make projects break or succeed.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+<p>We have just touched upon the tip of the iceberg here; Waf has many more goodies to offer. The Waf book <a class="reference internal" href="zreferences.html#nagy17" id="id2">[Nag17]</a> is an excellent source – you just need to get used to the programmer jargon a little bit and develop a feeling for its background in building software.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="organisation.html" class="btn btn-neutral float-right" title="Organisation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rationale.html" class="btn btn-neutral" title="Design rationale" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-, Hans-Martin von Gaudecker.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<div class="footer">This page uses <a href="http://analytics.google.com/">
+Google Analytics</a> to collect statistics. You can disable it by blocking
+the JavaScript coming from www.google-analytics.com.
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+
+
+</body>
+</html>

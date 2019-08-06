@@ -1,0 +1,14 @@
+#! python
+
+
+def build(ctx):
+
+    ctx(
+        features='run_do_script',
+        source='add_variables.do',
+        target=[
+            ctx.path_to(ctx, 'OUT_DATA', 'log', 'add_variables.log'),
+            ctx.path_to(ctx, 'OUT_DATA', 'ajrcomment_all.dta')
+        ],
+        deps=[ctx.path_to(ctx, 'IN_DATA', 'ajrcomment.dta')]
+    )

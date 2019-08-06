@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Design rationale &mdash; Tutorial: Templates for reproducible research projects</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction to Waf" href="waf.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+ 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24904064-4', 'hmgaudecker.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Templates for reproducible research projects
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Design rationale</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-example">Running example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-organise-the-workflow">How to organise the workflow?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#directed-acyclic-graphs-dags">Directed Acyclic Graphs (DAGs)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="waf.html">Introduction to Waf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="organisation.html">Organisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="program_environments.html">Project-specific Program Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Answered Questions / Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Templates for reproducible research projects</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Design rationale</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/rationale.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="design-rationale">
+<span id="rationale"></span><h1>Design rationale<a class="headerlink" href="#design-rationale" title="Permalink to this headline">¶</a></h1>
+<p>The design of the project templates is guided by the following main thoughts:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><strong>Separation of logical chunks</strong> A minimal requirement for a project to scale.</li>
+<li><strong>Only execute required tasks, automatically</strong> Again required for scalability. It means that the machine needs to know what is meant by a “required task”.</li>
+<li><strong>Re-use of code and data instead of copying and pasting</strong> Else you will forget the copy &amp; paste step at some point down the road. At best, this leads to errors; at worst, to misinterpreting the results.</li>
+<li><strong>Be as language-agnostic as possible</strong> Make it easy to use the best tool for a particular task and to mix tools in a project.</li>
+<li><strong>Separation of inputs and outputs</strong> Required to find your way around in a complex project.</li>
+</ol>
+</div></blockquote>
+<p>I will not touch upon the last point until the <a class="reference internal" href="organisation.html#organisation"><span class="std std-ref">Organisation</span></a> section below. The remainder of this page introduces an example and a general concept of how to think about the first four points.</p>
+<div class="section" id="running-example">
+<h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">¶</a></h2>
+<p>To fix ideas, let’s look at the example of Schelling’s (1969, <a class="reference internal" href="zreferences.html#schelling69" id="id1">[Sch69]</a>) segregation model, as outlined <a class="reference external" href="http://quant-econ.net/py/schelling.html">here</a> in Stachurski’s and Sargent’s online course <a class="reference internal" href="zreferences.html#stachurskisargent13" id="id2">[SS13]</a>. Please look at their <a class="reference external" href="http://quant-econ.net/py/schelling.html">description</a> of the Schelling model. Say we are thinking of two variants for the moment:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Replicate the <a class="reference external" href="http://quant-econ.net/py/schelling.html#results">figures</a> from Stachurski’s and Sargent’s course.</li>
+<li>Check what happens when agents are restricted to two random moves per period; after that they have to stop regardless whether they are happy or not.</li>
+</ol>
+</div></blockquote>
+<p>For each of these variants (called <strong>models</strong> in the project template and the remainder of this document), you need to perform various steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Draw a simulated sample with initial locations (this is taken to be the same across models, partly for demonstration purposes, partly because it assures that the initial distribution is the same across both models)</li>
+<li>Run the actual simulation</li>
+<li>Visualise the results</li>
+<li>Pull everything together in a paper.</li>
+</ol>
+</div></blockquote>
+<p>It is very useful to explictly distinguish between steps 2. and 3. because computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes or 30 seconds as in this example.</p>
+</div>
+<div class="section" id="how-to-organise-the-workflow">
+<span id="workflow"></span><h2>How to organise the workflow?<a class="headerlink" href="#how-to-organise-the-workflow" title="Permalink to this headline">¶</a></h2>
+<p>A naïve way to ensure reproducibility is to have a <em>master-script</em> (do-file, m-file, …) that runs each file one after the other. One way to implement that for the above setup would be to have code for each step of the analysis and a loop over both models within each step:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/steps_only_full.png"><img alt="_images/steps_only_full.png" src="_images/steps_only_full.png" style="width: 25em;" /></a>
+</div>
+<p>You will still need to manually keep track of whether you need to run a particular step after making changes, though. Or you run everything at once, all the time. Alternatively, you may have code that runs one step after the other for each model:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/model_steps_full.png"><img alt="_images/model_steps_full.png" src="_images/model_steps_full.png" style="width: 25em;" /></a>
+</div>
+<p>The equivalent comment applies here: Either keep track of which model needs to be run after making changes manually, or run everything at once.</p>
+<p>Ideally though, you want to be even more fine-grained than this and only run individual elements. This is particularly true when your entire computations take some time. In this case, running all steps every time via the <em>master-script</em> simply is not an option. All my research projects ended up running for a long time, no matter how simple they were… The figure shows you that even in this simple example, there are now quite a few parts to remember:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/model_steps_select.png"><img alt="_images/model_steps_select.png" src="_images/model_steps_select.png" style="width: 25em;" /></a>
+</div>
+<p>This figure assumes that your data management is being done for all models at once, which is usually a good choice for me. Even with only two models, we need to remember 6 ways to start different programs and how the different tasks depend on each other. <strong>This does not scale to serious projects!</strong></p>
+</div>
+<div class="section" id="directed-acyclic-graphs-dags">
+<span id="dag-s"></span><h2>Directed Acyclic Graphs (DAGs)<a class="headerlink" href="#directed-acyclic-graphs-dags" title="Permalink to this headline">¶</a></h2>
+<p>The way to specify dependencies between data, code and tasks to perform for a computer is a directed acyclic graph. A graph is simply a set of nodes (files, in our case) and edges that connect pairs of nodes (tasks to perform). Directed means that the order of how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means that there are no directed cycles: When you traverse a graph in the direction of the arrows, there may not be a way to end up at the same node again.</p>
+<p>This is the dependency graph for the modified Schelling example from Stachurski and Sargent, as implemented in the Python branch of the project template:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/stata_model_dependencies.png"><img alt="_images/stata_model_dependencies.png" src="_images/stata_model_dependencies.png" style="width: 50em;" /></a>
+</div>
+<p>The arrows have different colors in order to distinguish the steps of the analysis, from left to right:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Blue for data management (=drawing a simulated sample, in this case)</li>
+<li>Orange for the main simulation</li>
+<li>Teal for the visualisation of results</li>
+<li>Red for compiling the pdf of the paper</li>
+</ul>
+</div></blockquote>
+<p>Bluish nodes are pure source files – they do not depend on any other file and hence none of the edges originates from any of them. In contrast, brownish nodes are targets, they are generated by the code. Some may serve as intermediate targets only – e.g. there is not much you would want to do with the raw simulated sample (<em>initial_locations.csv</em>) except for processing it further.</p>
+<p>In a first run, all targets have to be generated, of course. In later runs, a target only needs to be re-generated if one of its direct <strong>dependencies</strong> changes. E.g. when we make changes to <em>baseline.json</em>, we will need to build <em>schelling_baseline.pickle</em> and  <em>schelling_baseline.png</em> anew. Depending on whether <em>schelling_baseline.png</em> actually changes, we need to re-compile the pdf as well. We will dissect this example in more detail in the next section. The only important thing at this point is to understand the general idea.</p>
+<p>Of course this is overkill for a textbook example – we could easily keep the code closer together than this. But such a strategy does not scale to serious papers with many different specifications. As a case in point, consider the DAG for an early version of <a class="reference internal" href="zreferences.html#gaudecker14" id="id3">[vGng]</a>:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/pfefficiency.jpg"><img alt="_images/pfefficiency.jpg" src="_images/pfefficiency.jpg" style="width: 35em;" /></a>
+</div>
+<p>Do you want to keep those dependencies in your head? Or would it be useful to specify them once and for all in order to have more time for thinking about research? The next section shows you how to do that.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="waf.html" class="btn btn-neutral float-right" title="Introduction to Waf" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-, Hans-Martin von Gaudecker.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<div class="footer">This page uses <a href="http://analytics.google.com/">
+Google Analytics</a> to collect statistics. You can disable it by blocking
+the JavaScript coming from www.google-analytics.com.
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+
+
+</body>
+</html>

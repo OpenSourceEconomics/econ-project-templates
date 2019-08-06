@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Organisation &mdash; Tutorial: Templates for reproducible research projects</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting started" href="getting_started.html" />
+    <link rel="prev" title="Introduction to Waf" href="waf.html" />
+ 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24904064-4', 'hmgaudecker.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Templates for reproducible research projects
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rationale.html">Design rationale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="waf.html">Introduction to Waf</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Organisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#directory-structure">Directory structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-paths">Project paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specifying-project-paths-in-the-main-wscript-file">Specifying project paths in the main <em>wscript</em> file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-of-the-project-paths-within-wscript-files">Usage of the project paths within <em>wscript</em> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-of-the-project-paths-in-substantial-code">Usage of the project paths in substantial code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="program_environments.html">Project-specific Program Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Answered Questions / Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Templates for reproducible research projects</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Organisation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/organisation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="organisation">
+<span id="id1"></span><h1>Organisation<a class="headerlink" href="#organisation" title="Permalink to this headline">¶</a></h1>
+<p>On this page, we first describe how the files are distributed in the directory hierarchy. We then move on to show how to find your way around using simple data structures in the <a class="reference internal" href="#project-paths"><span class="std std-ref">Project paths</span></a> section, so that you just need to make changes in a single place (remember to minimise code repetition!).</p>
+<div class="section" id="directory-structure">
+<span id="id2"></span><h2>Directory structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h2>
+<p>The left node of the following graph shows the contents of the project root directory after executing <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">waf.py</span> <span class="pre">configure</span> <span class="pre">build</span> <span class="pre">install</span></code>:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/project_hierarchies_big_pic.png"><img alt="_images/project_hierarchies_big_pic.png" src="_images/project_hierarchies_big_pic.png" style="width: 50em;" /></a>
+</div>
+<p>Files and directories in brownish colours are constructed by Waf; those with a bluish background are added directly by the researcher. You immediately see the <strong>separation of inputs and outputs</strong> (one of our guiding principles) at work:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">All source code is in the <em>src</em> directory.</p>
+</li>
+<li><p class="first">All outputs are constructed in the <em>bld</em> directory.</p>
+</li>
+<li><p class="first">The other objects in square brackets are put there during Waf’s install phase, so that they can be opened easily (paper, presentation, documentation).</p>
+</li>
+<li><p class="first">The remainder is made up of objects related to Waf:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>waf.py</em> is the file that starts up Waf (you will never need to change it).</li>
+<li><em>wscript</em> is the main entry point for the instructions we give to Waf.</li>
+<li><em>.mywaflib</em> contains Waf’s internals.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>The contents of both the <em>root/bld/out</em> and the <em>root/src</em> directories directly follow the steps of the analysis from the <a class="reference internal" href="rationale.html#workflow"><span class="std std-ref">workflow</span></a> section (you can usually ignore the <em>ro../../../bld</em> directory, except when you need to take a look at LaTeX log-files).</p>
+<p>The idea is that everything that needs to be run during the, say, <strong>analysis</strong> step, is specified in <em>root/src/analysis</em> and all its output is placed in <em>root/bld/out/analysis</em>.</p>
+<p>Some differences:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Because they are accessed frequently, <em>figures</em> and <em>tables</em> get extra directories in <em>root/bld/out</em> next to <em>final</em></p>
+</li>
+<li><p class="first">The directory <em>root/src</em> contains many more subdirectories:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>original_data</em> is the place to store the data in its raw form, as downloaded / transcribed / … The original data should <strong>never</strong> be modified and saved under the same name.</li>
+<li><em>model_code</em> contains source files that might differ by model and that are potentially used at various steps of the analysis.</li>
+<li><em>model_specs</em> contains <a class="reference external" href="http://www.json.org/">JSON</a> files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages (for Stata there is a converter in the <em>wscript</em> file of the Stata version of the template)</li>
+<li><em>library</em> provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction from the <em>model_code</em> directory is a bit arbitrary, but I have found it useful in the past.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>As an example of how things look further down in the hierarchy, consider the <em>analysis</em> step that was described <a class="reference internal" href="waf.html#waf-analysis"><span class="std std-ref">here</span></a>:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/project_hierarchies_analysis.png"><img alt="_images/project_hierarchies_analysis.png" src="_images/project_hierarchies_analysis.png" style="width: 30em;" /></a>
+</div>
+<p>Remember that the script <em>root/src/analysis/schelling.py</em> is run with an argument <em>baseline</em> or <em>max_moves_2</em>. The code then accesses the respective file in <em>root/src/model_specs</em>, <em>root/src/model_code/agent.py</em>, and <em>bld/out/data/initial_locations.csv</em> (not shown). These are many different locations to keep track of; your project organisation will change as your project evolves and typing in entire paths at various locations is cumbersome. The next sections shows how this is solved in the project template.</p>
+</div>
+<div class="section" id="project-paths">
+<span id="id3"></span><h2>Project paths<a class="headerlink" href="#project-paths" title="Permalink to this headline">¶</a></h2>
+<p>The first question to ask is whether we should be working with absolute or relative paths. Let us first consider the pros and cons of each.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>Relative paths</strong> (e.g., <em>..\model_code\agent.py</em> or <em>../../../model_code/agent.py</em>)</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>Pro</strong>: Portable across machines; provide abstraction from irrelevant parts of underlying directory structure.</li>
+<li><strong>Con</strong>: Introduction of <em>state</em> (the directory used as starting point), which is bad for maintainability and reproducibility.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Absolute paths</strong> (e.g., <em>C:\projects\schelling\src\model_code\agent.py</em> or <em>/Users/xxx/projects/schelling/src/model_code/agent.py</em>)</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>Pro</strong>: Any file or directory is unambiguously specified.</li>
+<li><strong>Con</strong>: Not portable across machines.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>The project template combines the best of both worlds by requiring you to specify relative paths for all often-accessed locations in the main <em>wscript</em> file. These are then used throughout the project template – both in the <em>wscript</em> files and in any substantial code. The next sections show how to specify them and how to use them in different circumstances.</p>
+</div>
+<div class="section" id="specifying-project-paths-in-the-main-wscript-file">
+<h2>Specifying project paths in the main <em>wscript</em> file<a class="headerlink" href="#specifying-project-paths-in-the-main-wscript-file" title="Permalink to this headline">¶</a></h2>
+<p>This is how the project paths are specified in the main wscript file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">top</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+<span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;bld&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">set_project_paths</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a dictionary with project paths represented by Waf nodes.&quot;&quot;&quot;</span>
+
+    <span class="n">pp</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;PROJECT_ROOT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;IN_DATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;src/data/&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;IN_MODEL_CODE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;src/model_code&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;IN_MODEL_SPECS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;src/model_specs&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;BLD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;OUT_DATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{out}</span><span class="s2">/out/data&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;OUT_ANALYSIS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{out}</span><span class="s2">/out/analysis&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;OUT_FINAL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{out}</span><span class="s2">/out/final&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;OUT_FIGURES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{out}</span><span class="s2">/out/figures&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;OUT_TABLES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{out}</span><span class="s2">/out/tables&quot;</span>
+    <span class="n">pp</span><span class="p">[</span><span class="s2">&quot;LIBRARY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;src/library&quot;</span>
+
+
+
+
+    <span class="c1"># Convert the directories into Waf nodes.</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">pp</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;ADO&#39;</span><span class="p">:</span>
+            <span class="n">pp</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">adokey</span><span class="p">,</span> <span class="n">adoval</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">pp</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">adokey</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="n">adoval</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pp</span>
+
+
+</pre></div>
+</div>
+<p>All these paths are relative to the project root, so you can directly use them on many different machines. Note the distinction between <em>IN</em> and <em>OUT</em> in the keys and that we prefix all of the latter by <em>bld</em>.</p>
+<p>The mappings from input to output by step of the analysis should be easy enough from the names:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><strong>data_management</strong>, <strong>original_data</strong> → <strong>OUT_DATA</strong></li>
+<li><strong>analysis</strong> → <strong>OUT_ANALYSIS</strong></li>
+<li><strong>final</strong> → <strong>OUT_FINAL</strong>, <strong>OUT_FIGURES</strong>, <strong>OUT_TABLES</strong></li>
+</ol>
+</div></blockquote>
+<p>In addition, there are the “special” input directories <em>library</em>, <em>model_code</em>, and <em>model_specs</em>, of course.</p>
+</div>
+<div class="section" id="usage-of-the-project-paths-within-wscript-files">
+<h2>Usage of the project paths within <em>wscript</em> files<a class="headerlink" href="#usage-of-the-project-paths-within-wscript-files" title="Permalink to this headline">¶</a></h2>
+<p>The first thing to do is to make these project paths available in <em>wscript</em> files further down the directory hierarchy. We do so in the <em>build</em> function of <em>root/wscript</em>; the relevant lines are:</p>
+<p>The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. You do not need to care about its internals, only about its interface:</p>
+<dl class="function">
+<dt id="ctx.path_to">
+<code class="descclassname">ctx.</code><code class="descname">path_to</code><span class="sig-paren">(</span><em>ctx</em>, <em>pp_key</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#ctx.path_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the relative path to os.path.join(<em>args</em>) in the directory
+PROJECT_PATHS[pp_key] as seen from ctx.path (i.e. the directory of the
+current wscript).</p>
+<p>Use this to get the relative path—as needed by Waf—to a file in one
+of the directory trees defined in the PROJECT_PATHS dictionary above.</p>
+</dd></dl>
+
+<p>This description may be a bit cryptic, but it says it all: Waf needs paths relative to the <em>wscript</em> where you define a task generator. This function returns it. You always need to supply three arguments:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>The build context (completely mechanical, always the same)</li>
+<li>The key of the directory you want to access.</li>
+<li>The name of the file in the directory. If there is a further hierarchy of directories, separate directory and file names by commas.</li>
+</ol>
+</div></blockquote>
+<p>Let us look at <em>root/src/analysis/wscript</em> as an example again:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#! python</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="s1">&#39;baseline&#39;</span><span class="p">,</span> <span class="s1">&#39;max_moves_2&#39;</span><span class="p">:</span>
+
+        <span class="c1"># Illustrate use of run_py_script with automatic model specification.</span>
+        <span class="n">ctx</span><span class="p">(</span>
+            <span class="n">features</span><span class="o">=</span><span class="s1">&#39;run_py_script&#39;</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="s1">&#39;schelling.py&#39;</span><span class="p">,</span>
+            <span class="n">deps</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_DATA&#39;</span><span class="p">,</span> <span class="s1">&#39;initial_locations.csv&#39;</span><span class="p">),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;IN_MODEL_CODE&#39;</span><span class="p">,</span> <span class="s1">&#39;agent.py&#39;</span><span class="p">),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;IN_MODEL_SPECS&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span>
+            <span class="p">],</span>
+            <span class="n">target</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_ANALYSIS&#39;</span><span class="p">,</span> <span class="s1">&#39;schelling_</span><span class="si">{}</span><span class="s1">.pickle&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)),</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">path_to</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;OUT_ANALYSIS&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;schelling_</span><span class="si">{}</span><span class="s1">.log&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+            <span class="p">],</span>
+            <span class="n">append</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;schelling_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the order of the arguments is the same in each of the five calls of <code class="docutils literal notranslate"><span class="pre">ctx.path_to()</span></code>. The last one has an example of a nested directory structure: We do not need the log-files very often and they only clutter up the <em>OUT_ANALYSIS</em> directory, so we put them in a subdirectory.</p>
+</div>
+<div class="section" id="usage-of-the-project-paths-in-substantial-code">
+<h2>Usage of the project paths in substantial code<a class="headerlink" href="#usage-of-the-project-paths-in-substantial-code" title="Permalink to this headline">¶</a></h2>
+<p>The first thing to do is to specify a task generator that writes a header with project paths to disk. This is done using the <code class="docutils literal notranslate"><span class="pre">write_project_paths</span></code> feature. The following line is taken from the <code class="docutils literal notranslate"><span class="pre">build</span></code> function in <em>root/wscript</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Generate header file with project paths in &quot;bld&quot; directory</span>
+    <span class="n">ctx</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="s2">&quot;write_project_paths&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;project_paths.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">write_project_paths</span></code> feature is smart: It will recognise the syntax for its target by the extension you add to the latter. Currently supported: <em>.py</em>, <em>.do</em>, <em>.m</em>, <em>.r</em>, <em>.pm</em>.</p>
+<p>The paths contained in the resulting file (<em>root/bld/project_paths.py</em>) are <strong>absolute</strong> paths, so you do not need to worry about the location of your interpreter etc.</p>
+<p>The exact usage varies a little bit by language; see the respective template for examples. In Python, you first import a function called <em>project_paths_join</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bld.project_paths</span> <span class="k">import</span> <span class="n">project_paths_join</span> <span class="k">as</span> <span class="n">ppj</span>
+</pre></div>
+</div>
+<p>You can then use it to obtain absolute paths to any location within your project. E.g., for the log-file in the analysis step, you would use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ppj</span><span class="p">(</span><span class="s2">&quot;OUT_ANALYSIS&quot;</span><span class="p">,</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="s2">&quot;schelling_</span><span class="si">{}</span><span class="s2">.log&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_name</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>When you need to change the paths for whatever reason, you just need to updated them once in the main <em>wscript</em> file; everything else will work automatically. Even if you need to change the keys – e.g. because you want to break the <em>analysis</em> step into two – you can easiliy search and replace <em>OUT_ANALYSIS</em> in the entire project.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="waf.html" class="btn btn-neutral" title="Introduction to Waf" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013-, Hans-Martin von Gaudecker.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<div class="footer">This page uses <a href="http://analytics.google.com/">
+Google Analytics</a> to collect statistics. You can disable it by blocking
+the JavaScript coming from www.google-analytics.com.
+<script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+
+
+</body>
+</html>

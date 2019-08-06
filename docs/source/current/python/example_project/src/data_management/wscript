@@ -1,0 +1,12 @@
+#! python
+
+
+def build(ctx):
+
+    # Illustrate simple use of run_py_script
+    ctx(
+        features='run_py_script',
+        source='get_simulation_draws.py',
+        target=ctx.path_to(ctx, 'OUT_DATA', 'initial_locations.csv'),
+        name='get_simulation_draws'
+    )

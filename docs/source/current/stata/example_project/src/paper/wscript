@@ -1,0 +1,21 @@
+#! python
+
+
+def build(ctx):
+
+    source_trunks = [
+        'research_paper',
+        'research_pres_30min'
+    ]
+
+    for source in source_trunks:
+        ctx(
+            features='tex',
+            source=source + '.tex',
+            prompt=1,
+            name=source
+        )
+        ctx.install_files(
+            ctx.env.PROJECT_PATHS['PROJECT_ROOT'].abspath(),
+            source + '.pdf'
+        )
