@@ -13,7 +13,7 @@ The first should lure you in quickly, the second convince you to stick to the to
 
 The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by `Waf <https://waf.io>`_, which is written in `Python <http://www.python.org/>`_. You do not need to know Python to use these tools, though.
 
-If you are a complete novice, you should read through the entire documents instead of jumping directly to the :ref:`getting_started` section. First, let me expand on the reproducibility part.
+If you are a complete novice, you should read through the entire documents. First, let me expand on the reproducibility part.
 
 
 The case for reproducibility

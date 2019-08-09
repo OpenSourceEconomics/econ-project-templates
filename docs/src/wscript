@@ -3,12 +3,8 @@ import os
 
 
 def build(ctx):
-    # ctx.recurse('devel/python/')
-    # ctx.recurse('devel/stata/')
-    # ctx.recurse('v1.0/python/')
-    # ctx.recurse('v1.0/stata/')
+
     ctx.recurse('python/')
-    ctx.recurse('stata/')
 
     ctx(
         features='sphinx',

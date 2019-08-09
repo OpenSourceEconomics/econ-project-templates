@@ -11,8 +11,6 @@ Templates for Reproducible Research Projects in Economics
     README
     introduction
     py-example
-    stata-example
-    getting_started
     program_environments
     faq
     zreferences
