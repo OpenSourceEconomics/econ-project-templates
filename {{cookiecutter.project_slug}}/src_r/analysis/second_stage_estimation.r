@@ -36,7 +36,6 @@ library(rjson)
 library(sandwich)
 library(lmtest)
 library(AER)
-library(ivpack)
 
 # Load model and geographic specification.
 model_name <- commandArgs(trailingOnly = TRUE)
