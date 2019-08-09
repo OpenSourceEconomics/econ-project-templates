@@ -45,7 +45,7 @@ Setting up your own project
 
   .. code-block:: bash
 
-    $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.1.zip
+    $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
 
 5. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
 
