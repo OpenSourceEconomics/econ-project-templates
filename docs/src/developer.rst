@@ -1,20 +1,29 @@
+.. _developers:
+
+For Developers
+===============
+
+This part is only for developers of the project template.
+
 Pre-Release Tasks/Checks
-========================
+--------------------------
 
 1. Attach version numbers to the packages in environment.yml.
 
 2. Update all pre-commit hooks to their newest version.
 
-3. Check whether template works with the most current conda version (on Windows) by
+3. Check whether template works with the most current conda version on Windows by
 
     3.1 Running the tests after updating conda.
 
-    3.2 Seperately creating one example project and activating the environment.
+    3.2 Seperately creating an example project and activating the environment.
 
-4. Run tests.
+    All other OS are tested via Azure CI.
+
+4. Check that the documentation is correctly build by navigating to the docs folder and executing waf.
 
 Releasing the template
-======================
+-----------------------
 
 1. Go to the branch with the template version to be released
 
@@ -22,16 +31,22 @@ Releasing the template
 
 3. Create a tag with a *name* and a *description*:
 
-        git tag -a name -m "description"
+.. code-block:: bash
+
+    $ git tag -a name -m "description"
 
 4. Push the tag to your remote git repository
 
-        git push origin name-of-tag
+.. code-block:: bash
 
-5. The release will be available [here](https://github.com/hmgaudecker/econ-project-templates/releases)
+    $ git push origin name-of-tag
+
+5. The release will be available `here <https://github.com/hmgaudecker/econ-project-templates/releases>`_
+
+6. Check that the documentation is correctly build by readthedocs.
 
 How to compile the documentation in windows
-===========================================
+---------------------------------------------
 
 1. Install Imagemagick. Upon installing check the box "Install legacy components (convert.exe etc)"
 

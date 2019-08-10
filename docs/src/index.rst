@@ -29,3 +29,4 @@ This is a collection of templates where much of this automation is pre-configure
     faq
     feedback_welcome
     zreferences
+    developer

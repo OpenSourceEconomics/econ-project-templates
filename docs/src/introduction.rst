@@ -1,10 +1,10 @@
 .. _introduction:
 
 ********************************
-Introduction to the example code
+Introduction to the Example Code
 ********************************
 
-An empirical or computational research project only becomes a useful building block of science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, compared to pointing and clicking with a mouse. This code base aims to provide two stepping stones to assist you in achieving this goal:
+An empirical or computational research project only becomes a useful building block of science when **all** steps can be easily repeated and modified by others. This means that we should automate as much as possible, as opposed to pointing and clicking with a mouse. This code base aims to provide two stepping stones to assist you in achieving this goal:
 
     1. Provide a sensible directory structure that saves you from a bunch of annoying steps and thoughts that need to be performed sooner or later when starting a new project
     2. Facilitate the reproducibility of your research findings from the beginning to the end by letting the computer handle the dependency management
