@@ -1,6 +1,7 @@
 name: econ-project-templates
 channels:
   - defaults
+  - r
   - conda-forge
 dependencies:
   - matplotlib
@@ -17,6 +18,14 @@ dependencies:
     - pytest-cookies
     - pytest-cov
     - pytest-pythonpath
+    - r-aer
+    - r-aod
+    - r-base
+    - r-car
+    - r-essentials
+    - r-rjson
+    - r-lmtest
+    - r-sandwich
     - sphinx
     - sphinx-autobuild
     - sphinx-rtd-theme

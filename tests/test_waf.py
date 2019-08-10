@@ -65,14 +65,12 @@ def test_waf_build_python_normalise_title(cookies, basic_project_dict):
     _check_build(result)
 
 
-@pytest.mark.xfail
 def test_waf_configure_r(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "R"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_configure(result)
 
 
-@pytest.mark.xfail
 def test_waf_build_r(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "R"
     result = cookies.bake(extra_context=basic_project_dict)
