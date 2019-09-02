@@ -163,7 +163,7 @@ Please follow these steps unless you know what you are doing.
 
 1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_ for Python 3.x.
 
-2. Start the installer and click yourselve throug the menu. If you have administer priviledges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
+2. Start the installer and click yourselve throug the menu. If you have administrator priviledges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
 
 3. Make sure to tick the following box:
 
@@ -185,10 +185,10 @@ Please follow these steps unless you know what you are doing.
 
 .. _dependencies:
 
-Prerequisites
-========================
+Prerequisites if you decide not to have a conda environment
+===========================================================
 
-Additional dependencies that are installed via the conda environment:
+This section lists additional dependencies that are installed via the conda environment.
 
 General:
 ^^^^^^^^
