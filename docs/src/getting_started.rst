@@ -245,7 +245,6 @@ Quick 'n' dirty command in an R shell:
               "AER",
               "aod",
               "car",
-              "ivpack",
               "lmtest",
               "rjson",
               "sandwich",
