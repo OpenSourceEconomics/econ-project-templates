@@ -10,7 +10,9 @@ LaTeX & Waf
 ``'error when calling biber, check xxx.blg for errors'``
 --------------------------------------------------------
 
-  This is a well-known bug in biber that occurs occasionally. Nicely explained `here <http://tex.stackexchange.com/questions/140814/biblatex-biber-fails-with-a-strange-error-about-missing-recode-data-xml-file>`__.
+    **This should occur only with older Biber versions, please update if possible.**
+
+  This is a well-known bug in older versions of Biber that occurs occasionally. Nicely explained `here <http://tex.stackexchange.com/questions/140814/biblatex-biber-fails-with-a-strange-error-about-missing-recode-data-xml-file>`__.
 
   Short excerpt from LaTeX Stack Exchange for the fix:
 
@@ -30,7 +32,9 @@ LaTeX & Waf
 Biber on 64-bit MikTeX
 ----------------------
 
-  There have been mulitple issues of with biber on Windows, sometimes leading to strange error messages from Python's subprocess module (e.g., "file not found" errors). Apparently, current 64-bit MikTeX distributions do not contain Biber. Two possible fixes:
+  **This should occur only on older MikTeX versions, please update if possible.**
+
+  There have been mulitple issues of with Biber on Windows, sometimes leading to strange error messages from Python's subprocess module (e.g., "file not found" errors). Apparently, current 64-bit MikTeX distributions do not contain Biber. Two possible fixes:
 
   * **Recommended:** In the main ``wscript`` file, replace the line::
 
