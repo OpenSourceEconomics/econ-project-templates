@@ -10,7 +10,7 @@ LaTeX & Waf
 ``'error when calling biber, check xxx.blg for errors'``
 --------------------------------------------------------
 
-  This is a well-known bug in biber that occurs occasionally. Nicely explained `here <http://tex.stackexchange.com/questions/140814/biblatex-biber-fails-with-a-strange-error-about-missing-recode-data-xml-file>`_.
+  This is a well-known bug in biber that occurs occasionally. Nicely explained `here <http://tex.stackexchange.com/questions/140814/biblatex-biber-fails-with-a-strange-error-about-missing-recode-data-xml-file>`__.
 
   Short excerpt from LaTeX Stack Exchange for the fix:
 

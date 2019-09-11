@@ -41,7 +41,7 @@ Releasing the template
 
     $ git push origin name-of-tag
 
-5. The release will be available `here <https://github.com/hmgaudecker/econ-project-templates/releases>`_
+5. The release will be available `here <https://github.com/hmgaudecker/econ-project-templates/releases>`__
 
 6. Check that the documentation is correctly build by readthedocs.
 
@@ -55,4 +55,3 @@ How to compile the documentation in windows
 3. Go to the folder which contains Imagemagick and rename the convert executable to imgconvert.
 
 4. Now you can compile the documentation by navigating in the docs folder and running waf.
-

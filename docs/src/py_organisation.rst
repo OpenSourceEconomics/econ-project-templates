@@ -39,7 +39,7 @@ Some differences:
         * *library* provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction from the *model_code* directory is a bit arbitrary, but I have found it useful in the past.
 
 
-As an example of how things look further down in the hierarchy, consider the *analysis* step that was described :ref:`here <waf_analysis>`:
+As an example of how things look further down in the hierarchy, consider the *analysis* step that was described :ref:`in the section on Waf <waf_analysis>`:
 
 .. figure:: ../bld/example/python/project_hierarchies_analysis.png
    :width: 30em
@@ -93,12 +93,13 @@ Usage of the project paths within *wscript* files
 The first thing to do is to make these project paths available in *wscript* files further down the directory hierarchy. We do so in the *build* function of *root/wscript*; the relevant lines are:
 
 .. literalinclude:: ../bld/example/python/python_example/wscript
-    :start-after: ctx.load('write_project_headers')
+    :start-after: ctx.load("write_project_headers")
     :end-before: # Generate header
 
 The first line of the function attaches the project paths we defined in the previous section to the build context object. The second attaches a convenience function to the same object, which will do all the heavy lifting. You do not need to care about its internals, only about its interface:
 
 .. function:: ctx.path_to(ctx, pp_key, *args)
+    :noindex:
 
     Return the relative path to os.path.join(*args*) in the directory
     PROJECT_PATHS[pp_key] as seen from ctx.path (i.e. the directory of the

@@ -23,6 +23,8 @@ def build(ctx):
     ctx.recurse("python/")
     ctx.recurse("r/")
 
-    ctx(features="sphinx", builders=["html", "latexpdf"], source="conf.py")
+    ctx(features="sphinx", builders=["html"], source="conf.py")
+    ctx.add_group()
+    ctx(features="sphinx", builders=["latexpdf"], source="conf.py")
 
     ctx.add_post_fun(post_install)

@@ -133,7 +133,7 @@ Setting up your own project
       $ python waf.py configure
 
 
-  All programs used within this project template need to be found on your path. Otherwise, this step will fail. If you are a Windows user, you can find more information on how to add executables to path `here <https://www.computerhope.com/issues/ch000549.htm>`_.
+  All programs used within this project template need to be found on your path. Otherwise, this step will fail. If you are a Windows user, you can find more information on how to add executables to path `here <https://www.computerhope.com/issues/ch000549.htm>`__.
 
   .. code-block:: bash
 
@@ -177,7 +177,7 @@ Please follow these steps unless you know what you are doing.
 
   If this yields an error, continue with step 5. Otherwise restart your shell. Now you are ready to continue with the installation of the template.
 
-5. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_. After that restart your powershell and redo step 4.
+5. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`__. After that restart your powershell and redo step 4.
 
 .. warning::
 
