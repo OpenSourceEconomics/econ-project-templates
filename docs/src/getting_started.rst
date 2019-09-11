@@ -163,21 +163,25 @@ Please follow these steps unless you know what you are doing.
 
 1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_ for Python 3.x.
 
-2. Start the installer and click yourselve throug the menu. If you have administrator priviledges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
+2. Start the installer and click yourselve throug the menu. If you have administrator privileges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
 
 3. Make sure to tick the following box:
 
   - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
-4. Now initialize your shell for full conda use by running
+4. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_. After that restart your powershell and redo step 4.
+
+5. Now open Windows Powershell and initialize it for full conda use by running
 
   .. code-block:: bash
 
     $ conda init
 
-  If this yields an error, continue with step 5. Otherwise restart your shell. Now you are ready to continue with the installation of the template.
+  If this yields an error regarding the powershell execution policy (red text upon reopening powershell), please start Windows Powershell in administrator mode, and execute the following:
 
-5. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`__. After that restart your powershell and redo step 4.
+  .. code-block:: bash
+
+    $ set-executionpolicy remotesigned
 
 .. warning::
 
