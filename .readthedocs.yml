@@ -18,4 +18,4 @@ formats: all
 
 # Conda enviromnement
 conda:
-  environment: environment.yml
+  environment: docs/environment.yml
