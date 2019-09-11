@@ -4,11 +4,36 @@
 Getting Started
 ***************
 
-This documentation is structured in several parts. This section holds a description on how to install the templates with the worked-out examples. Starting at :ref:`introduction`, we describe the background of the examples and some background on tools like Waf, which depend on the main language you may want to use (one for Python or Matlab; one for R or Stata). The third section contains some background on additional helpers like :ref:`create_env`, :ref:`pre_commit`, and :ref:`faq`.
+This documentation is structured in several parts. This section holds a description on how to install the templates. The template comes with a running example of the language of your choice (Python, Matlab, R, or Stata). Starting at :ref:`introduction`, we describe the background of the examples and some background on tools like Waf. The third section contains some background on additional helpers like :ref:`create_env`, :ref:`pre_commit`, and :ref:`faq`.
 
-* If you want to get an idea first of whether this is the right thing for you, first read through the :ref:`introduction` and the example most relevant for you (:ref:`pyexample`, :ref:`rexample`).
+* If you want to first get an idea of whether this is the right thing for you, start by reading through the :ref:`introduction` and the example most relevant for you (:ref:`pyexample`, :ref:`rexample`).
 * If you know what you are doing, continue right here.
 
+Suggestions for starting a new project
+======================================
+
+Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So write one bit of code at a time, understand what is going on, and move on.
+
+#. Install the template for the language of your choice as described in :ref:`dialog`
+#. I suggest you leave the examples in place.
+#. Now add your own data and code bit by bit, append the wscript files as necessary. To see what is happening, it might be useful to comment out some steps
+#. Once you got the hang of how things work, remove the examples (both the files and the code in the wscript files)
+
+
+Suggestions for porting an existing project
+===========================================
+
+Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
+
+#. Install the template for the language of your choice as described in :ref:`dialog`
+#. Assuming that you use git, first move all the code in the existing project to a subdirectory called old_code. Commit.
+#. Decide on which steps you'll likely need / use (e.g., in a simulation exercise you probably won't need any data management). Delete the directories you do not need from ``src`` and the corresponding ``ctx.recurse()`` calls in ``src/wscript``. Commit.
+#. Start with the data management code. To do so, comment out everything except for the recursions to the library and data_management directories from src/wscript
+#. Move your data files to the right new spot. Delete the ones from the template.
+#. Copy & paste the body of (the first steps of) your data management code to the example files, keeping the basic machinery in place. E.g., in case of the Stata template: In the ``src/data_management/clean_data.do`` script, keep the top lines (inclusion of project paths and opening of the log file). Paste your code below that and adjust the last lines saving the dta file.
+#. Adjust the ``src/data_management/wscript`` file with the right filenames.
+#. Run waf, adjusting the code for the errors you'll likely see.
+#. Move on step-by-step like this.
 
 .. _dialog:
 
@@ -20,7 +45,7 @@ Setting up your own project
   * `Miniconda <http://conda.pydata.org/miniconda.html>`_ or Anaconda. Windows users: please consult :ref:`windows_user`
 
     .. note::
-        This template is tested with python 3.6 and higher and conda version 4.6.14.
+        This template is tested with python 3.6 and higher and conda version 4.6.14 and higher.
 
   * a modern LaTeX distribution (e.g. `TeXLive <www.tug.org/texlive/>`_, `MacTex <http://tug.org/mactex/>`_, or `MikTex <http://miktex.org/>`_)
 
@@ -45,7 +70,7 @@ Setting up your own project
 
   .. code-block:: bash
 
-    $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.1.zip
+    $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
 
 5. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
 
@@ -108,7 +133,7 @@ Setting up your own project
       $ python waf.py configure
 
 
-  All programs used within this project template need to be found on your path. Otherwise, this step will fail. If you are a Windows user, you can find more information on how to add executables to path `here <https://www.computerhope.com/issues/ch000549.htm>`_.
+  All programs used within this project template need to be found on your path. Otherwise, this step will fail. If you are a Windows user, you can find more information on how to add executables to path `here <https://www.computerhope.com/issues/ch000549.htm>`__.
 
   .. code-block:: bash
 
@@ -138,11 +163,10 @@ Please follow these steps unless you know what you are doing.
 
 1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_ for Python 3.x.
 
-2. Start the installer and click yourselve throug the menu. If you have administer priviledges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
+2. Start the installer and click yourselve throug the menu. If you have administrator priviledges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
 
-3. Make sure to tick the following boxes:
+3. Make sure to tick the following box:
 
-  - ''Add Anaconda to my PATH environment variable''
   - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
 4. Now initialize your shell for full conda use by running
@@ -153,7 +177,7 @@ Please follow these steps unless you know what you are doing.
 
   If this yields an error, continue with step 5. Otherwise restart your shell. Now you are ready to continue with the installation of the template.
 
-5. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_. After that restart your powershell and redo step 4.
+5. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`__. After that restart your powershell and redo step 4.
 
 .. warning::
 
@@ -161,60 +185,57 @@ Please follow these steps unless you know what you are doing.
 
 .. _dependencies:
 
-Prerequisites
-========================
+Prerequisites if you decide not to have a conda environment
+===========================================================
 
-No conda environment
----------------------
+This section lists additional dependencies that are installed via the conda environment.
 
-Additional dependencies that are installed via the conda environment:
+General:
+^^^^^^^^
 
-  General:
-
-  .. code-block:: bash
+.. code-block:: bash
 
     $ conda install pandas python-graphviz=0.8
     $ pip install maplotlib click==7.0
 
-  For sphinx users:
+For sphinx users:
+^^^^^^^^^^^^^^^^^
 
-  .. code-block:: bash
+.. code-block:: bash
 
     $ pip install sphinx nbsphinx sphinx-autobuild sphinx-rtd-theme sphinxcontrib-bibtex
 
-  For Matlab and sphinx users:
+For Matlab and sphinx users:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-  .. code-block:: bash
+.. code-block:: bash
 
     $ pip install sphinxcontrib-matlabdomain
 
-  For pre-commit users:
+For pre-commit users:
+^^^^^^^^^^^^^^^^^^^^^
 
-  .. code-block:: bash
+.. code-block:: bash
 
     $ pip install pre-commit
 
 
-.. _r_dependencies:
+For R users:
+^^^^^^^^^^^^
 
-To run the R example
---------------------
-
-For the R example, make sure to have the following libraries installed before you try to run Waf:
+R packages can, in general, also be managed via `conda environments <https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/>`_. The environment of the template contains the following R-packages necessary to run the R example of this template:
 
   - AER
   - aod
   - car
   - foreign
-  - ivpack
   - lmtest
   - rjson
   - sandwich
   - xtable
   - zoo
 
-  Quick 'n' dirty command in an R shell:
-
+Quick 'n' dirty command in an R shell:
 
 .. code-block:: r
 
@@ -224,7 +245,6 @@ For the R example, make sure to have the following libraries installed before yo
               "AER",
               "aod",
               "car",
-              "ivpack",
               "lmtest",
               "rjson",
               "sandwich",
@@ -232,31 +252,3 @@ For the R example, make sure to have the following libraries installed before yo
               "zoo"
           )
       )
-
-
-
-Suggestions for starting a new project
-======================================
-
-Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So write one bit of code at a time, understand what is going on, and move on.
-
-#. Install the template for the language of your choice as described in :ref:`dialog`
-#. I suggest you leave the examples in place.
-#. Now add your own data and code bit by bit, append the wscript files as necessary. To see what is happening, it might be useful to comment out some steps
-#. Once you got the hang of how things work, remove the examples (both the files and the code in the wscript files)
-
-
-Suggestions for porting an existing project
-===========================================
-
-Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
-
-#. Install the template for the language of your choice as described in :ref:`dialog`
-#. Assuming that you use git, first move all the code in the existing project to a subdirectory called old_code. Commit.
-#. Decide on which steps you'll likely need / use (e.g., in a simulation exercise you probably won't need any data management). Delete the directories you do not need from ``src`` and the corresponding ``ctx.recurse()`` calls in ``src/wscript``. Commit.
-#. Start with the data management code. To do so, comment out everything except for the recursions to the library and data_management directories from src/wscript
-#. Move your data files to the right new spot. Delete the ones from the template.
-#. Copy & paste the body of (the first steps of) your data management code to the example files, keeping the basic machinery in place. E.g., in case of the Stata template: In the ``src/data_management/clean_data.do`` script, keep the top lines (inclusion of project paths and opening of the log file). Paste your code below that and adjust the last lines saving the dta file.
-#. Adjust the ``src/data_management/wscript`` file with the right filenames.
-#. Run waf, adjusting the code for the errors you'll likely see.
-#. Move on step-by-step like this.

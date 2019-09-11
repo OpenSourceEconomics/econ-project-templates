@@ -1,6 +1,7 @@
 name: econ-project-templates
 channels:
   - defaults
+  - r
   - conda-forge
 dependencies:
   - matplotlib
@@ -8,6 +9,14 @@ dependencies:
   - pandas
   - python=3.7
   - python-graphviz
+  - r-aer
+  - r-aod
+  - r-base
+  - r-car
+  - r-essentials
+  - r-rjson
+  - r-lmtest
+  - r-sandwich
   - pip:
     - click==7.0
     - cookiecutter

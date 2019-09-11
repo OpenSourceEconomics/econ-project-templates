@@ -50,7 +50,7 @@ Waf now knows everything about your computer system that it needs to know in ord
 
 .. note::
 
-  The ``ctx`` argument that is passed to all functions (configure, build, ...) in Waf is short for "context". It holds all kinds of methods and variables relevant for executing the task (configure, build, ...) at hand. See the Waf documentation (`here <http://docs.waf.googlecode.com/git/book_17/single.html>`_ or `here <http://docs.waf.googlecode.com/git/apidocs_17/index.html#>`_).
+  The ``ctx`` argument that is passed to all functions (configure, build, ...) in Waf is short for "context". It holds all kinds of methods and variables relevant for executing the task (configure, build, ...) at hand. See the Waf documentation (`here <http://docs.waf.googlecode.com/git/book_17/single.html>`__ or `here <http://docs.waf.googlecode.com/git/apidocs_17/index.html#>`__).
 
 
 Specifying dependencies and the build phase

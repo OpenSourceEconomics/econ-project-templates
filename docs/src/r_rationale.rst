@@ -68,7 +68,9 @@ This is the dependency graph for a simplified version of the Albouy's replicatio
 .. figure:: ../bld/example/r/ajrcomment_dependencies.png
    :width: 50em
 
-To keep the dependency graph simple, we ignore the figure for now. The arrows have different colors in order to distinguish the steps of the analysis, from left to right:
+To keep the dependency graph simple, we ignore the figure for now. *baseline.json* contains the sample specification for panel A and *rmconj.json* for panel B.
+
+The arrows of the graph have different colors in order to distinguish the steps of the analysis, from left to right:
 
     * Blue for data management (=combining the data sets in this case)
     * Orange for the main estimation

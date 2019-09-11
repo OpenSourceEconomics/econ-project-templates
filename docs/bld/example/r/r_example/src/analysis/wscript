@@ -1,0 +1,31 @@
+#! python
+
+
+def build(ctx):
+
+    # More complicated use: Read in the model specifications and run these things
+    # in parallel.
+    models = ["baseline", "rmconj"]
+
+    for m in models:
+        for stage in ["first", "second"]:
+
+            # Run the r-files
+            ctx(
+                features="run_r_script",
+                source="{}_stage_estimation.r".format(stage),
+                target=[
+                    ctx.path_to(
+                        ctx,
+                        "OUT_ANALYSIS",
+                        "{}_stage_estimation_{}.csv".format(stage, m),
+                    )
+                ],
+                deps=[
+                    ctx.path_to(ctx, "OUT_DATA", "ajrcomment_all.csv"),
+                    ctx.path_to(ctx, "IN_MODEL_CODE", "functions.r"),
+                    ctx.path_to(ctx, "IN_MODEL_SPECS", "geography.json"),
+                ],
+                name="{}_stage_estimation_{}".format(stage, m),
+                append=m,
+            )

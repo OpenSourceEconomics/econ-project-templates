@@ -1,0 +1,42 @@
+name: x
+channels:
+  - defaults
+
+  - r
+  - conda-forge
+
+dependencies:
+  - jupyterlab
+  - pandas
+  - pip
+  - python=3.7
+  - python-graphviz=0.8
+
+  - r-aer
+  - r-aod
+  - r-base
+  - r-car
+  - r-essentials
+  - r-rjson
+  - r-lmtest
+  - r-sandwich
+
+  - pip:
+    - click==7.0
+
+    - pre-commit
+
+    - matplotlib
+    - nbsphinx
+    - pytest
+    - pytest-cov
+    - pytest-pythonpath
+
+    - sphinx
+    - sphinx-autobuild
+    - sphinx-rtd-theme
+    - sphinxcontrib-bibtex
+
+
+    - sphinxcontrib-matlabdomain
+

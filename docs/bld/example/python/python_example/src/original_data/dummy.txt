@@ -1,0 +1,3 @@
+Just a dummy file to have the folder under Git;
+the example does not have original data as we
+simulate them ourselves.
