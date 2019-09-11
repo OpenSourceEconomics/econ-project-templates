@@ -169,7 +169,7 @@ Please follow these steps unless you know what you are doing.
 
   - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
-4. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_. After that restart your powershell and redo step 4.
+4. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_. 
 
 5. Now open Windows Powershell and initialize it for full conda use by running
 
