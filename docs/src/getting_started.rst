@@ -51,8 +51,9 @@ Setting up your own project
 
   * `Git <https://git-scm.com/downloads>`_
 
+2. If you use Mac or Linux, open your terminal. If you use Windows, please open Windows Powershell. Pleae make sure that the path to your future project directory does not include any spaces or special characters. Further, you need to make sure that every program that is used in your project (Stata, R, Matlab, Latex Distributions, Anaconda) can be found on your *PATH*. That is, these need to be accessible from your shell. This is not always automatically true, in particular on Windows. In Windows, one has to oftentimes add the programs manually to the PATH environmental variable in the Advanced System Settings. How to exactly do that on windows see `here <https://www.computerhope.com/issues/ch000549.htm>`_ and on Mac see `here <http://hmgaudecker.github.io/econ-python-environment/paths.html#macos-adjust-slightly-for-linux>`_
 
-2. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
+3. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
 
   .. code-block:: bash
 
@@ -64,15 +65,15 @@ Setting up your own project
 
     If you don't opt for the conda environment later on, you need to take care of these dependencies on your own. A list of additional dependencies can be found under :ref:`dependencies`.
 
-3. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
+4. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
 
-4. Navigate to your designated parent directory in a shell and set up your research project by typing:
+5. Navigate to your designated parent directory in a shell and set up your research project by typing:
 
   .. code-block:: bash
 
     $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
 
-5. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
+6. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
 
   **author** -- Separate multiple authors by commas
 
@@ -118,7 +119,19 @@ Setting up your own project
 
   After successfully answering all the prompts, a folder named according to your project_slug will be created in your current directory.
 
-6. **Skip step 6 if you did not opt for the conda enviornment.** Type:
+7. **Skip if everything went well.** If you run into problems in the project installation step, please follow the following steps: First try to understand the error. Then type:
+
+  .. code-block:: bash
+
+    $ atom ~/.cookiecutter_replay/econ-project-template-[version].json
+
+  Fix the faulty setting if something went wrong there, alternatively fix paths etc. When done, launch a new shell if necessary and type:
+
+  .. code-block:: bash
+
+  $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/[version].zip
+
+8. **Skip step 8 if you did not opt for the conda enviornment.** Type:
 
   .. code-block:: bash
 
@@ -126,7 +139,13 @@ Setting up your own project
 
   This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
 
-7. Navigate to the folder in the shell and type the following commands into your command line to see whether the examples are working:
+9. **Skip step 9 if you did not opt for the pre-commit hooks**. Pre-commit have to be installed in order for them to have an effect. This step has to be repeated everytime you work on your project on a new machine. To install the pre-commit hooks, type:
+
+  .. code-block:: bash
+
+    $ pre-commit install
+
+10. Navigate to the folder in the shell and type the following commands into your command line to see whether the examples are working:
 
   .. code-block:: bash
 

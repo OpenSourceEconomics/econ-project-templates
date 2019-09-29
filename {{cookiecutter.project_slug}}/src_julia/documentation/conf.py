@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Documentation build configuration file, created by sphinx-quickstart
 #
@@ -46,8 +45,8 @@ source_encoding = "utf-8"
 master_doc = "index"
 
 # General information about the project.
-project = u"{{ cookiecutter.project_name.replace('_', ' ') }}"
-copyright = u"2019-, {{ cookiecutter.author.replace('_', ' ') }}"
+project = "{{ cookiecutter.project_name.replace('_', ' ') }}"
+copyright = "2019-, {{ cookiecutter.author.replace('_', ' ') }}"
 
 # The version info for the project you"re documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

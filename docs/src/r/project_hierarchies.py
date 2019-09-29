@@ -622,7 +622,7 @@ prelude = r"""\documentclass[convert={density=300,size=1080x800,outext=.png}]{st
 \begin{document}
 """
 
-end_doc = """
+end_doc = r"""
 
 \end{document}
 """
@@ -630,7 +630,7 @@ end_doc = """
 
 if __name__ == "__main__":
     key = sys.argv[1]
-    with open("src/r/project_hierarchies_{}.tex".format(key), "w") as f:
+    with open(f"src/r/project_hierarchies_{key}.tex", "w") as f:
         f.write(prelude)
         f.write(project_hierarchies[key])
         f.write(end_doc)

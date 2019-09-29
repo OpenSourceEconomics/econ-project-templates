@@ -11,13 +11,13 @@ def build(ctx):
         source = "schelling"
         ctx(
             features="run_m_script",
-            source="{}.m".format(source),
-            target=[out_analysis("{}_{}.mat".format(source, model))],
+            source=f"{source}.m",
+            target=[out_analysis(f"{source}_{model}.mat")],
             deps=[
-                ctx.path_to(ctx, "IN_MODEL_SPECS", "{}.json".format(model)),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", f"{model}.json"),
                 ctx.path_to(ctx, "IN_MODEL_CODE", "move_until_happy.m"),
                 ctx.path_to(ctx, "OUT_DATA", "sample.mat"),
             ],
-            append="('{}')".format(model),
-            name="{}_{}".format(source, model),
+            append=f"('{model}')",
+            name=f"{source}_{model}",
         )

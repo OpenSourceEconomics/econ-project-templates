@@ -29,9 +29,9 @@ if __name__ == "__main__":
 
     for example in ["julia", "matlab", "python", "stata", "r"]:
         if example != specified_example:
-            remove_dir("src_{}".format(example))
+            remove_dir(f"src_{example}")
         else:
-            rename("src_{}".format(example), "src")
+            rename(f"src_{example}", "src")
 
     if not "{{ cookiecutter.configure_running_sphinx_from_waf }}" == "y":
         remove_dir("src/documentation")
@@ -46,7 +46,7 @@ if __name__ == "__main__":
                 "env",
                 "create",
                 "--name",
-                "{}".format(environment_name),
+                f"{environment_name}",
                 "--file",
                 "environment.yml",
             ]
@@ -72,55 +72,5 @@ if __name__ == "__main__":
                     "https://github.com/hmgaudecker/econ-project-templates'",
                 ]
             )
-
-        if "{{ cookiecutter.add_basic_pre_commit_hooks }}" == "y":
-            try:
-                subprocess.call(["pre-commit", "install"])
-            except FileNotFoundError as err:
-                if environment_name is None:
-                    print(
-                        """
-
-********************************************************************************
-
-pre-commit could not be found on your path.
-
-Type:
-
-    cd {{ cookiecutter.project_slug }}
-    pip install pre-commit
-    pre-commit install
-
-********************************************************************************
-
-
-                """.format()
-                    )
-                    raise err
-                else:
-                    print(
-                        """
-
-********************************************************************************
-
-pre-commit could not be found on your path and we cannot activate the
-environment from cookiecutter.
-
-Type:
-
-    cd {{ cookiecutter.project_slug }}
-    conda activate {}
-    pre-commit install
-
-********************************************************************************
-
-
-                """.format(
-                            environment_name
-                        )
-                    )
-                    raise err
-        else:
-            remove_file(".pre-commit-config.yaml")
-    else:
+    if "{{ cookiecutter.add_basic_pre_commit_hooks }}" == "n":
         remove_file(".pre-commit-config.yaml")

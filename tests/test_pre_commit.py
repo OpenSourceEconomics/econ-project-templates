@@ -5,6 +5,13 @@ from test_cookie import basic_project_dict
 
 
 def _check_pre_commit(result):
+    b = subprocess.Popen(
+        "pre-commit install",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        shell=True,
+        cwd=result.project,
+    )
     c = subprocess.Popen(
         "pre-commit run --all-files",
         stdout=subprocess.PIPE,

@@ -19,6 +19,12 @@ repos:
     -   id: pretty-format-json
         args: [--autofix, --no-sort-keys]
     -   id: trailing-whitespace
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v1.24.0
+    hooks:
+    -   id: pyupgrade
+        args: [--py37-plus]
+        files: '(\.pyi?|wscript)$'
 -   repo: https://github.com/asottile/blacken-docs
     rev: v0.5.0
     hooks:

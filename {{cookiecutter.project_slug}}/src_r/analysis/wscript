@@ -13,12 +13,12 @@ def build(ctx):
             # Run the r-files
             ctx(
                 features="run_r_script",
-                source="{}_stage_estimation.r".format(stage),
+                source=f"{stage}_stage_estimation.r",
                 target=[
                     ctx.path_to(
                         ctx,
                         "OUT_ANALYSIS",
-                        "{}_stage_estimation_{}.csv".format(stage, m),
+                        f"{stage}_stage_estimation_{m}.csv",
                     )
                 ],
                 deps=[
@@ -26,6 +26,6 @@ def build(ctx):
                     ctx.path_to(ctx, "IN_MODEL_CODE", "functions.r"),
                     ctx.path_to(ctx, "IN_MODEL_SPECS", "geography.json"),
                 ],
-                name="{}_stage_estimation_{}".format(stage, m),
+                name=f"{stage}_stage_estimation_{m}",
                 append=m,
             )

@@ -6,14 +6,14 @@ def build(ctx):
         source = "plot_locations"
         ctx(
             features="run_m_script",
-            source="{}.m".format(source),
-            target=ctx.path_to(ctx, "OUT_FIGURES", "schelling_{}.png".format(model)),
+            source=f"{source}.m",
+            target=ctx.path_to(ctx, "OUT_FIGURES", f"schelling_{model}.png"),
             deps=[
-                ctx.path_to(ctx, "OUT_ANALYSIS", "schelling_{}.mat".format(model)),
-                ctx.path_to(ctx, "IN_MODEL_SPECS", "{}.json".format(model)),
+                ctx.path_to(ctx, "OUT_ANALYSIS", f"schelling_{model}.mat"),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", f"{model}.json"),
             ],
-            append="('{}')".format(model),
-            name="{}_{}".format(source, model),
+            append=f"('{model}')",
+            name=f"{source}_{model}",
         )
 
     from src.final.project_dependency_graph import make_project_dependency_graph
