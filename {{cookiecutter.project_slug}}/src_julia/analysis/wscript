@@ -16,9 +16,7 @@ def build(ctx):
             ],
             target=[
                 ctx.path_to(ctx, "OUT_ANALYSIS", f"schelling_{model}.pickle"),
-                ctx.path_to(
-                    ctx, "OUT_ANALYSIS", "log", f"schelling_{model}.log"
-                ),
+                ctx.path_to(ctx, "OUT_ANALYSIS", "log", f"schelling_{model}.log"),
             ],
             append=model,
             name=f"schelling_{model}",

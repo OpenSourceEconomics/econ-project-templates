@@ -13,7 +13,6 @@ import sys
 
 import numpy as np
 from bld.project_paths import project_paths_join as ppj
-
 from src.model_code.agent import Agent
 
 
@@ -118,7 +117,5 @@ if __name__ == "__main__":
     # Run the main analysis
     locations_by_round = run_analysis(agents, model)
     # Store list with locations after each round
-    with open(
-        ppj("OUT_ANALYSIS", f"schelling_{model_name}.pickle"), "wb"
-    ) as out_file:
+    with open(ppj("OUT_ANALYSIS", f"schelling_{model_name}.pickle"), "wb") as out_file:
         pickle.dump(locations_by_round, out_file)

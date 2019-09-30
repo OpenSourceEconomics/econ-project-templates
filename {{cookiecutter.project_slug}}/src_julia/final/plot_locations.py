@@ -47,9 +47,7 @@ if __name__ == "__main__":
     )
 
     # Load locations after each round
-    with open(
-        ppj("OUT_ANALYSIS", f"schelling_{model_name}.pickle"), "rb"
-    ) as in_file:
+    with open(ppj("OUT_ANALYSIS", f"schelling_{model_name}.pickle"), "rb") as in_file:
         locations_by_round = pickle.load(in_file)
 
     plot_locations(locations_by_round, model_name)
