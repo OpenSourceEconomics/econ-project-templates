@@ -8,9 +8,8 @@
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
-
-import sys
 import os
+import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -45,8 +44,8 @@ source_encoding = "utf-8"
 master_doc = "index"
 
 # General information about the project.
-project = "{{ cookiecutter.project_name.replace('_', ' ') }}"
-copyright = "2019-, {{ cookiecutter.author.replace('_', ' ') }}"
+project = "julia example"
+copyright = "2019-, Albert Einstein"
 
 # The version info for the project you"re documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -192,8 +191,8 @@ latex_documents = [
     (
         "index",
         "project_documentation.tex",
-        "Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }} project",
-        "{{ cookiecutter.author.replace('_', ' ') }}",
+        "Documentation of the julia example project",
+        "Albert Einstein",
         "manual",
     )
 ]

@@ -117,21 +117,10 @@ Setting up your own project
 
   **open_source_license** -- Whatever you prefer.
 
-  After successfully answering all the prompts, a folder named according to your project_slug will be created in your current directory.
+  After successfully answering all the prompts, a folder named according to your project_slug will be created in your current directory. If you run into trouble, please follow the steps explained :ref:`trouble`
 
-7. **Skip if everything went well.** If you run into problems in the project installation step, please follow the following steps: First try to understand the error. Then type:
 
-  .. code-block:: bash
-
-    $ atom ~/.cookiecutter_replay/econ-project-template-[version].json
-
-  Fix the faulty setting if something went wrong there, alternatively fix paths etc. When done, launch a new shell if necessary and type:
-
-  .. code-block:: bash
-
-  $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/[version].zip
-
-8. **Skip step 8 if you did not opt for the conda enviornment.** Type:
+7. **Skip step 7 if you did not opt for the conda environment.** Type:
 
   .. code-block:: bash
 
@@ -139,13 +128,13 @@ Setting up your own project
 
   This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
 
-9. **Skip step 9 if you did not opt for the pre-commit hooks**. Pre-commit have to be installed in order for them to have an effect. This step has to be repeated everytime you work on your project on a new machine. To install the pre-commit hooks, type:
+8. **Skip step 8 if you did not opt for the pre-commit hooks**. Pre-commit have to be installed in order for them to have an effect. This step has to be repeated every time you work on your project on a new machine. To install the pre-commit hooks, type:
 
   .. code-block:: bash
 
     $ pre-commit install
 
-10. Navigate to the folder in the shell and type the following commands into your command line to see whether the examples are working:
+9. Navigate to the folder in the shell and type the following commands into your command line to see whether the examples are working:
 
   .. code-block:: bash
 
@@ -172,6 +161,27 @@ Setting up your own project
 
   If all went well, you are now ready to adapt the template to your project.
 
+.. _trouble:
+
+Trouble shooting
+================
+
+If you run into problems in the project installation step, please follow the following steps: First try to understand the error. 
+
+Then type:
+
+  .. code-block:: bash
+
+    $ atom ~/.cookiecutter_replay/econ-project-template-[version].json
+
+If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH as well. 
+This command should open your editor and show you a json file containing your answers to the previously filled out dialog. You can fix your faulty settings in this file. If you have spaces or special characters in your path, you need to adjust your path.
+
+When done, launch a new shell if necessary and type:
+
+  .. code-block:: bash
+
+  $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/[version].zip
 
 .. _windows_user:
 
