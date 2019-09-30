@@ -16,9 +16,7 @@ def build(ctx):
                 source=f"{stage}_stage_estimation.r",
                 target=[
                     ctx.path_to(
-                        ctx,
-                        "OUT_ANALYSIS",
-                        f"{stage}_stage_estimation_{m}.csv",
+                        ctx, "OUT_ANALYSIS", f"{stage}_stage_estimation_{m}.csv"
                     )
                 ],
                 deps=[
