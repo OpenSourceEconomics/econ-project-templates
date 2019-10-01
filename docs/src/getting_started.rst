@@ -40,6 +40,8 @@ Your general strategy should be one of **divide and conquer**. If you are not us
 Setting up your own project
 ===========================
 
+**If you are experienced with the project templates, you can go directly to step five.**
+
 1.  Make sure you have the following programs installed and that these can be found on your path. This template requires
 
   * `Miniconda <http://conda.pydata.org/miniconda.html>`_ or Anaconda. Windows users: please consult :ref:`windows_user`
@@ -49,9 +51,59 @@ Setting up your own project
 
   * a modern LaTeX distribution (e.g. `TeXLive <www.tug.org/texlive/>`_, `MacTex <http://tug.org/mactex/>`_, or `MikTex <http://miktex.org/>`_)
 
-  * `Git <https://git-scm.com/downloads>`_
+  * `Git <https://git-scm.com/downloads>`_, windows users please also consult :ref:`git_windows`
 
-2. If you use Mac or Linux, open your terminal. If you use Windows, please open Windows Powershell. Pleae make sure that the path to your future project directory does not include any spaces or special characters. Further, you need to make sure that every program that is used in your project (Stata, R, Matlab, Latex Distributions, Anaconda) can be found on your *PATH*. That is, these need to be accessible from your shell. This is not always automatically true, in particular on Windows. In Windows, one has to oftentimes add the programs manually to the PATH environmental variable in the Advanced System Settings. How to exactly do that on windows see `here <https://www.computerhope.com/issues/ch000549.htm>`_ and on Mac see `here <http://hmgaudecker.github.io/econ-python-environment/paths.html#macos-adjust-slightly-for-linux>`_
+  * A text editor of your choice. For newcomers, we recommend to install `Atom <https://atom.io/>`_.
+
+2. If you use Mac or Linux, open your terminal. If you use Windows, please open Windows Powershell. 
+
+    1. Navigate to the parent folder of your future directory. Please ensure that
+
+    2. Typing pwd reveals that there are no spaces or special characters (for instance ä, ü, é) in the path. Else change to C:\ whatever and create your project there.
+
+    Further, you need to make sure that every program that is used in your project (Stata, R, Matlab, Latex Distributions, Anaconda) can be found on your *PATH*. That is, these need to be accessible from your shell. This is not always automatically true, in particular on Windows. In Windows, one has to oftentimes add the programs manually to the PATH environmental variable in the Advanced System Settings. How to exactly do that on windows see `here <https://www.computerhope.com/issues/ch000549.htm>`_ and on Mac see :ref:`mac_path`. To see which programs can be found in your path, type:
+
+    *Windows*
+
+    .. code-block:: bash
+
+      $ echo $env:path
+
+    *Mac*
+
+    .. code-block:: bash
+
+      $ echo $PATH
+
+    This gives you a list of directories that are available on your *PATH*. Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your python distribution), a Tex distribution, a text editor (for example Atom) and git. Otherwise add them.
+
+    As a further test, whether you added the paths correctly, type:
+
+    .. code-block:: bash
+
+      $ python
+      $ exit()
+
+    This starts python in your shell, and exits from it again.
+
+    .. code-block:: bash
+
+      $ git status
+
+    This should yield the output: ```fatal: not a git repository (or any of the parent directories): .git```
+
+    .. code-block:: bash
+
+      $ pdflatex
+      $ X
+
+    This starts and exits pdflatex.
+
+    .. code-block:: bash
+
+      $ atom
+
+    Replace `atom` with your text editor of choice, if you do not have atom installed. This should open an editor window.
 
 3. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
 
@@ -185,8 +237,11 @@ When done, launch a new shell if necessary and type:
 
 .. _windows_user:
 
+Tips and Tricks for Windows Users
+=================================
+
 Anaconda Installation Notes for Windows Users
-==============================================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Please follow these steps unless you know what you are doing.
 
@@ -215,6 +270,14 @@ Please follow these steps unless you know what you are doing.
 .. warning::
 
   If you still run into problems when running conda and python from powershell, it is advisable to use the built-in Anaconda Prompt instead.
+
+.. _git_windows:
+
+Integrating git tab completion in Windows Powershell
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Powershell does not support tab completion for git automatically. However, there is a nice utility called `posh-git <https://github.com/dahlbyk/posh-git>`_. We advise you to install this as this makes your life easier.
+
 
 .. _dependencies:
 

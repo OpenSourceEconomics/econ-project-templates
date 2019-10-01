@@ -4,6 +4,57 @@
 Frequently Answered Questions / Troubleshooting
 ***********************************************
 
+.. _mac_path:
+
+Adding Excecutables to Path: Mac OS and Linux
+=============================================
+
+Open the program **Terminal** in the "Utilities" subfolder of your applications folder.
+
+If you have never used the command line before, I recommend watching `this lecture <http://software-carpentry.org/4_0/shell/>`_ from the `Software Carpentry course <http://software-carpentry.org/4_0/>`_. 
+
+
+You will need to add a line to the file ``.bash_profile`` and potentially create the file. This file lives in your home directory and it is hidden from your view by default, to toggle that setting that you can download a neat little `program <http://download.cnet.com/Show-Hidden-Files/3000-2383_4-75415396.html>`_.
+
+**Linux users**: For most distributions, everything here applies to the file ``.bashrc`` instead of ``.bash_profile``.
+
+I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``, if you are familiar with editing text files, just use your editor of choice. 
+
+#. Open a Terminal and type
+
+  .. code-block:: bash
+
+      atom ~/.bash_profile
+
+   If you use a different editor, replace atom by the respective editor.
+
+   If ``.bash_profile`` already existed, you will see some text at this point. If so, use the arrow keys to scroll all the way to the bottom of the file. 
+
+
+#. Add the following line at the end of the file
+
+  .. code-block:: bash
+
+      export PATH="${PATH}:/path/to/program/inside/package"
+
+   You will need to follow the same steps as before. Example for Stata::
+        # Stata directory
+        export PATH="${PATH}:/Applications/Stata/StataMP.app/Contents/MacOS/"
+    
+   In ``/Applications/Stata/StataMP.app``, you may need to replace bits and pieces as appropriate for your installation (e.g. you might not have StataMP but StataSE).
+
+   Similarly for Matlab or the likes.
+
+#. Press ``Return`` and then ``ctrl+o`` (= WriteOut = save) and ``Return`` once more.
+
+
+#. Your default locale settings may conflict with some of the programs we'll need. If you want to be on the safe side, add these lines to your ``.bash_profile`` file::
+   
+        export LC_ALL=en_US.UTF-8
+        export LANG=en_US.UTF-8
+   
+   (Hat tip to Matthias Bannert)
+
 LaTeX & Waf
 ===========
 
