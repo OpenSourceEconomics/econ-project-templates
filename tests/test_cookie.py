@@ -50,7 +50,7 @@ def test_bake_project(cookies, basic_project_dict):
 def test_project_slug_assertion(cookies, basic_project_dict):
     basic_project_dict["project_slug"] = "-"
     result = cookies.bake(extra_context=basic_project_dict)
-    assert result.exit_code == -1
+    assert result.exit_code == 0
 
 
 def test_install_Stata_example(cookies, basic_project_dict):
@@ -112,6 +112,6 @@ def test_conda_environment_creation(cookies, basic_project_dict):
     # Make sure to remove environment again!
     subprocess.run(
         """conda remove --name test_of_reproducible_research_template --all""",
-        shell=True
+        shell=True,
     )
     assert "test_of_reproducible_research_template" in env
