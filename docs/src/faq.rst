@@ -10,7 +10,7 @@ Tips and Tricks for Windows Users
 =================================
 
 Anaconda Installation Notes for Windows Users
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------
 
 Please follow these steps unless you know what you are doing.
 
@@ -43,22 +43,22 @@ Please follow these steps unless you know what you are doing.
 .. _git_windows:
 
 Integrating git tab completion in Windows Powershell
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------
 
 Powershell does not support tab completion for git automatically. However, there is a nice utility called `posh-git <https://github.com/dahlbyk/posh-git>`_. We advise you to install this as this makes your life easier.
 
 .. _path_windows:
 
 PATH environmental variable in Windows
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 In Windows, one has to oftentimes add the programs manually to the *PATH* environmental variable in the Advanced System Settings. How to exactly do that see `here <https://www.computerhope.com/issues/ch000549.htm>`_
 
 
 .. _mac_path:
 
-Adding Excecutables to Path: Mac OS and Linux
-=============================================
+Adding directories to the path: MacOS and Linux
+===============================================
 
 Open the program **Terminal** in the "Utilities" subfolder of your applications folder.
 
@@ -99,6 +99,99 @@ I will now provide a step-by-step guide of how to create / adjust this file usin
 #. Press ``Return`` and then ``ctrl+o`` (= WriteOut = save) and ``Return`` once more.
 
 
+.. _cookiecutter_trouble:
+
+When cookiecutter exits with an error
+=====================================
+
+If cookiecutter breaks of, you will get a lengthy error message. It is important that you work through this and try to understand the error (the language used might seem funny, but it is precise...).
+
+Then type:
+
+  .. code-block:: bash
+
+    $ atom ~/.cookiecutter_replay/econ-project-template-v0.2.json
+
+If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH, see :ref:`preparing_your_system`.
+
+This command should open your editor and show you a json file containing your answers to the previously filled out dialog. You can fix your faulty settings in this file. If you have spaces or special characters in your path, you need to adjust your path.
+
+When done, launch a new shell if necessary and type:
+
+  .. code-block:: bash
+
+    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
+
+
+.. _dependencies:
+
+Prerequisites if you decide not to have a conda environment
+===========================================================
+
+This section lists additional dependencies that are installed via the conda environment.
+
+General:
+--------
+
+.. code-block:: bash
+
+    $ conda install pandas python-graphviz=0.8
+    $ pip install maplotlib click==7.0
+
+For sphinx users:
+-----------------
+
+.. code-block:: bash
+
+    $ pip install sphinx nbsphinx sphinx-autobuild sphinx-rtd-theme sphinxcontrib-bibtex
+
+For Matlab and sphinx users:
+----------------------------
+
+.. code-block:: bash
+
+    $ pip install sphinxcontrib-matlabdomain
+
+For pre-commit users:
+---------------------
+
+.. code-block:: bash
+
+    $ pip install pre-commit
+
+
+For R users:
+^^^^^^^^^^^^
+
+R packages can, in general, also be managed via `conda environments <https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/>`_. The environment of the template contains the following R-packages necessary to run the R example of this template:
+
+  - AER
+  - aod
+  - car
+  - foreign
+  - lmtest
+  - rjson
+  - sandwich
+  - xtable
+  - zoo
+
+Quick 'n' dirty command in an R shell:
+
+.. code-block:: r
+
+      install.packages(
+          c(
+              "foreign",
+              "AER",
+              "aod",
+              "car",
+              "lmtest",
+              "rjson",
+              "sandwich",
+              "xtable",
+              "zoo"
+          )
+      )
 LaTeX & Waf
 ===========
 

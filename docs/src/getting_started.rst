@@ -4,43 +4,18 @@
 Getting Started
 ***************
 
-This documentation is structured in several parts. This section holds a description on how to install the templates. The template comes with a running example of the language of your choice (Python, Matlab, R, or Stata). Starting at :ref:`introduction`, we describe the background of the examples and some background on tools like Waf. The third section contains some background on additional helpers like :ref:`create_env`, :ref:`pre_commit`, and :ref:`faq`.
+Here, we first describe in :ref:`preparing_your_system` how you need to set up your computer so that everything plays well together. In :ref:`dialog`, you will find detailed explanations on what you may want to choose when configuring the templates for your needs. Once you are done with that, you may want to check the :ref:`starting_new_project` or :ref:`porting_existing_project`.
 
-* If you want to first get an idea of whether this is the right thing for you, start by reading through the :ref:`introduction` and the example most relevant for you (:ref:`pyexample`, :ref:`rexample`).
-* If you know what you are doing, continue right here.
+So, ...
 
-Suggestions for starting a new project
-======================================
+* If you want to first get an idea of whether this is the right thing for you, start by reading through the :ref:`introduction` and the :ref:`pyexample` or the :ref:`rexample`, whichever is most relevant for you.
+* If you are hooked already and want to try it out, continue right here with :ref:`preparing_your_system`.
+* If you have done this before, you can jump directly to :ref:`dialog`.
 
-Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So write one bit of code at a time, understand what is going on, and move on.
+.. _preparing_your_system:
 
-#. Install the template for the language of your choice as described in :ref:`dialog`
-#. I suggest you leave the examples in place.
-#. Now add your own data and code bit by bit, append the wscript files as necessary. To see what is happening, it might be useful to comment out some steps
-#. Once you got the hang of how things work, remove the examples (both the files and the code in the wscript files)
-
-
-Suggestions for porting an existing project
-===========================================
-
-Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
-
-#. Install the template for the language of your choice as described in :ref:`dialog`
-#. Assuming that you use git, first move all the code in the existing project to a subdirectory called old_code. Commit.
-#. Decide on which steps you'll likely need / use (e.g., in a simulation exercise you probably won't need any data management). Delete the directories you do not need from ``src`` and the corresponding ``ctx.recurse()`` calls in ``src/wscript``. Commit.
-#. Start with the data management code. To do so, comment out everything except for the recursions to the library and data_management directories from src/wscript
-#. Move your data files to the right new spot. Delete the ones from the template.
-#. Copy & paste the body of (the first steps of) your data management code to the example files, keeping the basic machinery in place. E.g., in case of the Stata template: In the ``src/data_management/clean_data.do`` script, keep the top lines (inclusion of project paths and opening of the log file). Paste your code below that and adjust the last lines saving the dta file.
-#. Adjust the ``src/data_management/wscript`` file with the right filenames.
-#. Run waf, adjusting the code for the errors you'll likely see.
-#. Move on step-by-step like this.
-
-.. _dialog:
-
-Setting up your own project
-===========================
-
-**If you are experienced with the project templates, you can go directly to step five.**
+Preparing your system
+=====================
 
 1.  Make sure you have the following programs installed and that these can be found on your path. This template requires
 
@@ -131,13 +106,21 @@ Setting up your own project
 
 4. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
 
-5. Navigate to your designated parent directory in a shell and set up your research project by typing:
+
+.. _dialog:
+
+Configuring your new project
+============================
+
+1. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a terminal.
+
+   Navigate to the parent folder of your future project and type (i.e., copy & paste):
 
   .. code-block:: bash
 
     $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
 
-6. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off**.
+2. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off** (see :ref:`cookiecutter_trouble` on how to recover from there, but no need to push it).
 
   **author** -- Separate multiple authors by commas
 
@@ -181,10 +164,10 @@ Setting up your own project
 
   **open_source_license** -- Whatever you prefer.
 
-  After successfully answering all the prompts, a folder named according to your project_slug will be created in your current directory. If you run into trouble, please follow the steps explained :ref:`trouble`
+  After successfully answering all the prompts, a folder named according to your project_slug will be created in your current directory. If you run into trouble, please follow the steps explained :ref:`cookiecutter_trouble`
 
 
-7. **Skip step 7 if you did not opt for the conda environment.** Type:
+3. **Skip this step if you did not opt for the conda environment.** Type:
 
   .. code-block:: bash
 
@@ -192,20 +175,19 @@ Setting up your own project
 
   This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
 
-8. **Skip step 8 if you did not opt for the pre-commit hooks**. Pre-commit have to be installed in order for them to have an effect. This step has to be repeated every time you work on your project on a new machine. To install the pre-commit hooks, type:
+4. **Skip this step if you did not opt for the pre-commit hooks**. Pre-commit have to be installed in order for them to have an effect. This step has to be repeated every time you work on your project on a new machine. To install the pre-commit hooks, type:
 
   .. code-block:: bash
 
     $ pre-commit install
 
-9. Navigate to the folder in the shell and type the following commands into your command line to see whether the examples are working:
+5. Navigate to the folder in the shell and type the following commands into your command line to see whether the examples are working:
 
   .. code-block:: bash
 
       $ python waf.py configure
 
-
-  All programs used within this project template need to be found on your path. Otherwise, this step will fail. If you are a Windows user, you can find more information on how to add executables to path `here <https://www.computerhope.com/issues/ch000549.htm>`__.
+  All programs used within this project template need to be found on your path, see above (:ref:`preparing_your_system` and the :ref:`faq`). Otherwise, this step will fail.
 
   .. code-block:: bash
 
@@ -225,95 +207,32 @@ Setting up your own project
 
   If all went well, you are now ready to adapt the template to your project.
 
-.. _trouble:
 
-Trouble shooting
-================
+.. _starting_new_project:
 
-If you run into problems in the project installation step, please follow the following steps: First try to understand the error.
+Tips and tricks for starting a new project
+==========================================
 
-Then type:
+Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So write one bit of code at a time, understand what is going on, and move on.
 
-  .. code-block:: bash
-
-    $ atom ~/.cookiecutter_replay/econ-project-template-v0.2.json
-
-If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH as well.
-This command should open your editor and show you a json file containing your answers to the previously filled out dialog. You can fix your faulty settings in this file. If you have spaces or special characters in your path, you need to adjust your path.
-
-When done, launch a new shell if necessary and type:
-
-  .. code-block:: bash
-
-    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
+#. Install the template for the language of your choice as described in :ref:`dialog`
+#. I suggest you leave the examples in place.
+#. Now add your own data and code bit by bit, append the wscript files as necessary. To see what is happening, it might be useful to comment out some steps
+#. Once you got the hang of how things work, remove the examples (both the files and the code in the wscript files)
 
 
-.. _dependencies:
+.. _porting_existing_project:
 
-Prerequisites if you decide not to have a conda environment
-===========================================================
+Suggestions for porting an existing project
+===========================================
 
-This section lists additional dependencies that are installed via the conda environment.
+Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
 
-General:
-^^^^^^^^
-
-.. code-block:: bash
-
-    $ conda install pandas python-graphviz=0.8
-    $ pip install maplotlib click==7.0
-
-For sphinx users:
-^^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-    $ pip install sphinx nbsphinx sphinx-autobuild sphinx-rtd-theme sphinxcontrib-bibtex
-
-For Matlab and sphinx users:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-    $ pip install sphinxcontrib-matlabdomain
-
-For pre-commit users:
-^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-    $ pip install pre-commit
-
-
-For R users:
-^^^^^^^^^^^^
-
-R packages can, in general, also be managed via `conda environments <https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/>`_. The environment of the template contains the following R-packages necessary to run the R example of this template:
-
-  - AER
-  - aod
-  - car
-  - foreign
-  - lmtest
-  - rjson
-  - sandwich
-  - xtable
-  - zoo
-
-Quick 'n' dirty command in an R shell:
-
-.. code-block:: r
-
-      install.packages(
-          c(
-              "foreign",
-              "AER",
-              "aod",
-              "car",
-              "lmtest",
-              "rjson",
-              "sandwich",
-              "xtable",
-              "zoo"
-          )
-      )
+#. Assuming that you use Git, first move all the code in the existing project to a subdirectory called old_code. Commit.
+#. Start with the data management code. To do so, comment out everything except for the recursions to the library and data_management directories from src/wscript
+#. Move your data files to the spot where they belong under the new structure.
+#. Copy & paste the body of (the first steps of) your data management code to the example files, keeping the basic machinery in place. E.g., in case of the Stata template: In the ``src/data_management/clean_data.do`` script, keep the top lines (inclusion of project paths and opening of the log file). Paste your code below that and adjust the last lines saving the dta file.
+#. Adjust the ``src/data_management/wscript`` file with the right filenames.
+#. Run waf, adjusting the code for the errors you'll likely see.
+#. Move on step-by-step like this.
+#. Delete the example files and the corresponding sections of the wscript files.
