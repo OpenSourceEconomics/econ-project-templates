@@ -236,7 +236,7 @@ Then type:
 
   .. code-block:: bash
 
-    $ atom ~/.cookiecutter_replay/econ-project-template-[version].json
+    $ atom ~/.cookiecutter_replay/econ-project-template-v0.2.json
 
 If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH as well.
 This command should open your editor and show you a json file containing your answers to the previously filled out dialog. You can fix your faulty settings in this file. If you have spaces or special characters in your path, you need to adjust your path.
@@ -245,7 +245,7 @@ When done, launch a new shell if necessary and type:
 
   .. code-block:: bash
 
-  $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/[version].zip
+    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
 
 
 .. _dependencies:
