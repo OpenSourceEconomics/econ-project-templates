@@ -53,57 +53,62 @@ Setting up your own project
 
   * `Git <https://git-scm.com/downloads>`_, windows users please also consult :ref:`git_windows`
 
-  * A text editor of your choice. For newcomers, we recommend to install `Atom <https://atom.io/>`_.
+  * The text editor `Atom <https://atom.io/>`_, unless you know what you are doing.
 
-2. If you use Mac or Linux, open your terminal. If you use Windows, please open Windows Powershell. 
+2. If you use Mac or Linux, open your terminal. If you use Windows, please open Windows Powershell. Navigate to the parent folder of your future directory.
 
-    1. Navigate to the parent folder of your future directory. Please ensure that
+    1. Typing pwd reveals that there are no spaces or special characters (for instance ä, ü, é, Chinese of Kyrillic characters) in the path. If you have any spaces or special characters on your path, change to a folder that does not have these special characters.
 
-    2. Typing pwd reveals that there are no spaces or special characters (for instance ä, ü, é) in the path. Else change to C:\ whatever and create your project there.
+    2. Further, you need to make sure that every program that is used in your project (Stata, R, Matlab, Latex Distributions, Anaconda) can be found on your *PATH*. That is, these need to be accessible from your shell. This is not always automatically true, in particular on Windows.
 
-    Further, you need to make sure that every program that is used in your project (Stata, R, Matlab, Latex Distributions, Anaconda) can be found on your *PATH*. That is, these need to be accessible from your shell. This is not always automatically true, in particular on Windows. In Windows, one has to oftentimes add the programs manually to the PATH environmental variable in the Advanced System Settings. How to exactly do that on windows see `here <https://www.computerhope.com/issues/ch000549.htm>`_ and on Mac see :ref:`mac_path`. To see which programs can be found in your path, type:
+    - To see which programs can be found in your path, type:
 
-    *Windows*
+      *Windows*
 
-    .. code-block:: bash
+      .. code-block:: bash
 
-      $ echo $env:path
+        $ echo $env:path
 
-    *Mac*
+      *Mac*
 
-    .. code-block:: bash
+      .. code-block:: bash
 
-      $ echo $PATH
+        $ echo $PATH
 
-    This gives you a list of directories that are available on your *PATH*. Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your python distribution), a Tex distribution, a text editor (for example Atom) and git. Otherwise add them.
+      This gives you a list of directories that are available on your *PATH*.
 
-    As a further test, whether you added the paths correctly, type:
+    - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your python distribution), a Tex distribution, the text editor Atom, git and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up there paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`mac_path`.
 
-    .. code-block:: bash
+    - If you added any program to *PATH*, you need to close and reopen your shell, so that this change is implemented.
 
-      $ python
-      $ exit()
-
-    This starts python in your shell, and exits from it again.
+     - As a further test, whether you added the paths correctly, type:
 
     .. code-block:: bash
 
-      $ git status
+        $ python
+        $ exit()
 
-    This should yield the output: ```fatal: not a git repository (or any of the parent directories): .git```
+      This starts python in your shell and exits from it again. The top line should indicate that you are using a python distribution provided by Anaconda (example: ```Python 3.7.4 (default, Aug  9 2019, 18:34:13) [MSC v.1915 64 bit (AMD64)] :: Anaconda, Inc. on win32```)
 
-    .. code-block:: bash
+      .. code-block:: bash
 
-      $ pdflatex
-      $ X
+        $ git status
 
-    This starts and exits pdflatex.
+      This should yield the output: ```fatal: not a git repository (or any of the parent directories): .git```
 
-    .. code-block:: bash
+      .. code-block:: bash
 
-      $ atom
+        $ pdflatex
+        $ X
 
-    Replace `atom` with your text editor of choice, if you do not have atom installed. This should open an editor window.
+      This starts and exits pdflatex.
+
+      .. code-block:: bash
+
+        $ atom
+
+      This should open an editor window.
+
 
 3. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
 
@@ -218,7 +223,7 @@ Setting up your own project
 Trouble shooting
 ================
 
-If you run into problems in the project installation step, please follow the following steps: First try to understand the error. 
+If you run into problems in the project installation step, please follow the following steps: First try to understand the error.
 
 Then type:
 
@@ -226,7 +231,7 @@ Then type:
 
     $ atom ~/.cookiecutter_replay/econ-project-template-[version].json
 
-If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH as well. 
+If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH as well.
 This command should open your editor and show you a json file containing your answers to the previously filled out dialog. You can fix your faulty settings in this file. If you have spaces or special characters in your path, you need to adjust your path.
 
 When done, launch a new shell if necessary and type:
@@ -234,49 +239,6 @@ When done, launch a new shell if necessary and type:
   .. code-block:: bash
 
   $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/[version].zip
-
-.. _windows_user:
-
-Tips and Tricks for Windows Users
-=================================
-
-Anaconda Installation Notes for Windows Users
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Please follow these steps unless you know what you are doing.
-
-1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_ for Python 3.x.
-
-2. Start the installer and click yourselve throug the menu. If you have administrator privileges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
-
-3. Make sure to tick the following box:
-
-  - ''Register Anaconda as my default Python 3.x''. Finish installation.
-
-4. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_. 
-
-5. Now open Windows Powershell and initialize it for full conda use by running
-
-  .. code-block:: bash
-
-    $ conda init
-
-  If this yields an error regarding the powershell execution policy (red text upon reopening powershell), please start Windows Powershell in administrator mode, and execute the following:
-
-  .. code-block:: bash
-
-    $ set-executionpolicy remotesigned
-
-.. warning::
-
-  If you still run into problems when running conda and python from powershell, it is advisable to use the built-in Anaconda Prompt instead.
-
-.. _git_windows:
-
-Integrating git tab completion in Windows Powershell
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Powershell does not support tab completion for git automatically. However, there is a nice utility called `posh-git <https://github.com/dahlbyk/posh-git>`_. We advise you to install this as this makes your life easier.
 
 
 .. _dependencies:

@@ -4,6 +4,57 @@
 Frequently Answered Questions / Troubleshooting
 ***********************************************
 
+.. _windows_user:
+
+Tips and Tricks for Windows Users
+=================================
+
+Anaconda Installation Notes for Windows Users
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Please follow these steps unless you know what you are doing.
+
+1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_ for Python 3.x.
+
+2. Start the installer and click yourselve throug the menu. If you have administrator privileges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
+
+3. Make sure to tick the following box:
+
+  - ''Register Anaconda as my default Python 3.x''. Finish installation.
+
+4. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_.
+
+5. Now open Windows Powershell and initialize it for full conda use by running
+
+  .. code-block:: bash
+
+    $ conda init
+
+  If this yields an error regarding the powershell execution policy (red text upon reopening powershell), please start Windows Powershell in administrator mode, and execute the following:
+
+  .. code-block:: bash
+
+    $ set-executionpolicy remotesigned
+
+.. warning::
+
+  If you still run into problems when running conda and python from powershell, it is advisable to use the built-in Anaconda Prompt instead.
+
+.. _git_windows:
+
+Integrating git tab completion in Windows Powershell
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Powershell does not support tab completion for git automatically. However, there is a nice utility called `posh-git <https://github.com/dahlbyk/posh-git>`_. We advise you to install this as this makes your life easier.
+
+.. _path_windows:
+
+PATH environmental variable in Windows
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In Windows, one has to oftentimes add the programs manually to the *PATH* environmental variable in the Advanced System Settings. How to exactly do that see `here <https://www.computerhope.com/issues/ch000549.htm>`_
+
+
 .. _mac_path:
 
 Adding Excecutables to Path: Mac OS and Linux
@@ -11,14 +62,14 @@ Adding Excecutables to Path: Mac OS and Linux
 
 Open the program **Terminal** in the "Utilities" subfolder of your applications folder.
 
-If you have never used the command line before, I recommend watching `this lecture <http://software-carpentry.org/4_0/shell/>`_ from the `Software Carpentry course <http://software-carpentry.org/4_0/>`_. 
+If you have never used the command line before, I recommend watching `this lecture <http://software-carpentry.org/4_0/shell/>`_ from the `Software Carpentry course <http://software-carpentry.org/4_0/>`_.
 
 
 You will need to add a line to the file ``.bash_profile`` and potentially create the file. This file lives in your home directory and it is hidden from your view by default, to toggle that setting that you can download a neat little `program <http://download.cnet.com/Show-Hidden-Files/3000-2383_4-75415396.html>`_.
 
 **Linux users**: For most distributions, everything here applies to the file ``.bashrc`` instead of ``.bash_profile``.
 
-I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``, if you are familiar with editing text files, just use your editor of choice. 
+I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``, if you are familiar with editing text files, just use your editor of choice.
 
 #. Open a Terminal and type
 
@@ -28,7 +79,7 @@ I will now provide a step-by-step guide of how to create / adjust this file usin
 
    If you use a different editor, replace atom by the respective editor.
 
-   If ``.bash_profile`` already existed, you will see some text at this point. If so, use the arrow keys to scroll all the way to the bottom of the file. 
+   If ``.bash_profile`` already existed, you will see some text at this point. If so, use the arrow keys to scroll all the way to the bottom of the file.
 
 
 #. Add the following line at the end of the file
@@ -40,20 +91,13 @@ I will now provide a step-by-step guide of how to create / adjust this file usin
    You will need to follow the same steps as before. Example for Stata::
         # Stata directory
         export PATH="${PATH}:/Applications/Stata/StataMP.app/Contents/MacOS/"
-    
+
    In ``/Applications/Stata/StataMP.app``, you may need to replace bits and pieces as appropriate for your installation (e.g. you might not have StataMP but StataSE).
 
    Similarly for Matlab or the likes.
 
 #. Press ``Return`` and then ``ctrl+o`` (= WriteOut = save) and ``Return`` once more.
 
-
-#. Your default locale settings may conflict with some of the programs we'll need. If you want to be on the safe side, add these lines to your ``.bash_profile`` file::
-   
-        export LC_ALL=en_US.UTF-8
-        export LANG=en_US.UTF-8
-   
-   (Hat tip to Matthias Bannert)
 
 LaTeX & Waf
 ===========
