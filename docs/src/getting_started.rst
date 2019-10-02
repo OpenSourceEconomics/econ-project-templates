@@ -55,59 +55,66 @@ Setting up your own project
 
   * The text editor `Atom <https://atom.io/>`_, unless you know what you are doing.
 
-2. If you use Mac or Linux, open your terminal. If you use Windows, please open Windows Powershell. Navigate to the parent folder of your future directory.
+2. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a terminal.
 
-    1. Typing pwd reveals that there are no spaces or special characters (for instance ä, ü, é, Chinese of Kyrillic characters) in the path. If you have any spaces or special characters on your path, change to a folder that does not have these special characters.
+   Navigate to the parent folder of your future project.
 
-    2. Further, you need to make sure that every program that is used in your project (Stata, R, Matlab, Latex Distributions, Anaconda) can be found on your *PATH*. That is, these need to be accessible from your shell. This is not always automatically true, in particular on Windows.
+   1. Now type ``pwd``, which prints the absolute path to your present working directory. **There must not be any spaces or special characters in the path** (for instance ä, ü, é, Chinese of Kyrillic characters).
 
-    - To see which programs can be found in your path, type:
+      If you have any spaces or special characters on your path, change to a folder that does not have these special characters (e.g., on Windows, create a directory ``C:\projects``. Do **not** rename your home directory).
 
-      *Windows*
+   2. As everything will be started from the Powershell/Terminal, you need to make sure that all programmes you need in your project (for sure Anaconda Python, Git, and LaTeX; potentially Stata, R, Matlab, Julia) can be found on your *PATH*. That is, these need to be accessible from your shell. This is not always true without some manual work, in particular on Windows.
 
-      .. code-block:: bash
+      - To see which programmes can be found in your path, type:
 
-        $ echo $env:path
+        *Windows*
 
-      *Mac*
+          .. code-block:: powershell
 
-      .. code-block:: bash
+            $ echo $env:path
 
-        $ echo $PATH
+        *Mac/Linux*
 
-      This gives you a list of directories that are available on your *PATH*.
+          .. code-block:: bash
 
-    - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your python distribution), a Tex distribution, the text editor Atom, git and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up there paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`mac_path`.
+            $ echo $PATH
 
-    - If you added any program to *PATH*, you need to close and reopen your shell, so that this change is implemented.
+        This gives you a list of directories that are available on your *PATH*.
 
-     - As a further test, whether you added the paths correctly, type:
+       - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a Tex distribution, the text editor Atom, git and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up there paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`mac_path`.
 
-    .. code-block:: bash
+       - If you added any directory to *PATH*, you need to close and reopen your shell, so that this change is implemented.
 
-        $ python
-        $ exit()
+       - To be on the safe side regarding your paths, you can check directly whether you can launch the programmes. For Python, type:
 
-      This starts python in your shell and exits from it again. The top line should indicate that you are using a python distribution provided by Anaconda (example: ```Python 3.7.4 (default, Aug  9 2019, 18:34:13) [MSC v.1915 64 bit (AMD64)] :: Anaconda, Inc. on win32```)
+         .. code-block:: bash
 
-      .. code-block:: bash
+                $ python
+                $ exit()
 
-        $ git status
+         This starts python in your shell and exits from it again. The top line should indicate that you are using a Python distribution provided by Anaconda (example: ```Python 3.7.4 (default, Aug  9 2019, 18:34:13) [MSC v.1915 64 bit (AMD64)] :: Anaconda, Inc. on win32```)
 
-      This should yield the output: ```fatal: not a git repository (or any of the parent directories): .git```
+         .. code-block:: bash
 
-      .. code-block:: bash
+                $ git status
 
-        $ pdflatex
-        $ X
+         This should yield the output: ```fatal: not a git repository (or any of the parent directories): .git```
 
-      This starts and exits pdflatex.
+         To start and exit pdflatex.
 
-      .. code-block:: bash
+            .. code-block:: bash
 
-        $ atom
+              $ pdflatex
+              $ X
 
-      This should open an editor window.
+         An editor window should open after typing:
+
+            .. code-block:: bash
+
+              $ atom
+
+
+         If required, do the same for ``stata``, ``r``, and/or ``matlab``,
 
 
 3. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
@@ -120,7 +127,7 @@ Setting up your own project
 
   .. warning::
 
-    If you don't opt for the conda environment later on, you need to take care of these dependencies on your own. A list of additional dependencies can be found under :ref:`dependencies`.
+    If you don't opt for the conda environment later on, you need to take care of these dependencies by yourself. A list of additional dependencies can be found under :ref:`dependencies`.
 
 4. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
 
