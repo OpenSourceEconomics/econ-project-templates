@@ -73,6 +73,10 @@ jobs:
     displayName: Add Latex to PATH.
 
   - bash: |
+      echo $PATH
+    displayName: What is on Path?
+
+  - bash: |
       source activate econ-project-templates
       pytest
     displayName: Run pytests.

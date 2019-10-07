@@ -175,7 +175,7 @@ def create_fig(out_file, x_items, y_items):
         for box in x_items["single boxes"]:
             ax.add_patch(box)
     plt.draw()
-    plt.savefig("{}.{}".format(out_file, EXPORT_TYPE))
+    plt.savefig(f"{out_file}.{EXPORT_TYPE}")
 
 
 create_fig(

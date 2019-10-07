@@ -72,10 +72,7 @@ def configure(ctx):
     ctx.env.PYTHONPATH = os.getcwd()
     # Need shell-escape for converting eps to pdf on the fly, necessary e.g. for Stata
     # Vector graphics output in batch mode.
-    ctx.env.PDFLATEXFLAGS = [
-        # "-shell-escape",
-        "-halt-on-error"
-    ]
+    ctx.env.PDFLATEXFLAGS = [{% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}"-shell-escape", {% endif %}"-halt-on-error"]
 {% if cookiecutter.configure_running_python_from_waf == "y" or cookiecutter.example_to_install.lower() == "python" %}    ctx.load("run_py_script")
 {% endif %}{% if cookiecutter.configure_running_stata_from_waf == "y" or cookiecutter.example_to_install.lower() == "stata" %}    ctx.load("run_do_script")
 {% endif %}{% if cookiecutter.configure_running_matlab_from_waf == "y" or cookiecutter.example_to_install.lower() == "matlab" %}    ctx.load("run_m_script")

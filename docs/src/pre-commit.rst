@@ -11,6 +11,7 @@ Pre-commit hooks are checks and syntax formatters that run upon every commit. If
   - `check-added-large-files <https://github.com/pre-commit/pre-commit-hooks>`_: Checks that all committed files do not exceed 100MB in size. This is the maximal file size allowed by Github.
   - `check-byte-order-marker <https://github.com/pre-commit/pre-commit-hooks>`_: Fails if file has a UTF-8 byte-order marker.
   - `check-json <https://github.com/pre-commit/pre-commit-hooks>`_: Checks whether all files that end with .json are indeed valid json files.
+  - `pyupgrade <https://github.com/asottile/pyupgrade>`_: Converts Python code to make use of newer syntax.
   - `pretty-format-json <https://github.com/pre-commit/pre-commit-hooks>`_: Reformats your json files to be more readable.
   - `trailing-whitespace <https://github.com/pre-commit/pre-commit-hooks>`_: Removes trailing whitespaces in all your text files.
   - `black <https://github.com/ambv/black>`_: Runs the python code formatter black on all your comitted python files.

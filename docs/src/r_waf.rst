@@ -70,17 +70,17 @@ Waf makes it easy to proceed in a step-wise manner by letting the user distribut
 .. code:: python
 
     def build(ctx):
-        ctx.recurse('src')
+        ctx.recurse("src")
 
 When this function is called, it will descend into a subfolder *src*, look for a file called *wscript* and invoke the ``build`` function defined therein. If any of the three does not exist, it will fail. In the file *src/wscript*, you will find (among other calls), the following statements:
 
 .. code:: python
 
     def build(ctx):
-        ctx.recurse('data_management')
-        ctx.recurse('analysis')
-        ctx.recurse('final')
-        ctx.recurse('paper')
+        ctx.recurse("data_management")
+        ctx.recurse("analysis")
+        ctx.recurse("final")
+        ctx.recurse("paper")
 
 The same comments as before apply to what the ``ctx.recurse`` calls do. Hence you can specify the dependencies separately for each step of the analysis.
 

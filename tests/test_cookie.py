@@ -81,17 +81,6 @@ def test_install_run_stata_from_waf(cookies, basic_project_dict):
     assert 'ctx(features="write_project_paths", target="project_paths.do")' in wscript
 
 
-def test_remove_formatter(cookies, basic_project_dict):
-    basic_project_dict["add_python_code_formatter_to_project"] = "n"
-    result = cookies.bake(extra_context=basic_project_dict)
-    formatter = result.project.join("format_python_files.py")
-    pyproject = result.project.join("pyproject.toml")
-
-    assert result.exit_code == 0
-    assert formatter.check(exists=0)
-    assert pyproject.check(exists=0)
-
-
 def test_template_without_sphinx(cookies, basic_project_dict):
     basic_project_dict["configure_running_sphinx_from_waf"] = "n"
     result = cookies.bake(extra_context=basic_project_dict)
@@ -117,6 +106,7 @@ def test_conda_environment_creation(cookies, basic_project_dict):
     basic_project_dict[
         "create_conda_environment_with_name"
     ] = "test_of_reproducible_research_template"
+    subprocess.run("conda deactivate", shell=True)
     result = cookies.bake(extra_context=basic_project_dict)
     env = subprocess.check_output(["conda", "env", "list"]).decode()
     # Make sure to remove environment again!

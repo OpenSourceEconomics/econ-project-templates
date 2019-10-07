@@ -4,6 +4,194 @@
 Frequently Answered Questions / Troubleshooting
 ***********************************************
 
+.. _windows_user:
+
+Tips and Tricks for Windows Users
+=================================
+
+Anaconda Installation Notes for Windows Users
+---------------------------------------------
+
+Please follow these steps unless you know what you are doing.
+
+1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_ for Python 3.x.
+
+2. Start the installer and click yourselve throug the menu. If you have administrator privileges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
+
+3. Make sure to tick the following box:
+
+  - ''Register Anaconda as my default Python 3.x''. Finish installation.
+
+4. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_.
+
+5. Now open Windows Powershell and initialize it for full conda use by running
+
+  .. code-block:: bash
+
+    $ conda init
+
+  If this yields an error regarding the powershell execution policy (red text upon reopening powershell), please start Windows Powershell in administrator mode, and execute the following:
+
+  .. code-block:: bash
+
+    $ set-executionpolicy remotesigned
+
+.. warning::
+
+  If you still run into problems when running conda and python from powershell, it is advisable to use the built-in Anaconda Prompt instead.
+
+.. _git_windows:
+
+Integrating git tab completion in Windows Powershell
+----------------------------------------------------
+
+Powershell does not support tab completion for git automatically. However, there is a nice utility called `posh-git <https://github.com/dahlbyk/posh-git>`_. We advise you to install this as this makes your life easier.
+
+.. _path_windows:
+
+PATH environmental variable in Windows
+--------------------------------------
+
+In Windows, one has to oftentimes add the programs manually to the *PATH* environmental variable in the Advanced System Settings. How to exactly do that see `here <https://www.computerhope.com/issues/ch000549.htm>`_
+
+
+.. _mac_path:
+
+Adding directories to the path: MacOS and Linux
+===============================================
+
+Open the program **Terminal** in the "Utilities" subfolder of your applications folder.
+
+If you have never used the command line before, I recommend watching `this lecture <http://software-carpentry.org/4_0/shell/>`_ from the `Software Carpentry course <http://software-carpentry.org/4_0/>`_.
+
+
+You will need to add a line to the file ``.bash_profile`` and potentially create the file. This file lives in your home directory and it is hidden from your view by default, to toggle that setting that you can download a neat little `program <http://download.cnet.com/Show-Hidden-Files/3000-2383_4-75415396.html>`_.
+
+**Linux users**: For most distributions, everything here applies to the file ``.bashrc`` instead of ``.bash_profile``.
+
+I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``, if you are familiar with editing text files, just use your editor of choice.
+
+#. Open a Terminal and type
+
+  .. code-block:: bash
+
+      atom ~/.bash_profile
+
+   If you use a different editor, replace atom by the respective editor.
+
+   If ``.bash_profile`` already existed, you will see some text at this point. If so, use the arrow keys to scroll all the way to the bottom of the file.
+
+
+#. Add the following line at the end of the file
+
+  .. code-block:: bash
+
+      export PATH="${PATH}:/path/to/program/inside/package"
+
+   You will need to follow the same steps as before. Example for Stata::
+        # Stata directory
+        export PATH="${PATH}:/Applications/Stata/StataMP.app/Contents/MacOS/"
+
+   In ``/Applications/Stata/StataMP.app``, you may need to replace bits and pieces as appropriate for your installation (e.g. you might not have StataMP but StataSE).
+
+   Similarly for Matlab or the likes.
+
+#. Press ``Return`` and then ``ctrl+o`` (= WriteOut = save) and ``Return`` once more.
+
+
+.. _cookiecutter_trouble:
+
+When cookiecutter exits with an error
+=====================================
+
+If cookiecutter breaks of, you will get a lengthy error message. It is important that you work through this and try to understand the error (the language used might seem funny, but it is precise...).
+
+Then type:
+
+  .. code-block:: bash
+
+    $ atom ~/.cookiecutter_replay/econ-project-template-v0.2.json
+
+If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH, see :ref:`preparing_your_system`.
+
+This command should open your editor and show you a json file containing your answers to the previously filled out dialog. You can fix your faulty settings in this file. If you have spaces or special characters in your path, you need to adjust your path.
+
+When done, launch a new shell if necessary and type:
+
+  .. code-block:: bash
+
+    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
+
+
+.. _dependencies:
+
+Prerequisites if you decide not to have a conda environment
+===========================================================
+
+This section lists additional dependencies that are installed via the conda environment.
+
+General:
+--------
+
+.. code-block:: bash
+
+    $ conda install pandas python-graphviz=0.8
+    $ pip install maplotlib click==7.0
+
+For sphinx users:
+-----------------
+
+.. code-block:: bash
+
+    $ pip install sphinx nbsphinx sphinx-autobuild sphinx-rtd-theme sphinxcontrib-bibtex
+
+For Matlab and sphinx users:
+----------------------------
+
+.. code-block:: bash
+
+    $ pip install sphinxcontrib-matlabdomain
+
+For pre-commit users:
+---------------------
+
+.. code-block:: bash
+
+    $ pip install pre-commit
+
+
+For R users:
+^^^^^^^^^^^^
+
+R packages can, in general, also be managed via `conda environments <https://docs.anaconda.com/anaconda/user-guide/tasks/using-r-language/>`_. The environment of the template contains the following R-packages necessary to run the R example of this template:
+
+  - AER
+  - aod
+  - car
+  - foreign
+  - lmtest
+  - rjson
+  - sandwich
+  - xtable
+  - zoo
+
+Quick 'n' dirty command in an R shell:
+
+.. code-block:: r
+
+      install.packages(
+          c(
+              "foreign",
+              "AER",
+              "aod",
+              "car",
+              "lmtest",
+              "rjson",
+              "sandwich",
+              "xtable",
+              "zoo"
+          )
+      )
 LaTeX & Waf
 ===========
 

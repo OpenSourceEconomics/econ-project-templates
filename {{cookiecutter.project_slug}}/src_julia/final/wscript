@@ -9,12 +9,12 @@ def build(ctx):
             features="run_py_script",
             source="plot_locations.py",
             deps=[
-                ctx.path_to(ctx, "OUT_ANALYSIS", "schelling_{}.pickle".format(model)),
-                ctx.path_to(ctx, "IN_MODEL_SPECS", "{}.json".format(model)),
+                ctx.path_to(ctx, "OUT_ANALYSIS", f"schelling_{model}.pickle"),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", f"{model}.json"),
             ],
-            target=ctx.path_to(ctx, "OUT_FIGURES", "schelling_{}.png".format(model)),
+            target=ctx.path_to(ctx, "OUT_FIGURES", f"schelling_{model}.png"),
             append=model,
-            name="plot_locations_{}".format(model),
+            name=f"plot_locations_{model}",
         )
 
     from src.final.project_dependency_graph import make_project_dependency_graph
