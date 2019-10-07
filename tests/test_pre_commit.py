@@ -5,6 +5,13 @@ from test_cookie import basic_project_dict
 
 
 def _check_pre_commit(result):
+    subprocess.Popen(
+        "pre-commit install",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        shell=True,
+        cwd=result.project,
+    )
     c = subprocess.Popen(
         "pre-commit run --all-files",
         stdout=subprocess.PIPE,
@@ -13,10 +20,15 @@ def _check_pre_commit(result):
         cwd=result.project,
     )
     output, error = c.communicate()
-    assert (not re.search(r"Failed", str(output))), "Some pre-commit failed"
-    assert (not error), "{}".format(str(error))
-    assert (
-        re.search(r"(Passed|Failed)", str(output))
+
+    failure = re.search(r"Failed", str(output))
+    if failure is not None:
+        print(output)
+        raise AssertionError("Some pre-commit failed.")
+    # Not trivial to check for empty string if it might be binary stream
+    assert len(error) == 0, "{}".format(str(error))
+    assert re.search(
+        r"(Passed|Failed)", str(output)
     ), "All files skipped by pre-commit."
 
 

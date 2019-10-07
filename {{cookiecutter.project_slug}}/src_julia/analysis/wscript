@@ -12,14 +12,12 @@ def build(ctx):
             deps=[
                 ctx.path_to(ctx, "OUT_DATA", "initial_locations.csv"),
                 ctx.path_to(ctx, "IN_MODEL_CODE", "agent.py"),
-                ctx.path_to(ctx, "IN_MODEL_SPECS", "{}.json".format(model)),
+                ctx.path_to(ctx, "IN_MODEL_SPECS", f"{model}.json"),
             ],
             target=[
-                ctx.path_to(ctx, "OUT_ANALYSIS", "schelling_{}.pickle".format(model)),
-                ctx.path_to(
-                    ctx, "OUT_ANALYSIS", "log", "schelling_{}.log".format(model)
-                ),
+                ctx.path_to(ctx, "OUT_ANALYSIS", f"schelling_{model}.pickle"),
+                ctx.path_to(ctx, "OUT_ANALYSIS", "log", f"schelling_{model}.log"),
             ],
             append=model,
-            name="schelling_{}".format(model),
+            name=f"schelling_{model}",
         )

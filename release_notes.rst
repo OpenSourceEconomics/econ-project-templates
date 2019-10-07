@@ -2,6 +2,18 @@ Release Notes
 ==============
 
 
+
+v0.3 -- October 2019
+-----------------------
+
+* Much improved documentation (@raholler)
+* Extensive instructions for use on Windows (@raholler)
+* Re-use previously-entered data when cookiecutter fails (@tobiasraabe, @raholler)
+* Fix Stata template by setting `--shell-escape=1` (#63, @raholler)
+* Add pyupgrade to pre-commit hooks (#59)
+* Thanks to students at LMU for pointing lots of this out!
+
+
 v0.2 -- September 2019
 -----------------------
 

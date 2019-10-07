@@ -40,23 +40,23 @@ def build(ctx):
             # these must have different names)
             ctx(
                 features="subst",
-                source="{}_stage_estimation.do".format(stage),
-                target="{}_stage_estimation_{}.do".format(stage, m),
+                source=f"{stage}_stage_estimation.do",
+                target=f"{stage}_stage_estimation_{m}.do",
             )
 
             # Now run the do-file that was just copied over.
             ctx(
                 features="run_do_script",
-                source="{}_stage_estimation_{}.do".format(stage, m),
+                source=f"{stage}_stage_estimation_{m}.do",
                 target=[
-                    out_analysis("log", "{}_stage_estimation_{}.log".format(stage, m)),
-                    out_analysis("{}_stage_estimation_{}.dta".format(stage, m)),
+                    out_analysis("log", f"{stage}_stage_estimation_{m}.log"),
+                    out_analysis(f"{stage}_stage_estimation_{m}.dta"),
                 ],
                 deps=[
                     out_data("ajrcomment_all.dta"),
-                    out_models("{}.do".format(m)),
+                    out_models(f"{m}.do"),
                     out_models("geography.do"),
                 ],
-                name="{}_stage_estimation_{}".format(stage, m),
+                name=f"{stage}_stage_estimation_{m}",
                 append=m,
             )

@@ -73,7 +73,7 @@ def run_analysis(agents, model):
     _store_locations_by_round(locations_by_round[-1], agents)
 
     for loop_counter in range(model["max_iterations"]):
-        logging.info("Entering loop {}".format(loop_counter))
+        logging.info(f"Entering loop {loop_counter}")
         # Make room for locations.
         locations_by_round.append(_get_locations_by_round_dict(model))
         # Update locations as necessary
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     )
 
     logging.basicConfig(
-        filename=ppj("OUT_ANALYSIS", "log", "schelling_{}.log".format(model_name)),
+        filename=ppj("OUT_ANALYSIS", "log", f"schelling_{model_name}.log"),
         filemode="w",
         level=logging.INFO,
     )
@@ -118,7 +118,5 @@ if __name__ == "__main__":
     # Run the main analysis
     locations_by_round = run_analysis(agents, model)
     # Store list with locations after each round
-    with open(
-        ppj("OUT_ANALYSIS", "schelling_{}.pickle".format(model_name)), "wb"
-    ) as out_file:
+    with open(ppj("OUT_ANALYSIS", f"schelling_{model_name}.pickle"), "wb") as out_file:
         pickle.dump(locations_by_round, out_file)

@@ -31,8 +31,8 @@ def convert_model_json_to_stata(task):
     for key, val in sorted(model_pars.items()):
         # Adjust for Stata string notation
         if isinstance(val, str):
-            val = '"{}"'.format(val)
-        tgt_content += "global {k} = {v}\n".format(k=key, v=val)
+            val = f'"{val}"'
+        tgt_content += f"global {key} = {val}\n"
     return task.outputs[0].write(tgt_content)
 
 
@@ -54,8 +54,8 @@ def convert_geography_json_to_stata(task):
         for key, val in geo_dict.items():
             # Adjust for Stata string notation
             if isinstance(val, str):
-                val = '"{}"'.format(val)
-            tgt_content += "global {k}_{i} = {v}\n".format(k=key, i=i, v=val)
+                val = f'"{val}"'
+            tgt_content += f"global {key}_{i} = {val}\n"
         i += 1
     return task.outputs[0].write(tgt_content)
 
