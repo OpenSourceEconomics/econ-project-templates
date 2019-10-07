@@ -87,10 +87,11 @@ jobs:
       Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
       Write-Host "##vso[task.prependpath]$env:CONDA\bin"
     displayName: "Add conda to PATH on Windows"
+
   - bash: |
-    conda update -n base conda -y &&
-    conda init --all
-  displayName: "Conda setup on Windows"
+      conda update -n base conda -y &&
+      conda init --all
+    displayName: "Conda setup on Windows"
 
   - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
