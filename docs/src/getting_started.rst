@@ -73,6 +73,8 @@ Preparing your system
 
             Python 3.7.4 (default, Aug  9 2019, 18:34:1) [MSC v.1915 64 bit (AMD64)] :: Anaconda, Inc. on win32
 
+        For git, type:
+
          .. code-block:: bash
 
                 $ git status
