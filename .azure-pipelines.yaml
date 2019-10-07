@@ -16,9 +16,6 @@ jobs:
   - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
 
-  - bash: sudo apt-get install git
-    displayName: Install git.
-
   - bash: |
       git config --global user.name "John Doe"
       git config --global user.email johndoe@example.com
@@ -54,9 +51,6 @@ jobs:
 
   - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
-
-  - bash: brew install git
-    displayName: Install git.
 
   - bash: |
       git config --global user.name "John Doe"
@@ -101,24 +95,22 @@ jobs:
   - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
 
-  - bash: brew install git
-    displayName: Install git.
-
   - bash: |
       git config --global user.name "John Doe"
       git config --global user.email johndoe@example.com
     displayName: Configure git.
 
   - bash: |
-      brew install caskroom/cask
-      brew cask install mactex-no-gui
+      miktexsetup ^
+      --package-set=complete ^
+      download
+      miktexsetup ^
+      --modify-path ^
+      install
     displayName: Install Latex.
 
   - bash: |
-      echo "##vso[task.prependpath]/usr/local/texlive/2019/bin/x86_64-darwin"
-    displayName: Add Latex to PATH.
-
-  - bash: |
-      source activate econ-project-templates
+      CALL C:\Miniconda\condabin\conda_hook.bat && ^
+      CALL conda activate econ-project-templates
       pytest
     displayName: Run pytests.
