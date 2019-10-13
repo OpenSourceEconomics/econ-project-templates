@@ -56,7 +56,7 @@ Preparing your system
 
         This gives you a list of directories that are available on your *PATH*.
 
-       - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a Tex distribution, the text editor Atom, git and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up there paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`mac_path`.
+       - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a Tex distribution, the text editor Atom, git and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up there paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
 
        - If you added any directory to *PATH*, you need to close and reopen your shell, so that this change is implemented.
 
@@ -94,8 +94,7 @@ Preparing your system
 
               $ atom
 
-
-         If required, do the same for ``stata``, ``r``, and/or ``matlab``,
+         If required, do the same for Stata, R, Matlab, or Julia — see :ref:`here <starting_programs_from_the_command_line>` for the precise commands you may need.
 
 
 3. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
