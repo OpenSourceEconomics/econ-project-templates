@@ -138,7 +138,7 @@ Waf needs to be able to start your favourite (data) analysis programme from the 
 * Matlab: ``matlab``
 * Julia: ``julia``
 
-Remember that Mac/Linux are case-sensitive and Windows is not. If you get errors that the programme is not found for **all** of the possibilities on your platform, the most likely cause is that your path is not set correctly yet. You may check that by typing ``$env:path`` (Windows) or ``echo $PATH`` (Mac/Linux). If the path to the programme you need is not included, you can adjust it as detailed above (:ref:`Windows <path_windows>`, :ref:`Mac/Linux <path_mac>`).
+Remember that Mac/Linux are case-sensitive and Windows is not. If you get errors that the programme is not found for **all** of the possibilities on your platform, the most likely cause is that your path is not set correctly yet. You may check that by typing ``echo $env:path`` (Windows) or ``echo $PATH`` (Mac/Linux). If the path to the programme you need is not included, you can adjust it as detailed above (:ref:`Windows <path_windows>`, :ref:`Mac/Linux <path_mac>`).
 
 If the name of your programme is not listed among the possibilities above, please `open an issue on Github <https://github.com/hmgaudecker/econ-project-templates/issues>`_
 
