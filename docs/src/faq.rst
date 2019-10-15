@@ -22,7 +22,7 @@ Please follow these steps unless you know what you are doing.
 
   - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
-4. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_.
+4. Navigate to the folder containing your Anaconda distribution. This folder contains multiple subfolders. Please add the path to the folder called `condabin` to your *PATH* environmental variable. This path should end in `Anaconda3/condabin`. You can add paths to your *PATH* by following these `instructions <https://www.computerhope.com/issues/ch000549.htm>`_.
 
 5. Now open Windows Powershell and initialize it for full conda use by running
 
@@ -64,7 +64,7 @@ Open the program **Terminal**. You will need to add a line to the file ``.bash_p
 
 **Linux users**: For most distributions, everything here applies to the file ``.bashrc`` instead of ``.bash_profile``.
 
-I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``. if you are familiar with editing text files, just use your editor of choice.
+I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``. If you are familiar with editing text files, just use your editor of choice.
 
 #. Open a Terminal and type
 
