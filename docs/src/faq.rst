@@ -18,23 +18,23 @@ Please follow these steps unless you know what you are doing.
 
 2. Start the installer and click yourselve throug the menu. If you have administrator privileges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
 
-3. Make sure to tick the following box:
+3. Make sure to (only) tick the following box:
 
   - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
-4. Manually add Anaconda to path by following the instructions that can be found `here <https://www.computerhope.com/issues/ch000549.htm>`_.
+4. Navigate to the folder containing your Anaconda distribution. This folder contains multiple subfolders. Please add the path to the folder called `condabin` to your *PATH* environmental variable. This path should end in `Anaconda3/condabin`. You can add paths to your *PATH* by following these `instructions <https://www.computerhope.com/issues/ch000549.htm>`_.
 
-5. Now open Windows Powershell and initialize it for full conda use by running
-
-  .. code-block:: bash
-
-    $ conda init
-
-  If this yields an error regarding the powershell execution policy (red text upon reopening powershell), please start Windows Powershell in administrator mode, and execute the following:
+5. Please start Windows Powershell in administrator mode, and execute the following:
 
   .. code-block:: bash
 
     $ set-executionpolicy remotesigned
+
+6. Now (re-)open Windows Powershell and initialize it for full conda use by running
+
+  .. code-block:: bash
+
+    $ conda init
 
 .. warning::
 
@@ -55,21 +55,16 @@ PATH environmental variable in Windows
 In Windows, one has to oftentimes add the programs manually to the *PATH* environmental variable in the Advanced System Settings. How to exactly do that see `here <https://www.computerhope.com/issues/ch000549.htm>`_
 
 
-.. _mac_path:
+.. _path_mac:
 
-Adding directories to the path: MacOS and Linux
+Adding directories to the PATH: MacOS and Linux
 ===============================================
 
-Open the program **Terminal** in the "Utilities" subfolder of your applications folder.
-
-If you have never used the command line before, I recommend watching `this lecture <http://software-carpentry.org/4_0/shell/>`_ from the `Software Carpentry course <http://software-carpentry.org/4_0/>`_.
-
-
-You will need to add a line to the file ``.bash_profile`` and potentially create the file. This file lives in your home directory and it is hidden from your view by default, to toggle that setting that you can download a neat little `program <http://download.cnet.com/Show-Hidden-Files/3000-2383_4-75415396.html>`_.
+Open the program **Terminal**. You will need to add a line to the file ``.bash_profile`` and potentially create the file. This file lives in your home directory, in the Finder it is hidden from your view by default.
 
 **Linux users**: For most distributions, everything here applies to the file ``.bashrc`` instead of ``.bash_profile``.
 
-I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``, if you are familiar with editing text files, just use your editor of choice.
+I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``. If you are familiar with editing text files, just use your editor of choice.
 
 #. Open a Terminal and type
 
@@ -89,8 +84,9 @@ I will now provide a step-by-step guide of how to create / adjust this file usin
       export PATH="${PATH}:/path/to/program/inside/package"
 
    You will need to follow the same steps as before. Example for Stata::
-        # Stata directory
-        export PATH="${PATH}:/Applications/Stata/StataMP.app/Contents/MacOS/"
+
+      # Stata directory
+      export PATH="${PATH}:/Applications/Stata/StataMP.app/Contents/MacOS/"
 
    In ``/Applications/Stata/StataMP.app``, you may need to replace bits and pieces as appropriate for your installation (e.g. you might not have StataMP but StataSE).
 
@@ -110,7 +106,7 @@ Then type:
 
   .. code-block:: bash
 
-    $ atom ~/.cookiecutter_replay/econ-project-template-v0.2.json
+    $ atom ~/.cookiecutter_replay/econ-project-template-v0.3.1.json
 
 If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH, see :ref:`preparing_your_system`.
 
@@ -120,7 +116,32 @@ When done, launch a new shell if necessary and type:
 
   .. code-block:: bash
 
-    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.2.zip
+    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.3.1.zip
+
+
+
+.. _starting_programs_from_the_command_line:
+
+Starting stats/maths programmes from the shell
+==============================================
+
+Waf needs to be able to start your favourite (data) analysis programme from the command line, it might be worthwile trying that out yourself, too. These are the programme names that Waf looks for:
+
+* R: ``RScript``, ``Rscript``
+* Stata
+
+  * Windows: ``StataMP-64``, ``StataMP-ia``, ``StataMP``, ``StataSE-64``, ``StataSE-ia``, ``StataSE``, ``Stata-64``, ``Stata-ia``, ``Stata``, ``WMPSTATA``, ``WSESTATA``, ``WSTATA``
+
+  * MacOS: ``Stata64MP``, ``StataMP``, ``Stata64SE``, ``StataSE``, ``Stata64``, ``Stata``
+  * Linux: ``stata-mp``, ``stata-se``, ``stata``
+
+* Matlab: ``matlab``
+* Julia: ``julia``
+
+Remember that Mac/Linux are case-sensitive and Windows is not. If you get errors that the programme is not found for **all** of the possibilities on your platform, the most likely cause is that your path is not set correctly yet. You may check that by typing ``echo $env:path`` (Windows) or ``echo $PATH`` (Mac/Linux). If the path to the programme you need is not included, you can adjust it as detailed above (:ref:`Windows <path_windows>`, :ref:`Mac/Linux <path_mac>`).
+
+If the name of your programme is not listed among the possibilities above, please `open an issue on Github <https://github.com/hmgaudecker/econ-project-templates/issues>`_
+
 
 
 .. _dependencies:
@@ -192,6 +213,8 @@ Quick 'n' dirty command in an R shell:
               "zoo"
           )
       )
+
+
 LaTeX & Waf
 ===========
 
