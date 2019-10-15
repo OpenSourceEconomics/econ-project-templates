@@ -18,23 +18,23 @@ Please follow these steps unless you know what you are doing.
 
 2. Start the installer and click yourselve throug the menu. If you have administrator privileges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
 
-3. Make sure to tick the following box:
+3. Make sure to (only) tick the following box:
 
   - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
 4. Navigate to the folder containing your Anaconda distribution. This folder contains multiple subfolders. Please add the path to the folder called `condabin` to your *PATH* environmental variable. This path should end in `Anaconda3/condabin`. You can add paths to your *PATH* by following these `instructions <https://www.computerhope.com/issues/ch000549.htm>`_.
 
-5. Now open Windows Powershell and initialize it for full conda use by running
-
-  .. code-block:: bash
-
-    $ conda init
-
-  If this yields an error regarding the powershell execution policy (red text upon reopening powershell), please start Windows Powershell in administrator mode, and execute the following:
+5. Please start Windows Powershell in administrator mode, and execute the following:
 
   .. code-block:: bash
 
     $ set-executionpolicy remotesigned
+
+6. Now (re-)open Windows Powershell and initialize it for full conda use by running
+
+  .. code-block:: bash
+
+    $ conda init
 
 .. warning::
 
