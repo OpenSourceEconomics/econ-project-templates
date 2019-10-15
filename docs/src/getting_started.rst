@@ -36,13 +36,13 @@ Preparing your system
 
    - To see which programmes can be found in your path, type (leave out the leading dollar sign, this is just standard notation for a command line prompt):
 
-     *Windows*
+     Windows
 
        .. code-block:: powershell
 
          $ echo $env:path
 
-     *Mac/Linux*
+     Mac/Linux
 
        .. code-block:: bash
 
@@ -50,7 +50,7 @@ Preparing your system
 
      This gives you a list of directories that are available on your *PATH*.
 
-    - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a Tex distribution, the text editor Atom, git and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up there paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
+    - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a LaTeX distribution, the text editor Atom, Git, and any other program that you need for your project (Stata, R, Matlab, Julia). Otherwise add them by looking up their paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
 
     - If you added any directory to *PATH*, you need to close and reopen your shell, so that this change is implemented.
 
@@ -63,7 +63,7 @@ Preparing your system
 
       This starts python in your shell and exits from it again. The top line should indicate that you are using a Python distribution provided by Anaconda. Here is an example output obtained using Windows PowerShell:
 
-        .. code-block:: bash
+        .. code-block:: text
 
             Python 3.7.4 (default, Aug  9 2019, 18:34:1) [MSC v.1915 64 bit (AMD64)] :: Anaconda, Inc. on win32
 
@@ -73,7 +73,7 @@ Preparing your system
 
              $ git status
 
-     This should yield the output:
+     Unless you are in a location where you expect a Git repository, this should yield the output:
 
         .. code-block:: bash
 
@@ -96,7 +96,7 @@ Preparing your system
 
 3. In the Powershell/Terminal, navigate to the parent folder of your future project.
 
-   Now type ``pwd``, which prints the absolute path to your present working directory. **There must not be any spaces or special characters in the path** (for instance ä, ü, é, Chinese of Kyrillic characters).
+   Now type ``pwd``, which prints the absolute path to your present working directory. **There must not be any spaces or special characters in the path** (for instance ä, ü, é, Chinese or Kyrillic characters).
 
    If you have any spaces or special characters on your path, change to a folder that does not have these special characters (e.g., on Windows, create a directory ``C:\projects``. Do **not** rename your home directory).
 
@@ -107,7 +107,7 @@ Preparing your system
           fatal: not a git repository (or any of the parent directories): .git
 
 
-4. The template uses cookiecutter to enable personalized installations. Before you start, install cookiecutter on your system.
+4. The template uses `cookiecutter <https://cookiecutter.readthedocs.io/en/latest/>`_ to enable personalized installations. Before you start, install cookiecutter on your system.
 
   .. code-block:: bash
 
@@ -117,7 +117,7 @@ Preparing your system
 
   .. warning::
 
-    If you don't opt for the conda environment later on, you need to take care of these dependencies by yourself. A list of additional dependencies can be found under :ref:`dependencies`.
+    If you do not opt for the conda environment later on, you need to take care of these dependencies by yourself. A list of additional dependencies can be found under :ref:`dependencies`.
 
 5. If you intend to use a remote Git repository, create it if necessary and hold the URL ready.
 
@@ -149,7 +149,7 @@ Configuring your new project
 
   **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x".
 
-  **set_up_git** -- Set up git.
+  **set_up_git** -- Set up a fresh Git repository.
 
   **git_remote_url** -- Paste your remote URL here if applicable.
 
