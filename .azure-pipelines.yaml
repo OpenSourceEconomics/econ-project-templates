@@ -1,4 +1,5 @@
-pr: none
+# Prevents duplicate builds, but at the same time also forked PRs from being built.
+# pr: none
 
 jobs:
 - job:
