@@ -10,7 +10,10 @@ jobs:
   - bash: echo "##vso[task.prependpath]$CONDA/bin"
     displayName: Add conda to PATH.
 
-  - bash: conda update conda --yes --quiet
+  - bash: |
+      pip uninstall -y setuptools
+      conda install setuptools --yes --quiet
+      conda update conda --yes --quiet
     displayName: Update conda.
 
   - bash: conda env create -n econ-project-templates -f environment.yml
@@ -49,7 +52,10 @@ jobs:
   - bash: sudo chown -R $USER $CONDA
     displayName: Take ownership of conda installation
 
-  - bash: conda update conda --yes --quiet
+  - bash: |
+      pip uninstall -y setuptools
+      conda install setuptools --yes --quiet
+      conda update conda --yes --quiet
     displayName: Update conda.
 
   - bash: conda env create -n econ-project-templates -f environment.yml
@@ -80,4 +86,3 @@ jobs:
       source activate econ-project-templates
       pytest
     displayName: Run pytests.
-
