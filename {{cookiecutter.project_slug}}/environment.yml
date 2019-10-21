@@ -1,4 +1,4 @@
-condname: {{ cookiecutter.create_conda_environment_with_name }}
+name: {{ cookiecutter.create_conda_environment_with_name }}
 channels:
   - defaults
 {% if cookiecutter.configure_running_r_from_waf == 'y' %}
