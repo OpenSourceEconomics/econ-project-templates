@@ -72,10 +72,7 @@ def configure(ctx):
     ctx.env.PYTHONPATH = os.getcwd()
     # Need shell-escape for converting eps to pdf on the fly, necessary e.g. for Stata
     # Vector graphics output in batch mode.
-    ctx.env.PDFLATEXFLAGS = [
-        # "-shell-escape",
-        "-halt-on-error"
-    ]
+    ctx.env.PDFLATEXFLAGS = ["-shell-escape", "-halt-on-error"]
     ctx.load("run_do_script")
     ctx.load("run_m_script")
     ctx.load("run_r_script")
