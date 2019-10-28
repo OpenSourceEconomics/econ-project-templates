@@ -9,7 +9,7 @@ with open(r"{{cookiecutter.project_slug}}/wscript", "w") as f:
     f.write(out)
 
 for folder in ["julia", "matlab", "stata", "r", "python"]:
-    with open(fr"{{cookiecutter.project_slug}}/src_{folder}/wscript") as f:
+    with open(r"{{cookiecutter.project_slug}}" + f"/src_{folder}/wscript") as f:
         lines = f.read()
     out = lines.replace('ctx.recurse("paper")', "")
     out = out.replace('ctx.recurse("documentation")', "")

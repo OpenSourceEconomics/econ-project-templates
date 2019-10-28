@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Documentation build configuration file, created by sphinx-quickstart
 #
@@ -45,8 +44,8 @@ source_encoding = "utf-8"
 master_doc = "index"
 
 # General information about the project.
-project = u"The General Theory of Relativity"
-copyright = u"2019-, Albert Einstein"
+project = "The General Theory of Relativity"
+copyright = "2019-, Albert Einstein"
 
 # The version info for the project you"re documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
