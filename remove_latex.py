@@ -14,7 +14,5 @@ for folder in ["julia", "matlab", "stata", "r", "python"]:
     out = lines.replace('ctx.recurse("paper")', "")
     out = out.replace('ctx.recurse("documentation")', "")
 
-    with open(
-        r"{{cookiecutter.project_slug}}}/src_{}/wscript".format(folder), "w"
-    ) as f:
+    with open(r"{{cookiecutter.project_slug}}}" + f"/src_{folder}/wscript", "w") as f:
         f.write(out)
