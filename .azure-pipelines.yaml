@@ -101,17 +101,43 @@ jobs:
       git config --global user.email johndoe@example.com
     displayName: Configure git.
 
+  # - bash: |
+  #     miktexsetup ^
+  #     --package-set=complete ^
+  #     download
+  #     miktexsetup ^
+  #     --modify-path ^
+  #     install
+  #   displayName: Install Latex.
+
+  # Edit wscripts file to exclude latex
   - bash: |
-      miktexsetup ^
-      --package-set=complete ^
-      download
-      miktexsetup ^
-      --modify-path ^
-      install
-    displayName: Install Latex.
+      python
+      with open("{{cookiecutter.project_slug}}/wscript") as f:
+          lines = f.read()
+      out = lines.replace('{% if cookiecutter.configure_running_sphinx_from_waf == "y" %}', "")  
+      out = out.replace('ctx.load("sphinx_build")', "")
+      out = out.replace('{% endif %}    ctx.load("write_project_headers")', "")
+      out = out.replace('{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}')
+      out = out.replace('ctx.load("biber"){% endif %}{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}', "")
+      out = out.replace('ctx.load("tex"){% endif %}', "")
+      with open("{{cookiecutter.project_slug}}/wscript", "w") as f:
+          f.write(out)
+      for folder in ["julia", "matlab", "stata", "r", "python"]:
+          with open("{{cookiecutter.project_slug}}/src_{}/wscript".format(folder)) as f:
+              lines = f.read()
+          out = lines.replace('ctx.recurse("paper")', "")
+          out = out.replace('{% if cookiecutter.configure_running_sphinx_from_waf == "y" %}', "")
+          out = out.replace('ctx.recurse("documentation")', "")
+          out = out.replace('{% endif %}', "")
+          with open("{{cookiecutter.project_slug}}}/src_{}/wscript".format(folder), "w") as f:
+            f.write(out)
+      exit()
+    displayName: "Change wscripts to ignore latex."
 
   - bash: |
       CALL C:\Miniconda\condabin\conda_hook.bat && ^
       CALL conda activate econ-project-templates
-      pytest
-    displayName: Run pytests.
+      pytest tests/test_cookie.py
+      pytest tests/test_waf.py
+    displayName: Run pytests for waf and cookiecutter.
