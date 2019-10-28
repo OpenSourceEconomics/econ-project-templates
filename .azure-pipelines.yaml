@@ -131,7 +131,7 @@ jobs:
           out = out.replace('ctx.recurse("documentation")', "")
           out = out.replace('{% endif %}', "")
           with open("{{cookiecutter.project_slug}}}/src_{}/wscript".format(folder), "w") as f:
-            f.write(out)
+              f.write(out)
       exit()
     displayName: "Change wscripts to ignore latex."
 
