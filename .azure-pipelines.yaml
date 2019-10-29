@@ -100,7 +100,7 @@ jobs:
     displayName: "Add conda to PATH on Windows"
 
   - bash: |
-      conda update -n base conda -y &&
+      conda update -n base conda pip setuptools -y &&
       conda init --all
     displayName: "Conda setup on Windows"
 
@@ -121,17 +121,17 @@ jobs:
   #     install
   #   displayName: Install Latex.
 
+  - bash: |
+    source activate econ-project-templates
+    pytest tests/test_pre_commit.py
+    pytest tests/test_cookie.py
+  displayName: Run pytests for pre-commit and cookiecutter.
+
+
   # Edit wscripts file to exclude latex
   - bash: |
-      CALL C:\Miniconda\condabin\conda_hook.bat && ^
-      CALL conda activate econ-project-templates
+      source activate econ-project-templates
       python remove_latex.py
-    displayName: "Change wscripts to ignore latex."
-
-  - bash: |
-      CALL C:\Miniconda\condabin\conda_hook.bat && ^
-      CALL conda activate econ-project-templates
-      pytest tests/test_cookie.py
       pytest tests/test_waf.py
-    displayName: Run pytests for waf and cookiecutter.
+    displayName: Run pytests for waf.
 
