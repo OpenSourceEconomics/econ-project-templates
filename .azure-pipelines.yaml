@@ -122,10 +122,10 @@ jobs:
   #   displayName: Install Latex.
 
   - bash: |
-    source activate econ-project-templates
-    pytest tests/test_pre_commit.py
-    pytest tests/test_cookie.py
-  displayName: Run pytests for pre-commit and cookiecutter.
+      source activate econ-project-templates
+      pytest tests/test_pre_commit.py
+      pytest tests/test_cookie.py
+    displayName: Run pytests for pre-commit and cookiecutter.
 
 
   # Edit wscripts file to exclude latex
