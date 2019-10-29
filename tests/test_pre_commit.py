@@ -5,22 +5,15 @@ from test_cookie import basic_project_dict
 
 
 def _check_pre_commit(result):
-    subprocess.Popen(
-        "pre-commit install",
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        shell=True,
-        cwd=result.project,
-    )
+    subprocess.check_output(("pre-commit", "install"), cwd=result.project, shell=True)
     c = subprocess.Popen(
-        "pre-commit run --all-files",
+        ("pre-commit", "run", "--all-files"),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        shell=True,
         cwd=result.project,
+        shell=True,
     )
     output, error = c.communicate()
-
     failure = re.search(r"Failed", str(output))
     if failure is not None:
         print(output)
