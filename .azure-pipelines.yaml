@@ -65,22 +65,21 @@ jobs:
     displayName: Configure git.
 
   - bash: |
-      brew install caskroom/cask
-      brew cask install mactex-no-gui
-    displayName: Install Latex.
-
-  - bash: |
-      echo "##vso[task.prependpath]/usr/local/texlive/2019/bin/x86_64-darwin"
-    displayName: Add Latex to PATH.
-
-  - bash: |
-      echo $PATH
-    displayName: What is on Path?
+      source activate econ-project-templates
+      pytest tests/test_cookie.py
+    displayName: Run pytests for cookiecutter.
 
   - bash: |
       source activate econ-project-templates
-      pytest
-    displayName: Run pytests.
+      pytest tests/test_pre_commit.py
+    displayName: Run pytests for pre-commit.
+
+  # Edit wscripts file to exclude latex
+  - bash: |
+      source activate econ-project-templates
+      python remove_latex.py
+      pytest tests/test_waf.py
+    displayName: Run pytests for waf.
 
 - job:
   displayName: Windows
@@ -112,21 +111,15 @@ jobs:
       git config --global user.email johndoe@example.com
     displayName: Configure git.
 
-  # - bash: |
-  #     miktexsetup ^
-  #     --package-set=complete ^
-  #     download
-  #     miktexsetup ^
-  #     --modify-path ^
-  #     install
-  #   displayName: Install Latex.
+  - bash: |
+      source activate econ-project-templates
+      pytest tests/test_cookie.py
+    displayName: Run pytests for cookiecutter.
 
   - bash: |
       source activate econ-project-templates
       pytest tests/test_pre_commit.py
-      pytest tests/test_cookie.py
-    displayName: Run pytests for pre-commit and cookiecutter.
-
+    displayName: Run pytests for pre-commit.
 
   # Edit wscripts file to exclude latex
   - bash: |
@@ -134,4 +127,3 @@ jobs:
       python remove_latex.py
       pytest tests/test_waf.py
     displayName: Run pytests for waf.
-
