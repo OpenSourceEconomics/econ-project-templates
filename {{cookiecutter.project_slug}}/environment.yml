@@ -6,11 +6,13 @@ channels:
   - conda-forge
 {% endif %}
 dependencies:
+  - ipykernel=5.1.3
   - jupyterlab=1.1.4
   - pandas=0.25.1
   - pip=19.2.3
   - python={{ cookiecutter.python_version }}
   - python-graphviz=0.8
+  - nb_conda_kernels=2.2.2
 {% if cookiecutter.configure_running_r_from_waf == 'y' %}
   - r-aer=1.2_6
   - r-aod=1.3.1
@@ -26,7 +28,6 @@ dependencies:
 {% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
     - pre-commit==1.18.3
 {% endif %}
-    - nb_conda_kernels=2.2.2
     - matplotlib==3.1.1
     - nbsphinx==0.4.2
     - pytest==5.2.0
