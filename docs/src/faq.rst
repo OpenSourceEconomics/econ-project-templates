@@ -54,7 +54,6 @@ PATH environmental variable in Windows
 
 In Windows, one has to oftentimes add the programs manually to the *PATH* environmental variable in the Advanced System Settings. How to exactly do that see `here <https://www.computerhope.com/issues/ch000549.htm>`_
 
-
 .. _path_mac:
 
 Adding directories to the PATH: MacOS and Linux
@@ -108,6 +107,7 @@ Then type:
 
     $ atom ~/.cookiecutter_replay/econ-project-template-v0.3.1.json
 
+
 If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH, see :ref:`preparing_your_system`.
 
 This command should open your editor and show you a json file containing your answers to the previously filled out dialog. You can fix your faulty settings in this file. If you have spaces or special characters in your path, you need to adjust your path.
@@ -141,7 +141,6 @@ Waf needs to be able to start your favourite (data) analysis programme from the 
 Remember that Mac/Linux are case-sensitive and Windows is not. If you get errors that the programme is not found for **all** of the possibilities on your platform, the most likely cause is that your path is not set correctly yet. You may check that by typing ``echo $env:path`` (Windows) or ``echo $PATH`` (Mac/Linux). If the path to the programme you need is not included, you can adjust it as detailed above (:ref:`Windows <path_windows>`, :ref:`Mac/Linux <path_mac>`).
 
 If the name of your programme is not listed among the possibilities above, please `open an issue on Github <https://github.com/hmgaudecker/econ-project-templates/issues>`_
-
 
 
 .. _dependencies:
@@ -213,7 +212,6 @@ Quick 'n' dirty command in an R shell:
               "zoo"
           )
       )
-
 
 LaTeX & Waf
 ===========

@@ -20,9 +20,6 @@ jobs:
   - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
 
-  - bash: sudo apt-get install git
-    displayName: Install git.
-
   - bash: |
       git config --global user.name "John Doe"
       git config --global user.email johndoe@example.com
@@ -62,8 +59,52 @@ jobs:
   - bash: conda env create -n econ-project-templates -f environment.yml
     displayName: Create Anaconda environment.
 
-  - bash: brew install git
-    displayName: Install git.
+  - bash: |
+      git config --global user.name "John Doe"
+      git config --global user.email johndoe@example.com
+    displayName: Configure git.
+
+  - bash: |
+      source activate econ-project-templates
+      pytest tests/test_cookie.py
+    displayName: Run pytests for cookiecutter.
+
+  - bash: |
+      source activate econ-project-templates
+      pytest tests/test_pre_commit.py
+    displayName: Run pytests for pre-commit.
+
+  # Edit wscripts file to exclude latex
+  - bash: |
+      source activate econ-project-templates
+      python remove_latex.py
+      pytest tests/test_waf.py
+    displayName: Run pytests for waf.
+
+- job:
+  displayName: Windows
+  pool:
+    vmImage: "windows-latest"
+
+  steps:
+
+  # set conda paths as done in the official activate script.
+  # https://github.com/conda/conda/blob/master/conda/activate.py#L493-L519
+  - powershell: |
+      Write-Host "##vso[task.prependpath]$env:CONDA\Library\mingw-w64\bin"
+      Write-Host "##vso[task.prependpath]$env:CONDA\Library\usr\bin"
+      Write-Host "##vso[task.prependpath]$env:CONDA\Library\bin"
+      Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+      Write-Host "##vso[task.prependpath]$env:CONDA\bin"
+    displayName: "Add conda to PATH on Windows"
+
+  - bash: |
+      conda update -n base conda pip setuptools -y &&
+      conda init --all
+    displayName: "Conda setup on Windows"
+
+  - bash: conda env create -n econ-project-templates -f environment.yml
+    displayName: Create Anaconda environment.
 
   - bash: |
       git config --global user.name "John Doe"
@@ -71,19 +112,18 @@ jobs:
     displayName: Configure git.
 
   - bash: |
-      brew install caskroom/cask
-      brew cask install mactex-no-gui
-    displayName: Install Latex.
-
-  - bash: |
-      echo "##vso[task.prependpath]/usr/local/texlive/2019/bin/x86_64-darwin"
-    displayName: Add Latex to PATH.
-
-  - bash: |
-      echo $PATH
-    displayName: What is on Path?
+      source activate econ-project-templates
+      pytest tests/test_cookie.py
+    displayName: Run pytests for cookiecutter.
 
   - bash: |
       source activate econ-project-templates
-      pytest
-    displayName: Run pytests.
+      pytest tests/test_pre_commit.py
+    displayName: Run pytests for pre-commit.
+
+  # Edit wscripts file to exclude latex
+  - bash: |
+      source activate econ-project-templates
+      python remove_latex.py
+      pytest tests/test_waf.py
+    displayName: Run pytests for waf.
