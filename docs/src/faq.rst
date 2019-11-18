@@ -105,7 +105,7 @@ Then type:
 
   .. code-block:: bash
 
-    $ atom ~/.cookiecutter_replay/econ-project-template-v0.3.1.json
+    $ atom ~/.cookiecutter_replay/econ-project-template-v0.3.2.json
 
 
 If you are not using atom as your editor of choice, but for instance sublime, replace `atom` by `subl` in this command. Note that your editor of choice needs to be on your PATH, see :ref:`preparing_your_system`.
@@ -116,7 +116,7 @@ When done, launch a new shell if necessary and type:
 
   .. code-block:: bash
 
-    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.3.1.zip
+    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.3.2.zip
 
 
 
