@@ -134,7 +134,7 @@ Configuring your new project
 
   .. code-block:: bash
 
-    $ cookiecutter https://github.com/hmgaudecker/econ-project-templates/archive/v0.3.2.zip
+    $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.3.2.zip
 
 2. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off** (see :ref:`cookiecutter_trouble` on how to recover from there, but no need to push it).
 

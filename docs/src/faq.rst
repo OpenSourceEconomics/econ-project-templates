@@ -116,7 +116,7 @@ When done, launch a new shell if necessary and type:
 
   .. code-block:: bash
 
-    $ cookiecutter --replay https://github.com/hmgaudecker/econ-project-templates/archive/v0.3.2.zip
+    $ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.3.2.zip
 
 
 
@@ -140,7 +140,7 @@ Waf needs to be able to start your favourite (data) analysis programme from the 
 
 Remember that Mac/Linux are case-sensitive and Windows is not. If you get errors that the programme is not found for **all** of the possibilities on your platform, the most likely cause is that your path is not set correctly yet. You may check that by typing ``echo $env:path`` (Windows) or ``echo $PATH`` (Mac/Linux). If the path to the programme you need is not included, you can adjust it as detailed above (:ref:`Windows <path_windows>`, :ref:`Mac/Linux <path_mac>`).
 
-If the name of your programme is not listed among the possibilities above, please `open an issue on Github <https://github.com/hmgaudecker/econ-project-templates/issues>`_
+If the name of your programme is not listed among the possibilities above, please `open an issue on Github <https://github.com/OpenSourceEconomics/econ-project-templates/issues>`_
 
 
 .. _dependencies:
