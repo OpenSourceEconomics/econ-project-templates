@@ -7,7 +7,7 @@
 Introduction
 ============
 
-Documentation on the design rationale, Waf, and more background is at https://econ-project-templates.readthedocs.io/en/stable/ (The running example is the same, but it uses Python instead of Matlab as the language for the analysis)
+You can find the documentation on the design rationale, Waf, and more background at https://econ-project-templates.readthedocs.io/en/stable/ (The running example is the same, but it uses Python instead of Matlab as the language for the analysis)
 
 The Matlab version of the template uses a modified and translated version of Stachurski's and Sargent's code accompanying their Online Course :cite:`StachurskiSargent13` for Schelling's (1969, :cite:`Schelling69`) segregation model as the running example.
 

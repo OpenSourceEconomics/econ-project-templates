@@ -5,7 +5,7 @@
 Introduction
 ************
 
-Documentation on the rationale, Waf, and more background is at https://econ-project-templates.readthedocs.io/en/stable/
+You can find the documentation on the rationale, Waf, and more background at https://econ-project-templates.readthedocs.io/en/stable/.
 
 The Python version of the template uses a modified version of Stachurski's and Sargent's code accompanying their Online Course :cite:`StachurskiSargent13` for Schelling's (1969, :cite:`Schelling69`) segregation model as the running exmaple.
 
