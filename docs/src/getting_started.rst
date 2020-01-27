@@ -148,6 +148,10 @@ Configuring your new project
 
   **project_slug** -- This will become your project identifier (i.e., the directory will be called this way). The project slug **must** be a valid Python identifier, i.e., no spaces, hyphens, or the like. Just letters, numbers, underscores. Do not start with a number. There must not be a directory of this name in your current location.
 
+  **project_short_description*** -- Briefly describe your project.
+
+  **python_version** -- Default is 3.7. Please use python 3.7 or python 3.6.
+
   **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x".
 
   **set_up_git** -- Set up a fresh Git repository.
