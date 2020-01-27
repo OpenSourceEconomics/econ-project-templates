@@ -5,7 +5,7 @@
 Introduction
 ************
 
-Documentation on the rationale, Waf, and more background is at http://hmgaudecker.github.io/econ-project-templates/
+Documentation on the rationale, Waf, and more background is at https://econ-project-templates.readthedocs.io/en/stable/
 
 The Python version of the template uses a modified version of Stachurski's and Sargent's code accompanying their Online Course :cite:`StachurskiSargent13` for Schelling's (1969, :cite:`Schelling69`) segregation model as the running exmaple.
 
@@ -15,7 +15,7 @@ The Python version of the template uses a modified version of Stachurski's and S
 Getting started
 ===============
 
-**This assumes you have completed the steps in the** `README.md file <https://github.com/OpenSourceEconomics/econ-project-templates/>`_ **and everything worked.**
+**This assumes you have completed the steps in the `Getting Started section of the documentation <https://econ-project-templates.readthedocs.io/en/stable/getting_started.html>`_ and **everything worked.**
 
 The logic of the project template works by step of the analysis:
 

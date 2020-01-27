@@ -5,7 +5,7 @@
 Introduction
 ************
 
-Documentation on the rationale, Waf, and more background is at http://hmgaudecker.github.io/econ-project-templates/ in the context of the Python version of this template.
+Documentation on the rationale, Waf, and more background is at https://econ-project-templates.readthedocs.io/en/stable/ in the context of the Python version of this template.
 
 Most of the things mentioned there are valid for the R version of the template as well, only the example is different. In particular, we use Albouy's :cite:`Albouy2012` replication study of Acemoglu, Johnson, and Robinson's :cite:`AcemogluJohnsonRobinson2001` classic 2001 paper.
 
@@ -16,7 +16,7 @@ Most of the things mentioned there are valid for the R version of the template a
 Getting started
 ===============
 
-**This assumes you have completed the steps in the** `README.md file <https://github.com/OpenSourceEconomics/econ-project-templates/>`_ **and everything worked.**
+**This assumes you have completed the steps in the `Getting Started section of the documentation <https://econ-project-templates.readthedocs.io/en/stable/getting_started.html>`_ and **everything worked.**
 
 The logic of the project template works by step of the analysis:
 
