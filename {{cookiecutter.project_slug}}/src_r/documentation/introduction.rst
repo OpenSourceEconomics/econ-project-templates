@@ -5,7 +5,7 @@
 Introduction
 ************
 
-You can find the documentation on the rationale, Waf, and more background is at https://econ-project-templates.readthedocs.io/en/stable/.
+You can find the documentation on the rationale, Waf, and more background at https://econ-project-templates.readthedocs.io/en/stable/.
 
 Most of the things mentioned there are valid for the R version of the template as well, only the example is different. In particular, we use Albouy's :cite:`Albouy2012` replication study of Acemoglu, Johnson, and Robinson's :cite:`AcemogluJohnsonRobinson2001` classic 2001 paper.
 
