@@ -69,7 +69,7 @@ if __name__ == "__main__":
                     "commit",
                     "-m",
                     "'Initial commit with template from "
-                    "https://github.com/hmgaudecker/econ-project-templates'",
+                    "https://github.com/OpenSourceEconomics/econ-project-templates'",
                 ]
             )
     if "{{ cookiecutter.add_basic_pre_commit_hooks }}" == "n":

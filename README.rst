@@ -1,6 +1,6 @@
 
-.. image:: https://dev.azure.com/hmgaudecker/econ-project-templates/_apis/build/status/hmgaudecker.econ-project-templates?branchName=master
-    :target: https://dev.azure.com/hmgaudecker/econ-project-templates/_build/latest?definitionId=1&branchName=master
+.. image:: https://dev.azure.com/opensourceeconomics/econ-project-templates/_apis/build/status/opensourceeconomics.econ-project-templates?branchName=master
+    :target: https://dev.azure.com/opensourceeconomics/econ-project-templates/_build/latest?definitionId=1&branchName=master
 
 .. image:: https://readthedocs.org/projects/econ-project-templates/badge/?version=stable
     :target: https://econ-project-templates.readthedocs.io/en/stable/
