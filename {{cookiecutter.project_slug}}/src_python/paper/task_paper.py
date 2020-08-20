@@ -1,5 +1,6 @@
 import pytask
-from src.config import SRC, BLD
+from src.config import BLD
+from src.config import SRC
 
 
 @pytask.mark.latex(["--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd"])
@@ -14,7 +15,7 @@ from src.config import SRC, BLD
                 BLD / "figures" / "schelling_baseline.png",
                 BLD / "figures" / "schelling_max_moves_2.png",
             ],
-            BLD / "paper" / f"{document}.pdf"
+            BLD / "paper" / f"{document}.pdf",
         )
         for document in ["research_paper", "research_pres_30min"]
     ],

@@ -167,7 +167,7 @@ def create_fig(out_file, x_items, y_items):
         if v and k != "single boxes":
             ax.add_patch(v)
 
-    for k, v in list(y_items.items()):
+    for v in y_items.values():
         if v:
             ax.add_patch(v)
 

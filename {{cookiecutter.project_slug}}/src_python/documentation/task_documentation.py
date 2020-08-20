@@ -1,7 +1,9 @@
-import pytask
-from pathlib import Path
 import subprocess
-from src.config import BLD, SRC
+from pathlib import Path
+
+import pytask
+from src.config import BLD
+from src.config import SRC
 
 
 @pytask.mark.depends_on(

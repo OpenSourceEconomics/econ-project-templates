@@ -9,10 +9,11 @@ argument. The model name must correspond to a file called
 import json
 import logging
 import pickle
-import pytask
-from src.config import SRC, BLD
-import numpy as np
 
+import numpy as np
+import pytask
+from src.config import BLD
+from src.config import SRC
 from src.model_code.agent import Agent
 
 

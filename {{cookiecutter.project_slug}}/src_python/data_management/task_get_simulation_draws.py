@@ -8,8 +8,8 @@ use of *run_py_script* only.
 
 """
 import numpy as np
-from src.config import BLD
 import pytask
+from src.config import BLD
 
 
 np.random.seed(12345)

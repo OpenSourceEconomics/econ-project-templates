@@ -9,7 +9,7 @@ channels:
 dependencies:
   - ipykernel=5.1.3
   - jupyterlab=1.1.4
-  - pytask
+  - pytask>=0.0.5
   - pytask-latex
   - pandas=0.25.1
   - pip=19.2.3

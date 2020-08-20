@@ -1,8 +1,6 @@
 import re
 import subprocess
 
-from test_cookie import basic_project_dict
-
 
 def _check_pre_commit(result):
     subprocess.check_output(("pre-commit", "install"), shell=True, cwd=result.project)

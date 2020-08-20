@@ -3,12 +3,15 @@ channels:
   - defaults
   - r
   - conda-forge
+  - pytask
 dependencies:
   - matplotlib
   - pip
   - pandas
   - python=3.7
   - python-graphviz=0.8
+  - pytask>=0.0.5
+  - pytask-latex
   - r-aer
   - r-aod
   - r-base

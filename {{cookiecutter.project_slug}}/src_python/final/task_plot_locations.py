@@ -1,10 +1,10 @@
-import json
 import pickle
 
 import matplotlib
 import numpy as np
 import pytask
-from src.config import BLD, SRC
+from src.config import BLD
+from src.config import SRC
 
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
@@ -54,9 +54,7 @@ def plot_locations(locations_by_round, path):
         for model in ["baseline", "max_moves_2"]
     ],
 )
-def task_plot_locations(model, depends_on, produces):
-    # model = json.load(depends_on[1].read_text(encoding="utf-8"))
-
+def task_plot_locations(depends_on, produces):
     # Load locations after each round
     with open(depends_on[0], "rb") as in_file:
         locations_by_round = pickle.load(in_file)
