@@ -11,5 +11,5 @@ Documentation of the code in *src.final*.
 Schelling example
 =================
 
-.. automodule:: src.final.plot_locations
+.. automodule:: src.final.task_plot_locations
     :members:

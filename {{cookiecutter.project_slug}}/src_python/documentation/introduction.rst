@@ -43,30 +43,12 @@ Once you have done that, move your source data to **src/original_data/** and sta
 Project paths
 =============
 
-A variety of project paths are defined in the top-level wscript file. These are exported to header files in other languages. So in case you require different paths (e.g. if you have many different datasets, you may want to have one path to each of them), adjust them in the top-level wscript file.
+Shortcuts for project paths are created in the configuration file of the project which is a simple module called ``config.py``.
 
-The following is taken from the top-level wscript file. Modify any project-wide path settings there.
+.. code-block:: python
 
-.. literalinclude:: ../../wscript
-    :start-after: out = "bld"
-    :end-before:     # Convert the directories into Waf nodes
+    from pathlib import Path
 
 
-As should be evident from the similarity of the names, the paths follow the steps of the analysis in the :file:`src` directory:
-
-    1. **data_management** → **OUT_DATA**
-    2. **analysis** → **OUT_ANALYSIS**
-    3. **final** → **OUT_FINAL**, **OUT_FIGURES**, **OUT_TABLES**
-
-These will re-appear in automatically generated header files by calling the ``write_project_paths`` task generator (just use an output file with the correct extension for the language you need -- ``.py``, ``.r``, ``.m``, ``.do``)
-
-By default, these header files are generated in the top-level build directory, i.e. ``bld``. The Python version defines a dictionary ``project_paths`` and a couple of convencience functions documented below. You can access these by adding a line::
-
-    from bld.project_paths import XXX
-
-at the top of you Python-scripts. Here is the documentation of the module:
-
-    **bld.project_paths**
-
-    .. automodule:: bld.project_paths
-        :members:
+    SRC = Path(__file__).parent
+    BLD = SRC.parent.joinpath("bld")
