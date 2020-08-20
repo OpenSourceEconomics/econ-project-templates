@@ -40,30 +40,20 @@ if __name__ == "__main__":
         environment_name = None
     else:
         environment_name = "{{ cookiecutter.create_conda_environment_with_name }}"
-        subprocess.call(
-            [
-                "conda",
-                "env",
-                "create",
-                "--name",
-                f"{environment_name}",
-                "--file",
-                "environment.yml",
-            ]
-        )
+        subprocess.run(["conda", "env", "create"])
 
     if "{{ cookiecutter.set_up_git }}" == "y":
 
-        subprocess.call(["git", "init"])
+        subprocess.run(["git", "init"])
 
         if "{{ cookiecutter.git_remote_url }}" != "":
-            subprocess.call(
+            subprocess.run(
                 ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"]
             )
 
         if "{{ cookiecutter.make_initial_commit }}" == "y":
-            subprocess.call(["git", "add", "."])
-            subprocess.call(
+            subprocess.run(["git", "add", "."])
+            subprocess.run(
                 [
                     "git",
                     "commit",
