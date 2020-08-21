@@ -10,7 +10,7 @@ dependencies:
   - ipykernel=5.1.3
   - jupyterlab=1.1.4
   - pytask>=0.0.5
-  - pytask-latex
+  - pytask-latex>=0.0.4
   - pandas=0.25.1
   - pip=19.2.3
   - python={{ cookiecutter.python_version }}
