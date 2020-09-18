@@ -21,6 +21,7 @@ def task_build_documentation(builder, produces):
         [
             "sphinx-build",
             "-M",
+            "-Q",
             builder,
             SRC.joinpath("documentation").as_posix(),
             BLD.joinpath("documentation").as_posix(),
