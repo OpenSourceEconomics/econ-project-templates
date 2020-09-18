@@ -3,7 +3,9 @@ from src.config import BLD
 from src.config import SRC
 
 
-@pytask.mark.latex
+@pytask.mark.latex(
+    ["--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd", "--quiet"]
+)
 @pytask.mark.parametrize(
     "depends_on, produces",
     [

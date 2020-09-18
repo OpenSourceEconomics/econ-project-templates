@@ -41,10 +41,9 @@ def plot_locations(locations_by_round, path):
 
 
 @pytask.mark.parametrize(
-    "model, depends_on, produces",
+    "depends_on, produces",
     [
         (
-            model,
             [
                 BLD / "analysis" / f"schelling_{model}.pickle",
                 SRC / "model_specs" / f"{model}.json",
