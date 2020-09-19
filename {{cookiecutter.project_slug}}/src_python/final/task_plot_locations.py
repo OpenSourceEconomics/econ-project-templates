@@ -40,22 +40,29 @@ def plot_locations(locations_by_round, path):
     fig.savefig(path)
 
 
+MODELS = ["baseline", "max_moves_2"]
+SCENARIOS = {
+    model: {
+        "depends_on": {
+            "locations": BLD / "analysis" / f"schelling_{model}.pickle",
+            "specification": SRC / "model_specs" / f"{model}.json",
+        },
+        "produces": BLD / "figures" / f"schelling_{model}.png",
+    }
+    for model in MODELS
+}
+
+
 @pytask.mark.parametrize(
-    "depends_on, produces",
+    "model, depends_on, produces",
     [
-        (
-            [
-                BLD / "analysis" / f"schelling_{model}.pickle",
-                SRC / "model_specs" / f"{model}.json",
-            ],
-            BLD / "figures" / f"schelling_{model}.png",
-        )
-        for model in ["baseline", "max_moves_2"]
+        (model, SCENARIOS[model]["depends_on"].values(), SCENARIOS[model]["produces"])
+        for model in MODELS
     ],
 )
-def task_plot_locations(depends_on, produces):
+def task_plot_locations(model):
     # Load locations after each round
-    with open(depends_on[0], "rb") as in_file:
+    with open(SCENARIOS[model]["depends_on"]["locations"], "rb") as in_file:
         locations_by_round = pickle.load(in_file)
 
-    plot_locations(locations_by_round, produces)
+    plot_locations(locations_by_round, SCENARIOS[model]["produces"])
