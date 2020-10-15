@@ -10,8 +10,8 @@ dependencies:
   - pandas
   - python=3.7
   - python-graphviz=0.8
-  - pytask>=0.0.5
-  - pytask-latex>=0.0.4
+  - pytask>=0.0.8
+  - pytask-latex>=0.0.7
   - r-aer
   - r-aod
   - r-base

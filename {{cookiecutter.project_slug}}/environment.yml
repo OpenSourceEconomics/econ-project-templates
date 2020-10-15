@@ -13,7 +13,7 @@ dependencies:
   - pandas
   - pip
   - pytask>=0.0.8
-  - pytask-latex>=0.0.5
+  - pytask-latex>=0.0.7
   - pytest
   - pytest-cov
   - python={{ cookiecutter.python_version }}
