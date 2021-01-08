@@ -25,7 +25,6 @@ def basic_project_dict():
         "add_intrusive_pre_commit": "n",
         "open_source_license": "n",
         "_copy_without_render": [
-            ".mywaflib",
             "*.bib",
             "src_matlab/library/matlab-json/*",
             "src_stata/library/stata/ado_ext/*",
