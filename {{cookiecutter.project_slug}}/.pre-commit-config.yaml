@@ -23,7 +23,6 @@ repos:
     hooks:
     -   id: pyupgrade
         args: [--py37-plus]
-        files: '(\.pyi?|wscript)$'
 -   repo: https://github.com/asottile/blacken-docs
     rev: v1.8.0
     hooks:
@@ -34,14 +33,12 @@ repos:
     rev: stable
     hooks:
     -   id: black
-        files: '(\.pyi?|wscript)$'
         language_version: python{{ cookiecutter.python_version }}
 {% if cookiecutter.add_intrusive_pre_commit == 'y' %}
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 3.8.3
     hooks:
     - id: flake8
-      files: '(\.py|wscript)$'
       additional_dependencies: [
         flake8-bugbear, flake8-builtins, flake8-comprehensions,
         flake8-deprecated, flake8-docstrings, flake8-eradicate,

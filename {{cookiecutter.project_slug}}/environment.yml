@@ -12,8 +12,8 @@ dependencies:
   - matplotlib
   - pandas
   - pip
-  - pytask>=0.0.9
-  - pytask-latex>=0.0.11
+  - pytask>=0.0.11
+  - pytask-latex>=0.0.9
   - pytest
   - pytest-cov
   - python={{ cookiecutter.python_version }}

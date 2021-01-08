@@ -1,5 +1,7 @@
 import subprocess
 
+import pytest
+
 
 def test_bake_project(cookies, basic_project_dict):
 
@@ -18,6 +20,7 @@ def test_project_slug_assertion(cookies, basic_project_dict):
     assert result.exit_code == 0
 
 
+@pytest.mark.skip
 def test_install_Stata_example(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "Stata"
     result = cookies.bake(extra_context=basic_project_dict)
@@ -26,6 +29,7 @@ def test_install_Stata_example(cookies, basic_project_dict):
     assert src_estimation_do.check(exists=1)
 
 
+@pytest.mark.skip
 def test_install_run_stata(cookies, basic_project_dict):
     basic_project_dict["configure_running_stata"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
@@ -39,10 +43,8 @@ def test_template_without_sphinx(cookies, basic_project_dict):
     result = cookies.bake(extra_context=basic_project_dict)
 
     documentation_folder = result.project.join("src/documentation")
-    wscript = result.project.join("src/wscript").read()
     assert result.exit_code == 0
     assert documentation_folder.check(exists=0)
-    assert "ctx.recurse('documentation')" not in wscript
 
 
 def test_template_with_git_setup(cookies, basic_project_dict):

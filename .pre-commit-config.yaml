@@ -1,5 +1,5 @@
 # Exclude every file or folder starting with a dot.
-exclude: ^(\.|\{\{cookiecutter\.project_slug\}\}/\.|\{\{cookiecutter\.project_slug\}\}/environment\.yml|\{\{cookiecutter\.project_slug\}\}/src_(r|stata|julia|python|matlab)/documentation/conf\.py|docs/bld|docs/\.)
+exclude: ^(\.|\{\{cookiecutter\.project_slug\}\}/\.|\{\{cookiecutter\.project_slug\}\}/environment\.yml)
 repos:
 -   repo: https://github.com/asottile/reorder_python_imports
     rev: v2.3.5
@@ -22,7 +22,7 @@ repos:
     rev: v2.7.2
     hooks:
     -   id: pyupgrade
-        args: [--py36-plus]
+        args: [--py37-plus]
 -   repo: https://github.com/asottile/blacken-docs
     rev: v1.8.0
     hooks:
@@ -30,7 +30,7 @@ repos:
         additional_dependencies: [black==19.3b0]
         files: '(\.md|\.rst)$'
 -   repo: https://github.com/psf/black
-    rev: 19.10b0
+    rev: stable
     hooks:
     -   id: black
         language_version: python3.7
