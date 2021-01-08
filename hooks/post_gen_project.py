@@ -33,7 +33,7 @@ if __name__ == "__main__":
         else:
             rename(f"src_{example}", "src")
 
-    if not "{{ cookiecutter.configure_running_sphinx_from_waf }}" == "y":
+    if not "{{ cookiecutter.configure_running_sphinx }}" == "y":
         remove_dir("src/documentation")
 
     if "{{ cookiecutter.create_conda_environment_with_name }}" == "x":

@@ -166,17 +166,17 @@ Configuring your new project
 
   **example_to_install** -- This should be the dominant language you will use in your project. A working example will be installed in the language you choose; the easiest way to get going is simply to adjust the examples for your needs.
 
-  **configure_running_python_from_waf** -- Select "y" if and only if you intend to use Python in your project and the Python executable may be found on your path.
+  **configure_running_python** -- Select "y" if and only if you intend to use Python in your project and the Python executable may be found on your path.
 
-  **configure_running_matlab_from_waf** -- Select "y" if and only if you intend to use Matlab in your project and the Matlab executable may be found on your path.
+  **configure_running_matlab** -- Select "y" if and only if you intend to use Matlab in your project and the Matlab executable may be found on your path.
 
-  **configure_running_r_from_waf** -- Select "y" if and only if you intend to use R in your project and the R executable may be found on your path.
+  **configure_running_r** -- Select "y" if and only if you intend to use R in your project and the R executable may be found on your path.
 
-  **configure_running_stata_from_waf** -- Select "y" if and only if you intend to use Stata in your project and the Stata executable may be found on your path.
+  **configure_running_stata** -- Select "y" if and only if you intend to use Stata in your project and the Stata executable may be found on your path.
 
-  **configure_running_julia_from_waf** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
+  **configure_running_julia** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
 
-  **configure_running_sphinx_from_waf** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
+  **configure_running_sphinx** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
 
   **python_version** -- Usually accept the default. Must be a valid Python version 3.6 or higher.
 

@@ -38,8 +38,8 @@ def test_install_Julia_example(cookies, basic_project_dict):
     assert get_simulation_draws_jl.check(exists=1)
 
 
-def test_install_run_stata_from_waf(cookies, basic_project_dict):
-    basic_project_dict["configure_running_stata_from_waf"] = "y"
+def test_install_run_stata(cookies, basic_project_dict):
+    basic_project_dict["configure_running_stata"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
     wscript = result.project.join("wscript").read()
     assert 'ctx.load("run_do_script")' in wscript
@@ -47,7 +47,7 @@ def test_install_run_stata_from_waf(cookies, basic_project_dict):
 
 
 def test_template_without_sphinx(cookies, basic_project_dict):
-    basic_project_dict["configure_running_sphinx_from_waf"] = "n"
+    basic_project_dict["configure_running_sphinx"] = "n"
     result = cookies.bake(extra_context=basic_project_dict)
 
     documentation_folder = result.project.join("src/documentation")

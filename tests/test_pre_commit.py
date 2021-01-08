@@ -30,7 +30,7 @@ def test_pre_commit_python_sphinx(cookies, basic_project_dict):
     basic_project_dict["make_initial_commit"] = "y"
     basic_project_dict["add_basic_pre_commit_hooks"] = "y"
     basic_project_dict["add_intrusive_pre_commit"] = "y"
-    basic_project_dict["configure_running_sphinx_from_waf"] = "y"
+    basic_project_dict["configure_running_sphinx"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_pre_commit(result)
 
@@ -40,7 +40,7 @@ def test_pre_commit_python(cookies, basic_project_dict):
     basic_project_dict["make_initial_commit"] = "y"
     basic_project_dict["add_basic_pre_commit_hooks"] = "y"
     basic_project_dict["add_intrusive_pre_commit"] = "y"
-    basic_project_dict["configure_running_sphinx_from_waf"] = "n"
+    basic_project_dict["configure_running_sphinx"] = "n"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_pre_commit(result)
 
@@ -51,7 +51,7 @@ def test_pre_commit_r(cookies, basic_project_dict):
     basic_project_dict["add_basic_pre_commit_hooks"] = "y"
     basic_project_dict["add_intrusive_pre_commit"] = "y"
     basic_project_dict["example_to_install"] = "R"
-    basic_project_dict["configure_running_r_from_waf"] = "y"
+    basic_project_dict["configure_running_r"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_pre_commit(result)
 
@@ -62,7 +62,7 @@ def test_pre_commit_stata(cookies, basic_project_dict):
     basic_project_dict["add_basic_pre_commit_hooks"] = "y"
     basic_project_dict["add_intrusive_pre_commit"] = "y"
     basic_project_dict["example_to_install"] = "Stata"
-    basic_project_dict["configure_running_stata_from_waf"] = "y"
+    basic_project_dict["configure_running_stata"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_pre_commit(result)
 
@@ -75,7 +75,7 @@ def test_pre_commit_julia(cookies, basic_project_dict):
     basic_project_dict[
         "example_to_install"
     ] = "Julia (Warning: You will need to fix a lot yourself! Patches welcome!)"
-    basic_project_dict["configure_running_julia_from_waf"] = "y"
+    basic_project_dict["configure_running_julia"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_pre_commit(result)
 
@@ -86,6 +86,6 @@ def test_pre_commit_matlab(cookies, basic_project_dict):
     basic_project_dict["add_basic_pre_commit_hooks"] = "y"
     basic_project_dict["add_intrusive_pre_commit"] = "y"
     basic_project_dict["example_to_install"] = "Matlab"
-    basic_project_dict["configure_running_matlab_from_waf"] = "y"
+    basic_project_dict["configure_running_matlab"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_pre_commit(result)
