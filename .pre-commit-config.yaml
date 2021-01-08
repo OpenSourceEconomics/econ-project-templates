@@ -5,6 +5,7 @@ repos:
     rev: v2.3.6
     hooks:
       - id: reorder-python-imports
+        args: [--unclassifiable-application-module=src]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
     hooks:
