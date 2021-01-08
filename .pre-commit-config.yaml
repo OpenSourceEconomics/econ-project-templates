@@ -1,4 +1,5 @@
 # Exclude every file or folder starting with a dot.
+exclude: ^(\.|\{\{cookiecutter\.project_slug\}\}/\.|\{\{cookiecutter\.project_slug\}\}/environment\.yml|\{\{cookiecutter\.project_slug\}\}/src_(r|stata|julia|python|matlab)/wscript|\{\{cookiecutter\.project_slug\}\}/src_(r|stata|julia|python|matlab)/documentation/conf\.py|docs/bld|docs/\.)
 repos:
 -   repo: https://github.com/asottile/reorder_python_imports
     rev: v2.3.5
