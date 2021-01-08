@@ -12,6 +12,7 @@ import pickle
 
 import numpy as np
 import pytask
+
 from src.config import BLD
 from src.config import SRC
 from src.model_code.agent import Agent
