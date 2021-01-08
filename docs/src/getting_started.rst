@@ -33,7 +33,7 @@ Preparing your system
   * The text editor `Atom <https://atom.io/>`_, unless you know what you are doing.
 
 
-2. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a terminal. As everything will be started from the Powershell/Terminal, you need to make sure that all programmes you need in your project (for sure Anaconda Python, Git, and LaTeX; potentially Atom, Stata, R, Matlab, Julia) can be found on your *PATH*. That is, these need to be accessible from your shell. This often requires a bit of manual work, in particular on Windows.
+2. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a terminal. As everything will be started from the Powershell/Terminal, you need to make sure that all programmes you need in your project (for sure Anaconda Python, Git, and LaTeX; potentially Atom, Stata, R, Matlab) can be found on your *PATH*. That is, these need to be accessible from your shell. This often requires a bit of manual work, in particular on Windows.
 
    - To see which programmes can be found in your path, type (leave out the leading dollar sign, this is just standard notation for a command line prompt):
 
@@ -51,7 +51,7 @@ Preparing your system
 
      This gives you a list of directories that are available on your *PATH*.
 
-    - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a LaTeX distribution, the text editor Atom, Git, and any other program that you need for your project (Stata, R, Matlab, Julia). Otherwise add them by looking up their paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
+    - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a LaTeX distribution, the text editor Atom, Git, and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up their paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
 
     - If you added any directory to *PATH*, you need to close and reopen your shell, so that this change is implemented.
 
@@ -93,7 +93,7 @@ Preparing your system
 
            $ atom
 
-     If required, do the same for Stata, R, Matlab, or Julia — see :ref:`here <starting_programs_from_the_command_line>` for the precise commands you may need.
+     If required, do the same for Stata, R, or Matlab — see :ref:`here <starting_programs_from_the_command_line>` for the precise commands you may need.
 
 3. In the Powershell/Terminal, navigate to the parent folder of your future project.
 
@@ -173,8 +173,6 @@ Configuring your new project
   **configure_running_r** -- Select "y" if and only if you intend to use R in your project and the R executable may be found on your path.
 
   **configure_running_stata** -- Select "y" if and only if you intend to use Stata in your project and the Stata executable may be found on your path.
-
-  **configure_running_julia** -- Select "y" if and only if you intend to use Julia in your project and the Julia executable may be found on your path.
 
   **configure_running_sphinx** -- Select "y" if and only if you intend to use Sphinx in your project and the Sphinx executable may be found on your path.
 

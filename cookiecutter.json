@@ -29,8 +29,7 @@
     "Python",
     "Matlab",
     "R",
-    "Stata",
-    "Julia (Warning: You will need to fix a lot yourself! Patches welcome!)"
+    "Stata"
   ],
   "configure_running_python": [
     "y",
@@ -45,10 +44,6 @@
     "n"
   ],
   "configure_running_stata": [
-    "y",
-    "n"
-  ],
-  "configure_running_julia": [
     "y",
     "n"
   ],

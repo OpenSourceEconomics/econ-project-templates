@@ -24,10 +24,8 @@ def rename(filepath, new_filepath):
 if __name__ == "__main__":
 
     specified_example = "{{ cookiecutter.example_to_install }}".lower()
-    if specified_example.startswith("julia"):
-        specified_example = "julia"
 
-    for example in ["julia", "matlab", "python", "stata", "r"]:
+    for example in ["matlab", "python", "stata", "r"]:
         if example != specified_example:
             remove_dir(f"src_{example}")
         else:
