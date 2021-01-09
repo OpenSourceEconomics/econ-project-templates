@@ -14,6 +14,12 @@ dependencies:
   - pip
   - pytask>=0.0.11
   - pytask-latex>=0.0.9
+{% if cookiecutter.configure_running_r == 'y' %}
+  - pytask-r
+{% endif %}
+{% if cookiecutter.configure_running_stata == 'y' %}
+  - pytask-stata
+{% endif %}
   - pytest
   - pytest-cov
   - python={{ cookiecutter.python_version }}
@@ -28,9 +34,6 @@ dependencies:
   - r-rjson
   - r-lmtest
   - r-sandwich
-{% endif %}
-{% if cookiecutter.configure_running_stata == 'y' %}
-  - pytask-stata
 {% endif %}
 {% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
   - virtualenv=20.0.33

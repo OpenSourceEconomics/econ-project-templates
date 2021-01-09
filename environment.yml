@@ -1,17 +1,23 @@
 name: econ-project-templates
 channels:
-  - defaults
-  - r
-  - conda-forge
   - pytask
+  - conda-forge
+  - r
 dependencies:
+  - conda-build
+  - ipykernel
+  - jupyterlab
   - matplotlib
-  - pip
   - pandas
-  - python=3.7
-  - python-graphviz=0.8
+  - pip
   - pytask>=0.0.11
   - pytask-latex>=0.0.9
+  - pytask-r
+  - pytask-stata
+  - pytest
+  - pytest-cov
+  - python=3.9
+  - python-graphviz
   - r-aer
   - r-aod
   - r-base
@@ -25,9 +31,7 @@ dependencies:
     - cookiecutter
     - nbsphinx
     - pre-commit
-    - pytest
     - pytest-cookies
-    - pytest-cov
     - pytest-pythonpath
     - sphinx
     - sphinx-autobuild
