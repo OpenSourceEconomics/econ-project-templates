@@ -7,6 +7,7 @@ from src.config import BLD
 from src.config import SRC
 
 
+@pytask.mark.skip
 @pytask.mark.depends_on(
     list(Path(__file__).parent.glob("*.rst")) + [SRC / "documentation" / "conf.py"]
 )

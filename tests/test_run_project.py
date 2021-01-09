@@ -9,4 +9,4 @@ def test_pytask_python(cookies, basic_project_dict):
     )
     # import pdb; pdb.set_trace()
 
-    assert pytask_result.check_returncode()
+    assert pytask_result.returncode == 0

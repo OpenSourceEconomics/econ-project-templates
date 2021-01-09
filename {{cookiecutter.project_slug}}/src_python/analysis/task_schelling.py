@@ -130,5 +130,5 @@ def task_schelling(depends_on, produces, model):
     # Run the main analysis
     locations_by_round = run_analysis(agents, model)
     # Store list with locations after each round
-    with open(produces, "wb") as out_file:
+    with open(produces[0], "wb") as out_file:
         pickle.dump(locations_by_round, out_file)
