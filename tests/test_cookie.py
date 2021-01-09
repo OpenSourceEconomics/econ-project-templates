@@ -21,7 +21,7 @@ def test_project_slug_assertion(cookies, basic_project_dict):
 
 
 @pytest.mark.skip
-def test_install_Stata_example(cookies, basic_project_dict):
+def test_install_stata_example(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "Stata"
     result = cookies.bake(extra_context=basic_project_dict)
     src_estimation_do = result.project.join("src/analysis/first_stage_estimation.do")
