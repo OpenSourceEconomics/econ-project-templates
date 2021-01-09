@@ -64,9 +64,7 @@ def _check_conda_environment_creation(cookies, basic_project_dict):
     subprocess.run("conda deactivate", shell=True)
     _ = cookies.bake(extra_context=basic_project_dict)
     env = subprocess.check_output(["conda", "env", "list"]).decode()
-    import pdb
-
-    pdb.set_trace()
+    # import pdb; pdb.set_trace()
     # Make sure to remove environment again!
     subprocess.run(
         """conda remove --name test_of_reproducible_research_template --all""",

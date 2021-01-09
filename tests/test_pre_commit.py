@@ -17,6 +17,7 @@ def _check_pre_commit(result):
     failure = re.search(r"Failed", str(output))
     if failure is not None:
         print(output.decode())
+        # import pdb; pdb.set_trace()
         raise AssertionError("Some pre-commit failed.")
     # Not trivial to check for empty string if it might be binary stream
     assert len(error) == 0, "{}".format(str(error))
