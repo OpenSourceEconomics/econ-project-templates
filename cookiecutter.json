@@ -47,10 +47,6 @@
     "y",
     "n"
   ],
-  "configure_running_sphinx": [
-    "y",
-    "n"
-  ],
   "use_biber_biblatex_for_tex_bibliographies": [
     "y",
     "n"

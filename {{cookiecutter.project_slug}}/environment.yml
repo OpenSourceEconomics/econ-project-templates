@@ -20,14 +20,14 @@ dependencies:
   - python-graphviz
 {% if cookiecutter.configure_running_r == 'y' %}
   - pytask-r
-  - r-aer=1.2_6
-  - r-aod=1.3.1
-  - r-base=3.6.1
-  - r-car=3.0_2
-  - r-essentials=3.6.0
-  - r-rjson=0.2.20
-  - r-lmtest=0.9_36
-  - r-sandwich=2.5_1
+  - r-aer
+  - r-aod
+  - r-base
+  - r-car
+  - r-essentials
+  - r-rjson
+  - r-lmtest
+  - r-sandwich
 {% endif %}
 {% if cookiecutter.configure_running_stata == 'y' %}
   - pytask-stata

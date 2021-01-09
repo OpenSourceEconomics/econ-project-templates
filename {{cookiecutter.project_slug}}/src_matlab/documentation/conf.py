@@ -15,7 +15,9 @@ import sys
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath(os.path.join(".", "..")))
+
 matlab_src_dir = os.path.abspath("..")
+
 # -- General configuration ----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -27,8 +29,8 @@ needs_sphinx = "1.1"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
-    "sphinx.ext.mathjax",
     "sphinxcontrib.bibtex",
+    "sphinx.ext.mathjax",
     "sphinxcontrib.matlab",
 ]
 
@@ -180,8 +182,7 @@ latex_elements = {
     # The font size ("10pt", "11pt" or "12pt").
     "pointsize": "11pt",
     # Remove the "Release ..." subtitle from the LaTeX frontpage.
-    "releasename": "",
-    "extraclassoptions": "openany,oneside"
+    "releasename": ""
     # Additional stuff for the LaTeX preamble.
     # "preamble": "",
 }
@@ -193,7 +194,8 @@ latex_documents = [
     (
         "index",
         "project_documentation.tex",
-        "Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }} project",
+        """Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }}
+        project""",
         "{{ cookiecutter.author.replace('_', ' ') }}",
         "manual",
     )

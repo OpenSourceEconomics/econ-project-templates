@@ -1,7 +1,5 @@
 import subprocess
 
-import pytest
-
 
 def test_bake_project(cookies, basic_project_dict):
 
@@ -14,13 +12,28 @@ def test_bake_project(cookies, basic_project_dict):
     assert result.project.isdir()
 
 
+def test_install_python_example(cookies, basic_project_dict):
+    basic_project_dict["example_to_install"] = "Python"
+    result = cookies.bake(extra_context=basic_project_dict)
+    schelling = result.project.join("src/analysis/task_schelling.py")
+    assert result.exit_code == 0
+    assert schelling.check(exists=1)
+
+
+def test_install_matlab_example(cookies, basic_project_dict):
+    basic_project_dict["example_to_install"] = "Matlab"
+    result = cookies.bake(extra_context=basic_project_dict)
+    schelling = result.project.join("src/analysis/schelling.m")
+    assert result.exit_code == 0
+    assert schelling.check(exists=1)
+
+
 def test_project_slug_assertion(cookies, basic_project_dict):
     basic_project_dict["project_slug"] = "-"
     result = cookies.bake(extra_context=basic_project_dict)
     assert result.exit_code == 0
 
 
-@pytest.mark.skip
 def test_install_stata_example(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "Stata"
     result = cookies.bake(extra_context=basic_project_dict)
@@ -29,22 +42,12 @@ def test_install_stata_example(cookies, basic_project_dict):
     assert src_estimation_do.check(exists=1)
 
 
-@pytest.mark.skip
-def test_install_run_stata(cookies, basic_project_dict):
-    basic_project_dict["configure_running_stata"] = "y"
+def test_install_r_example(cookies, basic_project_dict):
+    basic_project_dict["example_to_install"] = "R"
     result = cookies.bake(extra_context=basic_project_dict)
-    wscript = result.project.join("wscript").read()
-    assert 'ctx.load("run_do_script")' in wscript
-    assert 'ctx(features="write_project_paths", target="project_paths.do")' in wscript
-
-
-def test_template_without_sphinx(cookies, basic_project_dict):
-    basic_project_dict["configure_running_sphinx"] = "n"
-    result = cookies.bake(extra_context=basic_project_dict)
-
-    documentation_folder = result.project.join("src/documentation")
+    src_estimation_r = result.project.join("src/analysis/first_stage_estimation.r")
     assert result.exit_code == 0
-    assert documentation_folder.check(exists=0)
+    assert src_estimation_r.check(exists=1)
 
 
 def test_template_with_git_setup(cookies, basic_project_dict):
@@ -57,16 +60,47 @@ def test_template_with_git_setup(cookies, basic_project_dict):
     assert result.project.join(".git").check(exists=1)
 
 
-def test_conda_environment_creation(cookies, basic_project_dict):
-    basic_project_dict[
-        "create_conda_environment_with_name"
-    ] = "test_of_reproducible_research_template"
+def _check_conda_environment_creation(cookies, basic_project_dict):
     subprocess.run("conda deactivate", shell=True)
     _ = cookies.bake(extra_context=basic_project_dict)
     env = subprocess.check_output(["conda", "env", "list"]).decode()
+    import pdb
+
+    pdb.set_trace()
     # Make sure to remove environment again!
     subprocess.run(
         """conda remove --name test_of_reproducible_research_template --all""",
         shell=True,
     )
     assert "test_of_reproducible_research_template" in env
+
+
+def test_conda_environment_creation(cookies, basic_project_dict):
+    basic_project_dict[
+        "create_conda_environment_with_name"
+    ] = "test_of_reproducible_research_template"
+    _check_conda_environment_creation(cookies, basic_project_dict)
+
+
+def test_conda_environment_creation_r(cookies, basic_project_dict):
+    basic_project_dict[
+        "create_conda_environment_with_name"
+    ] = "test_of_reproducible_research_template"
+    basic_project_dict["configure_running_r"] = ("y",)
+    _check_conda_environment_creation(cookies, basic_project_dict)
+
+
+def test_conda_environment_creation_matlab(cookies, basic_project_dict):
+    basic_project_dict[
+        "create_conda_environment_with_name"
+    ] = "test_of_reproducible_research_template"
+    basic_project_dict["configure_running_matlab"] = ("y",)
+    _check_conda_environment_creation(cookies, basic_project_dict)
+
+
+def test_conda_environment_creation_stata(cookies, basic_project_dict):
+    basic_project_dict[
+        "create_conda_environment_with_name"
+    ] = "test_of_reproducible_research_template"
+    basic_project_dict["configure_running_stata"] = ("y",)
+    _check_conda_environment_creation(cookies, basic_project_dict)

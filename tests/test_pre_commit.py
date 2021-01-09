@@ -16,10 +16,7 @@ def _check_pre_commit(result):
 
     failure = re.search(r"Failed", str(output))
     if failure is not None:
-        print(output)
-        import pdb
-
-        pdb.set_trace()
+        print(output.decode())
         raise AssertionError("Some pre-commit failed.")
     # Not trivial to check for empty string if it might be binary stream
     assert len(error) == 0, "{}".format(str(error))
@@ -28,22 +25,11 @@ def _check_pre_commit(result):
     ), "All files skipped by pre-commit."
 
 
-def test_pre_commit_python_sphinx(cookies, basic_project_dict):
-    basic_project_dict["set_up_git"] = "y"
-    basic_project_dict["make_initial_commit"] = "y"
-    basic_project_dict["add_basic_pre_commit_hooks"] = "y"
-    basic_project_dict["add_intrusive_pre_commit"] = "y"
-    basic_project_dict["configure_running_sphinx"] = "y"
-    result = cookies.bake(extra_context=basic_project_dict)
-    _check_pre_commit(result)
-
-
 def test_pre_commit_python(cookies, basic_project_dict):
     basic_project_dict["set_up_git"] = "y"
     basic_project_dict["make_initial_commit"] = "y"
     basic_project_dict["add_basic_pre_commit_hooks"] = "y"
     basic_project_dict["add_intrusive_pre_commit"] = "y"
-    basic_project_dict["configure_running_sphinx"] = "n"
     result = cookies.bake(extra_context=basic_project_dict)
     _check_pre_commit(result)
 

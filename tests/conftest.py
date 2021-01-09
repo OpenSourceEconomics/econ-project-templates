@@ -20,7 +20,6 @@ def basic_project_dict():
         "configure_running_matlab": "n",
         "configure_running_r": "n",
         "configure_running_stata": "n",
-        "configure_running_sphinx": "n",
         "add_basic_pre_commit_hooks": "n",
         "add_intrusive_pre_commit": "n",
         "open_source_license": "n",
