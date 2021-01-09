@@ -5,7 +5,6 @@ import numpy as np
 import pytask
 
 from src.config import BLD
-from src.config import SRC
 
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
@@ -41,29 +40,19 @@ def plot_locations(locations_by_round, path):
     fig.savefig(path)
 
 
-MODELS = ["baseline", "max_moves_2"]
-SCENARIOS = {
-    model: {
-        "depends_on": {
-            "locations": BLD / "analysis" / f"schelling_{model}.pickle",
-            "specification": SRC / "model_specs" / f"{model}.json",
-        },
-        "produces": BLD / "figures" / f"schelling_{model}.png",
-    }
-    for model in MODELS
-}
-
-
-@pytask.mark.parametrize(
-    "model, depends_on, produces",
-    [
-        (model, SCENARIOS[model]["depends_on"].values(), SCENARIOS[model]["produces"])
-        for model in MODELS
-    ],
+specifications = (
+    (
+        BLD / "analysis" / f"schelling_{model_name}.pickle",
+        BLD / "figures" / f"schelling_{model_name}.png",
+    )
+    for model_name in ["baseline", "max_moves_2"]
 )
-def task_plot_locations(model):
-    # Load locations after each round
-    with open(SCENARIOS[model]["depends_on"]["locations"], "rb") as in_file:
-        locations_by_round = pickle.load(in_file)
 
-    plot_locations(locations_by_round, SCENARIOS[model]["produces"])
+
+@pytask.mark.parametrize("depends_on, produces", specifications)
+def task_plot_locations(depends_on, produces):
+    # Load locations after each round
+    with open(depends_on, "rb") as f:
+        locations_by_round = pickle.load(f)
+
+    plot_locations(locations_by_round, produces)

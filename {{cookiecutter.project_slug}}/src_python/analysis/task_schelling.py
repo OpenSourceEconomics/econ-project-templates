@@ -7,7 +7,6 @@ argument. The model name must correspond to a file called
 
 """
 import json
-import logging
 import pickle
 
 import numpy as np
@@ -70,8 +69,7 @@ def run_analysis(agents, model):
     locations_by_round = [_get_locations_by_round_dict(model)]
     _store_locations_by_round(locations_by_round[-1], agents)
 
-    for loop_counter in range(model["max_iterations"]):
-        logging.info(f"Entering loop {loop_counter}")
+    for _ in range(model["max_iterations"]):
         # Make room for locations.
         locations_by_round.append(_get_locations_by_round_dict(model))
         # Update locations as necessary
@@ -88,7 +86,7 @@ def run_analysis(agents, model):
             break
 
     if someone_moved:
-        logging.info(
+        print(
             "No convergence achieved after {} iterations".format(
                 model["max_iterations"]
             )
@@ -98,37 +96,29 @@ def run_analysis(agents, model):
 
 
 @pytask.mark.parametrize(
-    "model, depends_on, produces",
+    "depends_on, produces",
     [
         (
-            model,
-            [
-                SRC / "model_specs" / f"{model}.json",
-                SRC / "model_code" / "agent.py",
-                BLD / "data" / "initial_locations.csv",
-            ],
-            [
-                BLD / "analysis" / f"schelling_{model}.pickle",
-                # BLD / "analysis" / "log" / f"schelling_{model}.log",
-            ],
+            {
+                "model": SRC / "model_specs" / f"{model_name}.json",
+                "agent": SRC / "model_code" / "agent.py",
+                "data": BLD / "data" / "initial_locations.csv",
+            },
+            BLD / "analysis" / f"schelling_{model_name}.pickle",
         )
-        for model in ["baseline", "max_moves_2"]
+        for model_name in ["baseline", "max_moves_2"]
     ],
 )
-def task_schelling(depends_on, produces, model):
-    model = json.loads(depends_on[0].read_text(encoding="utf-8"))
+def task_schelling(depends_on, produces):
+    model = json.loads(depends_on["model"].read_text(encoding="utf-8"))
 
-    # logging.basicConfig(
-    #     filename=produces[1], filemode="w", level=logging.INFO,
-    # )
     np.random.seed(model["rng_seed"])
-    logging.info(model["rng_seed"])
 
     # Load initial locations and setup agents
-    initial_locations = np.loadtxt(depends_on[2], delimiter=",")
+    initial_locations = np.loadtxt(depends_on["data"], delimiter=",")
     agents = setup_agents(model, initial_locations)
     # Run the main analysis
     locations_by_round = run_analysis(agents, model)
     # Store list with locations after each round
-    with open(produces[0], "wb") as out_file:
+    with open(produces, "wb") as out_file:
         pickle.dump(locations_by_round, out_file)
