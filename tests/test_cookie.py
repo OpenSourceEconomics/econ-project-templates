@@ -1,5 +1,7 @@
 import subprocess
 
+import pytest
+
 
 def test_bake_project(cookies, basic_project_dict):
 
@@ -73,6 +75,7 @@ def _check_conda_environment_creation(cookies, basic_project_dict):
     assert "test_of_reproducible_research_template" in env
 
 
+@pytest.mark.slow
 def test_conda_environment_creation(cookies, basic_project_dict):
     basic_project_dict[
         "create_conda_environment_with_name"
@@ -80,6 +83,7 @@ def test_conda_environment_creation(cookies, basic_project_dict):
     _check_conda_environment_creation(cookies, basic_project_dict)
 
 
+@pytest.mark.slow
 def test_conda_environment_creation_r(cookies, basic_project_dict):
     basic_project_dict[
         "create_conda_environment_with_name"
@@ -88,6 +92,7 @@ def test_conda_environment_creation_r(cookies, basic_project_dict):
     _check_conda_environment_creation(cookies, basic_project_dict)
 
 
+@pytest.mark.slow
 def test_conda_environment_creation_matlab(cookies, basic_project_dict):
     basic_project_dict[
         "create_conda_environment_with_name"
@@ -96,6 +101,7 @@ def test_conda_environment_creation_matlab(cookies, basic_project_dict):
     _check_conda_environment_creation(cookies, basic_project_dict)
 
 
+@pytest.mark.slow
 def test_conda_environment_creation_stata(cookies, basic_project_dict):
     basic_project_dict[
         "create_conda_environment_with_name"

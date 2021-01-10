@@ -1,6 +1,9 @@
 import subprocess
 
+import pytest
 
+
+@pytest.mark.slow
 def test_pytask_python(cookies, basic_project_dict):
 
     cookie_result = cookies.bake(extra_context=basic_project_dict)

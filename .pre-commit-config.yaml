@@ -39,6 +39,7 @@ repos:
     rev: 3.8.3
     hooks:
       - id: flake8
+        exclude: docs/bld/example/r/r_example/src/documentation/conf.py
         additional_dependencies:
           [
             flake8-bugbear,
