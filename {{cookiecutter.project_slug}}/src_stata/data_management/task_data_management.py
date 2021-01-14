@@ -8,7 +8,7 @@ data = SRC / "original_data" / "ajrcomment.dta"
 prod = BLD / "data" / "ajrcomment_all.dta"
 
 
-@pytask.mark.stata([log, data, prod])
+@pytask.mark.stata([str(x.resolve()) for x in [log, data, prod]])
 @pytask.mark.depends_on(["add_variables.do", data])
 @pytask.mark.produces([log, prod])
 def task_ajr_comment_data():
