@@ -1,22 +1,24 @@
 import subprocess
 
 
-def test_bake_project(cookies, basic_project_dict):
+def check_cookies_basics(cookies_result):
+    assert cookies_result.exit_code == 0
+    assert cookies_result.exception is None
+    assert cookies_result.project.basename == "research_project"
+    assert cookies_result.project.isdir()
 
+
+def test_bake_project(cookies, basic_project_dict):
     print(cookies.bake(extra_context=basic_project_dict))
     result = cookies.bake(extra_context=basic_project_dict)
-
-    assert result.exit_code == 0
-    assert result.exception is None
-    assert result.project.basename == "research_project"
-    assert result.project.isdir()
+    check_cookies_basics(cookies_result=result)
 
 
 def test_install_python_example(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "Python"
     result = cookies.bake(extra_context=basic_project_dict)
     schelling = result.project.join("src/analysis/task_schelling.py")
-    assert result.exit_code == 0
+    check_cookies_basics(cookies_result=result)
     assert schelling.check(exists=1)
 
 
@@ -24,11 +26,11 @@ def test_install_matlab_example(cookies, basic_project_dict):
     basic_project_dict["example_to_install"] = "Matlab"
     result = cookies.bake(extra_context=basic_project_dict)
     schelling = result.project.join("src/analysis/schelling.m")
-    assert result.exit_code == 0
+    check_cookies_basics(cookies_result=result)
     assert schelling.check(exists=1)
 
 
-def test_project_slug_assertion(cookies, basic_project_dict):
+def test_project_slug_hyphen_okay(cookies, basic_project_dict):
     basic_project_dict["project_slug"] = "-"
     result = cookies.bake(extra_context=basic_project_dict)
     assert result.exit_code == 0
