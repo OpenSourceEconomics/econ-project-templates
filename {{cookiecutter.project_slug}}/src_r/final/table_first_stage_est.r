@@ -8,13 +8,10 @@ It writes the results to Latex file {PATH_OUT_TABLES}/table_first_stage_est.tex
 '
 
 
-source("project_paths.r")
+args = commandArgs(trailingOnly=TRUE)
 
 library(xtable)
 library(rjson)
-
-
-models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
 
 # Initilize final table
 final_table <- data.frame((matrix(nrow = 6, ncol = 8)))
@@ -30,21 +27,15 @@ final_table[7] <- c("","Percent","European","in 1975","(6)","")
 final_table[8] <- c("","","Malaria","in 1994","(7)","")
 
 # Fill final table with first stage regression results
-for (model_name in models) {
-
-    # Load data from regression results
-    this_file = paste(PATH_OUT_ANALYSIS, paste("first_stage_estimation_", model_name, ".csv", sep = ""), sep="/")
-    reg_results <- read.csv(
-        file = this_file,
-        header = TRUE,
-        row.names = 1
-    )
-    reg_results <- round(reg_results, 2)
-    reg_results[is.na(reg_results)] <- "-"
+for (i in c(1, 3)) {
 
     # Load model specs
-    model_json <- paste(model_name, "json", sep=".")
-    model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
+    model <- fromJSON(file=args[i])
+
+    # Load data from regression results
+    reg_results <- read.csv(file=args[i + 1], header=TRUE, row.names=1)
+    reg_results <- round(reg_results, 2)
+    reg_results[is.na(reg_results)] <- "-"
 
     # Create panel header for table
     panel_header <- data.frame(matrix(nrow=2, ncol=8))
@@ -52,10 +43,11 @@ for (model_name in models) {
     panel_header[is.na(panel_header)] <- ""
 
     # Fill data into table conditional on model.
-    if (model_name == "baseline") {
+    if (model$MODEL_NAME == "baseline") {
         model_table = data.frame(matrix(nrow = 5, ncol = 8))
         rows <- c(1, 2, 4, 5, 7)
-        model_table[1] <- rownames(reg_results)[rows] # Note: Fill row names in first column since R does not allow duplicate rownames
+        # Note: Fill row names in first column since R does not allow duplicate rownames
+        model_table[1] <- rownames(reg_results)[rows]
         model_table[2:8] <- reg_results[rows, ]
 
     } else {
@@ -63,7 +55,6 @@ for (model_name in models) {
         rows <- c(1, 3, 5, 7)
         model_table[1] <- rownames(reg_results)[rows]
         model_table[2:8] <- reg_results[rows, ]
-
     }
 
     # Append panel header to model_table
@@ -85,7 +76,7 @@ align(tex_final_table) = "llccccccc"
 print(
     tex_final_table,
     sanitize.text.function = function(x){x},
-    file=paste(PATH_OUT_TABLES, "table_first_stage_est.tex", sep="/"),
+    file=args[5],
     include.rownames=FALSE,
     include.colnames=FALSE,
     caption.placement="top",
