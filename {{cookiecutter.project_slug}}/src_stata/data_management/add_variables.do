@@ -40,6 +40,5 @@ replace logmort0_new = log(350) if inlist(shortnam, "SLE")
 replace source0_new = 1 if inlist(shortnam, "SLE")
 
 
-
 save  "`3'", replace
 log close

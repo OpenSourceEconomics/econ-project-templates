@@ -1,25 +1,31 @@
 /*
-The file "table2_first_stage_est.do" creates table 2 with the first
-stage estimates taking as input the regression results and p-values
-from the corresponding do-file in the analysis folder "first_stage_estimates.do"
-It writes the results to Latex file "`"${PATH_OUT_TABLES}/table_first_stage_est.tex"'"
+The file "table_first_stage_est.do" creates the table with the first
+stage estimates taking as input the regression results and confidence
+intervals from the corresponding do-file "first_stage_estimates.do".
+It writes the results to Latex file "`"table_first_stage_est.tex"'"
+
 */
 
 
-// Header do-file with path definitions, those end up in global macros.
-include project_paths
-log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
+log using `"`1'"', replace
 
 
-forvalues T = 2 / 3 {
+foreach T in 2 4 {
+	local Tp1 = `T' + 1
 
-	do `"${PATH_OUT_MODEL_SPECS}/``T''"'
-	do `"${PATH_OUT_MODEL_SPECS}/geography"'
-	use `"${PATH_OUT_ANALYSIS}/first_stage_estimation_``T''"', clear
+	do `"``T''"'
+	use `"``Tp1''"', clear
 
 	if `T' == 2 {
-		listtab colstring coef_``T''_1 coef_``T''_2 coef_``T''_3 coef_``T''_4 coef_``T''_5 coef_``T''_6 coef_``T''_7 ///
-			using `"${PATH_OUT_TABLES}/table_first_stage_est.tex"', replace type rstyle(tabular) ///
+		listtab colstring ///
+			coef_${MODEL_NAME}_1 ///
+			coef_${MODEL_NAME}_2 ///
+			coef_${MODEL_NAME}_3 ///
+			coef_${MODEL_NAME}_4 ///
+			coef_${MODEL_NAME}_5 ///
+			coef_${MODEL_NAME}_6 ///
+			coef_${MODEL_NAME}_7 ///
+			using `"`6'"', replace type rstyle(tabular) ///
  			head( ///
 				"\begin{table}[htb]" ///
 				"\caption[]{First-Stage Estimates\\Dependent variable: expropriation risk}" ///
@@ -40,9 +46,16 @@ forvalues T = 2 / 3 {
 				"\multicolumn{8}{l}{\textit{${TITLE}}}\\ " ///
 			)
 	}
- 	else if `T' == 3 {
-		listtab colstring coef_``T''_1 coef_``T''_2 coef_``T''_3 coef_``T''_4 coef_``T''_5 coef_``T''_6 coef_``T''_7, ///
-			appendto(`"${PATH_OUT_TABLES}/table_first_stage_est.tex"') type rstyle(tabular) ///
+ 	else if `T' == 4 {
+		listtab colstring ///
+			coef_${MODEL_NAME}_1 ///
+			coef_${MODEL_NAME}_2 ///
+			coef_${MODEL_NAME}_3 ///
+			coef_${MODEL_NAME}_4 ///
+			coef_${MODEL_NAME}_5 ///
+			coef_${MODEL_NAME}_6 ///
+			coef_${MODEL_NAME}_7, ///
+			appendto(`"`6'"') type rstyle(tabular) ///
 			head("\vspace{0.1cm}\\ " "\multicolumn{8}{l}{\textit{${TITLE}}}\\ ") ///
 			foot("\bottomrule \end{tabular}" "\end{center}" "\end{table}")
 	}
