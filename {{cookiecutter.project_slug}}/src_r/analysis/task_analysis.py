@@ -27,11 +27,11 @@ specs = [
 @pytask.mark.parametrize(
     "r, depends_on, produces",
     [
-        [
-            [[str(x) for x in [*s["deps"], s["result"]]]],
+        (
+            [str(x) for x in [*s["deps"], s["result"]]],
             [s["r"], *s["deps"]],
             [s["result"]],
-        ]
+        )
         for s in specs
     ],
 )
