@@ -11,9 +11,9 @@ dependencies:
   - pandas
   - pip
   - pytask>=0.0.11
-  - pytask-latex>=0.0.9
-  - pytask-r
-  - pytask-stata
+  - pytask-latex>=0.0.10
+  - pytask-r>=0.0.6
+  - pytask-stata>=0.0.3
   - pytest
   - pytest-cov
   - python=3.9

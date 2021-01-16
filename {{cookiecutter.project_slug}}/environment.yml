@@ -13,19 +13,18 @@ dependencies:
   - pandas
   - pip
   - pytask>=0.0.11
-  - pytask-latex>=0.0.9
+  - pytask-latex>=0.0.10
 {% if cookiecutter.configure_running_r == 'y' %}
-  - pytask-r
+  - pytask-r>=0.0.6
 {% endif %}
 {% if cookiecutter.configure_running_stata == 'y' %}
-  - pytask-stata
+  - pytask-stata>=0.0.3
 {% endif %}
   - pytest
   - pytest-cov
   - python={{ cookiecutter.python_version }}
   - python-graphviz
 {% if cookiecutter.configure_running_r == 'y' %}
-  - pytask-r
   - r-aer
   - r-aod
   - r-base
