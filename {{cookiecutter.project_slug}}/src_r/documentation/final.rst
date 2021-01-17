@@ -4,8 +4,7 @@
 Visualisation and results formatting
 ************************************
 
-
-Documentation of the code in *src/final*.
+Documentation of the code in *src.final*.
 
 
 Figure 1 - Expropriation risk plotted against log mortality

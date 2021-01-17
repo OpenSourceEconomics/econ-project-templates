@@ -1,9 +1,10 @@
 .. _data_management:
 
+***************
 Data management
-===============
+***************
 
-Documentation of the code in **data_management**.
+Documentation of the code in *src.data_management*.
 
 .. Matlab autodoc needs to know where to find the functions that are documented in the following
 .. automodule:: data_management

@@ -1,9 +1,10 @@
 .. _original_data:
 
+*************
 Original data
-=============
+*************
 
-Documentation of the different datasets in :mod:`original_data`.
+Documentation of the different datasets in *original_data*.
 
 In the original data section you would store the raw data, which you should not manipulate to ensure reproducibility.
 
