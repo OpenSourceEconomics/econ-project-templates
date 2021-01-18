@@ -18,6 +18,7 @@ dependencies:
   - pytest-cov
   - python=3.9
   - python-graphviz
+  - tox-conda
   - r-aer
   - r-aod
   - r-base
