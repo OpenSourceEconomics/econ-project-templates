@@ -25,8 +25,9 @@ it stores a dataframe with estimation results.
 rm(list=ls())
 options(digits=3)
 
-source("project_paths.r")
-source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
+args = commandArgs(trailingOnly=TRUE)
+
+source(args[1])
 
 # Load required libraries.
 library(foreign)
@@ -38,10 +39,8 @@ library(lmtest)
 library(AER)
 
 # Load model and geographic specification.
-model_name <- commandArgs(trailingOnly = TRUE)
-model_json <- paste(model_name, "json", sep=".")
-model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
-geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
+model <- fromJSON(file=args[2])
+geography <- fromJSON(file=args[3])
 
 # Initilize output dataframe for results.
 results = data.frame(matrix(nrow = 5, ncol = 7))
@@ -57,10 +56,7 @@ row.names(results) <- c(
 for (i in 1:7) {
 
     # Load data.
-    data <- read.csv(
-        file = paste(PATH_OUT_DATA, "ajrcomment_all.csv", sep="/"),
-        header = TRUE
-    )
+    data <- read.csv(file=args[4], header=TRUE)
 
     # Implement model-specific restrictions.
     if (model$KEEP_CONDITION != "") {
@@ -109,12 +105,4 @@ for (i in 1:7) {
 }
 
 # Save data to disk.
-write.csv(
-    results,
-    file = paste(
-        PATH_OUT_ANALYSIS,
-        paste("second_stage_estimation_", model_name, ".csv", sep=""),
-        sep = "/"
-    ),
-    col.names = TRUE
-)
+write.csv(results, file=args[5], col.names=TRUE)

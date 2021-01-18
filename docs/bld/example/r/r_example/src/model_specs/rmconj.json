@@ -1,4 +1,5 @@
 {
+  "MODEL_NAME": "rmconj",
   "DEPVAR": "loggdp",
   "INSTD": "risk",
   "INSTS": "logmort0",

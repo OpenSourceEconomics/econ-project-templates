@@ -22,6 +22,7 @@ needs_sphinx = "1.1"
 # They can be extensions coming with Sphinx (named 'sphinx.ext.*')
 # or your custom ones.
 extensions = ["sphinx.ext.mathjax", "sphinxcontrib.bibtex"]
+bibtex_bibfiles = ["refs.bib"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ["_templates"]
@@ -211,3 +212,6 @@ latex_documents = [
 
 # If false, no module index is generated.
 # latex_domain_indices = True
+
+
+bibtex_bibfiles = ["refs.bib"]

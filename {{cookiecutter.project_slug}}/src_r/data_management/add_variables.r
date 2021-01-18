@@ -4,11 +4,11 @@ dataset as described in Albouy (2012).
 
 '
 
-source("project_paths.r")
+args = commandArgs(trailingOnly=TRUE)
 
 library(foreign)
 
-data <- read.dta(paste(PATH_IN_DATA, "ajrcomment.dta", sep="/"))
+data <- read.dta(args[1])
 
 # Initilize new variables
 data["logmort0_new"] = data$logmort0
@@ -36,4 +36,4 @@ data[grep("SLE", data$shortnam),]$source0_new = 1
 
 data[grep("HND", data$shortnam),]$campaign_new = 0
 
-write.csv(data, file = paste(PATH_OUT_DATA, "ajrcomment_all.csv", sep="/"))
+write.csv(data, file=args[2])

@@ -1,22 +1,23 @@
 /*
-The file "table3_second_stage_est.do" creates table 3 with the
+The file ``table_second_stage_est.do`` creates the table with the
 IV estimates taking as input the regression results and confidence
-intervals from the corresponding do-file "second_stage_estimates.do"
-in the analysis directory. It writes the results to Latex file
-"`"${PATH_OUT_TABLES}/table3_second_stage_est.tex"'"
+intervals from the corresponding do-file ``second_stage_estimates.do``.
+It writes the results to Latex file ``table_second_stage_est.tex``
+
 */
 
 
-// Header do-file with path definitions, those end up in global macros.
-include project_paths
-log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
+log using `"`1'"', replace
 
 
-forvalues T = 2 / 3 {
+foreach T in 3 5 {
 
-	do `"${PATH_OUT_MODEL_SPECS}/``T''"'
-	do `"${PATH_OUT_MODEL_SPECS}/geography"'
-	use `"${PATH_OUT_ANALYSIS}/second_stage_estimation_``T''"',clear
+	local Tp1 = `T' + 1
+
+	do `"``T''"'
+	do `"`2'"'
+	use `"``Tp1''"', clear
+
 
 	// The following transposes the variables - necessary because we have strings
 
@@ -35,7 +36,7 @@ forvalues T = 2 / 3 {
 	sort name
 	rename name colstring
 
-/***Generate column names as in table 3 ***/
+    // Generate column names as in table 3
 	gen id2 = _n
 	sort id2
 	replace colstring = "Expropriation risk" if id2==1
@@ -43,10 +44,9 @@ forvalues T = 2 / 3 {
 	replace colstring = "AR 95\% conf. region" if id2==3
 	drop id2
 
-/***Write to Latex file ***/
-
-	if `T' == 2 {
-		listtab colstring aux1 aux2 aux3 aux4 aux5 aux6 aux7 using `"${PATH_OUT_TABLES}/table_second_stage_est.tex"', replace type rstyle(tabular) ///
+    // Write to Latex file
+	if `T' == 3 {
+		listtab colstring aux1 aux2 aux3 aux4 aux5 aux6 aux7 using `"`7'"', replace type rstyle(tabular) ///
 		head( ///
 			"\begin{table}[htb]" ///
 			"\caption[]{Instrumental Variable Estimates and Confidence Regions\\First-stage dependent var.: log GDP, second-stage dependent var.: expropriation risk}" ///
@@ -68,9 +68,9 @@ forvalues T = 2 / 3 {
 			"\multicolumn{8}{l}{\textit{${TITLE}}}\\" ///
 		)
 	}
-	else if `T' == 3 {
+	else if `T' == 5 {
 		listtab colstring aux1 aux2 aux3 aux4 aux5 aux6 aux7, ///
-			appendto(`"${PATH_OUT_TABLES}/table_second_stage_est.tex"') type rstyle(tabular) ///
+			appendto(`"`7'"') type rstyle(tabular) ///
 			head("\vspace{0.1cm}\\" "\multicolumn{8}{l}{\textit{${TITLE}}}\\") ///
 			foot("\bottomrule \end{tabular}" "\end{center}" "\end{table}")
 	}

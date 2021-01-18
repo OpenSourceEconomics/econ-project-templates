@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
 # Hans-Martin von Gaudecker and David Birke, 2012-16
-
 """
 Run a Perl script in the directory specified by **ctx.bldnode**.
 
@@ -20,18 +18,19 @@ Usage::
     )
 
 """
-
-
 import os
-from waflib import Task, TaskGen, Logs
 
-PERL_COMMANDS = ['perl']
+from waflib import Logs
+from waflib import Task
+from waflib import TaskGen
+
+PERL_COMMANDS = ["perl"]
 
 
 def configure(ctx):
     ctx.find_program(
         PERL_COMMANDS,
-        var='PERLCMD',
+        var="PERLCMD",
         errmsg="""\n
 No Perl executable found!\n\n
 If Perl is needed:\n
@@ -40,7 +39,7 @@ If Perl is needed:\n
        If yours has a different name, please report to hmgaudecker [at] gmail\n
 Else:\n
     Do not load the 'run_pl_script' tool in the main wscript.\n\n"""
-        % PERL_COMMANDS
+        % PERL_COMMANDS,
     )
 
 
@@ -53,10 +52,10 @@ class run_pl_script(Task.Task):
     def exec_command(self, cmd, **kw):
         bld = self.generator.bld
         try:
-            if not kw.get('cwd', None):
-                kw['cwd'] = bld.cwd
+            if not kw.get("cwd", None):
+                kw["cwd"] = bld.cwd
         except AttributeError:
-            bld.cwd = kw['cwd'] = bld.variant_dir
+            bld.cwd = kw["cwd"] = bld.variant_dir
         if not self.buffer_output:
             kw["stdout"] = kw["stderr"] = None
         return bld.exec_command(cmd, **kw)
@@ -67,7 +66,7 @@ class run_pl_script(Task.Task):
 
         """
 
-        return 'Running'
+        return "Running"
 
     def __str__(self):
         """
@@ -78,12 +77,12 @@ class run_pl_script(Task.Task):
         return "{prepend} [Perl] {fn} {append}".format(
             prepend=self.env.PREPEND,
             fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-            append=self.env.APPEND
+            append=self.env.APPEND,
         )
 
 
-@TaskGen.feature('run_pl_script')
-@TaskGen.before_method('process_source')
+@TaskGen.feature("run_pl_script")
+@TaskGen.before_method("process_source")
 def apply_run_pl_script(tg):
     """Task generator customising the options etc. to call Perl
     for running a script.
@@ -93,26 +92,27 @@ def apply_run_pl_script(tg):
     src_node = tg.path.find_resource(tg.source)
     if src_node is None:
         tg.bld.fatal(
-            "Could not find source file: {}".format(os.path.join(tg.path.relpath(), tg.source))
+            "Could not find source file: {}".format(
+                os.path.join(tg.path.relpath(), tg.source)
+            )
         )
     tgt_nodes = [tg.path.find_or_declare(t) for t in tg.to_list(tg.target)]
 
-    tsk = tg.create_task('run_pl_script', src=src_node, tgt=tgt_nodes)
-    tsk.env.APPEND = getattr(tg, 'append', '')
-    tsk.env.PREPEND = getattr(tg, 'prepend', '')
-    tsk.buffer_output = getattr(tg, 'buffer_output', True)
+    tsk = tg.create_task("run_pl_script", src=src_node, tgt=tgt_nodes)
+    tsk.env.APPEND = getattr(tg, "append", "")
+    tsk.env.PREPEND = getattr(tg, "prepend", "")
+    tsk.buffer_output = getattr(tg, "buffer_output", True)
 
     # dependencies (if the attribute 'deps' changes, trigger a recompilation)
-    for x in tg.to_list(getattr(tg, 'deps', [])):
+    for x in tg.to_list(getattr(tg, "deps", [])):
         node = tg.path.find_resource(x)
         if not node:
             tg.bld.fatal(
-                'Could not find dependency %r for running %r'
-                % (x, src_node.relpath())
+                f"Could not find dependency {x!r} for running {src_node.relpath()!r}"
             )
         tsk.dep_nodes.append(node)
     Logs.debug(
-        'deps: found dependencies %r for running %r'
+        "deps: found dependencies %r for running %r"
         % (tsk.dep_nodes, src_node.relpath())
     )
 

@@ -4,12 +4,7 @@
 Visualisation and results formatting
 ************************************
 
-
-Documentation of the code in *src/final*.
-
-.. note::
-
-    Some of these steps seem to fail on Linux because apparently Stata is not capable of saving png-figures in batch mode. Just do a search for "png" in the *src/final* directory and replace all occurences by "eps". Make sure that you allow LaTeX to call external commands (shell escape needs to be enabled).
+Documentation of the code in *src.final*.
 
 
 Figure 1 - Expropriation risk plotted against log mortality
@@ -18,6 +13,7 @@ Figure 1 - Expropriation risk plotted against log mortality
 .. include:: ../final/figure_mortality.do
     :start-after: /*
     :end-before: */
+
 
 Table 2 - First stage estimation of expropriation risk on log mortality
 =======================================================================

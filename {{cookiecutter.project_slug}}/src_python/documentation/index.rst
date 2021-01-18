@@ -15,8 +15,8 @@ Welcome to the {{ cookiecutter.project_name.replace('_', ' ') }} project's docum
     data_management
     analysis
     final
-    paper
     model_code
     model_specs
     library
+    paper
     references

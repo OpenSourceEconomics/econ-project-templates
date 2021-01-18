@@ -24,46 +24,33 @@ def rename(filepath, new_filepath):
 if __name__ == "__main__":
 
     specified_example = "{{ cookiecutter.example_to_install }}".lower()
-    if specified_example.startswith("julia"):
-        specified_example = "julia"
+    raw_examples = {"matlab", "python", "stata", "r"}
+    assert specified_example in raw_examples
 
-    for example in ["julia", "matlab", "python", "stata", "r"]:
+    for example in raw_examples:
         if example != specified_example:
             remove_dir(f"src_{example}")
         else:
             rename(f"src_{example}", "src")
 
-    if not "{{ cookiecutter.configure_running_sphinx_from_waf }}" == "y":
-        remove_dir("src/documentation")
-
     if "{{ cookiecutter.create_conda_environment_with_name }}" == "x":
         environment_name = None
     else:
         environment_name = "{{ cookiecutter.create_conda_environment_with_name }}"
-        subprocess.call(
-            [
-                "conda",
-                "env",
-                "create",
-                "--name",
-                f"{environment_name}",
-                "--file",
-                "environment.yml",
-            ]
-        )
+        subprocess.run(["conda", "env", "create"])
 
     if "{{ cookiecutter.set_up_git }}" == "y":
 
-        subprocess.call(["git", "init"])
+        subprocess.run(["git", "init"])
 
         if "{{ cookiecutter.git_remote_url }}" != "":
-            subprocess.call(
+            subprocess.run(
                 ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"]
             )
 
         if "{{ cookiecutter.make_initial_commit }}" == "y":
-            subprocess.call(["git", "add", "."])
-            subprocess.call(
+            subprocess.run(["git", "add", "."])
+            subprocess.run(
                 [
                     "git",
                     "commit",

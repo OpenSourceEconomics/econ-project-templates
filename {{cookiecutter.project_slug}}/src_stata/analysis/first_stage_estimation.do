@@ -1,40 +1,33 @@
 /*
-In the file "second_stage_estimation.do", we regress the expropriation risk
+In the file "first_stage_estimation.do", we regress the expropriation risk
 on log mortality.
 
 We also compute confidence intervals for a usual Wald statistic and confidence
 intervals for the Anderson-Rubin (1949) statistic.
 
-The file requires to be called with a model specification as the argument,
-a corresponding do-file must exist in ${PATH_OUT_MODEL_SPECS}. That file needs
-to define globals:
+The file requires to be called with the paths to several files, in the
+following order:
 
-    * ${INSTD} - the dependent variable (in the first stage)
-    * ${INSTS} - the instrument
-    * ${KEEP_CONDITION} - any sampling restrictions (full command)
-    * ${DUMMIES} - additional dummy variables to be used as controls
-
-The do-file loops over various specifications with geographic controls /
-restrictions as defined in ${PATH_OUT_MODEL_SPECS}/geography.do. Finally, we
-store a dataset with estimation results.
+   1. The log-file
+   2. The do-file with the model specification
+   3. The do-file with the geography variables
+   4. The input dataset
+   5. The output dataset
 
 */
 
 
-
 // Header do-file with path definitions, those end up in global macros.
-include project_paths
-log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
+log using `"`1'"', replace
 
 
 // Read in the model controls
-do `"${PATH_OUT_MODEL_SPECS}/`2'"'
-do `"${PATH_OUT_MODEL_SPECS}/geography"'
-
+do `"`2'"'
+do `"`3'"'
 
 forvalues N = 1 / 7 {
 
-    use `"${PATH_OUT_DATA}/ajrcomment_all"', replace
+    use `"`4'"', replace
     ${KEEP_CONDITION}
     ${GEO_KEEP_CONDITION_`N'}
 
@@ -100,18 +93,19 @@ else {
     ]
 }
 
-svmat panel, names(coef_`2'_)
-drop if coef_`2'_1==.
-format coef_`2'_1 coef_`2'_2 coef_`2'_3 coef_`2'_4 coef_`2'_5 coef_`2'_6 coef_`2'_7 %5.2f
+svmat panel, names(coef_${MODEL_NAME}_)
+drop if coef_${MODEL_NAME}_1==.
+format coef_${MODEL_NAME}_1 coef_${MODEL_NAME}_2 coef_${MODEL_NAME}_3 coef_${MODEL_NAME}_4 coef_${MODEL_NAME}_5 coef_${MODEL_NAME}_6 coef_${MODEL_NAME}_7 %5.2f
 gen id = _n
 sort id
 gen str colstring = "Log mortality" if id==1
 replace colstring = "heteroscedastic SE" if id==2
 replace colstring = "p-value log mortality" if id==3
-replace colstring = "p-value of controls" if id==4 & inlist("`2'", "baseline", "rmconj")
-replace colstring = "p-value of indicators" if id==4 & inlist("`2'", "addindic", "rmconj_addindic", "newdata")
-replace colstring = "p-value of controls" if id==5 & inlist("`2'", "addindic", "rmconj_addindic", "newdata")
+replace colstring = "p-value of controls" if id==4 & inlist("${MODEL_NAME}", "baseline", "rmconj")
+replace colstring = "p-value of indicators" if id==4 & inlist("${MODEL_NAME}", "addindic", "rmconj_addindic", "newdata")
+replace colstring = "p-value of controls" if id==5 & inlist("${MODEL_NAME}", "addindic", "rmconj_addindic", "newdata")
 
-keep colstring coef_`2'_1 coef_`2'_2 coef_`2'_3 coef_`2'_4 coef_`2'_5 coef_`2'_6 coef_`2'_7
+keep colstring coef_${MODEL_NAME}_1 coef_${MODEL_NAME}_2 coef_${MODEL_NAME}_3 coef_${MODEL_NAME}_4 coef_${MODEL_NAME}_5 coef_${MODEL_NAME}_6 coef_${MODEL_NAME}_7
 
-save `"${PATH_OUT_ANALYSIS}/first_stage_estimation_`2'"', replace
+save `"`5'"', replace
+log close

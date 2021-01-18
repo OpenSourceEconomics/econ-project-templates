@@ -11,7 +11,7 @@ An empirical or computational research project only becomes a useful building bl
 
 The first should lure you in quickly, the second convince you to stick to the tools in the long run---unless you are familiar with the programs already, you might think now that all of this is overkill and far more difficult than necessary. It is not. *[although I am always* `happy to hear <mailto:hmgaudecker@gmail.com>`_ *about easier alternatives]*
 
-The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by `Waf <https://waf.io>`_, which is written in `Python <http://www.python.org/>`_. You do not need to know Python to use these tools, though.
+The templates support a variety of programming languages already and are easily extended to cover any other. Everything is tied together by `pytask <https://pytask-dev.readthedocs.io>`_, which is written in `Python <http://www.python.org/>`_. You do not need to know Python to use these tools, though.
 
 If you are a complete novice, you should read through the entire documents instead of jumping directly to the :ref:`getting_started` section. First, let me expand on the reproducibility part.
 

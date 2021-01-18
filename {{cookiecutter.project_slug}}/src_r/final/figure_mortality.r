@@ -10,12 +10,12 @@ countries with original data and countries with conjectured mortality data.
 
 rm(list=ls())
 
-source("project_paths.r")
+args = commandArgs(trailingOnly=TRUE)
 
 library(foreign)
 
 
-data <- read.csv(paste(PATH_OUT_DATA, "ajrcomment_all.csv", sep = "/"))
+data <- read.csv(args[1])
 
 
 ## Rebuilding of Figures 2A and 2B
@@ -37,7 +37,7 @@ databarcon <- databar[grep(0,databar$source0),]
 datalabhome <- datalab[grep(1,datalab$source0),]
 datalabcon <- datalab[grep(0,datalab$source0),]
 
-png(filename=paste(PATH_OUT_FIGURES, "risk_mort.png", sep="/"))
+png(filename=args[2])
 plot(
      datacamphome$logmort0, datacamphome$risk, pch=15,
      xlab="Logarithm of settler mortality", ylab="Expropriation risk",

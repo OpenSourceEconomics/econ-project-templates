@@ -6,10 +6,9 @@ dataset as described in Albouy (2012).
 
 
 // Header do-File with path definitions, those end up in global macros.
-include project_paths
-log using `"${PATH_OUT_DATA}/log/`1'.log"', replace
+log using "`1'", replace
 
-use `"${PATH_IN_DATA}/ajrcomment"'
+use "`2'"
 
 gen source0_new = source0
 gen logmort0_new = logmort0
@@ -41,6 +40,5 @@ replace logmort0_new = log(350) if inlist(shortnam, "SLE")
 replace source0_new = 1 if inlist(shortnam, "SLE")
 
 
-
-save `"${PATH_OUT_DATA}/ajrcomment_all"', replace
+save  "`3'", replace
 log close

@@ -5,30 +5,26 @@ per capita with expropriation risk as the first stage dependent variable.
 We also compute confidence intervals for a usual Wald statistic and confidence
 intervals for the Anderson-Rubin (1949) statistic.
 
-The file requires to be called with a model specification as the argument,
-a corresponding do-file must exist in ${PATH_OUT_MODEL_SPECS}. That file needs
-to define globals:
+The file requires to be called with the paths to several files, in the
+following order:
 
-    * ${DEPVAR} - the dependent variable
-    * ${INSTD} - the instrumented variable
-    * ${INSTS} - the instrument
-    * ${KEEP_CONDITION} - any sampling restrictions (full command)
-    * ${DUMMIES} - additional dummy variables to be used as controls
-
-The do-file loops over various specifications with geographic controls /
-restrictions as defined in ${PATH_OUT_MODEL_SPECS}/geography.do. Finally, we
-store a dataset with estimation results.
+   1. The log-file
+   2. The do-file with the model specification
+   3. The do-file with the geography variables
+   4. The input dataset
+   5. The output dataset
 
 */
 
 
-// Header do-File with path definitions, those end up in global macros.
-include project_paths
-log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
+// Header do-file with path definitions, those end up in global macros.
+log using `"`1'"', replace
 
 // Read in the model controls
-do `"${PATH_OUT_MODEL_SPECS}/`2'"'
-do `"${PATH_OUT_MODEL_SPECS}/geography"'
+do `"`2'"'
+do `"`3'"'
+local input_data `"`4'"'
+local output_data `"`5'"'
 
 // Define some temporary files
 tempfile ci_base ci_1 ci_2 ci_3 ci_4 ci_5 ci_6 ci_7 tempdata
@@ -53,7 +49,7 @@ forvalues N = 1 / 7 {
     use `ci_base', replace
     save `ci_`N'', replace
 
-    use `"${PATH_OUT_DATA}/ajrcomment_all"', replace
+    use `"`input_data'"', replace
     ${KEEP_CONDITION}
     ${GEO_KEEP_CONDITION_`N'}
 
@@ -220,5 +216,5 @@ replace cilmT_ci = "\begin{tabular}[c]{@{}c@{}}(-$\infty$," + cilmT_1_str + "] U
 
 keep pointT_1 waldT_ci cilmT_ci
 
-save `"${PATH_OUT_ANALYSIS}/second_stage_estimation_`2'"', replace
+save `"`output_data'"', replace
 log close

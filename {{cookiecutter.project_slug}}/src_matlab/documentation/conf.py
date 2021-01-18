@@ -8,15 +8,16 @@
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
-
-import sys
 import os
+import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath(os.path.join(".", "..")))
+sys.path.insert(0, os.path.abspath("../.."))
+
 matlab_src_dir = os.path.abspath("..")
+
 # -- General configuration ----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -28,8 +29,8 @@ needs_sphinx = "1.1"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
-    "sphinx.ext.mathjax",
     "sphinxcontrib.bibtex",
+    "sphinx.ext.mathjax",
     "sphinxcontrib.matlab",
 ]
 
@@ -49,7 +50,7 @@ master_doc = "index"
 project = "{{ cookiecutter.project_name.replace('_', ' ') }}"
 copyright = "2019-, {{ cookiecutter.author.replace('_', ' ') }}"
 
-# The version info for the project you"re documenting, acts as replacement for
+# The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
@@ -181,8 +182,7 @@ latex_elements = {
     # The font size ("10pt", "11pt" or "12pt").
     "pointsize": "11pt",
     # Remove the "Release ..." subtitle from the LaTeX frontpage.
-    "releasename": "",
-    "extraclassoptions": "openany,oneside"
+    "releasename": ""
     # Additional stuff for the LaTeX preamble.
     # "preamble": "",
 }
@@ -194,7 +194,7 @@ latex_documents = [
     (
         "index",
         "project_documentation.tex",
-        "Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }} project",
+        """Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }} project""",
         "{{ cookiecutter.author.replace('_', ' ') }}",
         "manual",
     )

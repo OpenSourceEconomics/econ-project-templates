@@ -156,7 +156,8 @@ def create_fig(out_file, x_items, y_items):
     ax.tick_params(color="white")
 
     ax.xaxis.set_ticks(x_ticks)
-    ax.set_xticklabels(list(x_items.keys()), position=(0, -0.01))
+    xticklabels = [x for x in x_items.keys() if not x == "single boxes"]
+    ax.set_xticklabels(xticklabels, position=(0, -0.01))
 
     ax.yaxis.set_ticks(y_ticks)
     ax.set_yticklabels(
@@ -167,7 +168,7 @@ def create_fig(out_file, x_items, y_items):
         if v and k != "single boxes":
             ax.add_patch(v)
 
-    for k, v in list(y_items.items()):
+    for v in y_items.values():
         if v:
             ax.add_patch(v)
 

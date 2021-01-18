@@ -6,10 +6,7 @@ countries with original data and countries with conjectured mortality data.
 */
 
 // Header do-file with path definitions, those end up in global macros.
-include project_paths
-log using `"${PATH_OUT_ANALYSIS}/log/`1'.log"', replace
-
-
+log using `"`1'"', replace
 
 // Define temporary files to save graphs
 tempfile loggdpmort
@@ -17,7 +14,7 @@ tempfile riskmort
 
 set graphics on
 
-use `"${PATH_OUT_DATA}/ajrcomment_all"', replace
+use `"`2'"', replace
 
 gen logmort = logmort0
 drop logmort0
@@ -116,5 +113,5 @@ twoway scatter risk_b0 risk_c0 risk_s0 risk_b1 risk_c1 risk_s1 logmort, ///
 	cols(4) colgap(1) textwidth(18)  symxsize(5) ///
 	nobox bmargin(zero) region(lcolor(none)) size(2.5)  span)
 
-graph export `"${PATH_OUT_FIGURES}/risk_mort.eps"', replace
+graph export `"`3'"', replace
 

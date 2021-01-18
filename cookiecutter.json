@@ -6,7 +6,7 @@
   "project_name": "The General Theory of Relativity",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "project_short_description": "Explain the relationship of space and time.",
-  "python_version": "3.7",
+  "python_version": "3.9",
   "create_conda_environment_with_name": "{{ cookiecutter.project_slug.lower().replace(' ', '_').replace('-', '_') }}",
   "set_up_git": [
     "y",
@@ -29,30 +29,21 @@
     "Python",
     "Matlab",
     "R",
-    "Stata",
-    "Julia (Warning: You will need to fix a lot yourself! Patches welcome!)"
+    "Stata"
   ],
-  "configure_running_python_from_waf": [
+  "configure_running_python": [
     "y",
     "n"
   ],
-  "configure_running_matlab_from_waf": [
+  "configure_running_matlab": [
     "y",
     "n"
   ],
-  "configure_running_r_from_waf": [
+  "configure_running_r": [
     "y",
     "n"
   ],
-  "configure_running_stata_from_waf": [
-    "y",
-    "n"
-  ],
-  "configure_running_julia_from_waf": [
-    "y",
-    "n"
-  ],
-  "configure_running_sphinx_from_waf": [
+  "configure_running_stata": [
     "y",
     "n"
   ],

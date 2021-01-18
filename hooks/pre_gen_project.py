@@ -37,7 +37,7 @@ python_version = "{{ cookiecutter.python_version }}"
 
 if not re.match(PYTHONVERSION_REGEX, python_version):
     raise ValueError(
-        f"""
+        """
 
         ERROR: The python version must be >= 3.6
 

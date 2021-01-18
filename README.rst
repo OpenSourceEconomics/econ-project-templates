@@ -12,7 +12,7 @@
 Templates for Reproducible Research Projects in Economics
 ===========================================================
 
-This project aims to provide project templates for economists that make it easy to produce reproducible research using one or more of the most frequently used programming languages in economics (i.e Python, Stata, R, Matlab, experimental support for Julia).
+This project aims to provide project templates for economists that make it easy to produce reproducible research using one or more of the most frequently used programming languages in economics (i.e Python, Stata, R, Matlab).
 
 Users and curious visitors please take a look at the `documentation <https://econ-project-templates.readthedocs.io/en/stable/>`_. This repository is for developing the templates rather than using them.
 

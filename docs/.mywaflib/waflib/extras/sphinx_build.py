@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Waf tool for building documentation with Sphinx.
 
 This version works really well with with Waf at the cost of staggering
@@ -14,10 +12,8 @@ http://docs.waf.googlecode.com/git/book_17/single.html#_a_compiler_producing_sou
 Hans-Martin von Gaudecker, 2012
 Sean Fisk, 2014
 """
-
 # FIXME: We don't currently call makeindex as the Sphinx-generated LaTeX
 # Makefile does. This needs to be added.
-
 # XXX: Multiple builders could potentially use a shared doctrees directory and
 # also share scanner method results. Unfortunately, that would likely mean
 # combining all of the builders into one task, which is ugly and would probably
@@ -25,35 +21,35 @@ Sean Fisk, 2014
 # before creating the task (creating potentially incorrect results) or caching
 # the results of the scan (which would result in concurrency control, and be
 # ugly and error-prone).
-
 import os
 import re
 import shutil
 
-import waflib
-from waflib.Configure import conf
 import sphinx
+import waflib
 from sphinx.application import Sphinx
 from waflib import Task
+from waflib.Configure import conf
 
 
-MAKEINFO_VERSION_RE = re.compile(r'(makeinfo|texi2any) \(GNU texinfo\) (\d+)\.(\d+)')
+MAKEINFO_VERSION_RE = re.compile(r"(makeinfo|texi2any) \(GNU texinfo\) (\d+)\.(\d+)")
 # UTF-8 support was introduced in this version. See the
 # 'warn_about_old_makeinfo' method.
 # http://svn.savannah.gnu.org/viewvc/*checkout*/trunk/NEWS?root=texinfo
 MAKEINFO_MIN_VERSION = (4, 13)
 
 
-class InfoBuilder(object):
+class InfoBuilder:
     """Handle run of makeinfo."""
-    tool_name = 'MAKEINFO'
-    in_suffix = '.texi'
-    out_suffix = '.info'
-    sphinx_builder = 'texinfo'
+
+    tool_name = "MAKEINFO"
+    in_suffix = ".texi"
+    out_suffix = ".info"
+    sphinx_builder = "texinfo"
 
     def create_task(self, task_gen, src, tgt):  # pylint: disable=no-self-use
         """Create Sphinx makeinfo task."""
-        return [task_gen.create_task('sphinx_makeinfo_task', src=src, tgt=tgt)]
+        return [task_gen.create_task("sphinx_makeinfo_task", src=src, tgt=tgt)]
 
 
 def _make_texinputs_nodes(task_gen, init_texinputs_nodes):
@@ -63,13 +59,13 @@ def _make_texinputs_nodes(task_gen, init_texinputs_nodes):
     # basically copied from 'apply_tex'. Unfortunately, we don't see a way
     # around copying this code.
     texinputs_nodes = init_texinputs_nodes[:]
-    val = os.environ.get('TEXINPUTS', '')
+    val = os.environ.get("TEXINPUTS", "")
     if task_gen.env.TEXINPUTS:
         val += os.pathsep + task_gen.env.TEXINPUTS
     if val:
         paths = val.split(os.pathsep)
     else:
-        paths = ''
+        paths = ""
     for path in paths:
         if path:
             if os.path.isabs(path):
@@ -77,22 +73,20 @@ def _make_texinputs_nodes(task_gen, init_texinputs_nodes):
                 if node:
                     texinputs_nodes.append(node)
                 else:
-                    waflib.Logs.error(
-                        'Invalid TEXINPUTS folder {}'.format(path))
+                    waflib.Logs.error(f"Invalid TEXINPUTS folder {path}")
             else:
-                waflib.Logs.error(
-                    'Cannot resolve relative paths in TEXINPUTS {}'.format(
-                        path))
+                waflib.Logs.error(f"Cannot resolve relative paths in TEXINPUTS {path}")
 
     return texinputs_nodes
 
 
-class PdflatexBuilder(object):
+class PdflatexBuilder:
     """Handle run of pdflatex."""
-    tool_name = 'PDFLATEX'
-    in_suffix = '.tex'
-    out_suffix = '.pdf'
-    sphinx_builder = 'latex'
+
+    tool_name = "PDFLATEX"
+    in_suffix = ".tex"
+    out_suffix = ".pdf"
+    sphinx_builder = "latex"
 
     def create_task(self, task_gen, src, tgt):  # pylint: disable=no-self-use
         """Create pdflatex task."""
@@ -105,15 +99,16 @@ class PdflatexBuilder(object):
         # but that only makes sense if the sources are not already in the build
         # directory. Hack around it by copying the .tex file to the desired
         # output directory and setting TEXINPUTS. THIS IS UGLY.
-        copied_tex_node = tgt.change_ext('.tex')
+        copied_tex_node = tgt.change_ext(".tex")
         copy_task = task_gen.create_task(
-            'sphinx_copy_file_task', src=orig_tex_node, tgt=copied_tex_node)
+            "sphinx_copy_file_task", src=orig_tex_node, tgt=copied_tex_node
+        )
         # The following code is based on apply_tex() from Waf tex tool.
-        latex_task = task_gen.create_task(
-            'pdflatex', src=copied_tex_node, tgt=tgt)
+        latex_task = task_gen.create_task("pdflatex", src=copied_tex_node, tgt=tgt)
         # Set 'texinputs_nodes' for the task.
         latex_task.texinputs_nodes = _make_texinputs_nodes(
-            task_gen, [orig_tex_node.parent])
+            task_gen, [orig_tex_node.parent]
+        )
         # Set the build order to prevent node signature issues.
         latex_task.set_run_after(copy_task)
         # Add manual dependencies.
@@ -124,21 +119,21 @@ class PdflatexBuilder(object):
         # latex_task.env.PROMPT_LATEX = 1
         return [copy_task, latex_task]
 
-FOLLOWUP_BUILDERS = {
-    'info': InfoBuilder(),
-    'latexpdf': PdflatexBuilder(),
-}
+
+FOLLOWUP_BUILDERS = {"info": InfoBuilder(), "latexpdf": PdflatexBuilder()}
 """Mapping of Sphinx composite builders."""
 
 
 def _version_tuple_to_string(version_tuple):
-    return '.'.join(str(x) for x in version_tuple)
+    return ".".join(str(x) for x in version_tuple)
 
 
 def _node_or_bust(node_or_path, node_func):
-    return (node_or_path
-            if isinstance(node_or_path, waflib.Node.Node)
-            else node_func(node_or_path))
+    return (
+        node_or_path
+        if isinstance(node_or_path, waflib.Node.Node)
+        else node_func(node_or_path)
+    )
 
 
 def _sorted_nodes(nodes):
@@ -149,7 +144,7 @@ def _sorted_nodes(nodes):
 @conf
 def warn_about_old_makeinfo(self):
     """Warn the user if their version of makeinfo is too old."""
-    version_out = self.cmd_and_log(self.env.MAKEINFO + ['--version'])
+    version_out = self.cmd_and_log(self.env.MAKEINFO + ["--version"])
     version_str = version_out.splitlines()[0].rstrip()
     match = MAKEINFO_VERSION_RE.match(version_str)
     if match is None:
@@ -157,18 +152,22 @@ def warn_about_old_makeinfo(self):
     version_tuple = tuple(int(x) for x in match.groups()[1:])
     if version_tuple < MAKEINFO_MIN_VERSION:
         waflib.Logs.warn(
-            ('Your makeinfo version ({0}) is too old to support UTF-8.\n'
-             'You will see warnings; upgrade to {1} to get UTF-8 support.')
-            .format(
+            (
+                "Your makeinfo version ({}) is too old to support UTF-8.\n"
+                "You will see warnings; upgrade to {} to get UTF-8 support."
+            ).format(
                 _version_tuple_to_string(version_tuple),
-                _version_tuple_to_string(MAKEINFO_MIN_VERSION)))
+                _version_tuple_to_string(MAKEINFO_MIN_VERSION),
+            )
+        )
 
 
 def configure(ctx):
-    ctx.find_program('sphinx-build', var='SPHINX_BUILD')
-    if ctx.find_program('makeinfo', mandatory=False):
+    ctx.find_program("sphinx-build", var="SPHINX_BUILD")
+    if ctx.find_program("makeinfo", mandatory=False):
         ctx.warn_about_old_makeinfo()
-    ctx.load('tex')
+    ctx.load("tex")
+
 
 # PEP8 dictates CamelCase class names, but the prevailing style with Waf seems
 # to be lowercase. Also, waflib.Task.Task.__str__ strips off a trailing '_task'
@@ -192,7 +191,7 @@ class sphinx_build_task(waflib.Task.Task):
     # pylint: disable=no-member,attribute-defined-outside-init
     """Handle run of sphinx-build."""
 
-    vars = ['SPHINX_BUILD']
+    vars = ["SPHINX_BUILD"]
 
     def uid(self):
         # Tasks are not allowed to have the same uid. The default uid is
@@ -213,8 +212,7 @@ class sphinx_build_task(waflib.Task.Task):
             return self.uid_
 
     def scan(self):
-        """Use Sphinx's internal environment to find the outdated dependencies.
-        """
+        """Use Sphinx's internal environment to find the outdated dependencies."""
         # Set up the Sphinx application instance.
         app = Sphinx(
             srcdir=self.src_dir_node.abspath(),
@@ -223,9 +221,7 @@ class sphinx_build_task(waflib.Task.Task):
             doctreedir=self.doctrees_node.abspath(),
             buildername=self.sphinx_builder,
             warningiserror=self.warning_is_error,
-            confoverrides=(
-                {'nitpicky': True} if self.nitpicky
-                else None),
+            confoverrides=({"nitpicky": True} if self.nitpicky else None),
             # Indicates the file where status messages should be printed.
             # Typically sys.stdout or sys.stderr, but can be None to disable.
             # Since builds can happen in parallel, don't output anything.
@@ -260,23 +256,28 @@ class sphinx_build_task(waflib.Task.Task):
                     break
             else:
                 raise waflib.Errors.WafError(
-                    'Could not find Sphinx document node at any of: {0}'
-                    .format(', '.join(
-                        doc_name + suffix for suffix in suffixes)))
+                    "Could not find Sphinx document node at any of: {}".format(
+                        ", ".join(doc_name + suffix for suffix in suffixes)
+                    )
+                )
             dependency_nodes.add(doc_node)
 
         # Add dependencies of documents which have been updated.
         for dependency_paths in app.env.dependencies.values():
             for dependency_path in dependency_paths:
                 node = (
-                    self.src_dir_node.find_node([dependency_path]) or
+                    self.src_dir_node.find_node([dependency_path])
+                    or
                     # Try as absolute path if no success relative to
                     # src_dir.
-                    self.src_dir_node.ctx.root.find_resource(dependency_path))
+                    self.src_dir_node.ctx.root.find_resource(dependency_path)
+                )
                 if node is None:
                     raise waflib.Errors.WafError(
-                        'Could not find Sphinx document dependency node: {0}'
-                        .format(dependency_path))
+                        "Could not find Sphinx document dependency node: {}".format(
+                            dependency_path
+                        )
+                    )
                 dependency_nodes.add(node)
 
         # Sphinx's Builder.build() methods calls
@@ -309,25 +310,24 @@ class sphinx_build_task(waflib.Task.Task):
         # we've got.
         conf_node = self.inputs[0]
         args = self.env.SPHINX_BUILD + [
-            '-b', self.sphinx_builder,
-            '-d', self.doctrees_node.abspath(),
+            "-b",
+            self.sphinx_builder,
+            "-d",
+            self.doctrees_node.abspath(),
         ]
         if self.quiet:
-            args.append('-q')
+            args.append("-q")
         if self.nitpicky:
-            args.append('-n')
+            args.append("-n")
         if self.warning_is_error:
-            args.append('-W')
+            args.append("-W")
         # XXX: The Sphinx epub builder is buggy, and its brokenness causes it
         # to output warnings about the search index. Build with a clean
         # environment if we are building EPUB and warnings are errors to avoid
         # this annoyance. It's a hack, but it's better than the task failing.
-        if self.warning_is_error and self.sphinx_builder == 'epub':
-            args.append('-E')
-        args += [
-            self.src_dir_node.abspath(),
-            self.out_dir_node.abspath(),
-        ]
+        if self.warning_is_error and self.sphinx_builder == "epub":
+            args.append("-E")
+        args += [self.src_dir_node.abspath(), self.out_dir_node.abspath()]
         ret = self.exec_command(args)
 
         # Add almost everything found in the output directory tree as an
@@ -341,20 +341,20 @@ class sphinx_build_task(waflib.Task.Task):
         # Return sorted to get a consistent ordering.
         self.outputs = _sorted_nodes(
             self.out_dir_node.ant_glob(
-                '**', quiet=True, excl=['Makefile', '.doctrees', '.buildinfo'])
+                "**", quiet=True, excl=["Makefile", ".doctrees", ".buildinfo"]
+            )
         )
 
         self._maybe_add_followup_task()
 
         # Set up the raw_deps list for later use in runnable_status(). This
         # will allow us to determine whether to rebuild.
-        self.generator.bld.raw_deps[self.uid()] = (
-            [self.signature()] + self.outputs)
+        self.generator.bld.raw_deps[self.uid()] = [self.signature()] + self.outputs
 
         return ret
 
     def runnable_status(self):
-        ret = super(sphinx_build_task, self).runnable_status()
+        ret = super().runnable_status()
         # Don't bother checking anything more if Waf already says this task
         # needs to be run.
         if ret == waflib.Task.SKIP_ME:
@@ -390,38 +390,40 @@ class sphinx_build_task(waflib.Task.Task):
                 break
         if main_in_node is None:
             raise waflib.Errors.WafError(
-                'Could not find the {0} file for Sphinx {1} builder!'.format(
-                    followup_builder.in_suffix, self.requested_builder))
+                "Could not find the {} file for Sphinx {} builder!".format(
+                    followup_builder.in_suffix, self.requested_builder
+                )
+            )
         # Put the main node first to allow us to easily determine the input.
         self.outputs.remove(main_in_node)
         self.outputs = [main_in_node] + self.outputs
 
-        out_dir_node = self.out_dir_node.parent.find_or_declare(
-            self.requested_builder)
+        out_dir_node = self.out_dir_node.parent.find_or_declare(self.requested_builder)
         out_dir_node.mkdir()
 
         out_node = out_dir_node.find_or_declare(
-            os.path.splitext(main_in_node.name)[0] +
-            followup_builder.out_suffix)
+            os.path.splitext(main_in_node.name)[0] + followup_builder.out_suffix
+        )
 
         # Create the tasks and add to more_tasks.
         self.more_tasks = followup_builder.create_task(
-            self.generator, src=self.outputs, tgt=out_node)
+            self.generator, src=self.outputs, tgt=out_node
+        )
 
     def __str__(self):
         """Make the output look a little nicer. Reimplemented from
         :meth:`waflib.Task.Task.__str__`.
         """
         # These tasks will never have any declared targets, so don't bother.
-        return 'sphinx_build_{0}: {1}\n'.format(
-            self.sphinx_builder,
-            ' '.join(n.srcpath() for n in self.inputs))
+        return "sphinx_build_{}: {}\n".format(
+            self.sphinx_builder, " ".join(n.srcpath() for n in self.inputs)
+        )
 
 
 class sphinx_makeinfo_task(waflib.Task.Task):
     """Handle run of makeinfo for Sphinx's texinfo output."""
 
-    vars = ['MAKEINFO']
+    vars = ["MAKEINFO"]
 
     def run(self):
         # Mostly copied from the Sphinx Makefile that gets generated and put in
@@ -429,18 +431,16 @@ class sphinx_makeinfo_task(waflib.Task.Task):
         # just reimplemented here.
         texi_node = self.inputs[0]
         return self.exec_command(
-            self.env.MAKEINFO + [
-                '--no-split',
-                '-o', self.outputs[0].abspath(),
-                texi_node.abspath()
-            ],
+            self.env.MAKEINFO
+            + ["--no-split", "-o", self.outputs[0].abspath(), texi_node.abspath()],
             # Set the cwd so that relative paths in the .texi file will be
             # found.
-            cwd=texi_node.parent.abspath())
+            cwd=texi_node.parent.abspath(),
+        )
 
 
-@waflib.TaskGen.feature('sphinx')
-@waflib.TaskGen.before_method('process_source')
+@waflib.TaskGen.feature("sphinx")
+@waflib.TaskGen.before_method("process_source")
 def apply_sphinx(task_gen):
     """Set up the task generator with a Sphinx instance and create a task.
 
@@ -452,12 +452,14 @@ def apply_sphinx(task_gen):
         requested_builders = waflib.Utils.to_list(task_gen.builders)
     except AttributeError:
         raise waflib.Errors.WafError(
-            'Sphinx task generator missing necessary keyword: builders')
+            "Sphinx task generator missing necessary keyword: builders"
+        )
 
     # Check for dupes.
     if len(requested_builders) != len(set(requested_builders)):
         raise waflib.Errors.WafError(
-            "Sphinx 'builder' keyword cannot contain duplicates.")
+            "Sphinx 'builder' keyword cannot contain duplicates."
+        )
 
     # Make sure that the requisite tools are available if builders with
     # follow-ups were requested.
@@ -469,29 +471,30 @@ def apply_sphinx(task_gen):
 
         tool = followup_builder.tool_name
         if not task_gen.env[tool.upper()]:
-            raise waflib.Errors.WafError((
-                "Sphinx '{0}' builder requested "
-                "but '{1}' program not found!").format(
-                    requested_builder, tool))
+            raise waflib.Errors.WafError(
+                ("Sphinx '{}' builder requested " "but '{}' program not found!").format(
+                    requested_builder, tool
+                )
+            )
 
-    source = getattr(task_gen, 'source', [])
-    target = getattr(task_gen, 'target', [])
+    source = getattr(task_gen, "source", [])
+    target = getattr(task_gen, "target", [])
     # Turning off quiet will print out all of the Sphinx output. The default is
     # to be quiet because builds can happen in parallel which will cause output
     # to be interleaved. However, it is feasible that turning on the output
     # might be useful for debugging. Note that not being quiet is not the same
     # as Sphinx being verbose.
-    quiet = getattr(task_gen, 'quiet', True)
-    warning_is_error = getattr(task_gen, 'warningiserror', False)
-    nitpicky = getattr(task_gen, 'nitpicky', False)
+    quiet = getattr(task_gen, "quiet", True)
+    warning_is_error = getattr(task_gen, "warningiserror", False)
+    nitpicky = getattr(task_gen, "nitpicky", False)
 
     # There is a helper method for inputs, so we may as well use it.
     in_nodes = task_gen.to_nodes(source)
     in_nodes_len = len(in_nodes)
     if in_nodes_len != 1:
         raise waflib.Errors.WafError(
-            'Sphinx task generator takes one input, {0} given.'.format(
-                in_nodes_len))
+            f"Sphinx task generator takes one input, {in_nodes_len} given."
+        )
 
     conf_node = in_nodes[0]
     src_dir_node = conf_node.parent
@@ -503,17 +506,14 @@ def apply_sphinx(task_gen):
         outs = waflib.Utils.to_list(target)
         if len(outs) != 1:
             raise waflib.Errors.WafError(
-                'If specified, Sphinx task generator '
-                'can only take one output.'
+                "If specified, Sphinx task generator " "can only take one output."
             )
-        out_dir_parent_node = _node_or_bust(
-            outs[0], task_gen.path.find_or_declare)
+        out_dir_parent_node = _node_or_bust(outs[0], task_gen.path.find_or_declare)
 
     for requested_builder in requested_builders:
         # Get the real Sphinx builders for different follow-up builders given.
         try:
-            sphinx_builder = (
-                FOLLOWUP_BUILDERS[requested_builder].sphinx_builder)
+            sphinx_builder = FOLLOWUP_BUILDERS[requested_builder].sphinx_builder
         except KeyError:
             sphinx_builder = requested_builder
 
@@ -523,11 +523,12 @@ def apply_sphinx(task_gen):
         # subsequent errors when the builds run in parallel. Set up a private
         # doctrees directory for each builder to avoid this.
         doctrees_node = (
-            out_dir_node.find_or_declare('.doctrees')
+            out_dir_node.find_or_declare(".doctrees")
             # XXX: The epub builder spits out unknown mimetype warnings if we
             # throw the doctree in its output directory.
-            if requested_builder != 'epub'
-            else out_dir_parent_node.find_or_declare('.epub-doctrees'))
+            if requested_builder != "epub"
+            else out_dir_parent_node.find_or_declare(".epub-doctrees")
+        )
 
         # No targets; they will be assigned after Sphinx runs.
         #
@@ -537,7 +538,7 @@ def apply_sphinx(task_gen):
         # files*. Unfortunately, Sphinx doesn't provide an easy way to get all
         # dependencies without re-reading all of the documents, which is
         # exactly what we're trying not do to.
-        task = task_gen.create_task('sphinx_build_task', src=conf_node)
+        task = task_gen.create_task("sphinx_build_task", src=conf_node)
         # Assign attributes necessary for task methods.
         task.requested_builder = requested_builder
         task.sphinx_builder = sphinx_builder
@@ -549,10 +550,10 @@ def apply_sphinx(task_gen):
         task.nitpicky = nitpicky
 
         # Set the task order if that was requested.
-        for attr in ['after', 'before']:
+        for attr in ["after", "before"]:
             # Append an underscore to the expected keyword so that Waf doesn't
             # dump warnings in verbose mode.
-            setattr(task, attr, getattr(task_gen, attr + '_', []))
+            setattr(task, attr, getattr(task_gen, attr + "_", []))
 
     # Prevent execution of process_source. We don't need it because we are
     # letting Sphinx decide on the sources.

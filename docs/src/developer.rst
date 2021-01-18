@@ -5,6 +5,7 @@ For Developers
 
 This part is only for developers of the project template.
 
+
 Pre-Release Tasks/Checks
 --------------------------
 
@@ -20,7 +21,8 @@ Pre-Release Tasks/Checks
 
     All other OS are tested via Azure CI.
 
-4. Check that the documentation is correctly build by navigating to the docs folder and executing waf.
+4. Check that the documentation is correctly built by navigating to the docs folder and executing waf and `sphinx-build html`.
+
 
 Releasing the template
 -----------------------
@@ -29,19 +31,20 @@ Releasing the template
 
 .. code-block:: bash
 
-    $ git tag -a version -m "Description"
+    $ git tag -a [version] -m "Description"
 
 4. Push the tag to your remote git repository
 
 .. code-block:: bash
 
-    $ git push origin version
+    $ git push origin [version]
 
 5. The release will be available `here <https://github.com/OpenSourceEconomics/econ-project-templates/releases>`__
 
 6. Check that the documentation is correctly build by readthedocs.
 
-How to compile the documentation in windows
+
+How to compile the documentation on Windows
 ---------------------------------------------
 
 1. Install Imagemagick. Upon installing check the box "Install legacy components (convert.exe etc)"

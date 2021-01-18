@@ -7,7 +7,7 @@ Python / Matlab Example
 Note that this instruction is written for the Python example. The Matlab example works analogously.
 
 
-.. _rationale:
+.. _pyrationale:
 
 ================
 Design rationale
@@ -17,13 +17,13 @@ Design rationale
 
 
 
-.. _waf_intro:
+.. _pypytask_intro:
 
-===================
-Introduction to Waf
-===================
+======================
+Introduction to pytask
+======================
 
-.. include:: ./py_waf.rst
+.. include:: ./py_pytask.rst
 
 
 
