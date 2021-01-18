@@ -180,16 +180,16 @@ for x, syms in enumerate(ops):
 
 def reduce_nums(val_1, val_2, val_op):
     """
-	Apply arithmetic rules to compute a result
+    Apply arithmetic rules to compute a result
 
-	:param val1: input parameter
-	:type val1: int or string
-	:param val2: input parameter
-	:type val2: int or string
-	:param val_op: C operator in *+*, */*, *-*, etc
-	:type val_op: string
-	:rtype: int
-	"""
+    :param val1: input parameter
+    :type val1: int or string
+    :param val2: input parameter
+    :type val2: int or string
+    :param val_op: C operator in *+*, */*, *-*, etc
+    :type val_op: string
+    :rtype: int
+    """
     # print val_1, val_2, val_op
 
     # now perform the operation, make certain a and b are numeric
@@ -248,13 +248,13 @@ def reduce_nums(val_1, val_2, val_op):
 
 def get_num(lst):
     """
-	Try to obtain a number from a list of tokens. The token types are defined in :py:attr:`waflib.Tools.ccroot.tok_types`.
+    Try to obtain a number from a list of tokens. The token types are defined in :py:attr:`waflib.Tools.ccroot.tok_types`.
 
-	:param lst: list of preprocessor tokens
-	:type lst: list of tuple (tokentype, value)
-	:return: a pair containing the number and the rest of the list
-	:rtype: tuple(value, list)
-	"""
+    :param lst: list of preprocessor tokens
+    :type lst: list of tuple (tokentype, value)
+    :return: a pair containing the number and the rest of the list
+    :rtype: tuple(value, list)
+    """
     if not lst:
         raise PreprocError("empty list for get_num")
     (p, v) = lst[0]
@@ -303,15 +303,15 @@ def get_num(lst):
 
 def get_term(lst):
     """
-	Evaluate an expression recursively, for example::
+    Evaluate an expression recursively, for example::
 
-		1+1+1 -> 2+1 -> 3
+            1+1+1 -> 2+1 -> 3
 
-	:param lst: list of tokens
-	:type lst: list of tuple(token, value)
-	:return: the value and the remaining tokens
-	:rtype: value, list
-	"""
+    :param lst: list of tokens
+    :type lst: list of tuple(token, value)
+    :return: the value and the remaining tokens
+    :rtype: value, list
+    """
 
     if not lst:
         raise PreprocError("empty list for get_term")
@@ -372,42 +372,42 @@ def get_term(lst):
 
 def reduce_eval(lst):
     """
-	Take a list of tokens and output true or false for #if/#elif conditions.
+    Take a list of tokens and output true or false for #if/#elif conditions.
 
-	:param lst: a list of tokens
-	:type lst: list of tuple(token, value)
-	:return: a token
-	:rtype: tuple(NUM, int)
-	"""
+    :param lst: a list of tokens
+    :type lst: list of tuple(token, value)
+    :return: a token
+    :rtype: tuple(NUM, int)
+    """
     num, lst = get_term(lst)
     return (NUM, num)
 
 
 def stringize(lst):
     """
-	Merge a list of tokens into a string
+    Merge a list of tokens into a string
 
-	:param lst: a list of tokens
-	:type lst: list of tuple(token, value)
-	:rtype: string
-	"""
+    :param lst: a list of tokens
+    :type lst: list of tuple(token, value)
+    :rtype: string
+    """
     lst = [str(v2) for (p2, v2) in lst]
     return "".join(lst)
 
 
 def paste_tokens(t1, t2):
     """
-	Token pasting works between identifiers, particular operators, and identifiers and numbers::
+    Token pasting works between identifiers, particular operators, and identifiers and numbers::
 
-		a ## b  ->  ab
-		> ## =  ->  >=
-		a ## 2  ->  a2
+            a ## b  ->  ab
+            > ## =  ->  >=
+            a ## 2  ->  a2
 
-	:param t1: token
-	:type t1: tuple(type, value)
-	:param t2: token
-	:type t2: tuple(type, value)
-	"""
+    :param t1: token
+    :type t1: tuple(type, value)
+    :param t2: token
+    :type t2: tuple(type, value)
+    """
     p1 = None
     if t1[0] == OP and t2[0] == OP:
         p1 = OP
@@ -422,17 +422,17 @@ def paste_tokens(t1, t2):
 
 def reduce_tokens(lst, defs, ban=[]):
     """
-	Replace the tokens in lst, using the macros provided in defs, and a list of macros that cannot be re-applied
+    Replace the tokens in lst, using the macros provided in defs, and a list of macros that cannot be re-applied
 
-	:param lst: list of tokens
-	:type lst: list of tuple(token, value)
-	:param defs: macro definitions
-	:type defs: dict
-	:param ban: macros that cannot be substituted (recursion is not allowed)
-	:type ban: list of string
-	:return: the new list of tokens
-	:rtype: value, list
-	"""
+    :param lst: list of tokens
+    :type lst: list of tuple(token, value)
+    :param defs: macro definitions
+    :type defs: dict
+    :param ban: macros that cannot be substituted (recursion is not allowed)
+    :type ban: list of string
+    :return: the new list of tokens
+    :rtype: value, list
+    """
 
     i = 0
     while i < len(lst):
@@ -610,14 +610,14 @@ def reduce_tokens(lst, defs, ban=[]):
 
 def eval_macro(lst, defs):
     """
-	Reduce the tokens by :py:func:`waflib.Tools.c_preproc.reduce_tokens` and try to return a 0/1 result by :py:func:`waflib.Tools.c_preproc.reduce_eval`.
+    Reduce the tokens by :py:func:`waflib.Tools.c_preproc.reduce_tokens` and try to return a 0/1 result by :py:func:`waflib.Tools.c_preproc.reduce_eval`.
 
-	:param lst: list of tokens
-	:type lst: list of tuple(token, value)
-	:param defs: macro definitions
-	:type defs: dict
-	:rtype: int
-	"""
+    :param lst: list of tokens
+    :type lst: list of tuple(token, value)
+    :param defs: macro definitions
+    :type defs: dict
+    :rtype: int
+    """
     reduce_tokens(lst, defs, [])
     if not lst:
         raise PreprocError("missing tokens to evaluate")
@@ -633,16 +633,16 @@ def eval_macro(lst, defs):
 
 def extract_macro(txt):
     """
-	Process a macro definition of the form::
-		 #define f(x, y) x * y
+    Process a macro definition of the form::
+             #define f(x, y) x * y
 
-	into a function or a simple macro without arguments
+    into a function or a simple macro without arguments
 
-	:param txt: expression to exact a macro definition from
-	:type txt: string
-	:return: a tuple containing the name, the list of arguments and the replacement
-	:rtype: tuple(string, [list, list])
-	"""
+    :param txt: expression to exact a macro definition from
+    :type txt: string
+    :return: a tuple containing the name, the list of arguments and the replacement
+    :rtype: tuple(string, [list, list])
+    """
     t = tokenize(txt)
     if re_fun.search(txt):
         p, name = t[0]
@@ -706,17 +706,17 @@ re_include = re.compile(r'^\s*(<(?:.*)>|"(?:.*)")')
 
 def extract_include(txt, defs):
     """
-	Process a line in the form::
+    Process a line in the form::
 
-		#include foo
+            #include foo
 
-	:param txt: include line to process
-	:type txt: string
-	:param defs: macro definitions
-	:type defs: dict
-	:return: the file name
-	:rtype: string
-	"""
+    :param txt: include line to process
+    :type txt: string
+    :param defs: macro definitions
+    :type defs: dict
+    :return: the file name
+    :rtype: string
+    """
     m = re_include.search(txt)
     if m:
         txt = m.group(1)
@@ -742,13 +742,13 @@ def extract_include(txt, defs):
 
 def parse_char(txt):
     """
-	Parse a c character
+    Parse a c character
 
-	:param txt: character to parse
-	:type txt: string
-	:return: a character literal
-	:rtype: string
-	"""
+    :param txt: character to parse
+    :type txt: string
+    :return: a character literal
+    :rtype: string
+    """
 
     if not txt:
         raise PreprocError("attempted to parse a null char")
@@ -774,13 +774,13 @@ def parse_char(txt):
 
 def tokenize(s):
     """
-	Convert a string into a list of tokens (shlex.split does not apply to c/c++/d)
+    Convert a string into a list of tokens (shlex.split does not apply to c/c++/d)
 
-	:param s: input to tokenize
-	:type s: string
-	:return: a list of tokens
-	:rtype: list of tuple(token, value)
-	"""
+    :param s: input to tokenize
+    :type s: string
+    :return: a list of tokens
+    :rtype: list of tuple(token, value)
+    """
     return tokenize_private(s)[:]  # force a copy of the results
 
 
@@ -844,9 +844,9 @@ def format_defines(lst):
 
 class c_parser:
     """
-	Used by :py:func:`waflib.Tools.c_preproc.scan` to parse c/h files. Note that by default,
-	only project headers are parsed.
-	"""
+    Used by :py:func:`waflib.Tools.c_preproc.scan` to parse c/h files. Note that by default,
+    only project headers are parsed.
+    """
 
     def __init__(self, nodepaths=None, defines=None):
         self.lines = []
@@ -881,15 +881,15 @@ class c_parser:
 
     def cached_find_resource(self, node, filename):
         """
-		Find a file from the input directory
+        Find a file from the input directory
 
-		:param node: directory
-		:type node: :py:class:`waflib.Node.Node`
-		:param filename: header to find
-		:type filename: string
-		:return: the node if found, or None
-		:rtype: :py:class:`waflib.Node.Node`
-		"""
+        :param node: directory
+        :type node: :py:class:`waflib.Node.Node`
+        :param filename: header to find
+        :type filename: string
+        :return: the node if found, or None
+        :rtype: :py:class:`waflib.Node.Node`
+        """
         try:
             cache = node.ctx.preproc_cache_node
         except AttributeError:
@@ -912,16 +912,16 @@ class c_parser:
 
     def tryfind(self, filename, kind='"', env=None):
         """
-		Try to obtain a node from the filename based from the include paths. Will add
-		the node found to :py:attr:`waflib.Tools.c_preproc.c_parser.nodes` or the file name to
-		:py:attr:`waflib.Tools.c_preproc.c_parser.names` if no corresponding file is found. Called by
-		:py:attr:`waflib.Tools.c_preproc.c_parser.start`.
+        Try to obtain a node from the filename based from the include paths. Will add
+        the node found to :py:attr:`waflib.Tools.c_preproc.c_parser.nodes` or the file name to
+        :py:attr:`waflib.Tools.c_preproc.c_parser.names` if no corresponding file is found. Called by
+        :py:attr:`waflib.Tools.c_preproc.c_parser.start`.
 
-		:param filename: header to find
-		:type filename: string
-		:return: the node if found
-		:rtype: :py:class:`waflib.Node.Node`
-		"""
+        :param filename: header to find
+        :type filename: string
+        :return: the node if found
+        :rtype: :py:class:`waflib.Node.Node`
+        """
         if filename.endswith(".moc"):
             # we could let the qt4 module use a subclass, but then the function "scan" below must be duplicated
             # in the qt4 and in the qt5 classes. So we have two lines here and it is sufficient.
@@ -960,12 +960,12 @@ class c_parser:
 
     def filter_comments(self, node):
         """
-		Filter the comments from a c/h file, and return the preprocessor lines.
-		The regexps :py:attr:`waflib.Tools.c_preproc.re_cpp`, :py:attr:`waflib.Tools.c_preproc.re_nl` and :py:attr:`waflib.Tools.c_preproc.re_lines` are used internally.
+        Filter the comments from a c/h file, and return the preprocessor lines.
+        The regexps :py:attr:`waflib.Tools.c_preproc.re_cpp`, :py:attr:`waflib.Tools.c_preproc.re_nl` and :py:attr:`waflib.Tools.c_preproc.re_lines` are used internally.
 
-		:return: the preprocessor directives as a list of (keyword, line)
-		:rtype: a list of string pairs
-		"""
+        :return: the preprocessor directives as a list of (keyword, line)
+        :rtype: a list of string pairs
+        """
         # return a list of tuples : keyword, line
         code = node.read()
         if use_trigraphs:
@@ -990,11 +990,11 @@ class c_parser:
 
     def addlines(self, node):
         """
-		Add the lines from a header in the list of preprocessor lines to parse
+        Add the lines from a header in the list of preprocessor lines to parse
 
-		:param node: header
-		:type node: :py:class:`waflib.Node.Node`
-		"""
+        :param node: header
+        :type node: :py:class:`waflib.Node.Node`
+        """
 
         self.currentnode_stack.append(node.parent)
 
@@ -1017,14 +1017,14 @@ class c_parser:
 
     def start(self, node, env):
         """
-		Preprocess a source file to obtain the dependencies, which are accumulated to :py:attr:`waflib.Tools.c_preproc.c_parser.nodes`
-		and :py:attr:`waflib.Tools.c_preproc.c_parser.names`.
+        Preprocess a source file to obtain the dependencies, which are accumulated to :py:attr:`waflib.Tools.c_preproc.c_parser.nodes`
+        and :py:attr:`waflib.Tools.c_preproc.c_parser.names`.
 
-		:param node: source file
-		:type node: :py:class:`waflib.Node.Node`
-		:param env: config set containing additional defines to take into account
-		:type env: :py:class:`waflib.ConfigSet.ConfigSet`
-		"""
+        :param node: source file
+        :type node: :py:class:`waflib.Node.Node`
+        :param env: config set containing additional defines to take into account
+        :type env: :py:class:`waflib.ConfigSet.ConfigSet`
+        """
         Logs.debug("preproc: scanning %s (in %s)", node.name, node.parent.name)
 
         self.current_file = node
@@ -1115,22 +1115,22 @@ class c_parser:
 
     def define_name(self, line):
         """
-		:param line: define line
-		:type line: string
-		:rtype: string
-		:return: the define name
-		"""
+        :param line: define line
+        :type line: string
+        :rtype: string
+        :return: the define name
+        """
         return re_mac.match(line).group()
 
 
 def scan(task):
     """
-	Get the dependencies using a c/c++ preprocessor, this is required for finding dependencies of the kind::
+    Get the dependencies using a c/c++ preprocessor, this is required for finding dependencies of the kind::
 
-		#include some_macro()
+            #include some_macro()
 
-	This function is bound as a task method on :py:class:`waflib.Tools.c.c` and :py:class:`waflib.Tools.cxx.cxx` for example
-	"""
+    This function is bound as a task method on :py:class:`waflib.Tools.c.c` and :py:class:`waflib.Tools.cxx.cxx` for example
+    """
     try:
         incn = task.generator.includes_nodes
     except AttributeError:

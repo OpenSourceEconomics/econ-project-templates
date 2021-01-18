@@ -108,16 +108,16 @@ USELIB_VARS["asm"] = {"ASFLAGS"}
 @taskgen_method
 def create_compiled_task(self, name, node):
     """
-	Create the compilation task: c, cxx, asm, etc. The output node is created automatically (object file with a typical **.o** extension).
-	The task is appended to the list *compiled_tasks* which is then used by :py:func:`waflib.Tools.ccroot.apply_link`
+    Create the compilation task: c, cxx, asm, etc. The output node is created automatically (object file with a typical **.o** extension).
+    The task is appended to the list *compiled_tasks* which is then used by :py:func:`waflib.Tools.ccroot.apply_link`
 
-	:param name: name of the task class
-	:type name: string
-	:param node: the file to compile
-	:type node: :py:class:`waflib.Node.Node`
-	:return: The task created
-	:rtype: :py:class:`waflib.Task.Task`
-	"""
+    :param name: name of the task class
+    :type name: string
+    :param node: the file to compile
+    :type node: :py:class:`waflib.Node.Node`
+    :return: The task created
+    :rtype: :py:class:`waflib.Task.Task`
+    """
     out = "%s.%d.o" % (node.name, self.idx)
     task = self.create_task(name, node, node.parent.find_or_declare(out))
     try:
@@ -130,21 +130,21 @@ def create_compiled_task(self, name, node):
 @taskgen_method
 def to_incnodes(self, inlst):
     """
-	Task generator method provided to convert a list of string/nodes into a list of includes folders.
+    Task generator method provided to convert a list of string/nodes into a list of includes folders.
 
-	The paths are assumed to be relative to the task generator path, except if they begin by **#**
-	in which case they are searched from the top-level directory (``bld.srcnode``).
-	The folders are simply assumed to be existing.
+    The paths are assumed to be relative to the task generator path, except if they begin by **#**
+    in which case they are searched from the top-level directory (``bld.srcnode``).
+    The folders are simply assumed to be existing.
 
-	The node objects in the list are returned in the output list. The strings are converted
-	into node objects if possible. The node is searched from the source directory, and if a match is found,
-	the equivalent build directory is created and added to the returned list too. When a folder cannot be found, it is ignored.
+    The node objects in the list are returned in the output list. The strings are converted
+    into node objects if possible. The node is searched from the source directory, and if a match is found,
+    the equivalent build directory is created and added to the returned list too. When a folder cannot be found, it is ignored.
 
-	:param inlst: list of folders
-	:type inlst: space-delimited string or a list of string/nodes
-	:rtype: list of :py:class:`waflib.Node.Node`
-	:return: list of include folders as nodes
-	"""
+    :param inlst: list of folders
+    :type inlst: space-delimited string or a list of string/nodes
+    :rtype: list of :py:class:`waflib.Node.Node`
+    :return: list of include folders as nodes
+    """
     lst = []
     seen = set()
     for x in self.to_list(inlst):
@@ -176,17 +176,17 @@ def to_incnodes(self, inlst):
 @after_method("propagate_uselib_vars", "process_source")
 def apply_incpaths(self):
     """
-	Task generator method that processes the attribute *includes*::
+    Task generator method that processes the attribute *includes*::
 
-		tg = bld(features='includes', includes='.')
+            tg = bld(features='includes', includes='.')
 
-	The folders only need to be relative to the current directory, the equivalent build directory is
-	added automatically (for headers created in the build directory). This enable using a build directory
-	or not (``top == out``).
+    The folders only need to be relative to the current directory, the equivalent build directory is
+    added automatically (for headers created in the build directory). This enable using a build directory
+    or not (``top == out``).
 
-	This method will add a list of nodes read by :py:func:`waflib.Tools.ccroot.to_incnodes` in ``tg.env.INCPATHS``,
-	and the list of include paths in ``tg.env.INCLUDES``.
-	"""
+    This method will add a list of nodes read by :py:func:`waflib.Tools.ccroot.to_incnodes` in ``tg.env.INCPATHS``,
+    and the list of include paths in ``tg.env.INCLUDES``.
+    """
 
     lst = self.to_incnodes(
         self.to_list(getattr(self, "includes", [])) + self.env.INCLUDES
@@ -198,10 +198,10 @@ def apply_incpaths(self):
 
 class link_task(Task.Task):
     """
-	Base class for all link tasks. A task generator is supposed to have at most one link task bound in the attribute *link_task*. See :py:func:`waflib.Tools.ccroot.apply_link`.
+    Base class for all link tasks. A task generator is supposed to have at most one link task bound in the attribute *link_task*. See :py:func:`waflib.Tools.ccroot.apply_link`.
 
-	.. inheritance-diagram:: waflib.Tools.ccroot.stlink_task waflib.Tools.c.cprogram waflib.Tools.c.cshlib waflib.Tools.cxx.cxxstlib  waflib.Tools.cxx.cxxprogram waflib.Tools.cxx.cxxshlib waflib.Tools.d.dprogram waflib.Tools.d.dshlib waflib.Tools.d.dstlib waflib.Tools.ccroot.fake_shlib waflib.Tools.ccroot.fake_stlib waflib.Tools.asm.asmprogram waflib.Tools.asm.asmshlib waflib.Tools.asm.asmstlib
-	"""
+    .. inheritance-diagram:: waflib.Tools.ccroot.stlink_task waflib.Tools.c.cprogram waflib.Tools.c.cshlib waflib.Tools.cxx.cxxstlib  waflib.Tools.cxx.cxxprogram waflib.Tools.cxx.cxxshlib waflib.Tools.d.dprogram waflib.Tools.d.dshlib waflib.Tools.d.dstlib waflib.Tools.ccroot.fake_shlib waflib.Tools.ccroot.fake_stlib waflib.Tools.asm.asmprogram waflib.Tools.asm.asmshlib waflib.Tools.asm.asmstlib
+    """
 
     color = "YELLOW"
 
@@ -216,9 +216,9 @@ class link_task(Task.Task):
 
     def add_target(self, target):
         """
-		Process the *target* attribute to add the platform-specific prefix/suffix such as *.so* or *.exe*.
-		The settings are retrieved from ``env.clsname_PATTERN``
-		"""
+        Process the *target* attribute to add the platform-specific prefix/suffix such as *.so* or *.exe*.
+        The settings are retrieved from ``env.clsname_PATTERN``
+        """
         if isinstance(target, str):
             base = self.generator.path
             if target.startswith("#"):
@@ -259,8 +259,8 @@ class link_task(Task.Task):
 
     def exec_mf(self):
         """
-		Create manifest files for VS-like compilers (msvc, ifort, ...)
-		"""
+        Create manifest files for VS-like compilers (msvc, ifort, ...)
+        """
         if not self.env.MT:
             return 0
 
@@ -296,9 +296,9 @@ class link_task(Task.Task):
 
 class stlink_task(link_task):
     """
-	Base for static link tasks, which use *ar* most of the time.
-	The target is always removed before being written.
-	"""
+    Base for static link tasks, which use *ar* most of the time.
+    The target is always removed before being written.
+    """
 
     run_str = "${AR} ${ARFLAGS} ${AR_TGT_F}${TGT} ${AR_SRC_F}${SRC}"
 
@@ -326,15 +326,15 @@ rm_tgt(stlink_task)
 @after_method("process_source")
 def apply_link(self):
     """
-	Collect the tasks stored in ``compiled_tasks`` (created by :py:func:`waflib.Tools.ccroot.create_compiled_task`), and
-	use the outputs for a new instance of :py:class:`waflib.Tools.ccroot.link_task`. The class to use is the first link task
-	matching a name from the attribute *features*, for example::
+    Collect the tasks stored in ``compiled_tasks`` (created by :py:func:`waflib.Tools.ccroot.create_compiled_task`), and
+    use the outputs for a new instance of :py:class:`waflib.Tools.ccroot.link_task`. The class to use is the first link task
+    matching a name from the attribute *features*, for example::
 
-			def build(bld):
-				tg = bld(features='cxx cxxprogram cprogram', source='main.c', target='app')
+                    def build(bld):
+                            tg = bld(features='cxx cxxprogram cprogram', source='main.c', target='app')
 
-	will create the task ``tg.link_task`` as a new instance of :py:class:`waflib.Tools.cxx.cxxprogram`
-	"""
+    will create the task ``tg.link_task`` as a new instance of :py:class:`waflib.Tools.cxx.cxxprogram`
+    """
 
     for x in self.features:
         if x == "cprogram" and "cxx" in self.features:  # limited compat
@@ -371,8 +371,8 @@ def apply_link(self):
 @taskgen_method
 def use_rec(self, name, **kw):
     """
-	Processes the ``use`` keyword recursively. This method is kind of private and only meant to be used from ``process_use``
-	"""
+    Processes the ``use`` keyword recursively. This method is kind of private and only meant to be used from ``process_use``
+    """
 
     if name in self.tmp_use_not or name in self.tmp_use_seen:
         return
@@ -418,14 +418,14 @@ def use_rec(self, name, **kw):
 @after_method("apply_link", "process_source")
 def process_use(self):
     """
-	Process the ``use`` attribute which contains a list of task generator names::
+    Process the ``use`` attribute which contains a list of task generator names::
 
-		def build(bld):
-			bld.shlib(source='a.c', target='lib1')
-			bld.program(source='main.c', target='app', use='lib1')
+            def build(bld):
+                    bld.shlib(source='a.c', target='lib1')
+                    bld.program(source='main.c', target='app', use='lib1')
 
-	See :py:func:`waflib.Tools.ccroot.use_rec`.
-	"""
+    See :py:func:`waflib.Tools.ccroot.use_rec`.
+    """
 
     use_not = self.tmp_use_not = set()
     self.tmp_use_seen = []  # we would like an ordered set
@@ -507,20 +507,20 @@ def process_use(self):
 @taskgen_method
 def accept_node_to_link(self, node):
     """
-	PRIVATE INTERNAL USE ONLY
-	"""
+    PRIVATE INTERNAL USE ONLY
+    """
     return not node.name.endswith(".pdb")
 
 
 @taskgen_method
 def add_objects_from_tgen(self, tg):
     """
-	Add the objects from the depending compiled tasks as link task inputs.
+    Add the objects from the depending compiled tasks as link task inputs.
 
-	Some objects are filtered: for instance, .pdb files are added
-	to the compiled tasks but not to the link tasks (to avoid errors)
-	PRIVATE INTERNAL USE ONLY
-	"""
+    Some objects are filtered: for instance, .pdb files are added
+    to the compiled tasks but not to the link tasks (to avoid errors)
+    PRIVATE INTERNAL USE ONLY
+    """
     try:
         link_task = self.link_task
     except AttributeError:
@@ -535,9 +535,9 @@ def add_objects_from_tgen(self, tg):
 @taskgen_method
 def get_uselib_vars(self):
     """
-	:return: the *uselib* variables associated to the *features* attribute (see :py:attr:`waflib.Tools.ccroot.USELIB_VARS`)
-	:rtype: list of string
-	"""
+    :return: the *uselib* variables associated to the *features* attribute (see :py:attr:`waflib.Tools.ccroot.USELIB_VARS`)
+    :rtype: list of string
+    """
     _vars = set()
     for x in self.features:
         if x in USELIB_VARS:
@@ -549,19 +549,19 @@ def get_uselib_vars(self):
 @after_method("process_use")
 def propagate_uselib_vars(self):
     """
-	Process uselib variables for adding flags. For example, the following target::
+    Process uselib variables for adding flags. For example, the following target::
 
-		def build(bld):
-			bld.env.AFLAGS_aaa = ['bar']
-			from waflib.Tools.ccroot import USELIB_VARS
-			USELIB_VARS['aaa'] = ['AFLAGS']
+            def build(bld):
+                    bld.env.AFLAGS_aaa = ['bar']
+                    from waflib.Tools.ccroot import USELIB_VARS
+                    USELIB_VARS['aaa'] = ['AFLAGS']
 
-			tg = bld(features='aaa', aflags='test')
+                    tg = bld(features='aaa', aflags='test')
 
-	The *aflags* attribute will be processed and this method will set::
+    The *aflags* attribute will be processed and this method will set::
 
-			tg.env.AFLAGS = ['bar', 'test']
-	"""
+                    tg.env.AFLAGS = ['bar', 'test']
+    """
     _vars = self.get_uselib_vars()
     env = self.env
     app = env.append_value
@@ -585,11 +585,11 @@ def propagate_uselib_vars(self):
 @after_method("apply_link")
 def apply_implib(self):
     """
-	Handle dlls and their import libs on Windows-like systems.
+    Handle dlls and their import libs on Windows-like systems.
 
-	A ``.dll.a`` file called *import library* is generated.
-	It must be installed as it is required for linking the library.
-	"""
+    A ``.dll.a`` file called *import library* is generated.
+    It must be installed as it is required for linking the library.
+    """
     if not self.env.DEST_BINFMT == "pe":
         return
 
@@ -648,25 +648,25 @@ re_vnum = re.compile("^([1-9]\\d*|0)([.]([1-9]\\d*|0)){0,2}?$")
 @after_method("apply_link", "propagate_uselib_vars")
 def apply_vnum(self):
     """
-	Enforce version numbering on shared libraries. The valid version numbers must have either zero or two dots::
+    Enforce version numbering on shared libraries. The valid version numbers must have either zero or two dots::
 
-		def build(bld):
-			bld.shlib(source='a.c', target='foo', vnum='14.15.16')
+            def build(bld):
+                    bld.shlib(source='a.c', target='foo', vnum='14.15.16')
 
-	In this example on Linux platform, ``libfoo.so`` is installed as ``libfoo.so.14.15.16``, and the following symbolic links are created:
+    In this example on Linux platform, ``libfoo.so`` is installed as ``libfoo.so.14.15.16``, and the following symbolic links are created:
 
-	* ``libfoo.so    → libfoo.so.14.15.16``
-	* ``libfoo.so.14 → libfoo.so.14.15.16``
+    * ``libfoo.so    → libfoo.so.14.15.16``
+    * ``libfoo.so.14 → libfoo.so.14.15.16``
 
-	By default, the library will be assigned SONAME ``libfoo.so.14``, effectively declaring ABI compatibility between all minor and patch releases for the major version of the library.  When necessary, the compatibility can be explicitly defined using `cnum` parameter:
+    By default, the library will be assigned SONAME ``libfoo.so.14``, effectively declaring ABI compatibility between all minor and patch releases for the major version of the library.  When necessary, the compatibility can be explicitly defined using `cnum` parameter:
 
-		def build(bld):
-			bld.shlib(source='a.c', target='foo', vnum='14.15.16', cnum='14.15')
+            def build(bld):
+                    bld.shlib(source='a.c', target='foo', vnum='14.15.16', cnum='14.15')
 
-	In this case, the assigned SONAME will be ``libfoo.so.14.15`` with ABI compatibility only between path releases for a specific major and minor version of the library.
+    In this case, the assigned SONAME will be ``libfoo.so.14.15`` with ABI compatibility only between path releases for a specific major and minor version of the library.
 
-	On OS X platform, install-name parameter will follow the above logic for SONAME with exception that it also specifies an absolute path (based on install_path) of the library.
-	"""
+    On OS X platform, install-name parameter will follow the above logic for SONAME with exception that it also specifies an absolute path (based on install_path) of the library.
+    """
     if (
         not getattr(self, "vnum", "")
         or os.name != "posix"
@@ -753,8 +753,8 @@ def apply_vnum(self):
 
 class vnum(Task.Task):
     """
-	Create the symbolic links for a versioned shared library. Instances are created by :py:func:`waflib.Tools.ccroot.apply_vnum`
-	"""
+    Create the symbolic links for a versioned shared library. Instances are created by :py:func:`waflib.Tools.ccroot.apply_vnum`
+    """
 
     color = "CYAN"
     ext_in = [".bin"]
@@ -778,8 +778,8 @@ class vnum(Task.Task):
 
 class fake_shlib(link_task):
     """
-	Task used for reading a system library and adding the dependency on it
-	"""
+    Task used for reading a system library and adding the dependency on it
+    """
 
     def runnable_status(self):
         for t in self.run_after:
@@ -790,8 +790,8 @@ class fake_shlib(link_task):
 
 class fake_stlib(stlink_task):
     """
-	Task used for reading a system library and adding the dependency on it
-	"""
+    Task used for reading a system library and adding the dependency on it
+    """
 
     def runnable_status(self):
         for t in self.run_after:
@@ -803,12 +803,12 @@ class fake_stlib(stlink_task):
 @conf
 def read_shlib(self, name, paths=[], export_includes=[], export_defines=[]):
     """
-	Read a system shared library, enabling its use as a local library. Will trigger a rebuild if the file changes::
+    Read a system shared library, enabling its use as a local library. Will trigger a rebuild if the file changes::
 
-		def build(bld):
-			bld.read_shlib('m')
-			bld.program(source='main.c', use='m')
-	"""
+            def build(bld):
+                    bld.read_shlib('m')
+                    bld.program(source='main.c', use='m')
+    """
     return self(
         name=name,
         features="fake_lib",
@@ -822,8 +822,8 @@ def read_shlib(self, name, paths=[], export_includes=[], export_defines=[]):
 @conf
 def read_stlib(self, name, paths=[], export_includes=[], export_defines=[]):
     """
-	Read a system static library, enabling a use as a local library. Will trigger a rebuild if the file changes.
-	"""
+    Read a system static library, enabling a use as a local library. Will trigger a rebuild if the file changes.
+    """
     return self(
         name=name,
         features="fake_lib",
@@ -843,8 +843,8 @@ lib_patterns = {
 @feature("fake_lib")
 def process_lib(self):
     """
-	Find the location of a foreign library. Used by :py:class:`waflib.Tools.ccroot.read_shlib` and :py:class:`waflib.Tools.ccroot.read_stlib`.
-	"""
+    Find the location of a foreign library. Used by :py:class:`waflib.Tools.ccroot.read_shlib` and :py:class:`waflib.Tools.ccroot.read_stlib`.
+    """
     node = None
 
     names = [x % self.name for x in lib_patterns[self.lib_type]]
@@ -889,8 +889,8 @@ def add_those_o_files(self, node):
 @before_method("process_source")
 def process_objs(self):
     """
-	Puts object files in the task generator outputs
-	"""
+    Puts object files in the task generator outputs
+    """
     for node in self.to_nodes(self.source):
         self.add_those_o_files(node)
     self.source = []
@@ -899,10 +899,10 @@ def process_objs(self):
 @conf
 def read_object(self, obj):
     """
-	Read an object file, enabling injection in libs/programs. Will trigger a rebuild if the file changes.
+    Read an object file, enabling injection in libs/programs. Will trigger a rebuild if the file changes.
 
-	:param obj: object file path, as string or Node
-	"""
+    :param obj: object file path, as string or Node
+    """
     if not isinstance(obj, self.path.__class__):
         obj = self.path.find_resource(obj)
     return self(features="fake_obj", source=obj, name=obj.name)
@@ -912,8 +912,8 @@ def read_object(self, obj):
 @after_method("apply_link", "process_use")
 def set_full_paths_hpux(self):
     """
-	On hp-ux, extend the libpaths and static library paths to absolute paths
-	"""
+    On hp-ux, extend the libpaths and static library paths to absolute paths
+    """
     if self.env.DEST_OS != "hp-ux":
         return
     base = self.bld.bldnode.abspath()

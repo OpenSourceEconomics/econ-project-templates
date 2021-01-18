@@ -25,15 +25,15 @@ from waflib.TaskGen import taskgen_method
 @taskgen_method
 def add_dbus_file(self, filename, prefix, mode):
     """
-	Adds a dbus file to the list of dbus files to process. Store them in the attribute *dbus_lst*.
+    Adds a dbus file to the list of dbus files to process. Store them in the attribute *dbus_lst*.
 
-	:param filename: xml file to compile
-	:type filename: string
-	:param prefix: dbus binding tool prefix (--prefix=prefix)
-	:type prefix: string
-	:param mode: dbus binding tool mode (--mode=mode)
-	:type mode: string
-	"""
+    :param filename: xml file to compile
+    :type filename: string
+    :param prefix: dbus binding tool prefix (--prefix=prefix)
+    :type prefix: string
+    :param mode: dbus binding tool mode (--mode=mode)
+    :type mode: string
+    """
     if not hasattr(self, "dbus_lst"):
         self.dbus_lst = []
     if not "process_dbus" in self.meths:
@@ -44,8 +44,8 @@ def add_dbus_file(self, filename, prefix, mode):
 @before_method("process_source")
 def process_dbus(self):
     """
-	Processes the dbus files stored in the attribute *dbus_lst* to create :py:class:`waflib.Tools.dbus.dbus_binding_tool` instances.
-	"""
+    Processes the dbus files stored in the attribute *dbus_lst* to create :py:class:`waflib.Tools.dbus.dbus_binding_tool` instances.
+    """
     for filename, prefix, mode in getattr(self, "dbus_lst", []):
         node = self.path.find_resource(filename)
         if not node:
@@ -57,8 +57,8 @@ def process_dbus(self):
 
 class dbus_binding_tool(Task.Task):
     """
-	Compiles a dbus file
-	"""
+    Compiles a dbus file
+    """
 
     color = "BLUE"
     ext_out = [".h"]
@@ -68,6 +68,6 @@ class dbus_binding_tool(Task.Task):
 
 def configure(conf):
     """
-	Detects the program dbus-binding-tool and sets ``conf.env.DBUS_BINDING_TOOL``
-	"""
+    Detects the program dbus-binding-tool and sets ``conf.env.DBUS_BINDING_TOOL``
+    """
     conf.find_program("dbus-binding-tool", var="DBUS_BINDING_TOOL")

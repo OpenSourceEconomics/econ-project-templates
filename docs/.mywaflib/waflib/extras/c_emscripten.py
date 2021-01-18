@@ -20,8 +20,8 @@ for supported_os in ("linux", "darwin", "gnu", "aix"):
 @conf
 def get_emscripten_version(conf, cc):
     """
-	Emscripten doesn't support processing '-' like clang/gcc
-	"""
+    Emscripten doesn't support processing '-' like clang/gcc
+    """
 
     dummy = conf.cachedir.parent.make_node("waf-emscripten.c")
     dummy.write("")

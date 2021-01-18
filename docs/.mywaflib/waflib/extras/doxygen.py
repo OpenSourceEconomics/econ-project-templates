@@ -71,11 +71,11 @@ class doxygen(Task.Task):
 
     def runnable_status(self):
         """
-		self.pars are populated in runnable_status - because this function is being
-		run *before* both self.pars "consumers" - scan() and run()
+        self.pars are populated in runnable_status - because this function is being
+        run *before* both self.pars "consumers" - scan() and run()
 
-		set output_dir (node) for the output
-		"""
+        set output_dir (node) for the output
+        """
 
         for x in self.run_after:
             if not x.hasrun:
@@ -248,12 +248,12 @@ def process_doxy(self):
 
 def configure(conf):
     """
-	Check if doxygen and tar commands are present in the system
+    Check if doxygen and tar commands are present in the system
 
-	If the commands are present, then conf.env.DOXYGEN and conf.env.TAR
-	variables will be set. Detection can be controlled by setting DOXYGEN and
-	TAR environmental variables.
-	"""
+    If the commands are present, then conf.env.DOXYGEN and conf.env.TAR
+    variables will be set. Detection can be controlled by setting DOXYGEN and
+    TAR environmental variables.
+    """
 
     conf.find_program("doxygen", var="DOXYGEN", mandatory=False)
     conf.find_program("tar", var="TAR", mandatory=False)

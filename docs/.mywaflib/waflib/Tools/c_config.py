@@ -79,20 +79,20 @@ MACRO_TO_DEST_CPU = {
 @conf
 def parse_flags(self, line, uselib_store, env=None, force_static=False, posix=None):
     """
-	Parses flags from the input lines, and adds them to the relevant use variables::
+    Parses flags from the input lines, and adds them to the relevant use variables::
 
-		def configure(conf):
-			conf.parse_flags('-O3', 'FOO')
-			# conf.env.CXXFLAGS_FOO = ['-O3']
-			# conf.env.CFLAGS_FOO = ['-O3']
+            def configure(conf):
+                    conf.parse_flags('-O3', 'FOO')
+                    # conf.env.CXXFLAGS_FOO = ['-O3']
+                    # conf.env.CFLAGS_FOO = ['-O3']
 
-	:param line: flags
-	:type line: string
-	:param uselib_store: where to add the flags
-	:type uselib_store: string
-	:param env: config set or conf.env by default
-	:type env: :py:class:`waflib.ConfigSet.ConfigSet`
-	"""
+    :param line: flags
+    :type line: string
+    :param uselib_store: where to add the flags
+    :type uselib_store: string
+    :param env: config set or conf.env by default
+    :type env: :py:class:`waflib.ConfigSet.ConfigSet`
+    """
 
     assert isinstance(line, str)
 
@@ -198,18 +198,18 @@ def parse_flags(self, line, uselib_store, env=None, force_static=False, posix=No
 @conf
 def validate_cfg(self, kw):
     """
-	Searches for the program *pkg-config* if missing, and validates the
-	parameters to pass to :py:func:`waflib.Tools.c_config.exec_cfg`.
+    Searches for the program *pkg-config* if missing, and validates the
+    parameters to pass to :py:func:`waflib.Tools.c_config.exec_cfg`.
 
-	:param path: the **-config program to use** (default is *pkg-config*)
-	:type path: list of string
-	:param msg: message to display to describe the test executed
-	:type msg: string
-	:param okmsg: message to display when the test is successful
-	:type okmsg: string
-	:param errmsg: message to display in case of error
-	:type errmsg: string
-	"""
+    :param path: the **-config program to use** (default is *pkg-config*)
+    :type path: list of string
+    :param msg: message to display to describe the test executed
+    :type msg: string
+    :param okmsg: message to display when the test is successful
+    :type okmsg: string
+    :param errmsg: message to display in case of error
+    :type errmsg: string
+    """
     if not "path" in kw:
         if not self.env.PKGCONFIG:
             self.find_program("pkg-config", var="PKGCONFIG")
@@ -258,27 +258,27 @@ def validate_cfg(self, kw):
 @conf
 def exec_cfg(self, kw):
     r"""
-	Executes ``pkg-config`` or other ``-config`` applications to collect configuration flags:
+    Executes ``pkg-config`` or other ``-config`` applications to collect configuration flags:
 
-	* if atleast_pkgconfig_version is given, check that pkg-config has the version n and return
-	* if modversion is given, then return the module version
-	* else, execute the *-config* program with the *args* and *variables* given, and set the flags on the *conf.env.FLAGS_name* variable
+    * if atleast_pkgconfig_version is given, check that pkg-config has the version n and return
+    * if modversion is given, then return the module version
+    * else, execute the *-config* program with the *args* and *variables* given, and set the flags on the *conf.env.FLAGS_name* variable
 
-	:param atleast_pkgconfig_version: minimum pkg-config version to use (disable other tests)
-	:type atleast_pkgconfig_version: string
-	:param package: package name, for example *gtk+-2.0*
-	:type package: string
-	:param uselib_store: if the test is successful, define HAVE\_*name*. It is also used to define *conf.env.FLAGS_name* variables.
-	:type uselib_store: string
-	:param modversion: if provided, return the version of the given module and define *name*\_VERSION
-	:type modversion: string
-	:param args: arguments to give to *package* when retrieving flags
-	:type args: list of string
-	:param variables: return the values of particular variables
-	:type variables: list of string
-	:param define_variable: additional variables to define (also in conf.env.PKG_CONFIG_DEFINES)
-	:type define_variable: dict(string: string)
-	"""
+    :param atleast_pkgconfig_version: minimum pkg-config version to use (disable other tests)
+    :type atleast_pkgconfig_version: string
+    :param package: package name, for example *gtk+-2.0*
+    :type package: string
+    :param uselib_store: if the test is successful, define HAVE\_*name*. It is also used to define *conf.env.FLAGS_name* variables.
+    :type uselib_store: string
+    :param modversion: if provided, return the version of the given module and define *name*\_VERSION
+    :type modversion: string
+    :param args: arguments to give to *package* when retrieving flags
+    :type args: list of string
+    :param variables: return the values of particular variables
+    :type variables: list of string
+    :param define_variable: additional variables to define (also in conf.env.PKG_CONFIG_DEFINES)
+    :type define_variable: dict(string: string)
+    """
 
     path = Utils.to_list(kw["path"])
     env = self.env.env or None
@@ -363,26 +363,26 @@ def exec_cfg(self, kw):
 @conf
 def check_cfg(self, *k, **kw):
     """
-	Checks for configuration flags using a **-config**-like program (pkg-config, sdl-config, etc).
-	This wraps internal calls to :py:func:`waflib.Tools.c_config.validate_cfg` and :py:func:`waflib.Tools.c_config.exec_cfg`
+    Checks for configuration flags using a **-config**-like program (pkg-config, sdl-config, etc).
+    This wraps internal calls to :py:func:`waflib.Tools.c_config.validate_cfg` and :py:func:`waflib.Tools.c_config.exec_cfg`
 
-	A few examples::
+    A few examples::
 
-		def configure(conf):
-			conf.load('compiler_c')
-			conf.check_cfg(package='glib-2.0', args='--libs --cflags')
-			conf.check_cfg(package='pango')
-			conf.check_cfg(package='pango', uselib_store='MYPANGO', args=['--cflags', '--libs'])
-			conf.check_cfg(package='pango',
-				args=['pango >= 0.1.0', 'pango < 9.9.9', '--cflags', '--libs'],
-				msg="Checking for 'pango 0.1.0'")
-			conf.check_cfg(path='sdl-config', args='--cflags --libs', package='', uselib_store='SDL')
-			conf.check_cfg(path='mpicc', args='--showme:compile --showme:link',
-				package='', uselib_store='OPEN_MPI', mandatory=False)
-			# variables
-			conf.check_cfg(package='gtk+-2.0', variables=['includedir', 'prefix'], uselib_store='FOO')
-			print(conf.env.FOO_includedir)
-	"""
+            def configure(conf):
+                    conf.load('compiler_c')
+                    conf.check_cfg(package='glib-2.0', args='--libs --cflags')
+                    conf.check_cfg(package='pango')
+                    conf.check_cfg(package='pango', uselib_store='MYPANGO', args=['--cflags', '--libs'])
+                    conf.check_cfg(package='pango',
+                            args=['pango >= 0.1.0', 'pango < 9.9.9', '--cflags', '--libs'],
+                            msg="Checking for 'pango 0.1.0'")
+                    conf.check_cfg(path='sdl-config', args='--cflags --libs', package='', uselib_store='SDL')
+                    conf.check_cfg(path='mpicc', args='--showme:compile --showme:link',
+                            package='', uselib_store='OPEN_MPI', mandatory=False)
+                    # variables
+                    conf.check_cfg(package='gtk+-2.0', variables=['includedir', 'prefix'], uselib_store='FOO')
+                    print(conf.env.FOO_includedir)
+    """
     self.validate_cfg(kw)
     if "msg" in kw:
         self.start_msg(kw["msg"], **kw)
@@ -408,8 +408,8 @@ def check_cfg(self, *k, **kw):
 
 def build_fun(bld):
     """
-	Build function that is used for running configuration tests with ``conf.check()``
-	"""
+    Build function that is used for running configuration tests with ``conf.check()``
+    """
     if bld.kw["compile_filename"]:
         node = bld.srcnode.make_node(bld.kw["compile_filename"])
         node.write(bld.kw["code"])
@@ -430,31 +430,31 @@ def build_fun(bld):
 @conf
 def validate_c(self, kw):
     """
-	Pre-checks the parameters that will be given to :py:func:`waflib.Configure.run_build`
+    Pre-checks the parameters that will be given to :py:func:`waflib.Configure.run_build`
 
-	:param compiler: c or cxx (tries to guess what is best)
-	:type compiler: string
-	:param type: cprogram, cshlib, cstlib - not required if *features are given directly*
-	:type type: binary to create
-	:param feature: desired features for the task generator that will execute the test, for example ``cxx cxxstlib``
-	:type feature: list of string
-	:param fragment: provide a piece of code for the test (default is to let the system create one)
-	:type fragment: string
-	:param uselib_store: define variables after the test is executed (IMPORTANT!)
-	:type uselib_store: string
-	:param use: parameters to use for building (just like the normal *use* keyword)
-	:type use: list of string
-	:param define_name: define to set when the check is over
-	:type define_name: string
-	:param execute: execute the resulting binary
-	:type execute: bool
-	:param define_ret: if execute is set to True, use the execution output in both the define and the return value
-	:type define_ret: bool
-	:param header_name: check for a particular header
-	:type header_name: string
-	:param auto_add_header_name: if header_name was set, add the headers in env.INCKEYS so the next tests will include these headers
-	:type auto_add_header_name: bool
-	"""
+    :param compiler: c or cxx (tries to guess what is best)
+    :type compiler: string
+    :param type: cprogram, cshlib, cstlib - not required if *features are given directly*
+    :type type: binary to create
+    :param feature: desired features for the task generator that will execute the test, for example ``cxx cxxstlib``
+    :type feature: list of string
+    :param fragment: provide a piece of code for the test (default is to let the system create one)
+    :type fragment: string
+    :param uselib_store: define variables after the test is executed (IMPORTANT!)
+    :type uselib_store: string
+    :param use: parameters to use for building (just like the normal *use* keyword)
+    :type use: list of string
+    :param define_name: define to set when the check is over
+    :type define_name: string
+    :param execute: execute the resulting binary
+    :type execute: bool
+    :param define_ret: if execute is set to True, use the execution output in both the define and the return value
+    :type define_ret: bool
+    :param header_name: check for a particular header
+    :type header_name: string
+    :param auto_add_header_name: if header_name was set, add the headers in env.INCKEYS so the next tests will include these headers
+    :type auto_add_header_name: bool
+    """
     for x in ("type_name", "field_name", "function_name"):
         if x in kw:
             Logs.warn("Invalid argument %r in test" % x)
@@ -605,9 +605,9 @@ def validate_c(self, kw):
 @conf
 def post_check(self, *k, **kw):
     """
-	Sets the variables after a test executed in
-	:py:func:`waflib.Tools.c_config.check` was run successfully
-	"""
+    Sets the variables after a test executed in
+    :py:func:`waflib.Tools.c_config.check` was run successfully
+    """
     is_success = 0
     if kw["execute"]:
         if kw["success"] is not None:
@@ -673,20 +673,20 @@ def post_check(self, *k, **kw):
 @conf
 def check(self, *k, **kw):
     """
-	Performs a configuration test by calling :py:func:`waflib.Configure.run_build`.
-	For the complete list of parameters, see :py:func:`waflib.Tools.c_config.validate_c`.
-	To force a specific compiler, pass ``compiler='c'`` or ``compiler='cxx'`` to the list of arguments
+    Performs a configuration test by calling :py:func:`waflib.Configure.run_build`.
+    For the complete list of parameters, see :py:func:`waflib.Tools.c_config.validate_c`.
+    To force a specific compiler, pass ``compiler='c'`` or ``compiler='cxx'`` to the list of arguments
 
-	Besides build targets, complete builds can be given through a build function. All files will
-	be written to a temporary directory::
+    Besides build targets, complete builds can be given through a build function. All files will
+    be written to a temporary directory::
 
-		def build(bld):
-			lib_node = bld.srcnode.make_node('libdir/liblc1.c')
-			lib_node.parent.mkdir()
-			lib_node.write('#include <stdio.h>\\nint lib_func(void) { FILE *f = fopen("foo", "r");}\\n', 'w')
-			bld(features='c cshlib', source=[lib_node], linkflags=conf.env.EXTRA_LDFLAGS, target='liblc')
-		conf.check(build_fun=build, msg=msg)
-	"""
+            def build(bld):
+                    lib_node = bld.srcnode.make_node('libdir/liblc1.c')
+                    lib_node.parent.mkdir()
+                    lib_node.write('#include <stdio.h>\\nint lib_func(void) { FILE *f = fopen("foo", "r");}\\n', 'w')
+                    bld(features='c cshlib', source=[lib_node], linkflags=conf.env.EXTRA_LDFLAGS, target='liblc')
+            conf.check(build_fun=build, msg=msg)
+    """
     self.validate_c(kw)
     self.start_msg(kw["msg"], **kw)
     ret = None
@@ -712,8 +712,8 @@ def check(self, *k, **kw):
 
 class test_exec(Task.Task):
     """
-	A task that runs programs after they are built. See :py:func:`waflib.Tools.c_config.test_exec_fun`.
-	"""
+    A task that runs programs after they are built. See :py:func:`waflib.Tools.c_config.test_exec_fun`.
+    """
 
     color = "PINK"
 
@@ -748,24 +748,24 @@ class test_exec(Task.Task):
 @after_method("apply_link")
 def test_exec_fun(self):
     """
-	The feature **test_exec** is used to create a task that will to execute the binary
-	created (link task output) during the build. The exit status will be set
-	on the build context, so only one program may have the feature *test_exec*.
-	This is used by configuration tests::
+    The feature **test_exec** is used to create a task that will to execute the binary
+    created (link task output) during the build. The exit status will be set
+    on the build context, so only one program may have the feature *test_exec*.
+    This is used by configuration tests::
 
-		def configure(conf):
-			conf.check(execute=True)
-	"""
+            def configure(conf):
+                    conf.check(execute=True)
+    """
     self.create_task("test_exec", self.link_task.outputs[0])
 
 
 @conf
 def check_cxx(self, *k, **kw):
     """
-	Runs a test with a task generator of the form::
+    Runs a test with a task generator of the form::
 
-		conf.check(features='cxx cxxprogram', ...)
-	"""
+            conf.check(features='cxx cxxprogram', ...)
+    """
     kw["compiler"] = "cxx"
     return self.check(*k, **kw)
 
@@ -773,10 +773,10 @@ def check_cxx(self, *k, **kw):
 @conf
 def check_cc(self, *k, **kw):
     """
-	Runs a test with a task generator of the form::
+    Runs a test with a task generator of the form::
 
-		conf.check(features='c cprogram', ...)
-	"""
+            conf.check(features='c cprogram', ...)
+    """
     kw["compiler"] = "c"
     return self.check(*k, **kw)
 
@@ -784,11 +784,11 @@ def check_cc(self, *k, **kw):
 @conf
 def set_define_comment(self, key, comment):
     """
-	Sets a comment that will appear in the configuration header
+    Sets a comment that will appear in the configuration header
 
-	:type key: string
-	:type comment: string
-	"""
+    :type key: string
+    :type comment: string
+    """
     coms = self.env.DEFINE_COMMENTS
     if not coms:
         coms = self.env.DEFINE_COMMENTS = {}
@@ -798,10 +798,10 @@ def set_define_comment(self, key, comment):
 @conf
 def get_define_comment(self, key):
     """
-	Returns the comment associated to a define
+    Returns the comment associated to a define
 
-	:type key: string
-	"""
+    :type key: string
+    """
     coms = self.env.DEFINE_COMMENTS or {}
     return coms.get(key, "")
 
@@ -809,15 +809,15 @@ def get_define_comment(self, key):
 @conf
 def define(self, key, val, quote=True, comment=""):
     """
-	Stores a single define and its state into ``conf.env.DEFINES``. The value is cast to an integer (0/1).
+    Stores a single define and its state into ``conf.env.DEFINES``. The value is cast to an integer (0/1).
 
-	:param key: define name
-	:type key: string
-	:param val: value
-	:type val: int or string
-	:param quote: enclose strings in quotes (yes by default)
-	:type quote: bool
-	"""
+    :param key: define name
+    :type key: string
+    :param val: value
+    :type val: int or string
+    :param quote: enclose strings in quotes (yes by default)
+    :type quote: bool
+    """
     assert isinstance(key, str)
     if not key:
         return
@@ -848,11 +848,11 @@ def define(self, key, val, quote=True, comment=""):
 @conf
 def undefine(self, key, comment=""):
     """
-	Removes a global define from ``conf.env.DEFINES``
+    Removes a global define from ``conf.env.DEFINES``
 
-	:param key: define name
-	:type key: string
-	"""
+    :param key: define name
+    :type key: string
+    """
     assert isinstance(key, str)
     if not key:
         return
@@ -866,19 +866,19 @@ def undefine(self, key, comment=""):
 @conf
 def define_cond(self, key, val, comment=""):
     """
-	Conditionally defines a name::
+    Conditionally defines a name::
 
-		def configure(conf):
-			conf.define_cond('A', True)
-			# equivalent to:
-			# if val: conf.define('A', 1)
-			# else: conf.undefine('A')
+            def configure(conf):
+                    conf.define_cond('A', True)
+                    # equivalent to:
+                    # if val: conf.define('A', 1)
+                    # else: conf.undefine('A')
 
-	:param key: define name
-	:type key: string
-	:param val: value
-	:type val: int or string
-	"""
+    :param key: define name
+    :type key: string
+    :param val: value
+    :type val: int or string
+    """
     assert isinstance(key, str)
     if not key:
         return
@@ -891,13 +891,13 @@ def define_cond(self, key, val, comment=""):
 @conf
 def is_defined(self, key):
     """
-	Indicates whether a particular define is globally set in ``conf.env.DEFINES``.
+    Indicates whether a particular define is globally set in ``conf.env.DEFINES``.
 
-	:param key: define name
-	:type key: string
-	:return: True if the define is set
-	:rtype: bool
-	"""
+    :param key: define name
+    :type key: string
+    :return: True if the define is set
+    :rtype: bool
+    """
     assert key and isinstance(key, str)
 
     ban = key + "="
@@ -910,12 +910,12 @@ def is_defined(self, key):
 @conf
 def get_define(self, key):
     """
-	Returns the value of an existing define, or None if not found
+    Returns the value of an existing define, or None if not found
 
-	:param key: define name
-	:type key: string
-	:rtype: string
-	"""
+    :param key: define name
+    :type key: string
+    :rtype: string
+    """
     assert key and isinstance(key, str)
 
     ban = key + "="
@@ -928,14 +928,14 @@ def get_define(self, key):
 @conf
 def have_define(self, key):
     """
-	Returns a variable suitable for command-line or header use by removing invalid characters
-	and prefixing it with ``HAVE_``
+    Returns a variable suitable for command-line or header use by removing invalid characters
+    and prefixing it with ``HAVE_``
 
-	:param key: define name
-	:type key: string
-	:return: the input key prefixed by *HAVE_* and substitute any invalid characters.
-	:rtype: string
-	"""
+    :param key: define name
+    :type key: string
+    :return: the input key prefixed by *HAVE_* and substitute any invalid characters.
+    :rtype: string
+    """
     return (self.env.HAVE_PAT or "HAVE_%s") % Utils.quote_define_name(key)
 
 
@@ -951,30 +951,30 @@ def write_config_header(
     define_prefix="",
 ):
     """
-	Writes a configuration header containing defines and includes::
+    Writes a configuration header containing defines and includes::
 
-		def configure(cnf):
-			cnf.define('A', 1)
-			cnf.write_config_header('config.h')
+            def configure(cnf):
+                    cnf.define('A', 1)
+                    cnf.write_config_header('config.h')
 
-	This function only adds include guards (if necessary), consult
-	:py:func:`waflib.Tools.c_config.get_config_header` for details on the body.
+    This function only adds include guards (if necessary), consult
+    :py:func:`waflib.Tools.c_config.get_config_header` for details on the body.
 
-	:param configfile: path to the file to create (relative or absolute)
-	:type configfile: string
-	:param guard: include guard name to add, by default it is computed from the file name
-	:type guard: string
-	:param top: write the configuration header from the build directory (default is from the current path)
-	:type top: bool
-	:param defines: add the defines (yes by default)
-	:type defines: bool
-	:param headers: add #include in the file
-	:type headers: bool
-	:param remove: remove the defines after they are added (yes by default, works like in autoconf)
-	:type remove: bool
-	:type define_prefix: string
-	:param define_prefix: prefix all the defines in the file with a particular prefix
-	"""
+    :param configfile: path to the file to create (relative or absolute)
+    :type configfile: string
+    :param guard: include guard name to add, by default it is computed from the file name
+    :type guard: string
+    :param top: write the configuration header from the build directory (default is from the current path)
+    :type top: bool
+    :param defines: add the defines (yes by default)
+    :type defines: bool
+    :param headers: add #include in the file
+    :type headers: bool
+    :param remove: remove the defines after they are added (yes by default, works like in autoconf)
+    :type remove: bool
+    :type define_prefix: string
+    :param define_prefix: prefix all the defines in the file with a particular prefix
+    """
     if not configfile:
         configfile = WAF_CONFIG_H
     waf_guard = guard or "W_%s_WAF" % Utils.quote_define_name(configfile)
@@ -1002,25 +1002,25 @@ def write_config_header(
 @conf
 def get_config_header(self, defines=True, headers=False, define_prefix=""):
     """
-	Creates the contents of a ``config.h`` file from the defines and includes
-	set in conf.env.define_key / conf.env.include_key. No include guards are added.
+    Creates the contents of a ``config.h`` file from the defines and includes
+    set in conf.env.define_key / conf.env.include_key. No include guards are added.
 
-	A prelude will be added from the variable env.WAF_CONFIG_H_PRELUDE if provided. This
-	can be used to insert complex macros or include guards::
+    A prelude will be added from the variable env.WAF_CONFIG_H_PRELUDE if provided. This
+    can be used to insert complex macros or include guards::
 
-		def configure(conf):
-			conf.env.WAF_CONFIG_H_PRELUDE = '#include <unistd.h>\\n'
-			conf.write_config_header('config.h')
+            def configure(conf):
+                    conf.env.WAF_CONFIG_H_PRELUDE = '#include <unistd.h>\\n'
+                    conf.write_config_header('config.h')
 
-	:param defines: write the defines values
-	:type defines: bool
-	:param headers: write include entries for each element in self.env.INCKEYS
-	:type headers: bool
-	:type define_prefix: string
-	:param define_prefix: prefix all the defines with a particular prefix
-	:return: the contents of a ``config.h`` file
-	:rtype: string
-	"""
+    :param defines: write the defines values
+    :type defines: bool
+    :param headers: write include entries for each element in self.env.INCKEYS
+    :type headers: bool
+    :type define_prefix: string
+    :param define_prefix: prefix all the defines with a particular prefix
+    :return: the contents of a ``config.h`` file
+    :rtype: string
+    """
     lst = []
 
     if self.env.WAF_CONFIG_H_PRELUDE:
@@ -1051,8 +1051,8 @@ def get_config_header(self, defines=True, headers=False, define_prefix=""):
 @conf
 def cc_add_flags(conf):
     """
-	Adds CFLAGS / CPPFLAGS from os.environ to conf.env
-	"""
+    Adds CFLAGS / CPPFLAGS from os.environ to conf.env
+    """
     conf.add_os_flags("CPPFLAGS", dup=False)
     conf.add_os_flags("CFLAGS", dup=False)
 
@@ -1060,8 +1060,8 @@ def cc_add_flags(conf):
 @conf
 def cxx_add_flags(conf):
     """
-	Adds CXXFLAGS / CPPFLAGS from os.environ to conf.env
-	"""
+    Adds CXXFLAGS / CPPFLAGS from os.environ to conf.env
+    """
     conf.add_os_flags("CPPFLAGS", dup=False)
     conf.add_os_flags("CXXFLAGS", dup=False)
 
@@ -1069,8 +1069,8 @@ def cxx_add_flags(conf):
 @conf
 def link_add_flags(conf):
     """
-	Adds LINKFLAGS / LDFLAGS from os.environ to conf.env
-	"""
+    Adds LINKFLAGS / LDFLAGS from os.environ to conf.env
+    """
     conf.add_os_flags("LINKFLAGS", dup=False)
     conf.add_os_flags("LDFLAGS", dup=False)
 
@@ -1078,8 +1078,8 @@ def link_add_flags(conf):
 @conf
 def cc_load_tools(conf):
     """
-	Loads the Waf c extensions
-	"""
+    Loads the Waf c extensions
+    """
     if not conf.env.DEST_OS:
         conf.env.DEST_OS = Utils.unversioned_sys_platform()
     conf.load("c")
@@ -1088,8 +1088,8 @@ def cc_load_tools(conf):
 @conf
 def cxx_load_tools(conf):
     """
-	Loads the Waf c++ extensions
-	"""
+    Loads the Waf c++ extensions
+    """
     if not conf.env.DEST_OS:
         conf.env.DEST_OS = Utils.unversioned_sys_platform()
     conf.load("cxx")
@@ -1098,12 +1098,12 @@ def cxx_load_tools(conf):
 @conf
 def get_cc_version(conf, cc, gcc=False, icc=False, clang=False):
     """
-	Runs the preprocessor to determine the gcc/icc/clang version
+    Runs the preprocessor to determine the gcc/icc/clang version
 
-	The variables CC_VERSION, DEST_OS, DEST_BINFMT and DEST_CPU will be set in *conf.env*
+    The variables CC_VERSION, DEST_OS, DEST_BINFMT and DEST_CPU will be set in *conf.env*
 
-	:raise: :py:class:`waflib.Errors.ConfigurationError`
-	"""
+    :raise: :py:class:`waflib.Errors.ConfigurationError`
+    """
     cmd = cc + ["-dM", "-E", "-"]
     env = conf.env.env or None
     try:
@@ -1202,10 +1202,10 @@ def get_cc_version(conf, cc, gcc=False, icc=False, clang=False):
 @conf
 def get_xlc_version(conf, cc):
     """
-	Returns the Aix compiler version
+    Returns the Aix compiler version
 
-	:raise: :py:class:`waflib.Errors.ConfigurationError`
-	"""
+    :raise: :py:class:`waflib.Errors.ConfigurationError`
+    """
     cmd = cc + ["-qversion"]
     try:
         out, err = conf.cmd_and_log(cmd, output=0)
@@ -1227,10 +1227,10 @@ def get_xlc_version(conf, cc):
 @conf
 def get_suncc_version(conf, cc):
     """
-	Returns the Sun compiler version
+    Returns the Sun compiler version
 
-	:raise: :py:class:`waflib.Errors.ConfigurationError`
-	"""
+    :raise: :py:class:`waflib.Errors.ConfigurationError`
+    """
     cmd = cc + ["-V"]
     try:
         out, err = conf.cmd_and_log(cmd, output=0)
@@ -1267,9 +1267,9 @@ def get_suncc_version(conf, cc):
 @conf
 def add_as_needed(self):
     """
-	Adds ``--as-needed`` to the *LINKFLAGS*
-	On some platforms, it is a default flag.  In some cases (e.g., in NS-3) it is necessary to explicitly disable this feature with `-Wl,--no-as-needed` flag.
-	"""
+    Adds ``--as-needed`` to the *LINKFLAGS*
+    On some platforms, it is a default flag.  In some cases (e.g., in NS-3) it is necessary to explicitly disable this feature with `-Wl,--no-as-needed` flag.
+    """
     if self.env.DEST_BINFMT == "elf" and "gcc" in (self.env.CXX_NAME, self.env.CC_NAME):
         self.env.append_unique("LINKFLAGS", "-Wl,--as-needed")
 
@@ -1279,10 +1279,10 @@ def add_as_needed(self):
 
 class cfgtask(Task.Task):
     """
-	A task that executes build configuration tests (calls conf.check)
+    A task that executes build configuration tests (calls conf.check)
 
-	Make sure to use locks if concurrent access to the same conf.env data is necessary.
-	"""
+    Make sure to use locks if concurrent access to the same conf.env data is necessary.
+    """
 
     def __init__(self, *k, **kw):
         Task.Task.__init__(self, *k, **kw)
@@ -1348,27 +1348,27 @@ class cfgtask(Task.Task):
 @conf
 def multicheck(self, *k, **kw):
     """
-	Runs configuration tests in parallel; results are printed sequentially at the end of the build
-	but each test must provide its own msg value to display a line::
+    Runs configuration tests in parallel; results are printed sequentially at the end of the build
+    but each test must provide its own msg value to display a line::
 
-		def test_build(ctx):
-			ctx.in_msg = True # suppress console outputs
-			ctx.check_large_file(mandatory=False)
+            def test_build(ctx):
+                    ctx.in_msg = True # suppress console outputs
+                    ctx.check_large_file(mandatory=False)
 
-		conf.multicheck(
-			{'header_name':'stdio.h', 'msg':'... stdio', 'uselib_store':'STDIO', 'global_define':False},
-			{'header_name':'xyztabcd.h', 'msg':'... optional xyztabcd.h', 'mandatory': False},
-			{'header_name':'stdlib.h', 'msg':'... stdlib', 'okmsg': 'aye', 'errmsg': 'nope'},
-			{'func': test_build, 'msg':'... testing an arbitrary build function', 'okmsg':'ok'},
-			msg       = 'Checking for headers in parallel',
-			mandatory = True, # mandatory tests raise an error at the end
-			run_all_tests = True, # try running all tests
-		)
+            conf.multicheck(
+                    {'header_name':'stdio.h', 'msg':'... stdio', 'uselib_store':'STDIO', 'global_define':False},
+                    {'header_name':'xyztabcd.h', 'msg':'... optional xyztabcd.h', 'mandatory': False},
+                    {'header_name':'stdlib.h', 'msg':'... stdlib', 'okmsg': 'aye', 'errmsg': 'nope'},
+                    {'func': test_build, 'msg':'... testing an arbitrary build function', 'okmsg':'ok'},
+                    msg       = 'Checking for headers in parallel',
+                    mandatory = True, # mandatory tests raise an error at the end
+                    run_all_tests = True, # try running all tests
+            )
 
-	The configuration tests may modify the values in conf.env in any order, and the define
-	values can affect configuration tests being executed. It is hence recommended
-	to provide `uselib_store` values with `global_define=False` to prevent such issues.
-	"""
+    The configuration tests may modify the values in conf.env in any order, and the define
+    values can affect configuration tests being executed. It is hence recommended
+    to provide `uselib_store` values with `global_define=False` to prevent such issues.
+    """
     self.start_msg(kw.get("msg", "Executing %d configuration tests" % len(k)), **kw)
 
     # Force a copy so that threads append to the same list at least

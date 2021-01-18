@@ -39,8 +39,8 @@ class eclipse(Build.BuildContext):
 
     def execute(self):
         """
-		Entry point
-		"""
+        Entry point
+        """
         self.restore()
         if not self.all_envs:
             self.load_envs()
@@ -59,13 +59,13 @@ class eclipse(Build.BuildContext):
 
     def create_cproject(self, appname, workspace_includes=[], pythonpath=[]):
         """
-		Create the Eclipse CDT .project and .cproject files
-		@param appname The name that will appear in the Project Explorer
-		@param build The BuildContext object to extract includes from
-		@param workspace_includes Optional project includes to prevent
-			  "Unresolved Inclusion" errors in the Eclipse editor
-		@param pythonpath Optional project specific python paths
-		"""
+        Create the Eclipse CDT .project and .cproject files
+        @param appname The name that will appear in the Project Explorer
+        @param build The BuildContext object to extract includes from
+        @param workspace_includes Optional project includes to prevent
+                  "Unresolved Inclusion" errors in the Eclipse editor
+        @param pythonpath Optional project specific python paths
+        """
         hasc = hasjava = haspython = False
         source_dirs = []
         cpppath = self.env["CPPPATH"]

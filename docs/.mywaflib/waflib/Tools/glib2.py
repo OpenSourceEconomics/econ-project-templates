@@ -29,13 +29,13 @@ from waflib.TaskGen import taskgen_method
 @taskgen_method
 def add_marshal_file(self, filename, prefix):
     """
-	Adds a file to the list of marshal files to process. Store them in the attribute *marshal_list*.
+    Adds a file to the list of marshal files to process. Store them in the attribute *marshal_list*.
 
-	:param filename: xml file to compile
-	:type filename: string
-	:param prefix: marshal prefix (--prefix=prefix)
-	:type prefix: string
-	"""
+    :param filename: xml file to compile
+    :type filename: string
+    :param prefix: marshal prefix (--prefix=prefix)
+    :type prefix: string
+    """
     if not hasattr(self, "marshal_list"):
         self.marshal_list = []
     self.meths.append("process_marshal")
@@ -45,9 +45,9 @@ def add_marshal_file(self, filename, prefix):
 @before_method("process_source")
 def process_marshal(self):
     """
-	Processes the marshal files stored in the attribute *marshal_list* to create :py:class:`waflib.Tools.glib2.glib_genmarshal` instances.
-	Adds the c file created to the list of source to process.
-	"""
+    Processes the marshal files stored in the attribute *marshal_list* to create :py:class:`waflib.Tools.glib2.glib_genmarshal` instances.
+    Adds the c file created to the list of source to process.
+    """
     for f, prefix in getattr(self, "marshal_list", []):
         node = self.path.find_resource(f)
 
@@ -102,17 +102,17 @@ class glib_genmarshal(Task.Task):
 @taskgen_method
 def add_enums_from_template(self, source="", target="", template="", comments=""):
     """
-	Adds a file to the list of enum files to process. Stores them in the attribute *enums_list*.
+    Adds a file to the list of enum files to process. Stores them in the attribute *enums_list*.
 
-	:param source: enum file to process
-	:type source: string
-	:param target: target file
-	:type target: string
-	:param template: template file
-	:type template: string
-	:param comments: comments
-	:type comments: string
-	"""
+    :param source: enum file to process
+    :type source: string
+    :param target: target file
+    :type target: string
+    :param template: template file
+    :type template: string
+    :param comments: comments
+    :type comments: string
+    """
     if not hasattr(self, "enums_list"):
         self.enums_list = []
     self.meths.append("process_enums")
@@ -148,22 +148,22 @@ def add_enums(
     comments="",
 ):
     """
-	Adds a file to the list of enum files to process. Stores them in the attribute *enums_list*.
+    Adds a file to the list of enum files to process. Stores them in the attribute *enums_list*.
 
-	:param source: enum file to process
-	:type source: string
-	:param target: target file
-	:type target: string
-	:param file_head: unused
-	:param file_prod: unused
-	:param file_tail: unused
-	:param enum_prod: unused
-	:param value_head: unused
-	:param value_prod: unused
-	:param value_tail: unused
-	:param comments: comments
-	:type comments: string
-	"""
+    :param source: enum file to process
+    :type source: string
+    :param target: target file
+    :type target: string
+    :param file_head: unused
+    :param file_prod: unused
+    :param file_tail: unused
+    :param enum_prod: unused
+    :param value_head: unused
+    :param value_prod: unused
+    :param value_tail: unused
+    :param comments: comments
+    :type comments: string
+    """
     if not hasattr(self, "enums_list"):
         self.enums_list = []
     self.meths.append("process_enums")
@@ -187,8 +187,8 @@ def add_enums(
 @before_method("process_source")
 def process_enums(self):
     """
-	Processes the enum files stored in the attribute *enum_list* to create :py:class:`waflib.Tools.glib2.glib_mkenums` instances.
-	"""
+    Processes the enum files stored in the attribute *enum_list* to create :py:class:`waflib.Tools.glib2.glib_mkenums` instances.
+    """
     for enum in getattr(self, "enums_list", []):
         task = self.create_task("glib_mkenums")
         env = task.env
@@ -240,8 +240,8 @@ def process_enums(self):
 
 class glib_mkenums(Task.Task):
     """
-	Processes enum files
-	"""
+    Processes enum files
+    """
 
     run_str = "${GLIB_MKENUMS} ${GLIB_MKENUMS_OPTIONS} ${GLIB_MKENUMS_SOURCE} > ${GLIB_MKENUMS_TARGET}"
     color = "PINK"
@@ -254,11 +254,11 @@ class glib_mkenums(Task.Task):
 @taskgen_method
 def add_settings_schemas(self, filename_list):
     """
-	Adds settings files to process to *settings_schema_files*
+    Adds settings files to process to *settings_schema_files*
 
-	:param filename_list: files
-	:type filename_list: list of string
-	"""
+    :param filename_list: files
+    :type filename_list: list of string
+    """
     if not hasattr(self, "settings_schema_files"):
         self.settings_schema_files = []
 
@@ -271,13 +271,13 @@ def add_settings_schemas(self, filename_list):
 @taskgen_method
 def add_settings_enums(self, namespace, filename_list):
     """
-	Called only once by task generator to set the enums namespace.
+    Called only once by task generator to set the enums namespace.
 
-	:param namespace: namespace
-	:type namespace: string
-	:param filename_list: enum files to process
-	:type filename_list: file list
-	"""
+    :param namespace: namespace
+    :type namespace: string
+    :param filename_list: enum files to process
+    :type filename_list: file list
+    """
     if hasattr(self, "settings_enum_namespace"):
         raise Errors.WafError(
             "Tried to add gsettings enums to %r more than once" % self.name
@@ -292,10 +292,10 @@ def add_settings_enums(self, namespace, filename_list):
 @feature("glib2")
 def process_settings(self):
     """
-	Processes the schema files in *settings_schema_files* to create :py:class:`waflib.Tools.glib2.glib_mkenums` instances. The
-	same files are validated through :py:class:`waflib.Tools.glib2.glib_validate_schema` tasks.
+    Processes the schema files in *settings_schema_files* to create :py:class:`waflib.Tools.glib2.glib_mkenums` instances. The
+    same files are validated through :py:class:`waflib.Tools.glib2.glib_validate_schema` tasks.
 
-	"""
+    """
     enums_tgt_node = []
     install_files = []
 
@@ -381,8 +381,8 @@ def process_settings(self):
 
 class glib_validate_schema(Task.Task):
     """
-	Validates schema files
-	"""
+    Validates schema files
+    """
 
     run_str = "rm -f ${GLIB_VALIDATE_SCHEMA_OUTPUT} && ${GLIB_COMPILE_SCHEMAS} --dry-run ${GLIB_COMPILE_SCHEMAS_OPTIONS} && touch ${GLIB_VALIDATE_SCHEMA_OUTPUT}"
     color = "PINK"
@@ -394,8 +394,8 @@ class glib_validate_schema(Task.Task):
 @extension(".gresource.xml")
 def process_gresource_source(self, node):
     """
-	Creates tasks that turn ``.gresource.xml`` files to C code
-	"""
+    Creates tasks that turn ``.gresource.xml`` files to C code
+    """
     if not self.env.GLIB_COMPILE_RESOURCES:
         raise Errors.WafError(
             "Unable to process GResource file - glib-compile-resources was not found during configure"
@@ -413,20 +413,20 @@ def process_gresource_source(self, node):
 @feature("gresource")
 def process_gresource_bundle(self):
     """
-	Creates tasks to turn ``.gresource`` files from ``.gresource.xml`` files::
+    Creates tasks to turn ``.gresource`` files from ``.gresource.xml`` files::
 
-		def build(bld):
-			bld(
-				features='gresource',
-				source=['resources1.gresource.xml', 'resources2.gresource.xml'],
-				install_path='${LIBDIR}/${PACKAGE}'
-			)
+            def build(bld):
+                    bld(
+                            features='gresource',
+                            source=['resources1.gresource.xml', 'resources2.gresource.xml'],
+                            install_path='${LIBDIR}/${PACKAGE}'
+                    )
 
-	:param source: XML files to process
-	:type source: list of string
-	:param install_path: installation path
-	:type install_path: string
-	"""
+    :param source: XML files to process
+    :type source: list of string
+    :param install_path: installation path
+    :type install_path: string
+    """
     for i in self.to_list(self.source):
         node = self.path.find_resource(i)
 
@@ -438,16 +438,16 @@ def process_gresource_bundle(self):
 
 class glib_gresource_base(Task.Task):
     """
-	Base class for gresource based tasks
-	"""
+    Base class for gresource based tasks
+    """
 
     color = "BLUE"
     base_cmd = "${GLIB_COMPILE_RESOURCES} --sourcedir=${SRC[0].parent.srcpath()} --sourcedir=${SRC[0].bld_dir()}"
 
     def scan(self):
         """
-		Scans gresource dependencies through ``glib-compile-resources --generate-dependencies command``
-		"""
+        Scans gresource dependencies through ``glib-compile-resources --generate-dependencies command``
+        """
         bld = self.generator.bld
         kw = {}
         kw["cwd"] = self.get_cwd()
@@ -479,8 +479,8 @@ class glib_gresource_base(Task.Task):
 
 class glib_gresource_source(glib_gresource_base):
     """
-	Task to generate C source code (.h and .c files) from a gresource.xml file
-	"""
+    Task to generate C source code (.h and .c files) from a gresource.xml file
+    """
 
     vars = ["GLIB_COMPILE_RESOURCES"]
     fun_h = Task.compile_fun_shell(
@@ -499,8 +499,8 @@ class glib_gresource_source(glib_gresource_base):
 
 class glib_gresource_bundle(glib_gresource_base):
     """
-	Task to generate a .gresource binary file from a gresource.xml file
-	"""
+    Task to generate a .gresource binary file from a gresource.xml file
+    """
 
     run_str = glib_gresource_base.base_cmd + " --target=${TGT} ${SRC}"
     shell = True  # temporary workaround for #795
@@ -545,13 +545,13 @@ def find_glib_compile_resources(conf):
 
 def configure(conf):
     """
-	Finds the following programs:
+    Finds the following programs:
 
-	* *glib-genmarshal* and set *GLIB_GENMARSHAL*
-	* *glib-mkenums* and set *GLIB_MKENUMS*
-	* *glib-compile-schemas* and set *GLIB_COMPILE_SCHEMAS* (not mandatory)
-	* *glib-compile-resources* and set *GLIB_COMPILE_RESOURCES* (not mandatory)
-	"""
+    * *glib-genmarshal* and set *GLIB_GENMARSHAL*
+    * *glib-mkenums* and set *GLIB_MKENUMS*
+    * *glib-compile-schemas* and set *GLIB_COMPILE_SCHEMAS* (not mandatory)
+    * *glib-compile-resources* and set *GLIB_COMPILE_RESOURCES* (not mandatory)
+    """
     conf.find_glib_genmarshal()
     conf.find_glib_mkenums()
     conf.find_glib_compile_schemas(mandatory=False)
@@ -560,8 +560,8 @@ def configure(conf):
 
 def options(opt):
     """
-	Adds the ``--gsettingsschemadir`` command-line option
-	"""
+    Adds the ``--gsettingsschemadir`` command-line option
+    """
     gr = opt.add_option_group("Installation directories")
     gr.add_option(
         "--gsettingsschemadir",

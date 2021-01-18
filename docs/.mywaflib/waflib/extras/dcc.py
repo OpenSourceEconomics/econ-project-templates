@@ -79,8 +79,8 @@ def configure(conf):
 
 def options(opt):
     """
-	Add the ``--with-diab-bindir`` command-line options.
-	"""
+    Add the ``--with-diab-bindir`` command-line options.
+    """
     opt.add_option(
         "--with-diab-bindir",
         type="string",

@@ -118,8 +118,8 @@ if "--remote" in sys.argv:
 
 class init(Context.Context):
     """
-	Generates the *_all commands
-	"""
+    Generates the *_all commands
+    """
 
     cmd = "init"
     fun = "init"
@@ -172,9 +172,9 @@ class remote(BuildContext):
 
     def setup_private_ssh_key(self):
         """
-		When WAF_SSH_KEY points to a private key, a .ssh directory will be created in the build directory
-		Make sure that the ssh key does not prompt for a password
-		"""
+        When WAF_SSH_KEY points to a private key, a .ssh directory will be created in the build directory
+        Make sure that the ssh key does not prompt for a password
+        """
         key = os.environ.get("WAF_SSH_KEY", "")
         if not key:
             return

@@ -27,16 +27,16 @@ HEADER_EXTS = [".h", ".hpp", ".hxx", ".hh"]
 
 class task_gen:
     """
-	Instances of this class create :py:class:`waflib.Task.Task` when
-	calling the method :py:meth:`waflib.TaskGen.task_gen.post` from the main thread.
-	A few notes:
+    Instances of this class create :py:class:`waflib.Task.Task` when
+    calling the method :py:meth:`waflib.TaskGen.task_gen.post` from the main thread.
+    A few notes:
 
-	* The methods to call (*self.meths*) can be specified dynamically (removing, adding, ..)
-	* The 'features' are used to add methods to self.meths and then execute them
-	* The attribute 'path' is a node representing the location of the task generator
-	* The tasks created are added to the attribute *tasks*
-	* The attribute 'idx' is a counter of task generators in the same path
-	"""
+    * The methods to call (*self.meths*) can be specified dynamically (removing, adding, ..)
+    * The 'features' are used to add methods to self.meths and then execute them
+    * The attribute 'path' is a node representing the location of the task generator
+    * The tasks created are added to the attribute *tasks*
+    * The attribute 'idx' is a counter of task generators in the same path
+    """
 
     mappings = Utils.ordered_iter_dict()
     """Mappings are global file extension mappings that are retrieved in the order of definition"""
@@ -46,15 +46,15 @@ class task_gen:
 
     def __init__(self, *k, **kw):
         """
-		Task generator objects predefine various attributes (source, target) for possible
-		processing by process_rule (make-like rules) or process_source (extensions, misc methods)
+        Task generator objects predefine various attributes (source, target) for possible
+        processing by process_rule (make-like rules) or process_source (extensions, misc methods)
 
-		Tasks are stored on the attribute 'tasks'. They are created by calling methods
-		listed in ``self.meths`` or referenced in the attribute ``features``
-		A topological sort is performed to execute the methods in correct order.
+        Tasks are stored on the attribute 'tasks'. They are created by calling methods
+        listed in ``self.meths`` or referenced in the attribute ``features``
+        A topological sort is performed to execute the methods in correct order.
 
-		The extra key/value elements passed in ``kw`` are set as attributes
-		"""
+        The extra key/value elements passed in ``kw`` are set as attributes
+        """
         self.source = []
         self.target = ""
 
@@ -115,28 +115,28 @@ class task_gen:
 
     def get_cwd(self):
         """
-		Current working directory for the task generator, defaults to the build directory.
-		This is still used in a few places but it should disappear at some point as the classes
-		define their own working directory.
+        Current working directory for the task generator, defaults to the build directory.
+        This is still used in a few places but it should disappear at some point as the classes
+        define their own working directory.
 
-		:rtype: :py:class:`waflib.Node.Node`
-		"""
+        :rtype: :py:class:`waflib.Node.Node`
+        """
         return self.bld.bldnode
 
     def get_name(self):
         """
-		If the attribute ``name`` is not set on the instance,
-		the name is computed from the target name::
+        If the attribute ``name`` is not set on the instance,
+        the name is computed from the target name::
 
-			def build(bld):
-				x = bld(name='foo')
-				x.get_name() # foo
-				y = bld(target='bar')
-				y.get_name() # bar
+                def build(bld):
+                        x = bld(name='foo')
+                        x.get_name() # foo
+                        y = bld(target='bar')
+                        y.get_name() # bar
 
-		:rtype: string
-		:return: name of this task generator
-		"""
+        :rtype: string
+        :return: name of this task generator
+        """
         try:
             return self._name
         except AttributeError:
@@ -154,12 +154,12 @@ class task_gen:
 
     def to_list(self, val):
         """
-		Ensures that a parameter is a list, see :py:func:`waflib.Utils.to_list`
+        Ensures that a parameter is a list, see :py:func:`waflib.Utils.to_list`
 
-		:type val: string or list of string
-		:param val: input to return as a list
-		:rtype: list
-		"""
+        :type val: string or list of string
+        :param val: input to return as a list
+        :rtype: list
+        """
         if isinstance(val, str):
             return val.split()
         else:
@@ -167,14 +167,14 @@ class task_gen:
 
     def post(self):
         """
-		Creates tasks for this task generators. The following operations are performed:
+        Creates tasks for this task generators. The following operations are performed:
 
-		#. The body of this method is called only once and sets the attribute ``posted``
-		#. The attribute ``features`` is used to add more methods in ``self.meths``
-		#. The methods are sorted by the precedence table ``self.prec`` or `:waflib:attr:waflib.TaskGen.task_gen.prec`
-		#. The methods are then executed in order
-		#. The tasks created are added to :py:attr:`waflib.TaskGen.task_gen.tasks`
-		"""
+        #. The body of this method is called only once and sets the attribute ``posted``
+        #. The attribute ``features`` is used to add more methods in ``self.meths``
+        #. The methods are sorted by the precedence table ``self.prec`` or `:waflib:attr:waflib.TaskGen.task_gen.prec`
+        #. The methods are then executed in order
+        #. The tasks created are added to :py:attr:`waflib.TaskGen.task_gen.tasks`
+        """
         if getattr(self, "posted", None):
             return False
         self.posted = True
@@ -253,13 +253,13 @@ class task_gen:
 
     def get_hook(self, node):
         """
-		Returns the ``@extension`` method to call for a Node of a particular extension.
+        Returns the ``@extension`` method to call for a Node of a particular extension.
 
-		:param node: Input file to process
-		:type node: :py:class:`waflib.Tools.Node.Node`
-		:return: A method able to process the input node by looking at the extension
-		:rtype: function
-		"""
+        :param node: Input file to process
+        :type node: :py:class:`waflib.Tools.Node.Node`
+        :return: A method able to process the input node by looking at the extension
+        :rtype: function
+        """
         name = node.name
         for k in self.mappings:
             try:
@@ -276,17 +276,17 @@ class task_gen:
 
     def create_task(self, name, src=None, tgt=None, **kw):
         """
-		Creates task instances.
+        Creates task instances.
 
-		:param name: task class name
-		:type name: string
-		:param src: input nodes
-		:type src: list of :py:class:`waflib.Tools.Node.Node`
-		:param tgt: output nodes
-		:type tgt: list of :py:class:`waflib.Tools.Node.Node`
-		:return: A task object
-		:rtype: :py:class:`waflib.Task.Task`
-		"""
+        :param name: task class name
+        :type name: string
+        :param src: input nodes
+        :type src: list of :py:class:`waflib.Tools.Node.Node`
+        :param tgt: output nodes
+        :type tgt: list of :py:class:`waflib.Tools.Node.Node`
+        :return: A task object
+        :rtype: :py:class:`waflib.Task.Task`
+        """
         task = Task.classes[name](env=self.env.derive(), generator=self)
         if src:
             task.set_inputs(src)
@@ -298,15 +298,15 @@ class task_gen:
 
     def clone(self, env):
         """
-		Makes a copy of a task generator. Once the copy is made, it is necessary to ensure that the
-		it does not create the same output files as the original, or the same files may
-		be compiled several times.
+        Makes a copy of a task generator. Once the copy is made, it is necessary to ensure that the
+        it does not create the same output files as the original, or the same files may
+        be compiled several times.
 
-		:param env: A configuration set
-		:type env: :py:class:`waflib.ConfigSet.ConfigSet`
-		:return: A copy
-		:rtype: :py:class:`waflib.TaskGen.task_gen`
-		"""
+        :param env: A configuration set
+        :type env: :py:class:`waflib.ConfigSet.ConfigSet`
+        :return: A copy
+        :rtype: :py:class:`waflib.TaskGen.task_gen`
+        """
         newobj = self.bld()
         for x in self.__dict__:
             if x in ("env", "bld"):
@@ -340,32 +340,32 @@ def declare_chain(
     shell=False,
 ):
     """
-	Creates a new mapping and a task class for processing files by extension.
-	See Tools/flex.py for an example.
+    Creates a new mapping and a task class for processing files by extension.
+    See Tools/flex.py for an example.
 
-	:param name: name for the task class
-	:type name: string
-	:param rule: function to execute or string to be compiled in a function
-	:type rule: string or function
-	:param reentrant: re-inject the output file in the process (done automatically, set to 0 to disable)
-	:type reentrant: int
-	:param color: color for the task output
-	:type color: string
-	:param ext_in: execute the task only after the files of such extensions are created
-	:type ext_in: list of string
-	:param ext_out: execute the task only before files of such extensions are processed
-	:type ext_out: list of string
-	:param before: execute instances of this task before classes of the given names
-	:type before: list of string
-	:param after: execute instances of this task after classes of the given names
-	:type after: list of string
-	:param decider: if present, function that returns a list of output file extensions (overrides ext_out for output files, but not for the build order)
-	:type decider: function
-	:param scan: scanner function for the task
-	:type scan: function
-	:param install_path: installation path for the output nodes
-	:type install_path: string
-	"""
+    :param name: name for the task class
+    :type name: string
+    :param rule: function to execute or string to be compiled in a function
+    :type rule: string or function
+    :param reentrant: re-inject the output file in the process (done automatically, set to 0 to disable)
+    :type reentrant: int
+    :param color: color for the task output
+    :type color: string
+    :param ext_in: execute the task only after the files of such extensions are created
+    :type ext_in: list of string
+    :param ext_out: execute the task only before files of such extensions are processed
+    :type ext_out: list of string
+    :param before: execute instances of this task before classes of the given names
+    :type before: list of string
+    :param after: execute instances of this task after classes of the given names
+    :type after: list of string
+    :param decider: if present, function that returns a list of output file extensions (overrides ext_out for output files, but not for the build order)
+    :type decider: function
+    :param scan: scanner function for the task
+    :type scan: function
+    :param install_path: installation path for the output nodes
+    :type install_path: string
+    """
     ext_in = Utils.to_list(ext_in)
     ext_out = Utils.to_list(ext_out)
     if not name:
@@ -418,37 +418,37 @@ def declare_chain(
 
 def taskgen_method(func):
     """
-	Decorator that registers method as a task generator method.
-	The function must accept a task generator as first parameter::
+    Decorator that registers method as a task generator method.
+    The function must accept a task generator as first parameter::
 
-		from waflib.TaskGen import taskgen_method
-		@taskgen_method
-		def mymethod(self):
-			pass
+            from waflib.TaskGen import taskgen_method
+            @taskgen_method
+            def mymethod(self):
+                    pass
 
-	:param func: task generator method to add
-	:type func: function
-	:rtype: function
-	"""
+    :param func: task generator method to add
+    :type func: function
+    :rtype: function
+    """
     setattr(task_gen, func.__name__, func)
     return func
 
 
 def feature(*k):
     """
-	Decorator that registers a task generator method that will be executed when the
-	object attribute ``feature`` contains the corresponding key(s)::
+    Decorator that registers a task generator method that will be executed when the
+    object attribute ``feature`` contains the corresponding key(s)::
 
-		from waflib.Task import feature
-		@feature('myfeature')
-		def myfunction(self):
-			print('that is my feature!')
-		def build(bld):
-			bld(features='myfeature')
+            from waflib.Task import feature
+            @feature('myfeature')
+            def myfunction(self):
+                    print('that is my feature!')
+            def build(bld):
+                    bld(features='myfeature')
 
-	:param k: feature names
-	:type k: list of string
-	"""
+    :param k: feature names
+    :type k: list of string
+    """
 
     def deco(func):
         setattr(task_gen, func.__name__, func)
@@ -461,23 +461,23 @@ def feature(*k):
 
 def before_method(*k):
     """
-	Decorator that registera task generator method which will be executed
-	before the functions of given name(s)::
+    Decorator that registera task generator method which will be executed
+    before the functions of given name(s)::
 
-		from waflib.TaskGen import feature, before
-		@feature('myfeature')
-		@before_method('fun2')
-		def fun1(self):
-			print('feature 1!')
-		@feature('myfeature')
-		def fun2(self):
-			print('feature 2!')
-		def build(bld):
-			bld(features='myfeature')
+            from waflib.TaskGen import feature, before
+            @feature('myfeature')
+            @before_method('fun2')
+            def fun1(self):
+                    print('feature 1!')
+            @feature('myfeature')
+            def fun2(self):
+                    print('feature 2!')
+            def build(bld):
+                    bld(features='myfeature')
 
-	:param k: method names
-	:type k: list of string
-	"""
+    :param k: method names
+    :type k: list of string
+    """
 
     def deco(func):
         setattr(task_gen, func.__name__, func)
@@ -493,23 +493,23 @@ before = before_method
 
 def after_method(*k):
     """
-	Decorator that registers a task generator method which will be executed
-	after the functions of given name(s)::
+    Decorator that registers a task generator method which will be executed
+    after the functions of given name(s)::
 
-		from waflib.TaskGen import feature, after
-		@feature('myfeature')
-		@after_method('fun2')
-		def fun1(self):
-			print('feature 1!')
-		@feature('myfeature')
-		def fun2(self):
-			print('feature 2!')
-		def build(bld):
-			bld(features='myfeature')
+            from waflib.TaskGen import feature, after
+            @feature('myfeature')
+            @after_method('fun2')
+            def fun1(self):
+                    print('feature 1!')
+            @feature('myfeature')
+            def fun2(self):
+                    print('feature 2!')
+            def build(bld):
+                    bld(features='myfeature')
 
-	:param k: method names
-	:type k: list of string
-	"""
+    :param k: method names
+    :type k: list of string
+    """
 
     def deco(func):
         setattr(task_gen, func.__name__, func)
@@ -525,18 +525,18 @@ after = after_method
 
 def extension(*k):
     """
-	Decorator that registers a task generator method which will be invoked during
-	the processing of source files for the extension given::
+    Decorator that registers a task generator method which will be invoked during
+    the processing of source files for the extension given::
 
-		from waflib import Task
-		class mytask(Task):
-			run_str = 'cp ${SRC} ${TGT}'
-		@extension('.moo')
-		def create_maa_file(self, node):
-			self.create_task('mytask', node, node.change_ext('.maa'))
-		def build(bld):
-			bld(source='foo.moo')
-	"""
+            from waflib import Task
+            class mytask(Task):
+                    run_str = 'cp ${SRC} ${TGT}'
+            @extension('.moo')
+            def create_maa_file(self, node):
+                    self.create_task('mytask', node, node.change_ext('.maa'))
+            def build(bld):
+                    bld(source='foo.moo')
+    """
 
     def deco(func):
         setattr(task_gen, func.__name__, func)
@@ -550,17 +550,17 @@ def extension(*k):
 @taskgen_method
 def to_nodes(self, lst, path=None):
     """
-	Flatten the input list of string/nodes/lists into a list of nodes.
+    Flatten the input list of string/nodes/lists into a list of nodes.
 
-	It is used by :py:func:`waflib.TaskGen.process_source` and :py:func:`waflib.TaskGen.process_rule`.
-	It is designed for source files, for folders, see :py:func:`waflib.Tools.ccroot.to_incnodes`:
+    It is used by :py:func:`waflib.TaskGen.process_source` and :py:func:`waflib.TaskGen.process_rule`.
+    It is designed for source files, for folders, see :py:func:`waflib.Tools.ccroot.to_incnodes`:
 
-	:param lst: input list
-	:type lst: list of string and nodes
-	:param path: path from which to search the nodes (by default, :py:attr:`waflib.TaskGen.task_gen.path`)
-	:type path: :py:class:`waflib.Tools.Node.Node`
-	:rtype: list of :py:class:`waflib.Tools.Node.Node`
-	"""
+    :param lst: input list
+    :type lst: list of string and nodes
+    :param path: path from which to search the nodes (by default, :py:attr:`waflib.TaskGen.task_gen.path`)
+    :type path: :py:class:`waflib.Tools.Node.Node`
+    :rtype: list of :py:class:`waflib.Tools.Node.Node`
+    """
     tmp = []
     path = path or self.path
     find = path.find_resource
@@ -585,14 +585,14 @@ def to_nodes(self, lst, path=None):
 @feature("*")
 def process_source(self):
     """
-	Processes each element in the attribute ``source`` by extension.
+    Processes each element in the attribute ``source`` by extension.
 
-	#. The *source* list is converted through :py:meth:`waflib.TaskGen.to_nodes` to a list of :py:class:`waflib.Node.Node` first.
-	#. File extensions are mapped to methods having the signature: ``def meth(self, node)`` by :py:meth:`waflib.TaskGen.extension`
-	#. The method is retrieved through :py:meth:`waflib.TaskGen.task_gen.get_hook`
-	#. When called, the methods may modify self.source to append more source to process
-	#. The mappings can map an extension or a filename (see the code below)
-	"""
+    #. The *source* list is converted through :py:meth:`waflib.TaskGen.to_nodes` to a list of :py:class:`waflib.Node.Node` first.
+    #. File extensions are mapped to methods having the signature: ``def meth(self, node)`` by :py:meth:`waflib.TaskGen.extension`
+    #. The method is retrieved through :py:meth:`waflib.TaskGen.task_gen.get_hook`
+    #. When called, the methods may modify self.source to append more source to process
+    #. The mappings can map an extension or a filename (see the code below)
+    """
     self.source = self.to_nodes(getattr(self, "source", []))
     for node in self.source:
         self.get_hook(node)(self, node)
@@ -602,30 +602,30 @@ def process_source(self):
 @before_method("process_source")
 def process_rule(self):
     """
-	Processes the attribute ``rule``. When present, :py:meth:`waflib.TaskGen.process_source` is disabled::
+    Processes the attribute ``rule``. When present, :py:meth:`waflib.TaskGen.process_source` is disabled::
 
-		def build(bld):
-			bld(rule='cp ${SRC} ${TGT}', source='wscript', target='bar.txt')
+            def build(bld):
+                    bld(rule='cp ${SRC} ${TGT}', source='wscript', target='bar.txt')
 
-	Main attributes processed:
+    Main attributes processed:
 
-	* rule: command to execute, it can be a tuple of strings for multiple commands
-	* chmod: permissions for the resulting files (integer value such as Utils.O755)
-	* shell: set to False to execute the command directly (default is True to use a shell)
-	* scan: scanner function
-	* vars: list of variables to trigger rebuilts, such as CFLAGS
-	* cls_str: string to display when executing the task
-	* cls_keyword: label to display when executing the task
-	* cache_rule: by default, try to re-use similar classes, set to False to disable
-	* source: list of Node or string objects representing the source files required by this task
-	* target: list of Node or string objects representing the files that this task creates
-	* cwd: current working directory (Node or string)
-	* stdout: standard output, set to None to prevent waf from capturing the text
-	* stderr: standard error, set to None to prevent waf from capturing the text
-	* timeout: timeout for command execution (Python 3)
-	* always: whether to always run the command (False by default)
-	* deep_inputs: whether the task must depend on the input file tasks too (False by default)
-	"""
+    * rule: command to execute, it can be a tuple of strings for multiple commands
+    * chmod: permissions for the resulting files (integer value such as Utils.O755)
+    * shell: set to False to execute the command directly (default is True to use a shell)
+    * scan: scanner function
+    * vars: list of variables to trigger rebuilts, such as CFLAGS
+    * cls_str: string to display when executing the task
+    * cls_keyword: label to display when executing the task
+    * cache_rule: by default, try to re-use similar classes, set to False to disable
+    * source: list of Node or string objects representing the source files required by this task
+    * target: list of Node or string objects representing the files that this task creates
+    * cwd: current working directory (Node or string)
+    * stdout: standard output, set to None to prevent waf from capturing the text
+    * stderr: standard error, set to None to prevent waf from capturing the text
+    * timeout: timeout for command execution (Python 3)
+    * always: whether to always run the command (False by default)
+    * deep_inputs: whether the task must depend on the input file tasks too (False by default)
+    """
     if not getattr(self, "rule", None):
         return
 
@@ -777,23 +777,23 @@ def process_rule(self):
 @feature("seq")
 def sequence_order(self):
     """
-	Adds a strict sequential constraint between the tasks generated by task generators.
-	It works because task generators are posted in order.
-	It will not post objects which belong to other folders.
+    Adds a strict sequential constraint between the tasks generated by task generators.
+    It works because task generators are posted in order.
+    It will not post objects which belong to other folders.
 
-	Example::
+    Example::
 
-		bld(features='javac seq')
-		bld(features='jar seq')
+            bld(features='javac seq')
+            bld(features='jar seq')
 
-	To start a new sequence, set the attribute seq_start, for example::
+    To start a new sequence, set the attribute seq_start, for example::
 
-		obj = bld(features='seq')
-		obj.seq_start = True
+            obj = bld(features='seq')
+            obj.seq_start = True
 
-	Note that the method is executed in last position. This is more an
-	example than a widely-used solution.
-	"""
+    Note that the method is executed in last position. This is more an
+    example than a widely-used solution.
+    """
     if self.meths and self.meths[-1] != "sequence_order":
         self.meths.append("sequence_order")
         return
@@ -816,9 +816,9 @@ re_m4 = re.compile(r"@(\w+)@", re.M)
 
 class subst_pc(Task.Task):
     """
-	Creates *.pc* files from *.pc.in*. The task is executed whenever an input variable used
-	in the substitution changes.
-	"""
+    Creates *.pc* files from *.pc.in*. The task is executed whenever an input variable used
+    in the substitution changes.
+    """
 
     def force_permissions(self):
         "Private for the time being, we will probably refactor this into run_str=[run1,chmod]"
@@ -900,8 +900,8 @@ class subst_pc(Task.Task):
 
     def sig_vars(self):
         """
-		Compute a hash (signature) of the variables used in the substitution
-		"""
+        Compute a hash (signature) of the variables used in the substitution
+        """
         bld = self.generator.bld
         env = self.env
         upd = self.m.update
@@ -927,11 +927,11 @@ class subst_pc(Task.Task):
 @extension(".pc.in")
 def add_pcfile(self, node):
     """
-	Processes *.pc.in* files to *.pc*. Installs the results to ``${PREFIX}/lib/pkgconfig/`` by default
+    Processes *.pc.in* files to *.pc*. Installs the results to ``${PREFIX}/lib/pkgconfig/`` by default
 
-		def build(bld):
-			bld(source='foo.pc.in', install_path='${LIBDIR}/pkgconfig/')
-	"""
+            def build(bld):
+                    bld(source='foo.pc.in', install_path='${LIBDIR}/pkgconfig/')
+    """
     tsk = self.create_task("subst_pc", node, node.change_ext(".pc", ".pc.in"))
     self.install_task = self.add_install_files(
         install_to=getattr(self, "install_path", "${LIBDIR}/pkgconfig/"),
@@ -947,22 +947,22 @@ class subst(subst_pc):
 @before_method("process_source", "process_rule")
 def process_subst(self):
     """
-	Defines a transformation that substitutes the contents of *source* files to *target* files::
+    Defines a transformation that substitutes the contents of *source* files to *target* files::
 
-		def build(bld):
-			bld(
-				features='subst',
-				source='foo.c.in',
-				target='foo.c',
-				install_path='${LIBDIR}/pkgconfig',
-				VAR = 'val'
-			)
+            def build(bld):
+                    bld(
+                            features='subst',
+                            source='foo.c.in',
+                            target='foo.c',
+                            install_path='${LIBDIR}/pkgconfig',
+                            VAR = 'val'
+                    )
 
-	The input files are supposed to contain macros of the form *@VAR@*, where *VAR* is an argument
-	of the task generator object.
+    The input files are supposed to contain macros of the form *@VAR@*, where *VAR* is an argument
+    of the task generator object.
 
-	This method overrides the processing by :py:meth:`waflib.TaskGen.process_source`.
-	"""
+    This method overrides the processing by :py:meth:`waflib.TaskGen.process_source`.
+    """
 
     src = Utils.to_list(getattr(self, "source", []))
     if isinstance(src, Node.Node):

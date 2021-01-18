@@ -279,9 +279,9 @@ import os
 @TaskGen.after("apply_link", "process_source")
 def apply_uselib_local(self):
     """
-	process the uselib_local attribute
-	execute after apply_link because of the execution order set on 'link_task'
-	"""
+    process the uselib_local attribute
+    execute after apply_link because of the execution order set on 'link_task'
+    """
     env = self.env
     from waflib.Tools.ccroot import stlink_task
 
@@ -416,8 +416,8 @@ def process_obj_files(self):
 @TaskGen.taskgen_method
 def add_obj_file(self, file):
     """Small example on how to link object files as if they were source
-	obj = bld.create_obj('cc')
-	obj.add_obj_file('foo.o')"""
+    obj = bld.create_obj('cc')
+    obj.add_obj_file('foo.o')"""
     if not hasattr(self, "obj_files"):
         self.obj_files = []
     if not "process_obj_files" in self.meths:

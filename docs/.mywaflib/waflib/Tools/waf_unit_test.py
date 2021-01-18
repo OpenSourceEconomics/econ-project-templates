@@ -62,9 +62,9 @@ sys.exit(status)
 @taskgen_method
 def handle_ut_cwd(self, key):
     """
-	Task generator method, used internally to limit code duplication.
-	This method may disappear anytime.
-	"""
+    Task generator method, used internally to limit code duplication.
+    This method may disappear anytime.
+    """
     cwd = getattr(self, key, None)
     if cwd:
         if isinstance(cwd, str):
@@ -172,8 +172,8 @@ def add_test_results(self, tup):
 @Task.deep_inputs
 class utest(Task.Task):
     """
-	Execute a unit test
-	"""
+    Execute a unit test
+    """
 
     color = "PINK"
     after = ["vnum", "inst"]
@@ -181,9 +181,9 @@ class utest(Task.Task):
 
     def runnable_status(self):
         """
-		Always execute the task if `waf --alltests` was used or no
-		tests if ``waf --notests`` was used
-		"""
+        Always execute the task if `waf --alltests` was used or no
+        tests if ``waf --notests`` was used
+        """
         if getattr(Options.options, "no_tests", False):
             return Task.SKIP_ME
 
@@ -195,9 +195,9 @@ class utest(Task.Task):
 
     def get_test_env(self):
         """
-		In general, tests may require any library built anywhere in the project.
-		Override this method if fewer paths are needed
-		"""
+        In general, tests may require any library built anywhere in the project.
+        Override this method if fewer paths are needed
+        """
         return self.generator.ut_env
 
     def post_run(self):
@@ -210,11 +210,11 @@ class utest(Task.Task):
 
     def run(self):
         """
-		Execute the test. The execution is always successful, and the results
-		are stored on ``self.generator.bld.utest_results`` for postprocessing.
+        Execute the test. The execution is always successful, and the results
+        are stored on ``self.generator.bld.utest_results`` for postprocessing.
 
-		Override ``add_test_results`` to interrupt the build
-		"""
+        Override ``add_test_results`` to interrupt the build
+        """
         if hasattr(self.generator, "ut_run"):
             return self.generator.ut_run(self)
 
@@ -267,13 +267,13 @@ class utest(Task.Task):
 
 def summary(bld):
     """
-	Display an execution summary::
+    Display an execution summary::
 
-		def build(bld):
-			bld(features='cxx cxxprogram test', source='main.c', target='app')
-			from waflib.Tools import waf_unit_test
-			bld.add_post_fun(waf_unit_test.summary)
-	"""
+            def build(bld):
+                    bld(features='cxx cxxprogram test', source='main.c', target='app')
+                    from waflib.Tools import waf_unit_test
+                    bld.add_post_fun(waf_unit_test.summary)
+    """
     lst = getattr(bld, "utest_results", [])
     if lst:
         Logs.pprint("CYAN", "execution summary")
@@ -296,16 +296,16 @@ def summary(bld):
 
 def set_exit_code(bld):
     """
-	If any of the tests fail waf will exit with that exit code.
-	This is useful if you have an automated build system which need
-	to report on errors from the tests.
-	You may use it like this:
+    If any of the tests fail waf will exit with that exit code.
+    This is useful if you have an automated build system which need
+    to report on errors from the tests.
+    You may use it like this:
 
-		def build(bld):
-			bld(features='cxx cxxprogram test', source='main.c', target='app')
-			from waflib.Tools import waf_unit_test
-			bld.add_post_fun(waf_unit_test.set_exit_code)
-	"""
+            def build(bld):
+                    bld(features='cxx cxxprogram test', source='main.c', target='app')
+                    from waflib.Tools import waf_unit_test
+                    bld.add_post_fun(waf_unit_test.set_exit_code)
+    """
     lst = getattr(bld, "utest_results", [])
     for (f, code, out, err) in lst:
         if code:
@@ -319,8 +319,8 @@ def set_exit_code(bld):
 
 def options(opt):
     """
-	Provide the ``--alltests``, ``--notests`` and ``--testcmd`` command-line options.
-	"""
+    Provide the ``--alltests``, ``--notests`` and ``--testcmd`` command-line options.
+    """
     opt.add_option(
         "--notests",
         action="store_true",

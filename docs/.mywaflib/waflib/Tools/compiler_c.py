@@ -63,10 +63,10 @@ def default_compilers():
 
 def configure(conf):
     """
-	Detects a suitable C compiler
+    Detects a suitable C compiler
 
-	:raises: :py:class:`waflib.Errors.ConfigurationError` when no suitable compiler is found
-	"""
+    :raises: :py:class:`waflib.Errors.ConfigurationError` when no suitable compiler is found
+    """
     try:
         test_for_compiler = conf.options.check_c_compiler or default_compilers()
     except AttributeError:
@@ -95,10 +95,10 @@ def configure(conf):
 
 def options(opt):
     """
-	This is how to provide compiler preferences on the command-line::
+    This is how to provide compiler preferences on the command-line::
 
-		$ waf configure --check-c-compiler=gcc
-	"""
+            $ waf configure --check-c-compiler=gcc
+    """
     test_for_compiler = default_compilers()
     opt.load_special_tools("c_*.py", ban=["c_dumbpreproc.py"])
     cc_compiler_opts = opt.add_option_group("Configuration options")

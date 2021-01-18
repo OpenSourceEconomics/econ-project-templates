@@ -39,10 +39,10 @@ def default_compilers():
 
 def configure(conf):
     """
-	Detects a suitable D compiler
+    Detects a suitable D compiler
 
-	:raises: :py:class:`waflib.Errors.ConfigurationError` when no suitable compiler is found
-	"""
+    :raises: :py:class:`waflib.Errors.ConfigurationError` when no suitable compiler is found
+    """
     try:
         test_for_compiler = conf.options.check_d_compiler or default_compilers()
     except AttributeError:
@@ -71,10 +71,10 @@ def configure(conf):
 
 def options(opt):
     """
-	This is how to provide compiler preferences on the command-line::
+    This is how to provide compiler preferences on the command-line::
 
-		$ waf configure --check-d-compiler=dmd
-	"""
+            $ waf configure --check-d-compiler=dmd
+    """
     test_for_compiler = default_compilers()
     d_compiler_opts = opt.add_option_group("Configuration options")
     d_compiler_opts.add_option(

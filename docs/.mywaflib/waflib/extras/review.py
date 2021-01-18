@@ -121,10 +121,10 @@ class OptionsReview(Options.OptionsContext):
 
     def prepare_config_review(self):
         """
-		Find the configuration options that are reviewable, detach
-		their default value from their optparse object and store them
-		into the review dictionaries.
-		"""
+        Find the configuration options that are reviewable, detach
+        their default value from their optparse object and store them
+        into the review dictionaries.
+        """
         gr = self.get_option_group("configure options")
         for opt in gr.option_list:
             if opt.action != "store" or opt.dest in ("out", "top"):
@@ -168,8 +168,8 @@ class ReviewContext(Context.Context):
 
     def execute(self):
         """
-		Display and store the review set. Invalidate the cache as required.
-		"""
+        Display and store the review set. Invalidate the cache as required.
+        """
         if not self.compare_review_set(old_review_set, new_review_set):
             self.invalidate_cache()
         self.store_review_set(new_review_set)
@@ -187,8 +187,8 @@ class ReviewContext(Context.Context):
 
     def refresh_review_set(self):
         """
-		Obtain the old review set and the new review set, and import the new set.
-		"""
+        Obtain the old review set and the new review set, and import the new set.
+        """
         global old_review_set, new_review_set
         old_review_set = self.load_review_set()
         new_review_set = self.update_review_set(old_review_set)
@@ -196,27 +196,27 @@ class ReviewContext(Context.Context):
 
     def load_review_set(self):
         """
-		Load and return the review set from the cache if it exists.
-		Otherwise, return an empty set.
-		"""
+        Load and return the review set from the cache if it exists.
+        Otherwise, return an empty set.
+        """
         if os.path.isfile(self.review_path):
             return ConfigSet.ConfigSet(self.review_path)
         return ConfigSet.ConfigSet()
 
     def store_review_set(self, review_set):
         """
-		Store the review set specified in the cache.
-		"""
+        Store the review set specified in the cache.
+        """
         if not os.path.isdir(self.cache_path):
             os.makedirs(self.cache_path)
         review_set.store(self.review_path)
 
     def update_review_set(self, old_set):
         """
-		Merge the options passed on the command line with those imported
-		from the previous review set and return the corresponding
-		preview set.
-		"""
+        Merge the options passed on the command line with those imported
+        from the previous review set and return the corresponding
+        preview set.
+        """
 
         # Convert value to string. It's important that 'None' maps to
         # the empty string.
@@ -242,9 +242,9 @@ class ReviewContext(Context.Context):
 
     def import_review_set(self, review_set):
         """
-		Import the actual value of the reviewable options in the option
-		dictionary, given the current review set.
-		"""
+        Import the actual value of the reviewable options in the option
+        dictionary, given the current review set.
+        """
         for name in review_options.keys():
             if name in review_set:
                 value = review_set[name]
@@ -254,8 +254,8 @@ class ReviewContext(Context.Context):
 
     def compare_review_set(self, set1, set2):
         """
-		Return true if the review sets specified are equal.
-		"""
+        Return true if the review sets specified are equal.
+        """
         if len(set1.keys()) != len(set2.keys()):
             return False
         for key in set1.keys():
@@ -265,8 +265,8 @@ class ReviewContext(Context.Context):
 
     def display_review_set(self, review_set):
         """
-		Return the string representing the review set specified.
-		"""
+        Return the string representing the review set specified.
+        """
         term_width = Logs.get_term_cols()
         lines = []
         for dest in review_options.keys():
@@ -282,8 +282,8 @@ class ReviewContext(Context.Context):
 
     def format_option(self, name, help, actual, default, term_width):
         """
-		Return the string representing the option specified.
-		"""
+        Return the string representing the option specified.
+        """
 
         def val_to_str(val):
             if val == None or val == "":

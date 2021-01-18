@@ -281,8 +281,8 @@ class cppcheck(Task.Task):
 
     def _save_xml_report(self, s):
         """use cppcheck xml result string, add the command string used to invoke cppcheck
-		and save as xml file.
-		"""
+        and save as xml file.
+        """
         header = "%s\n" % s.splitlines()[0]
         root = ElementTree.fromstring(s)
         cmd = ElementTree.SubElement(root.find("cppcheck"), "cmd")
@@ -296,8 +296,8 @@ class cppcheck(Task.Task):
 
     def _get_defects(self, xml_string):
         """evaluate the xml string returned by cppcheck (on sdterr) and use it to create
-		a list of defects.
-		"""
+        a list of defects.
+        """
         defects = []
         for error in ElementTree.fromstring(xml_string).iter("error"):
             defect = {}

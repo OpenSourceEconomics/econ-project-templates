@@ -91,8 +91,8 @@ except ImportError:
 
 def get_chost_stuff(conf):
     """
-	Get the CHOST environment variable contents
-	"""
+    Get the CHOST environment variable contents
+    """
     chost = None
     chost_envar = None
     if conf.env.CHOST:
@@ -226,8 +226,8 @@ def xcheck_host(conf):
 
 def configure(conf):
     """
-	Configuration example for gcc, it will not work for g++/clang/clang++
-	"""
+    Configuration example for gcc, it will not work for g++/clang/clang++
+    """
     conf.xcheck_host()
     conf.gcc_common_flags()
     conf.gcc_modifier_platform()

@@ -61,8 +61,8 @@ class xelatex(tex):
 
 def configure(self):
     """
-	Almost the same as in tex.py, but try to detect 'biber'
-	"""
+    Almost the same as in tex.py, but try to detect 'biber'
+    """
     v = self.env
     for (
         p

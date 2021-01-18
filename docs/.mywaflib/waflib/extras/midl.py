@@ -57,8 +57,8 @@ def idl_file(self):
 
 class midl(Task.Task):
     """
-	Compile idl files
-	"""
+    Compile idl files
+    """
 
     color = "YELLOW"
     run_str = "${MIDL} ${MIDLFLAGS} ${CPPPATH_ST:INCLUDES} /tlb ${TGT[0].bldpath()} /header ${TGT[1].bldpath()} /iid ${TGT[2].bldpath()} /proxy ${TGT[3].bldpath()} /dlldata ${TGT[4].bldpath()} ${SRC}"

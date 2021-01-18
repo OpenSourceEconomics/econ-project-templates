@@ -151,14 +151,14 @@ def options(opt):
 @conf
 def setup_msvc(conf, versiondict):
     """
-	Checks installed compilers and targets and returns the first combination from the user's
-	options, env, or the global supported lists that checks.
+    Checks installed compilers and targets and returns the first combination from the user's
+    options, env, or the global supported lists that checks.
 
-	:param versiondict: dict(platform -> dict(architecture -> configuration))
-	:type versiondict: dict(string -> dict(string -> target_compiler)
-	:return: the compiler, revision, path, include dirs, library paths and target architecture
-	:rtype: tuple of strings
-	"""
+    :param versiondict: dict(platform -> dict(architecture -> configuration))
+    :type versiondict: dict(string -> dict(string -> target_compiler)
+    :return: the compiler, revision, path, include dirs, library paths and target architecture
+    :rtype: tuple of strings
+    """
     platforms = getattr(Options.options, "msvc_targets", "").split(",")
     if platforms == [""]:
         platforms = Utils.to_list(conf.env.MSVC_TARGETS) or [
@@ -223,16 +223,16 @@ def setup_msvc(conf, versiondict):
 @conf
 def get_msvc_version(conf, compiler, version, target, vcvars):
     """
-	Checks that an installed compiler actually runs and uses vcvars to obtain the
-	environment needed by the compiler.
+    Checks that an installed compiler actually runs and uses vcvars to obtain the
+    environment needed by the compiler.
 
-	:param compiler: compiler type, for looking up the executable name
-	:param version: compiler version, for debugging only
-	:param target: target architecture
-	:param vcvars: batch file to run to check the environment
-	:return: the location of the compiler executable, the location of include dirs, and the library paths
-	:rtype: tuple of strings
-	"""
+    :param compiler: compiler type, for looking up the executable name
+    :param version: compiler version, for debugging only
+    :param target: target architecture
+    :param vcvars: batch file to run to check the environment
+    :return: the location of the compiler executable, the location of include dirs, and the library paths
+    :rtype: tuple of strings
+    """
     Logs.debug("msvc: get_msvc_version: %r %r %r", compiler, version, target)
 
     try:
@@ -311,11 +311,11 @@ echo LIB=%LIB%;%LIBPATH%
 
 def gather_wince_supported_platforms():
     """
-	Checks SmartPhones SDKs
+    Checks SmartPhones SDKs
 
-	:param versions: list to modify
-	:type versions: list
-	"""
+    :param versions: list to modify
+    :type versions: list
+    """
     supported_wince_platforms = []
     try:
         ce_sdk = Utils.winreg.OpenKey(
@@ -411,19 +411,19 @@ def gather_msvc_detected_versions():
 
 class target_compiler:
     """
-	Wrap a compiler configuration; call evaluate() to determine
-	whether the configuration is usable.
-	"""
+    Wrap a compiler configuration; call evaluate() to determine
+    whether the configuration is usable.
+    """
 
     def __init__(self, ctx, compiler, cpu, version, bat_target, bat, callback=None):
         """
-		:param ctx: configuration context to use to eventually get the version environment
-		:param compiler: compiler name
-		:param cpu: target cpu
-		:param version: compiler version number
-		:param bat_target: ?
-		:param bat: path to the batch file to run
-		"""
+        :param ctx: configuration context to use to eventually get the version environment
+        :param compiler: compiler name
+        :param cpu: target cpu
+        :param version: compiler version number
+        :param bat_target: ?
+        :param bat: path to the batch file to run
+        """
         self.conf = ctx
         self.name = None
         self.is_valid = False
@@ -462,11 +462,11 @@ class target_compiler:
 @conf
 def gather_wsdk_versions(conf, versions):
     """
-	Use winreg to add the msvc versions to the input list
+    Use winreg to add the msvc versions to the input list
 
-	:param versions: list to modify
-	:type versions: list
-	"""
+    :param versions: list to modify
+    :type versions: list
+    """
     version_pattern = re.compile(r"^v..?.?\...?.?")
     try:
         all_versions = Utils.winreg.OpenKey(
@@ -700,11 +700,11 @@ def gather_msvc_versions(conf, versions):
 @conf
 def gather_icl_versions(conf, versions):
     """
-	Checks ICL compilers
+    Checks ICL compilers
 
-	:param versions: list to modify
-	:type versions: list
-	"""
+    :param versions: list to modify
+    :type versions: list
+    """
     version_pattern = re.compile(r"^...?.?\....?.?")
     try:
         all_versions = Utils.winreg.OpenKey(
@@ -766,11 +766,11 @@ def gather_icl_versions(conf, versions):
 @conf
 def gather_intel_composer_versions(conf, versions):
     """
-	Checks ICL compilers that are part of Intel Composer Suites
+    Checks ICL compilers that are part of Intel Composer Suites
 
-	:param versions: list to modify
-	:type versions: list
-	"""
+    :param versions: list to modify
+    :type versions: list
+    """
     version_pattern = re.compile(r"^...?.?\...?.?.?")
     try:
         all_versions = Utils.winreg.OpenKey(
@@ -870,9 +870,9 @@ def detect_msvc(self):
 @conf
 def get_msvc_versions(self):
     """
-	:return: platform to compiler configurations
-	:rtype: dict
-	"""
+    :return: platform to compiler configurations
+    :rtype: dict
+    """
     dct = Utils.ordered_iter_dict()
     self.gather_icl_versions(dct)
     self.gather_intel_composer_versions(dct)
@@ -886,10 +886,10 @@ def get_msvc_versions(self):
 @conf
 def find_lt_names_msvc(self, libname, is_static=False):
     """
-	Win32/MSVC specific code to glean out information from libtool la files.
-	this function is not attached to the task_gen class. Returns a triplet:
-	(library absolute path, library name without extension, whether the library is static)
-	"""
+    Win32/MSVC specific code to glean out information from libtool la files.
+    this function is not attached to the task_gen class. Returns a triplet:
+    (library absolute path, library name without extension, whether the library is static)
+    """
     lt_names = ["lib%s.la" % libname, "%s.la" % libname]
 
     for path in self.env.LIBPATH:
@@ -981,10 +981,10 @@ def libname_msvc(self, libname, is_static=False):
 @conf
 def check_lib_msvc(self, libname, is_static=False, uselib_store=None):
     """
-	Ideally we should be able to place the lib in the right env var, either STLIB or LIB,
-	but we don't distinguish static libs from shared libs.
-	This is ok since msvc doesn't have any special linker flag to select static libs (no env.STLIB_MARKER)
-	"""
+    Ideally we should be able to place the lib in the right env var, either STLIB or LIB,
+    but we don't distinguish static libs from shared libs.
+    This is ok since msvc doesn't have any special linker flag to select static libs (no env.STLIB_MARKER)
+    """
     libn = self.libname_msvc(libname, is_static)
 
     if not uselib_store:
@@ -1004,8 +1004,8 @@ def check_libs_msvc(self, libnames, is_static=False):
 
 def configure(conf):
     """
-	Configuration methods to call for detecting msvc
-	"""
+    Configuration methods to call for detecting msvc
+    """
     conf.autodetect(True)
     conf.find_msvc()
     conf.msvc_common_flags()
@@ -1134,8 +1134,8 @@ def visual_studio_add_flags(self):
 @conf
 def msvc_common_flags(conf):
     """
-	Setup the flags required for executing the msvc compiler
-	"""
+    Setup the flags required for executing the msvc compiler
+    """
     v = conf.env
 
     v.DEST_BINFMT = "pe"
@@ -1197,11 +1197,11 @@ def msvc_common_flags(conf):
 @feature("c", "cxx")
 def apply_flags_msvc(self):
     """
-	Add additional flags implied by msvc, such as subsystems and pdb files::
+    Add additional flags implied by msvc, such as subsystems and pdb files::
 
-		def build(bld):
-			bld.stlib(source='main.c', target='bar', subsystem='gruik')
-	"""
+            def build(bld):
+                    bld.stlib(source='main.c', target='bar', subsystem='gruik')
+    """
     if self.env.CC_NAME != "msvc" or not getattr(self, "link_task", None):
         return
 
@@ -1231,11 +1231,11 @@ def apply_flags_msvc(self):
 @after_method("apply_link")
 def apply_manifest(self):
     """
-	Special linker for MSVC with support for embedding manifests into DLL's
-	and executables compiled by Visual Studio 2005 or probably later. Without
-	the manifest file, the binaries are unusable.
-	See: http://msdn2.microsoft.com/en-us/library/ms235542(VS.80).aspx
-	"""
+    Special linker for MSVC with support for embedding manifests into DLL's
+    and executables compiled by Visual Studio 2005 or probably later. Without
+    the manifest file, the binaries are unusable.
+    See: http://msdn2.microsoft.com/en-us/library/ms235542(VS.80).aspx
+    """
     if (
         self.env.CC_NAME == "msvc"
         and self.env.MSVC_MANIFEST
@@ -1260,8 +1260,8 @@ def make_winapp(self, family):
 @after_method("propagate_uselib_vars")
 def make_winphone_app(self):
     """
-	Insert configuration flags for windows phone applications (adds /ZW, /TP...)
-	"""
+    Insert configuration flags for windows phone applications (adds /ZW, /TP...)
+    """
     make_winapp(self, "WINAPI_FAMILY_PHONE_APP")
     self.env.append_unique(
         "LINKFLAGS", ["/NODEFAULTLIB:ole32.lib", "PhoneAppModelHost.lib"]
@@ -1273,6 +1273,6 @@ def make_winphone_app(self):
 @after_method("propagate_uselib_vars")
 def make_windows_app(self):
     """
-	Insert configuration flags for windows applications (adds /ZW, /TP...)
-	"""
+    Insert configuration flags for windows applications (adds /ZW, /TP...)
+    """
     make_winapp(self, "WINAPI_FAMILY_DESKTOP_APP")

@@ -98,12 +98,12 @@ File extensions of C++ files that may require a .moc processing
 
 class qxx(Task.classes["cxx"]):
     """
-	Each C++ file can have zero or several .moc files to create.
-	They are known only when the files are scanned (preprocessor)
-	To avoid scanning the c++ files each time (parsing C/C++), the results
-	are retrieved from the task cache (bld.node_deps/bld.raw_deps).
-	The moc tasks are also created *dynamically* during the build.
-	"""
+    Each C++ file can have zero or several .moc files to create.
+    They are known only when the files are scanned (preprocessor)
+    To avoid scanning the c++ files each time (parsing C/C++), the results
+    are retrieved from the task cache (bld.node_deps/bld.raw_deps).
+    The moc tasks are also created *dynamically* during the build.
+    """
 
     def __init__(self, *k, **kw):
         Task.Task.__init__(self, *k, **kw)
@@ -111,10 +111,10 @@ class qxx(Task.classes["cxx"]):
 
     def runnable_status(self):
         """
-		Compute the task signature to make sure the scanner was executed. Create the
-		moc tasks by using :py:meth:`waflib.Tools.qt5.qxx.add_moc_tasks` (if necessary),
-		then postpone the task execution (there is no need to recompute the task signature).
-		"""
+        Compute the task signature to make sure the scanner was executed. Create the
+        moc tasks by using :py:meth:`waflib.Tools.qt5.qxx.add_moc_tasks` (if necessary),
+        then postpone the task execution (there is no need to recompute the task signature).
+        """
         if self.moc_done:
             return Task.Task.runnable_status(self)
         else:
@@ -126,10 +126,10 @@ class qxx(Task.classes["cxx"]):
 
     def create_moc_task(self, h_node, m_node):
         """
-		If several libraries use the same classes, it is possible that moc will run several times (Issue 1318)
-		It is not possible to change the file names, but we can assume that the moc transformation will be identical,
-		and the moc tasks can be shared in a global cache.
-		"""
+        If several libraries use the same classes, it is possible that moc will run several times (Issue 1318)
+        It is not possible to change the file names, but we can assume that the moc transformation will be identical,
+        and the moc tasks can be shared in a global cache.
+        """
         try:
             moc_cache = self.generator.bld.moc_cache
         except AttributeError:
@@ -161,8 +161,8 @@ class qxx(Task.classes["cxx"]):
 
     def add_moc_tasks(self):
         """
-		Creates moc tasks by looking in the list of file dependencies ``bld.raw_deps[self.uid()]``
-		"""
+        Creates moc tasks by looking in the list of file dependencies ``bld.raw_deps[self.uid()]``
+        """
         node = self.inputs[0]
         bld = self.generator.bld
 
@@ -231,8 +231,8 @@ class trans_update(Task.Task):
 
 class XMLHandler(ContentHandler):
     """
-	Parses ``.qrc`` files
-	"""
+    Parses ``.qrc`` files
+    """
 
     def __init__(self):
         ContentHandler.__init__(self)
@@ -296,14 +296,14 @@ def add_lang(self, node):
 @before_method("process_source")
 def process_mocs(self):
     """
-	Processes MOC files included in headers::
+    Processes MOC files included in headers::
 
-		def build(bld):
-			bld.program(features='qt5', source='main.cpp', target='app', use='QT5CORE', moc='foo.h')
+            def build(bld):
+                    bld.program(features='qt5', source='main.cpp', target='app', use='QT5CORE', moc='foo.h')
 
-	The build will run moc on foo.h to create moc_foo.n.cpp. The number in the file name
-	is provided to avoid name clashes when the same headers are used by several targets.
-	"""
+    The build will run moc on foo.h to create moc_foo.n.cpp. The number in the file name
+    is provided to avoid name clashes when the same headers are used by several targets.
+    """
     lst = self.to_nodes(getattr(self, "moc", []))
     self.source = self.to_list(getattr(self, "source", []))
     for x in lst:
@@ -319,20 +319,20 @@ def process_mocs(self):
 @after_method("apply_link")
 def apply_qt5(self):
     r"""
-	Adds MOC_FLAGS which may be necessary for moc::
+    Adds MOC_FLAGS which may be necessary for moc::
 
-		def build(bld):
-			bld.program(features='qt5', source='main.cpp', target='app', use='QT5CORE')
+            def build(bld):
+                    bld.program(features='qt5', source='main.cpp', target='app', use='QT5CORE')
 
-	The additional parameters are:
+    The additional parameters are:
 
-	:param lang: list of translation files (\*.ts) to process
-	:type lang: list of :py:class:`waflib.Node.Node` or string without the .ts extension
-	:param update: whether to process the C++ files to update the \*.ts files (use **waf --translate**)
-	:type update: bool
-	:param langname: if given, transform the \*.ts files into a .qrc files to include in the binary file
-	:type langname: :py:class:`waflib.Node.Node` or string without the .qrc extension
-	"""
+    :param lang: list of translation files (\*.ts) to process
+    :type lang: list of :py:class:`waflib.Node.Node` or string without the .ts extension
+    :param update: whether to process the C++ files to update the \*.ts files (use **waf --translate**)
+    :type update: bool
+    :param langname: if given, transform the \*.ts files into a .qrc files to include in the binary file
+    :type langname: :py:class:`waflib.Node.Node` or string without the .qrc extension
+    """
     if getattr(self, "lang", None):
         qmtasks = []
         for x in self.to_list(self.lang):
@@ -376,15 +376,15 @@ def apply_qt5(self):
 @extension(*EXT_QT5)
 def cxx_hook(self, node):
     """
-	Re-maps C++ file extensions to the :py:class:`waflib.Tools.qt5.qxx` task.
-	"""
+    Re-maps C++ file extensions to the :py:class:`waflib.Tools.qt5.qxx` task.
+    """
     return self.create_compiled_task("qxx", node)
 
 
 class rcc(Task.Task):
     """
-	Processes ``.qrc`` files
-	"""
+    Processes ``.qrc`` files
+    """
 
     color = "BLUE"
     run_str = "${QT_RCC} -name ${tsk.rcname()} ${SRC[0].abspath()} ${RCC_ST} -o ${TGT}"
@@ -420,42 +420,42 @@ class rcc(Task.Task):
 
     def quote_flag(self, x):
         """
-		Override Task.quote_flag. QT parses the argument files
-		differently than cl.exe and link.exe
+        Override Task.quote_flag. QT parses the argument files
+        differently than cl.exe and link.exe
 
-		:param x: flag
-		:type x: string
-		:return: quoted flag
-		:rtype: string
-		"""
+        :param x: flag
+        :type x: string
+        :return: quoted flag
+        :rtype: string
+        """
         return x
 
 
 class moc(Task.Task):
     """
-	Creates ``.moc`` files
-	"""
+    Creates ``.moc`` files
+    """
 
     color = "BLUE"
     run_str = "${QT_MOC} ${MOC_FLAGS} ${MOCCPPPATH_ST:INCPATHS} ${MOCDEFINES_ST:DEFINES} ${SRC} ${MOC_ST} ${TGT}"
 
     def quote_flag(self, x):
         """
-		Override Task.quote_flag. QT parses the argument files
-		differently than cl.exe and link.exe
+        Override Task.quote_flag. QT parses the argument files
+        differently than cl.exe and link.exe
 
-		:param x: flag
-		:type x: string
-		:return: quoted flag
-		:rtype: string
-		"""
+        :param x: flag
+        :type x: string
+        :return: quoted flag
+        :rtype: string
+        """
         return x
 
 
 class ui5(Task.Task):
     """
-	Processes ``.ui`` files
-	"""
+    Processes ``.ui`` files
+    """
 
     color = "BLUE"
     run_str = "${QT_UIC} ${SRC} -o ${TGT}"
@@ -464,8 +464,8 @@ class ui5(Task.Task):
 
 class ts2qm(Task.Task):
     """
-	Generates ``.qm`` files from ``.ts`` files
-	"""
+    Generates ``.qm`` files from ``.ts`` files
+    """
 
     color = "BLUE"
     run_str = "${QT_LRELEASE} ${QT_LRELEASE_FLAGS} ${SRC} -qm ${TGT}"
@@ -473,8 +473,8 @@ class ts2qm(Task.Task):
 
 class qm2rcc(Task.Task):
     """
-	Generates ``.qrc`` files from ``.qm`` files
-	"""
+    Generates ``.qrc`` files from ``.qm`` files
+    """
 
     color = "BLUE"
     after = "ts2qm"
@@ -496,11 +496,11 @@ class qm2rcc(Task.Task):
 
 def configure(self):
     """
-	Besides the configuration options, the environment variable QT5_ROOT may be used
-	to give the location of the qt5 libraries (absolute path).
+    Besides the configuration options, the environment variable QT5_ROOT may be used
+    to give the location of the qt5 libraries (absolute path).
 
-	The detection uses the program ``pkg-config`` through :py:func:`waflib.Tools.config_c.check_cfg`
-	"""
+    The detection uses the program ``pkg-config`` through :py:func:`waflib.Tools.config_c.check_cfg`
+    """
     self.find_qt5_binaries()
     self.set_qt5_libs_dir()
     self.set_qt5_libs_to_check()
@@ -572,8 +572,8 @@ def configure(self):
 @conf
 def find_qt5_binaries(self):
     """
-	Detects Qt programs such as qmake, moc, uic, lrelease
-	"""
+    Detects Qt programs such as qmake, moc, uic, lrelease
+    """
     env = self.env
     opt = Options.options
 
@@ -805,9 +805,9 @@ def find_qt5_libraries(self):
 @conf
 def simplify_qt5_libs(self):
     """
-	Since library paths make really long command-lines,
-	and since everything depends on qtcore, remove the qtcore ones from qtgui, etc
-	"""
+    Since library paths make really long command-lines,
+    and since everything depends on qtcore, remove the qtcore ones from qtgui, etc
+    """
     env = self.env
 
     def process_lib(vars_, coreval):
@@ -832,8 +832,8 @@ def simplify_qt5_libs(self):
 @conf
 def add_qt5_rpath(self):
     """
-	Defines rpath entries for Qt libraries
-	"""
+    Defines rpath entries for Qt libraries
+    """
     env = self.env
     if getattr(Options.options, "want_rpath", False):
 
@@ -891,8 +891,8 @@ def set_qt5_defines(self):
 
 def options(opt):
     """
-	Command-line options
-	"""
+    Command-line options
+    """
     opt.add_option(
         "--want-rpath",
         action="store_true",

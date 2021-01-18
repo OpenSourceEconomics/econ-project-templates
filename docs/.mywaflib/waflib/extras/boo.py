@@ -45,9 +45,9 @@ def apply_booc(self):
 @feature("boo")
 @after_method("apply_boo")
 def use_boo(self):
-    """"
-	boo applications honor the **use** keyword::
-	"""
+    """ "
+    boo applications honor the **use** keyword::
+    """
     dep_names = self.to_list(getattr(self, "use", []))
     for dep_name in dep_names:
         dep_task_gen = self.bld.get_tgen_by_name(dep_name)

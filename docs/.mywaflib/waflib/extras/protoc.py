@@ -90,8 +90,8 @@ class protoc(Task):
 
     def scan(self):
         """
-		Scan .proto dependencies
-		"""
+        Scan .proto dependencies
+        """
         node = self.inputs[0]
 
         nodes = []

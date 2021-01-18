@@ -55,8 +55,8 @@ after_method("apply_fsc", "use_cs")(cs.debug_cs)
 
 class fsc(Task.Task):
     """
-	Compile F# files
-	"""
+    Compile F# files
+    """
 
     color = "YELLOW"
     run_str = "${FSC} ${CSTYPE} ${CSFLAGS} ${ASS_ST:ASSEMBLIES} ${RES_ST:RESOURCES} ${OUT} ${SRC}"
@@ -64,8 +64,8 @@ class fsc(Task.Task):
 
 def configure(conf):
     """
-	Find a F# compiler, set the variable FSC for the compiler and FS_NAME (mono or fsc)
-	"""
+    Find a F# compiler, set the variable FSC for the compiler and FS_NAME (mono or fsc)
+    """
     conf.find_program(["fsc.exe", "fsharpc"], var="FSC")
     conf.env.ASS_ST = "/r:%s"
     conf.env.RES_ST = "/resource:%s"

@@ -282,28 +282,28 @@ class PBXGroup(XCodeNode):
 
     def add(self, sources):
         """
-		Add a list of PBXFileReferences to this group
+        Add a list of PBXFileReferences to this group
 
-		:param sources: list of PBXFileReferences objects
-		"""
+        :param sources: list of PBXFileReferences objects
+        """
         self._filerefs.update(dict(zip(sources, sources)))
         self.children.extend(sources)
 
     def get_sub_groups(self):
         """
-		Returns all child PBXGroup objects contained in this group
-		"""
+        Returns all child PBXGroup objects contained in this group
+        """
         return list(filter(lambda x: isinstance(x, PBXGroup), self.children))
 
     def find_fileref(self, fileref):
         """
-		Recursively search this group for an existing PBXFileReference. Returns None
-		if none were found.
+        Recursively search this group for an existing PBXFileReference. Returns None
+        if none were found.
 
-		The reason you'd want to reuse existing PBXFileReferences from a PBXGroup is that XCode doesn't like PBXFileReferences that aren't part of a PBXGroup hierarchy.
-		If it isn't, the consequence is that certain UI features like 'Reveal in Finder'
-		stops working.
-		"""
+        The reason you'd want to reuse existing PBXFileReferences from a PBXGroup is that XCode doesn't like PBXFileReferences that aren't part of a PBXGroup hierarchy.
+        If it isn't, the consequence is that certain UI features like 'Reveal in Finder'
+        stops working.
+        """
         if fileref in self._filerefs:
             return self._filerefs[fileref]
         elif self.children:
@@ -358,9 +358,9 @@ class PBXHeadersBuildPhase(XCodeNode):
 
 class PBXCopyFilesBuildPhase(XCodeNode):
     """
-	Represents the PBXCopyFilesBuildPhase section. PBXBuildFile
-	can be added to this node to copy files after build is done.
-	"""
+    Represents the PBXCopyFilesBuildPhase section. PBXBuildFile
+    can be added to this node to copy files after build is done.
+    """
 
     def __init__(self, pbxbuildfiles, dstpath, dstSubpathSpec=0, *args, **kwargs):
         XCodeNode.__init__(self)
@@ -688,9 +688,9 @@ class xcode(Build.BuildContext):
 
     def create_group(self, name, files):
         """
-		Returns a new PBXGroup containing the files (paths) passed in the files arg
-		:type files: string
-		"""
+        Returns a new PBXGroup containing the files (paths) passed in the files arg
+        :type files: string
+        """
         group = PBXGroup(name)
         """
 		Do not use unique file reference here, since XCode seem to allow only one file reference
@@ -705,10 +705,10 @@ class xcode(Build.BuildContext):
 
     def unique_buildfile(self, buildfile):
         """
-		Returns a unique buildfile, possibly an existing one.
-		Use this after you've constructed a PBXBuildFile to make sure there is
-		only one PBXBuildFile for the same file in the same project.
-		"""
+        Returns a unique buildfile, possibly an existing one.
+        Use this after you've constructed a PBXBuildFile to make sure there is
+        only one PBXBuildFile for the same file in the same project.
+        """
         try:
             build_files = self.build_files
         except AttributeError:
@@ -720,8 +720,8 @@ class xcode(Build.BuildContext):
 
     def execute(self):
         """
-		Entry point
-		"""
+        Entry point
+        """
         self.restore()
         if not self.all_envs:
             self.load_envs()

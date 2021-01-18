@@ -68,26 +68,26 @@ class ConfigurationContext(Context.Context):
 
     def setenv(self, name, env=None):
         """
-		Set a new config set for conf.env. If a config set of that name already exists,
-		recall it without modification.
+        Set a new config set for conf.env. If a config set of that name already exists,
+        recall it without modification.
 
-		The name is the filename prefix to save to ``c4che/NAME_cache.py``, and it
-		is also used as *variants* by the build commands.
-		Though related to variants, whatever kind of data may be stored in the config set::
+        The name is the filename prefix to save to ``c4che/NAME_cache.py``, and it
+        is also used as *variants* by the build commands.
+        Though related to variants, whatever kind of data may be stored in the config set::
 
-			def configure(cfg):
-				cfg.env.ONE = 1
-				cfg.setenv('foo')
-				cfg.env.ONE = 2
+                def configure(cfg):
+                        cfg.env.ONE = 1
+                        cfg.setenv('foo')
+                        cfg.env.ONE = 2
 
-			def build(bld):
-				2 == bld.env_of_name('foo').ONE
+                def build(bld):
+                        2 == bld.env_of_name('foo').ONE
 
-		:param name: name of the configuration set
-		:type name: string
-		:param env: ConfigSet to copy, or an empty ConfigSet is created
-		:type env: :py:class:`waflib.ConfigSet.ConfigSet`
-		"""
+        :param name: name of the configuration set
+        :type name: string
+        :param env: ConfigSet to copy, or an empty ConfigSet is created
+        :type env: :py:class:`waflib.ConfigSet.ConfigSet`
+        """
         if name not in self.all_envs or env:
             if not env:
                 env = ConfigSet.ConfigSet()
@@ -109,8 +109,8 @@ class ConfigurationContext(Context.Context):
 
     def init_dirs(self):
         """
-		Initialize the project directory and the build directory
-		"""
+        Initialize the project directory and the build directory
+        """
 
         top = self.top_dir
         if not top:
@@ -147,8 +147,8 @@ class ConfigurationContext(Context.Context):
 
     def execute(self):
         """
-		See :py:func:`waflib.Context.Context.execute`
-		"""
+        See :py:func:`waflib.Context.Context.execute`
+        """
         self.init_dirs()
 
         self.cachedir = self.bldnode.make_node(Build.CACHE_DIR)
@@ -228,11 +228,11 @@ class ConfigurationContext(Context.Context):
 
     def prepare_env(self, env):
         """
-		Insert *PREFIX*, *BINDIR* and *LIBDIR* values into ``env``
+        Insert *PREFIX*, *BINDIR* and *LIBDIR* values into ``env``
 
-		:type env: :py:class:`waflib.ConfigSet.ConfigSet`
-		:param env: a ConfigSet, usually ``conf.env``
-		"""
+        :type env: :py:class:`waflib.ConfigSet.ConfigSet`
+        :param env: a ConfigSet, usually ``conf.env``
+        """
         if not env.PREFIX:
             if Options.options.prefix or Utils.is_win32:
                 env.PREFIX = Options.options.prefix
@@ -265,17 +265,17 @@ class ConfigurationContext(Context.Context):
 
     def load(self, tool_list, tooldir=None, funs=None, with_sys_path=True, cache=False):
         """
-		Load Waf tools, which will be imported whenever a build is started.
+        Load Waf tools, which will be imported whenever a build is started.
 
-		:param tool_list: waf tools to import
-		:type tool_list: list of string
-		:param tooldir: paths for the imports
-		:type tooldir: list of string
-		:param funs: functions to execute from the waf tools
-		:type funs: list of string
-		:param cache: whether to prevent the tool from running twice
-		:type cache: bool
-		"""
+        :param tool_list: waf tools to import
+        :type tool_list: list of string
+        :param tooldir: paths for the imports
+        :type tooldir: list of string
+        :param funs: functions to execute from the waf tools
+        :type funs: list of string
+        :param cache: whether to prevent the tool from running twice
+        :type cache: bool
+        """
 
         tools = Utils.to_list(tool_list)
         if tooldir:
@@ -321,22 +321,22 @@ class ConfigurationContext(Context.Context):
 
     def post_recurse(self, node):
         """
-		Records the path and a hash of the scripts visited, see :py:meth:`waflib.Context.Context.post_recurse`
+        Records the path and a hash of the scripts visited, see :py:meth:`waflib.Context.Context.post_recurse`
 
-		:param node: script
-		:type node: :py:class:`waflib.Node.Node`
-		"""
+        :param node: script
+        :type node: :py:class:`waflib.Node.Node`
+        """
         super().post_recurse(node)
         self.hash = Utils.h_list((self.hash, node.read("rb")))
         self.files.append(node.abspath())
 
     def eval_rules(self, rules):
         """
-		Execute configuration tests provided as list of funcitons to run
+        Execute configuration tests provided as list of funcitons to run
 
-		:param rules: list of configuration method names
-		:type rules: list of string
-		"""
+        :param rules: list of configuration method names
+        :type rules: list of string
+        """
         self.rules = Utils.to_list(rules)
         for x in self.rules:
             f = getattr(self, x)
@@ -347,16 +347,16 @@ class ConfigurationContext(Context.Context):
 
 def conf(f):
     """
-	Decorator: attach new configuration functions to :py:class:`waflib.Build.BuildContext` and
-	:py:class:`waflib.Configure.ConfigurationContext`. The methods bound will accept a parameter
-	named 'mandatory' to disable the configuration errors::
+    Decorator: attach new configuration functions to :py:class:`waflib.Build.BuildContext` and
+    :py:class:`waflib.Configure.ConfigurationContext`. The methods bound will accept a parameter
+    named 'mandatory' to disable the configuration errors::
 
-		def configure(conf):
-			conf.find_program('abc', mandatory=False)
+            def configure(conf):
+                    conf.find_program('abc', mandatory=False)
 
-	:param f: method to bind
-	:type f: function
-	"""
+    :param f: method to bind
+    :type f: function
+    """
 
     def fun(*k, **kw):
         mandatory = kw.pop("mandatory", True)
@@ -375,18 +375,18 @@ def conf(f):
 @conf
 def add_os_flags(self, var, dest=None, dup=False):
     """
-	Import operating system environment values into ``conf.env`` dict::
+    Import operating system environment values into ``conf.env`` dict::
 
-		def configure(conf):
-			conf.add_os_flags('CFLAGS')
+            def configure(conf):
+                    conf.add_os_flags('CFLAGS')
 
-	:param var: variable to use
-	:type var: string
-	:param dest: destination variable, by default the same as var
-	:type dest: string
-	:param dup: add the same set of flags again
-	:type dup: bool
-	"""
+    :param var: variable to use
+    :type var: string
+    :param dest: destination variable, by default the same as var
+    :type dest: string
+    :param dup: add the same set of flags again
+    :type dup: bool
+    """
     try:
         flags = shlex.split(self.environ[var])
     except KeyError:
@@ -398,11 +398,11 @@ def add_os_flags(self, var, dest=None, dup=False):
 @conf
 def cmd_to_list(self, cmd):
     """
-	Detect if a command is written in pseudo shell like ``ccache g++`` and return a list.
+    Detect if a command is written in pseudo shell like ``ccache g++`` and return a list.
 
-	:param cmd: command
-	:type cmd: a string or a list of string
-	"""
+    :param cmd: command
+    :type cmd: a string or a list of string
+    """
     if isinstance(cmd, str):
         if os.path.isfile(cmd):
             # do not take any risk
@@ -421,15 +421,15 @@ def cmd_to_list(self, cmd):
 @conf
 def check_waf_version(self, mini="1.9.99", maxi="2.1.0", **kw):
     """
-	Raise a Configuration error if the Waf version does not strictly match the given bounds::
+    Raise a Configuration error if the Waf version does not strictly match the given bounds::
 
-		conf.check_waf_version(mini='1.9.99', maxi='2.1.0')
+            conf.check_waf_version(mini='1.9.99', maxi='2.1.0')
 
-	:type  mini: number, tuple or string
-	:param mini: Minimum required version
-	:type  maxi: number, tuple or string
-	:param maxi: Maximum allowed version
-	"""
+    :type  mini: number, tuple or string
+    :param mini: Minimum required version
+    :type  maxi: number, tuple or string
+    :param maxi: Maximum allowed version
+    """
     self.start_msg(
         "Checking for waf version in {}-{}".format(str(mini), str(maxi)), **kw
     )
@@ -452,12 +452,12 @@ def check_waf_version(self, mini="1.9.99", maxi="2.1.0", **kw):
 @conf
 def find_file(self, filename, path_list=[]):
     """
-	Find a file in a list of paths
+    Find a file in a list of paths
 
-	:param filename: name of the file to search for
-	:param path_list: list of directories to search
-	:return: the first matching filename; else a configuration exception is raised
-	"""
+    :param filename: name of the file to search for
+    :param path_list: list of directories to search
+    :return: the first matching filename; else a configuration exception is raised
+    """
     for n in Utils.to_list(filename):
         for d in Utils.to_list(path_list):
             p = os.path.expanduser(os.path.join(d, n))
@@ -469,26 +469,26 @@ def find_file(self, filename, path_list=[]):
 @conf
 def find_program(self, filename, **kw):
     """
-	Search for a program on the operating system
+    Search for a program on the operating system
 
-	When var is used, you may set os.environ[var] to help find a specific program version, for example::
+    When var is used, you may set os.environ[var] to help find a specific program version, for example::
 
-		$ CC='ccache gcc' waf configure
+            $ CC='ccache gcc' waf configure
 
-	:param path_list: paths to use for searching
-	:type param_list: list of string
-	:param var: store the result to conf.env[var] where var defaults to filename.upper() if not provided; the result is stored as a list of strings
-	:type var: string
-	:param value: obtain the program from the value passed exclusively
-	:type value: list or string (list is preferred)
-	:param exts: list of extensions for the binary (do not add an extension for portability)
-	:type exts: list of string
-	:param msg: name to display in the log, by default filename is used
-	:type msg: string
-	:param interpreter: interpreter for the program
-	:type interpreter: ConfigSet variable key
-	:raises: :py:class:`waflib.Errors.ConfigurationError`
-	"""
+    :param path_list: paths to use for searching
+    :type param_list: list of string
+    :param var: store the result to conf.env[var] where var defaults to filename.upper() if not provided; the result is stored as a list of strings
+    :type var: string
+    :param value: obtain the program from the value passed exclusively
+    :type value: list or string (list is preferred)
+    :param exts: list of extensions for the binary (do not add an extension for portability)
+    :type exts: list of string
+    :param msg: name to display in the log, by default filename is used
+    :type msg: string
+    :param interpreter: interpreter for the program
+    :type interpreter: ConfigSet variable key
+    :raises: :py:class:`waflib.Errors.ConfigurationError`
+    """
 
     exts = kw.get("exts", Utils.is_win32 and ".exe,.com,.bat,.cmd" or ",.sh,.pl,.py")
 
@@ -574,33 +574,33 @@ def find_binary(self, filenames, exts, paths):
 @conf
 def run_build(self, *k, **kw):
     """
-	Create a temporary build context to execute a build. A reference to that build
-	context is kept on self.test_bld for debugging purposes, and you should not rely
-	on it too much (read the note on the cache below).
-	The parameters given in the arguments to this function are passed as arguments for
-	a single task generator created in the build. Only three parameters are obligatory:
+    Create a temporary build context to execute a build. A reference to that build
+    context is kept on self.test_bld for debugging purposes, and you should not rely
+    on it too much (read the note on the cache below).
+    The parameters given in the arguments to this function are passed as arguments for
+    a single task generator created in the build. Only three parameters are obligatory:
 
-	:param features: features to pass to a task generator created in the build
-	:type features: list of string
-	:param compile_filename: file to create for the compilation (default: *test.c*)
-	:type compile_filename: string
-	:param code: code to write in the filename to compile
-	:type code: string
+    :param features: features to pass to a task generator created in the build
+    :type features: list of string
+    :param compile_filename: file to create for the compilation (default: *test.c*)
+    :type compile_filename: string
+    :param code: code to write in the filename to compile
+    :type code: string
 
-	Though this function returns *0* by default, the build may set an attribute named *retval* on the
-	build context object to return a particular value. See :py:func:`waflib.Tools.c_config.test_exec_fun` for example.
+    Though this function returns *0* by default, the build may set an attribute named *retval* on the
+    build context object to return a particular value. See :py:func:`waflib.Tools.c_config.test_exec_fun` for example.
 
-	This function also provides a limited cache. To use it, provide the following option::
+    This function also provides a limited cache. To use it, provide the following option::
 
-		def options(opt):
-			opt.add_option('--confcache', dest='confcache', default=0,
-				action='count', help='Use a configuration cache')
+            def options(opt):
+                    opt.add_option('--confcache', dest='confcache', default=0,
+                            action='count', help='Use a configuration cache')
 
-	And execute the configuration with the following command-line::
+    And execute the configuration with the following command-line::
 
-		$ waf configure --confcache
+            $ waf configure --confcache
 
-	"""
+    """
     lst = [str(v) for (p, v) in kw.items() if p != "env"]
     h = Utils.h_list(lst)
     dir = (

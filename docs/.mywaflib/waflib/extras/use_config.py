@@ -115,17 +115,17 @@ def options(self):
 
 def download_check(node):
     """
-	Hook to check for the tools which are downloaded. Replace with your function if necessary.
-	"""
+    Hook to check for the tools which are downloaded. Replace with your function if necessary.
+    """
     pass
 
 
 def download_tool(tool, force=False, ctx=None):
     """
-	Download a Waf tool from the remote repository defined in :py:const:`waflib.extras.use_config.remote_repo`::
+    Download a Waf tool from the remote repository defined in :py:const:`waflib.extras.use_config.remote_repo`::
 
-		$ waf configure --download
-	"""
+            $ waf configure --download
+    """
     for x in Utils.to_list(remote_repo):
         for sub in Utils.to_list(remote_locs):
             url = "/".join((x, sub, tool + ".py"))

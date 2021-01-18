@@ -14,11 +14,11 @@ from waflib.TaskGen import feature
 @feature("msgfmt")
 def apply_msgfmt(self):
     """
-	Process all languages to create .mo files and to install them::
+    Process all languages to create .mo files and to install them::
 
-		def build(bld):
-			bld(features='msgfmt', langs='es de fr', appname='myapp', install_path='${KDE4_LOCALE_INSTALL_DIR}')
-	"""
+            def build(bld):
+                    bld(features='msgfmt', langs='es de fr', appname='myapp', install_path='${KDE4_LOCALE_INSTALL_DIR}')
+    """
     for lang in self.to_list(self.langs):
         node = self.path.find_resource(lang + ".po")
         task = self.create_task("msgfmt", node, node.change_ext(".mo"))
@@ -44,8 +44,8 @@ def apply_msgfmt(self):
 
 class msgfmt(Task.Task):
     """
-	Transform .po files into .mo files
-	"""
+    Transform .po files into .mo files
+    """
 
     color = "BLUE"
     run_str = "${MSGFMT} ${SRC} -o ${TGT}"
@@ -53,15 +53,15 @@ class msgfmt(Task.Task):
 
 def configure(self):
     """
-	Detect kde4-config and set various variables for the *use* system::
+    Detect kde4-config and set various variables for the *use* system::
 
-		def options(opt):
-			opt.load('compiler_cxx kde4')
-		def configure(conf):
-			conf.load('compiler_cxx kde4')
-		def build(bld):
-			bld.program(source='main.c', target='app', use='KDECORE KIO KHTML')
-	"""
+            def options(opt):
+                    opt.load('compiler_cxx kde4')
+            def configure(conf):
+                    conf.load('compiler_cxx kde4')
+            def build(bld):
+                    bld.program(source='main.c', target='app', use='KDECORE KIO KHTML')
+    """
     kdeconfig = self.find_program("kde4-config")
     prefix = self.cmd_and_log(kdeconfig + ["--prefix"]).strip()
     fname = "%s/share/apps/cmake/modules/KDELibsDependencies.cmake" % prefix

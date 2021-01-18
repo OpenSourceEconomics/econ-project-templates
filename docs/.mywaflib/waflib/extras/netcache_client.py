@@ -132,9 +132,9 @@ def read_header(conn):
 
 def check_cache(conn, ssig):
     """
-	List the files on the server, this is an optimization because it assumes that
-	concurrent builds are rare
-	"""
+    List the files on the server, this is an optimization because it assumes that
+    concurrent builds are rare
+    """
     global all_sigs_in_cache
     if not STALE_TIME:
         return

@@ -22,8 +22,8 @@ from waflib.TaskGen import taskgen_method
 
 class valac(Task.Task):
     """
-	Compiles vala files
-	"""
+    Compiles vala files
+    """
 
     # run_str = "${VALAC} ${VALAFLAGS}" # ideally
     # vars = ['VALAC_VERSION']
@@ -48,8 +48,8 @@ class valac(Task.Task):
 @taskgen_method
 def init_vala_task(self):
     """
-	Initializes the vala task with the relevant data (acts as a constructor)
-	"""
+    Initializes the vala task with the relevant data (acts as a constructor)
+    """
     self.profile = getattr(self, "profile", "gobject")
 
     self.packages = packages = Utils.to_list(getattr(self, "packages", []))
@@ -238,34 +238,34 @@ def init_vala_task(self):
 @extension(".vala", ".gs")
 def vala_file(self, node):
     """
-	Compile a vala file and bind the task to *self.valatask*. If an existing vala task is already set, add the node
-	to its inputs. The typical example is::
+    Compile a vala file and bind the task to *self.valatask*. If an existing vala task is already set, add the node
+    to its inputs. The typical example is::
 
-		def build(bld):
-			bld.program(
-				packages      = 'gtk+-2.0',
-				target        = 'vala-gtk-example',
-				use           = 'GTK GLIB',
-				source        = 'vala-gtk-example.vala foo.vala',
-				vala_defines  = ['DEBUG'] # adds --define=<xyz> values to the command-line
+            def build(bld):
+                    bld.program(
+                            packages      = 'gtk+-2.0',
+                            target        = 'vala-gtk-example',
+                            use           = 'GTK GLIB',
+                            source        = 'vala-gtk-example.vala foo.vala',
+                            vala_defines  = ['DEBUG'] # adds --define=<xyz> values to the command-line
 
-				# the following arguments are for libraries
-				#gir          = 'hello-1.0',
-				#gir_path     = '/tmp',
-				#vapi_path = '/tmp',
-				#pkg_name = 'hello'
-				# disable installing of gir, vapi and header
-				#install_binding = False
+                            # the following arguments are for libraries
+                            #gir          = 'hello-1.0',
+                            #gir_path     = '/tmp',
+                            #vapi_path = '/tmp',
+                            #pkg_name = 'hello'
+                            # disable installing of gir, vapi and header
+                            #install_binding = False
 
-				# profile     = 'xyz' # adds --profile=<xyz> to enable profiling
-				# thread      = True, # adds --thread, except if profile is on or not on 'gobject'
-				# vala_target_glib = 'xyz' # adds --target-glib=<xyz>, can be given through the command-line option --vala-target-glib=<xyz>
-			)
+                            # profile     = 'xyz' # adds --profile=<xyz> to enable profiling
+                            # thread      = True, # adds --thread, except if profile is on or not on 'gobject'
+                            # vala_target_glib = 'xyz' # adds --target-glib=<xyz>, can be given through the command-line option --vala-target-glib=<xyz>
+                    )
 
 
-	:param node: vala file
-	:type node: :py:class:`waflib.Node.Node`
-	"""
+    :param node: vala file
+    :type node: :py:class:`waflib.Node.Node`
+    """
 
     try:
         valatask = self.valatask
@@ -293,14 +293,14 @@ def vapi_file(self, node):
 @conf
 def find_valac(self, valac_name, min_version):
     """
-	Find the valac program, and execute it to store the version
-	number in *conf.env.VALAC_VERSION*
+    Find the valac program, and execute it to store the version
+    number in *conf.env.VALAC_VERSION*
 
-	:param valac_name: program name
-	:type valac_name: string or list of string
-	:param min_version: minimum version acceptable
-	:type min_version: tuple of int
-	"""
+    :param valac_name: program name
+    :type valac_name: string or list of string
+    :param min_version: minimum version acceptable
+    :type min_version: tuple of int
+    """
     valac = self.find_program(valac_name, var="VALAC")
     try:
         output = self.cmd_and_log(valac + ["--version"])
@@ -327,14 +327,14 @@ def find_valac(self, valac_name, min_version):
 @conf
 def check_vala(self, min_version=(0, 8, 0), branch=None):
     """
-	Check if vala compiler from a given branch exists of at least a given
-	version.
+    Check if vala compiler from a given branch exists of at least a given
+    version.
 
-	:param min_version: minimum version acceptable (0.8.0)
-	:type min_version: tuple
-	:param branch: first part of the version number, in case a snapshot is used (0, 8)
-	:type branch: tuple of int
-	"""
+    :param min_version: minimum version acceptable (0.8.0)
+    :type min_version: tuple
+    :param branch: first part of the version number, in case a snapshot is used (0, 8)
+    :type branch: tuple of int
+    """
     if self.env.VALA_MINVER:
         min_version = self.env.VALA_MINVER
     if self.env.VALA_MINVER_BRANCH:
@@ -350,8 +350,8 @@ def check_vala(self, min_version=(0, 8, 0), branch=None):
 @conf
 def check_vala_deps(self):
     """
-	Load the gobject and gthread packages if they are missing.
-	"""
+    Load the gobject and gthread packages if they are missing.
+    """
     if not self.env.HAVE_GOBJECT:
         pkg_args = {
             "package": "gobject-2.0",
@@ -375,12 +375,12 @@ def check_vala_deps(self):
 
 def configure(self):
     """
-	Use the following to enforce minimum vala version::
+    Use the following to enforce minimum vala version::
 
-		def configure(conf):
-			conf.env.VALA_MINVER = (0, 10, 0)
-			conf.load('vala')
-	"""
+            def configure(conf):
+                    conf.env.VALA_MINVER = (0, 10, 0)
+                    conf.load('vala')
+    """
     self.load("gnu_dirs")
     self.check_vala_deps()
     self.check_vala()
@@ -390,8 +390,8 @@ def configure(self):
 
 def options(opt):
     """
-	Load the :py:mod:`waflib.Tools.gnu_dirs` tool and add the ``--vala-target-glib`` command-line option
-	"""
+    Load the :py:mod:`waflib.Tools.gnu_dirs` tool and add the ``--vala-target-glib`` command-line option
+    """
     opt.load("gnu_dirs")
     valaopts = opt.add_option_group("Vala Compiler Options")
     valaopts.add_option(

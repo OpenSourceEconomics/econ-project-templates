@@ -15,15 +15,15 @@ from waflib.TaskGen import feature
 
 FC_FRAGMENT = "        program main\n        end     program main\n"
 FC_FRAGMENT2 = (
-    "        PROGRAM MAIN\n        END\n"
-)  # what's the actual difference between these?
+    "        PROGRAM MAIN\n        END\n"  # what's the actual difference between these?
+)
 
 
 @conf
 def fc_flags(conf):
     """
-	Defines common fortran configuration flags and file extensions
-	"""
+    Defines common fortran configuration flags and file extensions
+    """
     v = conf.env
 
     v.FC_SRC_F = []
@@ -56,8 +56,8 @@ def fc_flags(conf):
 @conf
 def fc_add_flags(conf):
     """
-	Adds FCFLAGS / LDFLAGS / LINKFLAGS from os.environ to conf.env
-	"""
+    Adds FCFLAGS / LDFLAGS / LINKFLAGS from os.environ to conf.env
+    """
     conf.add_os_flags("FCPPFLAGS", dup=False)
     conf.add_os_flags("FCFLAGS", dup=False)
     conf.add_os_flags("LINKFLAGS", dup=False)
@@ -67,8 +67,8 @@ def fc_add_flags(conf):
 @conf
 def check_fortran(self, *k, **kw):
     """
-	Compiles a Fortran program to ensure that the settings are correct
-	"""
+    Compiles a Fortran program to ensure that the settings are correct
+    """
     self.check_cc(
         fragment=FC_FRAGMENT,
         compile_filename="test.f",
@@ -80,9 +80,9 @@ def check_fortran(self, *k, **kw):
 @conf
 def check_fc(self, *k, **kw):
     """
-	Same as :py:func:`waflib.Tools.c_config.check` but defaults to the *Fortran* programming language
-	(this overrides the C defaults in :py:func:`waflib.Tools.c_config.validate_c`)
-	"""
+    Same as :py:func:`waflib.Tools.c_config.check` but defaults to the *Fortran* programming language
+    (this overrides the C defaults in :py:func:`waflib.Tools.c_config.validate_c`)
+    """
     kw["compiler"] = "fc"
     if not "compile_mode" in kw:
         kw["compile_mode"] = "fc"
@@ -104,8 +104,8 @@ def check_fc(self, *k, **kw):
 @conf
 def fortran_modifier_darwin(conf):
     """
-	Defines Fortran flags and extensions for OSX systems
-	"""
+    Defines Fortran flags and extensions for OSX systems
+    """
     v = conf.env
     v.FCFLAGS_fcshlib = ["-fPIC"]
     v.LINKFLAGS_fcshlib = ["-dynamiclib"]
@@ -123,8 +123,8 @@ def fortran_modifier_darwin(conf):
 @conf
 def fortran_modifier_win32(conf):
     """
-	Defines Fortran flags for Windows platforms
-	"""
+    Defines Fortran flags for Windows platforms
+    """
     v = conf.env
     v.fcprogram_PATTERN = v.fcprogram_test_PATTERN = "%s.exe"
 
@@ -143,8 +143,8 @@ def fortran_modifier_win32(conf):
 @conf
 def fortran_modifier_cygwin(conf):
     """
-	Defines Fortran flags for use on cygwin
-	"""
+    Defines Fortran flags for use on cygwin
+    """
     fortran_modifier_win32(conf)
     v = conf.env
     v.fcshlib_PATTERN = "cyg%s.dll"
@@ -158,9 +158,9 @@ def fortran_modifier_cygwin(conf):
 @conf
 def check_fortran_dummy_main(self, *k, **kw):
     """
-	Determines if a main function is needed by compiling a code snippet with
-	the C compiler and linking it with the Fortran compiler (useful on unix-like systems)
-	"""
+    Determines if a main function is needed by compiling a code snippet with
+    the C compiler and linking it with the Fortran compiler (useful on unix-like systems)
+    """
     if not self.env.CC:
         self.fatal("A c compiler is required for check_fortran_dummy_main")
 
@@ -214,8 +214,8 @@ def is_link_verbose(self, txt):
 @conf
 def check_fortran_verbose_flag(self, *k, **kw):
     """
-	Checks what kind of verbose (-v) flag works, then sets it to env.FC_VERBOSE_FLAG
-	"""
+    Checks what kind of verbose (-v) flag works, then sets it to env.FC_VERBOSE_FLAG
+    """
     self.start_msg("fortran link verbose flag")
     for x in ("-v", "--verbose", "-verbose", "-V"):
         try:
@@ -283,7 +283,7 @@ def _match_ignore(line):
 
 def parse_fortran_link(lines):
     """Given the output of verbose link of Fortran compiler, this returns a
-	list of flags necessary for linking using the standard linker."""
+    list of flags necessary for linking using the standard linker."""
     final_flags = []
     for line in lines:
         if not GCC_DRIVER_LINE.match(line):
@@ -352,9 +352,9 @@ def _parse_flink_line(line, final_flags):
 @conf
 def check_fortran_clib(self, autoadd=True, *k, **kw):
     """
-	Obtains the flags for linking with the C library
-	if this check works, add uselib='CLIB' to your task generators
-	"""
+    Obtains the flags for linking with the C library
+    if this check works, add uselib='CLIB' to your task generators
+    """
     if not self.env.FC_VERBOSE_FLAG:
         self.fatal(
             "env.FC_VERBOSE_FLAG is not set: execute check_fortran_verbose_flag?"
@@ -383,8 +383,8 @@ def check_fortran_clib(self, autoadd=True, *k, **kw):
 
 def getoutput(conf, cmd, stdin=False):
     """
-	Obtains Fortran command outputs
-	"""
+    Obtains Fortran command outputs
+    """
     from waflib import Errors
 
     if conf.env.env:
@@ -437,9 +437,9 @@ int %(main_func_name)s() {
 @before_method("process_source")
 def link_main_routines_tg_method(self):
     """
-	The configuration test declares a unique task generator,
-	so we create other task generators from there for fortran link tests
-	"""
+    The configuration test declares a unique task generator,
+    so we create other task generators from there for fortran link tests
+    """
 
     def write_test_file(task):
         task.outputs[0].write(task.generator.code)
@@ -453,10 +453,10 @@ def link_main_routines_tg_method(self):
 
 def mangling_schemes():
     """
-	Generate triplets for use with mangle_name
-	(used in check_fortran_mangling)
-	the order is tuned for gfortan
-	"""
+    Generate triplets for use with mangle_name
+    (used in check_fortran_mangling)
+    the order is tuned for gfortan
+    """
     for u in ("_", ""):
         for du in ("", "_"):
             for c in ("lower", "upper"):
@@ -471,10 +471,10 @@ def mangle_name(u, du, c, name):
 @conf
 def check_fortran_mangling(self, *k, **kw):
     """
-	Detect the mangling scheme, sets FORTRAN_MANGLING to the triplet found
+    Detect the mangling scheme, sets FORTRAN_MANGLING to the triplet found
 
-	This test will compile a fortran static library, then link a c app against it
-	"""
+    This test will compile a fortran static library, then link a c app against it
+    """
     if not self.env.CC:
         self.fatal("A c compiler is required for link_main_routines")
     if not self.env.FC:
@@ -518,8 +518,8 @@ def set_lib_pat(self):
 @conf
 def detect_openmp(self):
     """
-	Detects openmp flags and sets the OPENMP ``FCFLAGS``/``LINKFLAGS``
-	"""
+    Detects openmp flags and sets the OPENMP ``FCFLAGS``/``LINKFLAGS``
+    """
     for x in ("-fopenmp", "-openmp", "-mp", "-xopenmp", "-omp", "-qsmp=omp"):
         try:
             self.check_fc(

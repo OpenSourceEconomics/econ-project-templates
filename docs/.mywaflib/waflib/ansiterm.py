@@ -128,8 +128,8 @@ else:
 
     class AnsiTerm:
         """
-		emulate a vt100 terminal in cmd.exe
-		"""
+        emulate a vt100 terminal in cmd.exe
+        """
 
         def __init__(self, s):
             self.stream = s
@@ -157,8 +157,8 @@ else:
 
         def screen_buffer_info(self):
             """
-			Updates self._sbinfo and returns it
-			"""
+            Updates self._sbinfo and returns it
+            """
             windll.kernel32.GetConsoleScreenBufferInfo(
                 self.hconsole, byref(self._sbinfo)
             )

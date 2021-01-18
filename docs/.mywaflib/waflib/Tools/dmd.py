@@ -11,8 +11,8 @@ from waflib.Tools import d
 @conf
 def find_dmd(conf):
     """
-	Finds the program *dmd*, *dmd2*, or *ldc* and set the variable *D*
-	"""
+    Finds the program *dmd*, *dmd2*, or *ldc* and set the variable *D*
+    """
     conf.find_program(["dmd", "dmd2", "ldc"], var="D")
 
     # make sure that we're dealing with dmd1, dmd2, or ldc(1)
@@ -26,8 +26,8 @@ def find_dmd(conf):
 @conf
 def common_flags_ldc(conf):
     """
-	Sets the D flags required by *ldc*
-	"""
+    Sets the D flags required by *ldc*
+    """
     v = conf.env
     v.DFLAGS = ["-d-version=Posix"]
     v.LINKFLAGS = []
@@ -37,8 +37,8 @@ def common_flags_ldc(conf):
 @conf
 def common_flags_dmd(conf):
     """
-	Set the flags required by *dmd* or *dmd2*
-	"""
+    Set the flags required by *dmd* or *dmd2*
+    """
     v = conf.env
 
     v.D_SRC_F = ["-c"]
@@ -65,8 +65,8 @@ def common_flags_dmd(conf):
 
 def configure(conf):
     """
-	Configuration for *dmd*, *dmd2*, and *ldc*
-	"""
+    Configuration for *dmd*, *dmd2*, and *ldc*
+    """
     conf.find_dmd()
 
     if sys.platform == "win32":

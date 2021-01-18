@@ -88,11 +88,11 @@ created by user scripts or Waf tools to this dict. It maps class names to class 
 
 class store_task_type(type):
     """
-	Metaclass: store the task classes into the dict pointed by the
-	class attribute 'register' which defaults to :py:const:`waflib.Task.classes`,
+    Metaclass: store the task classes into the dict pointed by the
+    class attribute 'register' which defaults to :py:const:`waflib.Task.classes`,
 
-	The attribute 'run_str' is compiled into a method 'run' bound to the task class.
-	"""
+    The attribute 'run_str' is compiled into a method 'run' bound to the task class.
+    """
 
     def __init__(cls, name, bases, dict):
         super().__init__(name, bases, dict)
@@ -123,11 +123,11 @@ evil = store_task_type("evil", (object,), {})
 
 class Task(evil):
     """
-	This class deals with the filesystem (:py:class:`waflib.Node.Node`). The method :py:class:`waflib.Task.Task.runnable_status`
-	uses a hash value (from :py:class:`waflib.Task.Task.signature`) which is persistent from build to build. When the value changes,
-	the task has to be executed. The method :py:class:`waflib.Task.Task.post_run` will assign the task signature to the output
-	nodes (if present).
-	"""
+    This class deals with the filesystem (:py:class:`waflib.Node.Node`). The method :py:class:`waflib.Task.Task.runnable_status`
+    uses a hash value (from :py:class:`waflib.Task.Task.signature`) which is persistent from build to build. When the value changes,
+    the task has to be executed. The method :py:class:`waflib.Task.Task.post_run` will assign the task signature to the output
+    nodes (if present).
+    """
 
     vars = []
     """ConfigSet variables that should trigger a rebuild (class attribute used for :py:meth:`waflib.Task.Task.sig_vars`)"""
@@ -220,9 +220,9 @@ class Task(evil):
 
     def get_cwd(self):
         """
-		:return: current working directory
-		:rtype: :py:class:`waflib.Node.Node`
-		"""
+        :return: current working directory
+        :rtype: :py:class:`waflib.Node.Node`
+        """
         bld = self.generator.bld
         ret = getattr(self, "cwd", None) or getattr(bld, "cwd", bld.bldnode)
         if isinstance(ret, str):
@@ -234,13 +234,13 @@ class Task(evil):
 
     def quote_flag(self, x):
         """
-		Surround a process argument by quotes so that a list of arguments can be written to a file
+        Surround a process argument by quotes so that a list of arguments can be written to a file
 
-		:param x: flag
-		:type x: string
-		:return: quoted flag
-		:rtype: string
-		"""
+        :param x: flag
+        :type x: string
+        :return: quoted flag
+        :rtype: string
+        """
         old = x
         if "\\" in x:
             x = x.replace("\\", "\\\\")
@@ -252,11 +252,11 @@ class Task(evil):
 
     def priority(self):
         """
-		Priority of execution; the higher, the earlier
+        Priority of execution; the higher, the earlier
 
-		:return: the priority value
-		:rtype: a tuple of numeric values
-		"""
+        :return: the priority value
+        :rtype: a tuple of numeric values
+        """
         return (
             self.weight + self.prio_order,
             -getattr(self.generator, "tg_idx_count", 0),
@@ -264,32 +264,32 @@ class Task(evil):
 
     def split_argfile(self, cmd):
         """
-		Splits a list of process commands into the executable part and its list of arguments
+        Splits a list of process commands into the executable part and its list of arguments
 
-		:return: a tuple containing the executable first and then the rest of arguments
-		:rtype: tuple
-		"""
+        :return: a tuple containing the executable first and then the rest of arguments
+        :rtype: tuple
+        """
         return ([cmd[0]], [self.quote_flag(x) for x in cmd[1:]])
 
     def exec_command(self, cmd, **kw):
         """
-		Wrapper for :py:meth:`waflib.Context.Context.exec_command`.
-		This version set the current working directory (``build.variant_dir``),
-		applies PATH settings (if self.env.PATH is provided), and can run long
-		commands through a temporary ``@argfile``.
+        Wrapper for :py:meth:`waflib.Context.Context.exec_command`.
+        This version set the current working directory (``build.variant_dir``),
+        applies PATH settings (if self.env.PATH is provided), and can run long
+        commands through a temporary ``@argfile``.
 
-		:param cmd: process command to execute
-		:type cmd: list of string (best) or string (process will use a shell)
-		:return: the return code
-		:rtype: int
+        :param cmd: process command to execute
+        :type cmd: list of string (best) or string (process will use a shell)
+        :return: the return code
+        :rtype: int
 
-		Optional parameters:
+        Optional parameters:
 
-		#. cwd: current working directory (Node or string)
-		#. stdout: set to None to prevent waf from capturing the process standard output
-		#. stderr: set to None to prevent waf from capturing the process standard error
-		#. timeout: timeout value (Python 3)
-		"""
+        #. cwd: current working directory (Node or string)
+        #. stdout: set to None to prevent waf from capturing the process standard output
+        #. stderr: set to None to prevent waf from capturing the process standard error
+        #. timeout: timeout value (Python 3)
+        """
         if not "cwd" in kw:
             kw["cwd"] = self.get_cwd()
 
@@ -333,11 +333,11 @@ class Task(evil):
 
     def process(self):
         """
-		Runs the task and handles errors
+        Runs the task and handles errors
 
-		:return: 0 or None if everything is fine
-		:rtype: integer
-		"""
+        :return: 0 or None if everything is fine
+        :rtype: integer
+        """
         # remove the task signature immediately before it is executed
         # so that the task will be executed again in case of failure
         try:
@@ -396,10 +396,10 @@ class Task(evil):
 
     def display(self):
         """
-		Returns an execution status for the console, the progress bar, or the IDE output.
+        Returns an execution status for the console, the progress bar, or the IDE output.
 
-		:rtype: string
-		"""
+        :rtype: string
+        """
         col1 = Logs.colors(self.color)
         col2 = Logs.colors.NORMAL
         master = self.generator.bld.producer
@@ -437,11 +437,11 @@ class Task(evil):
 
     def hash_constraints(self):
         """
-		Identifies a task type for all the constraints relevant for the scheduler: precedence, file production
+        Identifies a task type for all the constraints relevant for the scheduler: precedence, file production
 
-		:return: a hash value
-		:rtype: string
-		"""
+        :return: a hash value
+        :rtype: string
+        """
         return (
             tuple(self.before),
             tuple(self.after),
@@ -453,10 +453,10 @@ class Task(evil):
 
     def format_error(self):
         """
-		Returns an error message to display the build failure reasons
+        Returns an error message to display the build failure reasons
 
-		:rtype: string
-		"""
+        :rtype: string
+        """
         if Logs.verbose:
             msg = ": {!r}\n{!r}".format(self, getattr(self, "last_cmd", ""))
         else:
@@ -480,20 +480,20 @@ class Task(evil):
 
     def colon(self, var1, var2):
         """
-		Enable scriptlet expressions of the form ${FOO_ST:FOO}
-		If the first variable (FOO_ST) is empty, then an empty list is returned
+        Enable scriptlet expressions of the form ${FOO_ST:FOO}
+        If the first variable (FOO_ST) is empty, then an empty list is returned
 
-		The results will be slightly different if FOO_ST is a list, for example::
+        The results will be slightly different if FOO_ST is a list, for example::
 
-			env.FOO    = ['p1', 'p2']
-			env.FOO_ST = '-I%s'
-			# ${FOO_ST:FOO} returns
-			['-Ip1', '-Ip2']
+                env.FOO    = ['p1', 'p2']
+                env.FOO_ST = '-I%s'
+                # ${FOO_ST:FOO} returns
+                ['-Ip1', '-Ip2']
 
-			env.FOO_ST = ['-a', '-b']
-			# ${FOO_ST:FOO} returns
-			['-a', '-b', 'p1', '-a', '-b', 'p2']
-		"""
+                env.FOO_ST = ['-a', '-b']
+                # ${FOO_ST:FOO} returns
+                ['-a', '-b', 'p1', '-a', '-b', 'p2']
+        """
         tmp = self.env[var1]
         if not tmp:
             return []
@@ -568,21 +568,21 @@ class Task(evil):
 
     def uid(self):
         """
-		Returns an identifier used to determine if tasks are up-to-date. Since the
-		identifier will be stored between executions, it must be:
+        Returns an identifier used to determine if tasks are up-to-date. Since the
+        identifier will be stored between executions, it must be:
 
-			- unique for a task: no two tasks return the same value (for a given build context)
-			- the same for a given task instance
+                - unique for a task: no two tasks return the same value (for a given build context)
+                - the same for a given task instance
 
-		By default, the node paths, the class name, and the function are used
-		as inputs to compute a hash.
+        By default, the node paths, the class name, and the function are used
+        as inputs to compute a hash.
 
-		The pointer to the object (python built-in 'id') will change between build executions,
-		and must be avoided in such hashes.
+        The pointer to the object (python built-in 'id') will change between build executions,
+        and must be avoided in such hashes.
 
-		:return: hash value
-		:rtype: string
-		"""
+        :return: hash value
+        :rtype: string
+        """
         try:
             return self.uid_
         except AttributeError:
@@ -595,11 +595,11 @@ class Task(evil):
 
     def set_inputs(self, inp):
         """
-		Appends the nodes to the *inputs* list
+        Appends the nodes to the *inputs* list
 
-		:param inp: input nodes
-		:type inp: node or list of nodes
-		"""
+        :param inp: input nodes
+        :type inp: node or list of nodes
+        """
         if isinstance(inp, list):
             self.inputs += inp
         else:
@@ -607,11 +607,11 @@ class Task(evil):
 
     def set_outputs(self, out):
         """
-		Appends the nodes to the *outputs* list
+        Appends the nodes to the *outputs* list
 
-		:param out: output nodes
-		:type out: node or list of nodes
-		"""
+        :param out: output nodes
+        :type out: node or list of nodes
+        """
         if isinstance(out, list):
             self.outputs += out
         else:
@@ -619,35 +619,35 @@ class Task(evil):
 
     def set_run_after(self, task):
         """
-		Run this task only after the given *task*.
+        Run this task only after the given *task*.
 
-		:param task: task
-		:type task: :py:class:`waflib.Task.Task`
-		"""
+        :param task: task
+        :type task: :py:class:`waflib.Task.Task`
+        """
         assert isinstance(task, Task)
         self.run_after.add(task)
 
     def signature(self):
         """
-		Task signatures are stored between build executions, they are use to track the changes
-		made to the input nodes (not to the outputs!). The signature hashes data from various sources:
+        Task signatures are stored between build executions, they are use to track the changes
+        made to the input nodes (not to the outputs!). The signature hashes data from various sources:
 
-		* explicit dependencies: files listed in the inputs (list of node objects) :py:meth:`waflib.Task.Task.sig_explicit_deps`
-		* implicit dependencies: list of nodes returned by scanner methods (when present) :py:meth:`waflib.Task.Task.sig_implicit_deps`
-		* hashed data: variables/values read from task.vars/task.env :py:meth:`waflib.Task.Task.sig_vars`
+        * explicit dependencies: files listed in the inputs (list of node objects) :py:meth:`waflib.Task.Task.sig_explicit_deps`
+        * implicit dependencies: list of nodes returned by scanner methods (when present) :py:meth:`waflib.Task.Task.sig_implicit_deps`
+        * hashed data: variables/values read from task.vars/task.env :py:meth:`waflib.Task.Task.sig_vars`
 
-		If the signature is expected to give a different result, clear the cache kept in ``self.cache_sig``::
+        If the signature is expected to give a different result, clear the cache kept in ``self.cache_sig``::
 
-			from waflib import Task
-			class cls(Task.Task):
-				def signature(self):
-					sig = super(Task.Task, self).signature()
-					delattr(self, 'cache_sig')
-					return super(Task.Task, self).signature()
+                from waflib import Task
+                class cls(Task.Task):
+                        def signature(self):
+                                sig = super(Task.Task, self).signature()
+                                delattr(self, 'cache_sig')
+                                return super(Task.Task, self).signature()
 
-		:return: the signature value
-		:rtype: string or bytes
-		"""
+        :return: the signature value
+        :rtype: string or bytes
+        """
         try:
             return self.cache_sig
         except AttributeError:
@@ -673,12 +673,12 @@ class Task(evil):
 
     def runnable_status(self):
         """
-		Returns the Task status
+        Returns the Task status
 
-		:return: a task state in :py:const:`waflib.Task.RUN_ME`,
-			:py:const:`waflib.Task.SKIP_ME`, :py:const:`waflib.Task.CANCEL_ME` or :py:const:`waflib.Task.ASK_LATER`.
-		:rtype: int
-		"""
+        :return: a task state in :py:const:`waflib.Task.RUN_ME`,
+                :py:const:`waflib.Task.SKIP_ME`, :py:const:`waflib.Task.CANCEL_ME` or :py:const:`waflib.Task.ASK_LATER`.
+        :rtype: int
+        """
         bld = self.generator.bld
         if bld.is_install < 0:
             return SKIP_ME
@@ -735,9 +735,9 @@ class Task(evil):
 
     def post_run(self):
         """
-		Called after successful execution to record that the task has run by
-		updating the entry in :py:attr:`waflib.Build.BuildContext.task_sigs`.
-		"""
+        Called after successful execution to record that the task has run by
+        updating the entry in :py:attr:`waflib.Build.BuildContext.task_sigs`.
+        """
         bld = self.generator.bld
         for node in self.outputs:
             if not node.exists():
@@ -756,9 +756,9 @@ class Task(evil):
 
     def sig_explicit_deps(self):
         """
-		Used by :py:meth:`waflib.Task.Task.signature`; it hashes :py:attr:`waflib.Task.Task.inputs`
-		and :py:attr:`waflib.Task.Task.dep_nodes` signatures.
-		"""
+        Used by :py:meth:`waflib.Task.Task.signature`; it hashes :py:attr:`waflib.Task.Task.inputs`
+        and :py:attr:`waflib.Task.Task.dep_nodes` signatures.
+        """
         bld = self.generator.bld
         upd = self.m.update
 
@@ -785,26 +785,26 @@ class Task(evil):
 
     def sig_deep_inputs(self):
         """
-		Enable rebuilds on input files task signatures. Not used by default.
+        Enable rebuilds on input files task signatures. Not used by default.
 
-		Example: hashes of output programs can be unchanged after being re-linked,
-		despite the libraries being different. This method can thus prevent stale unit test
-		results (waf_unit_test.py).
+        Example: hashes of output programs can be unchanged after being re-linked,
+        despite the libraries being different. This method can thus prevent stale unit test
+        results (waf_unit_test.py).
 
-		Hashing input file timestamps is another possibility for the implementation.
-		This may cause unnecessary rebuilds when input tasks are frequently executed.
-		Here is an implementation example::
+        Hashing input file timestamps is another possibility for the implementation.
+        This may cause unnecessary rebuilds when input tasks are frequently executed.
+        Here is an implementation example::
 
-			lst = []
-			for node in self.inputs + self.dep_nodes:
-				st = os.stat(node.abspath())
-				lst.append(st.st_mtime)
-				lst.append(st.st_size)
-			self.m.update(Utils.h_list(lst))
+                lst = []
+                for node in self.inputs + self.dep_nodes:
+                        st = os.stat(node.abspath())
+                        lst.append(st.st_mtime)
+                        lst.append(st.st_size)
+                self.m.update(Utils.h_list(lst))
 
-		The downside of the implementation is that it absolutely requires all build directory
-		files to be declared within the current build.
-		"""
+        The downside of the implementation is that it absolutely requires all build directory
+        files to be declared within the current build.
+        """
         bld = self.generator.bld
         lst = [
             bld.task_sigs[bld.node_sigs[node]]
@@ -815,8 +815,8 @@ class Task(evil):
 
     def sig_vars(self):
         """
-		Used by :py:meth:`waflib.Task.Task.signature`; it hashes :py:attr:`waflib.Task.Task.env` variables/values
-		"""
+        Used by :py:meth:`waflib.Task.Task.signature`; it hashes :py:attr:`waflib.Task.Task.env` variables/values
+        """
         sig = self.generator.bld.hash_env_vars(self.env, self.vars)
         self.m.update(sig)
 
@@ -840,13 +840,13 @@ class Task(evil):
 
     def sig_implicit_deps(self):
         """
-		Used by :py:meth:`waflib.Task.Task.signature`; it hashes node signatures
-		obtained by scanning for dependencies (:py:meth:`waflib.Task.Task.scan`).
+        Used by :py:meth:`waflib.Task.Task.signature`; it hashes node signatures
+        obtained by scanning for dependencies (:py:meth:`waflib.Task.Task.scan`).
 
-		The exception :py:class:`waflib.Errors.TaskRescan` is thrown
-		when a file has changed. In this case, the method :py:meth:`waflib.Task.Task.signature` is called
-		once again, and return here to call :py:meth:`waflib.Task.Task.scan` and searching for dependencies.
-		"""
+        The exception :py:class:`waflib.Errors.TaskRescan` is thrown
+        when a file has changed. In this case, the method :py:meth:`waflib.Task.Task.signature` is called
+        once again, and return here to call :py:meth:`waflib.Task.Task.scan` and searching for dependencies.
+        """
         bld = self.generator.bld
 
         # get the task signatures from previous runs
@@ -898,12 +898,12 @@ class Task(evil):
 
     def compute_sig_implicit_deps(self):
         """
-		Used by :py:meth:`waflib.Task.Task.sig_implicit_deps` for computing the actual hash of the
-		:py:class:`waflib.Node.Node` returned by the scanner.
+        Used by :py:meth:`waflib.Task.Task.sig_implicit_deps` for computing the actual hash of the
+        :py:class:`waflib.Node.Node` returned by the scanner.
 
-		:return: a hash value for the implicit dependencies
-		:rtype: string or bytes
-		"""
+        :return: a hash value for the implicit dependencies
+        :rtype: string or bytes
+        """
         upd = self.m.update
         self.are_implicit_nodes_ready()
 
@@ -916,11 +916,11 @@ class Task(evil):
 
     def are_implicit_nodes_ready(self):
         """
-		For each node returned by the scanner, see if there is a task that creates it,
-		and infer the build order
+        For each node returned by the scanner, see if there is a task that creates it,
+        and infer the build order
 
-		This has a low performance impact on null builds (1.86s->1.66s) thanks to caching (28s->1.86s)
-		"""
+        This has a low performance impact on null builds (1.86s->1.66s) thanks to caching (28s->1.86s)
+        """
         bld = self.generator.bld
         try:
             cache = bld.dct_implicit_nodes
@@ -970,19 +970,19 @@ if sys.hexversion > 0x3000000:
 
 def is_before(t1, t2):
     """
-	Returns a non-zero value if task t1 is to be executed before task t2::
+    Returns a non-zero value if task t1 is to be executed before task t2::
 
-		t1.ext_out = '.h'
-		t2.ext_in = '.h'
-		t2.after = ['t1']
-		t1.before = ['t2']
-		waflib.Task.is_before(t1, t2) # True
+            t1.ext_out = '.h'
+            t2.ext_in = '.h'
+            t2.after = ['t1']
+            t1.before = ['t2']
+            waflib.Task.is_before(t1, t2) # True
 
-	:param t1: Task object
-	:type t1: :py:class:`waflib.Task.Task`
-	:param t2: Task object
-	:type t2: :py:class:`waflib.Task.Task`
-	"""
+    :param t1: Task object
+    :type t1: :py:class:`waflib.Task.Task`
+    :param t2: Task object
+    :type t2: :py:class:`waflib.Task.Task`
+    """
     to_list = Utils.to_list
     for k in to_list(t2.ext_in):
         if k in to_list(t1.ext_out):
@@ -999,11 +999,11 @@ def is_before(t1, t2):
 
 def set_file_constraints(tasks):
     """
-	Updates the ``run_after`` attribute of all tasks based on the task inputs and outputs
+    Updates the ``run_after`` attribute of all tasks based on the task inputs and outputs
 
-	:param tasks: tasks
-	:type tasks: list of :py:class:`waflib.Task.Task`
-	"""
+    :param tasks: tasks
+    :type tasks: list of :py:class:`waflib.Task.Task`
+    """
     ins = Utils.defaultdict(set)
     outs = Utils.defaultdict(set)
     for x in tasks:
@@ -1022,11 +1022,11 @@ def set_file_constraints(tasks):
 
 class TaskGroup:
     """
-	Wrap nxm task order constraints into a single object
-	to prevent the creation of large list/set objects
+    Wrap nxm task order constraints into a single object
+    to prevent the creation of large list/set objects
 
-	This is an optimization
-	"""
+    This is an optimization
+    """
 
     def __init__(self, prev, next):
         self.prev = prev
@@ -1044,11 +1044,11 @@ class TaskGroup:
 
 def set_precedence_constraints(tasks):
     """
-	Updates the ``run_after`` attribute of all tasks based on the after/before/ext_out/ext_in attributes
+    Updates the ``run_after`` attribute of all tasks based on the after/before/ext_out/ext_in attributes
 
-	:param tasks: tasks
-	:type tasks: list of :py:class:`waflib.Task.Task`
-	"""
+    :param tasks: tasks
+    :type tasks: list of :py:class:`waflib.Task.Task`
+    """
     cstr_groups = Utils.defaultdict(list)
     for x in tasks:
         h = x.hash_constraints()
@@ -1087,13 +1087,13 @@ def set_precedence_constraints(tasks):
 
 def funex(c):
     """
-	Compiles a scriptlet expression into a Python function
+    Compiles a scriptlet expression into a Python function
 
-	:param c: function to compile
-	:type c: string
-	:return: the function 'f' declared in the input string
-	:rtype: function
-	"""
+    :param c: function to compile
+    :type c: string
+    :return: the function 'f' declared in the input string
+    :rtype: function
+    """
     dc = {}
     exec(c, dc)
     return dc["f"]
@@ -1109,8 +1109,8 @@ reg_act = re.compile(
 
 def compile_fun_shell(line):
     """
-	Creates a compiled function to execute a process through a sub-shell
-	"""
+    Creates a compiled function to execute a process through a sub-shell
+    """
     extr = []
 
     def repl(match):
@@ -1197,8 +1197,8 @@ reg_act_noshell = re.compile(
 
 def compile_fun_noshell(line):
     """
-	Creates a compiled function to execute a process without a sub-shell
-	"""
+    Creates a compiled function to execute a process without a sub-shell
+    """
     buf = []
     dvars = []
     merge = False
@@ -1279,23 +1279,23 @@ def compile_fun_noshell(line):
 
 def compile_fun(line, shell=False):
     """
-	Parses a string expression such as '${CC} ${SRC} -o ${TGT}' and returns a pair containing:
+    Parses a string expression such as '${CC} ${SRC} -o ${TGT}' and returns a pair containing:
 
-	* The function created (compiled) for use as :py:meth:`waflib.Task.Task.run`
-	* The list of variables that must cause rebuilds when *env* data is modified
+    * The function created (compiled) for use as :py:meth:`waflib.Task.Task.run`
+    * The list of variables that must cause rebuilds when *env* data is modified
 
-	for example::
+    for example::
 
-		from waflib.Task import compile_fun
-		compile_fun('cxx', '${CXX} -o ${TGT[0]} ${SRC} -I ${SRC[0].parent.bldpath()}')
+            from waflib.Task import compile_fun
+            compile_fun('cxx', '${CXX} -o ${TGT[0]} ${SRC} -I ${SRC[0].parent.bldpath()}')
 
-		def build(bld):
-			bld(source='wscript', rule='echo "foo\\${SRC[0].name}\\bar"')
+            def build(bld):
+                    bld(source='wscript', rule='echo "foo\\${SRC[0].name}\\bar"')
 
-	The env variables (CXX, ..) on the task must not hold dicts so as to preserve a consistent order.
-	The reserved keywords ``TGT`` and ``SRC`` represent the task input and output nodes
+    The env variables (CXX, ..) on the task must not hold dicts so as to preserve a consistent order.
+    The reserved keywords ``TGT`` and ``SRC`` represent the task input and output nodes
 
-	"""
+    """
     if isinstance(line, str):
         if line.find("<") > 0 or line.find(">") > 0 or line.find("&&") > 0:
             shell = True
@@ -1338,20 +1338,20 @@ def task_factory(
     scan=None,
 ):
     """
-	Returns a new task subclass with the function ``run`` compiled from the line given.
+    Returns a new task subclass with the function ``run`` compiled from the line given.
 
-	:param func: method run
-	:type func: string or function
-	:param vars: list of variables to hash
-	:type vars: list of string
-	:param color: color to use
-	:type color: string
-	:param shell: when *func* is a string, enable/disable the use of the shell
-	:type shell: bool
-	:param scan: method scan
-	:type scan: function
-	:rtype: :py:class:`waflib.Task.Task`
-	"""
+    :param func: method run
+    :type func: string or function
+    :param vars: list of variables to hash
+    :type vars: list of string
+    :param color: color to use
+    :type color: string
+    :param shell: when *func* is a string, enable/disable the use of the shell
+    :type shell: bool
+    :param scan: method scan
+    :type scan: function
+    :rtype: :py:class:`waflib.Task.Task`
+    """
 
     params = {
         "vars": vars
@@ -1384,8 +1384,8 @@ def task_factory(
 
 def deep_inputs(cls):
     """
-	Task class decorator to enable rebuilds on input files task signatures
-	"""
+    Task class decorator to enable rebuilds on input files task signatures
+    """
 
     def sig_explicit_deps(self):
         Task.sig_explicit_deps(self)

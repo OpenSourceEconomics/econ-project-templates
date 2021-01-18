@@ -40,8 +40,8 @@ plist template
 @feature("c", "cxx")
 def set_macosx_deployment_target(self):
     """
-	see WAF issue 285 and also and also http://trac.macports.org/ticket/17059
-	"""
+    see WAF issue 285 and also and also http://trac.macports.org/ticket/17059
+    """
     if self.env.MACOSX_DEPLOYMENT_TARGET:
         os.environ["MACOSX_DEPLOYMENT_TARGET"] = self.env.MACOSX_DEPLOYMENT_TARGET
     elif "MACOSX_DEPLOYMENT_TARGET" not in os.environ:
@@ -54,8 +54,8 @@ def set_macosx_deployment_target(self):
 @taskgen_method
 def create_bundle_dirs(self, name, out):
     """
-	Creates bundle folders, used by :py:func:`create_task_macplist` and :py:func:`create_task_macapp`
-	"""
+    Creates bundle folders, used by :py:func:`create_task_macplist` and :py:func:`create_task_macapp`
+    """
     dir = out.parent.find_or_declare(name)
     dir.mkdir()
     macos = dir.find_or_declare(["Contents", "MacOS"])
@@ -77,17 +77,17 @@ def bundle_name_for_output(out):
 @after_method("apply_link")
 def create_task_macapp(self):
     """
-	To compile an executable into a Mac application (a .app), set its *mac_app* attribute::
+    To compile an executable into a Mac application (a .app), set its *mac_app* attribute::
 
-		def build(bld):
-			bld.shlib(source='a.c', target='foo', mac_app=True)
+            def build(bld):
+                    bld.shlib(source='a.c', target='foo', mac_app=True)
 
-	To force *all* executables to be transformed into Mac applications::
+    To force *all* executables to be transformed into Mac applications::
 
-		def build(bld):
-			bld.env.MACAPP = True
-			bld.shlib(source='a.c', target='foo')
-	"""
+            def build(bld):
+                    bld.env.MACAPP = True
+                    bld.shlib(source='a.c', target='foo')
+    """
     if self.env.MACAPP or getattr(self, "mac_app", False):
         out = self.link_task.outputs[0]
 
@@ -130,8 +130,8 @@ def create_task_macapp(self):
 @after_method("apply_link")
 def create_task_macplist(self):
     """
-	Creates a :py:class:`waflib.Tools.c_osx.macplist` instance.
-	"""
+    Creates a :py:class:`waflib.Tools.c_osx.macplist` instance.
+    """
     if self.env.MACAPP or getattr(self, "mac_app", False):
         out = self.link_task.outputs[0]
 
@@ -168,17 +168,17 @@ def create_task_macplist(self):
 @before_method("apply_link", "propagate_uselib_vars")
 def apply_bundle(self):
     """
-	To make a bundled shared library (a ``.bundle``), set the *mac_bundle* attribute::
+    To make a bundled shared library (a ``.bundle``), set the *mac_bundle* attribute::
 
-		def build(bld):
-			bld.shlib(source='a.c', target='foo', mac_bundle = True)
+            def build(bld):
+                    bld.shlib(source='a.c', target='foo', mac_bundle = True)
 
-	To force *all* executables to be transformed into bundles::
+    To force *all* executables to be transformed into bundles::
 
-		def build(bld):
-			bld.env.MACBUNDLE = True
-			bld.shlib(source='a.c', target='foo')
-	"""
+            def build(bld):
+                    bld.env.MACBUNDLE = True
+                    bld.shlib(source='a.c', target='foo')
+    """
     if self.env.MACBUNDLE or getattr(self, "mac_bundle", False):
         self.env.LINKFLAGS_cshlib = (
             self.env.LINKFLAGS_cxxshlib
@@ -194,8 +194,8 @@ app_dirs = ["Contents", "Contents/MacOS", "Contents/Resources"]
 
 class macapp(Task.Task):
     """
-	Creates mac applications
-	"""
+    Creates mac applications
+    """
 
     color = "PINK"
 
@@ -206,8 +206,8 @@ class macapp(Task.Task):
 
 class macplist(Task.Task):
     """
-	Creates plist files
-	"""
+    Creates plist files
+    """
 
     color = "PINK"
     ext_in = [".bin"]

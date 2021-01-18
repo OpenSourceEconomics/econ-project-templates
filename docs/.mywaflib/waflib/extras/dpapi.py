@@ -45,13 +45,13 @@ def get_data(blob_out):
 @conf
 def dpapi_encrypt_data(self, input_bytes, entropy=extra_entropy):
     """
-	Encrypts data and returns byte string
+    Encrypts data and returns byte string
 
-	:param input_bytes: The data to be encrypted
-	:type input_bytes: String or Bytes
-	:param entropy: Extra entropy to add to the encryption process (optional)
-	:type entropy: String or Bytes
-	"""
+    :param input_bytes: The data to be encrypted
+    :type input_bytes: String or Bytes
+    :param entropy: Extra entropy to add to the encryption process (optional)
+    :type entropy: String or Bytes
+    """
     if not isinstance(input_bytes, bytes) or not isinstance(entropy, bytes):
         self.fatal("The inputs to dpapi must be bytes")
     buffer_in = c_buffer(input_bytes, len(input_bytes))
@@ -77,13 +77,13 @@ def dpapi_encrypt_data(self, input_bytes, entropy=extra_entropy):
 @conf
 def dpapi_decrypt_data(self, encrypted_bytes, entropy=extra_entropy):
     """
-	Decrypts data and returns byte string
+    Decrypts data and returns byte string
 
-	:param encrypted_bytes: The encrypted data
-	:type encrypted_bytes: Bytes
-	:param entropy: Extra entropy to add to the encryption process (optional)
-	:type entropy: String or Bytes
-	"""
+    :param encrypted_bytes: The encrypted data
+    :type encrypted_bytes: Bytes
+    :param entropy: Extra entropy to add to the encryption process (optional)
+    :type entropy: String or Bytes
+    """
     if not isinstance(encrypted_bytes, bytes) or not isinstance(entropy, bytes):
         self.fatal("The inputs to dpapi must be bytes")
     buffer_in = c_buffer(encrypted_bytes, len(encrypted_bytes))

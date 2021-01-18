@@ -8,8 +8,8 @@ from waflib.Tools import d
 @conf
 def find_gdc(conf):
     """
-	Finds the program gdc and set the variable *D*
-	"""
+    Finds the program gdc and set the variable *D*
+    """
     conf.find_program("gdc", var="D")
 
     out = conf.cmd_and_log(conf.env.D + ["--version"])
@@ -20,8 +20,8 @@ def find_gdc(conf):
 @conf
 def common_flags_gdc(conf):
     """
-	Sets the flags required by *gdc*
-	"""
+    Sets the flags required by *gdc*
+    """
     v = conf.env
 
     v.DFLAGS = []
@@ -47,8 +47,8 @@ def common_flags_gdc(conf):
 
 def configure(conf):
     """
-	Configuration for gdc
-	"""
+    Configuration for gdc
+    """
     conf.find_gdc()
     conf.load("ar")
     conf.load("d")

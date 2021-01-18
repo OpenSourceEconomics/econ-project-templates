@@ -245,8 +245,8 @@ reg_act = re.compile(
 
 def compile_template(line):
     """
-        Compile a template expression into a python function (like jsps, but way shorter)
-        """
+    Compile a template expression into a python function (like jsps, but way shorter)
+    """
     extr = []
 
     def repl(match):
@@ -360,8 +360,8 @@ def xml_escape(value):
 
 def make_uuid(v, prefix=None):
     """
-        simple utility function
-        """
+    simple utility function
+    """
     if isinstance(v, dict):
         keys = list(v.keys())
         keys.sort()
@@ -415,50 +415,50 @@ class build_property:
 
 class vsnode:
     """
-        Abstract class representing visual studio elements
-        We assume that all visual studio nodes have a uuid and a parent
-        """
+    Abstract class representing visual studio elements
+    We assume that all visual studio nodes have a uuid and a parent
+    """
 
     def __init__(self, ctx):
         self.ctx = ctx  # codelite context
         self.name = ""  # string, mandatory
         self.vspath = (
-            ""
-        )  # path in visual studio (name for dirs, absolute path for projects)
+            ""  # path in visual studio (name for dirs, absolute path for projects)
+        )
         self.uuid = ""  # string, mandatory
         self.parent = None  # parent node for visual studio nesting
 
     def get_waf(self):
         """
-                Override in subclasses...
-                """
+        Override in subclasses...
+        """
         return "{}/{}".format(
             self.ctx.srcnode.abspath(), getattr(self.ctx, "waf_command", "waf")
         )
 
     def ptype(self):
         """
-                Return a special uuid for projects written in the solution file
-                """
+        Return a special uuid for projects written in the solution file
+        """
         pass
 
     def write(self):
         """
-                Write the project file, by default, do nothing
-                """
+        Write the project file, by default, do nothing
+        """
         pass
 
     def make_uuid(self, val):
         """
-                Alias for creating uuid values easily (the templates cannot access global variables)
-                """
+        Alias for creating uuid values easily (the templates cannot access global variables)
+        """
         return make_uuid(val)
 
 
 class vsnode_vsdir(vsnode):
     """
-        Nodes representing visual studio folders (which do not match the filesystem tree!)
-        """
+    Nodes representing visual studio folders (which do not match the filesystem tree!)
+    """
 
     VS_GUID_SOLUTIONFOLDER = "2150E333-8FDC-42A3-9474-1A3956D46DE8"
 
@@ -474,9 +474,9 @@ class vsnode_vsdir(vsnode):
 
 class vsnode_project(vsnode):
     """
-        Abstract class representing visual studio project elements
-        A project is assumed to be writable, and has a node representing the file to write to
-        """
+    Abstract class representing visual studio project elements
+    A project is assumed to be writable, and has a node representing the file to write to
+    """
 
     VS_GUID_VCPROJ = "8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942"
 
@@ -496,9 +496,9 @@ class vsnode_project(vsnode):
 
     def dirs(self):
         """
-                Get the list of parent folders of the source files (header files included)
-                for writing the filters
-                """
+        Get the list of parent folders of the source files (header files included)
+        for writing the filters
+        """
         lst = []
 
         def add(x):
@@ -529,8 +529,8 @@ class vsnode_project(vsnode):
 
     def get_key(self, node):
         """
-                required for writing the source files
-                """
+        required for writing the source files
+        """
         name = node.name
         if name.endswith((".cpp", ".c")):
             return "sourcefile"
@@ -538,8 +538,8 @@ class vsnode_project(vsnode):
 
     def collect_properties(self):
         """
-                Returns a list of triplet (configuration, platform, output_directory)
-                """
+        Returns a list of triplet (configuration, platform, output_directory)
+        """
         ret = []
         for c in self.ctx.configurations:
             for p in self.ctx.platforms:
@@ -601,9 +601,9 @@ class vsnode_alias(vsnode_project):
 
 class vsnode_build_all(vsnode_alias):
     """
-        Fake target used to emulate the behaviour of "make all" (starting one process by target is slow)
-        This is the only alias enabled by default
-        """
+    Fake target used to emulate the behaviour of "make all" (starting one process by target is slow)
+    This is the only alias enabled by default
+    """
 
     def __init__(self, ctx, node, name="build_all_projects"):
         vsnode_alias.__init__(self, ctx, node, name)
@@ -612,8 +612,8 @@ class vsnode_build_all(vsnode_alias):
 
 class vsnode_install_all(vsnode_alias):
     """
-        Fake target used to emulate the behaviour of "make install"
-        """
+    Fake target used to emulate the behaviour of "make install"
+    """
 
     def __init__(self, ctx, node, name="install_all_projects"):
         vsnode_alias.__init__(self, ctx, node, name)
@@ -630,8 +630,8 @@ class vsnode_install_all(vsnode_alias):
 
 class vsnode_project_view(vsnode_alias):
     """
-        Fake target used to emulate a file system view
-        """
+    Fake target used to emulate a file system view
+    """
 
     def __init__(self, ctx, node, name="project_view"):
         vsnode_alias.__init__(self, ctx, node, name)
@@ -668,14 +668,14 @@ waf3-2*/**
 
 class vsnode_target(vsnode_project):
     """
-        CodeLite project representing a targets (programs, libraries, etc) and bound
-        to a task generator
-        """
+    CodeLite project representing a targets (programs, libraries, etc) and bound
+    to a task generator
+    """
 
     def __init__(self, ctx, tg):
         """
-                A project is more or less equivalent to a file/folder
-                """
+        A project is more or less equivalent to a file/folder
+        """
         base = getattr(ctx, "projects_dir", None) or tg.path
         node = base.make_node(
             quote(tg.name) + ctx.project_extension
@@ -686,8 +686,8 @@ class vsnode_target(vsnode_project):
 
     def get_build_params(self, props):
         """
-                Override the default to add the target name
-                """
+        Override the default to add the target name
+        """
         opt = ""
         if getattr(self, "tg", None):
             opt += " --targets=%s" % self.tg.name
@@ -711,8 +711,8 @@ class vsnode_target(vsnode_project):
 
     def collect_properties(self):
         """
-                CodeLite projects are associated with platforms and configurations (for building especially)
-                """
+        CodeLite projects are associated with platforms and configurations (for building especially)
+        """
         super().collect_properties()
         for x in self.build_properties:
             x.outdir = self.path.parent.abspath()
@@ -737,8 +737,8 @@ class codelite_generator(BuildContext):
 
     def init(self):
         """
-                Some data that needs to be present
-                """
+        Some data that needs to be present
+        """
         if not getattr(self, "configurations", None):
             self.configurations = ["Release"]  # LocalRelease, RemoteDebug, etc
         if not getattr(self, "platforms", None):
@@ -768,8 +768,8 @@ class codelite_generator(BuildContext):
 
     def execute(self):
         """
-                Entry point
-                """
+        Entry point
+        """
         self.restore()
         if not self.all_envs:
             self.load_envs()
@@ -784,9 +784,9 @@ class codelite_generator(BuildContext):
 
     def collect_projects(self):
         """
-                Fill the list self.all_projects with project objects
-                Fill the list of build targets
-                """
+        Fill the list self.all_projects with project objects
+        Fill the list of build targets
+        """
         self.collect_targets()
         # self.add_aliases()
         # self.collect_dirs()
@@ -801,9 +801,9 @@ class codelite_generator(BuildContext):
 
     def write_files(self):
         """
-                Write the project and solution files from the data collected
-                so far. It is unlikely that you will want to change this
-                """
+        Write the project and solution files from the data collected
+        so far. It is unlikely that you will want to change this
+        """
         for p in self.all_projects:
             p.write()
 
@@ -824,9 +824,9 @@ class codelite_generator(BuildContext):
 
     def get_solution_node(self):
         """
-                The solution filename is required when writing the .vcproj files
-                return self.solution_node and if it does not exist, make one
-                """
+        The solution filename is required when writing the .vcproj files
+        return self.solution_node and if it does not exist, make one
+        """
         try:
             return self.solution_node
         except:
@@ -846,8 +846,8 @@ class codelite_generator(BuildContext):
 
     def project_configurations(self):
         """
-                Helper that returns all the pairs (config,platform)
-                """
+        Helper that returns all the pairs (config,platform)
+        """
         ret = []
         for c in self.configurations:
             for p in self.platforms:
@@ -856,8 +856,8 @@ class codelite_generator(BuildContext):
 
     def collect_targets(self):
         """
-                Process the list of task generators
-                """
+        Process the list of task generators
+        """
         for g in self.groups:
             for tg in g:
                 if not isinstance(tg, TaskGen.task_gen):
@@ -878,9 +878,9 @@ class codelite_generator(BuildContext):
 
     def add_aliases(self):
         """
-                Add a specific target that emulates the "make all" necessary for Visual studio when pressing F7
-                We also add an alias for "make install" (disabled by default)
-                """
+        Add a specific target that emulates the "make all" necessary for Visual studio when pressing F7
+        We also add an alias for "make install" (disabled by default)
+        """
         base = getattr(self, "projects_dir", None) or self.tg.path
 
         node_project = base.make_node(
@@ -911,8 +911,8 @@ class codelite_generator(BuildContext):
 
     def collect_dirs(self):
         """
-                Create the folder structure in the CodeLite project view
-                """
+        Create the folder structure in the CodeLite project view
+        """
         seen = {}
 
         def make_parents(proj):

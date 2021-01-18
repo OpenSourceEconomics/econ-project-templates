@@ -299,9 +299,9 @@ def __boost_get_libs_path(self, *k, **kw):
 @conf
 def boost_get_libs(self, *k, **kw):
     """
-	return the lib path and the required libs
-	according to the parameters
-	"""
+    return the lib path and the required libs
+    according to the parameters
+    """
     path, files = self.__boost_get_libs_path(**kw)
     files = sorted(files, key=lambda f: (len(f.name), f.name), reverse=True)
     toolset = self.boost_get_toolset(kw.get("toolset", ""))
@@ -376,15 +376,15 @@ def boost_get_libs(self, *k, **kw):
 @conf
 def _check_pthread_flag(self, *k, **kw):
     """
-	Computes which flags should be added to CXXFLAGS and LINKFLAGS to compile in multi-threading mode
+    Computes which flags should be added to CXXFLAGS and LINKFLAGS to compile in multi-threading mode
 
-	Yes, we *need* to put the -pthread thing in CPPFLAGS because with GCC3,
-	boost/thread.hpp will trigger a #error if -pthread isn't used:
-	  boost/config/requires_threads.hpp:47:5: #error "Compiler threading support
-	  is not turned on. Please set the correct command line options for
-	  threading: -pthread (Linux), -pthreads (Solaris) or -mthreads (Mingw32)"
+    Yes, we *need* to put the -pthread thing in CPPFLAGS because with GCC3,
+    boost/thread.hpp will trigger a #error if -pthread isn't used:
+      boost/config/requires_threads.hpp:47:5: #error "Compiler threading support
+      is not turned on. Please set the correct command line options for
+      threading: -pthread (Linux), -pthreads (Solaris) or -mthreads (Mingw32)"
 
-	Based on _BOOST_PTHREAD_FLAG(): https://github.com/tsuna/boost.m4/blob/master/build-aux/boost.m4
+    Based on _BOOST_PTHREAD_FLAG(): https://github.com/tsuna/boost.m4/blob/master/build-aux/boost.m4
     """
 
     var = kw.get("uselib_store", "BOOST")
@@ -449,11 +449,11 @@ def _check_pthread_flag(self, *k, **kw):
 @conf
 def check_boost(self, *k, **kw):
     """
-	Initialize boost libraries to be used.
+    Initialize boost libraries to be used.
 
-	Keywords: you can pass the same parameters as with the command line (without "--boost-").
-	Note that the command line has the priority, and should preferably be used.
-	"""
+    Keywords: you can pass the same parameters as with the command line (without "--boost-").
+    Note that the command line has the priority, and should preferably be used.
+    """
     if not self.env["CXX"]:
         self.fatal('load a c++ compiler first, conf.load("compiler_cxx")')
 

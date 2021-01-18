@@ -76,18 +76,18 @@ are added automatically by a metaclass.
 
 def create_context(cmd_name, *k, **kw):
     """
-	Returns a new :py:class:`waflib.Context.Context` instance corresponding to the given command.
-	Used in particular by :py:func:`waflib.Scripting.run_command`
+    Returns a new :py:class:`waflib.Context.Context` instance corresponding to the given command.
+    Used in particular by :py:func:`waflib.Scripting.run_command`
 
-	:param cmd_name: command name
-	:type cmd_name: string
-	:param k: arguments to give to the context class initializer
-	:type k: list
-	:param k: keyword arguments to give to the context class initializer
-	:type k: dict
-	:return: Context object
-	:rtype: :py:class:`waflib.Context.Context`
-	"""
+    :param cmd_name: command name
+    :type cmd_name: string
+    :param k: arguments to give to the context class initializer
+    :type k: list
+    :param k: keyword arguments to give to the context class initializer
+    :type k: dict
+    :return: Context object
+    :rtype: :py:class:`waflib.Context.Context`
+    """
     for x in classes:
         if x.cmd == cmd_name:
             return x(*k, **kw)
@@ -98,10 +98,10 @@ def create_context(cmd_name, *k, **kw):
 
 class store_context(type):
     """
-	Metaclass that registers command classes into the list :py:const:`waflib.Context.classes`
-	Context classes must provide an attribute 'cmd' representing the command name, and a function
-	attribute 'fun' representing the function name that the command uses.
-	"""
+    Metaclass that registers command classes into the list :py:const:`waflib.Context.classes`
+    Context classes must provide an attribute 'cmd' representing the command name, and a function
+    attribute 'fun' representing the function name that the command uses.
+    """
 
     def __init__(cls, name, bases, dct):
         super().__init__(name, bases, dct)
@@ -129,23 +129,23 @@ ctx = store_context("ctx", (object,), {})
 
 class Context(ctx):
     """
-	Default context for waf commands, and base class for new command contexts.
+    Default context for waf commands, and base class for new command contexts.
 
-	Context objects are passed to top-level functions::
+    Context objects are passed to top-level functions::
 
-		def foo(ctx):
-			print(ctx.__class__.__name__) # waflib.Context.Context
+            def foo(ctx):
+                    print(ctx.__class__.__name__) # waflib.Context.Context
 
-	Subclasses must define the class attributes 'cmd' and 'fun':
+    Subclasses must define the class attributes 'cmd' and 'fun':
 
-	:param cmd: command to execute as in ``waf cmd``
-	:type cmd: string
-	:param fun: function name to execute when the command is called
-	:type fun: string
+    :param cmd: command to execute as in ``waf cmd``
+    :type cmd: string
+    :param fun: function name to execute when the command is called
+    :type fun: string
 
-	.. inheritance-diagram:: waflib.Context.Context waflib.Build.BuildContext waflib.Build.InstallContext waflib.Build.UninstallContext waflib.Build.StepContext waflib.Build.ListContext waflib.Configure.ConfigurationContext waflib.Scripting.Dist waflib.Scripting.DistCheck waflib.Build.CleanContext
+    .. inheritance-diagram:: waflib.Context.Context waflib.Build.BuildContext waflib.Build.InstallContext waflib.Build.UninstallContext waflib.Build.StepContext waflib.Build.ListContext waflib.Configure.ConfigurationContext waflib.Scripting.Dist waflib.Scripting.DistCheck waflib.Build.CleanContext
 
-	"""
+    """
 
     errors = Errors
     """
@@ -178,8 +178,8 @@ class Context(ctx):
 
     def finalize(self):
         """
-		Called to free resources such as logger files
-		"""
+        Called to free resources such as logger files
+        """
         try:
             logger = self.logger
         except AttributeError:
@@ -190,12 +190,12 @@ class Context(ctx):
 
     def load(self, tool_list, *k, **kw):
         """
-		Loads a Waf tool as a module, and try calling the function named :py:const:`waflib.Context.Context.fun`
-		from it.  A ``tooldir`` argument may be provided as a list of module paths.
+        Loads a Waf tool as a module, and try calling the function named :py:const:`waflib.Context.Context.fun`
+        from it.  A ``tooldir`` argument may be provided as a list of module paths.
 
-		:param tool_list: list of Waf tool names to load
-		:type tool_list: list of string or space-separated string
-		"""
+        :param tool_list: list of Waf tool names to load
+        :type tool_list: list of string or space-separated string
+        """
         tools = Utils.to_list(tool_list)
         path = Utils.to_list(kw.get("tooldir", ""))
         with_sys_path = kw.get("with_sys_path", True)
@@ -208,20 +208,20 @@ class Context(ctx):
 
     def execute(self):
         """
-		Here, it calls the function name in the top-level wscript file. Most subclasses
-		redefine this method to provide additional functionality.
-		"""
+        Here, it calls the function name in the top-level wscript file. Most subclasses
+        redefine this method to provide additional functionality.
+        """
         self.recurse([os.path.dirname(g_module.root_path)])
 
     def pre_recurse(self, node):
         """
-		Method executed immediately before a folder is read by :py:meth:`waflib.Context.Context.recurse`.
-		The current script is bound as a Node object on ``self.cur_script``, and the current path
-		is bound to ``self.path``
+        Method executed immediately before a folder is read by :py:meth:`waflib.Context.Context.recurse`.
+        The current script is bound as a Node object on ``self.cur_script``, and the current path
+        is bound to ``self.path``
 
-		:param node: script
-		:type node: :py:class:`waflib.Node.Node`
-		"""
+        :param node: script
+        :type node: :py:class:`waflib.Node.Node`
+        """
         self.stack_path.append(self.cur_script)
 
         self.cur_script = node
@@ -229,34 +229,34 @@ class Context(ctx):
 
     def post_recurse(self, node):
         """
-		Restores ``self.cur_script`` and ``self.path`` right after :py:meth:`waflib.Context.Context.recurse` terminates.
+        Restores ``self.cur_script`` and ``self.path`` right after :py:meth:`waflib.Context.Context.recurse` terminates.
 
-		:param node: script
-		:type node: :py:class:`waflib.Node.Node`
-		"""
+        :param node: script
+        :type node: :py:class:`waflib.Node.Node`
+        """
         self.cur_script = self.stack_path.pop()
         if self.cur_script:
             self.path = self.cur_script.parent
 
     def recurse(self, dirs, name=None, mandatory=True, once=True, encoding=None):
         """
-		Runs user-provided functions from the supplied list of directories.
-		The directories can be either absolute, or relative to the directory
-		of the wscript file
+        Runs user-provided functions from the supplied list of directories.
+        The directories can be either absolute, or relative to the directory
+        of the wscript file
 
-		The methods :py:meth:`waflib.Context.Context.pre_recurse` and
-		:py:meth:`waflib.Context.Context.post_recurse` are called immediately before
-		and after a script has been executed.
+        The methods :py:meth:`waflib.Context.Context.pre_recurse` and
+        :py:meth:`waflib.Context.Context.post_recurse` are called immediately before
+        and after a script has been executed.
 
-		:param dirs: List of directories to visit
-		:type dirs: list of string or space-separated string
-		:param name: Name of function to invoke from the wscript
-		:type  name: string
-		:param mandatory: whether sub wscript files are required to exist
-		:type  mandatory: bool
-		:param once: read the script file once for a particular context
-		:type once: bool
-		"""
+        :param dirs: List of directories to visit
+        :type dirs: list of string or space-separated string
+        :param name: Name of function to invoke from the wscript
+        :type  name: string
+        :param mandatory: whether sub wscript files are required to exist
+        :type  mandatory: bool
+        :param once: read the script file once for a particular context
+        :type once: bool
+        """
         try:
             cache = self.recurse_cache
         except AttributeError:
@@ -322,25 +322,25 @@ class Context(ctx):
 
     def exec_command(self, cmd, **kw):
         """
-		Runs an external process and returns the exit status::
+        Runs an external process and returns the exit status::
 
-			def run(tsk):
-				ret = tsk.generator.bld.exec_command('touch foo.txt')
-				return ret
+                def run(tsk):
+                        ret = tsk.generator.bld.exec_command('touch foo.txt')
+                        return ret
 
-		If the context has the attribute 'log', then captures and logs the process stderr/stdout.
-		Unlike :py:meth:`waflib.Context.Context.cmd_and_log`, this method does not return the
-		stdout/stderr values captured.
+        If the context has the attribute 'log', then captures and logs the process stderr/stdout.
+        Unlike :py:meth:`waflib.Context.Context.cmd_and_log`, this method does not return the
+        stdout/stderr values captured.
 
-		:param cmd: command argument for subprocess.Popen
-		:type cmd: string or list
-		:param kw: keyword arguments for subprocess.Popen. The parameters input/timeout will be passed to wait/communicate.
-		:type kw: dict
-		:returns: process exit status
-		:rtype: integer
-		:raises: :py:class:`waflib.Errors.WafError` if an invalid executable is specified for a non-shell process
-		:raises: :py:class:`waflib.Errors.WafError` in case of execution failure
-		"""
+        :param cmd: command argument for subprocess.Popen
+        :type cmd: string or list
+        :param kw: keyword arguments for subprocess.Popen. The parameters input/timeout will be passed to wait/communicate.
+        :type kw: dict
+        :returns: process exit status
+        :rtype: integer
+        :raises: :py:class:`waflib.Errors.WafError` if an invalid executable is specified for a non-shell process
+        :raises: :py:class:`waflib.Errors.WafError` in case of execution failure
+        """
         subprocess = Utils.subprocess
         kw["shell"] = isinstance(cmd, str)
         self.log_command(cmd, kw)
@@ -399,28 +399,28 @@ class Context(ctx):
 
     def cmd_and_log(self, cmd, **kw):
         """
-		Executes a process and returns stdout/stderr if the execution is successful.
-		An exception is thrown when the exit status is non-0. In that case, both stderr and stdout
-		will be bound to the WafError object (configuration tests)::
+        Executes a process and returns stdout/stderr if the execution is successful.
+        An exception is thrown when the exit status is non-0. In that case, both stderr and stdout
+        will be bound to the WafError object (configuration tests)::
 
-			def configure(conf):
-				out = conf.cmd_and_log(['echo', 'hello'], output=waflib.Context.STDOUT, quiet=waflib.Context.BOTH)
-				(out, err) = conf.cmd_and_log(['echo', 'hello'], output=waflib.Context.BOTH)
-				(out, err) = conf.cmd_and_log(cmd, input='\\n'.encode(), output=waflib.Context.STDOUT)
-				try:
-					conf.cmd_and_log(['which', 'someapp'], output=waflib.Context.BOTH)
-				except Errors.WafError as e:
-					print(e.stdout, e.stderr)
+                def configure(conf):
+                        out = conf.cmd_and_log(['echo', 'hello'], output=waflib.Context.STDOUT, quiet=waflib.Context.BOTH)
+                        (out, err) = conf.cmd_and_log(['echo', 'hello'], output=waflib.Context.BOTH)
+                        (out, err) = conf.cmd_and_log(cmd, input='\\n'.encode(), output=waflib.Context.STDOUT)
+                        try:
+                                conf.cmd_and_log(['which', 'someapp'], output=waflib.Context.BOTH)
+                        except Errors.WafError as e:
+                                print(e.stdout, e.stderr)
 
-		:param cmd: args for subprocess.Popen
-		:type cmd: list or string
-		:param kw: keyword arguments for subprocess.Popen. The parameters input/timeout will be passed to wait/communicate.
-		:type kw: dict
-		:returns: a tuple containing the contents of stdout and stderr
-		:rtype: string
-		:raises: :py:class:`waflib.Errors.WafError` if an invalid executable is specified for a non-shell process
-		:raises: :py:class:`waflib.Errors.WafError` in case of execution failure; stdout/stderr/returncode are bound to the exception object
-		"""
+        :param cmd: args for subprocess.Popen
+        :type cmd: list or string
+        :param kw: keyword arguments for subprocess.Popen. The parameters input/timeout will be passed to wait/communicate.
+        :type kw: dict
+        :returns: a tuple containing the contents of stdout and stderr
+        :rtype: string
+        :raises: :py:class:`waflib.Errors.WafError` if an invalid executable is specified for a non-shell process
+        :raises: :py:class:`waflib.Errors.WafError` in case of execution failure; stdout/stderr/returncode are bound to the exception object
+        """
         subprocess = Utils.subprocess
         kw["shell"] = isinstance(cmd, str)
         self.log_command(cmd, kw)
@@ -484,18 +484,18 @@ class Context(ctx):
 
     def fatal(self, msg, ex=None):
         """
-		Prints an error message in red and stops command execution; this is
-		usually used in the configuration section::
+        Prints an error message in red and stops command execution; this is
+        usually used in the configuration section::
 
-			def configure(conf):
-				conf.fatal('a requirement is missing')
+                def configure(conf):
+                        conf.fatal('a requirement is missing')
 
-		:param msg: message to display
-		:type msg: string
-		:param ex: optional exception object
-		:type ex: exception
-		:raises: :py:class:`waflib.Errors.ConfigurationError`
-		"""
+        :param msg: message to display
+        :type msg: string
+        :param ex: optional exception object
+        :type ex: exception
+        :raises: :py:class:`waflib.Errors.ConfigurationError`
+        """
         if self.logger:
             self.logger.info(f"from {self.path.abspath()}: {msg}")
         try:
@@ -512,17 +512,17 @@ class Context(ctx):
 
     def to_log(self, msg):
         """
-		Logs information to the logger (if present), or to stderr.
-		Empty messages are not printed::
+        Logs information to the logger (if present), or to stderr.
+        Empty messages are not printed::
 
-			def build(bld):
-				bld.to_log('starting the build')
+                def build(bld):
+                        bld.to_log('starting the build')
 
-		Provide a logger on the context class or override this methid if necessary.
+        Provide a logger on the context class or override this methid if necessary.
 
-		:param msg: message
-		:type msg: string
-		"""
+        :param msg: message
+        :type msg: string
+        """
         if not msg:
             return
         if self.logger:
@@ -533,22 +533,22 @@ class Context(ctx):
 
     def msg(self, *k, **kw):
         """
-		Prints a configuration message of the form ``msg: result``.
-		The second part of the message will be in colors. The output
-		can be disabled easly by setting ``in_msg`` to a positive value::
+        Prints a configuration message of the form ``msg: result``.
+        The second part of the message will be in colors. The output
+        can be disabled easly by setting ``in_msg`` to a positive value::
 
-			def configure(conf):
-				self.in_msg = 1
-				conf.msg('Checking for library foo', 'ok')
-				# no output
+                def configure(conf):
+                        self.in_msg = 1
+                        conf.msg('Checking for library foo', 'ok')
+                        # no output
 
-		:param msg: message to display to the user
-		:type msg: string
-		:param result: result to display
-		:type result: string or boolean
-		:param color: color to use, see :py:const:`waflib.Logs.colors_lst`
-		:type color: string
-		"""
+        :param msg: message to display to the user
+        :type msg: string
+        :param result: result to display
+        :type result: string or boolean
+        :param color: color to use, see :py:const:`waflib.Logs.colors_lst`
+        :type color: string
+        """
         try:
             msg = kw["msg"]
         except KeyError:
@@ -569,8 +569,8 @@ class Context(ctx):
 
     def start_msg(self, *k, **kw):
         """
-		Prints the beginning of a 'Checking for xxx' message. See :py:meth:`waflib.Context.Context.msg`
-		"""
+        Prints the beginning of a 'Checking for xxx' message. See :py:meth:`waflib.Context.Context.msg`
+        """
         if kw.get("quiet"):
             return
 
@@ -623,16 +623,16 @@ class Context(ctx):
 
     def load_special_tools(self, var, ban=[]):
         r"""
-		Loads third-party extensions modules for certain programming languages
-		by trying to list certain files in the extras/ directory. This method
-		is typically called once for a programming language group, see for
-		example :py:mod:`waflib.Tools.compiler_c`
+        Loads third-party extensions modules for certain programming languages
+        by trying to list certain files in the extras/ directory. This method
+        is typically called once for a programming language group, see for
+        example :py:mod:`waflib.Tools.compiler_c`
 
-		:param var: glob expression, for example 'cxx\_\*.py'
-		:type var: string
-		:param ban: list of exact file names to exclude
-		:type ban: list of string
-		"""
+        :param var: glob expression, for example 'cxx\_\*.py'
+        :type var: string
+        :param ban: list of exact file names to exclude
+        :type ban: list of string
+        """
         if os.path.isdir(waf_dir):
             lst = self.root.find_node(waf_dir).find_node("waflib/extras").ant_glob(var)
             for x in lst:
@@ -666,13 +666,13 @@ The modules are added automatically by :py:func:`waflib.Context.load_module`
 
 def load_module(path, encoding=None):
     """
-	Loads a wscript file as a python module. This method caches results in :py:attr:`waflib.Context.cache_modules`
+    Loads a wscript file as a python module. This method caches results in :py:attr:`waflib.Context.cache_modules`
 
-	:param path: file path
-	:type path: string
-	:return: Loaded Python module
-	:rtype: module
-	"""
+    :param path: file path
+    :type path: string
+    :return: Loaded Python module
+    :rtype: module
+    """
     try:
         return cache_modules[path]
     except KeyError:
@@ -697,15 +697,15 @@ def load_module(path, encoding=None):
 
 def load_tool(tool, tooldir=None, ctx=None, with_sys_path=True):
     """
-	Importx a Waf tool as a python module, and stores it in the dict :py:const:`waflib.Context.Context.tools`
+    Importx a Waf tool as a python module, and stores it in the dict :py:const:`waflib.Context.Context.tools`
 
-	:type  tool: string
-	:param tool: Name of the tool
-	:type  tooldir: list
-	:param tooldir: List of directories to search for the tool module
-	:type  with_sys_path: boolean
-	:param with_sys_path: whether or not to search the regular sys.path, besides waf_dir and potentially given tooldirs
-	"""
+    :type  tool: string
+    :param tool: Name of the tool
+    :type  tooldir: list
+    :param tooldir: List of directories to search for the tool module
+    :type  with_sys_path: boolean
+    :param with_sys_path: whether or not to search the regular sys.path, besides waf_dir and potentially given tooldirs
+    """
     if tool == "java":
         tool = "javaw"  # jython
     else:

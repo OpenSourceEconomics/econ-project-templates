@@ -102,12 +102,12 @@ QT4_LIBS = "QtCore QtGui QtUiTools QtNetwork QtOpenGL QtSql QtSvg QtTest QtXml Q
 
 class qxx(Task.classes["cxx"]):
     """
-	Each C++ file can have zero or several .moc files to create.
-	They are known only when the files are scanned (preprocessor)
-	To avoid scanning the c++ files each time (parsing C/C++), the results
-	are retrieved from the task cache (bld.node_deps/bld.raw_deps).
-	The moc tasks are also created *dynamically* during the build.
-	"""
+    Each C++ file can have zero or several .moc files to create.
+    They are known only when the files are scanned (preprocessor)
+    To avoid scanning the c++ files each time (parsing C/C++), the results
+    are retrieved from the task cache (bld.node_deps/bld.raw_deps).
+    The moc tasks are also created *dynamically* during the build.
+    """
 
     def __init__(self, *k, **kw):
         Task.Task.__init__(self, *k, **kw)
@@ -115,10 +115,10 @@ class qxx(Task.classes["cxx"]):
 
     def runnable_status(self):
         """
-		Compute the task signature to make sure the scanner was executed. Create the
-		moc tasks by using :py:meth:`waflib.Tools.qt4.qxx.add_moc_tasks` (if necessary),
-		then postpone the task execution (there is no need to recompute the task signature).
-		"""
+        Compute the task signature to make sure the scanner was executed. Create the
+        moc tasks by using :py:meth:`waflib.Tools.qt4.qxx.add_moc_tasks` (if necessary),
+        then postpone the task execution (there is no need to recompute the task signature).
+        """
         if self.moc_done:
             return Task.Task.runnable_status(self)
         else:
@@ -130,13 +130,13 @@ class qxx(Task.classes["cxx"]):
 
     def create_moc_task(self, h_node, m_node):
         """
-		If several libraries use the same classes, it is possible that moc will run several times (Issue 1318)
-		It is not possible to change the file names, but we can assume that the moc transformation will be identical,
-		and the moc tasks can be shared in a global cache.
+        If several libraries use the same classes, it is possible that moc will run several times (Issue 1318)
+        It is not possible to change the file names, but we can assume that the moc transformation will be identical,
+        and the moc tasks can be shared in a global cache.
 
-		The defines passed to moc will then depend on task generator order. If this is not acceptable, then
-		use the tool slow_qt4 instead (and enjoy the slow builds... :-( )
-		"""
+        The defines passed to moc will then depend on task generator order. If this is not acceptable, then
+        use the tool slow_qt4 instead (and enjoy the slow builds... :-( )
+        """
         try:
             moc_cache = self.generator.bld.moc_cache
         except AttributeError:
@@ -173,8 +173,8 @@ class qxx(Task.classes["cxx"]):
 
     def add_moc_tasks(self):
         """
-		Create the moc tasks by looking in ``bld.raw_deps[self.uid()]``
-		"""
+        Create the moc tasks by looking in ``bld.raw_deps[self.uid()]``
+        """
         node = self.inputs[0]
         bld = self.generator.bld
 
@@ -246,8 +246,8 @@ class trans_update(Task.Task):
 
 class XMLHandler(ContentHandler):
     """
-	Parser for *.qrc* files
-	"""
+    Parser for *.qrc* files
+    """
 
     def __init__(self):
         self.buf = []
@@ -297,20 +297,20 @@ def add_lang(self, node):
 @after_method("apply_link")
 def apply_qt4(self):
     r"""
-	Add MOC_FLAGS which may be necessary for moc::
+    Add MOC_FLAGS which may be necessary for moc::
 
-		def build(bld):
-			bld.program(features='qt4', source='main.cpp', target='app', use='QTCORE')
+            def build(bld):
+                    bld.program(features='qt4', source='main.cpp', target='app', use='QTCORE')
 
-	The additional parameters are:
+    The additional parameters are:
 
-	:param lang: list of translation files (\*.ts) to process
-	:type lang: list of :py:class:`waflib.Node.Node` or string without the .ts extension
-	:param update: whether to process the C++ files to update the \*.ts files (use **waf --translate**)
-	:type update: bool
-	:param langname: if given, transform the \*.ts files into a .qrc files to include in the binary file
-	:type langname: :py:class:`waflib.Node.Node` or string without the .qrc extension
-	"""
+    :param lang: list of translation files (\*.ts) to process
+    :type lang: list of :py:class:`waflib.Node.Node` or string without the .ts extension
+    :param update: whether to process the C++ files to update the \*.ts files (use **waf --translate**)
+    :type update: bool
+    :param langname: if given, transform the \*.ts files into a .qrc files to include in the binary file
+    :type langname: :py:class:`waflib.Node.Node` or string without the .qrc extension
+    """
     if getattr(self, "lang", None):
         qmtasks = []
         for x in self.to_list(self.lang):
@@ -352,15 +352,15 @@ def apply_qt4(self):
 @extension(*EXT_QT4)
 def cxx_hook(self, node):
     """
-	Re-map C++ file extensions to the :py:class:`waflib.Tools.qt4.qxx` task.
-	"""
+    Re-map C++ file extensions to the :py:class:`waflib.Tools.qt4.qxx` task.
+    """
     return self.create_compiled_task("qxx", node)
 
 
 class rcc(Task.Task):
     """
-	Process *.qrc* files
-	"""
+    Process *.qrc* files
+    """
 
     color = "BLUE"
     run_str = "${QT_RCC} -name ${tsk.rcname()} ${SRC[0].abspath()} ${RCC_ST} -o ${TGT}"
@@ -400,8 +400,8 @@ class rcc(Task.Task):
 
 class moc(Task.Task):
     """
-	Create *.moc* files
-	"""
+    Create *.moc* files
+    """
 
     color = "BLUE"
     run_str = "${QT_MOC} ${MOC_FLAGS} ${MOCCPPPATH_ST:INCPATHS} ${MOCDEFINES_ST:DEFINES} ${SRC} ${MOC_ST} ${TGT}"
@@ -415,8 +415,8 @@ class moc(Task.Task):
 
 class ui4(Task.Task):
     """
-	Process *.ui* files
-	"""
+    Process *.ui* files
+    """
 
     color = "BLUE"
     run_str = "${QT_UIC} ${SRC} -o ${TGT}"
@@ -425,8 +425,8 @@ class ui4(Task.Task):
 
 class ts2qm(Task.Task):
     """
-	Create *.qm* files from *.ts* files
-	"""
+    Create *.qm* files from *.ts* files
+    """
 
     color = "BLUE"
     run_str = "${QT_LRELEASE} ${QT_LRELEASE_FLAGS} ${SRC} -qm ${TGT}"
@@ -434,8 +434,8 @@ class ts2qm(Task.Task):
 
 class qm2rcc(Task.Task):
     """
-	Transform *.qm* files into *.rc* files
-	"""
+    Transform *.qm* files into *.rc* files
+    """
 
     color = "BLUE"
     after = "ts2qm"
@@ -457,11 +457,11 @@ class qm2rcc(Task.Task):
 
 def configure(self):
     """
-	Besides the configuration options, the environment variable QT4_ROOT may be used
-	to give the location of the qt4 libraries (absolute path).
+    Besides the configuration options, the environment variable QT4_ROOT may be used
+    to give the location of the qt4 libraries (absolute path).
 
-	The detection will use the program *pkg-config* through :py:func:`waflib.Tools.config_c.check_cfg`
-	"""
+    The detection will use the program *pkg-config* through :py:func:`waflib.Tools.config_c.check_cfg`
+    """
     self.find_qt4_binaries()
     self.set_qt4_libs_to_check()
     self.set_qt4_defines()
@@ -752,8 +752,8 @@ def set_qt4_defines(self):
 
 def options(opt):
     """
-	Command-line options
-	"""
+    Command-line options
+    """
     opt.add_option(
         "--want-rpath",
         action="store_true",

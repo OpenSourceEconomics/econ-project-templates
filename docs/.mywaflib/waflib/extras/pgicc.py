@@ -16,8 +16,8 @@ c_compiler["linux"].append("pgicc")
 @conf
 def find_pgi_compiler(conf, var, name):
     """
-	Find the program name, and execute it to ensure it really is itself.
-	"""
+    Find the program name, and execute it to ensure it really is itself.
+    """
     if sys.platform == "cygwin":
         conf.fatal("The PGI compiler does not work on Cygwin")
 

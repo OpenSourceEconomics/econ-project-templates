@@ -20,8 +20,8 @@ class bison(Task.Task):
 @extension(".y", ".yc", ".yy")
 def big_bison(self, node):
     """
-	Creates a bison task, which must be executed from the directory of the output file.
-	"""
+    Creates a bison task, which must be executed from the directory of the output file.
+    """
     has_h = "-d" in self.env.BISONFLAGS
 
     outs = []
@@ -43,7 +43,7 @@ def big_bison(self, node):
 
 def configure(conf):
     """
-	Detects the *bison* program
-	"""
+    Detects the *bison* program
+    """
     conf.find_program("bison", var="BISON")
     conf.env.BISONFLAGS = ["-d"]

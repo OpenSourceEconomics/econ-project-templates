@@ -32,6 +32,6 @@ class luac(Task.Task):
 
 def configure(conf):
     """
-	Detect the luac compiler and set *conf.env.LUAC*
-	"""
+    Detect the luac compiler and set *conf.env.LUAC*
+    """
     conf.find_program("luac", var="LUAC")

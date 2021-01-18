@@ -28,15 +28,15 @@ default_cmd = "build"
 
 def waf_entry_point(current_directory, version, wafdir):
     """
-	This is the main entry point, all Waf execution starts here.
+    This is the main entry point, all Waf execution starts here.
 
-	:param current_directory: absolute path representing the current directory
-	:type current_directory: string
-	:param version: version number
-	:type version: string
-	:param wafdir: absolute path representing the directory of the waf library
-	:type wafdir: string
-	"""
+    :param current_directory: absolute path representing the current directory
+    :type current_directory: string
+    :param version: version number
+    :type version: string
+    :param wafdir: absolute path representing the directory of the waf library
+    :type wafdir: string
+    """
     Logs.init_log()
 
     if Context.WAFVERSION != version:
@@ -211,13 +211,13 @@ def waf_entry_point(current_directory, version, wafdir):
 
 def set_main_module(file_path):
     """
-	Read the main wscript file into :py:const:`waflib.Context.Context.g_module` and
-	bind default functions such as ``init``, ``dist``, ``distclean`` if not defined.
-	Called by :py:func:`waflib.Scripting.waf_entry_point` during the initialization.
+    Read the main wscript file into :py:const:`waflib.Context.Context.g_module` and
+    bind default functions such as ``init``, ``dist``, ``distclean`` if not defined.
+    Called by :py:func:`waflib.Scripting.waf_entry_point` during the initialization.
 
-	:param file_path: absolute path representing the top-level wscript file
-	:type file_path: string
-	"""
+    :param file_path: absolute path representing the top-level wscript file
+    :type file_path: string
+    """
     Context.g_module = Context.load_module(file_path)
     Context.g_module.root_path = file_path
 
@@ -242,9 +242,9 @@ def set_main_module(file_path):
 
 def parse_options():
     """
-	Parses the command-line options and initialize the logging system.
-	Called by :py:func:`waflib.Scripting.waf_entry_point` during the initialization.
-	"""
+    Parses the command-line options and initialize the logging system.
+    Called by :py:func:`waflib.Scripting.waf_entry_point` during the initialization.
+    """
     ctx = Context.create_context("options")
     ctx.execute()
     if not Options.commands:
@@ -256,11 +256,11 @@ def parse_options():
 
 def run_command(cmd_name):
     """
-	Executes a single Waf command. Called by :py:func:`waflib.Scripting.run_commands`.
+    Executes a single Waf command. Called by :py:func:`waflib.Scripting.run_commands`.
 
-	:param cmd_name: command to execute, like ``build``
-	:type cmd_name: string
-	"""
+    :param cmd_name: command to execute, like ``build``
+    :type cmd_name: string
+    """
     ctx = Context.create_context(cmd_name)
     ctx.log_timer = Utils.Timer()
     ctx.options = Options.options  # provided for convenience
@@ -275,10 +275,10 @@ def run_command(cmd_name):
 
 def run_commands():
     """
-	Execute the Waf commands that were given on the command-line, and the other options
-	Called by :py:func:`waflib.Scripting.waf_entry_point` during the initialization, and executed
-	after :py:func:`waflib.Scripting.parse_options`.
-	"""
+    Execute the Waf commands that were given on the command-line, and the other options
+    Called by :py:func:`waflib.Scripting.waf_entry_point` during the initialization, and executed
+    after :py:func:`waflib.Scripting.parse_options`.
+    """
     parse_options()
     run_command("init")
     while Options.commands:
@@ -293,13 +293,13 @@ def run_commands():
 
 def distclean_dir(dirname):
     """
-	Distclean function called in the particular case when::
+    Distclean function called in the particular case when::
 
-		top == out
+            top == out
 
-	:param dirname: absolute path of the folder to clean
-	:type dirname: string
-	"""
+    :param dirname: absolute path of the folder to clean
+    :type dirname: string
+    """
     for (root, dirs, files) in os.walk(dirname):
         for f in files:
             if f.endswith((".o", ".moc", ".exe")):
@@ -381,15 +381,15 @@ class Dist(Context.Context):
 
     def execute(self):
         """
-		See :py:func:`waflib.Context.Context.execute`
-		"""
+        See :py:func:`waflib.Context.Context.execute`
+        """
         self.recurse([os.path.dirname(Context.g_module.root_path)])
         self.archive()
 
     def archive(self):
         """
-		Creates the source archive.
-		"""
+        Creates the source archive.
+        """
         import tarfile
 
         arch_name = self.get_arch_name()
@@ -436,21 +436,21 @@ class Dist(Context.Context):
 
     def get_tar_path(self, node):
         """
-		Return the path to use for a node in the tar archive, the purpose of this
-		is to let subclases resolve symbolic links or to change file names
+        Return the path to use for a node in the tar archive, the purpose of this
+        is to let subclases resolve symbolic links or to change file names
 
-		:return: absolute path
-		:rtype: string
-		"""
+        :return: absolute path
+        :rtype: string
+        """
         return node.abspath()
 
     def add_tar_file(self, x, tar):
         """
-		Adds a file to the tar archive. Symlinks are not verified.
+        Adds a file to the tar archive. Symlinks are not verified.
 
-		:param x: file path
-		:param tar: tar file object
-		"""
+        :param x: file path
+        :param tar: tar file object
+        """
         p = self.get_tar_path(x)
         tinfo = tar.gettarinfo(
             name=p, arcname=self.get_tar_prefix() + "/" + x.path_from(self.base_path)
@@ -468,10 +468,10 @@ class Dist(Context.Context):
 
     def get_tar_prefix(self):
         """
-		Returns the base path for files added into the archive tar file
+        Returns the base path for files added into the archive tar file
 
-		:rtype: string
-		"""
+        :rtype: string
+        """
         try:
             return self.tar_prefix
         except AttributeError:
@@ -479,14 +479,14 @@ class Dist(Context.Context):
 
     def get_arch_name(self):
         """
-		Returns the archive file name.
-		Set the attribute *arch_name* to change the default value::
+        Returns the archive file name.
+        Set the attribute *arch_name* to change the default value::
 
-			def dist(ctx):
-				ctx.arch_name = 'ctx.tar.bz2'
+                def dist(ctx):
+                        ctx.arch_name = 'ctx.tar.bz2'
 
-		:rtype: string
-		"""
+        :rtype: string
+        """
         try:
             self.arch_name
         except AttributeError:
@@ -497,14 +497,14 @@ class Dist(Context.Context):
 
     def get_base_name(self):
         """
-		Returns the default name of the main directory in the archive, which is set to *appname-version*.
-		Set the attribute *base_name* to change the default value::
+        Returns the default name of the main directory in the archive, which is set to *appname-version*.
+        Set the attribute *base_name* to change the default value::
 
-			def dist(ctx):
-				ctx.base_name = 'files'
+                def dist(ctx):
+                        ctx.base_name = 'files'
 
-		:rtype: string
-		"""
+        :rtype: string
+        """
         try:
             self.base_name
         except AttributeError:
@@ -515,14 +515,14 @@ class Dist(Context.Context):
 
     def get_excl(self):
         """
-		Returns the patterns to exclude for finding the files in the top-level directory.
-		Set the attribute *excl* to change the default value::
+        Returns the patterns to exclude for finding the files in the top-level directory.
+        Set the attribute *excl* to change the default value::
 
-			def dist(ctx):
-				ctx.excl = 'build **/*.o **/*.class'
+                def dist(ctx):
+                        ctx.excl = 'build **/*.o **/*.class'
 
-		:rtype: string
-		"""
+        :rtype: string
+        """
         try:
             return self.excl
         except AttributeError:
@@ -538,19 +538,19 @@ class Dist(Context.Context):
 
     def get_files(self):
         """
-		Files to package are searched automatically by :py:func:`waflib.Node.Node.ant_glob`.
-		Set *files* to prevent this behaviour::
+        Files to package are searched automatically by :py:func:`waflib.Node.Node.ant_glob`.
+        Set *files* to prevent this behaviour::
 
-			def dist(ctx):
-				ctx.files = ctx.path.find_node('wscript')
+                def dist(ctx):
+                        ctx.files = ctx.path.find_node('wscript')
 
-		Files are also searched from the directory 'base_path', to change it, set::
+        Files are also searched from the directory 'base_path', to change it, set::
 
-			def dist(ctx):
-				ctx.base_path = path
+                def dist(ctx):
+                        ctx.base_path = path
 
-		:rtype: list of :py:class:`waflib.Node.Node`
-		"""
+        :rtype: list of :py:class:`waflib.Node.Node`
+        """
         try:
             files = self.files
         except AttributeError:
@@ -571,8 +571,8 @@ class DistCheck(Dist):
 
     def execute(self):
         """
-		See :py:func:`waflib.Context.Context.execute`
-		"""
+        See :py:func:`waflib.Context.Context.execute`
+        """
         self.recurse([os.path.dirname(Context.g_module.root_path)])
         self.archive()
         self.check()
@@ -596,8 +596,8 @@ class DistCheck(Dist):
 
     def check(self):
         """
-		Creates the archive, uncompresses it and tries to build the project
-		"""
+        Creates the archive, uncompresses it and tries to build the project
+        """
         import tempfile, tarfile
 
         with tarfile.open(self.get_arch_name()) as t:
@@ -625,13 +625,13 @@ def distcheck(ctx):
 
 def autoconfigure(execute_method):
     """
-	Decorator that enables context commands to run *configure* as needed.
-	"""
+    Decorator that enables context commands to run *configure* as needed.
+    """
 
     def execute(self):
         """
-		Wraps :py:func:`waflib.Context.Context.execute` on the context class
-		"""
+        Wraps :py:func:`waflib.Context.Context.execute` on the context class
+        """
         if not Configure.autoconfig:
             return execute_method(self)
 

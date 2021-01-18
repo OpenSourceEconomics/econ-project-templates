@@ -12,8 +12,8 @@ from waflib.Tools import gxx
 @conf
 def find_clangxx(conf):
     """
-	Finds the program clang++, and executes it to ensure it really is clang++
-	"""
+    Finds the program clang++, and executes it to ensure it really is clang++
+    """
     cxx = conf.find_program("clang++", var="CXX")
     conf.get_cc_version(cxx, clang=True)
     conf.env.CXX_NAME = "clang"

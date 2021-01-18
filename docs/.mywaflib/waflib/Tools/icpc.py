@@ -14,8 +14,8 @@ from waflib.Tools import gxx
 @conf
 def find_icpc(conf):
     """
-	Finds the program icpc, and execute it to ensure it really is icpc
-	"""
+    Finds the program icpc, and execute it to ensure it really is icpc
+    """
     cxx = conf.find_program("icpc", var="CXX")
     conf.get_cc_version(cxx, icc=True)
     conf.env.CXX_NAME = "icc"

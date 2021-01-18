@@ -202,17 +202,17 @@ def enforce_swig_before_link(self):
 @conf
 def check_swig_version(conf, minver=None):
     """
-	Check if the swig tool is found matching a given minimum version.
-	minver should be a tuple, eg. to check for swig >= 1.3.28 pass (1,3,28) as minver.
+    Check if the swig tool is found matching a given minimum version.
+    minver should be a tuple, eg. to check for swig >= 1.3.28 pass (1,3,28) as minver.
 
-	If successful, SWIG_VERSION is defined as 'MAJOR.MINOR'
-	(eg. '1.3') of the actual swig version found.
+    If successful, SWIG_VERSION is defined as 'MAJOR.MINOR'
+    (eg. '1.3') of the actual swig version found.
 
-	:param minver: minimum version
-	:type minver: tuple of int
-	:return: swig version
-	:rtype: tuple of int
-	"""
+    :param minver: minimum version
+    :type minver: tuple of int
+    :return: swig version
+    :rtype: tuple of int
+    """
     assert minver is None or isinstance(minver, tuple)
     swigbin = conf.env["SWIG"]
     if not swigbin:

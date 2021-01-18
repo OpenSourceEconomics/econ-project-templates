@@ -15,8 +15,8 @@ from waflib.Tools import gcc
 @conf
 def find_icc(conf):
     """
-	Finds the program icc and execute it to ensure it really is icc
-	"""
+    Finds the program icc and execute it to ensure it really is icc
+    """
     cc = conf.find_program(["icc", "ICL"], var="CC")
     conf.get_cc_version(cc, icc=True)
     conf.env.CC_NAME = "icc"

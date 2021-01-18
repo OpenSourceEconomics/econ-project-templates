@@ -93,9 +93,9 @@ from waflib.Tools import ccroot
 
 def _process_use_rec(self, name):
     """
-	Recursively process ``use`` for task generator with name ``name``..
-	Used by pytest_process_use.
-	"""
+    Recursively process ``use`` for task generator with name ``name``..
+    Used by pytest_process_use.
+    """
     if name in self.pytest_use_not or name in self.pytest_use_seen:
         return
     try:
@@ -115,9 +115,9 @@ def _process_use_rec(self, name):
 @TaskGen.after_method("process_source", "apply_link")
 def pytest_process_use(self):
     """
-	Process the ``use`` attribute which contains a list of task generator names and store
-	paths that later is used to populate the unit test runtime environment.
-	"""
+    Process the ``use`` attribute which contains a list of task generator names and store
+    paths that later is used to populate the unit test runtime environment.
+    """
     self.pytest_use_not = set()
     self.pytest_use_seen = []
     self.pytest_paths = []  # strings or Nodes
@@ -188,11 +188,11 @@ def pytest_process_use(self):
 @TaskGen.after_method("pytest_process_use")
 def make_pytest(self):
     """
-	Creates a ``utest`` task with a populated environment for Python if not specified in ``ut_env``:
+    Creates a ``utest`` task with a populated environment for Python if not specified in ``ut_env``:
 
-	- Paths in `pytest_paths` attribute are used to populate PYTHONPATH
-	- Paths in `pytest_libpaths` attribute are used to populate the system library path (e.g. LD_LIBRARY_PATH)
-	"""
+    - Paths in `pytest_paths` attribute are used to populate PYTHONPATH
+    - Paths in `pytest_libpaths` attribute are used to populate the system library path (e.g. LD_LIBRARY_PATH)
+    """
     nodes = self.to_nodes(self.pytest_source)
     tsk = self.create_task("utest", nodes)
 

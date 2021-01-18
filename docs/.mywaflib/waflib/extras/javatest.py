@@ -60,9 +60,9 @@ from waflib import TaskGen
 @TaskGen.after_method("apply_java", "use_javac_files", "set_classpath")
 def make_javatest(self):
     """
-	Creates a ``utest`` task with a populated environment for Java Unit test execution
+    Creates a ``utest`` task with a populated environment for Java Unit test execution
 
-	"""
+    """
     tsk = self.create_task("utest")
     tsk.set_run_after(self.javac_task)
 

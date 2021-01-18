@@ -10,8 +10,8 @@ from waflib.Tools import ccroot
 @conf
 def find_sxx(conf):
     """
-	Detects the sun C++ compiler
-	"""
+    Detects the sun C++ compiler
+    """
     v = conf.env
     cc = conf.find_program(["CC", "c++"], var="CXX")
     try:
@@ -25,8 +25,8 @@ def find_sxx(conf):
 @conf
 def sxx_common_flags(conf):
     """
-	Flags required for executing the sun C++ compiler
-	"""
+    Flags required for executing the sun C++ compiler
+    """
     v = conf.env
 
     v.CXX_SRC_F = []

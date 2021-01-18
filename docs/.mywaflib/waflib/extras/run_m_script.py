@@ -86,12 +86,14 @@ class run_m_script_base(Task.Task):
 
         """
 
-        return "{prepend} [Matlab] {matlabflags} -logfile {lfn} -r {fn} {append}".format(
-            prepend=self.env.PREPEND,
-            matlabflags=self.env.MATLABFLAGS,
-            lfn=self.env.LOGFILEPATH,
-            fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
-            append=self.env.APPEND,
+        return (
+            "{prepend} [Matlab] {matlabflags} -logfile {lfn} -r {fn} {append}".format(
+                prepend=self.env.PREPEND,
+                matlabflags=self.env.MATLABFLAGS,
+                lfn=self.env.LOGFILEPATH,
+                fn=self.inputs[0].path_from(self.inputs[0].ctx.launch_node()),
+                append=self.env.APPEND,
+            )
         )
 
 

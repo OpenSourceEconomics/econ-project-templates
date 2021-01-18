@@ -26,16 +26,16 @@ from waflib.TaskGen import taskgen_method
 @taskgen_method
 def add_gdbus_file(self, filename, prefix, namespace, export=False):
     """
-	Adds a dbus file to the list of dbus files to process. Store them in the attribute *dbus_lst*.
-	:param filename: xml file to compile
-	:type filename: string
-	:param prefix: interface prefix (--interface-prefix=prefix)
-	:type prefix: string
-	:param mode: C namespace (--c-namespace=namespace)
-	:type mode: string
-	:param export: Export Headers?
-	:type export: boolean
-	"""
+    Adds a dbus file to the list of dbus files to process. Store them in the attribute *dbus_lst*.
+    :param filename: xml file to compile
+    :type filename: string
+    :param prefix: interface prefix (--interface-prefix=prefix)
+    :type prefix: string
+    :param mode: C namespace (--c-namespace=namespace)
+    :type mode: string
+    :param export: Export Headers?
+    :type export: boolean
+    """
     if not hasattr(self, "gdbus_lst"):
         self.gdbus_lst = []
     if not "process_gdbus" in self.meths:
@@ -46,8 +46,8 @@ def add_gdbus_file(self, filename, prefix, namespace, export=False):
 @before_method("process_source")
 def process_gdbus(self):
     """
-	Processes the dbus files stored in the attribute *gdbus_lst* to create :py:class:`gdbus_binding_tool` instances.
-	"""
+    Processes the dbus files stored in the attribute *gdbus_lst* to create :py:class:`gdbus_binding_tool` instances.
+    """
     output_node = self.path.get_bld().make_node(["gdbus", self.get_name()])
     sources = []
 
@@ -77,8 +77,8 @@ def process_gdbus(self):
 
 class gdbus_binding_tool(Task.Task):
     """
-	Compiles a dbus file
-	"""
+    Compiles a dbus file
+    """
 
     color = "BLUE"
     ext_out = [".h", ".c"]
@@ -88,6 +88,6 @@ class gdbus_binding_tool(Task.Task):
 
 def configure(conf):
     """
-	Detects the program gdbus-codegen and sets ``conf.env.GDBUS_CODEGEN``
-	"""
+    Detects the program gdbus-codegen and sets ``conf.env.GDBUS_CODEGEN``
+    """
     conf.find_program("gdbus-codegen", var="GDBUS_CODEGEN")

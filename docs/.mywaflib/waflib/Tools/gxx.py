@@ -13,8 +13,8 @@ from waflib.Tools import ccroot
 @conf
 def find_gxx(conf):
     """
-	Finds the program g++, and if present, try to detect its version number
-	"""
+    Finds the program g++, and if present, try to detect its version number
+    """
     cxx = conf.find_program(["g++", "c++"], var="CXX")
     conf.get_cc_version(cxx, gcc=True)
     conf.env.CXX_NAME = "gcc"
@@ -23,8 +23,8 @@ def find_gxx(conf):
 @conf
 def gxx_common_flags(conf):
     """
-	Common flags for g++ on nearly all platforms
-	"""
+    Common flags for g++ on nearly all platforms
+    """
     v = conf.env
 
     v.CXX_SRC_F = []
@@ -153,8 +153,8 @@ def gxx_modifier_platform(conf):
 
 def configure(conf):
     """
-	Configuration for g++
-	"""
+    Configuration for g++
+    """
     conf.find_gxx()
     conf.find_ar()
     conf.gxx_common_flags()

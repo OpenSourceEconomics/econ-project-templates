@@ -39,8 +39,8 @@ from waflib.Tools.ccroot import stlink_task
 
 class asm(Task.Task):
     """
-	Compiles asm files by gas/nasm/yasm/...
-	"""
+    Compiles asm files by gas/nasm/yasm/...
+    """
 
     color = "BLUE"
     run_str = "${AS} ${ASFLAGS} ${ASMPATH_ST:INCPATHS} ${DEFINES_ST:DEFINES} ${AS_SRC_F}${SRC} ${AS_TGT_F}${TGT}"
@@ -49,11 +49,11 @@ class asm(Task.Task):
 @extension(".s", ".S", ".asm", ".ASM", ".spp", ".SPP")
 def asm_hook(self, node):
     """
-	Binds the asm extension to the asm task
+    Binds the asm extension to the asm task
 
-	:param node: input file
-	:type node: :py:class:`waflib.Node.Node`
-	"""
+    :param node: input file
+    :type node: :py:class:`waflib.Node.Node`
+    """
     return self.create_compiled_task("asm", node)
 
 

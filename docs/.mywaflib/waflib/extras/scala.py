@@ -77,8 +77,8 @@ class scalac(javaw.javac):
 
     def runnable_status(self):
         """
-		Wait for dependent tasks to be complete, then read the file system to find the input nodes.
-		"""
+        Wait for dependent tasks to be complete, then read the file system to find the input nodes.
+        """
         for t in self.run_after:
             if not t.hasrun:
                 return Task.ASK_LATER
@@ -92,8 +92,8 @@ class scalac(javaw.javac):
 
     def run(self):
         """
-		Execute the scalac compiler
-		"""
+        Execute the scalac compiler
+        """
         env = self.env
         gen = self.generator
         bld = gen.bld
@@ -123,8 +123,8 @@ class scalac(javaw.javac):
 
 def configure(self):
     """
-	Detect the scalac program
-	"""
+    Detect the scalac program
+    """
     # If SCALA_HOME is set, we prepend it to the path list
     java_path = self.environ["PATH"].split(os.pathsep)
     v = self.env

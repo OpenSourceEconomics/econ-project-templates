@@ -61,8 +61,8 @@ File extension for the user interface (.ui) files
 
 class XMLHandler(ContentHandler):
     """
-	Parses ``.qrc`` files
-	"""
+    Parses ``.qrc`` files
+    """
 
     def __init__(self):
         self.buf = []
@@ -115,13 +115,13 @@ def add_pylang(self, node):
 @feature("pyqt5")
 def apply_pyqt5(self):
     r"""
-	The additional parameters are:
+    The additional parameters are:
 
-	:param lang: list of translation files (\*.ts) to process
-	:type lang: list of :py:class:`waflib.Node.Node` or string without the .ts extension
-	:param langname: if given, transform the \*.ts files into a .qrc files to include in the binary file
-	:type langname: :py:class:`waflib.Node.Node` or string without the .qrc extension
-	"""
+    :param lang: list of translation files (\*.ts) to process
+    :type lang: list of :py:class:`waflib.Node.Node` or string without the .ts extension
+    :param langname: if given, transform the \*.ts files into a .qrc files to include in the binary file
+    :type langname: :py:class:`waflib.Node.Node` or string without the .qrc extension
+    """
     if getattr(self, "lang", None):
         qmtasks = []
         for x in self.to_list(self.lang):
@@ -140,8 +140,8 @@ def apply_pyqt5(self):
 
 class pyrcc(Task.Task):
     """
-	Processes ``.qrc`` files
-	"""
+    Processes ``.qrc`` files
+    """
 
     color = "BLUE"
     run_str = "${QT_PYRCC} ${SRC} -o ${TGT}"
@@ -181,8 +181,8 @@ class pyrcc(Task.Task):
 
 class ui5py(Task.Task):
     """
-	Processes ``.ui`` files for python
-	"""
+    Processes ``.ui`` files for python
+    """
 
     color = "BLUE"
     run_str = "${QT_PYUIC} ${SRC} -o ${TGT}"
@@ -191,8 +191,8 @@ class ui5py(Task.Task):
 
 class ts2qm(Task.Task):
     """
-	Generates ``.qm`` files from ``.ts`` files
-	"""
+    Generates ``.qm`` files from ``.ts`` files
+    """
 
     color = "BLUE"
     run_str = "${QT_LRELEASE} ${QT_LRELEASE_FLAGS} ${SRC} -qm ${TGT}"
@@ -200,8 +200,8 @@ class ts2qm(Task.Task):
 
 class qm2rcc(Task.Task):
     """
-	Generates ``.qrc`` files from ``.qm`` files
-	"""
+    Generates ``.qrc`` files from ``.qm`` files
+    """
 
     color = "BLUE"
     after = "ts2qm"
@@ -232,8 +232,8 @@ def configure(self):
 @conf
 def find_pyqt5_binaries(self):
     """
-	Detects PyQt5 or pyside2 programs such as pyuic5/pyside2-uic, pyrcc5/pyside2-rcc
-	"""
+    Detects PyQt5 or pyside2 programs such as pyuic5/pyside2-uic, pyrcc5/pyside2-rcc
+    """
     env = self.env
 
     if getattr(Options.options, "want_pyside2", True):
@@ -262,8 +262,8 @@ def find_pyqt5_binaries(self):
 
 def options(opt):
     """
-	Command-line options
-	"""
+    Command-line options
+    """
     pyqt5opt = opt.add_option_group("Python QT5 Options")
     pyqt5opt.add_option(
         "--pyqt5-pyside2",

@@ -12,11 +12,11 @@ class WafError(Exception):
 
     def __init__(self, msg="", ex=None):
         """
-		:param msg: error message
-		:type msg: string
-		:param ex: exception causing this error (optional)
-		:type ex: exception
-		"""
+        :param msg: error message
+        :type msg: string
+        :param ex: exception causing this error (optional)
+        :type ex: exception
+        """
         Exception.__init__(self)
         self.msg = msg
         assert not isinstance(msg, Exception)
@@ -41,9 +41,9 @@ class BuildError(WafError):
 
     def __init__(self, error_tasks=[]):
         """
-		:param error_tasks: tasks that could not complete normally
-		:type error_tasks: list of task objects
-		"""
+        :param error_tasks: tasks that could not complete normally
+        :type error_tasks: list of task objects
+        """
         self.tasks = error_tasks
         WafError.__init__(self, self.format_error())
 

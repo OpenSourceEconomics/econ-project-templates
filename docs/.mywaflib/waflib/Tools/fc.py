@@ -57,9 +57,9 @@ def fc_hook(self, node):
 @conf
 def modfile(conf, name):
     """
-	Turns a module name into the right module file name.
-	Defaults to all lower case.
-	"""
+    Turns a module name into the right module file name.
+    Defaults to all lower case.
+    """
     return {
         "lower": name.lower() + ".mod",
         "lower.MOD": name.lower() + ".MOD",
@@ -70,11 +70,11 @@ def modfile(conf, name):
 
 def get_fortran_tasks(tsk):
     """
-	Obtains all fortran tasks from the same build group. Those tasks must not have
-	the attribute 'nomod' or 'mod_fortran_done'
+    Obtains all fortran tasks from the same build group. Those tasks must not have
+    the attribute 'nomod' or 'mod_fortran_done'
 
-	:return: a list of :py:class:`waflib.Tools.fc.fc` instances
-	"""
+    :return: a list of :py:class:`waflib.Tools.fc.fc` instances
+    """
     bld = tsk.generator.bld
     tasks = bld.get_tasks_group(bld.get_group_idx(tsk.generator))
     return [
@@ -88,10 +88,10 @@ def get_fortran_tasks(tsk):
 
 class fc(Task.Task):
     """
-	Fortran tasks can only run when all fortran tasks in a current task group are ready to be executed
-	This may cause a deadlock if some fortran task is waiting for something that cannot happen (circular dependency)
-	Should this ever happen, set the 'nomod=True' on those tasks instances to break the loop
-	"""
+    Fortran tasks can only run when all fortran tasks in a current task group are ready to be executed
+    This may cause a deadlock if some fortran task is waiting for something that cannot happen (circular dependency)
+    Should this ever happen, set the 'nomod=True' on those tasks instances to break the loop
+    """
 
     color = "GREEN"
     run_str = "${FC} ${FCFLAGS} ${FCINCPATH_ST:INCPATHS} ${FCDEFINES_ST:DEFINES} ${_FCMODOUTFLAGS} ${FC_TGT_F}${TGT[0].abspath()} ${FC_SRC_F}${SRC[0].abspath()} ${FCPPFLAGS}"
@@ -106,9 +106,9 @@ class fc(Task.Task):
 
     def runnable_status(self):
         """
-		Sets the mod file outputs and the dependencies on the mod files over all Fortran tasks
-		executed by the main thread so there are no concurrency issues
-		"""
+        Sets the mod file outputs and the dependencies on the mod files over all Fortran tasks
+        executed by the main thread so there are no concurrency issues
+        """
         if getattr(self, "mod_fortran_done", None):
             return super().runnable_status()
 

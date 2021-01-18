@@ -29,10 +29,10 @@ def default_compilers():
 
 def configure(conf):
     """
-	Detects a suitable Fortran compiler
+    Detects a suitable Fortran compiler
 
-	:raises: :py:class:`waflib.Errors.ConfigurationError` when no suitable compiler is found
-	"""
+    :raises: :py:class:`waflib.Errors.ConfigurationError` when no suitable compiler is found
+    """
     try:
         test_for_compiler = conf.options.check_fortran_compiler or default_compilers()
     except AttributeError:
@@ -60,10 +60,10 @@ def configure(conf):
 
 def options(opt):
     """
-	This is how to provide compiler preferences on the command-line::
+    This is how to provide compiler preferences on the command-line::
 
-		$ waf configure --check-fortran-compiler=ifort
-	"""
+            $ waf configure --check-fortran-compiler=ifort
+    """
     test_for_compiler = default_compilers()
     opt.load_special_tools("fc_*.py")
     fortran_compiler_opts = opt.add_option_group("Configuration options")

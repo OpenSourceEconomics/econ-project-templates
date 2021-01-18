@@ -34,13 +34,13 @@ from waflib import Utils
 @TaskGen.feature("buildcopy")
 def make_buildcopy(self):
     """
-	Creates the buildcopy task.
-	"""
+    Creates the buildcopy task.
+    """
 
     def to_src_nodes(lst):
         """Find file nodes only in src, TaskGen.to_nodes will not work for this since it gives
-		preference to nodes in build.
-		"""
+        preference to nodes in build.
+        """
         if isinstance(lst, Node.Node):
             if not lst.is_src():
                 raise Errors.WafError("buildcopy: node %s is not in src" % lst)
@@ -87,13 +87,13 @@ def make_buildcopy(self):
 
 class buildcopy(Task.Task):
     """
-	Copy for each pair `n` in `node_pairs`: n[0] -> n[1].
+    Copy for each pair `n` in `node_pairs`: n[0] -> n[1].
 
-	Attribute `node_pairs` should contain a list of tuples describing source and target:
+    Attribute `node_pairs` should contain a list of tuples describing source and target:
 
-		node_pairs = [(in, out), ...]
+            node_pairs = [(in, out), ...]
 
-	"""
+    """
 
     color = "PINK"
 

@@ -35,8 +35,8 @@ from waflib.TaskGen import feature
 @before_method("apply_incpaths", "process_source", "apply_bundle", "apply_link")
 def init_rubyext(self):
     """
-	Add required variables for ruby extensions
-	"""
+    Add required variables for ruby extensions
+    """
     self.install_path = "${ARCHDIR_RUBY}"
     self.uselib = self.to_list(getattr(self, "uselib", ""))
     if not "RUBY" in self.uselib:
@@ -49,18 +49,18 @@ def init_rubyext(self):
 @before_method("apply_link", "propagate_uselib_vars")
 def apply_ruby_so_name(self):
     """
-	Strip the *lib* prefix from ruby extensions
-	"""
+    Strip the *lib* prefix from ruby extensions
+    """
     self.env.cshlib_PATTERN = self.env.cxxshlib_PATTERN = self.env.rubyext_PATTERN
 
 
 @conf
 def check_ruby_version(self, minver=()):
     """
-	Checks if ruby is installed.
-	If installed the variable RUBY will be set in environment.
-	The ruby binary can be overridden by ``--with-ruby-binary`` command-line option.
-	"""
+    Checks if ruby is installed.
+    If installed the variable RUBY will be set in environment.
+    The ruby binary can be overridden by ``--with-ruby-binary`` command-line option.
+    """
 
     ruby = self.find_program("ruby", var="RUBY", value=Options.options.rubybinary)
 
@@ -89,8 +89,8 @@ def check_ruby_version(self, minver=()):
 @conf
 def check_ruby_ext_devel(self):
     """
-	Check if a ruby extension can be created
-	"""
+    Check if a ruby extension can be created
+    """
     if not self.env.RUBY:
         self.fatal("ruby detection is required first")
 
@@ -157,14 +157,14 @@ def check_ruby_ext_devel(self):
 @conf
 def check_ruby_module(self, module_name):
     """
-	Check if the selected ruby interpreter can require the given ruby module::
+    Check if the selected ruby interpreter can require the given ruby module::
 
-		def configure(conf):
-			conf.check_ruby_module('libxml')
+            def configure(conf):
+                    conf.check_ruby_module('libxml')
 
-	:param module_name: module
-	:type  module_name: string
-	"""
+    :param module_name: module
+    :type  module_name: string
+    """
     self.start_msg("Ruby module %s" % module_name)
     try:
         self.cmd_and_log(self.env.RUBY + ["-e", "require '%s';puts 1" % module_name])
@@ -181,26 +181,26 @@ def process(self, node):
 
 class run_ruby(Task.Task):
     """
-	Task to run ruby files detected by file extension .rb::
+    Task to run ruby files detected by file extension .rb::
 
-		def options(opt):
-			opt.load('ruby')
+            def options(opt):
+                    opt.load('ruby')
 
-		def configure(ctx):
-			ctx.check_ruby_version()
+            def configure(ctx):
+                    ctx.check_ruby_version()
 
-		def build(bld):
-			bld.env.RBFLAGS = '-e puts "hello world"'
-			bld(source='a_ruby_file.rb')
-	"""
+            def build(bld):
+                    bld.env.RBFLAGS = '-e puts "hello world"'
+                    bld(source='a_ruby_file.rb')
+    """
 
     run_str = "${RUBY} ${RBFLAGS} -I ${SRC[0].parent.abspath()} ${SRC}"
 
 
 def options(opt):
     """
-	Add the ``--with-ruby-archdir``, ``--with-ruby-libdir`` and ``--with-ruby-binary`` options
-	"""
+    Add the ``--with-ruby-archdir``, ``--with-ruby-libdir`` and ``--with-ruby-binary`` options
+    """
     opt.add_option(
         "--with-ruby-archdir",
         type="string",

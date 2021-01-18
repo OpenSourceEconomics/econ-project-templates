@@ -10,11 +10,11 @@ from waflib import Utils
 
 def filter_comments(filename):
     """
-	:param filename: d file name
-	:type filename: string
-	:rtype: list
-	:return: a list of characters
-	"""
+    :param filename: d file name
+    :type filename: string
+    :rtype: list
+    :return: a list of characters
+    """
     txt = Utils.readf(filename)
     i = 0
     buf = []
@@ -84,8 +84,8 @@ def filter_comments(filename):
 
 class d_parser:
     """
-	Parser for d files
-	"""
+    Parser for d files
+    """
 
     def __init__(self, env, incpaths):
         # self.code = ''
@@ -108,11 +108,11 @@ class d_parser:
 
     def tryfind(self, filename):
         """
-		Search file a file matching an module/import directive
+        Search file a file matching an module/import directive
 
-		:param filename: file to read
-		:type filename: string
-		"""
+        :param filename: file to read
+        :type filename: string
+        """
         found = 0
         for n in self.incpaths:
             found = n.find_resource(filename.replace(".", "/") + ".d")
@@ -126,11 +126,11 @@ class d_parser:
 
     def get_strings(self, code):
         """
-		:param code: d code to parse
-		:type code: string
-		:return: the modules that the code uses
-		:rtype: a list of match objects
-		"""
+        :param code: d code to parse
+        :type code: string
+        :return: the modules that the code uses
+        :rtype: a list of match objects
+        """
         # self.imports = []
         self.module = ""
         lst = []
@@ -172,11 +172,11 @@ class d_parser:
 
     def start(self, node):
         """
-		The parsing starts here
+        The parsing starts here
 
-		:param node: input file
-		:type node: :py:class:`waflib.Node.Node`
-		"""
+        :param node: input file
+        :type node: :py:class:`waflib.Node.Node`
+        """
         self.waiting = [node]
         # while the stack is not empty, add the dependencies
         while self.waiting:
@@ -185,11 +185,11 @@ class d_parser:
 
     def iter(self, node):
         """
-		Find all the modules that a file depends on, uses :py:meth:`waflib.Tools.d_scan.d_parser.tryfind` to process dependent files
+        Find all the modules that a file depends on, uses :py:meth:`waflib.Tools.d_scan.d_parser.tryfind` to process dependent files
 
-		:param node: input file
-		:type node: :py:class:`waflib.Node.Node`
-		"""
+        :param node: input file
+        :type node: :py:class:`waflib.Node.Node`
+        """
         path = node.abspath()  # obtain the absolute path
         code = "".join(filter_comments(path))  # read the file and filter the comments
         names = self.get_strings(code)  # obtain the import strings

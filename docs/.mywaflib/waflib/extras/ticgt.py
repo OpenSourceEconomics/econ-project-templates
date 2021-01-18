@@ -130,12 +130,12 @@ def configure(conf):
 @conf
 def ti_set_debug(cfg, debug=1):
     """
-	Sets debug flags for the compiler.
+    Sets debug flags for the compiler.
 
-	TODO:
-	- for each TI CFLAG/INCLUDES/LINKFLAGS/LIBPATH replace RELEASE by DEBUG
-	- -g --no_compress
-	"""
+    TODO:
+    - for each TI CFLAG/INCLUDES/LINKFLAGS/LIBPATH replace RELEASE by DEBUG
+    - -g --no_compress
+    """
     if debug:
         cfg.env.CFLAGS += "-d_DEBUG -dDEBUG -dDDSP_DEBUG".split()
 
@@ -143,17 +143,17 @@ def ti_set_debug(cfg, debug=1):
 @conf
 def ti_dsplink_set_platform_flags(cfg, splat, dsp, dspbios_ver, board):
     """
-	Sets the INCLUDES, LINKFLAGS for DSPLINK and TCONF_INCLUDES
-	For the specific hardware.
+    Sets the INCLUDES, LINKFLAGS for DSPLINK and TCONF_INCLUDES
+    For the specific hardware.
 
-	Assumes that DSPLINK was built in its own folder.
+    Assumes that DSPLINK was built in its own folder.
 
-	:param splat: short platform name (eg. OMAPL138)
-	:param dsp: DSP name (eg. 674X)
-	:param dspbios_ver: string identifying DspBios version (eg. 5.XX)
-	:param board: board name (eg. OMAPL138GEM)
+    :param splat: short platform name (eg. OMAPL138)
+    :param dsp: DSP name (eg. 674X)
+    :param dspbios_ver: string identifying DspBios version (eg. 5.XX)
+    :param board: board name (eg. OMAPL138GEM)
 
-	"""
+    """
     d1 = opj(cfg.env.TI_DSPLINK_DIR, "dsplink", "dsp", "inc", "DspBios", dspbios_ver)
     d = opj(
         cfg.env.TI_DSPLINK_DIR, "dsplink", "dsp", "inc", "DspBios", dspbios_ver, board
@@ -221,13 +221,13 @@ def options(opt):
 
 class ti_cprogram(cprogram):
     """
-	Link object files into a c program
+    Link object files into a c program
 
-	Changes:
+    Changes:
 
-	- the linked executable to have a relative path (because we can)
-	- put the LIBPATH first
-	"""
+    - the linked executable to have a relative path (because we can)
+    - put the LIBPATH first
+    """
 
     run_str = "${LINK_CC} ${LIBPATH_ST:LIBPATH} ${LIB_ST:LIB} ${LINKFLAGS} ${CCLNK_SRC_F}${SRC} ${CCLNK_TGT_F}${TGT[0].bldpath()} ${RPATH_ST:RPATH} ${FRAMEWORKPATH_ST:FRAMEWORKPATH} ${FRAMEWORK_ST:FRAMEWORK} ${ARCH_ST:ARCH} ${STLIB_MARKER} ${STLIBPATH_ST:STLIBPATH} ${STLIB_ST:STLIB} ${SHLIB_MARKER} "
 
@@ -236,19 +236,19 @@ class ti_cprogram(cprogram):
 @before_method("apply_link")
 def use_ti_cprogram(self):
     """
-	Automatically uses ti_cprogram link process
-	"""
+    Automatically uses ti_cprogram link process
+    """
     if "cprogram" in self.features and self.env.CC_NAME == "ticc":
         self.features.insert(0, "ti_cprogram")
 
 
 class ti_c(Task.Task):
     """
-	Compile task for the TI codegen compiler
+    Compile task for the TI codegen compiler
 
-	This compiler does not allow specifying the output file name, only the output path.
+    This compiler does not allow specifying the output file name, only the output path.
 
-	"""
+    """
 
     "Compile C files into object files"
     run_str = "${CC} ${ARCH_ST:ARCH} ${CFLAGS} ${FRAMEWORKPATH_ST:FRAMEWORKPATH} ${CPPPATH_ST:INCPATHS} ${DEFINES_ST:DEFINES} ${SRC} -c ${OUT} ${CPPFLAGS}"
@@ -259,8 +259,8 @@ class ti_c(Task.Task):
 
 def create_compiled_task(self, name, node):
     """
-	Overrides ccroot.create_compiled_task to support ti_c
-	"""
+    Overrides ccroot.create_compiled_task to support ti_c
+    """
     out = "%s" % (node.change_ext(".obj").name)
     if self.env.CC_NAME == "ticc":
         name = "ti_c"

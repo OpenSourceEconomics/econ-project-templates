@@ -138,9 +138,9 @@ def check_invalid_constraints(self):
 
 def replace(m):
     """
-	Replaces existing BuildContext methods to verify parameter names,
-	for example ``bld(source=)`` has no ending *s*
-	"""
+    Replaces existing BuildContext methods to verify parameter names,
+    for example ``bld(source=)`` has no ending *s*
+    """
     oldcall = getattr(Build.BuildContext, m)
 
     def call(self, *k, **kw):
@@ -157,8 +157,8 @@ def replace(m):
 
 def enhance_lib():
     """
-	Modifies existing classes and methods to enable error verification
-	"""
+    Modifies existing classes and methods to enable error verification
+    """
     for m in meths_typos:
         replace(m)
 
@@ -310,6 +310,6 @@ def enhance_lib():
 
 def options(opt):
     """
-	Error verification can be enabled by default (not just on ``waf -v``) by adding to the user script options
-	"""
+    Error verification can be enabled by default (not just on ``waf -v``) by adding to the user script options
+    """
     enhance_lib()

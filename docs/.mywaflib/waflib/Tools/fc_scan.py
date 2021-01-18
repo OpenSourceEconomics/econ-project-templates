@@ -14,12 +14,12 @@ re_mod = re.compile(MOD_REGEX, re.I)
 
 class fortran_parser:
     """
-	This parser returns:
+    This parser returns:
 
-	* the nodes corresponding to the module names to produce
-	* the nodes corresponding to the include files used
-	* the module names used by the fortran files
-	"""
+    * the nodes corresponding to the module names to produce
+    * the nodes corresponding to the include files used
+    * the module names used by the fortran files
+    """
 
     def __init__(self, incpaths):
         self.seen = []
@@ -36,13 +36,13 @@ class fortran_parser:
 
     def find_deps(self, node):
         """
-		Parses a Fortran file to obtain the dependencies used/provided
+        Parses a Fortran file to obtain the dependencies used/provided
 
-		:param node: fortran file to read
-		:type node: :py:class:`waflib.Node.Node`
-		:return: lists representing the includes, the modules used, and the modules created by a fortran file
-		:rtype: tuple of list of strings
-		"""
+        :param node: fortran file to read
+        :type node: :py:class:`waflib.Node.Node`
+        :return: lists representing the includes, the modules used, and the modules created by a fortran file
+        :rtype: tuple of list of strings
+        """
         txt = node.read()
         incs = []
         uses = []
@@ -62,11 +62,11 @@ class fortran_parser:
 
     def start(self, node):
         """
-		Start parsing. Use the stack ``self.waiting`` to hold nodes to iterate on
+        Start parsing. Use the stack ``self.waiting`` to hold nodes to iterate on
 
-		:param node: fortran file
-		:type node: :py:class:`waflib.Node.Node`
-		"""
+        :param node: fortran file
+        :type node: :py:class:`waflib.Node.Node`
+        """
         self.waiting = [node]
         while self.waiting:
             nd = self.waiting.pop(0)
@@ -74,9 +74,9 @@ class fortran_parser:
 
     def iter(self, node):
         """
-		Processes a single file during dependency parsing. Extracts files used
-		modules used and modules provided.
-		"""
+        Processes a single file during dependency parsing. Extracts files used
+        modules used and modules provided.
+        """
         incs, uses, mods = self.find_deps(node)
         for x in incs:
             if x in self.seen:
@@ -96,11 +96,11 @@ class fortran_parser:
 
     def tryfind_header(self, filename):
         """
-		Adds an include file to the list of nodes to process
+        Adds an include file to the list of nodes to process
 
-		:param filename: file name
-		:type filename: string
-		"""
+        :param filename: file name
+        :type filename: string
+        """
         found = None
         for n in self.incpaths:
             found = n.find_resource(filename)

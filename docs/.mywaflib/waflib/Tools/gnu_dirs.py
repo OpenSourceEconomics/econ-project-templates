@@ -76,9 +76,9 @@ _options = [x.split(", ") for x in gnuopts.splitlines() if x]
 
 def configure(conf):
     """
-	Reads the command-line options to set lots of variables in *conf.env*. The variables
-	BINDIR and LIBDIR will be overwritten.
-	"""
+    Reads the command-line options to set lots of variables in *conf.env*. The variables
+    BINDIR and LIBDIR will be overwritten.
+    """
 
     def get_param(varname, default):
         return getattr(Options.options, varname, "") or default
@@ -110,10 +110,10 @@ def configure(conf):
 
 def options(opt):
     """
-	Adds lots of command-line options, for example::
+    Adds lots of command-line options, for example::
 
-		--exec-prefix: EXEC_PREFIX
-	"""
+            --exec-prefix: EXEC_PREFIX
+    """
     inst_dir = opt.add_option_group(
         "Installation prefix",
         'By default, "waf install" will put the files in\

@@ -73,13 +73,13 @@ def parse_rst_node(task, node, nodes, names, seen, dirs=None):
 
 class docutils(Task.Task):
     """
-	Compile a rst file.
-	"""
+    Compile a rst file.
+    """
 
     def scan(self):
         """
-		A recursive regex-based scanner that finds rst dependencies.
-		"""
+        A recursive regex-based scanner that finds rst dependencies.
+        """
 
         nodes = []
         names = []
@@ -102,20 +102,20 @@ class docutils(Task.Task):
 
     def check_status(self, msg, retcode):
         """
-		Check an exit status and raise an error with a particular message
+        Check an exit status and raise an error with a particular message
 
-		:param msg: message to display if the code is non-zero
-		:type msg: string
-		:param retcode: condition
-		:type retcode: boolean
-		"""
+        :param msg: message to display if the code is non-zero
+        :type msg: string
+        :param retcode: condition
+        :type retcode: boolean
+        """
         if retcode != 0:
             raise Errors.WafError(f"{msg!r} command exit status {retcode!r}")
 
     def run(self):
         """
-		Runs the rst compilation using docutils
-		"""
+        Runs the rst compilation using docutils
+        """
         raise NotImplementedError()
 
 
@@ -194,8 +194,8 @@ class rst2pdf(docutils):
 @before_method("process_source")
 def apply_rst(self):
     """
-	Create :py:class:`rst` or other rst-related task objects
-	"""
+    Create :py:class:`rst` or other rst-related task objects
+    """
 
     if self.target:
         if isinstance(self.target, Node.Node):
@@ -274,11 +274,11 @@ def apply_rst(self):
 
 def configure(self):
     """
-	Try to find the rst programs.
+    Try to find the rst programs.
 
-	Do not raise any error if they are not found.
-	You'll have to use additional code in configure() to die
-	if programs were not found.
-	"""
+    Do not raise any error if they are not found.
+    You'll have to use additional code in configure() to die
+    if programs were not found.
+    """
     for p in rst_progs:
         self.find_program(p, mandatory=False)

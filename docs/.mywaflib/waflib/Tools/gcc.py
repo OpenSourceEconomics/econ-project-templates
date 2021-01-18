@@ -13,8 +13,8 @@ from waflib.Tools import ccroot
 @conf
 def find_gcc(conf):
     """
-	Find the program gcc, and if present, try to detect its version number
-	"""
+    Find the program gcc, and if present, try to detect its version number
+    """
     cc = conf.find_program(["gcc", "cc"], var="CC")
     conf.get_cc_version(cc, gcc=True)
     conf.env.CC_NAME = "gcc"
@@ -23,8 +23,8 @@ def find_gcc(conf):
 @conf
 def gcc_common_flags(conf):
     """
-	Common flags for gcc on nearly all platforms
-	"""
+    Common flags for gcc on nearly all platforms
+    """
     v = conf.env
 
     v.CC_SRC_F = []
@@ -152,8 +152,8 @@ def gcc_modifier_platform(conf):
 
 def configure(conf):
     """
-	Configuration for gcc
-	"""
+    Configuration for gcc
+    """
     conf.find_gcc()
     conf.find_ar()
     conf.gcc_common_flags()

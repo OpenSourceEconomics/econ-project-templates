@@ -46,8 +46,8 @@ Name of the lock file that marks a project as configured
 
 class opt_parser(optparse.OptionParser):
     """
-	Command-line options parser.
-	"""
+    Command-line options parser.
+    """
 
     def __init__(self, ctx, allow_unknown=False):
         optparse.OptionParser.__init__(
@@ -62,8 +62,8 @@ class opt_parser(optparse.OptionParser):
 
     def _process_args(self, largs, rargs, values):
         """
-		Custom _process_args to allow unknown options according to the allow_unknown status
-		"""
+        Custom _process_args to allow unknown options according to the allow_unknown status
+        """
         while rargs:
             try:
                 optparse.OptionParser._process_args(self, largs, rargs, values)
@@ -78,10 +78,10 @@ class opt_parser(optparse.OptionParser):
 
     def get_usage(self):
         """
-		Builds the message to print on ``waf --help``
+        Builds the message to print on ``waf --help``
 
-		:rtype: string
-		"""
+        :rtype: string
+        """
         cmds_str = {}
         for cls in Context.classes:
             if not cls.cmd or cls.cmd == "options" or cls.cmd.startswith("_"):
@@ -119,9 +119,9 @@ Main commands (example: ./waf build -j4)
 
 class OptionsContext(Context.Context):
     """
-	Collects custom options from wscript files and parses the command line.
-	Sets the global :py:const:`waflib.Options.commands` and :py:const:`waflib.Options.options` values.
-	"""
+    Collects custom options from wscript files and parses the command line.
+    Sets the global :py:const:`waflib.Options.commands` and :py:const:`waflib.Options.options` values.
+    """
 
     cmd = "options"
     fun = "options"
@@ -321,15 +321,15 @@ class OptionsContext(Context.Context):
 
     def jobs(self):
         """
-		Finds the optimal amount of cpu cores to use for parallel jobs.
-		At runtime the options can be obtained from :py:const:`waflib.Options.options` ::
+        Finds the optimal amount of cpu cores to use for parallel jobs.
+        At runtime the options can be obtained from :py:const:`waflib.Options.options` ::
 
-			from waflib.Options import options
-			njobs = options.jobs
+                from waflib.Options import options
+                njobs = options.jobs
 
-		:return: the amount of cpu cores
-		:rtype: int
-		"""
+        :return: the amount of cpu cores
+        :rtype: int
+        """
         count = int(os.environ.get("JOBS", 0))
         if count < 1:
             if "NUMBER_OF_PROCESSORS" in os.environ:
@@ -358,26 +358,26 @@ class OptionsContext(Context.Context):
 
     def add_option(self, *k, **kw):
         """
-		Wraps ``optparse.add_option``::
+        Wraps ``optparse.add_option``::
 
-			def options(ctx):
-				ctx.add_option('-u', '--use', dest='use', default=False,
-					action='store_true', help='a boolean option')
+                def options(ctx):
+                        ctx.add_option('-u', '--use', dest='use', default=False,
+                                action='store_true', help='a boolean option')
 
-		:rtype: optparse option object
-		"""
+        :rtype: optparse option object
+        """
         return self.parser.add_option(*k, **kw)
 
     def add_option_group(self, *k, **kw):
         """
-		Wraps ``optparse.add_option_group``::
+        Wraps ``optparse.add_option_group``::
 
-			def options(ctx):
-				gr = ctx.add_option_group('some options')
-				gr.add_option('-u', '--use', dest='use', default=False, action='store_true')
+                def options(ctx):
+                        gr = ctx.add_option_group('some options')
+                        gr.add_option('-u', '--use', dest='use', default=False, action='store_true')
 
-		:rtype: optparse option group object
-		"""
+        :rtype: optparse option group object
+        """
         try:
             gr = self.option_groups[k[0]]
         except KeyError:
@@ -387,15 +387,15 @@ class OptionsContext(Context.Context):
 
     def get_option_group(self, opt_str):
         """
-		Wraps ``optparse.get_option_group``::
+        Wraps ``optparse.get_option_group``::
 
-			def options(ctx):
-				gr = ctx.get_option_group('configure options')
-				gr.add_option('-o', '--out', action='store', default='',
-					help='build dir for the project', dest='out')
+                def options(ctx):
+                        gr = ctx.get_option_group('configure options')
+                        gr.add_option('-o', '--out', action='store', default='',
+                                help='build dir for the project', dest='out')
 
-		:rtype: optparse option group object
-		"""
+        :rtype: optparse option group object
+        """
         try:
             return self.option_groups[opt_str]
         except KeyError:
@@ -415,8 +415,8 @@ class OptionsContext(Context.Context):
 
     def parse_cmd_args(self, _args=None, cwd=None, allow_unknown=False):
         """
-		Just parse the arguments
-		"""
+        Just parse the arguments
+        """
         self.parser.allow_unknown = allow_unknown
         (options, leftover_args) = self.parser.parse_args(args=_args)
         envvars = []
@@ -466,21 +466,21 @@ class OptionsContext(Context.Context):
 
     def parse_args(self, _args=None):
         """
-		Parses arguments from a list which is not necessarily the command-line.
-		Initializes the module variables options, commands and envvars
-		If help is requested, prints it and exit the application
+        Parses arguments from a list which is not necessarily the command-line.
+        Initializes the module variables options, commands and envvars
+        If help is requested, prints it and exit the application
 
-		:param _args: arguments
-		:type _args: list of strings
-		"""
+        :param _args: arguments
+        :type _args: list of strings
+        """
         options, commands, envvars = self.parse_cmd_args()
         self.init_logs(options, commands, envvars)
         self.init_module_vars(options, commands, envvars)
 
     def execute(self):
         """
-		See :py:func:`waflib.Context.Context.execute`
-		"""
+        See :py:func:`waflib.Context.Context.execute`
+        """
         super().execute()
         self.parse_args()
         Utils.alloc_process_pool(options.jobs)

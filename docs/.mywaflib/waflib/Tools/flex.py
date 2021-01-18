@@ -54,8 +54,8 @@ ccroot.USELIB_VARS["cxx"].add("FLEXFLAGS")
 
 def configure(conf):
     """
-	Detect the *flex* program
-	"""
+    Detect the *flex* program
+    """
     conf.find_program("flex", var="FLEX")
     conf.env.FLEXFLAGS = ["-t"]
 

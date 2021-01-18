@@ -36,9 +36,9 @@ from waflib.TaskGen import feature
 @feature("perlext")
 def init_perlext(self):
     """
-	Change the values of *cshlib_PATTERN* and *cxxshlib_PATTERN* to remove the
-	*lib* prefix from library names.
-	"""
+    Change the values of *cshlib_PATTERN* and *cxxshlib_PATTERN* to remove the
+    *lib* prefix from library names.
+    """
     self.uselib = self.to_list(getattr(self, "uselib", []))
     if not "PERLEXT" in self.uselib:
         self.uselib.append("PERLEXT")
@@ -48,8 +48,8 @@ def init_perlext(self):
 @extension(".xs")
 def xsubpp_file(self, node):
     """
-	Create :py:class:`waflib.Tools.perl.xsubpp` tasks to process *.xs* files
-	"""
+    Create :py:class:`waflib.Tools.perl.xsubpp` tasks to process *.xs* files
+    """
     outnode = node.change_ext(".c")
     self.create_task("xsubpp", node, outnode)
     self.source.append(outnode)
@@ -57,8 +57,8 @@ def xsubpp_file(self, node):
 
 class xsubpp(Task.Task):
     """
-	Process *.xs* files
-	"""
+    Process *.xs* files
+    """
 
     run_str = (
         "${PERL} ${XSUBPP} -noprototypes -typemap ${EXTUTILS_TYPEMAP} ${SRC} > ${TGT}"
@@ -70,9 +70,9 @@ class xsubpp(Task.Task):
 @conf
 def check_perl_version(self, minver=None):
     """
-	Check if Perl is installed, and set the variable PERL.
-	minver is supposed to be a tuple
-	"""
+    Check if Perl is installed, and set the variable PERL.
+    minver is supposed to be a tuple
+    """
     res = True
     if minver:
         cver = ".".join(map(str, minver))
@@ -100,14 +100,14 @@ def check_perl_version(self, minver=None):
 @conf
 def check_perl_module(self, module):
     """
-	Check if specified perlmodule is installed.
+    Check if specified perlmodule is installed.
 
-	The minimum version can be specified by specifying it after modulename
-	like this::
+    The minimum version can be specified by specifying it after modulename
+    like this::
 
-		def configure(conf):
-			conf.check_perl_module("Some::Module 2.92")
-	"""
+            def configure(conf):
+                    conf.check_perl_module("Some::Module 2.92")
+    """
     cmd = self.env.PERL + ["-e", "use %s" % module]
     self.start_msg("perl module %s" % module)
     try:
@@ -122,13 +122,13 @@ def check_perl_module(self, module):
 @conf
 def check_perl_ext_devel(self):
     """
-	Check for configuration needed to build perl extensions.
+    Check for configuration needed to build perl extensions.
 
-	Sets different xxx_PERLEXT variables in the environment.
+    Sets different xxx_PERLEXT variables in the environment.
 
-	Also sets the ARCHDIR_PERL variable useful as installation path,
-	which can be overridden by ``--with-perl-archdir`` option.
-	"""
+    Also sets the ARCHDIR_PERL variable useful as installation path,
+    which can be overridden by ``--with-perl-archdir`` option.
+    """
 
     env = self.env
     perl = env.PERL
@@ -167,8 +167,8 @@ def check_perl_ext_devel(self):
 
 def options(opt):
     """
-	Add the ``--with-perl-archdir`` and ``--with-perl-binary`` command-line options.
-	"""
+    Add the ``--with-perl-archdir`` and ``--with-perl-binary`` command-line options.
+    """
     opt.add_option(
         "--with-perl-binary",
         type="string",

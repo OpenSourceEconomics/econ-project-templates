@@ -8,8 +8,8 @@ from waflib.Tools import d
 @conf
 def find_ldc2(conf):
     """
-	Finds the program *ldc2* and set the variable *D*
-	"""
+    Finds the program *ldc2* and set the variable *D*
+    """
     conf.find_program(["ldc2"], var="D")
 
     out = conf.cmd_and_log(conf.env.D + ["-version"])
@@ -20,8 +20,8 @@ def find_ldc2(conf):
 @conf
 def common_flags_ldc2(conf):
     """
-	Sets the D flags required by *ldc2*
-	"""
+    Sets the D flags required by *ldc2*
+    """
     v = conf.env
 
     v.D_SRC_F = ["-c"]
@@ -48,8 +48,8 @@ def common_flags_ldc2(conf):
 
 def configure(conf):
     """
-	Configuration for *ldc2*
-	"""
+    Configuration for *ldc2*
+    """
     conf.find_ldc2()
     conf.load("ar")
     conf.load("d")

@@ -19,12 +19,12 @@ re_cyt = re.compile(
 @extension(".pyx")
 def add_cython_file(self, node):
     """
-	Process a *.pyx* file given in the list of source files. No additional
-	feature is required::
+    Process a *.pyx* file given in the list of source files. No additional
+    feature is required::
 
-		def build(bld):
-			bld(features='c cshlib pyext', source='main.c foo.pyx', target='app')
-	"""
+            def build(bld):
+                    bld(features='c cshlib pyext', source='main.c foo.pyx', target='app')
+    """
     ext = ".c"
     if "cxx" in self.features:
         self.env.append_unique("CYTHONFLAGS", "--cplus")
@@ -58,10 +58,10 @@ class cython(Task.Task):
 
     def runnable_status(self):
         """
-		Perform a double-check to add the headers created by cython
-		to the output nodes. The scanner is executed only when the cython task
-		must be executed (optimization).
-		"""
+        Perform a double-check to add the headers created by cython
+        to the output nodes. The scanner is executed only when the cython task
+        must be executed (optimization).
+        """
         ret = super().runnable_status()
         if ret == Task.ASK_LATER:
             return ret
@@ -83,12 +83,12 @@ class cython(Task.Task):
 
     def scan(self):
         """
-		Return the dependent files (.pxd) by looking in the include folders.
-		Put the headers to generate in the custom list "bld.raw_deps".
-		To inspect the scanne results use::
+        Return the dependent files (.pxd) by looking in the include folders.
+        Put the headers to generate in the custom list "bld.raw_deps".
+        To inspect the scanne results use::
 
-			$ waf clean build --zones=deps
-		"""
+                $ waf clean build --zones=deps
+        """
         node = self.inputs[0]
         txt = node.read()
 

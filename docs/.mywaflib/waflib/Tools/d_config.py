@@ -7,8 +7,8 @@ from waflib.Configure import conf
 @conf
 def d_platform_flags(self):
     """
-	Sets the extensions dll/so for d programs and libraries
-	"""
+    Sets the extensions dll/so for d programs and libraries
+    """
     v = self.env
     if not v.DEST_OS:
         v.DEST_OS = Utils.unversioned_sys_platform()
@@ -56,9 +56,9 @@ version(D_Version2) {
 @conf
 def check_dlibrary(self, execute=True):
     """
-	Detects the kind of standard library that comes with the compiler,
-	and sets conf.env.DLIBRARY to tango, phobos1 or phobos2
-	"""
+    Detects the kind of standard library that comes with the compiler,
+    and sets conf.env.DLIBRARY to tango, phobos1 or phobos2
+    """
     ret = self.check_cc(
         features="d dprogram",
         fragment=DLIB,

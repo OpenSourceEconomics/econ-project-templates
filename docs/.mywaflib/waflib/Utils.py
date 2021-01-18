@@ -71,9 +71,9 @@ except ImportError:
 
     class threading:
         """
-		A fake threading class for platforms lacking the threading module.
-		Use ``waf -j1`` on those platforms
-		"""
+        A fake threading class for platforms lacking the threading module.
+        Use ``waf -j1`` on those platforms
+        """
 
         pass
 
@@ -137,8 +137,8 @@ class ordered_iter_dict(dict):
 
 class lru_node:
     """
-	Used by :py:class:`waflib.Utils.lru_cache`
-	"""
+    Used by :py:class:`waflib.Utils.lru_cache`
+    """
 
     __slots__ = ("next", "prev", "key", "val")
 
@@ -151,8 +151,8 @@ class lru_node:
 
 class lru_cache:
     """
-	A simple least-recently used cache with lazy allocation
-	"""
+    A simple least-recently used cache with lazy allocation
+    """
 
     __slots__ = ("maxlen", "table", "head")
 
@@ -238,22 +238,22 @@ Whether this system is a Windows series
 
 def readf(fname, m="r", encoding="latin-1"):
     """
-	Reads an entire file into a string. See also :py:meth:`waflib.Node.Node.readf`::
+    Reads an entire file into a string. See also :py:meth:`waflib.Node.Node.readf`::
 
-		def build(ctx):
-			from waflib import Utils
-			txt = Utils.readf(self.path.find_node('wscript').abspath())
-			txt = ctx.path.find_node('wscript').read()
+            def build(ctx):
+                    from waflib import Utils
+                    txt = Utils.readf(self.path.find_node('wscript').abspath())
+                    txt = ctx.path.find_node('wscript').read()
 
-	:type  fname: string
-	:param fname: Path to file
-	:type  m: string
-	:param m: Open mode
-	:type encoding: string
-	:param encoding: encoding value, only used for python 3
-	:rtype: string
-	:return: Content of the file
-	"""
+    :type  fname: string
+    :param fname: Path to file
+    :type  m: string
+    :param m: Open mode
+    :type encoding: string
+    :param encoding: encoding value, only used for python 3
+    :rtype: string
+    :return: Content of the file
+    """
 
     if sys.hexversion > 0x3000000 and not "b" in m:
         m += "b"
@@ -271,23 +271,23 @@ def readf(fname, m="r", encoding="latin-1"):
 
 def writef(fname, data, m="w", encoding="latin-1"):
     """
-	Writes an entire file from a string.
-	See also :py:meth:`waflib.Node.Node.writef`::
+    Writes an entire file from a string.
+    See also :py:meth:`waflib.Node.Node.writef`::
 
-		def build(ctx):
-			from waflib import Utils
-			txt = Utils.writef(self.path.make_node('i_like_kittens').abspath(), 'some data')
-			self.path.make_node('i_like_kittens').write('some data')
+            def build(ctx):
+                    from waflib import Utils
+                    txt = Utils.writef(self.path.make_node('i_like_kittens').abspath(), 'some data')
+                    self.path.make_node('i_like_kittens').write('some data')
 
-	:type  fname: string
-	:param fname: Path to file
-	:type   data: string
-	:param  data: The contents to write to the file
-	:type  m: string
-	:param m: Open mode
-	:type encoding: string
-	:param encoding: encoding value, only used for python 3
-	"""
+    :type  fname: string
+    :param fname: Path to file
+    :type   data: string
+    :param  data: The contents to write to the file
+    :type  m: string
+    :param m: Open mode
+    :type encoding: string
+    :param encoding: encoding value, only used for python 3
+    """
     if sys.hexversion > 0x3000000 and not "b" in m:
         data = data.encode(encoding)
         m += "b"
@@ -297,14 +297,14 @@ def writef(fname, data, m="w", encoding="latin-1"):
 
 def h_file(fname):
     """
-	Computes a hash value for a file by using md5. Use the md5_tstamp
-	extension to get faster build hashes if necessary.
+    Computes a hash value for a file by using md5. Use the md5_tstamp
+    extension to get faster build hashes if necessary.
 
-	:type fname: string
-	:param fname: path to the file to hash
-	:return: hash of the file contents
-	:rtype: string or bytes
-	"""
+    :type fname: string
+    :param fname: path to the file to hash
+    :return: hash of the file contents
+    :rtype: string or bytes
+    """
     m = md5()
     with open(fname, "rb") as f:
         while fname:
@@ -406,12 +406,12 @@ Return the hexadecimal representation of a string
 
 def listdir_win32(s):
     """
-	Lists the contents of a folder in a portable manner.
-	On Win32, returns the list of drive letters: ['C:', 'X:', 'Z:'] when an empty string is given.
+    Lists the contents of a folder in a portable manner.
+    On Win32, returns the list of drive letters: ['C:', 'X:', 'Z:'] when an empty string is given.
 
-	:type s: string
-	:param s: a string, which can be empty on Windows
-	"""
+    :type s: string
+    :param s: a string, which can be empty on Windows
+    """
     if not s:
         try:
             import ctypes
@@ -447,14 +447,14 @@ if is_win32:
 
 def num2ver(ver):
     """
-	Converts a string, tuple or version number into an integer. The number is supposed to have at most 4 digits::
+    Converts a string, tuple or version number into an integer. The number is supposed to have at most 4 digits::
 
-		from waflib.Utils import num2ver
-		num2ver('1.3.2') == num2ver((1,3,2)) == num2ver((1,3,2,0))
+            from waflib.Utils import num2ver
+            num2ver('1.3.2') == num2ver((1,3,2)) == num2ver((1,3,2,0))
 
-	:type ver: string or tuple of numbers
-	:param ver: a version number
-	"""
+    :type ver: string or tuple of numbers
+    :param ver: a version number
+    """
     if isinstance(ver, str):
         ver = tuple(ver.split("."))
     if isinstance(ver, tuple):
@@ -468,16 +468,16 @@ def num2ver(ver):
 
 def to_list(val):
     """
-	Converts a string argument to a list by splitting it by spaces.
-	Returns the object if not a string::
+    Converts a string argument to a list by splitting it by spaces.
+    Returns the object if not a string::
 
-		from waflib.Utils import to_list
-		lst = to_list('a b c d')
+            from waflib.Utils import to_list
+            lst = to_list('a b c d')
 
-	:param val: list of string or space-separated string
-	:rtype: list
-	:return: Argument converted to list
-	"""
+    :param val: list of string or space-separated string
+    :rtype: list
+    :return: Argument converted to list
+    """
     if isinstance(val, str):
         return val.split()
     else:
@@ -563,12 +563,12 @@ Splits a path by / or \\; do not confuse this function with with ``os.path.split
 
 def check_dir(path):
     """
-	Ensures that a directory exists (similar to ``mkdir -p``).
+    Ensures that a directory exists (similar to ``mkdir -p``).
 
-	:type  path: string
-	:param path: Path to directory
-	:raises: :py:class:`waflib.Errors.WafError` if the folder cannot be added.
-	"""
+    :type  path: string
+    :param path: Path to directory
+    :raises: :py:class:`waflib.Errors.WafError` if the folder cannot be added.
+    """
     if not os.path.isdir(path):
         try:
             os.makedirs(path)
@@ -579,15 +579,15 @@ def check_dir(path):
 
 def check_exe(name, env=None):
     """
-	Ensures that a program exists
+    Ensures that a program exists
 
-	:type name: string
-	:param name: path to the program
-	:param env: configuration object
-	:type env: :py:class:`waflib.ConfigSet.ConfigSet`
-	:return: path of the program or None
-	:raises: :py:class:`waflib.Errors.WafError` if the folder cannot be added.
-	"""
+    :type name: string
+    :param name: path to the program
+    :param env: configuration object
+    :type env: :py:class:`waflib.ConfigSet.ConfigSet`
+    :return: path of the program or None
+    :raises: :py:class:`waflib.Errors.WafError` if the folder cannot be added.
+    """
     if not name:
         raise ValueError("Cannot execute an empty string!")
 
@@ -609,13 +609,13 @@ def check_exe(name, env=None):
 
 def def_attrs(cls, **kw):
     """
-	Sets default attributes on a class instance
+    Sets default attributes on a class instance
 
-	:type cls: class
-	:param cls: the class to update the given attributes in.
-	:type kw: dict
-	:param kw: dictionary of attributes names and values.
-	"""
+    :type cls: class
+    :param cls: the class to update the given attributes in.
+    :type kw: dict
+    :param kw: dictionary of attributes names and values.
+    """
     for k, v in kw.items():
         if not hasattr(cls, k):
             setattr(cls, k, v)
@@ -623,13 +623,13 @@ def def_attrs(cls, **kw):
 
 def quote_define_name(s):
     """
-	Converts a string into an identifier suitable for C defines.
+    Converts a string into an identifier suitable for C defines.
 
-	:type  s: string
-	:param s: String to convert
-	:rtype: string
-	:return: Identifier suitable for C defines
-	"""
+    :type  s: string
+    :param s: String to convert
+    :rtype: string
+    :return: Identifier suitable for C defines
+    """
     fu = re.sub("[^a-zA-Z0-9]", "_", s)
     fu = re.sub("_+", "_", fu)
     fu = fu.upper()
@@ -644,9 +644,9 @@ Regexp used for shell_escape below
 
 def shell_escape(cmd):
     """
-	Escapes a command:
-	['ls', '-l', 'arg space'] -> ls -l 'arg space'
-	"""
+    Escapes a command:
+    ['ls', '-l', 'arg space'] -> ls -l 'arg space'
+    """
     if isinstance(cmd, str):
         return cmd
     return " ".join(repr(x) if re_sh.search(x) else x for x in cmd)
@@ -654,27 +654,27 @@ def shell_escape(cmd):
 
 def h_list(lst):
     """
-	Hashes lists of ordered data.
+    Hashes lists of ordered data.
 
-	Using hash(tup) for tuples would be much more efficient,
-	but Python now enforces hash randomization
+    Using hash(tup) for tuples would be much more efficient,
+    but Python now enforces hash randomization
 
-	:param lst: list to hash
-	:type lst: list of strings
-	:return: hash of the list
-	"""
+    :param lst: list to hash
+    :type lst: list of strings
+    :return: hash of the list
+    """
     return md5(repr(lst).encode()).digest()
 
 
 def h_fun(fun):
     """
-	Hash functions
+    Hash functions
 
-	:param fun: function to hash
-	:type  fun: function
-	:return: hash of the function
-	:rtype: string or bytes
-	"""
+    :param fun: function to hash
+    :type  fun: function
+    :return: hash of the function
+    :rtype: string or bytes
+    """
     try:
         return fun.code
     except AttributeError:
@@ -703,12 +703,12 @@ def h_fun(fun):
 
 def h_cmd(ins):
     """
-	Hashes objects recursively
+    Hashes objects recursively
 
-	:param ins: input object
-	:type ins: string or list or tuple or function
-	:rtype: string or bytes
-	"""
+    :param ins: input object
+    :type ins: string or list or tuple or function
+    :rtype: string or bytes
+    """
     # this function is not meant to be particularly fast
     if isinstance(ins, str):
         # a command is either a string
@@ -729,15 +729,15 @@ reg_subst = re.compile(r"(\\\\)|(\$\$)|\$\{([^}]+)\}")
 
 def subst_vars(expr, params):
     """
-	Replaces ${VAR} with the value of VAR taken from a dict or a config set::
+    Replaces ${VAR} with the value of VAR taken from a dict or a config set::
 
-		from waflib import Utils
-		s = Utils.subst_vars('${PREFIX}/bin', env)
+            from waflib import Utils
+            s = Utils.subst_vars('${PREFIX}/bin', env)
 
-	:type  expr: string
-	:param expr: String to perform substitution on
-	:param params: Dictionary or config set to look up variable values.
-	"""
+    :type  expr: string
+    :param expr: String to perform substitution on
+    :param params: Dictionary or config set to look up variable values.
+    """
 
     def repl_var(m):
         if m.group(1):
@@ -757,13 +757,13 @@ def subst_vars(expr, params):
 
 def destos_to_binfmt(key):
     """
-	Returns the binary format based on the unversioned platform name,
-	and defaults to ``elf`` if nothing is found.
+    Returns the binary format based on the unversioned platform name,
+    and defaults to ``elf`` if nothing is found.
 
-	:param key: platform name
-	:type  key: string
-	:return: string representing the binary format
-	"""
+    :param key: platform name
+    :type  key: string
+    :return: string representing the binary format
+    """
     if key == "darwin":
         return "mac-o"
     elif key in ("win32", "cygwin", "uwin", "msys"):
@@ -773,15 +773,15 @@ def destos_to_binfmt(key):
 
 def unversioned_sys_platform():
     """
-	Returns the unversioned platform name.
-	Some Python platform names contain versions, that depend on
-	the build environment, e.g. linux2, freebsd6, etc.
-	This returns the name without the version number. Exceptions are
-	os2 and win32, which are returned verbatim.
+    Returns the unversioned platform name.
+    Some Python platform names contain versions, that depend on
+    the build environment, e.g. linux2, freebsd6, etc.
+    This returns the name without the version number. Exceptions are
+    os2 and win32, which are returned verbatim.
 
-	:rtype: string
-	:return: Unversioned platform name
-	"""
+    :rtype: string
+    :return: Unversioned platform name
+    """
     s = sys.platform
     if s.startswith("java"):
         # The real OS is hidden under the JVM.
@@ -815,23 +815,23 @@ def unversioned_sys_platform():
 
 def nada(*k, **kw):
     """
-	Does nothing
+    Does nothing
 
-	:return: None
-	"""
+    :return: None
+    """
     pass
 
 
 class Timer:
     """
-	Simple object for timing the execution of commands.
-	Its string representation is the duration::
+    Simple object for timing the execution of commands.
+    Its string representation is the duration::
 
-		from waflib.Utils import Timer
-		timer = Timer()
-		a_few_operations()
-		s = str(timer)
-	"""
+            from waflib.Utils import Timer
+            timer = Timer()
+            a_few_operations()
+            s = str(timer)
+    """
 
     def __init__(self):
         self.start_time = self.now()
@@ -864,11 +864,11 @@ class Timer:
 
 def read_la_file(path):
     """
-	Reads property files, used by msvc.py
+    Reads property files, used by msvc.py
 
-	:param path: file to read
-	:type path: string
-	"""
+    :param path: file to read
+    :type path: string
+    """
     sp = re.compile(r"^([^=]+)=\'(.*)\'$")
     dc = {}
     for line in readf(path).splitlines():
@@ -882,18 +882,18 @@ def read_la_file(path):
 
 def run_once(fun):
     """
-	Decorator: let a function cache its results, use like this::
+    Decorator: let a function cache its results, use like this::
 
-		@run_once
-		def foo(k):
-			return 345*2343
+            @run_once
+            def foo(k):
+                    return 345*2343
 
-	.. note:: in practice this can cause memory leaks, prefer a :py:class:`waflib.Utils.lru_cache`
+    .. note:: in practice this can cause memory leaks, prefer a :py:class:`waflib.Utils.lru_cache`
 
-	:param fun: function to execute
-	:type fun: function
-	:return: the return value of the function executed
-	"""
+    :param fun: function to execute
+    :type fun: function
+    :return: the return value of the function executed
+    """
     cache = {}
 
     def wrap(*k):
@@ -911,11 +911,11 @@ def run_once(fun):
 
 def get_registry_app_path(key, filename):
     """
-	Returns the value of a registry key for an executable
+    Returns the value of a registry key for an executable
 
-	:type key: string
-	:type filename: list of string
-	"""
+    :type key: string
+    :type filename: list of string
+    """
     if not winreg:
         return None
     try:
@@ -933,11 +933,11 @@ def get_registry_app_path(key, filename):
 
 def lib64():
     """
-	Guess the default ``/usr/lib`` extension for 64-bit applications
+    Guess the default ``/usr/lib`` extension for 64-bit applications
 
-	:return: '64' or ''
-	:rtype: string
-	"""
+    :return: '64' or ''
+    :rtype: string
+    """
     # default settings for /usr/lib
     if os.sep == "/":
         if platform.architecture()[0] == "64bit":
@@ -959,10 +959,10 @@ List of processes started to execute sub-process commands
 
 def get_process():
     """
-	Returns a process object that can execute commands as sub-processes
+    Returns a process object that can execute commands as sub-processes
 
-	:rtype: subprocess.Popen
-	"""
+    :rtype: subprocess.Popen
+    """
     try:
         return process_pool.pop()
     except IndexError:
@@ -975,8 +975,8 @@ def get_process():
 
 def run_prefork_process(cmd, kwargs, cargs):
     """
-	Delegates process execution to a pre-forked process instance.
-	"""
+    Delegates process execution to a pre-forked process instance.
+    """
     if not "env" in kwargs:
         kwargs["env"] = dict(os.environ)
     try:
@@ -1016,14 +1016,14 @@ def run_prefork_process(cmd, kwargs, cargs):
 
 def lchown(path, user=-1, group=-1):
     """
-	Change the owner/group of a path, raises an OSError if the
-	ownership change fails.
+    Change the owner/group of a path, raises an OSError if the
+    ownership change fails.
 
-	:param user: user to change
-	:type user: int or str
-	:param group: group to change
-	:type group: int or str
-	"""
+    :param user: user to change
+    :type user: int or str
+    :param group: group to change
+    :type group: int or str
+    """
     if isinstance(user, str):
         import pwd
 
@@ -1043,8 +1043,8 @@ def lchown(path, user=-1, group=-1):
 
 def run_regular_process(cmd, kwargs, cargs={}):
     """
-	Executes a subprocess command by using subprocess.Popen
-	"""
+    Executes a subprocess command by using subprocess.Popen
+    """
     proc = subprocess.Popen(cmd, **kwargs)
     if kwargs.get("stdout") or kwargs.get("stderr"):
         try:
@@ -1075,10 +1075,10 @@ def run_regular_process(cmd, kwargs, cargs={}):
 
 def run_process(cmd, kwargs, cargs={}):
     """
-	Executes a subprocess by using a pre-forked process when possible
-	or falling back to subprocess.Popen. See :py:func:`waflib.Utils.run_prefork_process`
-	and :py:func:`waflib.Utils.run_regular_process`
-	"""
+    Executes a subprocess by using a pre-forked process when possible
+    or falling back to subprocess.Popen. See :py:func:`waflib.Utils.run_prefork_process`
+    and :py:func:`waflib.Utils.run_regular_process`
+    """
     if kwargs.get("stdout") and kwargs.get("stderr"):
         return run_prefork_process(cmd, kwargs, cargs)
     else:
@@ -1087,15 +1087,15 @@ def run_process(cmd, kwargs, cargs={}):
 
 def alloc_process_pool(n, force=False):
     """
-	Allocates an amount of processes to the default pool so its size is at least *n*.
-	It is useful to call this function early so that the pre-forked
-	processes use as little memory as possible.
+    Allocates an amount of processes to the default pool so its size is at least *n*.
+    It is useful to call this function early so that the pre-forked
+    processes use as little memory as possible.
 
-	:param n: pool size
-	:type n: integer
-	:param force: if True then *n* more processes are added to the existing pool
-	:type force: bool
-	"""
+    :param n: pool size
+    :type n: integer
+    :param force: if True then *n* more processes are added to the existing pool
+    :type force: bool
+    """
     # mandatory on python2, unnecessary on python >= 3.2
     global run_process, get_process, alloc_process_pool
     if not force:

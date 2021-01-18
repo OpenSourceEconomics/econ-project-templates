@@ -67,8 +67,8 @@ DISTUTILS_IMP = ["from distutils.sysconfig import get_config_var, get_python_lib
 @feature("py")
 def feature_py(self):
     """
-	Create tasks to byte-compile .py files and install them, if requested
-	"""
+    Create tasks to byte-compile .py files and install them, if requested
+    """
     self.install_path = getattr(self, "install_path", "${PYTHONDIR}")
     install_from = getattr(self, "install_from", None)
     if install_from and not isinstance(install_from, Node.Node):
@@ -88,8 +88,8 @@ def feature_py(self):
 @extension(".py")
 def process_py(self, node):
     """
-	Add signature of .py file, so it will be byte-compiled when necessary
-	"""
+    Add signature of .py file, so it will be byte-compiled when necessary
+    """
     assert hasattr(self, "install_path"), 'add features="py"'
 
     # where to install the python file
@@ -152,8 +152,8 @@ def process_py(self, node):
 
 class pyc(Task.Task):
     """
-	Byte-compiling python files
-	"""
+    Byte-compiling python files
+    """
 
     color = "PINK"
 
@@ -176,8 +176,8 @@ class pyc(Task.Task):
 
 class pyo(Task.Task):
     """
-	Byte-compiling python files
-	"""
+    Byte-compiling python files
+    """
 
     color = "PINK"
 
@@ -204,9 +204,9 @@ class pyo(Task.Task):
 @after_method("apply_bundle")
 def init_pyext(self):
     """
-	Change the values of *cshlib_PATTERN* and *cxxshlib_PATTERN* to remove the
-	*lib* prefix from library names.
-	"""
+    Change the values of *cshlib_PATTERN* and *cxxshlib_PATTERN* to remove the
+    *lib* prefix from library names.
+    """
     self.uselib = self.to_list(getattr(self, "uselib", []))
     if not "PYEXT" in self.uselib:
         self.uselib.append("PYEXT")
@@ -235,8 +235,8 @@ def set_bundle(self):
 @feature("pyembed")
 def init_pyembed(self):
     """
-	Add the PYEMBED variable.
-	"""
+    Add the PYEMBED variable.
+    """
     self.uselib = self.to_list(getattr(self, "uselib", []))
     if not "PYEMBED" in self.uselib:
         self.uselib.append("PYEMBED")
@@ -245,15 +245,15 @@ def init_pyembed(self):
 @conf
 def get_python_variables(self, variables, imports=None):
     """
-	Spawn a new python process to dump configuration variables
+    Spawn a new python process to dump configuration variables
 
-	:param variables: variables to print
-	:type variables: list of string
-	:param imports: one import by element
-	:type imports: list of string
-	:return: the variable values
-	:rtype: list of string
-	"""
+    :param variables: variables to print
+    :type variables: list of string
+    :param imports: one import by element
+    :type imports: list of string
+    :return: the variable values
+    :rtype: list of string
+    """
     if not imports:
         try:
             imports = self.python_imports
@@ -318,17 +318,17 @@ def test_pyext(self, mode, msg="Testing pyext configuration"):
 @conf
 def python_cross_compile(self, features="pyembed pyext"):
     """
-	For cross-compilation purposes, it is possible to bypass the normal detection and set the flags that you want:
-	PYTHON_VERSION='3.4' PYTAG='cpython34' pyext_PATTERN="%s.so" PYTHON_LDFLAGS='-lpthread -ldl' waf configure
+    For cross-compilation purposes, it is possible to bypass the normal detection and set the flags that you want:
+    PYTHON_VERSION='3.4' PYTAG='cpython34' pyext_PATTERN="%s.so" PYTHON_LDFLAGS='-lpthread -ldl' waf configure
 
-	The following variables are used:
-	PYTHON_VERSION    required
-	PYTAG             required
-	PYTHON_LDFLAGS    required
-	pyext_PATTERN     required
-	PYTHON_PYEXT_LDFLAGS
-	PYTHON_PYEMBED_LDFLAGS
-	"""
+    The following variables are used:
+    PYTHON_VERSION    required
+    PYTAG             required
+    PYTHON_LDFLAGS    required
+    pyext_PATTERN     required
+    PYTHON_PYEXT_LDFLAGS
+    PYTHON_PYEMBED_LDFLAGS
+    """
     features = Utils.to_list(features)
     if not (
         "PYTHON_LDFLAGS" in self.environ
@@ -368,12 +368,12 @@ def python_cross_compile(self, features="pyembed pyext"):
 @conf
 def check_python_headers(conf, features="pyembed pyext"):
     """
-	Check for headers and libraries necessary to extend or embed python by using the module *distutils*.
-	On success the environment variables xxx_PYEXT and xxx_PYEMBED are added:
+    Check for headers and libraries necessary to extend or embed python by using the module *distutils*.
+    On success the environment variables xxx_PYEXT and xxx_PYEMBED are added:
 
-	* PYEXT: for compiling python extensions
-	* PYEMBED: for embedding a python interpreter
-	"""
+    * PYEXT: for compiling python extensions
+    * PYEMBED: for embedding a python interpreter
+    """
     features = Utils.to_list(features)
     assert ("pyembed" in features) or (
         "pyext" in features
@@ -596,18 +596,18 @@ def check_python_headers(conf, features="pyembed pyext"):
 @conf
 def check_python_version(conf, minver=None):
     """
-	Check if the python interpreter is found matching a given minimum version.
-	minver should be a tuple, eg. to check for python >= 2.4.2 pass (2,4,2) as minver.
+    Check if the python interpreter is found matching a given minimum version.
+    minver should be a tuple, eg. to check for python >= 2.4.2 pass (2,4,2) as minver.
 
-	If successful, PYTHON_VERSION is defined as 'MAJOR.MINOR'
-	(eg. '2.4') of the actual python version found, and PYTHONDIR is
-	defined, pointing to the site-packages directory appropriate for
-	this python version, where modules/packages/extensions should be
-	installed.
+    If successful, PYTHON_VERSION is defined as 'MAJOR.MINOR'
+    (eg. '2.4') of the actual python version found, and PYTHONDIR is
+    defined, pointing to the site-packages directory appropriate for
+    this python version, where modules/packages/extensions should be
+    installed.
 
-	:param minver: minimum version
-	:type minver: tuple of int
-	"""
+    :param minver: minimum version
+    :type minver: tuple of int
+    """
     assert minver is None or isinstance(minver, tuple)
     pybin = conf.env.PYTHON
     if not pybin:
@@ -716,15 +716,15 @@ else:
 @conf
 def check_python_module(conf, module_name, condition=""):
     """
-	Check if the selected python interpreter can import the given python module::
+    Check if the selected python interpreter can import the given python module::
 
-		def configure(conf):
-			conf.check_python_module('pygccxml')
-			conf.check_python_module('re', condition="ver > num(2, 0, 4) and ver <= num(3, 0, 0)")
+            def configure(conf):
+                    conf.check_python_module('pygccxml')
+                    conf.check_python_module('re', condition="ver > num(2, 0, 4) and ver <= num(3, 0, 0)")
 
-	:param module_name: module
-	:type module_name: string
-	"""
+    :param module_name: module
+    :type module_name: string
+    """
     msg = "Checking for python module %r" % module_name
     if condition:
         msg = f"{msg} ({condition})"
@@ -764,8 +764,8 @@ def check_python_module(conf, module_name, condition=""):
 
 def configure(conf):
     """
-	Detect the python interpreter
-	"""
+    Detect the python interpreter
+    """
     v = conf.env
     if getattr(Options.options, "pythondir", None):
         v.PYTHONDIR = Options.options.pythondir
@@ -795,8 +795,8 @@ def configure(conf):
 
 def options(opt):
     """
-	Add python-specific options
-	"""
+    Add python-specific options
+    """
     pyopt = opt.add_option_group("Python Options")
     pyopt.add_option(
         "--nopyc",

@@ -53,8 +53,8 @@ _style_flags = {
 @taskgen_method
 def ensure_localedir(self):
     """
-	Expands LOCALEDIR from DATAROOTDIR/locale if possible, or falls back to PREFIX/share/locale
-	"""
+    Expands LOCALEDIR from DATAROOTDIR/locale if possible, or falls back to PREFIX/share/locale
+    """
     # use the tool gnu_dirs to provide options to define this
     if not self.env.LOCALEDIR:
         if self.env.DATAROOTDIR:
@@ -67,31 +67,31 @@ def ensure_localedir(self):
 @feature("intltool_in")
 def apply_intltool_in_f(self):
     """
-	Creates tasks to translate files by intltool-merge::
+    Creates tasks to translate files by intltool-merge::
 
-		def build(bld):
-			bld(
-				features  = "intltool_in",
-				podir     = "../po",
-				style     = "desktop",
-				flags     = ["-u"],
-				source    = 'kupfer.desktop.in',
-				install_path = "${DATADIR}/applications",
-			)
+            def build(bld):
+                    bld(
+                            features  = "intltool_in",
+                            podir     = "../po",
+                            style     = "desktop",
+                            flags     = ["-u"],
+                            source    = 'kupfer.desktop.in',
+                            install_path = "${DATADIR}/applications",
+                    )
 
-	:param podir: location of the .po files
-	:type podir: string
-	:param source: source files to process
-	:type source: list of string
-	:param style: the intltool-merge mode of operation, can be one of the following values:
-	  ``ba``, ``desktop``, ``keys``, ``quoted``, ``quotedxml``, ``rfc822deb``, ``schemas`` and ``xml``.
-	  See the ``intltool-merge`` man page for more information about supported modes of operation.
-	:type style: string
-	:param flags: compilation flags ("-quc" by default)
-	:type flags: list of string
-	:param install_path: installation path
-	:type install_path: string
-	"""
+    :param podir: location of the .po files
+    :type podir: string
+    :param source: source files to process
+    :type source: list of string
+    :param style: the intltool-merge mode of operation, can be one of the following values:
+      ``ba``, ``desktop``, ``keys``, ``quoted``, ``quotedxml``, ``rfc822deb``, ``schemas`` and ``xml``.
+      See the ``intltool-merge`` man page for more information about supported modes of operation.
+    :type style: string
+    :param flags: compilation flags ("-quc" by default)
+    :type flags: list of string
+    :param install_path: installation path
+    :type install_path: string
+    """
     try:
         self.meths.remove("process_source")
     except ValueError:
@@ -136,22 +136,22 @@ def apply_intltool_in_f(self):
 @feature("intltool_po")
 def apply_intltool_po(self):
     """
-	Creates tasks to process po files::
+    Creates tasks to process po files::
 
-		def build(bld):
-			bld(features='intltool_po', appname='myapp', podir='po', install_path="${LOCALEDIR}")
+            def build(bld):
+                    bld(features='intltool_po', appname='myapp', podir='po', install_path="${LOCALEDIR}")
 
-	The relevant task generator arguments are:
+    The relevant task generator arguments are:
 
-	:param podir: directory of the .po files
-	:type podir: string
-	:param appname: name of the application
-	:type appname: string
-	:param install_path: installation directory
-	:type install_path: string
+    :param podir: directory of the .po files
+    :type podir: string
+    :param appname: name of the application
+    :type appname: string
+    :param install_path: installation directory
+    :type install_path: string
 
-	The file LINGUAS must be present in the directory pointed by *podir* and list the translation files to process.
-	"""
+    The file LINGUAS must be present in the directory pointed by *podir* and list the translation files to process.
+    """
     try:
         self.meths.remove("process_source")
     except ValueError:
@@ -208,8 +208,8 @@ def apply_intltool_po(self):
 
 class po(Task.Task):
     """
-	Compiles .po files into .gmo files
-	"""
+    Compiles .po files into .gmo files
+    """
 
     run_str = "${MSGFMT} -o ${TGT} ${SRC}"
     color = "BLUE"
@@ -217,8 +217,8 @@ class po(Task.Task):
 
 class intltool(Task.Task):
     """
-	Calls intltool-merge to update translation files
-	"""
+    Calls intltool-merge to update translation files
+    """
 
     run_str = (
         "${INTLTOOL} ${INTLFLAGS} ${INTLCACHE_ST:INTLCACHE} ${INTLPODIR} ${SRC} ${TGT}"
@@ -229,16 +229,16 @@ class intltool(Task.Task):
 @conf
 def find_msgfmt(conf):
     """
-	Detects msgfmt and sets the ``MSGFMT`` variable
-	"""
+    Detects msgfmt and sets the ``MSGFMT`` variable
+    """
     conf.find_program("msgfmt", var="MSGFMT")
 
 
 @conf
 def find_intltool_merge(conf):
     """
-	Detects intltool-merge
-	"""
+    Detects intltool-merge
+    """
     if not conf.env.PERL:
         conf.find_program("perl", var="PERL")
     conf.env.INTLCACHE_ST = "--cache=%s"
@@ -248,14 +248,14 @@ def find_intltool_merge(conf):
 
 def configure(conf):
     """
-	Detects the program *msgfmt* and set *conf.env.MSGFMT*.
-	Detects the program *intltool-merge* and set *conf.env.INTLTOOL*.
-	It is possible to set INTLTOOL in the environment, but it must not have spaces in it::
+    Detects the program *msgfmt* and set *conf.env.MSGFMT*.
+    Detects the program *intltool-merge* and set *conf.env.INTLTOOL*.
+    It is possible to set INTLTOOL in the environment, but it must not have spaces in it::
 
-		$ INTLTOOL="/path/to/the program/intltool" waf configure
+            $ INTLTOOL="/path/to/the program/intltool" waf configure
 
-	If a C/C++ compiler is present, execute a compilation test to find the header *locale.h*.
-	"""
+    If a C/C++ compiler is present, execute a compilation test to find the header *locale.h*.
+    """
     conf.find_msgfmt()
     conf.find_intltool_merge()
     if conf.env.CC or conf.env.CXX:

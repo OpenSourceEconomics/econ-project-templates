@@ -36,9 +36,9 @@ int main(int argc, char **argv) {
 @before_method("process_source")
 def link_lib_test_fun(self):
     """
-	The configuration test :py:func:`waflib.Configure.run_build` declares a unique task generator,
-	so we need to create other task generators from here to check if the linker is able to link libraries.
-	"""
+    The configuration test :py:func:`waflib.Configure.run_build` declares a unique task generator,
+    so we need to create other task generators from here to check if the linker is able to link libraries.
+    """
 
     def write_test_file(task):
         task.outputs[0].write(task.generator.code)
@@ -66,11 +66,11 @@ def link_lib_test_fun(self):
 @conf
 def check_library(self, mode=None, test_exec=True):
     """
-	Checks if libraries can be linked with the current linker. Uses :py:func:`waflib.Tools.c_tests.link_lib_test_fun`.
+    Checks if libraries can be linked with the current linker. Uses :py:func:`waflib.Tools.c_tests.link_lib_test_fun`.
 
-	:param mode: c or cxx or d
-	:type mode: string
-	"""
+    :param mode: c or cxx or d
+    :type mode: string
+    """
     if not mode:
         mode = "c"
         if self.env.CXX:
@@ -99,15 +99,15 @@ INLINE_VALUES = ["inline", "__inline__", "__inline"]
 @conf
 def check_inline(self, **kw):
     """
-	Checks for the right value for inline macro.
-	Define INLINE_MACRO to 1 if the define is found.
-	If the inline macro is not 'inline', add a define to the ``config.h`` (#define inline __inline__)
+    Checks for the right value for inline macro.
+    Define INLINE_MACRO to 1 if the define is found.
+    If the inline macro is not 'inline', add a define to the ``config.h`` (#define inline __inline__)
 
-	:param define_name: define INLINE_MACRO by default to 1 if the macro is defined
-	:type define_name: string
-	:param features: by default *c* or *cxx* depending on the compiler present
-	:type features: list of string
-	"""
+    :param define_name: define INLINE_MACRO by default to 1 if the macro is defined
+    :type define_name: string
+    :param features: by default *c* or *cxx* depending on the compiler present
+    :type features: list of string
+    """
     self.start_msg("Checking for inline")
 
     if not "define_name" in kw:
@@ -146,14 +146,14 @@ int main(int argc, char **argv) {
 @conf
 def check_large_file(self, **kw):
     """
-	Checks for large file support and define the macro HAVE_LARGEFILE
-	The test is skipped on win32 systems (DEST_BINFMT == pe).
+    Checks for large file support and define the macro HAVE_LARGEFILE
+    The test is skipped on win32 systems (DEST_BINFMT == pe).
 
-	:param define_name: define to set, by default *HAVE_LARGEFILE*
-	:type define_name: string
-	:param execute: execute the test (yes by default)
-	:type execute: bool
-	"""
+    :param define_name: define to set, by default *HAVE_LARGEFILE*
+    :type define_name: string
+    :param execute: execute the test (yes by default)
+    :type execute: bool
+    """
     if not "define_name" in kw:
         kw["define_name"] = "HAVE_LARGEFILE"
     if not "execute" in kw:
@@ -210,8 +210,8 @@ extern int foo;
 
 class grep_for_endianness(Task.Task):
     """
-	Task that reads a binary and tries to determine the endianness
-	"""
+    Task that reads a binary and tries to determine the endianness
+    """
 
     color = "PINK"
 
@@ -229,16 +229,16 @@ class grep_for_endianness(Task.Task):
 @after_method("process_source")
 def grep_for_endianness_fun(self):
     """
-	Used by the endianness configuration test
-	"""
+    Used by the endianness configuration test
+    """
     self.create_task("grep_for_endianness", self.compiled_tasks[0].outputs[0])
 
 
 @conf
 def check_endianness(self):
     """
-	Executes a configuration test to determine the endianness
-	"""
+    Executes a configuration test to determine the endianness
+    """
     tmp = []
 
     def check_msg(self):

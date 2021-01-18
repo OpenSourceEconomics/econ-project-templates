@@ -9,14 +9,14 @@ from waflib import Utils
 
 class Popen:
     """
-	Popen cannot work on QNX from a threaded program:
-	Forking in threads is not implemented in neutrino.
+    Popen cannot work on QNX from a threaded program:
+    Forking in threads is not implemented in neutrino.
 
-	Python's os.popen / spawn / fork won't work when running in threads (they will if in the main program thread)
+    Python's os.popen / spawn / fork won't work when running in threads (they will if in the main program thread)
 
-	In waf, this happens mostly in build.
-	And the use cases can be replaced by os.system() calls.
-	"""
+    In waf, this happens mostly in build.
+    And the use cases can be replaced by os.system() calls.
+    """
 
     __slots__ = ["prog", "kw", "popen", "verbose"]
     verbose = 0

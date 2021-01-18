@@ -212,8 +212,7 @@ class sphinx_build_task(waflib.Task.Task):
             return self.uid_
 
     def scan(self):
-        """Use Sphinx's internal environment to find the outdated dependencies.
-        """
+        """Use Sphinx's internal environment to find the outdated dependencies."""
         # Set up the Sphinx application instance.
         app = Sphinx(
             srcdir=self.src_dir_node.abspath(),

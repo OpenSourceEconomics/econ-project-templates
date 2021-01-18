@@ -72,10 +72,10 @@ class PriorityTasks:
 
 class Consumer(Utils.threading.Thread):
     """
-	Daemon thread object that executes a task. It shares a semaphore with
-	the coordinator :py:class:`waflib.Runner.Spawner`. There is one
-	instance per task to consume.
-	"""
+    Daemon thread object that executes a task. It shares a semaphore with
+    the coordinator :py:class:`waflib.Runner.Spawner`. There is one
+    instance per task to consume.
+    """
 
     def __init__(self, spawner, task):
         Utils.threading.Thread.__init__(self)
@@ -88,8 +88,8 @@ class Consumer(Utils.threading.Thread):
 
     def run(self):
         """
-		Processes a single task
-		"""
+        Processes a single task
+        """
         try:
             if not self.spawner.master.stop:
                 self.spawner.master.process_task(self.task)
@@ -102,10 +102,10 @@ class Consumer(Utils.threading.Thread):
 
 class Spawner(Utils.threading.Thread):
     """
-	Daemon thread that consumes tasks from :py:class:`waflib.Runner.Parallel` producer and
-	spawns a consuming thread :py:class:`waflib.Runner.Consumer` for each
-	:py:class:`waflib.Task.Task` instance.
-	"""
+    Daemon thread that consumes tasks from :py:class:`waflib.Runner.Parallel` producer and
+    spawns a consuming thread :py:class:`waflib.Runner.Consumer` for each
+    :py:class:`waflib.Task.Task` instance.
+    """
 
     def __init__(self, master):
         Utils.threading.Thread.__init__(self)
@@ -118,8 +118,8 @@ class Spawner(Utils.threading.Thread):
 
     def run(self):
         """
-		Spawns new consumers to execute tasks by delegating to :py:meth:`waflib.Runner.Spawner.loop`
-		"""
+        Spawns new consumers to execute tasks by delegating to :py:meth:`waflib.Runner.Spawner.loop`
+        """
         try:
             self.loop()
         except Exception:
@@ -129,9 +129,9 @@ class Spawner(Utils.threading.Thread):
 
     def loop(self):
         """
-		Consumes task objects from the producer; ends when the producer has no more
-		task to provide.
-		"""
+        Consumes task objects from the producer; ends when the producer has no more
+        task to provide.
+        """
         master = self.master
         while 1:
             task = master.ready.get()
@@ -143,14 +143,14 @@ class Spawner(Utils.threading.Thread):
 
 class Parallel:
     """
-	Schedule the tasks obtained from the build context for execution.
-	"""
+    Schedule the tasks obtained from the build context for execution.
+    """
 
     def __init__(self, bld, j=2):
         """
-		The initialization requires a build context reference
-		for computing the total number of jobs.
-		"""
+        The initialization requires a build context reference
+        for computing the total number of jobs.
+        """
 
         self.numjobs = j
         """
@@ -209,29 +209,29 @@ class Parallel:
 
     def get_next_task(self):
         """
-		Obtains the next Task instance to run
+        Obtains the next Task instance to run
 
-		:rtype: :py:class:`waflib.Task.Task`
-		"""
+        :rtype: :py:class:`waflib.Task.Task`
+        """
         if not self.outstanding:
             return None
         return self.outstanding.pop()
 
     def postpone(self, tsk):
         """
-		Adds the task to the list :py:attr:`waflib.Runner.Parallel.postponed`.
-		The order is scrambled so as to consume as many tasks in parallel as possible.
+        Adds the task to the list :py:attr:`waflib.Runner.Parallel.postponed`.
+        The order is scrambled so as to consume as many tasks in parallel as possible.
 
-		:param tsk: task instance
-		:type tsk: :py:class:`waflib.Task.Task`
-		"""
+        :param tsk: task instance
+        :type tsk: :py:class:`waflib.Task.Task`
+        """
         self.postponed.append(tsk)
 
     def refill_task_list(self):
         """
-		Pulls a next group of tasks to execute in :py:attr:`waflib.Runner.Parallel.outstanding`.
-		Ensures that all tasks in the current build group are complete before processing the next one.
-		"""
+        Pulls a next group of tasks to execute in :py:attr:`waflib.Runner.Parallel.outstanding`.
+        Ensures that all tasks in the current build group are complete before processing the next one.
+        """
         while self.count > self.numjobs * GAP:
             self.get_out()
 
@@ -290,14 +290,14 @@ class Parallel:
 
     def add_more_tasks(self, tsk):
         """
-		If a task provides :py:attr:`waflib.Task.Task.more_tasks`, then the tasks contained
-		in that list are added to the current build and will be processed before the next build group.
+        If a task provides :py:attr:`waflib.Task.Task.more_tasks`, then the tasks contained
+        in that list are added to the current build and will be processed before the next build group.
 
-		The priorities for dependent tasks are not re-calculated globally
+        The priorities for dependent tasks are not re-calculated globally
 
-		:param tsk: task instance
-		:type tsk: :py:attr:`waflib.Task.Task`
-		"""
+        :param tsk: task instance
+        :type tsk: :py:attr:`waflib.Task.Task`
+        """
         if getattr(tsk, "more_tasks", None):
             more = set(tsk.more_tasks)
             groups_done = set()
@@ -353,11 +353,11 @@ class Parallel:
 
     def get_out(self):
         """
-		Waits for a Task that task consumers add to :py:attr:`waflib.Runner.Parallel.out` after execution.
-		Adds more Tasks if necessary through :py:attr:`waflib.Runner.Parallel.add_more_tasks`.
+        Waits for a Task that task consumers add to :py:attr:`waflib.Runner.Parallel.out` after execution.
+        Adds more Tasks if necessary through :py:attr:`waflib.Runner.Parallel.add_more_tasks`.
 
-		:rtype: :py:attr:`waflib.Task.Task`
-		"""
+        :rtype: :py:attr:`waflib.Task.Task`
+        """
         tsk = self.out.get()
         if not self.stop:
             self.add_more_tasks(tsk)
@@ -369,56 +369,56 @@ class Parallel:
 
     def add_task(self, tsk):
         """
-		Enqueue a Task to :py:attr:`waflib.Runner.Parallel.ready` so that consumers can run them.
+        Enqueue a Task to :py:attr:`waflib.Runner.Parallel.ready` so that consumers can run them.
 
-		:param tsk: task instance
-		:type tsk: :py:attr:`waflib.Task.Task`
-		"""
+        :param tsk: task instance
+        :type tsk: :py:attr:`waflib.Task.Task`
+        """
         self.ready.put(tsk)
 
     def process_task(self, tsk):
         """
-		Processes a task and attempts to stop the build in case of errors
-		"""
+        Processes a task and attempts to stop the build in case of errors
+        """
         tsk.process()
         if tsk.hasrun != Task.SUCCESS:
             self.error_handler(tsk)
 
     def skip(self, tsk):
         """
-		Mark a task as skipped/up-to-date
-		"""
+        Mark a task as skipped/up-to-date
+        """
         tsk.hasrun = Task.SKIPPED
         self.mark_finished(tsk)
 
     def cancel(self, tsk):
         """
-		Mark a task as failed because of unsatisfiable dependencies
-		"""
+        Mark a task as failed because of unsatisfiable dependencies
+        """
         tsk.hasrun = Task.CANCELED
         self.mark_finished(tsk)
 
     def error_handler(self, tsk):
         """
-		Called when a task cannot be executed. The flag :py:attr:`waflib.Runner.Parallel.stop` is set,
-		unless the build is executed with::
+        Called when a task cannot be executed. The flag :py:attr:`waflib.Runner.Parallel.stop` is set,
+        unless the build is executed with::
 
-			$ waf build -k
+                $ waf build -k
 
-		:param tsk: task instance
-		:type tsk: :py:attr:`waflib.Task.Task`
-		"""
+        :param tsk: task instance
+        :type tsk: :py:attr:`waflib.Task.Task`
+        """
         if not self.bld.keep:
             self.stop = True
         self.error.append(tsk)
 
     def task_status(self, tsk):
         """
-		Obtains the task status to decide whether to run it immediately or not.
+        Obtains the task status to decide whether to run it immediately or not.
 
-		:return: the exit status, for example :py:attr:`waflib.Task.ASK_LATER`
-		:rtype: integer
-		"""
+        :return: the exit status, for example :py:attr:`waflib.Task.ASK_LATER`
+        :rtype: integer
+        """
         try:
             return tsk.runnable_status()
         except Exception:
@@ -443,12 +443,12 @@ class Parallel:
 
     def start(self):
         """
-		Obtains Task instances from the BuildContext instance and adds the ones that need to be executed to
-		:py:class:`waflib.Runner.Parallel.ready` so that the :py:class:`waflib.Runner.Spawner` consumer thread
-		has them executed. Obtains the executed Tasks back from :py:class:`waflib.Runner.Parallel.out`
-		and marks the build as failed by setting the ``stop`` flag.
-		If only one job is used, then executes the tasks one by one, without consumers.
-		"""
+        Obtains Task instances from the BuildContext instance and adds the ones that need to be executed to
+        :py:class:`waflib.Runner.Parallel.ready` so that the :py:class:`waflib.Runner.Spawner` consumer thread
+        has them executed. Obtains the executed Tasks back from :py:class:`waflib.Runner.Parallel.out`
+        and marks the build as failed by setting the ``stop`` flag.
+        If only one job is used, then executes the tasks one by one, without consumers.
+        """
         self.total = self.bld.total()
 
         while not self.stop:
@@ -513,22 +513,22 @@ class Parallel:
 
     def prio_and_split(self, tasks):
         """
-		Label input tasks with priority values, and return a pair containing
-		the tasks that are ready to run and the tasks that are necessarily
-		waiting for other tasks to complete.
+        Label input tasks with priority values, and return a pair containing
+        the tasks that are ready to run and the tasks that are necessarily
+        waiting for other tasks to complete.
 
-		The priority system is really meant as an optional layer for optimization:
-		dependency cycles are found quickly, and builds should be more efficient.
-		A high priority number means that a task is processed first.
+        The priority system is really meant as an optional layer for optimization:
+        dependency cycles are found quickly, and builds should be more efficient.
+        A high priority number means that a task is processed first.
 
-		This method can be overridden to disable the priority system::
+        This method can be overridden to disable the priority system::
 
-			def prio_and_split(self, tasks):
-				return tasks, []
+                def prio_and_split(self, tasks):
+                        return tasks, []
 
-		:return: A pair of task lists
-		:rtype: tuple
-		"""
+        :return: A pair of task lists
+        :rtype: tuple
+        """
         # to disable:
         # return tasks, []
         for x in tasks:

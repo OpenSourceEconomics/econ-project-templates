@@ -17,8 +17,8 @@ def apply_nasm_vars(self):
 
 def configure(conf):
     """
-	Detect nasm/yasm and set the variable *AS*
-	"""
+    Detect nasm/yasm and set the variable *AS*
+    """
     conf.find_program(["nasm", "yasm"], var="AS")
     conf.env.AS_TGT_F = ["-o"]
     conf.env.ASLNK_TGT_F = ["-o"]

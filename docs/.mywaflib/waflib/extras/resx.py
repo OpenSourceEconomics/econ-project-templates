@@ -13,8 +13,8 @@ def configure(conf):
 @extension(".resx")
 def resx_file(self, node):
     """
-	Bind the .resx extension to a resgen task
-	"""
+    Bind the .resx extension to a resgen task
+    """
     if not getattr(self, "cs_task", None):
         self.bld.fatal("resx_file has no link task for use %r" % self)
 
@@ -35,8 +35,8 @@ def resx_file(self, node):
 
 class resgen(Task.Task):
     """
-	Compile C# resource files
-	"""
+    Compile C# resource files
+    """
 
     color = "YELLOW"
     run_str = "${RESGEN} ${RESGENFLAGS} ${SRC} ${TGT}"

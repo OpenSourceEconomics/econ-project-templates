@@ -69,8 +69,8 @@ def ifort_modifier_platform(conf):
 @conf
 def get_ifort_version(conf, fc):
     """
-	Detects the compiler version and sets ``conf.env.FC_VERSION``
-	"""
+    Detects the compiler version and sets ``conf.env.FC_VERSION``
+    """
     version_re = re.compile(
         r"\bIntel\b.*\bVersion\s*(?P<major>\d*)\.(?P<minor>\d*)", re.I
     ).search
@@ -89,8 +89,8 @@ def get_ifort_version(conf, fc):
 
 def configure(conf):
     """
-	Detects the Intel Fortran compilers
-	"""
+    Detects the Intel Fortran compilers
+    """
     if Utils.is_win32:
         compiler, version, path, includes, libdirs, arch = conf.detect_ifort()
         v = conf.env
@@ -127,8 +127,8 @@ all_ifort_platforms = [
 @conf
 def gather_ifort_versions(conf, versions):
     """
-	List compiler versions by looking up registry keys
-	"""
+    List compiler versions by looking up registry keys
+    """
     version_pattern = re.compile(r"^...?.?\....?.?")
     try:
         all_versions = Utils.winreg.OpenKey(
@@ -191,14 +191,14 @@ def gather_ifort_versions(conf, versions):
 @conf
 def setup_ifort(conf, versiondict):
     """
-	Checks installed compilers and targets and returns the first combination from the user's
-	options, env, or the global supported lists that checks.
+    Checks installed compilers and targets and returns the first combination from the user's
+    options, env, or the global supported lists that checks.
 
-	:param versiondict: dict(platform -> dict(architecture -> configuration))
-	:type versiondict: dict(string -> dict(string -> target_compiler)
-	:return: the compiler, revision, path, include dirs, library paths and target architecture
-	:rtype: tuple of strings
-	"""
+    :param versiondict: dict(platform -> dict(architecture -> configuration))
+    :type versiondict: dict(string -> dict(string -> target_compiler)
+    :return: the compiler, revision, path, include dirs, library paths and target architecture
+    :rtype: tuple of strings
+    """
     platforms = Utils.to_list(conf.env.MSVC_TARGETS) or [
         i for i, j in all_ifort_platforms
     ]
@@ -315,20 +315,20 @@ echo LIB=%LIB%;%LIBPATH%
 
 class target_compiler:
     """
-	Wraps a compiler configuration; call evaluate() to determine
-	whether the configuration is usable.
-	"""
+    Wraps a compiler configuration; call evaluate() to determine
+    whether the configuration is usable.
+    """
 
     def __init__(self, ctx, compiler, cpu, version, bat_target, bat, callback=None):
         """
-		:param ctx: configuration context to use to eventually get the version environment
-		:param compiler: compiler name
-		:param cpu: target cpu
-		:param version: compiler version number
-		:param bat_target: ?
-		:param bat: path to the batch file to run
-		:param callback: optional function to take the realized environment variables tup and map it (e.g. to combine other constant paths)
-		"""
+        :param ctx: configuration context to use to eventually get the version environment
+        :param compiler: compiler name
+        :param cpu: target cpu
+        :param version: compiler version number
+        :param bat_target: ?
+        :param bat: path to the batch file to run
+        :param callback: optional function to take the realized environment variables tup and map it (e.g. to combine other constant paths)
+        """
         self.conf = ctx
         self.name = None
         self.is_valid = False
@@ -372,9 +372,9 @@ def detect_ifort(self):
 @conf
 def get_ifort_versions(self, eval_and_save=True):
     """
-	:return: platforms to compiler configurations
-	:rtype: dict
-	"""
+    :return: platforms to compiler configurations
+    :rtype: dict
+    """
     dct = {}
     self.gather_ifort_versions(dct)
     return dct
@@ -442,11 +442,11 @@ def find_ifort_win32(conf):
 @feature("fc")
 def apply_flags_ifort(self):
     """
-	Adds additional flags implied by msvc, such as subsystems and pdb files::
+    Adds additional flags implied by msvc, such as subsystems and pdb files::
 
-		def build(bld):
-			bld.stlib(source='main.c', target='bar', subsystem='gruik')
-	"""
+            def build(bld):
+                    bld.stlib(source='main.c', target='bar', subsystem='gruik')
+    """
     if not self.env.IFORT_WIN32 or not getattr(self, "link_task", None):
         return
 
@@ -477,9 +477,9 @@ def apply_flags_ifort(self):
 @after_method("apply_link")
 def apply_manifest_ifort(self):
     """
-	Enables manifest embedding in Fortran DLLs when using ifort on Windows
-	See: http://msdn2.microsoft.com/en-us/library/ms235542(VS.80).aspx
-	"""
+    Enables manifest embedding in Fortran DLLs when using ifort on Windows
+    See: http://msdn2.microsoft.com/en-us/library/ms235542(VS.80).aspx
+    """
     if self.env.IFORT_WIN32 and getattr(self, "link_task", None):
         # it seems ifort.exe cannot be called for linking
         self.link_task.env.FC = self.env.LINK_FC

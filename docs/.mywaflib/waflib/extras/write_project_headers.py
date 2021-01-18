@@ -182,9 +182,7 @@ class WriteProjectPathsPython(Task.Task):
 
 class WriteProjectPathsMatlab(Task.Task):
 
-    r"""Autogenerate a function with paths for inclusion in Matlab scripts.
-
-    """
+    r"""Autogenerate a function with paths for inclusion in Matlab scripts."""
 
     def run(self):
         with open(self.outputs[0].abspath(), "w") as out_file:

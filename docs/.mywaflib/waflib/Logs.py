@@ -62,14 +62,14 @@ except NameError:
 
 def enable_colors(use):
     """
-	If *1* is given, then the system will perform a few verifications
-	before enabling colors, such as checking whether the interpreter
-	is running in a terminal. A value of zero will disable colors,
-	and a value above *1* will force colors.
+    If *1* is given, then the system will perform a few verifications
+    before enabling colors, such as checking whether the interpreter
+    is running in a terminal. A value of zero will disable colors,
+    and a value above *1* will force colors.
 
-	:param use: whether to enable colors or not
-	:type use: integer
-	"""
+    :param use: whether to enable colors or not
+    :type use: integer
+    """
     if use == 1:
         if not (sys.stderr.isatty() or sys.stdout.isatty()):
             use = 0
@@ -107,12 +107,12 @@ get_term_cols.__doc__ = """
 
 def get_color(cl):
     """
-	Returns the ansi sequence corresponding to the given color name.
-	An empty string is returned when coloring is globally disabled.
+    Returns the ansi sequence corresponding to the given color name.
+    An empty string is returned when coloring is globally disabled.
 
-	:param cl: color name in capital letters
-	:type cl: string
-	"""
+    :param cl: color name in capital letters
+    :type cl: string
+    """
     if colors_lst["USE"]:
         return colors_lst.get(cl, "")
     return ""
@@ -135,26 +135,26 @@ re_log = re.compile(r"(\w+): (.*)", re.M)
 
 class log_filter(logging.Filter):
     """
-	Waf logs are of the form 'name: message', and can be filtered by 'waf --zones=name'.
-	For example, the following::
+    Waf logs are of the form 'name: message', and can be filtered by 'waf --zones=name'.
+    For example, the following::
 
-		from waflib import Logs
-		Logs.debug('test: here is a message')
+            from waflib import Logs
+            Logs.debug('test: here is a message')
 
-	Will be displayed only when executing::
+    Will be displayed only when executing::
 
-		$ waf --zones=test
-	"""
+            $ waf --zones=test
+    """
 
     def __init__(self, name=""):
         logging.Filter.__init__(self, name)
 
     def filter(self, rec):
         """
-		Filters log records by zone and by logging level
+        Filters log records by zone and by logging level
 
-		:param rec: log entry
-		"""
+        :param rec: log entry
+        """
         rec.zone = rec.module
         if rec.levelno >= logging.INFO:
             return True
@@ -176,8 +176,8 @@ class log_handler(logging.StreamHandler):
 
     def emit(self, record):
         """
-		Delegates the functionality to :py:meth:`waflib.Log.log_handler.emit_override`
-		"""
+        Delegates the functionality to :py:meth:`waflib.Log.log_handler.emit_override`
+        """
         # default implementation
         try:
             try:
@@ -196,8 +196,8 @@ class log_handler(logging.StreamHandler):
 
     def emit_override(self, record, **kw):
         """
-		Writes the log record to the desired stream (stderr/stdout)
-		"""
+        Writes the log record to the desired stream (stderr/stdout)
+        """
         self.terminator = getattr(record, "terminator", "\n")
         stream = self.stream
         if unicode:
@@ -227,9 +227,9 @@ class formatter(logging.Formatter):
 
     def format(self, rec):
         """
-		Formats records and adds colors as needed. The records do not get
-		a leading hour format if the logging level is above *INFO*.
-		"""
+        Formats records and adds colors as needed. The records do not get
+        a leading hour format if the logging level is above *INFO*.
+        """
         try:
             msg = rec.msg.decode("utf-8")
         except Exception:
@@ -272,8 +272,8 @@ log = None
 
 def debug(*k, **kw):
     """
-	Wraps logging.debug and discards messages if the verbosity level :py:attr:`waflib.Logs.verbose` ≤ 0
-	"""
+    Wraps logging.debug and discards messages if the verbosity level :py:attr:`waflib.Logs.verbose` ≤ 0
+    """
     if verbose:
         k = list(k)
         k[0] = k[0].replace("\n", " ")
@@ -282,8 +282,8 @@ def debug(*k, **kw):
 
 def error(*k, **kw):
     """
-	Wrap logging.errors, adds the stack trace when the verbosity level :py:attr:`waflib.Logs.verbose` ≥ 2
-	"""
+    Wrap logging.errors, adds the stack trace when the verbosity level :py:attr:`waflib.Logs.verbose` ≥ 2
+    """
     log.error(*k, **kw)
     if verbose > 2:
         st = traceback.extract_stack()
@@ -300,22 +300,22 @@ def error(*k, **kw):
 
 def warn(*k, **kw):
     """
-	Wraps logging.warn
-	"""
+    Wraps logging.warn
+    """
     log.warn(*k, **kw)
 
 
 def info(*k, **kw):
     """
-	Wraps logging.info
-	"""
+    Wraps logging.info
+    """
     log.info(*k, **kw)
 
 
 def init_log():
     """
-	Initializes the logger :py:attr:`waflib.Logs.log`
-	"""
+    Initializes the logger :py:attr:`waflib.Logs.log`
+    """
     global log
     log = logging.getLogger("waflib")
     log.handlers = []
@@ -329,25 +329,25 @@ def init_log():
 
 def make_logger(path, name):
     """
-	Creates a simple logger, which is often used to redirect the context command output::
+    Creates a simple logger, which is often used to redirect the context command output::
 
-		from waflib import Logs
-		bld.logger = Logs.make_logger('test.log', 'build')
-		bld.check(header_name='sadlib.h', features='cxx cprogram', mandatory=False)
+            from waflib import Logs
+            bld.logger = Logs.make_logger('test.log', 'build')
+            bld.check(header_name='sadlib.h', features='cxx cprogram', mandatory=False)
 
-		# have the file closed immediately
-		Logs.free_logger(bld.logger)
+            # have the file closed immediately
+            Logs.free_logger(bld.logger)
 
-		# stop logging
-		bld.logger = None
+            # stop logging
+            bld.logger = None
 
-	The method finalize() of the command will try to free the logger, if any
+    The method finalize() of the command will try to free the logger, if any
 
-	:param path: file name to write the log output to
-	:type path: string
-	:param name: logger name (loggers are reused)
-	:type name: string
-	"""
+    :param path: file name to write the log output to
+    :type path: string
+    :param name: logger name (loggers are reused)
+    :type name: string
+    """
     logger = logging.getLogger(name)
     if sys.hexversion > 0x3000000:
         encoding = sys.stdout.encoding
@@ -363,8 +363,8 @@ def make_logger(path, name):
 
 def make_mem_logger(name, to_log, size=8192):
     """
-	Creates a memory logger to avoid writing concurrently to the main logger
-	"""
+    Creates a memory logger to avoid writing concurrently to the main logger
+    """
     from logging.handlers import MemoryHandler
 
     logger = logging.getLogger(name)
@@ -379,9 +379,9 @@ def make_mem_logger(name, to_log, size=8192):
 
 def free_logger(logger):
     """
-	Frees the resources held by the loggers created through make_logger or make_mem_logger.
-	This is used for file cleanup and for handler removal (logger objects are re-used).
-	"""
+    Frees the resources held by the loggers created through make_logger or make_mem_logger.
+    This is used for file cleanup and for handler removal (logger objects are re-used).
+    """
     try:
         for x in logger.handlers:
             x.close()
@@ -392,18 +392,18 @@ def free_logger(logger):
 
 def pprint(col, msg, label="", sep="\n"):
     """
-	Prints messages in color immediately on stderr::
+    Prints messages in color immediately on stderr::
 
-		from waflib import Logs
-		Logs.pprint('RED', 'Something bad just happened')
+            from waflib import Logs
+            Logs.pprint('RED', 'Something bad just happened')
 
-	:param col: color name to use in :py:const:`Logs.colors_lst`
-	:type col: string
-	:param msg: message to display
-	:type msg: string or a value that can be printed by %s
-	:param label: a message to add after the colored output
-	:type label: string
-	:param sep: a string to append at the end (line separator)
-	:type sep: string
-	"""
+    :param col: color name to use in :py:const:`Logs.colors_lst`
+    :type col: string
+    :param msg: message to display
+    :type msg: string or a value that can be printed by %s
+    :param label: a message to add after the colored output
+    :type label: string
+    :param sep: a string to append at the end (line separator)
+    :type sep: string
+    """
     info("%s%s%s %s", colors(col), msg, colors.NORMAL, label, extra={"terminator": sep})
