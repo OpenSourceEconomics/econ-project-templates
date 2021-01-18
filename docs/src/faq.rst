@@ -16,7 +16,7 @@ Please follow these steps unless you know what you are doing.
 
 1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_ for Python 3.x.
 
-2. Start the installer and click yourselve throug the menu. If you have administrator privileges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
+2. Start the installer and click yourself through the menu. If you have administrator privileges on your computer, it is preferable to install Anaconda for all users. Otherwise, you may run into problems when running python from your powershell.
 
 3. Make sure to (only) tick the following box:
 
@@ -63,15 +63,15 @@ Open the program **Terminal**. You will need to add a line to the file ``.bash_p
 
 **Linux users**: For most distributions, everything here applies to the file ``.bashrc`` instead of ``.bash_profile``.
 
-I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``atom``. If you are familiar with editing text files, just use your editor of choice.
+I will now provide a step-by-step guide of how to create / adjust this file using the editor called ``code``. If you are familiar with editing text files, just use your editor of choice.
 
 #. Open a Terminal and type
 
   .. code-block:: bash
 
-      atom ~/.bash_profile
+      code ~/.bash_profile
 
-   If you use a different editor, replace atom by the respective editor.
+   If you use an editor other than `VS Code <https://code.visualstudio.com/>`_, replace ``code`` by the respective editor.
 
    If ``.bash_profile`` already existed, you will see some text at this point. If so, use the arrow keys to scroll all the way to the bottom of the file.
 

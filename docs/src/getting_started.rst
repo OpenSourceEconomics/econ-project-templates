@@ -30,10 +30,10 @@ Preparing your system
 
   * `Git <https://git-scm.com/downloads>`_, windows users please also consult :ref:`git_windows`
 
-  * The text editor `Atom <https://atom.io/>`_, unless you know what you are doing.
+  * The text editor `VS Code <https://code.visualstudio.com/>`_, unless you know what you are doing.
 
 
-2. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a terminal. As everything will be started from the Powershell/Terminal, you need to make sure that all programmes you need in your project (for sure Anaconda Python, Git, and LaTeX; potentially Atom, Stata, R, Matlab) can be found on your *PATH*. That is, these need to be accessible from your shell. This often requires a bit of manual work, in particular on Windows.
+2. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a terminal. As everything will be started from the Powershell/Terminal, you need to make sure that all programmes you need in your project (for sure Anaconda Python, Git, and LaTeX; potentially VS Code, Stata, R, Matlab) can be found on your *PATH*. That is, these need to be accessible from your shell. This often requires a bit of manual work, in particular on Windows.
 
    - To see which programmes can be found in your path, type (leave out the leading dollar sign, this is just standard notation for a command line prompt):
 
@@ -51,7 +51,7 @@ Preparing your system
 
      This gives you a list of directories that are available on your *PATH*.
 
-    - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a LaTeX distribution, the text editor Atom, Git, and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up their paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
+    - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a LaTeX distribution, the text editor VS Code, Git, and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up their paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
 
     - If you added any directory to *PATH*, you need to close and reopen your shell, so that this change is implemented.
 
@@ -91,7 +91,7 @@ Preparing your system
 
          .. code-block:: bash
 
-           $ atom
+           $ code
 
      If required, do the same for Stata, R, or Matlab — see :ref:`here <starting_programs_from_the_command_line>` for the precise commands you may need.
 
@@ -134,7 +134,7 @@ Configuring your new project
 
   .. code-block:: bash
 
-    $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.3.3.zip
+    $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.4.0.zip
 
 2. The dialogue will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off** (see :ref:`cookiecutter_trouble` on how to recover from there, but no need to push it).
 
@@ -150,7 +150,7 @@ Configuring your new project
 
   **project_short_description*** -- Briefly describe your project.
 
-  **python_version** -- Default is 3.7. Please use python 3.7 or python 3.6.
+  **python_version** -- Default is 3.9. Please use python 3.7 or higher.
 
   **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x".
 
