@@ -17,13 +17,13 @@ Design rationale
 
 
 
-.. _rwaf_intro:
+.. _rpytask_intro:
 
-===================
-Introduction to Waf
-===================
+======================
+Introduction to pytask
+======================
 
-.. include:: ./r_waf.rst
+.. include:: ./r_pytask.rst
 
 
 

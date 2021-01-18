@@ -21,8 +21,9 @@ it stores a dataframe with estimation results.
 rm(list=ls())
 options(digits=3)
 
-source("project_paths.r")
-source(paste(PATH_IN_MODEL_CODE, "functions.r", sep="/"))
+args = commandArgs(trailingOnly=TRUE)
+
+source(args[1])
 
 # Load required libraries
 library(foreign)
@@ -34,10 +35,9 @@ library(lmtest)
 library(aod)
 
 # Load model and geographic specification.
-model_name <- commandArgs(trailingOnly = TRUE)
-model_json <- paste(model_name, "json", sep=".")
-model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
-geography <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, "geography.json", sep="/"))
+model <- fromJSON(file=args[2])
+geography <- fromJSON(file=args[3])
+
 
 # Initilize output dataframe for results.
 results = data.frame(matrix(nrow = 7, ncol = 7))
@@ -55,10 +55,7 @@ row.names(results) <- c(
 for (i in 1:7) {
 
     # Load data
-    data <- read.csv(
-        file = paste(PATH_OUT_DATA, "ajrcomment_all.csv", sep="/"),
-        header = TRUE
-    )
+    data <- read.csv(file=args[4], header=TRUE)
 
     # Implement model-specific restrictions.
     if (model$KEEP_CONDITION != "") {
@@ -89,16 +86,16 @@ for (i in 1:7) {
     results[4, i] = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,2]
 
     # p-value of log mortality, based on the appropriate standard errors.
-    if (model_name == "baseline" | model_name == "addindic") {
+    if (model$MODEL_NAME == "baseline" | model$MODEL_NAME == "addindic") {
         results[5, i] = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[1]][2,4]
     } else {
         results[5, i] = summaryw(reg)[[1]][2,4]
     }
 
     # p-value of indicators, based on the appropriate standard errors
-    if (model_name == "baseline" | model_name == "addindic")  {
+    if (model$MODEL_NAME == "baseline" | model$MODEL_NAME == "addindic")  {
         sigma = clx(fm = reg, dfcw = 1, cluster = data[ ,x])[[2]]
-        if (model_name == "addindic") {
+        if (model$MODEL_NAME == "addindic") {
             results[6, i] = wald.test(
                 b = reg$coef,
                 Sigma = sigma,
@@ -108,7 +105,7 @@ for (i in 1:7) {
         }
     } else {
         sigma = summaryw(reg)[[2]]
-        if (model_name == "rmconj_addindic" | model_name == "newdata") {
+        if (model$MODEL_NAME == "rmconj_addindic" | model$MODEL_NAME == "newdata") {
             results[6, i] = wald.test(
                 b = reg$coef,
                 Sigma = sigma,
@@ -135,12 +132,4 @@ for (i in 1:7) {
 }
 
 # Save data to disk.
-write.csv(
-    results,
-    file = paste(
-        PATH_OUT_ANALYSIS,
-        paste("first_stage_estimation_", model_name, ".csv", sep=""),
-        sep = "/"
-    ),
-    col.names = TRUE
-)
+write.csv(results, file=args[5], col.names=TRUE)

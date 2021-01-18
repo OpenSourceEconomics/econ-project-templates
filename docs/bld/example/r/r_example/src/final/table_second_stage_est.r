@@ -8,12 +8,10 @@ in the analysis directory. It writes the results to Latex file
 
 '
 
-source("project_paths.r")
+args = commandArgs(trailingOnly=TRUE)
 
 library(xtable)
 library(rjson)
-
-models = unlist(strsplit(commandArgs(trailingOnly = TRUE), split=" "))
 
 # Initilize final table
 final_table <- data.frame((matrix(nrow = 6, ncol = 8)))
@@ -29,19 +27,13 @@ final_table[7] <- c("","Percent","European","in 1975","(6)","")
 final_table[8] <- c("","","Malaria","in 1994","(7)","")
 
 # Fill final table with first stage regression results
-for (model_name in models) {
-
-    # Load data from regression results
-    this_file = paste(PATH_OUT_ANALYSIS, paste("second_stage_estimation_", model_name, ".csv", sep = ""), sep="/")
-    reg_results <- read.csv(
-        file = this_file,
-        header = TRUE,
-        row.names = 1
-    )
+for (i in c(1, 3)) {
 
     # Load model specs
-    model_json <- paste(model_name, "json", sep=".")
-    model <- fromJSON(file=paste(PATH_IN_MODEL_SPECS, model_json, sep="/"))
+    model <- fromJSON(file=args[i])
+
+    # Load data from regression results
+    reg_results <- read.csv(file=args[i+1], header=TRUE, row.names=1)
 
     # Create panel header for table
     panel_header <- data.frame(matrix(nrow=2, ncol=8))
@@ -77,7 +69,7 @@ align(tex_final_table) = "llccccccc"
 print(
     tex_final_table,
     sanitize.text.function = function(x){x},
-    file=paste(PATH_OUT_TABLES, "table_second_stage_est.tex", sep="/"),
+    file=args[5],
     include.rownames=FALSE,
     include.colnames=FALSE,
     caption.placement="top",

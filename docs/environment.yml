@@ -6,8 +6,8 @@ dependencies:
   - pip
   - python=3.7
   - pip:
-    - nbsphinx
-    - sphinx
-    - sphinx-autobuild
-    - sphinx-rtd-theme
-    - sphinxcontrib-bibtex
+      - nbsphinx
+      - sphinx
+      - sphinx-autobuild
+      - sphinx-rtd-theme
+      - sphinxcontrib-bibtex

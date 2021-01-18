@@ -1,0 +1,64 @@
+# Exclude every file or folder starting with a dot.
+exclude: ^\.
+repos:
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v2.3.6
+    hooks:
+      - id: reorder-python-imports
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ["--maxkb=100000"] # Set to max file size in Github
+      - id: check-byte-order-marker
+        types: [text]
+      - id: check-merge-conflict
+      - id: check-json
+      - id: pretty-format-json
+        args: [--autofix, --no-sort-keys, --no-ensure-ascii]
+      - id: trailing-whitespace
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.7.2
+    hooks:
+      - id: pyupgrade
+        args: [--py37-plus]
+  - repo: https://github.com/asottile/blacken-docs
+    rev: v1.8.0
+    hooks:
+      - id: blacken-docs
+        additional_dependencies: [black]
+        files: '(\.md|\.rst)$'
+  - repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+      - id: black
+        language_version: python3.9
+
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.3
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          [
+            flake8-bugbear,
+            flake8-builtins,
+            flake8-comprehensions,
+            flake8-deprecated,
+            flake8-docstrings,
+            flake8-eradicate,
+            flake8-print,
+            flake8-rst-docstrings,
+            flake8-todo,
+            flake8-type-annotations,
+            pep8-naming,
+            pydocstyle,
+          ]
+        # Harmonizing flake8 and black
+        args:
+          [
+            "--max-line-length=88",
+            "--ignore=E203,E402,E501,E800,W503",
+            "--select=B,C,E,F,W,T4,B9",
+          ]
+

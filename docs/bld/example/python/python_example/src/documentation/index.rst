@@ -15,8 +15,8 @@ Welcome to the The General Theory of Relativity project's documentation!
     data_management
     analysis
     final
-    paper
     model_code
     model_specs
     library
+    paper
     references

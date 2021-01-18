@@ -14,7 +14,7 @@ import sys
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath(os.path.join(".", "..")))
+sys.path.insert(0, os.path.abspath("../.."))
 
 matlab_src_dir = os.path.abspath("..")
 
@@ -50,7 +50,7 @@ master_doc = "index"
 project = "{{ cookiecutter.project_name.replace('_', ' ') }}"
 copyright = "2019-, {{ cookiecutter.author.replace('_', ' ') }}"
 
-# The version info for the project you"re documenting, acts as replacement for
+# The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
@@ -194,8 +194,7 @@ latex_documents = [
     (
         "index",
         "project_documentation.tex",
-        """Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }}
-        project""",
+        """Documentation of the {{ cookiecutter.project_name.replace('_', ' ') }} project""",
         "{{ cookiecutter.author.replace('_', ' ') }}",
         "manual",
     )

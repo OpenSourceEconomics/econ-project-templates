@@ -1,42 +1,50 @@
-condname: x
+name: x
 channels:
-  - defaults
-
-  - r
+  - pytask
   - conda-forge
 
-dependencies:
-  - jupyterlab=1.1.4
-  - pandas=0.25.1
-  - pip=19.2.3
-  - python=3.7
-  - python-graphviz=0.8
+  - r
 
-  - r-aer=1.2_6
-  - r-aod=1.3.1
-  - r-base=3.6.1
-  - r-car=3.0_2
-  - r-essentials=3.6.0
-  - r-rjson=0.2.20
-  - r-lmtest=0.9_36
-  - r-sandwich=2.5_1
+dependencies:
+  - conda-build
+  - ipykernel
+  - jupyterlab
+  - matplotlib
+  - pandas
+  - pip
+  - pytask>=0.0.11
+  - pytask-latex>=0.0.10
+
+  - pytask-r>=0.0.6
+
+
+  - pytask-stata>=0.0.3
+
+  - pytest
+  - pytest-cov
+  - python=3.9
+  - python-graphviz
+
+  - r-aer
+  - r-aod
+  - r-base
+  - r-car
+  - r-essentials
+  - r-rjson
+  - r-lmtest
+  - r-sandwich
+
+
+  - virtualenv=20.0.33
 
   - pip:
-    - click==7.0
 
-    - pre-commit==1.18.3
+    - pre-commit
 
-    - matplotlib==3.1.1
-    - nbsphinx==0.4.2
-    - pytest==5.2.0
-    - pytest-cov==2.7.1
-    - pytest-pythonpath==0.7.3
+    - sphinx
+    - sphinx-autobuild
+    - sphinx-rtd-theme
+    - sphinxcontrib-bibtex
 
-    - sphinx==2.2.0
-    - sphinx-autobuild==0.7.1
-    - sphinx-rtd-theme==0.4.3
-    - sphinxcontrib-bibtex==1.0.0
-
-
-    - sphinxcontrib-matlabdomain==0.8.0
+    - sphinxcontrib-matlabdomain
 

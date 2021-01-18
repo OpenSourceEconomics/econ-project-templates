@@ -4,7 +4,6 @@
 Original data
 *************
 
-
 Documentation of the different datasets in *original_data*.
 
 In our example we have only one data set *ajrcomment.dta*, which contains data on 64 countries regarding the mortality rates, expropriation risk and GDP as well as several controls (latitude, continent, indicators for soldiers/slaves etc.).
