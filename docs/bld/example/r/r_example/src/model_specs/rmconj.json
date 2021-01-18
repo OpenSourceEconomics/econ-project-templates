@@ -1,0 +1,9 @@
+{
+  "MODEL_NAME": "rmconj",
+  "DEPVAR": "loggdp",
+  "INSTD": "risk",
+  "INSTS": "logmort0",
+  "KEEP_CONDITION": "source0 == 1",
+  "DUMMIES": "",
+  "TITLE": "Panel B: Removing conjectured mortality rates"
+}

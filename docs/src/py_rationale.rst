@@ -6,7 +6,7 @@ The design of the project templates is guided by the following main thoughts:
     #. **Be as language-agnostic as possible:** Make it easy to use the best tool for a particular task and to mix tools in a project.
     #. **Separation of inputs and outputs:** Required to find your way around in a complex project.
 
-I will not touch upon the last point until the :ref:`organisation` section below. The remainder of this page introduces an example and a general concept of how to think about the first four points.
+I will not touch upon the last point until the :ref:`pyorganisation` section below. The remainder of this page introduces an example and a general concept of how to think about the first four points.
 
 
 Running example
@@ -27,7 +27,7 @@ For each of these variants (called **models** in the project template and the re
 It is very useful to explictly distinguish between steps 2. and 3. because computation time in 2. becomes an issue: If you just want to change the layout of a table or the color of a line in a graph, you do not want to wait for days. Not even for 3 minutes or 30 seconds as in this example.
 
 
-.. _workflow:
+.. _pyworkflow:
 
 How to organise the workflow?
 -----------------------------
@@ -52,7 +52,7 @@ Ideally though, you want to be even more fine-grained than this and only run ind
 This figure assumes that your data management is being done for all models at once, which is usually a good choice for me. Even with only two models, we need to remember 6 ways to start different programs and how the different tasks depend on each other. **This does not scale to serious projects!**
 
 
-.. _dag_s:
+.. _pydags:
 
 Directed Acyclic Graphs (DAGs)
 ------------------------------

@@ -1,0 +1,12 @@
+{
+  "n_types": 2,
+  "n_agents_by_type": [
+    250,
+    250
+  ],
+  "n_neighbours": 10,
+  "require_same_type": 4,
+  "rng_seed": 54321,
+  "max_iterations": 10,
+  "max_moves": 2
+}

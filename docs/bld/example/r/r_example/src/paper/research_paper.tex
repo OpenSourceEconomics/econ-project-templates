@@ -1,0 +1,127 @@
+\documentclass[11pt, a4paper, leqno]{article}
+\usepackage{a4wide}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{float, afterpage, rotating, graphicx}
+\usepackage{epstopdf}
+\usepackage{longtable, booktabs, tabularx}
+\usepackage{fancyvrb, moreverb, relsize}
+\usepackage{eurosym, calc}
+% \usepackage{chngcntr}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, bm}
+\usepackage{caption}
+\usepackage{mdwlist}
+\usepackage{xfrac}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{minibox}
+% \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
+% \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some submissions.
+
+
+\usepackage[
+    natbib=true,
+    bibencoding=inputenc,
+    bibstyle=authoryear-ibid,
+    citestyle=authoryear-comp,
+    maxcitenames=3,
+    maxbibnames=10,
+    useprefix=false,
+    sortcites=true,
+    backend=biber
+]{biblatex}
+\AtBeginDocument{\toggletrue{blx@useprefix}}
+\AtBeginBibliography{\togglefalse{blx@useprefix}}
+\setlength{\bibitemsep}{1.5ex}
+\addbibresource{refs.bib}
+
+
+
+
+
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    anchorcolor=black,
+    citecolor=black,
+    filecolor=black,
+    menucolor=black,
+    runcolor=black,
+    urlcolor=black
+}
+
+
+\widowpenalty=10000
+\clubpenalty=10000
+
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+\setstretch{1.5}
+
+
+\begin{document}
+
+\title{The General Theory of Relativity\thanks{Albert Einstein, Swiss Patent Office. Email: \href{mailto:albert@swiss-patent-office.com}{\nolinkurl{albert [at] swiss-patent-office [dot] com}}.}}
+
+\author{Albert Einstein}
+
+\date{
+    {\bf Preliminary -- please do not quote}
+    \\[1ex]
+    \today
+}
+
+\maketitle
+
+
+\begin{abstract}
+    Some abstract here.
+\end{abstract}
+\clearpage
+
+\section{Introduction} % (fold)
+\label{sec:introduction}
+
+If you are using this template, please cite this item from the references: \citet{GaudeckerEconProjectTemplates}
+
+The running example is \citeauthor{Albouy12}'s \citeyear{Albouy12} replication study of \citeauthor{AcemogluJohnsonRobinson01}'s classic \citeyear{AcemogluJohnsonRobinson01} paper. The code is a split-up and modified version of what is found accompanying the paper at \url{http://dx.doi.org/10.1257/aer.102.6.3059}.
+
+It is often useful to include formulas in both the paper and the presentation, so we keep them in a subdirectory. As an example, let's use the simple IV system:
+\input{formulas/iv}
+with the well-known assumptions.
+
+The remaining tables and the figure are included without annotations.\\[4ex]
+
+% section introduction (end)
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.85\textwidth]{../../bld/figures/risk_mort}
+\end{figure}
+
+
+
+\input{../../bld/tables/table_first_stage_est.tex}
+
+\input{../../bld/tables/table_second_stage_est.tex}
+
+\clearpage
+
+\setstretch{1}
+\printbibliography
+\setstretch{1.5}
+
+
+
+
+% \appendix
+
+% The chngctr package is needed for the following lines.
+% \counterwithin{table}{section}
+% \counterwithin{figure}{section}
+
+\end{document}

@@ -4,13 +4,13 @@
 Getting Started
 ***************
 
-Here, we first describe in :ref:`preparing_your_system` how you need to set up your computer so that everything plays well together. In :ref:`dialog`, you will find detailed explanations on what you may want to choose when configuring the templates for your needs. Once you are done with that, you may want to check the :ref:`starting_new_project` or :ref:`porting_existing_project`.
+Here, we first describe in :ref:`preparing_your_system` how you need to set up your computer so that everything plays well together. In :ref:`dialogue`, you will find detailed explanations on what you may want to choose when configuring the templates for your needs. Once you are done with that, you may want to check the :ref:`starting_new_project` or :ref:`porting_existing_project`.
 
 So, ...
 
 * If you want to first get an idea of whether this is the right thing for you, start by reading through the :ref:`introduction` and the :ref:`pyexample` or the :ref:`rexample`, whichever is most relevant for you.
 * If you are hooked already and want to try it out, continue right here with :ref:`preparing_your_system`.
-* If you have done this before, you can jump directly to :ref:`dialog`.
+* If you have done this before, you can jump directly to :ref:`dialogue`.
 
 .. _preparing_your_system:
 
@@ -136,7 +136,7 @@ Configuring your new project
 
     $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.3.3.zip
 
-2. The dialog will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off** (see :ref:`cookiecutter_trouble` on how to recover from there, but no need to push it).
+2. The dialogue will move you through the installation. **Make sure to keep this page side-by-side during the process because if something is invalid, the whole process will break off** (see :ref:`cookiecutter_trouble` on how to recover from there, but no need to push it).
 
   **author** -- Separate multiple authors by commas
 
@@ -201,25 +201,10 @@ Configuring your new project
 
   .. code-block:: bash
 
-      $ python waf.py configure
+      $ conda develop .
+      $ pytask
 
-  All programs used within this project template need to be found on your path, see above (:ref:`preparing_your_system` and the :ref:`faq`). Otherwise, this step will fail.
-
-  .. code-block:: bash
-
-      $ python waf.py build
-
-  If this step fails, try the following in order to localise the problem (otherwise you may have many parallel processes started and it will be difficult to find out which one failed):
-
-  .. code-block:: bash
-
-      $ python waf.py build -j1
-
-  At last, type:
-
-  .. code-block:: bash
-
-      $ python waf.py install
+  All programs used within this project template need to be found on your path, see above (:ref:`preparing_your_system` and the :ref:`faq`).
 
   If all went well, you are now ready to adapt the template to your project.
 
@@ -231,10 +216,10 @@ Tips and tricks for starting a new project
 
 Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So write one bit of code at a time, understand what is going on, and move on.
 
-#. Install the template for the language of your choice as described in :ref:`dialog`
+#. Install the template for the language of your choice as described in :ref:`dialogue`
 #. I suggest you leave the examples in place.
-#. Now add your own data and code bit by bit, append the wscript files as necessary. To see what is happening, it might be useful to comment out some steps
-#. Once you got the hang of how things work, remove the examples (both the files and the code in the wscript files)
+#. Now add your own data and code bit by bit, append the `task_xxx` files as necessary. To see what is happening, it might be useful to comment out some steps
+#. Once you got the hang of how things work, remove the examples (both the files and the code in the `task_xxx` files)
 
 
 .. _porting_existing_project:
@@ -245,10 +230,9 @@ Suggestions for porting an existing project
 Your general strategy should be one of **divide and conquer**. If you are not used to thinking in computer science / software engineering terms, it will be hard to wrap your head around a lot of the things going on. So move one bit of code at a time to the template, understand what is going on, and move on.
 
 #. Assuming that you use Git, first move all the code in the existing project to a subdirectory called old_code. Commit.
-#. Start with the data management code. To do so, comment out everything except for the recursions to the library and data_management directories from src/wscript
-#. Move your data files to the spot where they belong under the new structure.
-#. Copy & paste the body of (the first steps of) your data management code to the example files, keeping the basic machinery in place. E.g., in case of the Stata template: In the ``src/data_management/clean_data.do`` script, keep the top lines (inclusion of project paths and opening of the log file). Paste your code below that and adjust the last lines saving the dta file.
-#. Adjust the ``src/data_management/wscript`` file with the right filenames.
-#. Run waf, adjusting the code for the errors you'll likely see.
+#. Now set up the templates.
+#. Start with the data management code and move your data files to the spot where they belong under the new structure.
+#. Move (the first steps of) your data management code to the folder under the templates. Modify the `task_xxx` files accordingly or create new ones.
+#. Run `pytask`, adjusting the code for the errors you'll likely see.
 #. Move on step-by-step like this.
-#. Delete the example files and the corresponding sections of the wscript files.
+#. Delete the example files and the corresponding sections of the `task_xxx` files / the entire files in case you created new ones.

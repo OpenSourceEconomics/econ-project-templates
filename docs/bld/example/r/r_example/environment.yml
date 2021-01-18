@@ -1,0 +1,50 @@
+name: x
+channels:
+  - pytask
+  - conda-forge
+
+  - r
+
+dependencies:
+  - conda-build
+  - ipykernel
+  - jupyterlab
+  - matplotlib
+  - pandas
+  - pip
+  - pytask>=0.0.11
+  - pytask-latex>=0.0.10
+
+  - pytask-r>=0.0.6
+
+
+  - pytask-stata>=0.0.3
+
+  - pytest
+  - pytest-cov
+  - python=3.9
+  - python-graphviz
+
+  - r-aer
+  - r-aod
+  - r-base
+  - r-car
+  - r-essentials
+  - r-rjson
+  - r-lmtest
+  - r-sandwich
+
+
+  - virtualenv=20.0.33
+
+  - pip:
+
+    - pre-commit
+
+    - sphinx
+    - sphinx-autobuild
+    - sphinx-rtd-theme
+    - sphinxcontrib-bibtex
+
+    - sphinxcontrib-matlabdomain
+
