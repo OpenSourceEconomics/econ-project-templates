@@ -1,6 +1,6 @@
 
 
-On this page, we first describe how the files are distributed in the directory hierarchy. We then move on to show how to find your way around using simple data structures in the :ref:`project_paths` section, so that you just need to make changes in a single place (remember to minimise code repetition!).
+On this page, we describe how the files are distributed in the directory hierarchy.
 
 
 .. _rdirectory_structure:

@@ -166,8 +166,6 @@ Configuring your new project
 
   **example_to_install** -- This should be the dominant language you will use in your project. A working example will be installed in the language you choose; the easiest way to get going is simply to adjust the examples for your needs.
 
-  **configure_running_python** -- Select "y" if and only if you intend to use Python in your project and the Python executable may be found on your path.
-
   **configure_running_matlab** -- Select "y" if and only if you intend to use Matlab in your project and the Matlab executable may be found on your path.
 
   **configure_running_r** -- Select "y" if and only if you intend to use R in your project and the R executable may be found on your path.
