@@ -2,6 +2,12 @@ Release Notes
 ==============
 
 
+v0.4 -- January 2021
+-----------------------
+
+* Move from Waf to Pytask (#86, @tobiasraabe, @hmgaudecker)
+* Move to GitHub Actions for CI (@janosg, WIP)
+
 
 v0.3 -- October 2019
 -----------------------
