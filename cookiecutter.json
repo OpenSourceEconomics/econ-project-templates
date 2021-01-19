@@ -31,10 +31,6 @@
     "R",
     "Stata"
   ],
-  "configure_running_python": [
-    "y",
-    "n"
-  ],
   "configure_running_matlab": [
     "y",
     "n"
