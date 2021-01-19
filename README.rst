@@ -1,6 +1,6 @@
 
-.. image:: https://dev.azure.com/opensourceeconomics/econ-project-templates/_apis/build/status/opensourceeconomics.econ-project-templates?branchName=master
-    :target: https://dev.azure.com/opensourceeconomics/econ-project-templates/_build/latest?definitionId=1&branchName=master
+.. image:: https://zenodo.org/badge/14557543.svg
+   :target: https://zenodo.org/badge/latestdoi/14557543
 
 .. image:: https://readthedocs.org/projects/econ-project-templates/badge/?version=stable
     :target: https://econ-project-templates.readthedocs.io/en/stable/
