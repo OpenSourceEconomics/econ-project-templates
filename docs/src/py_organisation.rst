@@ -8,6 +8,8 @@ On this page, we describe how the files are distributed in the directory hierarc
 Directory structure
 -------------------
 
+[The pictures are a little outdated, but you get the idea]
+
 The left node of the following graph shows the contents of the project root directory after executing ``pytask``:
 
 .. figure:: ../bld/example/python/project_hierarchies_big_pic.png
@@ -17,6 +19,7 @@ Files and directories in brownish colours are constructed by pytask; those with 
 
     * All source code is in the *src* directory.
     * All outputs are constructed in the *bld* directory.
+    * The paper and presentation are put there so they can be opened easily.
 
 The contents of both the *root/bld* and the *root/src* directories directly follow the steps of the analysis from the :ref:`workflow <workflow>` section.
 
