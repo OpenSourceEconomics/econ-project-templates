@@ -4,7 +4,7 @@ import pytest
 from test_cookies import check_cookies_basics
 
 
-def test_pytask_python(cookies, basic_project_dict):
+def test_python(cookies, basic_project_dict):
     cookies_result = cookies.bake(extra_context=basic_project_dict)
     check_cookies_basics(cookies_result=cookies_result)
     pytask_result = subprocess.run(
