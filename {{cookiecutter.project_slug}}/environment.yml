@@ -1,6 +1,5 @@
 name: {{ cookiecutter.create_conda_environment_with_name }}
 channels:
-  - pytask
   - conda-forge
 {% if cookiecutter.configure_running_r == 'y' %}
   - r
@@ -12,13 +11,13 @@ dependencies:
   - matplotlib
   - pandas
   - pip
-  - pytask>=0.0.11
-  - pytask-latex>=0.0.10
+  - pytask>=0.0.14
+  - pytask-latex>=0.0.12
 {% if cookiecutter.configure_running_r == 'y' %}
-  - pytask-r>=0.0.6
+  - pytask-r>=0.0.9
 {% endif %}
 {% if cookiecutter.configure_running_stata == 'y' %}
-  - pytask-stata>=0.0.3
+  - pytask-stata>=0.0.6
 {% endif %}
   - pytest
   - pytest-cov
