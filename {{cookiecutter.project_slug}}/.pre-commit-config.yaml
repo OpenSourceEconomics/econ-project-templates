@@ -2,11 +2,11 @@
 exclude: ^\.
 repos:
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v2.3.6
+    rev: v2.4.0
     hooks:
       - id: reorder-python-imports
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v3.4.0
     hooks:
       - id: check-yaml
       - id: check-added-large-files
@@ -19,24 +19,24 @@ repos:
         args: [--autofix, --no-sort-keys, --no-ensure-ascii]
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.7.2
+    rev: v2.11.0
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
   - repo: https://github.com/asottile/blacken-docs
-    rev: v1.8.0
+    rev: v1.10.0
     hooks:
       - id: blacken-docs
         additional_dependencies: [black]
         files: '(\.md|\.rst)$'
   - repo: https://github.com/psf/black
-    rev: stable
+    rev: 20.8b1
     hooks:
       - id: black
         language_version: python{{ cookiecutter.python_version }}
 {% if cookiecutter.add_intrusive_pre_commit == 'y' %}
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.3
+    rev: 3.9.0
     hooks:
       - id: flake8
         additional_dependencies:
