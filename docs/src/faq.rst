@@ -99,13 +99,13 @@ I will now provide a step-by-step guide of how to create / adjust this file usin
 When cookiecutter exits with an error
 =====================================
 
-If cookiecutter breaks of, you will get a lengthy error message. It is important that you work through this and try to understand the error (the language used might seem funny, but it is precise...).
+If cookiecutter breaks off, you will get a lengthy error message. It is important that you work through this and try to understand the error (the language used might seem funny, but it is precise...).
 
 Then type:
 
   .. code-block:: bash
 
-    $ code ~/.cookiecutter_replay/econ-project-templates-0.4.4.json
+    $ code ~/.cookiecutter_replay/econ-project-templates-0.4.5.json
 
 If you are not using VS Code as your editor of choice, adjust the line accordingly.
 
@@ -115,7 +115,7 @@ When done, launch a new shell if necessary and type:
 
   .. code-block:: bash
 
-    $ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.4.4.zip
+    $ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.4.5.zip
 
 
 
