@@ -1,43 +1,83 @@
+import itertools
 import pickle
 
-import matplotlib
 import numpy as np
+import plotly.graph_objects as go
 import pytask
-
+from plotly.subplots import make_subplots
 from src.config import BLD
-
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
-
-
-PLOT_ARGS = {"markersize": 4, "alpha": 0.6}
 
 
 def plot_locations(locations_by_round, path):
-    "Plot the distribution of agents after cycle_num rounds of the loop."
+    "Plot the distribution of agenst after cycle_num round of the loop."
     n_cycles = len(locations_by_round)
     nrows = int(np.ceil(n_cycles / 2 - 0.01))
-    figsize = (2 * 3, nrows * 2)
-    fig, axes = plt.subplots(nrows=nrows, ncols=2, figsize=figsize)
-    fig.subplots_adjust(
-        left=0.05, right=0.95, bottom=0.05, top=0.95, wspace=0.25, hspace=0.25
-    )
-    for item, ax in np.ndenumerate(axes):
-        n_cycle = item[0] * 2 + item[1]
-        if n_cycle == n_cycles:
-            # Remove last element if number of cycles is uneven
-            fig.delaxes(ax)
-            break
-        locs = locations_by_round[n_cycle]
-        ax.set_title(f"Cycle {n_cycle}")
-        ax.tick_params(labelbottom="off", labelleft="off")
-        ax.set_facecolor("azure")
-        ax.plot(
-            locs[0][:, 0], locs[0][:, 1], "o", markerfacecolor="orange", **PLOT_ARGS
-        )
-        ax.plot(locs[1][:, 0], locs[1][:, 1], "o", markerfacecolor="green", **PLOT_ARGS)
+    ncols = 2
+    # figure measurements are specified in pixels in plotly
+    width, height = (300 * ncols, 200 * nrows)
 
-    fig.savefig(path)
+    fig = make_subplots(
+        rows=nrows,
+        cols=2,
+        vertical_spacing=0.07,
+        horizontal_spacing=0.07,
+        subplot_titles=[f"Cycle {n}" for n in range(len(locations_by_round))],
+    )
+
+    for row, col in itertools.product(range(nrows), range(ncols)):
+        n_cycle = row * 2 + col
+        if n_cycle == n_cycles:
+            break
+
+        locs = locations_by_round[n_cycle]
+
+        for key, color in zip([0, 1], ["orange", "green"]):
+            data = go.Scatter(
+                x=locs[key][:, 0],
+                y=locs[key][:, 1],
+                mode="markers",
+                marker_size=5,
+                marker_color=color,
+                marker_line_color="black",
+                marker_line_width=0.5,
+                opacity=0.6,
+                showlegend=False,
+            )
+            # rows and cols are indexed starting from (1, 1) in plotly
+            fig = fig.add_trace(
+                data,
+                row=row + 1,
+                col=col + 1,
+            )
+
+    fig = fig.update_xaxes(
+        showline=True,
+        linecolor="black",
+        mirror=True,
+        dtick=0.25,
+    )
+
+    fig = fig.update_yaxes(
+        showline=True,
+        linecolor="black",
+        mirror=True,
+        dtick=0.25,
+    )
+
+    # subplot titles are defined as annotations
+    fig = fig.update_annotations(font_size=14)
+
+    fig = fig.update_layout(
+        margin_l=10,
+        margin_r=10,
+        margin_b=10,
+        margin_t=20,
+        width=width,
+        height=height,
+        plot_bgcolor="azure",
+        font_size=14,
+    )
+    fig.write_image(path)
 
 
 specifications = (
