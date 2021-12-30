@@ -9,7 +9,6 @@ dependencies:
   - conda-build
   - ipykernel
   - jupyterlab
-  - matplotlib
   - pandas
   - pip
   - pytask>=0.0.11

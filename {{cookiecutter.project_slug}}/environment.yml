@@ -9,8 +9,8 @@ dependencies:
   - conda-build
   - ipykernel
   - jupyterlab
-  - plotly
-  - python-kaleido
+  - plotly>=5.5.0
+  - python-kaleido>=0.2.1
   - pandas
   - pip
   - pytask>=0.0.14
