@@ -1,13 +1,14 @@
 name: econ-project-templates-docs
 channels:
+  - defaults
   - conda-forge
   - plotly
 dependencies:
   - pip
   - python=3.9
   - plotly>=5.5.0
-  - python-kaleido>=0.2.1
   - pip:
+      - kaleido
       - nbsphinx
       - sphinx
       - sphinx-autobuild

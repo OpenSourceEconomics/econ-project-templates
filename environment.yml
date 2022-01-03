@@ -8,7 +8,6 @@ dependencies:
   - ipykernel
   - jupyterlab
   - plotly>=5.5.0
-  - python-kaleido>=0.2.1
   - pandas
   - pip
   - pytask>=0.0.14
@@ -31,6 +30,7 @@ dependencies:
   - pip:
     - click==7.0
     - cookiecutter
+    - kaleido
     - nbsphinx
     - pre-commit
     - pytest-cookies

@@ -10,7 +10,6 @@ dependencies:
   - ipykernel
   - jupyterlab
   - plotly>=5.5.0
-  - python-kaleido>=0.2.1
   - pandas
   - pip
   - pytask>=0.0.14
@@ -42,6 +41,7 @@ dependencies:
 {% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
     - pre-commit
 {% endif %}
+    - kaleido
     - sphinx
     - sphinx-autobuild
     - sphinx-rtd-theme
