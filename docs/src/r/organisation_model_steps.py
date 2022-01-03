@@ -26,7 +26,6 @@ def create_figure(case):
     # add shapes
     fig = update_fig_with_shape(case, fig)
 
-    # update axes
     fig.update_xaxes(
         tickvals=[1, 2, 3, 4],
         ticktext=["Data mgmt.", "Analysis", "Final", "Paper"],
@@ -38,7 +37,6 @@ def create_figure(case):
         title="Model specification",
     )
 
-    # update layout
     fig.update_layout(
         margin_l=10,
         margin_r=10,

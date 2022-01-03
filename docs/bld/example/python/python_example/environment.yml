@@ -1,7 +1,7 @@
-name: x
+name: python_example_env
 channels:
-  - pytask
   - conda-forge
+  - plotly
 
   - r
 
@@ -9,16 +9,16 @@ dependencies:
   - conda-build
   - ipykernel
   - jupyterlab
-  - matplotlib
+  - plotly>=5.5.0
   - pandas
   - pip
-  - pytask>=0.0.11
-  - pytask-latex>=0.0.10
+  - pytask>=0.0.14
+  - pytask-latex>=0.0.12
 
-  - pytask-r>=0.0.6
+  - pytask-r>=0.0.9
 
 
-  - pytask-stata>=0.0.3
+  - pytask-stata>=0.0.6
 
   - pytest
   - pytest-cov
@@ -41,6 +41,7 @@ dependencies:
 
     - pre-commit
 
+    - kaleido>=0.2.1
     - sphinx
     - sphinx-autobuild
     - sphinx-rtd-theme

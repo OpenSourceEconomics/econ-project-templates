@@ -61,6 +61,7 @@ full
 ~$*
 Thumbs.db
 ___*
+.vscode
 !.gitignore
 !.mywaflib
 .env/workaround.bat
