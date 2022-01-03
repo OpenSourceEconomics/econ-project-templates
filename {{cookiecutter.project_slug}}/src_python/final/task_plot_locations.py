@@ -10,7 +10,7 @@ from src.config import BLD
 
 
 def plot_locations(locations_by_round, path):
-    "Plot the distribution of agenst after cycle_num round of the loop."
+    "Plot the distribution of agents after cycle_num rounds of the loop."
     n_cycles = len(locations_by_round)
     nrows = int(np.ceil(n_cycles / 2 - 0.01))
     ncols = 2
@@ -19,14 +19,14 @@ def plot_locations(locations_by_round, path):
 
     fig = make_subplots(
         rows=nrows,
-        cols=2,
+        cols=ncols,
         vertical_spacing=0.07,
         horizontal_spacing=0.07,
         subplot_titles=[f"Cycle {n}" for n in range(len(locations_by_round))],
     )
 
     for row, col in itertools.product(range(nrows), range(ncols)):
-        n_cycle = row * 2 + col
+        n_cycle = row * ncols + col
         if n_cycle == n_cycles:
             break
 
