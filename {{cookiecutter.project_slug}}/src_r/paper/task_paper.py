@@ -16,7 +16,7 @@ documents = ["research_paper", "research_pres_30min"]
         "--interaction=nonstopmode",
         "--synctex=1",
         "--cd",
-        "--quiet",
+        # "--quiet",
         "--shell-escape",
     ]
 )
