@@ -3,14 +3,16 @@ import subprocess
 
 
 def _check_pre_commit(result):
-    subprocess.check_output(("pre-commit", "install"), shell=True, cwd=result.project)
+    subprocess.check_output(
+        ("pre-commit", "install"), shell=True, cwd=result.project_path
+    )
 
     c = subprocess.Popen(
         "pre-commit run --all-files",
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         shell=True,
-        cwd=result.project,
+        cwd=result.project_path,
     )
     output, error = c.communicate()
 
@@ -20,7 +22,7 @@ def _check_pre_commit(result):
         # import pdb; pdb.set_trace()
         raise AssertionError("Some pre-commit failed.")
     # Not trivial to check for empty string if it might be binary stream
-    assert len(error) == 0, "{}".format(str(error))
+    assert len(error) == 0, f"{str(error)}"
     assert re.search(
         r"(Passed|Failed)", str(output)
     ), "All files skipped by pre-commit."

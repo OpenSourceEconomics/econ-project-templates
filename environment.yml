@@ -2,11 +2,12 @@ name: econ-project-templates
 channels:
   - conda-forge
   - r
+  - plotly
 dependencies:
   - conda-build
   - ipykernel
   - jupyterlab
-  - matplotlib
+  - plotly>=5.5.0
   - pandas
   - pip
   - pytask>=0.0.14
@@ -29,6 +30,7 @@ dependencies:
   - pip:
     - click==7.0
     - cookiecutter
+    - kaleido
     - nbsphinx
     - pre-commit
     - pytest-cookies

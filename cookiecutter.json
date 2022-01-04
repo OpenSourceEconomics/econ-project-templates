@@ -56,8 +56,8 @@
     "Not open source"
   ],
   "_copy_without_render": [
-    ".mywaflib",
     "*.bib",
+    "src_python/sandbox/few_agents.ipynb",
     "src_matlab/library/matlab-json/*",
     "src_stata/library/stata/ado_ext/*"
   ]
