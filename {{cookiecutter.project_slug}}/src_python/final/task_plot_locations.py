@@ -15,11 +15,13 @@ def plot_locations(locations_by_round, path):
     nrows = int(np.ceil(n_cycles / 2 - 0.01))
     ncols = 2
     # figure measurements are specified in pixels in plotly
-    width, height = (300 * ncols, 200 * nrows)
+    width, height = (200 * ncols, 200 * nrows)
 
     fig = make_subplots(
         rows=nrows,
         cols=ncols,
+        shared_xaxes=True,
+        shared_yaxes=True,
         vertical_spacing=0.07,
         horizontal_spacing=0.07,
         subplot_titles=[f"Cycle {n}" for n in range(len(locations_by_round))],
@@ -56,6 +58,7 @@ def plot_locations(locations_by_round, path):
         linecolor="black",
         mirror=True,
         dtick=0.25,
+        showticklabels=True,
     )
 
     fig = fig.update_yaxes(
@@ -63,6 +66,8 @@ def plot_locations(locations_by_round, path):
         linecolor="black",
         mirror=True,
         dtick=0.25,
+        scaleanchor="x",
+        scaleratio=1,
     )
 
     # subplot titles are defined as annotations
