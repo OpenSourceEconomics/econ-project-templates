@@ -3,14 +3,16 @@ import subprocess
 
 
 def _check_pre_commit(result):
-    subprocess.check_output(("pre-commit", "install"), shell=True, cwd=result.project)
+    subprocess.check_output(
+        ("pre-commit", "install"), shell=True, cwd=result.project_path
+    )
 
     c = subprocess.Popen(
         "pre-commit run --all-files",
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         shell=True,
-        cwd=result.project,
+        cwd=result.project_path,
     )
     output, error = c.communicate()
 

@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     if "{{ cookiecutter.set_up_git }}" == "y":
 
-        subprocess.run(["git", "init", "--initial-branch=main"])
+        subprocess.run(["git", "init"])
 
         if "{{ cookiecutter.git_remote_url }}" != "":
             subprocess.run(
