@@ -22,7 +22,7 @@ def _check_pre_commit(result):
         # import pdb; pdb.set_trace()
         raise AssertionError("Some pre-commit failed.")
     # Not trivial to check for empty string if it might be binary stream
-    assert len(error) == 0, "{}".format(str(error))
+    assert len(error) == 0, f"{str(error)}"
     assert re.search(
         r"(Passed|Failed)", str(output)
     ), "All files skipped by pre-commit."
