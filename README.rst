@@ -34,6 +34,7 @@ Contributors
 Former Contributors
 -------------------
 
+@janosg
 @PKEuS
 @philippmuller
 @julienschat
