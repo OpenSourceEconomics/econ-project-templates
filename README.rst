@@ -28,9 +28,8 @@ Contributors
 -------------
 
 @hmgaudecker
-@raholler
+@timmens
 @tobiasraabe
-
 
 Former Contributors
 -------------------
@@ -38,3 +37,4 @@ Former Contributors
 @PKEuS
 @philippmuller
 @julienschat
+@raholler
