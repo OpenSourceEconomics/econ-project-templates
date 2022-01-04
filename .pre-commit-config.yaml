@@ -51,7 +51,6 @@ repos:
             flake8-print,
             flake8-rst-docstrings,
             flake8-todo,
-            flake8-type-annotations,
             pep8-naming,
             pydocstyle,
           ]
