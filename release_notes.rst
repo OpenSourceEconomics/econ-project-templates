@@ -1,6 +1,11 @@
 Release Notes
 ==============
 
+v0.5 -- January 2022
+-----------------------
+
+* Move to plotly (#92, @timmens)
+* Cleaning up (@hmgaudecker)
 
 v0.4 -- January 2021
 -----------------------
