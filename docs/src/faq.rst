@@ -105,7 +105,7 @@ Then type:
 
   .. code-block:: bash
 
-    $ code ~/.cookiecutter_replay/econ-project-templates-0.4.5.json
+    $ code ~/.cookiecutter_replay/econ-project-templates-0.5.0.json
 
 If you are not using VS Code as your editor of choice, adjust the line accordingly.
 
@@ -115,7 +115,7 @@ When done, launch a new shell if necessary and type:
 
   .. code-block:: bash
 
-    $ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.4.5.zip
+    $ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.5.0.zip
 
 
 
