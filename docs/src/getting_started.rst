@@ -66,7 +66,7 @@ Preparing your system
 
         .. code-block:: text
 
-            Python 3.9.9 | packaged by conda-forge | (main, Dec 20 2021, 02:40:17) 
+            Python 3.9.9 | packaged by conda-forge | (main, Dec 20 2021, 02:40:17)
             [GCC 9.4.0] on linux
             Type "help", "copyright", "credits" or "license" for more information.
 
