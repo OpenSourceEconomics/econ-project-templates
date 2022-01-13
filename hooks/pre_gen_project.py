@@ -3,7 +3,7 @@ import re
 
 MODULE_REGEX = r"^[-_a-zA-Z0-9]*$"
 ENVIRON_REGEX = r"^[-_a-zA-Z0-9]*$"
-PYTHONVERSION_REGEX = r"^(3)\.[6-9]$"
+PYTHONVERSION_REGEX = r"^(3)\.([6-9]|1[0-1])$"
 
 module_name = "{{ cookiecutter.project_slug}}"
 
