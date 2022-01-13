@@ -57,16 +57,18 @@ Preparing your system
 
     - To be on the safe side regarding your paths, you can check directly whether you can launch the programmes. For Python, type:
 
-        .. code-block:: bash
+        .. code-block:: text
 
-             $ python
-             $ exit()
+            $ python
+            >>> exit()
 
       This starts python in your shell and exits from it again. The top line should indicate that you are using a Python distribution provided by Anaconda. Here is an example output obtained using Windows PowerShell:
 
         .. code-block:: text
 
-            Python 3.7.4 (default, Aug  9 2019, 18:34:1) [MSC v.1915 64 bit (AMD64)] :: Anaconda, Inc. on win32
+            Python 3.9.9 | packaged by conda-forge | (main, Dec 20 2021, 02:40:17) 
+            [GCC 9.4.0] on linux
+            Type "help", "copyright", "credits" or "license" for more information.
 
      For Git, type:
 
@@ -150,7 +152,7 @@ Configuring your new project
 
   **project_short_description*** -- Briefly describe your project.
 
-  **python_version** -- Default is 3.9. Please use python 3.7 or higher.
+  **python_version** -- Default is 3.9. Please use python 3.8 or higher.
 
   **create_conda_environment_with_name** -- Just accept the default. If you don't, the same caveat applies as for the *project_slug*. If you really do not want a conda environment, type "x".
 
