@@ -3,7 +3,7 @@ import re
 
 MODULE_REGEX = r"^[-_a-zA-Z0-9]*$"
 ENVIRON_REGEX = r"^[-_a-zA-Z0-9]*$"
-PYTHONVERSION_REGEX = r"^(3)\.([6-9]|1[0-1])$"
+PYTHONVERSION_REGEX = r"^(3)\.([8-9]|10])$"
 
 module_name = "{{ cookiecutter.project_slug}}"
 
@@ -39,7 +39,7 @@ if not re.match(PYTHONVERSION_REGEX, python_version):
     raise ValueError(
         """
 
-        ERROR: The python version must be >= 3.6
+        ERROR: The python version must be >= 3.8
 
         """
     )
