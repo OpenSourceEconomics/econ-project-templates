@@ -18,6 +18,7 @@ dependencies:
   - pytest-cov
   - python=3.9
   - python-graphviz
+  - python-kaleido
   - tox-conda
   - r-aer
   - r-aod
@@ -30,7 +31,6 @@ dependencies:
   - pip:
     - click==7.0
     - cookiecutter
-    - kaleido
     - nbsphinx
     - pre-commit
     - pytest-cookies
