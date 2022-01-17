@@ -2,7 +2,7 @@ import re
 import subprocess
 
 import pytest
-from test_cookies import check_cookies_basics
+from cookies import check_cookies_basics
 
 
 def _check_pre_commit(result):

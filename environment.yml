@@ -16,7 +16,7 @@ dependencies:
   - pytask-stata>=0.0.6
   - pytest
   - pytest-cov
-  - python=3.9
+  - python=3.8
   - python-graphviz
   - tox-conda
   - r-aer
