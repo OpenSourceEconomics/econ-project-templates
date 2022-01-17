@@ -9,7 +9,6 @@ def check_cookies_basics(cookies_result):
 
 
 def test_bake_project(cookies, basic_project_dict):
-    print(cookies.bake(extra_context=basic_project_dict))
     result = cookies.bake(extra_context=basic_project_dict)
     check_cookies_basics(cookies_result=result)
 

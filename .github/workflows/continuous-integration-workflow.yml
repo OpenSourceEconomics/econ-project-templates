@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-tinytex@v1
+      - uses: r-lib/actions/setup-tinytex@v2
         if: runner.os != 'Windows'
       - uses: conda-incubator/setup-miniconda@v2
         with:
