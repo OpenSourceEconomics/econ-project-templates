@@ -24,6 +24,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-tinytex@v2
+        env:
+            # install full prebuilt version
+            TINYTEX_INSTALLER: TinyTeX
         if: runner.os != 'Windows'
       - name: Install latex cmap dependency.
         run: tlmgr install cmap
