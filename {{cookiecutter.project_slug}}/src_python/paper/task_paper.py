@@ -18,6 +18,7 @@ documents = ["research_paper", "research_pres_30min"]
         "--cd",
         "--quiet",
         "--shell-escape",
+        "-f",
     ]
 )
 @pytask.mark.parametrize(
