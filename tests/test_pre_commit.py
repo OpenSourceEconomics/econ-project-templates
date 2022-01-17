@@ -1,11 +1,12 @@
 import re
 import subprocess
 
+import pytest
+from test_cookies import check_cookies_basics
+
 
 def _check_pre_commit(result):
-    subprocess.check_output(
-        ("pre-commit", "install"), shell=True, cwd=result.project_path
-    )
+    subprocess.check_output("pre-commit install", shell=True, cwd=result.project_path)
 
     c = subprocess.Popen(
         "pre-commit run --all-files",
@@ -34,37 +35,18 @@ def test_pre_commit_python(cookies, basic_project_dict):
     basic_project_dict["add_basic_pre_commit_hooks"] = "y"
     basic_project_dict["add_intrusive_pre_commit"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
+    check_cookies_basics(result)
     _check_pre_commit(result)
 
 
-def test_pre_commit_r(cookies, basic_project_dict):
+@pytest.mark.parametrize("language", ["R", "Stata", "Matlab"])
+def test_pre_commit_other_languages(language, cookies, basic_project_dict):
     basic_project_dict["set_up_git"] = "y"
     basic_project_dict["make_initial_commit"] = "y"
     basic_project_dict["add_basic_pre_commit_hooks"] = "y"
     basic_project_dict["add_intrusive_pre_commit"] = "y"
-    basic_project_dict["example_to_install"] = "R"
-    basic_project_dict["configure_running_r"] = "y"
+    basic_project_dict["example_to_install"] = language
+    basic_project_dict[f"configure_running_{language.lower()}"] = "y"
     result = cookies.bake(extra_context=basic_project_dict)
-    _check_pre_commit(result)
-
-
-def test_pre_commit_stata(cookies, basic_project_dict):
-    basic_project_dict["set_up_git"] = "y"
-    basic_project_dict["make_initial_commit"] = "y"
-    basic_project_dict["add_basic_pre_commit_hooks"] = "y"
-    basic_project_dict["add_intrusive_pre_commit"] = "y"
-    basic_project_dict["example_to_install"] = "Stata"
-    basic_project_dict["configure_running_stata"] = "y"
-    result = cookies.bake(extra_context=basic_project_dict)
-    _check_pre_commit(result)
-
-
-def test_pre_commit_matlab(cookies, basic_project_dict):
-    basic_project_dict["set_up_git"] = "y"
-    basic_project_dict["make_initial_commit"] = "y"
-    basic_project_dict["add_basic_pre_commit_hooks"] = "y"
-    basic_project_dict["add_intrusive_pre_commit"] = "y"
-    basic_project_dict["example_to_install"] = "Matlab"
-    basic_project_dict["configure_running_matlab"] = "y"
-    result = cookies.bake(extra_context=basic_project_dict)
+    check_cookies_basics(result)
     _check_pre_commit(result)
