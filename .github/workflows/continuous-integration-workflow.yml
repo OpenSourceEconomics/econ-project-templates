@@ -25,6 +25,7 @@ jobs:
 
       - uses: r-lib/actions/setup-tinytex@v2
         if: runner.os != 'Windows'
+      - name: Install latex cmap dependency.
         run: tlmgr install cmap
 
       - uses: conda-incubator/setup-miniconda@v2
