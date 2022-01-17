@@ -33,6 +33,7 @@ jobs:
             tlmgr install cmap
             tlmgr install fncychap
             tlmgr install capt-of
+            tlmgr install tabulary
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
