@@ -25,15 +25,16 @@ jobs:
 
       - uses: r-lib/actions/setup-tinytex@v2
         env:
-            # install full prebuilt version
             TINYTEX_INSTALLER: TinyTeX
         if: runner.os != 'Windows'
-      - name: Install latex cmap dependency.
+      - name: Install latex dependencies not found in tinytex.
         run: |
             tlmgr install cmap
             tlmgr install fncychap
             tlmgr install capt-of
             tlmgr install tabulary
+            tlmgr install biblatex
+            tlmgr install fancyhdr
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
