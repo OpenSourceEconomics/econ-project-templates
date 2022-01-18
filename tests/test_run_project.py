@@ -13,6 +13,7 @@ def test_python(cookies, basic_project_dict):
     assert pytask_result.returncode == 0
 
 
+@pytest.mark.slow
 def test_r(cookies, basic_project_dict):
 
     basic_project_dict["example_to_install"] = "R"
