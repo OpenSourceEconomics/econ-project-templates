@@ -64,8 +64,8 @@ jobs:
         if: always()
         shell: bash -l {0}
         run: |
-          pwd
-          cat /tmp/pytest-of-runner/pytest-0/test_python0/cookies/bake00/research_project/bld/paper/research_paper.log
+          find . -name research_paper.log
+          # cat /tmp/pytest-of-runner/pytest-0/test_python0/cookies/bake00/research_project/bld/paper/research_paper.log
 
 
   pre-commit:
