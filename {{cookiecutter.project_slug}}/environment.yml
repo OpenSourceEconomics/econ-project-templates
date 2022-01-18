@@ -1,10 +1,10 @@
 name: {{ cookiecutter.create_conda_environment_with_name }}
 channels:
   - conda-forge
-  - plotly
 {% if cookiecutter.configure_running_r == 'y' %}
   - r
 {% endif %}
+  - plotly
 dependencies:
   - conda-build
   - ipykernel
