@@ -64,7 +64,7 @@ jobs:
         if: always()
         with: 
           name: latex-logfile-artifact
-          path: /tmp/pytest-of-runner/pytest-0/test_python0/cookies/bake00/research_project/bld/paper/research_paper.log
+          path: /home/
 
 
 
