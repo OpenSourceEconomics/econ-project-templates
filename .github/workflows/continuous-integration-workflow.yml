@@ -63,9 +63,20 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: always()
         with: 
-          name: latex-logfile-artifact
-          path: /home/
+          name: latex-logfile-artifact1
+          path: /tmp/
 
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with: 
+          name: latex-logfile-artifact2
+          path: /home/runner/work/econ-project-templates/econ-project-templates/
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with: 
+          name: latex-logfile-artifact3
+          path: /tmp/pytest-of-runner/
 
 
           #   pre-commit:
