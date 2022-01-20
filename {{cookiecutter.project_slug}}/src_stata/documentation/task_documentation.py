@@ -8,7 +8,7 @@ from src.config import SRC
 
 
 @pytask.mark.depends_on(
-    list(Path(__file__).resolves().parent.glob("*.rst"))
+    list(Path(__file__).resolve().parent.glob("*.rst"))
     + [SRC / "documentation" / "conf.py"]
 )
 @pytask.mark.parametrize(
