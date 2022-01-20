@@ -62,7 +62,10 @@ jobs:
 
       - name: Debug
         if: always()
-        run: cat /tmp/pytest-of-runner/pytest-0/test_python0/cookies/bake00/research_project/bld/paper/research_paper.log
+        shell: bash -l {0}
+        run: |
+          ls /home/runner/work/econ-project-templates/econ-project-templates/.tox/
+          cat /home/runner/work/econ-project-templates/econ-project-templates/.tox/tmp/pytest-of-runner/pytest-0/test_python0/cookies/bake00/research_project/bld/paper/research_paper.log
 
 
   pre-commit:
