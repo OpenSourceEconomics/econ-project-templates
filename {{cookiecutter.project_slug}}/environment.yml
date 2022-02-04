@@ -6,23 +6,40 @@ channels:
   - r
 {% endif %}
 dependencies:
+  - python={{ cookiecutter.python_version }}
+  - pip
+  - setuptools_scm
+  - toml
   - conda-build
+
+  # Reproducibility
+  - conda-lock
+
+  # Package dependencies
+  - pytask
+  - pytask-latex
+{% if cookiecutter.configure_running_r == 'y' %}
+  - pytask-r
+{% endif %}
+{% if cookiecutter.configure_running_julia == 'y' %}
+  - pytask-julia
+{% endif %}
+{% if cookiecutter.configure_running_stata == 'y' %}
+  - pytask-stata
+{% endif %}
+
+  # Misc
+  - black
+  - pre-commit
+  - pytest
+  - pytest-cov
+  - pytest-xdist
+  - tox-conda
+
   - ipykernel
   - jupyterlab
   - plotly>=5.5.0
   - pandas
-  - pip
-  - pytask>=0.0.14
-  - pytask-latex>=0.0.12
-{% if cookiecutter.configure_running_r == 'y' %}
-  - pytask-r>=0.0.9
-{% endif %}
-{% if cookiecutter.configure_running_stata == 'y' %}
-  - pytask-stata>=0.0.6
-{% endif %}
-  - pytest
-  - pytest-cov
-  - python={{ cookiecutter.python_version }}
   - python-graphviz
 {% if cookiecutter.configure_running_r == 'y' %}
   - r-aer
@@ -34,18 +51,17 @@ dependencies:
   - r-lmtest
   - r-sandwich
 {% endif %}
-{% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
-  - virtualenv=20.0.33
-{% endif %}
+
+  # Documentation
+  - furo
+  - nbsphinx
+  - sphinx
+  - sphinx-autoapi
+  - sphinx-click
+  - sphinx-copybutton
+  - sphinx-panels
+  - sphinxcontrib-bibtex
+
   - pip:
-{% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
-    - pre-commit
-{% endif %}
     - kaleido
-    - sphinx
-    - sphinx-autobuild
-    - sphinx-rtd-theme
-    - sphinxcontrib-bibtex
-{% if cookiecutter.configure_running_matlab == 'y' %}
-    - sphinxcontrib-matlabdomain
-{% endif %}
+

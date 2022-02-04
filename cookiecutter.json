@@ -1,64 +1,69 @@
 {
-  "Do_you_have_https://econ-project-templates.readthedocs.io/en/stable/getting_started.html#configuring-your-new-project_open_alongside_this_dialogue_or_do_you_know_exactly_what_you_are_doing?": "yes",
-  "author": "Albert Einstein",
-  "email": "albert@swiss-patent-office.com",
-  "affiliation": "Swiss Patent Office",
-  "project_name": "The General Theory of Relativity",
+  "author": "Arianna W. Rosenbluth",
+  "email": "{{ cookiecutter.author.lower().replace(' ', '') }}@nowhere.edu",
+  "project_name": "Reproducible Research Template",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-  "project_short_description": "Explain the relationship of space and time.",
-  "python_version": "3.9",
-  "create_conda_environment_with_name": "{{ cookiecutter.project_slug.lower().replace(' ', '_').replace('-', '_') }}",
-  "set_up_git": [
-    "y",
-    "n"
+  "project_description": "A project for ...",
+  "github_username": "{{ cookiecutter.author.lower().replace(' ', '') }}",
+  "github_email": "{{ cookiecutter.email }}",
+  "version": "0.0.1",
+  "python_version": "3.8",
+  "add_tox": [
+    "yes",
+    "no"
+  ],
+  "add_github_actions": [
+    "yes",
+    "no"
+  ],
+  "add_readthedocs": [
+    "yes",
+    "no"
+  ],
+  "add_codecov": [
+    "yes",
+    "no"
+  ],
+  "create_changelog": [
+    "yes",
+    "no"
   ],
   "git_remote_url": "",
   "make_initial_commit": [
-    "y",
-    "n"
+    "yes",
+    "no"
   ],
-  "add_basic_pre_commit_hooks": [
-    "y",
-    "n"
+  "add_python_example": [
+    "yes",
+    "no"
   ],
-  "add_intrusive_pre_commit": [
-    "y",
-    "n"
+  "add_julia_example": [
+    "yes",
+    "no"
   ],
-  "example_to_install": [
-    "Python",
-    "Matlab",
-    "R",
-    "Stata"
+  "add_r_example": [
+    "yes",
+    "no"
   ],
-  "configure_running_matlab": [
-    "y",
-    "n"
-  ],
-  "configure_running_r": [
-    "y",
-    "n"
-  ],
-  "configure_running_stata": [
-    "y",
-    "n"
-  ],
-  "use_biber_biblatex_for_tex_bibliographies": [
-    "y",
-    "n"
+  "add_stata_example": [
+    "yes",
+    "no"
   ],
   "open_source_license": [
-    "MIT license",
-    "BSD license",
-    "ISC license",
+    "MIT",
+    "BSD",
+    "ISC",
     "Apache Software License 2.0",
     "GNU General Public License v3",
     "Not open source"
   ],
+  "conda_environment_name": "{{ cookiecutter.project_slug }}",
+  "create_conda_environment_at_finish": [
+    "no",
+    "yes"
+  ],
   "_copy_without_render": [
-    "*.bib",
-    "src_python/sandbox/few_agents.ipynb",
-    "src_matlab/library/matlab-json/*",
-    "src_stata/library/stata/ado_ext/*"
+    ".github/workflows/main.yml",
+    "*.bib"
   ]
 }

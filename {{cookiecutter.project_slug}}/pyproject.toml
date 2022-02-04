@@ -1,10 +1,13 @@
-[tool.tryceratops]
-ignore = ["TC003"]
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
+
+
+[tool.setuptools_scm]
+write_to = "src/{{ cookiecutter.project_slug }}/_version.py"
 
 
 [tool.mypy]
-files = ["{{cookiecutter.project_slug}}", "tests"]
-exclude = "{{cookiecutter.project_slug}}/tests"
+files = ["src", "tests"]
 check_untyped_defs = true
 disallow_any_generics = true
 disallow_incomplete_defs = true
