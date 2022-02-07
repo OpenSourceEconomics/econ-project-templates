@@ -1,9 +1,7 @@
 import shutil
-
 import pytask
 
 from {{ cookiecutter.project_slug }}.config import BLD
-from {{ cookiecutter.project_slug }}.config import SRC
 
 
 documents = ["research_paper", "research_pres_30min"]
@@ -22,7 +20,7 @@ documents = ["research_paper", "research_pres_30min"]
 @pytask.mark.parametrize(
     "depends_on, produces",
     [
-        (SRC / "paper" / f"{document}.tex", BLD / "paper" / f"{document}.pdf")
+        (f"{document}.tex", BLD / f"{document}.pdf")
         for document in documents
     ],
 )
@@ -33,7 +31,7 @@ def task_compile_documents():
 @pytask.mark.parametrize(
     "depends_on, produces",
     [
-        (BLD / "paper" / f"{document}.pdf", BLD.parent / f"{document}.pdf")
+        (BLD / f"{document}.pdf", BLD.parent.resolve() / f"{document}.pdf")
         for document in documents
     ],
 )
