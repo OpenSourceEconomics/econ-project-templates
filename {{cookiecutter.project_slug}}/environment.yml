@@ -5,18 +5,19 @@ channels:
 {% if cookiecutter.configure_running_r == 'y' %}
   - r
 {% endif %}
+  - nodefaults
+
 dependencies:
   - python={{ cookiecutter.python_version }}
-  - pip
+  - pip >=21.1
   - setuptools_scm
   - toml
-  - conda-build
 
   # Reproducibility
   - conda-lock
 
   # Package dependencies
-  - pytask
+  - pytask >=0.1.7
   - pytask-latex
 {% if cookiecutter.configure_running_r == 'y' %}
   - pytask-r

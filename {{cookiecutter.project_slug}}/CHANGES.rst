@@ -7,4 +7,3 @@ them in reverse chronological order.
 
 x.x.x - {% now 'local', '%Y' %}-xx-xx
 ------------------
-

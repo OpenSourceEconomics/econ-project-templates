@@ -6,6 +6,7 @@
   "project_description": "A project for ...",
   "github_username": "{{ cookiecutter.author.lower().replace(' ', '') }}",
   "github_email": "{{ cookiecutter.email }}",
+  "git_remote_url": "",
   "version": "0.0.1",
   "python_version": "3.8",
   "add_tox": [
@@ -13,6 +14,10 @@
     "no"
   ],
   "add_github_actions": [
+    "yes",
+    "no"
+  ],
+  "add_mypy": [
     "yes",
     "no"
   ],
@@ -28,7 +33,14 @@
     "yes",
     "no"
   ],
-  "git_remote_url": "",
+  "open_source_license": [
+    "MIT",
+    "BSD",
+    "ISC",
+    "Apache Software License 2.0",
+    "GNU General Public License v3",
+    "Not open source"
+  ],
   "make_initial_commit": [
     "yes",
     "no"
@@ -48,14 +60,6 @@
   "add_stata_example": [
     "yes",
     "no"
-  ],
-  "open_source_license": [
-    "MIT",
-    "BSD",
-    "ISC",
-    "Apache Software License 2.0",
-    "GNU General Public License v3",
-    "Not open source"
   ],
   "conda_environment_name": "{{ cookiecutter.project_slug }}",
   "create_conda_environment_at_finish": [
