@@ -17,3 +17,4 @@ dependencies:
   - sphinx-click
   - sphinx-copybutton
   - sphinx-panels
+  - sphinxcontrib-bibtex

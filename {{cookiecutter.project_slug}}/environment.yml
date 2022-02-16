@@ -1,8 +1,8 @@
-name: {{ cookiecutter.create_conda_environment_with_name }}
+name: {{ cookiecutter.conda_environment_name }}
 channels:
   - conda-forge
   - plotly
-{% if cookiecutter.configure_running_r == 'y' %}
+{% if cookiecutter.add_r_example == 'y' %}
   - r
 {% endif %}
   - nodefaults
@@ -19,13 +19,13 @@ dependencies:
   # Package dependencies
   - pytask >=0.1.7
   - pytask-latex
-{% if cookiecutter.configure_running_r == 'y' %}
+{% if cookiecutter.add_r_example == 'y' %}
   - pytask-r
 {% endif %}
-{% if cookiecutter.configure_running_julia == 'y' %}
+{% if cookiecutter.add_julia_example == 'y' %}
   - pytask-julia
 {% endif %}
-{% if cookiecutter.configure_running_stata == 'y' %}
+{% if cookiecutter.add_stata_example == 'y' %}
   - pytask-stata
 {% endif %}
 
@@ -42,7 +42,7 @@ dependencies:
   - plotly>=5.5.0
   - pandas
   - python-graphviz
-{% if cookiecutter.configure_running_r == 'y' %}
+{% if cookiecutter.add_r_example == 'y' %}
   - r-aer
   - r-aod
   - r-base

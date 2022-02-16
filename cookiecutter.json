@@ -1,6 +1,7 @@
 {
   "author": "Arianna W. Rosenbluth",
   "email": "{{ cookiecutter.author.lower().replace(' ', '') }}@nowhere.edu",
+  "affiliation": "Nowhere University",
   "project_name": "Reproducible Research Template",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "project_description": "A project for ...",
@@ -32,6 +33,10 @@
   "create_changelog": [
     "yes",
     "no"
+  ],
+  "use_biber_biblatex_for_tex_bibliographies": [
+    "y",
+    "n"
   ],
   "open_source_license": [
     "MIT",
@@ -68,6 +73,7 @@
   ],
   "_copy_without_render": [
     ".github/workflows/main.yml",
-    "*.bib"
+    "*.bib",
+    "*.ipynb"
   ]
 }

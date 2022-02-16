@@ -176,8 +176,6 @@ Configuring your new project
 
   **python_version** -- Usually accept the default. Must be a valid Python version 3.6 or higher.
 
-  **use_biber_biblatex_for_tex_bibliographies** -- This is a modern replacement for bibtex, but often this does not seem to be stable in MikTeX distributions. Choose yes only if you know what you are doing.
-
   **open_source_license** -- Whatever you prefer.
 
   After successfully answering all the prompts, a folder named according to your project_slug will be created in your current directory. If you run into trouble, please follow the steps explained :ref:`cookiecutter_trouble`
