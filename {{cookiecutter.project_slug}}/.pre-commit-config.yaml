@@ -83,6 +83,7 @@ repos:
     rev: v2.1.0
     hooks:
     -   id: codespell
+        args: [--skip="**.ipynb"]
 -   repo: https://github.com/guilatrova/tryceratops
     rev: v1.0.1
     hooks:
