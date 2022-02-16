@@ -1,5 +1,3 @@
-.. _feedback_welcome:
-
 Feedback welcome
 ================
 

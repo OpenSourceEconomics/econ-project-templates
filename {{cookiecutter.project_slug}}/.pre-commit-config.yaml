@@ -87,16 +87,7 @@ repos:
     rev: v1.0.1
     hooks:
     -   id: tryceratops
-{% if cookiecutter.add_mypy == "yes" %}-   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v0.931'
-    hooks:
-    -   id: mypy
-        args: [
-            --no-strict-optional,
-            --ignore-missing-imports,
-        ]
-        pass_filenames: false
-{% endif %}-   repo: meta
+-   repo: meta
     hooks:
     -   id: check-hooks-apply
     -   id: check-useless-excludes

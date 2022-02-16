@@ -1,1 +1,1 @@
-.. include:: ../../release_notes.rst
+.. include:: ../../CHANGES.rst

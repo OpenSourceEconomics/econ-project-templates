@@ -1,5 +1,3 @@
-.. _developers:
-
 For Developers
 ===============
 
