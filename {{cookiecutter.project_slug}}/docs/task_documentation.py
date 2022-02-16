@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytask
 
-from src.config import BLD
-from src.config import SRC
+from {{cookiecutter.project_slug}}.config import BLD
+from {{cookiecutter.project_slug}}.config import SRC
 
 
 @pytask.mark.depends_on(
