@@ -74,11 +74,6 @@ repos:
     rev: 0.10.1
     hooks:
     -   id: doc8
--   repo: https://github.com/econchick/interrogate
-    rev: 1.5.0
-    hooks:
-    -   id: interrogate
-        args: [-v, --fail-under=40]
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
     hooks:
