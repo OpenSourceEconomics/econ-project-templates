@@ -18,7 +18,7 @@ from {{cookiecutter.project_slug}}.config import SRC
         ("html", (BLD / "documentation" / "html").rglob("*.*")),
     ],
 )
-def task_build_documentation(builder, produces):
+def task_build_documentation(builder, produces):  # noqa: U100
     subprocess.run(
         [
             "sphinx-build",

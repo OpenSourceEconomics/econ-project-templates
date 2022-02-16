@@ -3,8 +3,8 @@ Welcome to econ-project-templates's documentation!
 
 
 .. toctree::
-    :caption: Contents:
-    :maxdepth: 1
+    :caption: Contents
+    :maxdepth: 2
 
     api
     release_notes
