@@ -19,7 +19,6 @@
 % \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
 % \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some submissions.
 
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
 \usepackage[
     natbib=true,
     bibencoding=inputenc,
@@ -35,11 +34,6 @@
 \AtBeginBibliography{\togglefalse{blx@useprefix}}
 \setlength{\bibitemsep}{1.5ex}
 \addbibresource{refs.bib}
-{% endif %}
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
-\usepackage{natbib}
-\bibliographystyle{rusnat}
-{% endif %}
 
 
 
@@ -113,14 +107,9 @@ The decision rule of an agent is the following:
 
 
 
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
 \setstretch{1}
 \printbibliography
 \setstretch{1.5}
-{% endif %}
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
-\bibliography{refs}
-{% endif %}
 
 
 % \appendix

@@ -8,7 +8,6 @@
 \usepackage{fancyvrb, moreverb, relsize}
 \usepackage{eurosym, calc}
 \usepackage{amsmath, amssymb, amsfonts, amsthm, bm}
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
 \usepackage[
     natbib=true,
     bibencoding=inputenc,
@@ -24,11 +23,6 @@
 \AtBeginBibliography{\togglefalse{blx@useprefix}}
 \setlength{\bibitemsep}{1.5ex}
 \addbibresource{refs.bib}
-{% endif %}
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
-\usepackage{natbib}
-\bibliographystyle{rusnat}
-{% endif %}
 
 \hypersetup{colorlinks=true, linkcolor=black, anchorcolor=black, citecolor=black, filecolor=black, menucolor=black, runcolor=black, urlcolor=black}
 
@@ -77,11 +71,8 @@
 
 \begin{frame}[allowframebreaks]
     \frametitle{References}
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "y" %}
     \renewcommand{\bibfont}{\normalfont\footnotesize}
-    \printbibliography{% endif %}
-{% if cookiecutter.use_biber_biblatex_for_tex_bibliographies == "n" %}
-    \bibliography{refs}{% endif %}
+    \printbibliography
 \end{frame}
 
 \end{document}
