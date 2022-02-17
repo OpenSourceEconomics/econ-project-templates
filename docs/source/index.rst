@@ -1,4 +1,13 @@
-Welcome to cookiecutter-pytask-project's documentation!
-=======================================================
+Welcome to econ-project-templates's documentation!
+==================================================
+
+
+.. toctree::
+    :caption: Contents
+    :maxdepth: 2
+
+    api
+    release_notes
+
 
 .. include:: ../../README.rst

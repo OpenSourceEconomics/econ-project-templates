@@ -1,5 +1,3 @@
-.. _introduction:
-
 ********************************
 Introduction to the Example Code
 ********************************

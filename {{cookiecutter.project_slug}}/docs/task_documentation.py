@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytask
 
-from src.config import BLD
-from src.config import SRC
+from {{cookiecutter.project_slug}}.config import BLD
+from {{cookiecutter.project_slug}}.config import SRC
 
 
 @pytask.mark.depends_on(
@@ -18,7 +18,7 @@ from src.config import SRC
         ("html", (BLD / "documentation" / "html").rglob("*.*")),
     ],
 )
-def task_build_documentation(builder, produces):
+def task_build_documentation(builder, produces):  # noqa: U100
     subprocess.run(
         [
             "sphinx-build",

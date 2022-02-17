@@ -1,5 +1,3 @@
-.. _getting_started:
-
 ***************
 Getting Started
 ***************
@@ -175,8 +173,6 @@ Configuring your new project
   **configure_running_stata** -- Select "y" if and only if you intend to use Stata in your project and the Stata executable may be found on your path.
 
   **python_version** -- Usually accept the default. Must be a valid Python version 3.6 or higher.
-
-  **use_biber_biblatex_for_tex_bibliographies** -- This is a modern replacement for bibtex, but often this does not seem to be stable in MikTeX distributions. Choose yes only if you know what you are doing.
 
   **open_source_license** -- Whatever you prefer.
 
