@@ -45,7 +45,7 @@ As an example of how things look further down in the hierarchy, consider the *an
 The same function (`task_estimate`) is run twice for the models `baseline` and `rmconj`. All specification of files is done in pytask.
 .. comment: specification of files?
 It is imperative that you do all the task handling inside the `task_xxx.py`-scripts, using the `pathlib <https://realpython.com/python-pathlib/>`_ library. This ensures that your project can be used on different machines and it minimises the potential for cross-platform errors.
-.. comment: How do i use pathlib? 
+.. comment: How do i use pathlib?
 For running scripts in languages other than Python, pass all required files (inputs, log files, outputs) as arguments to the `@pytask.mark.[x]`-decorator. You can then read them in. Check this R template for examples.
 
 For running Python source code from pytask, simply include `depends_on` and `produces` as inputs to your function.

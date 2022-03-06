@@ -33,7 +33,7 @@ Make sure you activated the environment by ``conda activate <env_name>``. Then u
 ``conda update [package]`` or ``pip install -U [package]``
 
 For updating conda all packages, replace ``[package]`` by ``--all``.
-.. comment: I would leave that part out, here one does not know yet what kind of package one could install 
+.. comment: I would leave that part out, here one does not know yet what kind of package one could install
 
 Installing additional packages
 ==============================
@@ -84,7 +84,7 @@ If you want to create a clean environment, execute:
 
 For setting up an environment from a specification file (like environment.yml), type:
 .. comment: I thought setting it up from environment.yml would require only to activate it? When to activate only, when to create + activate?
-   
+
 .. code:: console
 
     $ conda create --name <myenv> -f <filename>
