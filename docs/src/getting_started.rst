@@ -51,13 +51,13 @@ Preparing your system
 
      This gives you a list of directories that are available on your *PATH*.
 
-..
-  comment: Example output? Maybe example on how you added e.g. VS Code to the path
-.
+    ..
+      comment: Example output? Maybe example on how you added e.g. VS Code to the path
+
     - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a LaTeX distribution, the text editor VS Code, Git, and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up their paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
-..
-  comment: does this mean, just look if it says Anaconda somewhere?
-.
+    ..
+      comment: does this mean, just look if it says Anaconda somewhere?
+
 
     - If you added any directory to *PATH*, you need to close and reopen your shell, so that this change is implemented.
 
@@ -81,9 +81,9 @@ Preparing your system
              $ git status
 
      Unless you are in a location where you expect a Git repository, this should yield the output:
-..
-  comment: what if there is a git repository?
-.
+        ..
+          comment: what if there is a git repository?
+
 
         .. code-block:: bash
 
@@ -105,7 +105,7 @@ Preparing your system
            $ code
 
       ..
-        comment: Does not work for me
+        comment: Does not work for me.
 
 
      If required, do the same for Stata, R, or Matlab — see :ref:`here <starting_programs_from_the_command_line>` for the precise commands you may need.
@@ -135,8 +135,8 @@ Preparing your system
 
   All additional dependencies will be installed into a newly created conda environment which is installed upon project creation.
   ..
-    comment: dont understand 'which is installed upon project creation', maybe just without that part?
-    Also, should it be clear what an environment is?
+    comment: don't understand 'which is installed upon project creation', maybe just without that part?
+
   .. warning::
 
     If you do not opt for the conda environment later on, you need to take care of these dependencies by yourself. A list of additional dependencies can be found under :ref:`dependencies`.
