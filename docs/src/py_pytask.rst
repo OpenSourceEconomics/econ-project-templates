@@ -10,6 +10,7 @@ Have a look at its excellent `documentation <https://pytask-dev.readthedocs.io>`
 
 We will have more to say about the directory structure in the :ref:`pyorganisation` section. For now, we note that a step towards achieving the goal of clearly separating inputs and outputs is that we specify a separate build directory. All output files go there (including intermediate output), it is never kept under version control, and it can be safely removed -- everything in it will be reconstructed automatically the next time you run `pytask`.
 
+.. comment: ..never kept under version control.., what does that sentence mean?
 Pytask Overview
 ---------------
 
@@ -19,8 +20,9 @@ From a high-level perspective, pytask works in the following way:
 
       * Think of a dependency graph here.
       * It stops when it detects a circular dependency or ambiguous ways to build a target.
+         .. comment: what would such an ambiguous way be? What is not allowed?
       * Both are major advantages over a *master-script*, let alone doing the dependency tracking in your mind.
-
+         .. comment: again, master-script?
   #. pytask decides which tasks need to be executed and performs the required actions.
 
       * Minimal rebuilds are a huge speed gain compared to a *master-script*.
@@ -32,3 +34,13 @@ Wanted: Feedback
 ----------------
 
 This is very fresh; please let us know what you would like to see here and what needs better explanation.
+
+
+.. comment:
+    I would like to see an introduction on how to start with using pytask
+    - install pytask: pip/conda
+    - directory structure, that it is done automatically when executing cookiecutter
+    - pip install -e .
+    - conda develop .
+    - then maybe show an example that displays the imports neccessary (import pytask, ..) and once, shortly the usage of depends_on and produce
+             - example does not need to be very detailed, the rest can be read in the pytask-Documentation.git
