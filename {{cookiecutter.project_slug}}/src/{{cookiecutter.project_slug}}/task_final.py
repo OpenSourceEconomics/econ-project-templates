@@ -2,7 +2,7 @@ import pandas as pd
 import pytask
 from {{cookiecutter.project_slug}}.config import BLD
 from {{cookiecutter.project_slug}}.config import SRC
-from {{cookiecutter.project_slug}}.final.plot import plot_regression_over_age
+from {{cookiecutter.project_slug}}.final import plot_regression_over_age
 from {{cookiecutter.project_slug}}.task_analysis import GROUPS
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 

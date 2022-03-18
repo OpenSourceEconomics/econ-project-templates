@@ -2,7 +2,7 @@ import pandas as pd
 import pytask
 from {{cookiecutter.project_slug}}.config import BLD
 from {{cookiecutter.project_slug}}.config import SRC
-from {{cookiecutter.project_slug}}.data_management.clean_data import clean_data
+from {{cookiecutter.project_slug}}.data_management import clean_data
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
