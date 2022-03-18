@@ -1,0 +1,22 @@
+url: "https://raw.githubusercontent.com/LOST-STATS/\
+    lost-stats.github.io/source/Model_Estimation/Matching/Data/smoking.csv"
+
+columns_to_drop:
+    - nationality
+    - ethnicity
+    - region
+    - amt_weekends
+    - amt_weekdays
+    - type
+    - gross_income
+
+categorical_columns:
+    - gender
+    - marital_status
+    - highest_qualification
+    - smoke
+
+column_rename_mapping:
+    highest_qualification: qualification
+
+dependent_variable: smoke
