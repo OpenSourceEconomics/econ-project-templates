@@ -1,0 +1,5 @@
+col0,col1,col2,col3
+yes,a,3.0,4
+no,a,4.5,2
+no,b,-1.0,3
+NaN,b,2.0,10

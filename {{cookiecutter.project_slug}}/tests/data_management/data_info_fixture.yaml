@@ -1,0 +1,11 @@
+columns_to_drop:
+    - col2
+
+categorical_columns:
+    - col0
+    - col1
+
+column_rename_mapping:
+    col1: column_1
+
+dependent_variable: col0
