@@ -50,3 +50,4 @@ def test_convert_outcome_to_numerical(data, data_info):
     numerical = convert_outcome_to_numerical(outcome)
     assert outcome.dtype == "category"
     assert numerical.dtype == np.int8
+

@@ -49,3 +49,4 @@ def test_predict_prob_over_age(data, model, group):
         )
     
     assert_frame_equal(got, expected)
+
