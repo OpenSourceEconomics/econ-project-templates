@@ -17,7 +17,6 @@ dependencies:
   - conda-lock
 
   # Package dependencies
-  - pytask >=0.1.7
   - pytask-latex
 {% if cookiecutter.add_r_example == 'y' %}
   - pytask-r
@@ -66,4 +65,5 @@ dependencies:
 
   - pip:
     - kaleido
+    - git+https://github.com/pytask-dev/pytask.git
 

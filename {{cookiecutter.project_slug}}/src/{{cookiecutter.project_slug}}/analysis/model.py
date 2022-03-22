@@ -1,4 +1,3 @@
-import pandas as pd
 import statsmodels.formula.api as smf
 from statsmodels.iolib.smpickle import load_pickle
 from {{cookiecutter.project_slug}}.data_management import convert_outcome_to_numerical
