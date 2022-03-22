@@ -23,6 +23,7 @@ dependencies:
   - pytest-cookies
   - pytest-cov
   - pytest-xdist
+  - pyyaml
   - tox-conda
 
   # Documentation
