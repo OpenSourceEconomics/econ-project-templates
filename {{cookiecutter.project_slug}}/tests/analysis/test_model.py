@@ -1,10 +1,10 @@
-import pytest
-import pandas as pd
 import numpy as np
+import pandas as pd
+import pytest
 from {{cookiecutter.project_slug}}.analysis.model import fit_logit_model
 
 
-@pytest.fixture
+@pytest.fixture()
 def data():
     np.random.seed(0)
     x = np.random.normal(size=100_000)
@@ -14,7 +14,7 @@ def data():
     return pd.DataFrame({"outcome": y, "covariate": x})
 
 
-@pytest.fixture
+@pytest.fixture()
 def data_info():
     return {"dependent_variable": "outcome"}
 
@@ -26,6 +26,6 @@ def test_fit_logit_model_recover_coefficients(data, data_info):
     assert np.abs(params["covariate"] - 2.0) < 10e-2
 
 
-def test_fit_logit_model_not_implemented_model_type(data, data_info):
-    with pytest.raises(NotImplementedError):
-        fit_logit_model(data, data_info, model_type="quadratic")
+def test_fit_logit_model_error_model_type(data, data_info):
+    with pytest.raises(ValueError):  # noqa: PT011
+        assert fit_logit_model(data, data_info, model_type="quadratic")

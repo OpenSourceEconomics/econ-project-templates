@@ -17,7 +17,8 @@ def plot_regression_over_age(data, data_info, predictions, group):
             - 'column_rename_mapping': Rename mapping
             - 'url': URL to data set
         predictions (pandas.DataFrame): Model predictions for different age values.
-        group (str): 
+        group (str): Categorical col in data. For each category we have one prediction
+            column in data frame predictions.
     
     Returns:
         plotly.graph_objects.Figure: The figure.
@@ -32,7 +33,13 @@ def plot_regression_over_age(data, data_info, predictions, group):
 
     outcomes = convert_outcome_to_numerical(data[data_info["dependent_variable"]])
 
-    fig = px.line(plot_data, x="age", y="prediction", color=group, labels={"age": "Age", "predictions": "Probability of Smoking"})
+    fig = px.line(
+        plot_data,
+        x="age",
+        y="prediction",
+        color=group,
+        labels={"age": "Age", "predictions": "Probability of Smoking"}
+    )
 
     fig.add_traces(
         go.Scatter(

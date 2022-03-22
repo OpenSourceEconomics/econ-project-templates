@@ -43,7 +43,7 @@ waf3-*
 !.environment.linux.yml
 !.env
 .*pdfsvn
-__pycache__
+*__pycache__
 analysis_out
 bld
 build

@@ -30,7 +30,7 @@ def fit_logit_model(data, data_info, model_type):
     if model_type == "linear":
         formula = f"{outcome_name} ~ " + " + ".join(feature_names)
     else:
-        raise NotImplementedError("Only 'linear' model is supported right now.")
+        raise ValueError("Only 'linear' model_type is supported right now.")
 
     # convert outcome to binary data
     data = data.copy()

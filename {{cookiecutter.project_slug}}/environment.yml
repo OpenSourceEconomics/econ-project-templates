@@ -41,6 +41,7 @@ dependencies:
   - jupyterlab
   - plotly>=5.5.0
   - pandas
+  - statsmodels
   - python-graphviz
 {% if cookiecutter.add_r_example == 'y' %}
   - r-aer
