@@ -13,6 +13,7 @@ dependencies:
   # Package dependencies
   - cookiecutter
   - pytask >=0.1.9
+  - pyyaml
 
   # Misc
   - black
@@ -23,7 +24,6 @@ dependencies:
   - pytest-cookies
   - pytest-cov
   - pytest-xdist
-  - pyyaml
   - tox-conda
 
   # Documentation
