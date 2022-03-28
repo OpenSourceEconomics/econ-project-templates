@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_over_age
+from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
 
 
 @pytest.fixture()

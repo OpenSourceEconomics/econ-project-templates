@@ -1,15 +1,15 @@
 import plotly.express as px
 import plotly.graph_objects as go
-from {{cookiecutter.project_slug}}.data_management import convert_outcome_to_numerical
 
 
-def plot_regression_over_age(data, data_info, predictions, group):
-    """Plot regression results over age grid.
+def plot_regression_by_age(data, data_info, predictions, group):
+    """Plot regression results by age.
     
     Args:
         data (pandas.DataFrame): The data set.
         data_info (dict): Information on data set. Contains keys
-            - 'dependent_variable': Name of dependent variable column in data
+            - 'outcome': Name of dependent variable column in data
+            - 'outcome_numerical': Name to be given to the numerical version of outcome
             - 'columns_to_drop': Names of columns that are dropped in data cleaning step
             - 'categorical_columns': Names of columns that are converted to categorical
             - 'column_rename_mapping': Rename mapping
@@ -29,7 +29,7 @@ def plot_regression_over_age(data, data_info, predictions, group):
         var_name=group,
     )
 
-    outcomes = convert_outcome_to_numerical(data[data_info["dependent_variable"]])
+    outcomes = data[data_info["outcome_numerical"]]
 
     fig = px.line(
         plot_data,

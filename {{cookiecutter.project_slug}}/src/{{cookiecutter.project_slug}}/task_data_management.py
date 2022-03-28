@@ -6,12 +6,10 @@ from {{cookiecutter.project_slug}}.data_management import clean_data
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
-common_dependency = pytask.mark.depends_on(
-    {"data_info": SRC / "data_management" / "data_info.yaml"}
-)
+common_dependency = {"data_info": SRC / "data_management" / "data_info.yaml"}
 
 
-@common_dependency
+@pytask.mark.depends_on(common_dependency)
 @pytask.mark.produces(BLD / "data" / "data.csv")
 def task_get_data(depends_on, produces):
     data_info = read_yaml(depends_on["data_info"])
@@ -19,8 +17,7 @@ def task_get_data(depends_on, produces):
     data.to_csv(produces, index=False)
 
 
-@common_dependency
-@pytask.mark.depends_on({"data": BLD / "data" / "data.csv"})
+@pytask.mark.depends_on({**common_dependency, "data": BLD / "data" / "data.csv"})
 @pytask.mark.produces(BLD / "data" / "data_clean.csv")
 def task_clean_data(depends_on, produces):
     data_info = read_yaml(depends_on["data_info"])

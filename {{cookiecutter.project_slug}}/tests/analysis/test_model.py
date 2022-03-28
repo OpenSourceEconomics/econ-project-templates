@@ -16,7 +16,7 @@ def data():
 
 @pytest.fixture()
 def data_info():
-    return {"dependent_variable": "outcome"}
+    return {"outcome_numerical": "outcome"}
 
 
 def test_fit_logit_model_recover_coefficients(data, data_info):

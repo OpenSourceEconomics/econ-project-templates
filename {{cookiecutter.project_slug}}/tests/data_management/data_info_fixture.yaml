@@ -8,4 +8,5 @@ categorical_columns:
 column_rename_mapping:
     col1: column_1
 
-dependent_variable: col0
+outcome: col0
+outcome_numerical: col0_numerical

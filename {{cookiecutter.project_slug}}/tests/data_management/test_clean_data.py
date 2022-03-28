@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import pytest
 from {{cookiecutter.project_slug}}.data_management import clean_data
-from {{cookiecutter.project_slug}}.data_management import convert_outcome_to_numerical
 from {{cookiecutter.project_slug}}.config import TEST_DIR
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
@@ -46,8 +45,8 @@ def test_clean_data_column_rename(data, data_info):
 
 def test_convert_outcome_to_numerical(data, data_info):
     data_clean = clean_data(data, data_info)
-    outcome = data_clean[data_info["dependent_variable"]]
-    numerical = convert_outcome_to_numerical(outcome)
-    assert outcome.dtype == "category"
-    assert numerical.dtype == np.int8
-
+    outcome_name = data_info["outcome"]
+    outcome_numerical_name = data_info["outcome_numerical"]
+    assert outcome_numerical_name in data_clean.columns
+    assert data[outcome_name].dtype == "category"
+    assert data_clean[outcome_numerical_name].dtype == np.int8

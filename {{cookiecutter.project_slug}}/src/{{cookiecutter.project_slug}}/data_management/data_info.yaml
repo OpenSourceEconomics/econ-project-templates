@@ -19,4 +19,5 @@ categorical_columns:
 column_rename_mapping:
     highest_qualification: qualification
 
-dependent_variable: smoke
+outcome: smoke
+outcome_numerical: smoke_numerical  # this variable is created in the clean_data step

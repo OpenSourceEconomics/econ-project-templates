@@ -1,6 +1,5 @@
 import statsmodels.formula.api as smf
 from statsmodels.iolib.smpickle import load_pickle
-from {{cookiecutter.project_slug}}.data_management import convert_outcome_to_numerical
 
 
 def fit_logit_model(data, data_info, model_type):
@@ -9,7 +8,8 @@ def fit_logit_model(data, data_info, model_type):
     Args:
         data (pandas.DataFrame): The data set.
         data_info (dict): Information on data set. Contains keys
-            - 'dependent_variable': Name of dependent variable column in data
+            - 'outcome': Name of dependent variable column in data
+            - 'outcome_numerical': Name to be given to the numerical version of outcome
             - 'columns_to_drop': Names of columns that are dropped in data cleaning step
             - 'categorical_columns': Names of columns that are converted to categorical
             - 'column_rename_mapping': Rename mapping
@@ -23,18 +23,16 @@ def fit_logit_model(data, data_info, model_type):
         statsmodels.base.model.Results: The fitted model.
     
     """
-    outcome_name = data_info["dependent_variable"]
-    feature_names = data.columns[data.columns != outcome_name]
+    outcome_name = data_info["outcome"]
+    outcome_name_numerical = data_info["outcome_numerical"]
+    feature_names = list(set(data.columns) - {outcome_name, outcome_name_numerical})
 
     if model_type == "linear":
-        formula = f"{outcome_name} ~ " + " + ".join(feature_names)
+        # smf.logit expects the binary outcome to be numerical
+        formula = f"{outcome_name_numerical} ~ " + " + ".join(feature_names)
     else:
         message = "Only 'linear' model_type is supported right now."
         raise ValueError(message)
-
-    # convert outcome to binary data
-    data = data.copy()
-    data[outcome_name] = convert_outcome_to_numerical(data[outcome_name])
 
     model = smf.logit(formula, data=data).fit()
     return model

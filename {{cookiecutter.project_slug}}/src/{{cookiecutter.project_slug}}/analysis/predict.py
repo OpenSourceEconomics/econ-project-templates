@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def predict_prob_over_age(data, model, group):
+def predict_prob_by_age(data, model, group):
     """Predict smoking probability for varying age values.
     
     For each group value in column data[group] we create new data that runs through a
