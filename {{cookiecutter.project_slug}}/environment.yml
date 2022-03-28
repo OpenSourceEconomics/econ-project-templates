@@ -34,11 +34,11 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-xdist
-  - pyyaml
   - tox-conda
 
   - ipykernel
   - jupyterlab
+  - pyyaml
   - plotly>=5.5.0
   - pandas
   - statsmodels

@@ -8,9 +8,9 @@ from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
 common_dependencies = {
-        "data_info": SRC / "data_management" / "data_info.yaml",
-        "data": BLD / "data" / "data_clean.csv",
-    }
+    "data_info": SRC / "data_management" / "data_info.yaml",
+    "data": BLD / "data" / "data_clean.csv",
+}
 
 for group in GROUPS:
 
