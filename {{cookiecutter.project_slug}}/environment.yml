@@ -54,6 +54,8 @@ dependencies:
   - r-sandwich
 {% endif %}
 
+  - click=8.0.4
+
   # Documentation
   - furo
   - nbsphinx
