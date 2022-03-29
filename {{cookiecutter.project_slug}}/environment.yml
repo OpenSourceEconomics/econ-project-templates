@@ -13,6 +13,9 @@ dependencies:
   - setuptools_scm
   - toml
 
+  # fix GA
+  - click==8.0.4
+
   # Reproducibility
   - conda-lock
 
@@ -53,8 +56,6 @@ dependencies:
   - r-lmtest
   - r-sandwich
 {% endif %}
-
-  - click=8.0.4
 
   # Documentation
   - furo
