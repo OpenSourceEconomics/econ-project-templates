@@ -13,11 +13,13 @@ dependencies:
   - setuptools_scm
   - toml
 
+  # fix GA
+  - click==8.0.4
+
   # Reproducibility
   - conda-lock
 
   # Package dependencies
-  - pytask-latex
 {% if cookiecutter.add_r_example == 'y' %}
   - pytask-r
 {% endif %}
@@ -53,8 +55,6 @@ dependencies:
   - r-lmtest
   - r-sandwich
 {% endif %}
-
-  - click=8.0.4
 
   # Documentation
   - furo

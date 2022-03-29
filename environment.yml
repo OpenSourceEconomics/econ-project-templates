@@ -25,8 +25,6 @@ dependencies:
   - pytest-xdist
   - tox-conda
 
-  - click=8.0.4
-
   # Documentation
   - furo
   - nbsphinx
