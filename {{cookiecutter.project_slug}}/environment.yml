@@ -13,9 +13,6 @@ dependencies:
   - setuptools_scm
   - toml
 
-  # fix GA
-  - click==8.0.4
-
   # Reproducibility
   - conda-lock
 
@@ -69,4 +66,5 @@ dependencies:
   - pip:
     - kaleido
     - git+https://github.com/pytask-dev/pytask.git
+    - -e .  # installs the project
 

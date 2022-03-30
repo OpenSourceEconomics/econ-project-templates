@@ -29,14 +29,6 @@ To get started, create and activate the environment with
     $ conda/mamba env create
     $ conda activate {{ cookiecutter.conda_environment_name }}
 
-Then install the project into your environment using (do this only *once*)
-
-.. code-block:: console
-
-    $ pip install -e .
-    or
-    $ conda develop .
-
 Now you can build the project using
 
 .. code-block:: console

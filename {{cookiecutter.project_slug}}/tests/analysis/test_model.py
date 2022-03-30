@@ -11,12 +11,12 @@ def data():
     coef = 2.0
     prob = 1 / (1 + np.exp(-coef * x))
     y = np.random.binomial(1, prob)
-    return pd.DataFrame({"outcome": y, "covariate": x})
+    return pd.DataFrame({"outcome_numerical": y, "covariate": x})
 
 
 @pytest.fixture()
 def data_info():
-    return {"outcome_numerical": "outcome"}
+    return {"outcome": "outcome", "outcome_numerical": "outcome_numerical"}
 
 
 def test_fit_logit_model_recover_coefficients(data, data_info):

@@ -1,7 +1,7 @@
 import shutil
 import pytask
 
-from {{ cookiecutter.project_slug }}.config import BLD
+from {{cookiecutter.project_slug}}.config import BLD
 
 
 documents = ["research_paper", "research_pres_30min"]

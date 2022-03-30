@@ -48,5 +48,5 @@ def test_convert_outcome_to_numerical(data, data_info):
     outcome_name = data_info["outcome"]
     outcome_numerical_name = data_info["outcome_numerical"]
     assert outcome_numerical_name in data_clean.columns
-    assert data[outcome_name].dtype == "category"
+    assert data_clean[outcome_name].dtype == "category"
     assert data_clean[outcome_numerical_name].dtype == np.int8
