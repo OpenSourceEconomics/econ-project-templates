@@ -1,4 +1,11 @@
 name: main
+
+# Automatically cancel a previous run.
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+
 on:
   push:
     branches:
