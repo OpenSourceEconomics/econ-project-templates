@@ -1,4 +1,4 @@
-\documentclass[11pt, a4paper, leqno]{article}
+\documentclass[11pt, a4paper, leqno, dvipsnames]{article}
 \usepackage{a4wide}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -18,7 +18,8 @@
 \usepackage{subcaption}
 \usepackage{minibox}
 % \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
-% \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some submissions.
+% \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some
+% submissions.
 
 \usepackage[
     natbib=true,
@@ -43,11 +44,11 @@
     colorlinks=true,
     linkcolor=black,
     anchorcolor=black,
-    citecolor=black,
+    citecolor=NavyBlue
     filecolor=black,
     menucolor=black,
     runcolor=black,
-    urlcolor=black
+    urlcolor=NavyBlue
 }
 
 
@@ -82,25 +83,27 @@
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-If you are using this template, please cite this item from the references: \citet{GaudeckerEconProjectTemplates}
-
-\citet{Schelling69} example in the code is taken from \citet{StachurskiSargent13}
-
-The decision rule of an agent is the following:
-\input{formulas/decision_rule}
-
-\begin{figure}
-    \caption{Segregation by cycle in the baseline \citet{Schelling69} model as in the \citet{StachurskiSargent13} example}
-
-    % \includegraphics[width=\textwidth]{../bld/figures/schelling_baseline}
-
-\end{figure}
+If you are using this template, please cite this item from the references:
+\citet{GaudeckerEconProjectTemplates}.
 
 
-\begin{figure}
-    \caption{Segregation by cycle in the baseline \citet{Schelling69} model, limiting the number of potential moves per period to two}
+The data set for the example project is taken from \url{https://lost-stats.github.io/}.
+It contains data on smoking habits in the UK, with 1691 observations and 12 variables.
+Besides the dependent variable, \texttt{smoking}, we consider only 4 of the 12 features:
+\texttt{marital\_status}, \texttt{highest\_qualification}, \texttt{gender} and
+\texttt{age}. We model the dependence using a Logistic model. All numerical features are
+included linearly, while categorical features are expanded into dummy variables. Figure
+\ref{fig:predictions} illustrates the model predictions over the lifetime.
 
-    % \includegraphics[width=\textwidth]{../bld/figures/schelling_max_moves_2}
+\begin{figure}[H]
+
+    \centering
+    \includegraphics[width=0.85\textwidth]{../bld/figures/marital_status-figure}
+
+    \caption{Model predictions of the smoking probability over the lifetime. Each
+    colored line represents a case where marital status is fixed to one of the values
+    present in the data set.}
+    \label{fig:predictions}
 
 \end{figure}
 
