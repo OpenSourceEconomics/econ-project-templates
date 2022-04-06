@@ -5,6 +5,9 @@ requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
 [tool.setuptools_scm]
 write_to = "src/{{ cookiecutter.project_slug }}/_version.py"
 
+[tool.pytask.ini_options]
+paths = "./src/{{ cookiecutter.project_slug }}"
+
 {% if cookiecutter.add_mypy == "yes" %}
 [tool.mypy]
 files = ["src", "tests"]
@@ -23,6 +26,3 @@ disallow_untyped_defs = false
 ignore_errors = true
 {% endif %}
 
-
-[tool.pytask.ini_options]
-paths = ./src/{{ cookiecutter.project_slug }}
