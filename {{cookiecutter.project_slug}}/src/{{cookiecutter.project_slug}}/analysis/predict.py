@@ -12,8 +12,8 @@ def predict_prob_by_age(data, model, group):
     Args:
         data (pandas.DataFrame): The data set.
         model (statsmodels.base.model.Results): The fitted model.
-        group (str): Categorical column in data for which we create multiple
-            predictions. Can not be 'age' or 'smoke'.
+        group (str): Categorical column in data set. We create predictions for each
+            unique value in column data[group]. Cannot be 'age' or 'smoke'.
         
     Returns:
         pandas.DataFrame: Predictions. Has columns 'age' and one column for each

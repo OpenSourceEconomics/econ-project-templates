@@ -7,10 +7,6 @@ from {{cookiecutter.project_slug}}.final import plot_regression_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
-common_dependencies = {
-    "data_info": SRC / "data_management" / "data_info.yaml",
-    "data": BLD / "data" / "data_clean.csv",
-}
 
 for group in GROUPS:
 
@@ -20,7 +16,12 @@ for group in GROUPS:
         "produces": BLD / "figures" / f"{group}-figure.png",
     }
 
-    @pytask.mark.depends_on(common_dependencies)
+    @pytask.mark.depends_on(
+        {
+            "data_info": SRC / "data_management" / "data_info.yaml",
+            "data": BLD / "data" / "data_clean.csv",
+        }
+    )
     @pytask.mark.task(id=group, kwargs=kwargs)
     def task_plot_regression(depends_on, group, produces):
         data_info = read_yaml(depends_on["data_info"])

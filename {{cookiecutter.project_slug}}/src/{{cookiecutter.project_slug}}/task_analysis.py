@@ -9,11 +9,11 @@ from {{cookiecutter.project_slug}}.config import SRC
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
-common_dependency = {"data": BLD / "data" / "data_clean.csv"}
-
-
 @pytask.mark.depends_on(
-    {**common_dependency, "data_info": SRC / "data_management" / "data_info.yaml"}
+    {
+        "data": BLD / "data" / "data_clean.csv",
+        "data_info": SRC / "data_management" / "data_info.yaml",
+    }
 )
 @pytask.mark.produces(BLD / "models" / "model.pickle")
 def task_fit_model(depends_on, produces):
@@ -31,7 +31,10 @@ for group in GROUPS:
     }
 
     @pytask.mark.depends_on(
-        {**common_dependency, "model": BLD / "models" / "model.pickle"}
+        {
+            "data": BLD / "data" / "data_clean.csv",
+            "model": BLD / "models" / "model.pickle",
+        }
     )
     @pytask.mark.task(id=group, kwargs=kwargs)
     def task_predict(depends_on, group, produces):
