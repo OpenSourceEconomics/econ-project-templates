@@ -9,7 +9,7 @@ def clean_data(data, data_info):
     Args:
         data (pandas.DataFrame): The data set.
         data_info (dict): Information on data set stored in data_info.yaml. The
-            following keys can be accesed:
+            following keys can be accessed:
             - 'outcome': Name of dependent variable column in data
             - 'outcome_numerical': Name to be given to the numerical version of outcome
             - 'columns_to_drop': Names of columns that are dropped in data cleaning step

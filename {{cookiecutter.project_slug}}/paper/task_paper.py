@@ -10,13 +10,13 @@ from {{cookiecutter.project_slug}}.config import PAPER_DIR
 documents = ["research_paper", "research_pres_30min"]
 
 compilation_options = (
-        "--pdf",
-        "--interaction=nonstopmode",
-        "--synctex=1",
-        "--cd",
-        "--quiet",
-        "--shell-escape",
-        )
+    "--pdf",
+    "--interaction=nonstopmode",
+    "--synctex=1",
+    "--cd",
+    "--quiet",
+    "--shell-escape",
+)
 
 for document in documents:
 
@@ -38,3 +38,4 @@ for document in documents:
     @pytask.mark.task(id=document, kwargs=kwargs_copy)
     def task_copy_to_root(depends_on, produces):
         shutil.copy(depends_on, produces)
+        
