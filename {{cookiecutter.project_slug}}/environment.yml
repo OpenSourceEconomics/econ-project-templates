@@ -17,8 +17,6 @@ dependencies:
   - conda-lock
 
   # Package dependencies
-  - pytask >=0.1.7
-  - pytask-latex
 {% if cookiecutter.add_r_example == 'y' %}
   - pytask-r
 {% endif %}
@@ -39,8 +37,10 @@ dependencies:
 
   - ipykernel
   - jupyterlab
+  - pyyaml
   - plotly>=5.5.0
   - pandas
+  - statsmodels
   - python-graphviz
 {% if cookiecutter.add_r_example == 'y' %}
   - r-aer
@@ -65,4 +65,6 @@ dependencies:
 
   - pip:
     - kaleido
+    - git+https://github.com/pytask-dev/pytask.git
+    - -e .  # installs the project
 

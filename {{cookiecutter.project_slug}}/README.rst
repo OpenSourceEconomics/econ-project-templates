@@ -22,13 +22,14 @@
 Usage
 -----
 
-To get started, create the environment with
+To get started, create and activate the environment with
 
 .. code-block:: console
 
     $ conda/mamba env create
+    $ conda activate {{ cookiecutter.conda_environment_name }}
 
-To build the project, type
+Now you can build the project using
 
 .. code-block:: console
 

@@ -1,0 +1,26 @@
+# python
+*.egg-info
+*_version.py
+*.pyc
+*__pycache__
+.tox/
+
+# pytask
+.pytask.sqlite3
+
+# bld
+bld/
+
+# latex
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+*.run.xml
+*.synctex.gz
+

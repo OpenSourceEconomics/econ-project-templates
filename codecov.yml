@@ -23,5 +23,6 @@ coverage:
           - end_to_end
 
 ignore:
+  - "{{cookiecutter.project_slug}}/**/*"
   - ".tox/**/*"
   - "setup.py"
