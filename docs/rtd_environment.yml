@@ -1,32 +1,16 @@
-name: cp
-
 channels:
   - conda-forge
   - nodefaults
 
 dependencies:
-  - python >=3.8
-  - pip >=21.1
+  - python >= 3.7
+  - pip
   - setuptools_scm
   - toml
 
-  # Package dependencies
-  - cookiecutter
-  - pytask >=0.1.9
-
-  # Misc
-  - black
-  - ipython
-  - mypy
-  - pre-commit
-  - pytest
-  - pytest-cookies
-  - pytest-cov
-  - pytest-xdist
-  - tox-conda
-
   # Documentation
   - furo
+  - ipython
   - nbsphinx
   - sphinx
   - sphinx-autoapi

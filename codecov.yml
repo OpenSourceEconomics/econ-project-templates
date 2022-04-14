@@ -1,0 +1,28 @@
+codecov:
+  branch: main
+
+coverage:
+  precision: 2
+  round: down
+  range: 80...100
+  status:
+    project:
+      default:
+        threshold: 1%
+      unit:
+        threshold: 1%
+        flags:
+          - unit
+      integration:
+        threshold: 1%
+        flags:
+          - integration
+      end_to_end:
+        threshold: 1%
+        flags:
+          - end_to_end
+
+ignore:
+  - "{{cookiecutter.project_slug}}/**/*"
+  - ".tox/**/*"
+  - "setup.py"

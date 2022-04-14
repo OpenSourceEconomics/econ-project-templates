@@ -1,0 +1,126 @@
+\documentclass[11pt, a4paper, leqno, dvipsnames]{article}
+\usepackage{a4wide}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp,textgreek}
+\usepackage{float, afterpage, rotating, graphicx}
+\usepackage{epstopdf}
+\usepackage{longtable, booktabs, tabularx}
+\usepackage{fancyvrb, moreverb, relsize}
+\usepackage{eurosym, calc}
+% \usepackage{chngcntr}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, bm}
+\usepackage{caption}
+\usepackage{mdwlist}
+\usepackage{xfrac}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{minibox}
+% \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
+% \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some
+% submissions.
+
+\usepackage[
+    natbib=true,
+    bibencoding=inputenc,
+    bibstyle=authoryear-ibid,
+    citestyle=authoryear-comp,
+    maxcitenames=3,
+    maxbibnames=10,
+    useprefix=false,
+    sortcites=true,
+    backend=biber
+]{biblatex}
+\AtBeginDocument{\toggletrue{blx@useprefix}}
+\AtBeginBibliography{\togglefalse{blx@useprefix}}
+\setlength{\bibitemsep}{1.5ex}
+\addbibresource{refs.bib}
+
+
+
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    anchorcolor=black,
+    citecolor=NavyBlue
+    filecolor=black,
+    menucolor=black,
+    runcolor=black,
+    urlcolor=NavyBlue
+}
+
+
+\widowpenalty=10000
+\clubpenalty=10000
+
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0ex}
+\setstretch{1.5}
+
+
+\begin{document}
+
+{% raw -%}\title{{%- endraw %}{{ cookiecutter.project_name.replace('_', ' ') }}{% raw -%}\thanks{{%- endraw %}{{ cookiecutter.author.replace('_', ' ') }}, {{ cookiecutter.affiliation }}. Email: {% raw -%}\href{{%- endraw %}mailto:{{ cookiecutter.email }}}{% raw -%}{\nolinkurl{{%- endraw %}{{ cookiecutter.email.replace('@', ' [at] ').replace('.', ' [dot] ') }}}}.}}
+
+{% raw -%}\author{{%- endraw %}{{ cookiecutter.author.replace('_', ' ') }}}
+
+\date{
+    {\bf Preliminary -- please do not quote}
+    \\[1ex]
+    \today
+}
+
+\maketitle
+
+
+\begin{abstract}
+    Some abstract here.
+\end{abstract}
+\clearpage
+
+\section{Introduction} % (fold)
+\label{sec:introduction}
+
+If you are using this template, please cite this item from the references:
+\citet{GaudeckerEconProjectTemplates}.
+
+
+The data set for the example project is taken from \url{https://lost-stats.github.io/}.
+It contains data on smoking habits in the UK, with 1691 observations and 12 variables.
+We consider only 4 of the 12 features for the prediction of the variable
+\texttt{smoking}: \texttt{marital\_status}, \texttt{highest\_qualification},
+\texttt{gender} and \texttt{age}. We model the dependence using a Logistic model. All
+numerical features are included linearly, while categorical features are expanded into
+dummy variables. Figure \ref{fig:predictions} illustrates the model predictions over the
+lifetime.
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics[width=0.85\textwidth]{../bld/figures/marital_status-figure}
+
+    \caption{Model predictions of the smoking probability over the lifetime. Each
+    colored line represents a case where marital status is fixed to one of the values
+    present in the data set.}
+    \label{fig:predictions}
+
+\end{figure}
+
+% section introduction (end)
+
+
+
+\setstretch{1}
+\printbibliography
+\setstretch{1.5}
+
+
+% \appendix
+
+% The chngctr package is needed for the following lines.
+% \counterwithin{table}{section}
+% \counterwithin{figure}{section}
+
+\end{document}
