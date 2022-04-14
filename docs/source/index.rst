@@ -1,13 +1,19 @@
 Welcome to econ-project-templates's documentation!
 ==================================================
 
-
 .. toctree::
-    :caption: Contents
-    :maxdepth: 2
+    :caption: Structure of Documentation
+    :maxdepth: 1
 
-    api
-    release_notes
+    getting_started/index
+    python/index
+    R/index
+    julia/index
+    stata/index
+    development/index
 
+**The following introduction.rst needs to be updated!**
 
-.. include:: ../../README.rst
+.. include:: introduction.rst
+
+.. include:: feedback.rst

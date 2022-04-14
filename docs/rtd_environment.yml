@@ -3,14 +3,16 @@ channels:
   - nodefaults
 
 dependencies:
-  - python >= 3.7
+  - python=3.9
   - pip
   - setuptools_scm
   - toml
 
   # Documentation
   - furo
+  - black
   - ipython
+  - ipython_genutils
   - nbsphinx
   - sphinx
   - sphinx-autoapi
@@ -18,3 +20,4 @@ dependencies:
   - sphinx-copybutton
   - sphinx-panels
   - sphinxcontrib-bibtex
+  - pydata-sphinx-theme>=0.3.0
