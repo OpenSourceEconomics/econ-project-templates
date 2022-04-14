@@ -52,11 +52,11 @@ Preparing your system
      This gives you a list of directories that are available on your *PATH*.
 
     ..
-      comment: Example output? Maybe example on how you added e.g. VS Code to the path
+      comment:: Example output? Maybe example on how you added e.g. VS Code to the path
 
     - Check that this list contains the path to the programs you want to use in your project, in particular, Anaconda (this contains your Python distribution), a LaTeX distribution, the text editor VS Code, Git, and any other program that you need for your project (Stata, R, Matlab). Otherwise add them by looking up their paths on your computer and follow the steps described here :ref:`path_windows` or :ref:`path_mac`.
     ..
-      comment: does this mean, just look if it says Anaconda somewhere?
+      comment:: does this mean, just look if it says Anaconda somewhere?
 
 
     - If you added any directory to *PATH*, you need to close and reopen your shell, so that this change is implemented.
@@ -82,7 +82,7 @@ Preparing your system
 
      Unless you are in a location where you expect a Git repository, this should yield the output:
         ..
-          comment: what if there is a git repository?
+          comment:: what if there is a git repository?
 
 
         .. code-block:: bash
@@ -96,7 +96,7 @@ Preparing your system
            $ pdflatex
            $ X
       ..
-        comment: So this converts an existing .tex file to a pdf? Why needed here?
+        comment:: So this converts an existing .tex file to a pdf? Why needed here?
 
      An editor window should open after typing:
 
@@ -105,14 +105,14 @@ Preparing your system
            $ code
 
       ..
-        comment: Does not work for me.
+        comment:: Does not work for me.
 
 
      If required, do the same for Stata, R, or Matlab — see :ref:`here <starting_programs_from_the_command_line>` for the precise commands you may need.
 
 3. In the Powershell/Terminal, navigate to the parent folder of your future project.
    ..
-     comment: that this is done with 'cd' is probably clear?
+     comment:: that this is done with 'cd' is probably clear?
 
    Now type ``pwd``, which prints the absolute path to your present working directory. **There must not be any spaces or special characters in the path** (for instance ä, ü, é, Chinese or Kyrillic characters).
 
@@ -120,7 +120,7 @@ Preparing your system
 
    Type ``git status``, this should yield the output:
       ..
-        comment: as one should not be in a git repository
+        comment:: as one should not be in a git repository
 
       .. code-block:: bash
 
@@ -135,7 +135,7 @@ Preparing your system
 
   All additional dependencies will be installed into a newly created conda environment which is installed upon project creation.
   ..
-    comment: don't understand 'which is installed upon project creation', maybe just without that part?
+    comment:: don't understand 'which is installed upon project creation', maybe just without that part?
 
   .. warning::
 
@@ -210,7 +210,7 @@ Configuring your new project
 
   This will activate the newly created conda environment. You have to repeat the last step anytime you want to run your project from a new terminal window.
   ..
-    comment: everytime I close and reopen the project I need to do that?
+    comment:: everytime I close and reopen the project I need to do that?
 
 4. **Skip this step if you did not opt for the pre-commit hooks**. Pre-commit have to be installed in order for them to have an effect. This step has to be repeated every time you work on your project on a new machine. To install the pre-commit hooks, navigate to the project's folder in the shell and type:
 

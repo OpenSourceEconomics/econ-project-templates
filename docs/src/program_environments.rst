@@ -21,7 +21,7 @@ To activate it, execute:
 .. code:: console
 
     $ conda activate <env_name>
-.. comment: <env_name> , evironment in project folder
+.. comment:: <env_name> , evironment in project folder
 Repeat this step every time you want to run your project from a new terminal window.
 
 
@@ -33,7 +33,7 @@ Make sure you activated the environment by ``conda activate <env_name>``. Then u
 ``conda update [package]`` or ``pip install -U [package]``
 
 For updating conda all packages, replace ``[package]`` by ``--all``.
-.. comment: I would leave that part out, here one does not know yet what kind of package one could install
+.. comment:: I would leave that part out, here one does not know yet what kind of package one could install
 
 Installing additional packages
 ==============================
@@ -45,7 +45,7 @@ To list installed packages, type
     $ conda list
 
 If you want to add a package to your environment, run
-.. comment: where can I find the options for packages I would like to install?
+.. comment:: where can I find the options for packages I would like to install?
 .. code:: console
 
     $ conda install [package]
@@ -65,13 +65,13 @@ Saving your environment
 =======================
 
 After updating or changing your environment you should save the status in the *environment.yml* file to avoid version conflicts and maintain coherent environments in a project with multiple collaborators. Just make sure your environment is activated and run the following in the project's root directory:
-.. comment: if not update, how do <i change? Just manually add/delete something?>
+.. comment:: if not update, how do <i change? Just manually add/delete something?>
 .. code:: console
 
     $ conda env export -f environment.yml
 
 After exporting, manually delete the last line in the environment file, as it is system specific.
-.. comment: what is this last line? Dont want to delete the wrong things..
+.. comment:: what is this last line? Dont want to delete the wrong things..
 
 Setting up a new environment
 ============================
@@ -83,13 +83,13 @@ If you want to create a clean environment, execute:
     $ conda create --name myenv
 
 For setting up an environment from a specification file (like environment.yml), type:
-.. comment: I thought setting it up from environment.yml would require only to activate it? When to activate only, when to create + activate?
+.. comment:: I thought setting it up from environment.yml would require only to activate it? When to activate only, when to create + activate?
 
 .. code:: console
 
     $ conda create --name <myenv> -f <filename>
 
-.. comment: filename? What file?
+.. comment:: filename? What file?
 Information about your conda environments
 =========================================
 

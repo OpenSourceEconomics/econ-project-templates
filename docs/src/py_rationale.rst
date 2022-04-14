@@ -3,7 +3,7 @@ The design of the project templates is guided by the following main thoughts:
     #. **Separation of logical chunks:** A minimal requirement for a project to scale.
     #. **Only execute required tasks, automatically:** Again required for scalability. It means that the machine needs to know what is meant by a "required task".
     #. **Re-use of code and data instead of copying and pasting:** Else you will forget the copy & paste step at some point down the road. At best, this leads to errors; at worst, to misinterpreting the results.
-    .. comment: What is the difference between re-use code and copy-paste?
+    .. comment:: What is the difference between re-use code and copy-paste?
     #. **Be as language-agnostic as possible:** Make it easy to use the best tool for a particular task and to mix tools in a project.
     #. **Separation of inputs and outputs:** Required to find your way around in a complex project.
 
@@ -34,12 +34,12 @@ How to organise the workflow?
 -----------------------------
 
 A naïve way to ensure reproducibility is to have a *master-script* (do-file, m-file, ...) that runs each file one after the other. One way to implement that for the above setup would be to have code for each step of the analysis and a loop over both models within each step:
-.. comment: What is a master-script?
+.. comment:: What is a master-script?
 .. figure:: ../bld/example/python/steps_only_full.png
    :width: 25em
 
 You will still need to manually keep track of whether you need to run a particular step after making changes, though. Or you run everything at once, all the time. Alternatively, you may have code that runs one step after the other for each model:
-.. comment: How do I manually keep track?
+.. comment:: How do I manually keep track?
 .. figure:: ../bld/example/python/model_steps_full.png
    :width: 25em
 

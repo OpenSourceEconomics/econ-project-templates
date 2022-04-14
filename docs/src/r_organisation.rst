@@ -14,7 +14,7 @@ The left node of the following graph shows the contents of the project root dire
 
 .. figure:: ../bld/example/r/project_hierarchies_big_pic.png
    :width: 50em
-.. comment:'src once under bld, once extra - same? Once produced by pytask'
+.. comment::'src once under bld, once extra - same? Once produced by pytask'
 Files and directories in brownish colours are constructed by pytask; those with a bluish background are added directly by the researcher. You immediately see the **separation of inputs and outputs** (one of our guiding principles) at work:
 
     * All source code is in the *src* directory.
@@ -36,16 +36,16 @@ Some differences:
         * *model_specs* contains `JSON <http://www.json.org/>`_ files with model specifications. The choice of JSON is motivated by the attempt to be language-agnostic: JSON is quite expressive and there are parsers for nearly all languages (for Stata there is a converter in *root/src/model_specs/task_models.py* file of the Stata version of the template)
         * *library* provides code that may be used by different steps of the analysis. Little code snippets for input / output or stuff that is not directly related to the model would go here. The distinction from the *model_code* directory is a bit arbitrary, but I have found it useful in the past.
 
-    .. comment: JSON files: the ones already there are enough? Do I need to set up more JSON files, are they a neccessity?
+    .. comment:: JSON files: the ones already there are enough? Do I need to set up more JSON files, are they a neccessity?
 As an example of how things look further down in the hierarchy, consider the *analysis* step:
 
 .. figure:: ../bld/example/r/project_hierarchies_analysis.png
    :width: 30em
-.. comment: What is init.py? Do I need to know?
+.. comment:: What is init.py? Do I need to know?
 The same function (`task_estimate`) is run twice for the models `baseline` and `rmconj`. All specification of files is done in pytask.
-.. comment: specification of files?
+.. comment:: specification of files?
 It is imperative that you do all the task handling inside the `task_xxx.py`-scripts, using the `pathlib <https://realpython.com/python-pathlib/>`_ library. This ensures that your project can be used on different machines and it minimises the potential for cross-platform errors.
-.. comment: How do i use pathlib?
+.. comment:: How do i use pathlib?
 For running scripts in languages other than Python, pass all required files (inputs, log files, outputs) as arguments to the `@pytask.mark.[x]`-decorator. You can then read them in. Check this R template for examples.
 
 For running Python source code from pytask, simply include `depends_on` and `produces` as inputs to your function.

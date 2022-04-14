@@ -106,9 +106,9 @@ Then type:
   .. code-block:: bash
 
     $ code ~/.cookiecutter_replay/econ-project-templates-0.5.1.json
-.. comment: Do I type this no matter what the error message says?
+.. comment:: Do I type this no matter what the error message says?
 If you are not using VS Code as your editor of choice, adjust the line accordingly.
- .. comment: How do I adjust?
+ .. comment:: How do I adjust?
 This command should open your editor and show you a json file containing your answers to the previously filled out dialogue. You can fix your faulty settings in this file. If you have spaces or special characters in your path, you need to adjust your path.
 
 When done, launch a new shell if necessary and type:
