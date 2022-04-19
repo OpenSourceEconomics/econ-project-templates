@@ -35,6 +35,9 @@ dependencies:
   - pytest-xdist
   - tox-conda
 
+  - pytask>=0.2
+  - pytask-latex>=0.2
+
   - ipykernel
   - jupyterlab
   - pyyaml
@@ -65,6 +68,5 @@ dependencies:
 
   - pip:
     - kaleido
-    - git+https://github.com/pytask-dev/pytask.git
     - -e .  # installs the project
 
