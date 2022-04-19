@@ -1,14 +1,12 @@
-***********************************************
-Frequently Answered Questions / Troubleshooting
-***********************************************
+FAQ
+===
 
 .. _windows_user:
 
 Tips and Tricks for Windows Users
-=================================
+---------------------------------
 
-Anaconda Installation Notes for Windows Users
----------------------------------------------
+**Anaconda Installation Notes for Windows Users**
 
 Please follow these steps unless you know what you are doing.
 
@@ -40,22 +38,19 @@ Please follow these steps unless you know what you are doing.
 
 .. _git_windows:
 
-Integrating git tab completion in Windows Powershell
-----------------------------------------------------
+**Integrating git tab completion in Windows Powershell**
 
 Powershell does not support tab completion for git automatically. However, there is a nice utility called `posh-git <https://github.com/dahlbyk/posh-git>`_. We advise you to install this as this makes your life easier.
 
 .. _path_windows:
 
-PATH environmental variable in Windows
---------------------------------------
+**PATH environmental variable in Windows**
 
 In Windows, one has to oftentimes add the programs manually to the *PATH* environmental variable in the Advanced System Settings. How to exactly do that see `here <https://www.computerhope.com/issues/ch000549.htm>`_
 
 .. _path_mac:
 
-Adding directories to the PATH: MacOS and Linux
-===============================================
+**Adding directories to the PATH: MacOS and Linux**
 
 Open the program **Terminal**. You will need to add a line to the file ``.bash_profile`` and potentially create the file. This file lives in your home directory, in the Finder it is hidden from your view by default.
 
@@ -94,8 +89,7 @@ I will now provide a step-by-step guide of how to create / adjust this file usin
 
 .. _cookiecutter_trouble:
 
-When cookiecutter exits with an error
-=====================================
+**When cookiecutter exits with an error**
 
 If cookiecutter breaks off, you will get a lengthy error message. It is important that you work through this and try to understand the error (the language used might seem funny, but it is precise...).
 
@@ -119,8 +113,7 @@ When done, launch a new shell if necessary and type:
 
 .. _starting_programs_from_the_command_line:
 
-Starting stats/maths programmes from the shell
-==============================================
+**Starting stats/maths programmes from the shell**
 
 `pytask` needs to be able to start your favourite (data) analysis programme from the command line, it might be worthwile trying that out yourself, too. These are the programme names that `pytask` looks for:
 
@@ -142,8 +135,7 @@ If the name of your programme is not listed among the possibilities above, pleas
 
 .. _stata_failure_check_erase_log_file:
 
-Stata failure: FileNotFoundError
-================================
+**Stata failure: FileNotFoundError**
 
 The following failure::
 
@@ -156,8 +148,7 @@ has a simple solution: **Get rid of all spaces in the path to the project.** (i.
 I have not been able to get Stata working with spaces in the path in batch mode, so this has nothing to do with Python/Pytask. If anybody finds a solution, please let me know.
 
 
-Stata failure: missing file
-================================
+**Stata failure: missing file**
 
 If you see an error like this one::
 
