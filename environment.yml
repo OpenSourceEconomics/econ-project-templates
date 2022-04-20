@@ -3,6 +3,7 @@ name: cp
 channels:
   - conda-forge
   - nodefaults
+  - r
 
 dependencies:
   - python >=3.8
