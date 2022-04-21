@@ -12,8 +12,8 @@ dependencies:
   - plotly>=5.5.0
   - pandas
   - pip
-  - pytask>=0.0.14
-  - pytask-latex>=0.0.12
+  - pytask<0.2
+  - pytask-latex<0.2
 {% if cookiecutter.configure_running_r == 'y' %}
   - pytask-r>=0.0.9
 {% endif %}
