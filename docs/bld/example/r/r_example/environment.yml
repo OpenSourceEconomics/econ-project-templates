@@ -11,8 +11,8 @@ dependencies:
   - jupyterlab
   - pandas
   - pip
-  - pytask>=0.0.11
-  - pytask-latex>=0.0.10
+  - pytask<0.2
+  - pytask-latex<0.2
 
   - pytask-r>=0.0.6
 
