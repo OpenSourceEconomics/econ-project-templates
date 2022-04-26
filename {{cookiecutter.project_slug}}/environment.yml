@@ -51,6 +51,8 @@ dependencies:
   - r-rjson
   - r-lmtest
   - r-sandwich
+  - r-dplyr
+  - r-yaml
 {% endif %}
 
   # Documentation
