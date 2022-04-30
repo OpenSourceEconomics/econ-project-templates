@@ -10,34 +10,34 @@ Tips and Tricks for Windows Users
 
 Please follow these steps unless you know what you are doing.
 
-1. Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_
-   for Python 3.x.
+1.  Download the `Graphical Installer <https://www.anaconda.com/distribution/#windows>`_
+    for Python 3.x.
 
-2. Start the installer and click yourself through the menu. If you have administrator
-   privileges on your computer, it is preferable to install Anaconda for all users.
-   Otherwise, you may run into problems when running python from your powershell.
+2.  Start the installer and click yourself through the menu. If you have administrator
+    privileges on your computer, it is preferable to install Anaconda for all users.
+    Otherwise, you may run into problems when running python from your powershell.
 
-3. Make sure to (only) tick the following box:
+3.  Make sure to (only) tick the following box:
 
-  - ''Register Anaconda as my default Python 3.x''. Finish installation.
+    - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
-4. Navigate to the folder containing your Anaconda distribution. This folder contains
-   multiple subfolders. Please add the path to the folder called `condabin` to your
-   *PATH* environmental variable. This path should end in `Anaconda3/condabin`. You can
-   add paths to your *PATH* by following these `instructions
-   <https://www.computerhope.com/issues/ch000549.htm>`_.
+4.  Navigate to the folder containing your Anaconda distribution. This folder contains
+    multiple subfolders. Please add the path to the folder called `condabin` to your
+    *PATH* environmental variable. This path should end in `Anaconda3/condabin`. You can
+    add paths to your *PATH* by following these `instructions
+    <https://www.computerhope.com/issues/ch000549.htm>`_.
 
-5. Please start Windows Powershell in administrator mode, and execute the following:
+5.  Please start Windows Powershell in administrator mode, and execute the following:
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-    $ set-executionpolicy remotesigned
+      $ set-executionpolicy remotesigned
 
-6. Now (re-)open Windows Powershell and initialize it for full conda use by running
+6.  Now (re-)open Windows Powershell and initialize it for full conda use by running
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-    $ conda init
+      $ conda init
 
 .. warning::
 
@@ -75,36 +75,38 @@ I will now provide a step-by-step guide of how to create / adjust this file usin
 editor called ``code``. If you are familiar with editing text files, just use your
 editor of choice.
 
-#. Open a Terminal and type
+#.  Open a Terminal and type
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-      code ~/.bash_profile
+        code ~/.bash_profile
 
-   If you use an editor other than `VS Code <https://code.visualstudio.com/>`_, replace
-   ``code`` by the respective editor.
+    If you use an editor other than `VS Code <https://code.visualstudio.com/>`_, replace
+    ``code`` by the respective editor.
 
-   If ``.bash_profile`` already existed, you will see some text at this point. If so,
-   use the arrow keys to scroll all the way to the bottom of the file.
+    If ``.bash_profile`` already existed, you will see some text at this point. If so,
+    use the arrow keys to scroll all the way to the bottom of the file.
 
 
-#. Add the following line at the end of the file
+#.  Add the following line at the end of the file
 
-  .. code-block:: bash
+    .. code-block:: bash
 
       export PATH="${PATH}:/path/to/program/inside/package"
 
-   You will need to follow the same steps as before. Example for Stata::
+    You will need to follow the same steps as before. Example for Stata:
+
+    .. code-block:: bash
 
       # Stata directory
       export PATH="${PATH}:/Applications/Stata/StataMP.app/Contents/MacOS/"
 
-   In ``/Applications/Stata/StataMP.app``, you may need to replace bits and pieces as
-   appropriate for your installation (e.g. you might not have StataMP but StataSE).
+    In ``/Applications/Stata/StataMP.app``, you may need to replace bits and pieces as
+    appropriate for your installation (e.g. you might not have StataMP but StataSE).
 
-   Similarly for Matlab or the likes.
+    Similarly for Matlab or the likes.
 
-#. Press ``Return`` and then ``ctrl+o`` (= WriteOut = save) and ``Return`` once more.
+#.  Press ``Return`` and then ``ctrl+o`` (= WriteOut = save) and ``Return`` once more.
 
 
 .. _cookiecutter_trouble:
@@ -117,21 +119,23 @@ funny, but it is precise...).
 
 Then type:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    $ code ~/.cookiecutter_replay/econ-project-templates-0.5.1.json
+  $ code ~/.cookiecutter_replay/econ-project-templates-0.5.1.json
+
 .. comment:: Do I type this no matter what the error message says?
+
 If you are not using VS Code as your editor of choice, adjust the line accordingly.
- .. comment:: How do I adjust?
+.. comment:: How do I adjust?
 This command should open your editor and show you a json file containing your answers to
 the previously filled out dialogue. You can fix your faulty settings in this file. If
 you have spaces or special characters in your path, you need to adjust your path.
 
 When done, launch a new shell if necessary and type:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    $ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.5.1.zip
+  $ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.5.1.zip
 
 
 
@@ -143,17 +147,18 @@ When done, launch a new shell if necessary and type:
 command line, it might be worthwile trying that out yourself, too. These are the
 programme names that `pytask` looks for:
 
-* R: ``RScript``, ``Rscript``
-* Stata
+*   R: ``RScript``, ``Rscript``
+*   Stata
 
-  * Windows: ``StataMP-64``, ``StataMP-ia``, ``StataMP``, ``StataSE-64``,
-    ``StataSE-ia``, ``StataSE``, ``Stata-64``, ``Stata-ia``, ``Stata``, ``WMPSTATA``,
-    ``WSESTATA``, ``WSTATA``
+    * Windows: ``StataMP-64``, ``StataMP-ia``, ``StataMP``, ``StataSE-64``,
+      ``StataSE-ia``, ``StataSE``, ``Stata-64``, ``Stata-ia``, ``Stata``, ``WMPSTATA``,
+      ``WSESTATA``, ``WSTATA``
 
-  * MacOS: ``Stata64MP``, ``StataMP``, ``Stata64SE``, ``StataSE``, ``Stata64``, ``Stata``
-  * Linux: ``stata-mp``, ``stata-se``, ``stata``
+    * MacOS: ``Stata64MP``, ``StataMP``, ``Stata64SE``, ``StataSE``, ``Stata64``,
+      ``Stata``
+    * Linux: ``stata-mp``, ``stata-se``, ``stata``
 
-* Matlab: ``matlab``
+*   Matlab: ``matlab``
 
 Remember that Mac/Linux are case-sensitive and Windows is not. If you get errors that
 the programme is not found for **all** of the possibilities on your platform, the most
@@ -173,9 +178,7 @@ an issue on Github
 
 The following failure::
 
-.. code:: bash
-
-  FileNotFoundError: No such file or directory: '/Users/xxx/econ/econ-project templates/bld/add_variables.log'
+    FileNotFoundError: No such file or directory: '/Users/xxx/econ/econ-project templates/bld/add_variables.log'
 
 has a simple solution: **Get rid of all spaces in the path to the project.** (i.e.,
 ``econ-project-templates`` instead of ``econ-project templates`` in this case). To do

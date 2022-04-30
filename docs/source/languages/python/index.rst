@@ -51,7 +51,7 @@ Introduction to pytask
 .. include:: ./pytask.rst
 
 
-.. _directory_structure:
+.. _directory_structure_python:
 
 Directory Structure
 *******************

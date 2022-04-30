@@ -51,10 +51,13 @@ Introduction to pytask
 .. include:: ./pytask.rst
 
 
-.. _directory_structure:
+.. _directory_structure_julia:
 
 Directory Structure
 *******************
 
-.. include:: ../common/directory_structure.rst
+The example project has not been implemented in R yet. To get some grasp of the
+directory structure, view the Python :ref:`directory_structure_python`
+
+.. comment:: .. include:: ../common/directory_structure.rst
 

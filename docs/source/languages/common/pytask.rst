@@ -29,7 +29,7 @@ Pytask Overview
 
 From a high-level perspective, pytask works in the following way:
 
-#. pytask reads your instructions and sets the build order.
+#.  pytask reads your instructions and sets the build order.
 
     * Think of a dependency graph here.
     * It stops when it detects a circular dependency or ambiguous ways to build a
@@ -42,7 +42,7 @@ From a high-level perspective, pytask works in the following way:
 
        .. comment:: again, master-script?
 
-#. pytask decides which tasks need to be executed and performs the required actions.
+#.  pytask decides which tasks need to be executed and performs the required actions.
 
     * Minimal rebuilds are a huge speed gain compared to a *master-script*.
     * These gains are large enough to make projects break or succeed.

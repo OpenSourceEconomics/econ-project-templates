@@ -12,11 +12,11 @@ that we should automate as much as possible, as opposed to pointing and clicking
 mouse. This code base aims to provide two stepping stones to assist you in achieving
 this goal:
 
-    1. Provide a sensible directory structure that saves you from a bunch of annoying
-       steps and thoughts that need to be performed sooner or later when starting a
-       new project
-    2. Facilitate the reproducibility of your research findings from the beginning to
-       the end by letting the computer handle the dependency management
+1. Provide a sensible directory structure that saves you from a bunch of annoying
+   steps and thoughts that need to be performed sooner or later when starting a
+   new project
+2. Facilitate the reproducibility of your research findings from the beginning to
+   the end by letting the computer handle the dependency management
 
 The first should lure you in quickly, the second convince you to stick to the tools in
 the long run---unless you are familiar with the programs already, you might think now
