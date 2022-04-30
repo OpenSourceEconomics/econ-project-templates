@@ -6,16 +6,15 @@ arrows to all edges. Acyclic means that there are no directed cycles: When you
 traverse a graph in the direction of the arrows, there may not be a way to end
 up at the same node again.
 
-This is the dependency graph for the modified Schelling example from Stachurski
-and Sargent, as implemented in the Python branch of the project template:
+This is the dependency graph of the example project
 
-The arrows have different colors in order to distinguish the steps of the
-analysis, from left to right:
+.. figures:: ../../figures/dag.pdf
+   :width: 35em
 
-* Blue for data management (=drawing a simulated sample, in this case)
-* Orange for the main simulation
-* Teal for the visualisation of results
-* Red for compiling the pdf of the paper
+The nodes have different shapes in order to distinguish tasks from files. The rectangles
+denote targets or dependencies like figures, data sets or stored models. The hexagons
+denote task files.
+
 
 Bluish nodes are pure source files -- they do not depend on any other file and
 hence none of the edges originates from any of them. In contrast, brownish
@@ -26,11 +25,13 @@ further.
 
 In a first run, all targets have to be generated, of course. In later runs, a
 target only needs to be re-generated if one of its direct **dependencies**
-changes. E.g. when we make changes to *baseline.json*, we will need to build
-*schelling_baseline.pickle* and  *schelling_baseline.png* anew. Depending on
-whether *schelling_baseline.png* actually changes, we need to re-compile the
-pdf as well. We will dissect this example in more detail in the next section.
-The only important thing at this point is to understand the general idea.
+changes. E.g. when we alter **task_fit_model** (mid-right) we need to rebuild
+
+
+Depending on
+whether *schelling_baseline.png* actually changes, we need to re-compile the pdf as
+well. We will dissect this example in more detail in the next section.  The only
+important thing at this point is to understand the general idea.
 
 Of course this is overkill for a textbook example -- we could easily keep the
 code closer together than this. But such a strategy does not scale to serious
