@@ -1,4 +1,4 @@
-\documentclass[11pt, a4paper, leqno, dvipsnames]{article}
+\documentclass[11pt, a4paper, leqno]{article}
 \usepackage{a4wide}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -14,7 +14,7 @@
 \usepackage{mdwlist}
 \usepackage{xfrac}
 \usepackage{setspace}
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{subcaption}
 \usepackage{minibox}
 % \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
@@ -35,16 +35,14 @@
 \AtBeginDocument{\toggletrue{blx@useprefix}}
 \AtBeginBibliography{\togglefalse{blx@useprefix}}
 \setlength{\bibitemsep}{1.5ex}
-\addbibresource{refs.bib}
-
-
+\addbibresource{../../paper/refs.bib}
 
 \usepackage[unicode=true]{hyperref}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
     anchorcolor=black,
-    citecolor=NavyBlue
+    citecolor=NavyBlue,
     filecolor=black,
     menucolor=black,
     runcolor=black,
@@ -99,7 +97,7 @@ lifetime.
 \begin{figure}[H]
 
     \centering
-    \includegraphics[width=0.85\textwidth]{../bld/figures/marital_status-figure}
+    \includegraphics[width=0.85\textwidth]{../figures/marital_status-figure}
 
     \caption{Model predictions of the smoking probability over the lifetime. Each
     colored line represents a case where marital status is fixed to one of the values
