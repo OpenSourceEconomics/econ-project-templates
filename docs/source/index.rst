@@ -1,6 +1,7 @@
 Welcome to econ-project-templates's documentation!
 ==================================================
 
+.. _introduction:
 
 Introduction
 ------------
@@ -20,8 +21,8 @@ this goal:
 The first should lure you in quickly, the second convince you to stick to the tools in
 the long run---unless you are familiar with the programs already, you might think now
 that all of this is overkill and far more difficult than necessary. It is not.
-*[although I am always* `happy to hear <mailto:hmgaudecker@gmail.com>`_ *about easier
-alternatives]*
+*[although I am always* `happy to hear <https://www.wiwi.uni-bonn.de/gaudecker/>`_
+*about easier alternatives]*
 
 The templates support a variety of programming languages already and are easily extended
 to cover any other. Everything is tied together by `pytask
@@ -33,9 +34,9 @@ How to proceed
 --------------
 
 If you are a complete novice, you should read carefully through the entire documents.
-We suggest starting with the section *Getting Started*. Once you finished
+We suggest starting with the section :ref:`getting_started`. Once you've finished
 that you can go to the section with the programming language of your choice. For
-example, if you want to work with Python go to the section *Python*.
+example, if you want to work with Python go to the section :ref:`python_section`.
 
 
 Motivation

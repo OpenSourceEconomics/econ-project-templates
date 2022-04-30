@@ -25,8 +25,10 @@ immediate and clearly defined tasks.
     commands for this are (in a terminal in the root of your local
     econ-project-templates repo):
 
-    ``conda env create -f environment.yml``
-    ``conda activate cp``
+    .. code-block:: bash
+
+        $ conda env create -f environment.yml
+        $conda activate cp
 
 3.  Implement the fix or new feature. If you work on the *inner project* please read
     about our recommend workflow in the next section. There we also explain what the
