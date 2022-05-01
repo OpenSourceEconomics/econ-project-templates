@@ -4,7 +4,8 @@ Python
 ======
 
 Here we present the project templates with an example that uses the Python programming
-language.
+language. Note that certain sections will overlap with the other languages, while
+others are language specific.
 
 
 .. _design_rationale_python:
