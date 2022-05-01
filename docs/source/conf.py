@@ -46,7 +46,10 @@ extensions = [
     "nbsphinx",
     "sphinxcontrib.bibtex",
     "sphinx_panels",
+    "autoapi.extension",
 ]
+
+autoapi_dirs = ["../../hooks"]
 
 bibtex_bibfiles = ["refs.bib"]
 

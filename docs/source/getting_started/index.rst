@@ -7,9 +7,11 @@ Here, we first describe in :ref:`preparing_your_system` how you need to set up y
 computer so that everything plays well together. In :ref:`dialogue`, you will find
 detailed explanations on what you may want to choose when configuring the templates for
 your needs. Once you are done with that, you may want to check the
-:ref:`starting_a_new_project` section. We also provide more detailed explainations
-of :ref:`environments` and :ref:`pre_commit_hooks`. You can click through the pages or
-jump straight to the corresponding sections:
+:ref:`starting_a_new_project` section. If you alread have the template running but don't
+know how to use a second computer, or work together with a collaborator, you may want
+to jump directly to the section on :ref:`second_machine`. We also provide more detailed
+explainations of :ref:`environments` and :ref:`pre_commit_hooks`. You can click through
+the pages or jump straight to the corresponding sections:
 
 .. toctree::
     :maxdepth: 1
@@ -17,6 +19,7 @@ jump straight to the corresponding sections:
     starting
     environments
     hooks
+    second_machine
 
 
 So, ...
@@ -194,9 +197,9 @@ Preparing your system
 
     .. warning::
 
-      If you do not opt for the conda environment later on, you need to take care of these
-      dependencies by yourself. A list of additional dependencies can be found under
-      :ref:`dependencies`.
+      If you do not opt for the conda environment later on, you need to take care of
+      these dependencies by yourself.
+
 
 5. If you intend to use a remote Git repository, create it if necessary and hold the URL
    ready.
