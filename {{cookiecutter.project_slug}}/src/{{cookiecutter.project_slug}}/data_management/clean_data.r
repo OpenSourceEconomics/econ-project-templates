@@ -15,9 +15,9 @@ for (v in data_info$categorical_columns){
   data[[v]] = factor(data[[v]])
 }
 
-column_rename_mapping = rename(data, qualification=highest_qualification)
+data = rename(data, qualification=highest_qualification)
 
-numerical_outcome = unclass(data$smoke)
+numerical_outcome = ifelse(data$smoke == "Yes", 1, 0)
 data[data_info$outcome_numerical] = numerical_outcome
 
 #save data to disk
