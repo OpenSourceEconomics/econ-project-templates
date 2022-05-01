@@ -6,120 +6,131 @@ Starting A New Project
 
 .. _dialogue:
 
-A Completely Fresh Project
-==========================
+Dialogue
+========
 
 1. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
    terminal.
 
    Navigate to the parent folder of your future project and type (i.e., copy & paste):
 
-  .. code-block:: bash
+   .. code-block:: console
 
-    $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.5.1.zip
+      $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.5.1.zip
 
 2. The dialogue will move you through the installation. **Make sure to keep this page
    side-by-side during the process because if something is invalid, the whole process
    will break off** (see :ref:`cookiecutter_trouble` on how to recover from there, but
-   no need to push it).
+   no need to push it). *Note that if you don't know how to answer a question, it's
+   usually best to accept the default.*
 
-  **author** -- Separate multiple authors by commas
+   **author** -- Separate multiple authors by commas.
 
-  **email** -- Just use one in case of multiple authors
+   **email** -- Just use one in case of multiple authors.
 
-  **affiliation** -- Separate by commas for multiple authors with different affiliations
+   **affiliation** -- Separate by commas for multiple authors with different
+   affiliations.
 
-  **project_name** -- The title of your project as it should appear in papers /
-  presentations. **Must not contain underscores** or anything that would be an invalid
-  LaTeX title.
+   **project_name** -- The title of your project as it should appear in papers /
+   presentations. **Must not contain underscores** or anything that would be an invalid
+   LaTeX title.
 
-  **project_slug** -- This will become your project identifier (i.e., the directory will
-  be called this way). The project slug **must** be a valid Python identifier, i.e., no
-  spaces, hyphens, or the like. Just letters, numbers, underscores. Do not start with a
-  number. There must not be a directory of this name in your current location.
+   **project_slug** -- This will become your project identifier (i.e., the directory
+   will be called this way). The project slug **must** be a valid Python identifier,
+   i.e., no spaces, hyphens, or the like. Just letters, numbers, underscores. Do not
+   start with a number. There must not be a directory of this name in your current
+   location.
 
-  **project_short_description*** -- Briefly describe your project.
+   **project_description** -- Briefly describe your project.
 
-  **python_version** -- Default is 3.9. Please use python 3.8 or higher.
+   **github_username** -- Your GitHub username.
 
-  **create_conda_environment_with_name** -- Just accept the default. If you don't, the
-  same caveat applies as for the *project_slug*. If you really do not want a conda
-  environment, type "x".
+   **github_email** -- The email linked to your GitHub account.
 
-  **set_up_git** -- Set up a fresh Git repository.
+   **git_remote_url** -- Paste your remote URL here if applicable.
 
-  **git_remote_url** -- Paste your remote URL here if applicable.
+   **version** -- The version of your project.
 
-  **make_initial_commit** -- Usually yes.
+   **python_version** -- The python version, must be either 3.8 or 3.9.
 
-  **add_basic_pre_commit_hooks** -- Choose yes if you are using python. This implements
-  black and some basic checks as `pre-commit hooks <https://pre-commit.com/>`_.
-  Pre-commit hooks run before every commit and prohibit committing before they are
-  resolved. For a full list of pre-commit hooks implemented here take a look at the
-  :ref:`pre_commit`.
+   **add_tox** -- Whether to add configuration files that allow testing of your project
+   using tox.
 
-  **add_intrusive_pre_commit** -- adds `flake8 <http://flake8.pycqa.org/en/latest/>`_ to
-  the pre-commit hooks. flake8 is a python code linting tool. It checks your code for
-  style guide (PEP8) adherence.
+   **add_github_actions** -- Whether to add GitHub actions configuration files.
 
-  **example_to_install** -- This should be the dominant language you will use in your
-  project. A working example will be installed in the language you choose; the easiest
-  way to get going is simply to adjust the examples for your needs.
+   **add_mypy** -- Whether to add mypy configuration files.
 
-  **configure_running_matlab** -- Select "y" if and only if you intend to use Matlab in
-  your project and the Matlab executable may be found on your path.
+   **add_readthedocs** -- Whether to add configuration files that allow you to host the
+   documentation of the project on readthedocs.
 
-  **configure_running_r** -- Select "y" if and only if you intend to use R in your
-  project and the R executable may be found on your path.
+   **add_codecov** -- Whether to add configuration files to collect the testing coverage
+   of your project using codecov.
 
-  **configure_running_stata** -- Select "y" if and only if you intend to use Stata in
-  your project and the Stata executable may be found on your path.
+   **create_changelog** -- Whether to create a CHANGES file where contributors note
+   their changes made to the project.
 
-  **python_version** -- Usually accept the default. Must be a valid Python version 3.6
-  or higher.
+   **open_source_license** -- Whatever you prefer.
 
-  **open_source_license** -- Whatever you prefer.
+   **make_initial_commit** -- Whether we should make the first commit for you.
 
-  After successfully answering all the prompts, a folder named according to your
-  project_slug will be created in your current directory. If you run into trouble,
-  please follow the steps explained :ref:`cookiecutter_trouble`
+   **add_python_example** -- Whether to create the example project using the Python
+   programming language.
+
+   **add_r_example** -- Whether to create the example project using the r programming
+   language.
+
+   **add_julia_example** -- Whether to create the example project using the julia
+   programming language.
+
+   **add_stata_example** -- Whether to create the example project using the stata
+   programming language.
+
+   **conda_environment_name** -- Name of your conda environment. This should not be too
+   long, since you need to type it often.
+
+   **create_conda_environment_at_finish** -- Just accept the default. If you don't, the
+   same caveat applies as for the *project_slug*. If you really do not want a conda
+   environment, type "x".
+
+   After successfully answering all the prompts, a folder named according to your
+   project_slug will be created in your current directory. If you run into trouble,
+   please follow the steps explained :ref:`cookiecutter_trouble`
 
 
 3. **Skip this step if you did not opt for the conda environment.** Type:
 
-  .. code-block:: bash
+   .. code-block:: console
 
-    $ conda activate <env_name>
+     $ conda activate <conda_environment_name>
 
-  This will activate the newly created conda environment. You have to repeat the last
-  step anytime you want to run your project from a new terminal window.
+   This will activate the newly created conda environment. You have to repeat the last
+   step anytime you want to run your project from a new terminal window.
 
+   ..
+     comment:: everytime I close and reopen the project I need to do that?
 
-  ..
-    comment:: everytime I close and reopen the project I need to do that?
+4. Pre-commit hooks have to be installed in order for them to have an effect. This step
+   has to be repeated every time you work on your project **on a new machine**. To
+   install the pre-commit hooks, navigate to the project's folder in the shell and type:
 
-4. **Skip this step if you did not opt for the pre-commit hooks**. Pre-commit have to be
-   installed in order for them to have an effect. This step has to be repeated every
-   time you work on your project on a new machine. To install the pre-commit hooks,
-   navigate to the project's folder in the shell and type:
+   .. code-block:: console
 
-  .. code-block:: bash
-
-    $ pre-commit install
+     $ pre-commit install
 
 5. Navigate to the folder in the shell and type the following commands into your command
    line to see whether the examples are working:
 
-  .. code-block:: bash
+   .. code-block:: console
 
-      $ conda develop .
       $ pytask
-  ..
-    maybe show how it should look if everything works
-  All programs used within this project template need to be found on your path, see
-  above (:ref:`preparing_your_system` and the :ref:`faq`).
 
-  If all went well, you are now ready to adapt the template to your project.
+   ..
+     maybe show how it should look if everything works
+
+   All programs used within this project template need to be found on your path, see
+   above (:ref:`preparing_your_system` and the :ref:`faq`).
+
+   If all went well, you are now ready to adapt the template to your project.
 
 
 Tips and tricks for starting a new project

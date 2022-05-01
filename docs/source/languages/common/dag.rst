@@ -7,7 +7,7 @@ traverse a graph in the direction of the arrows, there may not be a way to end
 up at the same node again.
 
 This is the dependency graph of the example project (open the image in a different
-to zoom in)
+window to zoom in)
 
 .. figure:: ../../figures/dag.png
    :width: 35em
