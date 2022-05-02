@@ -46,7 +46,6 @@ extensions = [
     "nbsphinx",
     "sphinxcontrib.bibtex",
     "sphinx_panels",
-    "autoapi.extension",
 ]
 
 autoapi_dirs = ["../../hooks"]
@@ -74,13 +73,6 @@ autodoc_mock_imports = [
     "chaospy",
 ]
 
-extlinks = {
-    "ghuser": ("https://github.com/%s", "@"),
-    "gh": (
-        "https://github.com/OpenSourceEconomics/econ-project-templates/pulls/%s",
-        "#",
-    ),
-}
 
 intersphinx_mapping = {
     "numpy": ("https://docs.scipy.org/doc/numpy", None),

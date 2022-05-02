@@ -7,7 +7,8 @@ The design of the project templates is guided by the following main thoughts:
    copy & paste step at some point down the road. At best, this leads to errors; at
    worst, to misinterpreting the results.
 
-   .. comment:: What is the difference between re-use code and copy-paste?
+   ..
+     comment:: What is the difference between re-use code and copy-paste?
 
 #. **Be as language-agnostic as possible:** Make it easy to use the best tool for a
    particular task and to mix tools in a project.

@@ -59,5 +59,6 @@ Directory Structure
 The example project has not been implemented in R yet. To get some grasp of the
 directory structure, view the Python :ref:`directory_structure_python`
 
-.. comment:: .. include:: ../common/directory_structure.rst
+..
+  comment:: .. include:: ../common/directory_structure.rst
 

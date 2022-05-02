@@ -1,3 +1,5 @@
+.. _faq:
+
 FAQ
 ===
 
@@ -127,10 +129,14 @@ Then type:
 
   $ code ~/.cookiecutter_replay/econ-project-templates-0.5.1.json
 
-.. comment:: Do I type this no matter what the error message says?
+..
+  comment:: Do I type this no matter what the error message says?
 
 If you are not using VS Code as your editor of choice, adjust the line accordingly.
-.. comment:: How do I adjust?
+
+..
+  comment:: How do I adjust?
+
 This command should open your editor and show you a json file containing your answers to
 the previously filled out dialogue. You can fix your faulty settings in this file. If
 you have spaces or special characters in your path, you need to adjust your path.
@@ -172,9 +178,9 @@ likely cause is that your path is not set correctly yet. You may check that by t
 you need is not included, you can adjust it as detailed above (:ref:`Windows
 <path_windows>`, :ref:`Mac/Linux <path_mac>`).
 
-If the name of your programme is not listed among the possibilities above, please `open
-an issue on Github
-<https://github.com/OpenSourceEconomics/econ-project-templates/issues>`_
+If the name of your programme is not listed among the possibilities above, please file
+an issue <https://github.com/OpenSourceEconomics/econ-project-templates/issues>`_ on
+GitHub.
 
 
 .. _stata_failure_check_erase_log_file:
