@@ -1,11 +1,11 @@
-name: cp
+name: econ-project-templates
 
 channels:
   - conda-forge
   - nodefaults
 
 dependencies:
-  - python >=3.8
+  - python==3.9
   - pip >=21.1
   - setuptools_scm
   - toml
