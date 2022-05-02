@@ -1,4 +1,4 @@
-Welcome to econ-project-templates's documentation!
+Templates for Reproducible Research: Documentation
 ==================================================
 
 .. _introduction:
@@ -6,28 +6,33 @@ Welcome to econ-project-templates's documentation!
 Introduction
 ------------
 
-An empirical or computational research project only becomes a useful building block of
-science when **all** steps can be easily repeated and modified by others. This means
-that we should automate as much as possible, as opposed to pointing and clicking with a
-mouse. This code base aims to provide two stepping stones to assist you in achieving
-this goal:
+An empirical or computational research project only becomes a useful building block for
+science and policy when **all** steps can be easily repeated and modified by others.
 
-1. Provide a sensible directory structure that saves you from a bunch of annoying
-   steps and thoughts that need to be performed sooner or later when starting a
-   new project
+This means that we should automate as much as possible. Things that should absolutely be
+avoided are copying and pasting, pointing and clicking with a mouse, or any researcher
+input that goes beyond setting the pipeline to run.
+
+This code base aims to provide two stepping stones to assist you in achieving this goal:
+
+1. A sensible directory structure. This will save you a bunch of thoughtwork and
+   structuring of files and directories that needs to be doe sooner or later when
+   starting a new project. Put differently, instead of starting from scratch, you modify
+   an example for your needs.
 2. Facilitate the reproducibility of your research findings from the beginning to
-   the end by letting the computer handle the dependency management
+   the end by letting the computer handle the project's workflow.
 
-The first should lure you in quickly, the second convince you to stick to the tools in
-the long run---unless you are familiar with the programs already, you might think now
-that all of this is overkill and far more difficult than necessary. It is not.
+The first should lure you in quickly, the second should convince you to stick to the
+tools in the long run---unless you are familiar with the programs already, you might
+think now that all of this is overkill and far more difficult than necessary. It is not.
 *[although I am always* `happy to hear <https://www.wiwi.uni-bonn.de/gaudecker/>`_
 *about easier alternatives]*
 
 The templates support a variety of programming languages already and are easily extended
 to cover any other. Everything is tied together by `pytask
 <https://pytask-dev.readthedocs.io>`_, which is written in `Python
-<http://www.python.org/>`_. You do not need to know Python to use these tools, though.
+<http://www.python.org/>`_. You do not need to know a lot of Python to use these tools,
+though.
 
 
 How to proceed
@@ -79,15 +84,16 @@ replication policies, see this figure taken from :cite:`McCullough2009`:
    *Economic Journals with Mandatory Data + Code Archives, Figure 1 in*  McCullough
    (2009)
 
-
 Exchanges such as those above are a huge waste of time and resources. Why waste? Because
 it is almost costless to ensure reproducibility from the beginning of a project --- much
 is gained by just following a handful of simple rules. They just have to be known. The
-earlier, the better. From my own experience, I can confirm that replication policies are
-enforced these days --- and that it is rather painful to ensure *ex-post* that you can
-follow them. The number of journals implementing replication policies is likely to grow
-further --- if you aim at publishing in any of them, you should seriously think about
-reproducibility from the beginning. And I did not even get started on research ethics...
+earlier, the better.
+
+If one thing has changed since the somewhat dated references, it is that replication
+policies are enforced these days. Ensuring that you can follow them only after a paper's
+acceptance is rather painful. Hence, if your aim is to publish your work, you should
+seriously think about reproducibility from the beginning. And I did not even get started
+on research ethics...
 
 
 Feedback welcome
