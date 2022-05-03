@@ -35,7 +35,11 @@ So, ...
 .. _preparing_your_system:
 
 Preparing your system
-*********************
+---------------------
+
+
+Program installation
+********************
 
 1.  Make sure you have the following programs installed and that these can be found on
     your path. This template requires
@@ -57,6 +61,10 @@ Preparing your system
 
 - The text editor `VS Code <https://code.visualstudio.com/>`_, unless you know what
   you are doing.
+
+
+Validating the installation paths
+*********************************
 
 
 2.  If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
@@ -155,6 +163,10 @@ Preparing your system
   If required, do the same for R, Julia or Stata — see :ref:`here
   <starting_programs_from_the_command_line>` for the precise commands you may need.
 
+
+Validating Git
+**************
+
 3.  In the Powershell/Terminal, navigate to the parent folder of your future project.
 
     ..
@@ -179,6 +191,10 @@ Preparing your system
         fatal: not a git repository (or any of the parent directories): .git
 
 
+Installing cookiecutter
+***********************
+
+
 4.  The template uses `cookiecutter <https://cookiecutter.readthedocs.io/en/latest/>`_
     to enable personalized installations. Before you start, install cookiecutter on your
     system.
@@ -201,5 +217,7 @@ Preparing your system
       these dependencies by yourself.
 
 
-5. If you intend to use a remote Git repository, create it if necessary and hold the URL
-   ready.
+.. _whats_next:
+
+What's next?
+------------
