@@ -32,7 +32,7 @@ How to Organize the Workflow?
 .. include:: workflow.rst
 
 
-.. _directory_structure_python:
+.. _directory_structure:
 
 Directory Structure
 *******************

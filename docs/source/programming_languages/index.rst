@@ -14,7 +14,7 @@ The base language is Python, which works out-of-the-box. In this section we show
 to use the other languages and explain some language specific caveats.
 
 .. note::
-    When selecting a language in the cookiecutter :ref:`dialogue` we install all the
+    When selecting a language in the cookiecutter :ref:`cookiecutter_dialogue` we install all the
     necessary software needed to use that language for you.
 
 .. note::

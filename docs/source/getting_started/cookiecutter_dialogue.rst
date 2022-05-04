@@ -1,8 +1,3 @@
-.. _dialogue:
-
-Dialogue
---------
-
 1. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
    terminal.
 
@@ -126,41 +121,6 @@ Dialogue
 
    If all went well, you are now ready to adapt the template to your project.
 
-
-Tips and tricks for starting a new project
-------------------------------------------
-
-Your general strategy should be one of **divide and conquer**. If you are not used to
-thinking in computer science / software engineering terms, it will be hard to wrap your
-head around a lot of the things going on. So write one bit of code at a time, understand
-what is going on, and move on.
-
-#. Install the template for the language of your choice as described in :ref:`dialogue`
-#. I suggest you leave the examples in place.
-#. Now add your own data and code bit by bit, append the `task_xxx` files as necessary.
-   To see what is happening, it might be useful to comment out some steps
-#. Once you got the hang of how things work, remove the examples (both the files and the
-   code in the `task_xxx` files)
-
-
-.. _porting_existing_project:
-
-Porting an existing project
----------------------------
-
-Your general strategy should be one of **divide and conquer**. If you are not used to
-thinking in computer science / software engineering terms, it will be hard to wrap your
-head around a lot of the things going on. So move one bit of code at a time to the
-template, understand what is going on, and move on.
-
-#. Assuming that you use Git, first move all the code in the existing project to a
-   subdirectory called old_code. Commit.
-#. Now set up the templates.
-#. Start with the data management code and move your data files to the spot where they
-   belong under the new structure.
-#. Move (the first steps of) your data management code to the folder under the
-   templates. Modify the `task_xxx` files accordingly or create new ones.
-#. Run `pytask`, adjusting the code for the errors you'll likely see.
-#. Move on step-by-step like this.
-#. Delete the example files and the corresponding sections of the `task_xxx` files / the
-   entire files in case you created new ones.
+Depending on what your needs are, move on with the section on :ref:`starting a project
+from scratch <starting_from_scratch>` or on :ref:`porting an existing project
+<porting_existing_project>`.
