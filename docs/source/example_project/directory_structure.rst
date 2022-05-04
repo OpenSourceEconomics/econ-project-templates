@@ -1,10 +1,10 @@
 The big picture
----------------
+===============
 
 The following graph shows the contents of the example project root directory after
 executing ``pytask``:
 
-.. figure:: ../../figures/root_bld_src.png
+.. figure:: ../figures/root_bld_src.png
    :width: 45em
 
 Files and directories in yellow are constructed by pytask; those with a bluish
@@ -38,11 +38,11 @@ Some differences:
 
 
 Zooming in
-----------
+==========
 
 Lets go one step deeper and consider the root/src directory in more detail:
 
-.. figure:: ../../figures/src.png
+.. figure:: ../figures/src.png
    :width: 40em
 
 It is imperative that you do all the task handling inside the `task_xxx.py`-scripts,

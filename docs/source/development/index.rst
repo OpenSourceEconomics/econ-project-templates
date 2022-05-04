@@ -1,10 +1,10 @@
 Development
 ===========
 
+How to contribute
+*****************
 
-.. toctree::
-    :caption: Contents
-    :maxdepth: 1
+.. include:: how-to-contribute.rst
 
-    how-to-contribute
-    changes
+
+.. include:: changes.rst

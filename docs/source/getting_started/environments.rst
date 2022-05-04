@@ -1,8 +1,3 @@
-.. _environments:
-
-Environments
-************
-
 Progams change. Nothing is as frustrating as coming back to a project after a long time
 and spending the first {hours, days} updating your code to work with a new version of
 your favourite data analysis library. The same holds for debugging errors that occur
@@ -19,7 +14,7 @@ The following commands can either be executed in a terminal or the Anaconda prom
 
 
 Using the environment
-=====================
+---------------------
 
 In the installation process of the template a new environment was created if it was not
 explicitly declined. It took its specification from the environment.yml file in your
@@ -38,7 +33,7 @@ Repeat this step every time you want to run your project from a new terminal win
 
 
 Updating packages
-=================
+-----------------
 
 Make sure you activated the environment by ``conda activate <env_name>``. Then use conda
 or pip directly:
@@ -53,7 +48,7 @@ For updating conda all packages, replace ``[package]`` by ``--all``.
 
 
 Installing additional packages
-==============================
+------------------------------
 
 To list installed packages, type
 
@@ -84,7 +79,7 @@ handle, roughtly speaking). For pure-Python packages, we sometimes fall back on 
 
 
 Saving your environment
-=======================
+-----------------------
 
 After updating or changing your environment you should save the status in the
 *environment.yml* file to avoid version conflicts and maintain coherent environments in
@@ -109,7 +104,7 @@ specific.
 
 
 Setting up a new environment
-============================
+----------------------------
 
 If you want to create a clean environment, execute:
 
@@ -122,7 +117,7 @@ For setting up an environment from a specification file (like environment.yml), 
 
 ..
   comment:: I thought setting it up from environment.yml would require only to activate
-it? When to activate only, when to create + activate?
+  it? When to activate only, when to create + activate?
 
 
 .. code:: console
@@ -136,7 +131,7 @@ it? When to activate only, when to create + activate?
 
 
 Information about your conda environments
-=========================================
+-----------------------------------------
 
 For listing your installed conda environments, type
 

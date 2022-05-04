@@ -1,10 +1,10 @@
 Templates for Reproducible Research: Documentation
-==================================================
+##################################################
 
 .. _introduction:
 
 Introduction
-------------
+============
 
 An empirical or computational research project only becomes a useful building block for
 science and policy when **all** steps can be easily repeated and modified by others.
@@ -36,19 +36,18 @@ though.
 
 
 How to proceed
---------------
+==============
 
 If you are a complete novice, you should read carefully through the entire documents.
 We suggest starting with the section :ref:`getting_started`. Once you've finished
-that you can go to the section with the programming language of your choice. For
-example, if you want to work with Python go to the section :ref:`python_section`.
+that we recommend reading the :ref:`example_project` section.
 
 
 Motivation
-----------
+==========
 
 The case for reproducibility
-############################
+----------------------------
 
 The credibility of (economic) research is undermined if erroneous results appear in
 respected journals. To quote McCullough and Vinod :cite:`McCulloughVinod2003`:
@@ -97,7 +96,7 @@ on research ethics...
 
 
 Feedback welcome
-----------------
+================
 
 I have had a lot of feedback from former students who found this helpful. But in-class
 exposure to material is always different than reading up on it and I am sure that there
@@ -108,16 +107,14 @@ GitHub.
 
 
 Structure of the Documentation
-------------------------------
+==============================
 
 .. toctree::
     :maxdepth: 1
 
     getting_started/index
-    languages/python/index
-    languages/R/index
-    languages/julia/index
-    languages/stata/index
+    example_project/index
+    programming_languages/index
     faq
     development/index
     zreferences

@@ -1,13 +1,7 @@
-.. _starting_a_new_project:
-
-Starting A New Project
-**********************
-
-
 .. _dialogue:
 
 Dialogue
-========
+--------
 
 1. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
    terminal.
@@ -134,7 +128,7 @@ Dialogue
 
 
 Tips and tricks for starting a new project
-==========================================
+------------------------------------------
 
 Your general strategy should be one of **divide and conquer**. If you are not used to
 thinking in computer science / software engineering terms, it will be hard to wrap your
@@ -152,7 +146,7 @@ what is going on, and move on.
 .. _porting_existing_project:
 
 Porting an existing project
-===========================
+---------------------------
 
 Your general strategy should be one of **divide and conquer**. If you are not used to
 thinking in computer science / software engineering terms, it will be hard to wrap your
@@ -161,8 +155,6 @@ template, understand what is going on, and move on.
 
 #. Assuming that you use Git, first move all the code in the existing project to a
    subdirectory called old_code. Commit.
-..
-  I have to create old-code, right?
 #. Now set up the templates.
 #. Start with the data management code and move your data files to the spot where they
    belong under the new structure.

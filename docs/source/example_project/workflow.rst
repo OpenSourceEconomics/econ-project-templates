@@ -6,7 +6,7 @@ categorical variables within each step:
 ..
   comment:: What is a master-script?
 
-.. figure:: ../../figures/steps_only_full.png
+.. figure:: ../figures/steps_only_full.png
    :width: 35em
 
 You will still need to manually keep track of whether you need to run a particular step
@@ -16,7 +16,7 @@ Alternatively, you may have code that runs one step after the other for each var
 ..
   comment:: How do I manually keep track?
 
-.. figure:: ../../figures/model_steps_full.png
+.. figure:: ../figures/model_steps_full.png
    :width: 35em
 
 The equivalent comment applies here: Either keep track of which model needs to be run
@@ -31,7 +31,7 @@ were...
 The figure shows you that even in this simple example, there are now quite a few parts
 to remember:
 
-.. figure:: ../../figures/model_steps_select.png
+.. figure:: ../figures/model_steps_select.png
    :width: 35em
 
 This figure assumes that your data management is being done for all models at once,

@@ -26,7 +26,7 @@ time you run `pytask`.
   comment:: ..never kept under version control.., what does that sentence mean?
 
 Pytask Overview
----------------
+===============
 
 From a high-level perspective, pytask works in the following way:
 
