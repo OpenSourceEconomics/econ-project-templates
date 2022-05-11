@@ -9,6 +9,7 @@ documents = ["research_paper", "research_pres_30min"]
 
 for document in documents:
     
+    @pytask.mark.depends_on([BLD / "figures" / "marital_status-figure.png", PAPER_DIR / "refs.bib"])
     @pytask.mark.latex(
         script=PAPER_DIR / f"{document}.tex",
         document=BLD / "latex" / f"{document}.pdf"

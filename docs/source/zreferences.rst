@@ -1,5 +1,4 @@
-**********
 References
-**********
+==========
 
 .. bibliography:: refs.bib
