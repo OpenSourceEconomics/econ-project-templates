@@ -14,7 +14,7 @@ dependencies:
   # Package dependencies
   - cookiecutter
   - pytask >=0.2
-  - pytask-latex<0.2
+  - pytask-latex
   - plotly>=5.5.0
   - pandas
   - ipykernel
