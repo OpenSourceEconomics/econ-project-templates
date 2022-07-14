@@ -12,6 +12,7 @@ dependencies:
   - pip >=21.1
   - setuptools_scm
   - toml
+  - conda-build
 
   # Reproducibility
   - conda-lock
