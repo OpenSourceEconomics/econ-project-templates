@@ -21,3 +21,4 @@ dependencies:
   - sphinx-panels
   - sphinxcontrib-bibtex
   - pydata-sphinx-theme>=0.3.0
+  - myst-parser

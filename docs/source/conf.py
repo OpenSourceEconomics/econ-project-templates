@@ -46,7 +46,12 @@ extensions = [
     "nbsphinx",
     "sphinxcontrib.bibtex",
     "sphinx_panels",
+    "myst_parser",
 ]
+
+# MyST
+myst_enable_extensions = ["colon_fence", "deflist", "dollarmath"]
+
 
 autoapi_dirs = ["../../hooks"]
 

@@ -4,7 +4,8 @@ Development
 How to contribute
 *****************
 
-.. include:: how-to-contribute.rst
+.. include:: how-to-contribute.md
+   :parser: myst_parser.sphinx_
 
 
 .. include:: changes.rst
