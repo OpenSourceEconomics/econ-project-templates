@@ -12,6 +12,7 @@ dependencies:
   - pip >=21.1
   - setuptools_scm
   - toml
+  - conda-build
 
   # Reproducibility
   - conda-lock
@@ -34,6 +35,9 @@ dependencies:
   - pytest-cov
   - pytest-xdist
   - tox-conda
+
+  - pytask>=0.2
+  - pytask-latex>=0.2
 
   - ipykernel
   - jupyterlab
@@ -67,6 +71,5 @@ dependencies:
 
   - pip:
     - kaleido
-    - git+https://github.com/pytask-dev/pytask.git
     - -e .  # installs the project
 
