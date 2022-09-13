@@ -24,21 +24,11 @@ def remove_directory(*filepath: str | Path) -> None:
         pass
 
 
-def remove_lines(filepath: str | Path, identifier: str):
-    """Remove lines from file."""
-    with open(filepath) as f:
-        lines = f.readlines()
-
-    indices = [i for i, e in enumerate(lines) if identifier in e]
-    del lines[indices[0] - 1 : indices[1] + 1]
-
-    with open(filepath, "w") as f:
-        f.writelines(lines)
-
-
 def main() -> None:
     """Apply post generation hooks."""
     project_path = Path.cwd()
+
+    example_language = "{{ cookiecutter.example_language }}"
 
     if "{{ cookiecutter.create_changelog }}" == "no":
         remove_file(project_path, "CHANGES.rst")
@@ -46,7 +36,7 @@ def main() -> None:
     if "{{ cookiecutter.open_source_license }}" == "Not open source":
         remove_file(project_path, "LICENSE")
 
-    if "{{ cookiecutter.add_tox }}" == "no":
+    if "{{ cookiecutter.add_tox }}" == "no" or example_language != "python":
         remove_directory(project_path, ".github", "workflows")
         remove_file("tox.ini")
 
@@ -56,18 +46,25 @@ def main() -> None:
     if "{{ cookiecutter.add_readthedocs }}" == "no":
         remove_file(project_path, ".readthedocs.yaml")
 
-    if "{{ cookiecutter.add_python }}" == "no":
-        for path in project_path.rglob("*.R"):
-            if "task_" not in path:
-                remove_file(path)
-        for task_file_path in project_path.rglob("task_*.py"):
-            remove_lines(task_file_path, identifier="Python Tasks")
+    languages_to_remove = {"python", "julia", "r", "stata"}.difference(
+        [example_language]
+    )
+    for language in languages_to_remove:
+        suffix = {
+            "python": "py",
+            "julia": "jl",
+            "r": "r",
+            "stata": "do",
+        }[language]
 
-    if "{{ cookiecutter.add_r }}" == "no":
-        for path in project_path.rglob("*.R"):
-            remove_file(path)
-        for task_file_path in project_path.rglob("task_*.py"):
-            remove_lines(task_file_path, identifier="R Tasks")
+        for path in project_path.rglob(f"*.{suffix}"):
+            if language == "python":
+                if all(
+                    [x not in path.name for x in ("task_", "config.py", "__init__.py")]
+                ):
+                    remove_file(path)
+            else:
+                remove_file(path)
 
     subprocess.run(("git", "init"), check=True, capture_output=True)
 

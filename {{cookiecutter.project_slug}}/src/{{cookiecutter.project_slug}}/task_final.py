@@ -1,16 +1,13 @@
-import pandas as pd
 import pytask
 from {{cookiecutter.project_slug}}.config import BLD
 from {{cookiecutter.project_slug}}.config import GROUPS
 from {{cookiecutter.project_slug}}.config import SRC
+{% if cookiecutter.example_language == 'python' %}
+import pandas as pd
 from {{cookiecutter.project_slug}}.final import plot_regression_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 from {{cookiecutter.project_slug}}.analysis.model import load_model
 
-
-# ======================================================================================
-# Python Tasks Start
-# ======================================================================================
 
 for group in GROUPS:
 
@@ -42,13 +39,9 @@ def task_create_estimation_table(depends_on, produces):
     table = model.summary().as_latex()
     with open(produces, 'w') as f:
         f.writelines(table)
+{% endif %}
 
-# Python Tasks End
-
-# ======================================================================================
-# R Tasks Start
-# ======================================================================================
-
+{% if cookiecutter.example_language == 'r' %}
 for group in GROUPS:
 
     kwargs = {
@@ -65,7 +58,7 @@ for group in GROUPS:
         }
     )
     @pytask.mark.task(id=group, kwargs=kwargs)
-    @pytask.mark.r(script=SRC / "task_final.R", serializer="yaml")
+    @pytask.mark.r(script=SRC / "task_final.r", serializer="yaml")
     def task_plot_regression():
         pass
 
@@ -73,8 +66,7 @@ for group in GROUPS:
 @pytask.mark.task(kwargs={"task": "estimation_table"})
 @pytask.mark.depends_on(BLD / "models" / "model.pickle")
 @pytask.mark.produces(BLD / "latex" / "estimation_table.tex")
-@pytask.mark.r(script=SRC / "task_final.R", serializer="yaml")
+@pytask.mark.r(script=SRC / "task_final.r", serializer="yaml")
 def task_create_estimation_table():
     pass
-
-# R Tasks End
+{% endif %}

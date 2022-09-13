@@ -2,7 +2,7 @@ name: {{ cookiecutter.conda_environment_name }}
 channels:
   - conda-forge
   - plotly
-{% if cookiecutter.add_r_example == 'y' %}
+{% if cookiecutter.example_language == 'r' %}
   - r
 {% endif %}
   - nodefaults
@@ -18,13 +18,15 @@ dependencies:
   - conda-lock
 
   # Package dependencies
-{% if cookiecutter.add_r_example == 'y' %}
-  - pytask-r
-{% endif %}
-{% if cookiecutter.add_julia_example == 'y' %}
+  - pytask>=0.2
+  - pytask-latex>=0.2
+{% if cookiecutter.example_language == 'julia' %}
   - pytask-julia
 {% endif %}
-{% if cookiecutter.add_stata_example == 'y' %}
+{% if cookiecutter.example_language == 'r' %}
+  - pytask-r
+{% endif %}
+{% if cookiecutter.example_language == 'stata' %}
   - pytask-stata
 {% endif %}
 
@@ -36,9 +38,6 @@ dependencies:
   - pytest-xdist
   - tox-conda
 
-  - pytask>=0.2
-  - pytask-latex>=0.2
-
   - ipykernel
   - jupyterlab
   - pyyaml
@@ -46,7 +45,7 @@ dependencies:
   - pandas
   - statsmodels
   - python-graphviz
-{% if cookiecutter.add_r_example == 'y' %}
+{% if cookiecutter.example_language == 'r' %}
   - r-aer
   - r-aod
   - r-base

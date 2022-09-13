@@ -1,17 +1,13 @@
-import pandas as pd
 import pytask
-from {{cookiecutter.project_slug}}.analysis.model import fit_logit_model
-from {{cookiecutter.project_slug}}.analysis.model import load_model
-from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
 from {{cookiecutter.project_slug}}.config import BLD
 from {{cookiecutter.project_slug}}.config import GROUPS
 from {{cookiecutter.project_slug}}.config import SRC
+{% if cookiecutter.example_language == 'python' %}
+import pandas as pd
+from {{cookiecutter.project_slug}}.analysis.model import fit_logit_model
+from {{cookiecutter.project_slug}}.analysis.model import load_model
+from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
-
-
-# ======================================================================================
-# Python Tasks Start
-# ======================================================================================
 
 @pytask.mark.depends_on(
     {
@@ -46,16 +42,10 @@ for group in GROUPS:
         data = pd.read_csv(depends_on["data"])
         predicted_prob = predict_prob_by_age(data, model, group)
         predicted_prob.to_csv(produces, index=False)
+{% endif %}
 
-# Python Tasks End
-
-
-# ======================================================================================
-# R Tasks Start
-# ======================================================================================
-
-
-@pytask.mark.r(script=SRC / "task_analysis.R", serializer="yaml")
+{% if cookiecutter.example_language == 'r' %}
+@pytask.mark.r(script=SRC / "task_analysis.r", serializer="yaml")
 @pytask.mark.task(kwargs={"task": "fit_model"})
 @pytask.mark.depends_on(
     {
@@ -83,8 +73,7 @@ for group in GROUPS:
         }
     )
     @pytask.mark.task(id=group, kwargs=kwargs)
-    @pytask.mark.r(script=SRC /  "task_analysis.R", serializer="yaml")
+    @pytask.mark.r(script=SRC /  "task_analysis.r", serializer="yaml")
     def task_predict():
         pass
-
-# R Tasks End
+{% endif %}
