@@ -24,6 +24,18 @@ def remove_directory(*filepath: str | Path) -> None:
         pass
 
 
+def remove_lines(filepath: str | Path, identifier: str):
+    """Remove lines from file."""
+    with open(filepath) as f:
+        lines = f.readlines()
+
+    indices = [i for i, e in enumerate(lines) if identifier in e]
+    del lines[indices[0] - 1 : indices[1] + 1]
+
+    with open(filepath, "w") as f:
+        f.writelines(lines)
+
+
 def main() -> None:
     """Apply post generation hooks."""
     project_path = Path.cwd()
@@ -43,6 +55,19 @@ def main() -> None:
 
     if "{{ cookiecutter.add_readthedocs }}" == "no":
         remove_file(project_path, ".readthedocs.yaml")
+
+    if "{{ cookiecutter.add_python }}" == "no":
+        for path in project_path.rglob("*.R"):
+            if "task_" not in path:
+                remove_file(path)
+        for task_file_path in project_path.rglob("task_*.py"):
+            remove_lines(task_file_path, identifier="Python Tasks")
+
+    if "{{ cookiecutter.add_r }}" == "no":
+        for path in project_path.rglob("*.R"):
+            remove_file(path)
+        for task_file_path in project_path.rglob("task_*.py"):
+            remove_lines(task_file_path, identifier="R Tasks")
 
     subprocess.run(("git", "init"), check=True, capture_output=True)
 

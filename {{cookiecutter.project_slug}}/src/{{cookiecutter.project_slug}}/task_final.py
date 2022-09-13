@@ -8,6 +8,9 @@ from {{cookiecutter.project_slug}}.utilities import read_yaml
 from {{cookiecutter.project_slug}}.analysis.model import load_model
 
 
+# ======================================================================================
+# Python Tasks Start
+# ======================================================================================
 
 for group in GROUPS:
 
@@ -39,3 +42,39 @@ def task_create_estimation_table(depends_on, produces):
     table = model.summary().as_latex()
     with open(produces, 'w') as f:
         f.writelines(table)
+
+# Python Tasks End
+
+# ======================================================================================
+# R Tasks Start
+# ======================================================================================
+
+for group in GROUPS:
+
+    kwargs = {
+        "group": group,
+        "depends_on": {"predictions": BLD / "predictions" / f"{group}-predicted.csv"},
+        "produces": BLD / "figures" / f"{group}-figure.png",
+        "task": "plot_regression",
+    }
+
+    @pytask.mark.depends_on(
+        {
+            "data_info": SRC / "data_management" / "data_info.yaml",
+            "data": BLD / "data" / "data_clean.csv",
+        }
+    )
+    @pytask.mark.task(id=group, kwargs=kwargs)
+    @pytask.mark.r(script=SRC / "task_final.R", serializer="yaml")
+    def task_plot_regression():
+        pass
+
+
+@pytask.mark.task(kwargs={"task": "estimation_table"})
+@pytask.mark.depends_on(BLD / "models" / "model.pickle")
+@pytask.mark.produces(BLD / "latex" / "estimation_table.tex")
+@pytask.mark.r(script=SRC / "task_final.R", serializer="yaml")
+def task_create_estimation_table():
+    pass
+
+# R Tasks End

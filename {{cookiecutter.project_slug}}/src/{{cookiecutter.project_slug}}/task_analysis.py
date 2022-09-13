@@ -9,6 +9,10 @@ from {{cookiecutter.project_slug}}.config import SRC
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
+# ======================================================================================
+# Python Tasks Start
+# ======================================================================================
+
 @pytask.mark.depends_on(
     {
         "data": BLD / "data" / "data_clean.csv",
@@ -42,3 +46,45 @@ for group in GROUPS:
         data = pd.read_csv(depends_on["data"])
         predicted_prob = predict_prob_by_age(data, model, group)
         predicted_prob.to_csv(produces, index=False)
+
+# Python Tasks End
+
+
+# ======================================================================================
+# R Tasks Start
+# ======================================================================================
+
+
+@pytask.mark.r(script=SRC / "task_analysis.R", serializer="yaml")
+@pytask.mark.task(kwargs={"task": "fit_model"})
+@pytask.mark.depends_on(
+    {
+        "data": BLD / "data" / "data_clean.csv",
+        "data_info": SRC / "data_management" / "data_info.yaml",
+    }
+)
+@pytask.mark.produces(BLD / "models" / "model.pickle")
+def task_fit_model():
+    pass
+
+
+for group in GROUPS:
+
+    kwargs = {
+        "group": group,
+        "produces": BLD / "predictions" / f"{group}-predicted.csv",
+        "task": "predict",
+    }
+
+    @pytask.mark.depends_on(
+        {
+            "data": BLD / "data" / "data_clean.csv",
+            "model": BLD / "models" / "model.pickle",
+        }
+    )
+    @pytask.mark.task(id=group, kwargs=kwargs)
+    @pytask.mark.r(script=SRC /  "task_analysis.R", serializer="yaml")
+    def task_predict():
+        pass
+
+# R Tasks End
