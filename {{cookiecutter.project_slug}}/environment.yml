@@ -1,30 +1,52 @@
-name: {{ cookiecutter.create_conda_environment_with_name }}
+name: {{ cookiecutter.conda_environment_name }}
 channels:
   - conda-forge
   - plotly
-{% if cookiecutter.configure_running_r == 'y' %}
+{% if cookiecutter.add_r_example == 'y' %}
   - r
 {% endif %}
+  - nodefaults
+
 dependencies:
+  - python={{ cookiecutter.python_version }}
+  - pip >=21.1
+  - setuptools_scm
+  - toml
   - conda-build
-  - ipykernel
-  - jupyterlab
-  - plotly>=5.5.0
-  - pandas
-  - pip
-  - pytask<0.2
-  - pytask-latex<0.2
-{% if cookiecutter.configure_running_r == 'y' %}
-  - pytask-r>=0.0.9
+
+  # Reproducibility
+  - conda-lock
+
+  # Package dependencies
+{% if cookiecutter.add_r_example == 'y' %}
+  - pytask-r
 {% endif %}
-{% if cookiecutter.configure_running_stata == 'y' %}
-  - pytask-stata>=0.0.6
+{% if cookiecutter.add_julia_example == 'y' %}
+  - pytask-julia
 {% endif %}
+{% if cookiecutter.add_stata_example == 'y' %}
+  - pytask-stata
+{% endif %}
+
+  # Misc
+  - black
+  - pre-commit
   - pytest
   - pytest-cov
-  - python={{ cookiecutter.python_version }}
+  - pytest-xdist
+  - tox-conda
+
+  - pytask>=0.2
+  - pytask-latex>=0.2
+
+  - ipykernel
+  - jupyterlab
+  - pyyaml
+  - plotly>=5.5.0
+  - pandas
+  - statsmodels
   - python-graphviz
-{% if cookiecutter.configure_running_r == 'y' %}
+{% if cookiecutter.add_r_example == 'y' %}
   - r-aer
   - r-aod
   - r-base
@@ -34,18 +56,18 @@ dependencies:
   - r-lmtest
   - r-sandwich
 {% endif %}
-{% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
-  - virtualenv=20.0.33
-{% endif %}
+
+  # Documentation
+  - furo
+  - nbsphinx
+  - sphinx
+  - sphinx-autoapi
+  - sphinx-click
+  - sphinx-copybutton
+  - sphinx-panels
+  - sphinxcontrib-bibtex
+
   - pip:
-{% if cookiecutter.add_basic_pre_commit_hooks == 'y' %}
-    - pre-commit
-{% endif %}
     - kaleido
-    - sphinx
-    - sphinx-autobuild
-    - sphinx-rtd-theme
-    - sphinxcontrib-bibtex
-{% if cookiecutter.configure_running_matlab == 'y' %}
-    - sphinxcontrib-matlabdomain
-{% endif %}
+    - -e .  # installs the project
+

@@ -1,0 +1,9 @@
+include CITATION
+include LICENSE
+
+exclude *.yaml
+exclude *.yml
+exclude tox.ini
+
+prune docs
+prune tests

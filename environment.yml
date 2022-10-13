@@ -1,41 +1,48 @@
 name: econ-project-templates
+
 channels:
   - conda-forge
-  - r
-  - plotly
+  - nodefaults
+
 dependencies:
+  - python==3.10
+  - pip>=21.1
+  - setuptools_scm
+  - toml
   - conda-build
-  - ipykernel
-  - jupyterlab
+
+  # Package dependencies
+  - cookiecutter
+  - pytask>=0.2
+  - pytask-latex
   - plotly>=5.5.0
   - pandas
-  - pip
-  - pytask<0.2
-  - pytask-latex<0.2
-  - pytask-r>=0.0.9
-  - pytask-stata>=0.0.6
+  - ipykernel
+  - jupyterlab
+
+  # Misc
+  - black
+  - ipython
+  - mypy
+  - pre-commit
   - pytest
   - pytest-cov
-  - python=3.9
-  - python-graphviz
+  - pytest-xdist
   - tox-conda
-  - r-aer
-  - r-aod
-  - r-base
-  - r-car
-  - r-essentials
-  - r-rjson
-  - r-lmtest
-  - r-sandwich
-  - pip:
-    - click==7.0
-    - cookiecutter
-    - kaleido
-    - nbsphinx
-    - pre-commit
-    - pytest-cookies
-    - pytest-pythonpath
-    - sphinx
-    - sphinx-autobuild
-    - sphinx-rtd-theme
-    - sphinxcontrib-bibtex
+  - pip: # pytest-cookiecutter
+      - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
+
+  # Documentation
+  - furo
+  - black
+  - ipython
+  - ipython_genutils
+  - nbsphinx
+  - sphinx
+  - sphinx-autoapi
+  - sphinx-click
+  - sphinx-copybutton
+  - sphinx-panels
+  - sphinxcontrib-bibtex
+  - pydata-sphinx-theme>=0.3.0
+  - myst-parser

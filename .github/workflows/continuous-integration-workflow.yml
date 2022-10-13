@@ -1,4 +1,11 @@
-name: Continuous Integration Workflow
+name: main
+
+# Automatically cancel a previous run.
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+
 on:
   push:
     branches:
@@ -13,17 +20,20 @@ jobs:
 
     name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
+    env:
+      CONDA_EXE: mamba
 
     strategy:
       fail-fast: false
       matrix:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-        python-version: ['3.8', '3.9']
+        python-version: ['3.8', '3.9', '3.10']
 
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-tinytex@v1
         if: runner.os != 'Windows'
+
       - uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
@@ -31,22 +41,16 @@ jobs:
 
       - name: Install core dependencies.
         shell: bash -l {0}
-        run: conda install -c conda-forge tox-conda
+        run: conda install -c conda-forge tox-conda coverage
 
-      - name: Install fixes for Python 3.7 on Windows
-        if: runner.os == 'Windows' && matrix.python-version == '3.7'
+      - name: Run end-to-end tests.
         shell: bash -l {0}
-        run: conda install -c conda-forge bokeh conda-build numpy scipy joblib
+        run: tox -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml -n auto
 
-      - name: Run pytest.
+      - name: Upload coverage reports of end-to-end tests.
+        if: runner.os == 'Linux' && matrix.python-version == '3.9'
         shell: bash -l {0}
-        run: tox -e pytest -- -m "not slow"
-
-      - name: Upload coverage report.
-        if: runner.os == 'Linux' && matrix.python-version == '3.8'
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+        run: bash <(curl -s https://codecov.io/bash) -F end_to_end -c
 
 
   pre-commit:
@@ -79,7 +83,6 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
-          python-version: 3.8
 
       - name: Install core dependencies.
         shell: bash -l {0}

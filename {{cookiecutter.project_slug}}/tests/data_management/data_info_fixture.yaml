@@ -1,0 +1,12 @@
+columns_to_drop:
+    - col2
+
+categorical_columns:
+    - col0
+    - col1
+
+column_rename_mapping:
+    col1: column_1
+
+outcome: col0
+outcome_numerical: col0_numerical
