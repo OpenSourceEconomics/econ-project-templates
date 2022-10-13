@@ -82,7 +82,7 @@ autodoc_mock_imports = [
 intersphinx_mapping = {
     "numpy": ("https://docs.scipy.org/doc/numpy", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
-    "python": ("https://docs.python.org/3.8", None),
+    "python": ("https://docs.python.org/", None),
 }
 
 linkcheck_ignore = [

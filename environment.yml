@@ -5,15 +5,15 @@ channels:
   - nodefaults
 
 dependencies:
-  - python==3.9
-  - pip >=21.1
+  - python==3.10
+  - pip>=21.1
   - setuptools_scm
   - toml
   - conda-build
 
   # Package dependencies
   - cookiecutter
-  - pytask >=0.2
+  - pytask>=0.2
   - pytask-latex
   - plotly>=5.5.0
   - pandas
@@ -29,7 +29,7 @@ dependencies:
   - pytest-cov
   - pytest-xdist
   - tox-conda
-  - pip:  # pytest-cookiecutter
+  - pip: # pytest-cookiecutter
       - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
 
   # Documentation
