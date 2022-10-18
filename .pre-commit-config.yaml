@@ -2,7 +2,7 @@
 exclude: ^(\.|\{\{cookiecutter\.project_slug\}\}/.+)
 repos:
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.8.3
+    rev: v3.8.5
     hooks:
       - id: reorder-python-imports
         args: [--unclassifiable-application-module=src]
@@ -20,7 +20,7 @@ repos:
         args: [--autofix, --no-sort-keys, --no-ensure-ascii]
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.0.0
+    rev: v3.1.0
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
