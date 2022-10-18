@@ -5,7 +5,7 @@ from {{cookiecutter.project_slug}}.config import BLD
 from {{cookiecutter.project_slug}}.config import PAPER_DIR
 
 
-documents = ["research_paper", "research_pres_30min"]
+documents = ["{{cookiecutter.project_slug}}", "{{cookiecutter.project_slug}}_pres"]
 
 for document in documents:
     
