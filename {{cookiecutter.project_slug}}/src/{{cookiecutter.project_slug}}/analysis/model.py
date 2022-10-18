@@ -4,7 +4,7 @@ from statsmodels.iolib.smpickle import load_pickle
 
 def fit_logit_model(data, data_info, model_type):
     """Fit a logit model to data.
-    
+
     Args:
         data (pandas.DataFrame): The data set.
         data_info (dict): Information on data set stored in data_info.yaml. The
@@ -23,7 +23,7 @@ def fit_logit_model(data, data_info, model_type):
 
     Returns:
         statsmodels.base.model.Results: The fitted model.
-    
+
     """
     outcome_name = data_info["outcome"]
     outcome_name_numerical = data_info["outcome_numerical"]
@@ -45,10 +45,10 @@ def load_model(path):
 
     Args:
         path (str or pathlib.Path): Path to model file.
-        
+
     Returns:
         statsmodels.base.model.Results: The stored model.
-    
+
     """
     model = load_pickle(path)
     return model

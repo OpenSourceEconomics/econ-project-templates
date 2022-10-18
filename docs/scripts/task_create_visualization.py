@@ -10,7 +10,7 @@ SRC = Path(__file__).parent.resolve()  # root/docs/scripts
 FIGURES = SRC.parent.resolve().joinpath("source").joinpath("figures").resolve()
 sys.path.append(str(SRC))
 
-from visualization_functions import visualize_organisational_steps
+from visualization_functions import visualize_organisational_steps  # noqa: E402
 
 
 for case in ["model_steps_full", "model_steps_select", "steps_only_full"]:

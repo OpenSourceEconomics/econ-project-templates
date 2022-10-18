@@ -135,7 +135,7 @@ Validating Git
 
     Now type ``pwd``, which prints the absolute path to your present working directory.
     **There must not be any spaces or special characters in the path** (for instance ä,
-    ü, é, Chinese or Kyrillic characters).
+    ü, é, Chinese or Cyrillic characters).
 
     If you have any spaces or special characters on your path, change to a folder that
     does not have these special characters (e.g., on Windows, create a directory

@@ -155,7 +155,7 @@ Starting stats/maths programmes from the shell
 ----------------------------------------------
 
 `pytask` needs to be able to start your favourite (data) analysis programme from the
-command line, it might be worthwile trying that out yourself, too. These are the
+command line, it might be worthwhile trying that out yourself, too. These are the
 programme names that `pytask` looks for:
 
 *   R: ``RScript``, ``Rscript``

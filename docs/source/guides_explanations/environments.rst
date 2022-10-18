@@ -27,7 +27,7 @@ To activate it, execute:
     $ conda activate <env_name>
 
 ..
-  comment:: <env_name> , evironment in project folder
+  comment:: <env_name> , environment in project folder
 
 Repeat this step every time you want to run your project from a new terminal window.
 
@@ -75,7 +75,7 @@ or
 
 Generally it is recommended to use *conda* whenever possible (necessary for most
 scientific packages, they are usually not pure-Python code and that is all that pip can
-handle, roughtly speaking). For pure-Python packages, we sometimes fall back on *pip*.
+handle, roughly speaking). For pure-Python packages, we sometimes fall back on *pip*.
 
 
 Saving your environment

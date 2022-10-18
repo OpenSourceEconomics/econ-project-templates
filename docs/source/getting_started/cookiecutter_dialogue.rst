@@ -96,7 +96,7 @@
    step anytime you want to run your project from a new terminal window.
 
    ..
-     comment:: everytime I close and reopen the project I need to do that?
+     comment:: every time I close and reopen the project I need to do that?
 
 4. Pre-commit hooks have to be installed in order for them to have an effect. This step
    has to be repeated every time you work on your project **on a new machine**. To

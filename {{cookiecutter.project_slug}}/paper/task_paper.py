@@ -1,4 +1,5 @@
 import shutil
+
 import pytask
 
 from {{cookiecutter.project_slug}}.config import BLD
@@ -8,8 +9,8 @@ from {{cookiecutter.project_slug}}.config import PAPER_DIR
 documents = ["{{cookiecutter.project_slug}}", "{{cookiecutter.project_slug}}_pres"]
 
 for document in documents:
-    
-        
+
+
     @pytask.mark.depends_on(
         [
             BLD / "figures" / "marital_status-figure.png",
@@ -32,4 +33,3 @@ for document in documents:
     @pytask.mark.task(id=document, kwargs=kwargs)
     def task_copy_to_root(depends_on, produces):
         shutil.copy(depends_on, produces)
-        

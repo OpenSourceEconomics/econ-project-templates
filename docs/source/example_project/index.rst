@@ -54,4 +54,3 @@ Introduction to pytask
 **********************
 
 .. include:: pytask.rst
-

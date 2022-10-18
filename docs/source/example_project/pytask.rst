@@ -62,7 +62,7 @@ offer. Its `documentation <https://pytask-dev.readthedocs.io>`_ is an excellent 
     - directory structure, that it is done automatically when executing cookiecutter
     - pip install -e .
     - conda develop .
-    - then maybe show an example that displays the imports neccessary (import pytask,
+    - then maybe show an example that displays the imports necessary (import pytask,
       ..) and once, shortly the usage of depends_on and produce
              - example does not need to be very detailed, the rest can be read in the
                pytask-Documentation.git

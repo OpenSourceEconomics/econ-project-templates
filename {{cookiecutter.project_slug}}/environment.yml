@@ -70,4 +70,3 @@ dependencies:
   - pip:
     - kaleido
     - -e .  # installs the project
-

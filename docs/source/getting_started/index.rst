@@ -67,4 +67,3 @@ Pre-Commit Hooks
 ****************
 
 .. include:: hooks.rst
-
