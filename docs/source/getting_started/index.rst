@@ -36,34 +36,3 @@ How to get started on a second machine
 **************************************
 
 .. include:: second_machine.rst
-
-.. _starting_from_scratch:
-
-Starting a new project from scratch
-***********************************
-
-.. include:: starting_from_scratch.rst
-
-
-.. _porting_existing_project:
-
-Porting an existing project
-***************************
-
-.. include:: porting_existing_project.rst
-
-
-.. _environments:
-
-Environments
-************
-
-.. include:: environments.rst
-
-
-.. _pre_commit_hooks:
-
-Pre-Commit Hooks
-****************
-
-.. include:: hooks.rst
