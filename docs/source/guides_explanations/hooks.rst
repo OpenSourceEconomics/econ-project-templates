@@ -5,14 +5,14 @@ the issues raised by the hooks. Pre-commit hooks are defined in the
 will be installed into your project:
 
 - `reorder-python-imports <https://github.com/asottile/reorder_python_imports>`_: Reorders your python imports according to PEP8 guidelines.
-- `check-yaml <https://github.com/pre-commit/pre-commit-hooks>`_: Checks whether all .yaml and .yml files within your project are valid yaml files.
+- `check-yaml <https://github.com/pre-commit/pre-commit-hooks>`_: Checks whether all .yaml and .yml files wihtin your project are valid yaml files.
 - `check-added-large-files <https://github.com/pre-commit/pre-commit-hooks>`_: Checks that all committed files do not exceed 100MB in size. This is the maximal file size allowed by Github.
 - `check-byte-order-marker <https://github.com/pre-commit/pre-commit-hooks>`_: Fails if file has a UTF-8 byte-order marker.
 - `check-json <https://github.com/pre-commit/pre-commit-hooks>`_: Checks whether all files that end with .json are indeed valid json files.
 - `pyupgrade <https://github.com/asottile/pyupgrade>`_: Converts Python code to make use of newer syntax.
 - `pretty-format-json <https://github.com/pre-commit/pre-commit-hooks>`_: Reformats your json files to be more readable.
 - `trailing-whitespace <https://github.com/pre-commit/pre-commit-hooks>`_: Removes trailing whitespaces in all your text files.
-- `black <https://github.com/ambv/black>`_: Runs the python code formatter black on all your committed python files.
+- `black <https://github.com/ambv/black>`_: Runs the python code formatter black on all Python files included in a commit.
 - `blacken-docs <https://github.com/asottile/blacken-docs>`_: Formats python code (according to black's formatting style) that occurs within documentation files.
 
 If you additionally opt for intrusive pre-commit hooks, then python syntax linter
@@ -31,6 +31,3 @@ If you want to skip the pre-commit hooks for a particular commit, you can run:
 
 For more advanced usages of pre-commit please consult its `website
 <https://github.com/pre-commit/pre-commit-hooks>`_.
-
-..
-  comment:: (git commit) When would it make sense to ignore raised errors?

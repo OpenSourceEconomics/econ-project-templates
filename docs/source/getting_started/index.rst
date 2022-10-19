@@ -11,8 +11,10 @@ If you already have the template running but don't know how to use a second comp
 work together with a collaborator, you may want to jump directly to the section on
 :ref:`second_machine`.
 
-Once you are done with the steps in this section, look in :ref:`guides_explanations` or
-check out the Documentation of the :ref:`example_project`.
+Once you are done with the steps in this section, check out the Documentation of the
+:ref:`example_project` to understand the details of the setup. In case you know those
+already, have a look in :ref:`guides_explanations` for guides on starting / porting
+projects and explanations of some of the auxiliary tools.
 
 
 .. _preparing_your_system:

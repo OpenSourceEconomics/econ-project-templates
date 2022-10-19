@@ -26,9 +26,6 @@ To activate it, execute:
 
     $ conda activate <env_name>
 
-..
-  comment:: <env_name> , environment in project folder
-
 Repeat this step every time you want to run your project from a new terminal window.
 
 
@@ -76,58 +73,6 @@ or
 Generally it is recommended to use *conda* whenever possible (necessary for most
 scientific packages, they are usually not pure-Python code and that is all that pip can
 handle, roughly speaking). For pure-Python packages, we sometimes fall back on *pip*.
-
-
-Saving your environment
------------------------
-
-After updating or changing your environment you should save the status in the
-*environment.yml* file to avoid version conflicts and maintain coherent environments in
-a project with multiple collaborators. Just make sure your environment is activated and
-run the following in the project's root directory:
-
-
-..
-  comment:: if not update, how do <i change? Just manually add/delete something?>
-
-
-.. code:: console
-
-    $ conda env export -f environment.yml
-
-After exporting, manually delete the last line in the environment file, as it is system
-specific.
-
-
-..
-  comment:: what is this last line? Dont want to delete the wrong things..
-
-
-Setting up a new environment
-----------------------------
-
-If you want to create a clean environment, execute:
-
-.. code:: console
-
-    $ conda create --name myenv
-
-For setting up an environment from a specification file (like environment.yml), type:
-
-
-..
-  comment:: I thought setting it up from environment.yml would require only to activate
-  it? When to activate only, when to create + activate?
-
-
-.. code:: console
-
-    $ conda create --name <myenv> -f <filename>
-
-
-..
-  comment:: filename? What file?
-
 
 
 Information about your conda environments

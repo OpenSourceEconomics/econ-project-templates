@@ -22,8 +22,6 @@ there (including intermediate output), it is never kept under version control, a
 can be safely removed -- everything in it will be reconstructed automatically the next
 time you run `pytask`.
 
-..
-  comment:: ..never kept under version control.., what does that sentence mean?
 
 Pytask Overview
 ===============
@@ -33,17 +31,11 @@ From a high-level perspective, pytask works in the following way:
 #.  pytask reads your instructions and sets the build order.
 
     * Think of a dependency graph here.
-    * It stops when it detects a circular dependency or ambiguous ways to build a
-      target.
-
-       ..
-         comment:: what would such an ambiguous way be? What is not allowed?
-
+    * pytask stops when it detects a circular dependency or ambiguous ways to build a
+      target (e.g., you specify the same target twice).
     * Both are major advantages over a *master-script*, let alone doing the dependency
       tracking in your mind.
 
-       ..
-         comment:: again, master-script?
 
 #.  pytask decides which tasks need to be executed and performs the required actions.
 
@@ -52,17 +44,3 @@ From a high-level perspective, pytask works in the following way:
 
 We have just touched upon the tip of the iceberg here; pytask has many more goodies to
 offer. Its `documentation <https://pytask-dev.readthedocs.io>`_ is an excellent source.
-
-
-..
-  comment::
-
-    I would like to see an introduction on how to start with using pytask
-    - install pytask: pip/conda
-    - directory structure, that it is done automatically when executing cookiecutter
-    - pip install -e .
-    - conda develop .
-    - then maybe show an example that displays the imports necessary (import pytask,
-      ..) and once, shortly the usage of depends_on and produce
-             - example does not need to be very detailed, the rest can be read in the
-               pytask-Documentation.git
