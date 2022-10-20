@@ -26,56 +26,88 @@ To activate it, execute:
 
     $ conda activate <env_name>
 
-..
-  comment:: <env_name> , environment in project folder
 
 Repeat this step every time you want to run your project from a new terminal window.
+
+
+Setting up a new environment
+----------------------------
+
+If you want to create a clean environment we recommended specifying it through an
+environment.yml file. Below we show the contents of an example environment.yml file. A
+detailed explanation is given in the `Conda documentation
+<https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#create-env-file-manually>`_.
+
+.. code:: yaml
+
+    name: <env_name>
+
+    channels:
+      - conda-forge
+      - defaults
+
+    dependencies:
+      - python=3.10
+      - numpy
+      - pandas
+      - pip
+      - pip:
+        - black
+
+
+If the environment.yml file exists you can create the environment using
+
+.. code:: console
+
+    $ conda create -f path/to/environment.yml
 
 
 Updating packages
 -----------------
 
-Make sure you activated the environment by ``conda activate <env_name>``. Then use conda
-or pip directly:
+Make sure you activated the environment by ``conda activate <env_name>``. Then run
 
-``conda update [package]`` or ``pip install -U [package]``
+.. code:: console
 
-For updating conda all packages, replace ``[package]`` by ``--all``.
+    $ conda update [package]
 
 
-..
-  comment:: I would leave that part out, here one does not know yet what kind of package one could install
+to update a specific ``[package]``, or run
+
+.. code:: console
+
+    $ conda update --all
+
+
+to update all packages.
 
 
 Installing additional packages
 ------------------------------
 
-To list installed packages, type
+To list installed packages, activate the environment and type
 
 .. code:: console
 
     $ conda list
 
-If you want to add a package to your environment, run
 
-..
-  comment:: where can I find the options for packages I would like to install?
-
-.. code:: console
-
-    $ conda install [package]
-
-or
+If you want to add a package to your environment, add it to the environment.yml file.
+Once you have edited the environment.yml file, run
 
 .. code:: console
 
-    $ pip install [package]
+    $ conda env update -f environment.yml
+
 
 **Choosing between conda and pip**
 
 Generally it is recommended to use *conda* whenever possible (necessary for most
 scientific packages, they are usually not pure-Python code and that is all that pip can
 handle, roughly speaking). For pure-Python packages, we sometimes fall back on *pip*.
+If you add a package under ``dependencies:`` in the environment.yml file, conda will try
+to install the package from Conda. If you add a package under ``pip:``, conda will try
+to install the package from pip.
 
 
 Saving your environment
@@ -87,46 +119,12 @@ a project with multiple collaborators. Just make sure your environment is activa
 run the following in the project's root directory:
 
 
-..
-  comment:: if not update, how do <i change? Just manually add/delete something?>
-
-
 .. code:: console
 
     $ conda env export -f environment.yml
 
 After exporting, manually delete the last line in the environment file, as it is system
 specific.
-
-
-..
-  comment:: what is this last line? Dont want to delete the wrong things..
-
-
-Setting up a new environment
-----------------------------
-
-If you want to create a clean environment, execute:
-
-.. code:: console
-
-    $ conda create --name myenv
-
-For setting up an environment from a specification file (like environment.yml), type:
-
-
-..
-  comment:: I thought setting it up from environment.yml would require only to activate
-  it? When to activate only, when to create + activate?
-
-
-.. code:: console
-
-    $ conda create --name <myenv> -f <filename>
-
-
-..
-  comment:: filename? What file?
 
 
 

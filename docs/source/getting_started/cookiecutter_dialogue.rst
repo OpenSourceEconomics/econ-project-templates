@@ -49,9 +49,6 @@
 
    **add_mypy** -- Whether to add mypy configuration files.
 
-   **add_readthedocs** -- Whether to add configuration files that allow you to host the
-   documentation of the project on readthedocs.
-
    **add_codecov** -- Whether to add configuration files to collect the testing coverage
    of your project using codecov.
 
@@ -68,11 +65,22 @@
    **add_r_example** -- Whether to create the example project using the r programming
    language.
 
+   .. warning::
+      The R example project is currently under construction. Help is appreciated! At the
+      moment, selecting this option only installs pytask-R and R related packages to the
+      environment, and adds R related hooks to .pre-commit-config.yaml.
+
    **add_julia_example** -- Whether to create the example project using the julia
    programming language.
 
+   .. warning::
+      The Julia example project is not implemented yet. Help is appreciated!
+
    **add_stata_example** -- Whether to create the example project using the stata
    programming language.
+
+   .. warning::
+      The Stata example project is not implemented yet. Help is appreciated!
 
    **conda_environment_name** -- Name of your conda environment. This should not be too
    long, since you need to type it often.

@@ -41,9 +41,6 @@ def main() -> None:
     if "{{ cookiecutter.add_github_actions }}" == "no":
         remove_directory(project_path, ".github", "workflows")
 
-    if "{{ cookiecutter.add_readthedocs }}" == "no":
-        remove_file(project_path, ".readthedocs.yaml")
-
     subprocess.run(("git", "init"), check=True, capture_output=True)
 
     if "{{ cookiecutter.make_initial_commit }}" == "yes":
