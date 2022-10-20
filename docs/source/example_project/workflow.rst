@@ -3,18 +3,12 @@ A naive way to ensure reproducibility is to have a *master-script* (do-file, m-f
 setup would be to have code for each step of the analysis and a loop over both
 categorical variables within each step:
 
-..
-  comment:: What is a master-script?
-
 .. figure:: ../figures/steps_only_full.png
    :width: 35em
 
 You will still need to manually keep track of whether you need to run a particular step
 after making changes, though. Or you run everything at once, all the time.
 Alternatively, you may have code that runs one step after the other for each variable:
-
-..
-  comment:: How do I manually keep track?
 
 .. figure:: ../figures/model_steps_full.png
    :width: 35em

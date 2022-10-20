@@ -54,8 +54,8 @@ Structure of the Documentation
     :maxdepth: 1
 
     getting_started/index
-    guides_explanations/index
     example_project/index
+    guides_explanations/index
     programming_languages/index
     faq
     development/index

@@ -26,7 +26,6 @@ To activate it, execute:
 
     $ conda activate <env_name>
 
-
 Repeat this step every time you want to run your project from a new terminal window.
 
 
@@ -108,24 +107,6 @@ handle, roughly speaking). For pure-Python packages, we sometimes fall back on *
 If you add a package under ``dependencies:`` in the environment.yml file, conda will try
 to install the package from Conda. If you add a package under ``pip:``, conda will try
 to install the package from pip.
-
-
-Saving your environment
------------------------
-
-After updating or changing your environment you should save the status in the
-*environment.yml* file to avoid version conflicts and maintain coherent environments in
-a project with multiple collaborators. Just make sure your environment is activated and
-run the following in the project's root directory:
-
-
-.. code:: console
-
-    $ conda env export -f environment.yml
-
-After exporting, manually delete the last line in the environment file, as it is system
-specific.
-
 
 
 Information about your conda environments

@@ -103,9 +103,6 @@
    This will activate the newly created conda environment. You have to repeat the last
    step anytime you want to run your project from a new terminal window.
 
-   ..
-     comment:: every time I close and reopen the project I need to do that?
-
 4. Pre-commit hooks have to be installed in order for them to have an effect. This step
    has to be repeated every time you work on your project **on a new machine**. To
    install the pre-commit hooks, navigate to the project's folder in the shell and type:
