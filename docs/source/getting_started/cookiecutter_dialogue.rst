@@ -66,21 +66,23 @@
    language.
 
    .. warning::
-      The R example project is currently under construction. Help is appreciated! At the
-      moment, selecting this option only installs pytask-R and R related packages to the
-      environment, and adds R related hooks to .pre-commit-config.yaml.
+      The R example project is currently under construction. Help is appreciated!
+      Selecting this option only installs R related packages, including pytask-R, to
+      the environment, and adds R related hooks to .pre-commit-config.yaml.
 
    **add_julia_example** -- Whether to create the example project using the julia
    programming language.
 
    .. warning::
-      The Julia example project is not implemented yet. Help is appreciated!
+      The Julia example project is not implemented yet. Help is appreciated! Selecting
+      this option only installs pytask-Julia to the environment.
 
    **add_stata_example** -- Whether to create the example project using the stata
    programming language.
 
    .. warning::
-      The Stata example project is not implemented yet. Help is appreciated!
+      The Stata example project is not implemented yet. Help is appreciated! Selecting
+      this option only installs pytask-Stata to the environment.
 
    **conda_environment_name** -- Name of your conda environment. This should not be too
    long, since you need to type it often.
