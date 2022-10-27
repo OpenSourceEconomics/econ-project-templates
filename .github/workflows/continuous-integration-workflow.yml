@@ -73,7 +73,7 @@ jobs:
         run: tox -e pre-commit
 
 
-    docs:
+  docs:
 
     name: Run documentation.
     runs-on: ubuntu-latest
