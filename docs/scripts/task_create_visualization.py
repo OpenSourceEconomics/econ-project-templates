@@ -7,7 +7,7 @@ from pathlib import Path
 import pytask
 
 SRC = Path(__file__).parent.resolve()  # root/docs/scripts
-FIGURES = SRC.parent.resolve().joinpath("source").joinpath("figures").resolve()
+FIGURES = SRC.parent.resolve().joinpath("source", "figures").resolve()
 sys.path.append(str(SRC))
 
 from visualization_functions import visualize_organisational_steps  # noqa: E402
@@ -28,16 +28,20 @@ for case in ["model_steps_full", "model_steps_select", "steps_only_full"]:
 
 for tex_file in ["root_bld_src", "src"]:
 
-    @pytask.mark.depends_on(SRC.joinpath("latex").joinpath(f"{tex_file}.tex"))
-    @pytask.mark.produces(SRC.joinpath(f"{tex_file}.png"))
+    @pytask.mark.depends_on(SRC.joinpath("latex", f"{tex_file}.tex"))
+    @pytask.mark.produces(SRC.joinpath("latex", f"{tex_file}.png"))
     @pytask.mark.task(id=tex_file)
     def task_compile_latex(depends_on):
-        subprocess.Popen(["pdflatex", "--shell-escape", str(depends_on)])
+        subprocess.run(
+            ("pdflatex", "--shell-escape", depends_on.name), cwd=depends_on.parent
+        )
         time.sleep(1)
-        subprocess.Popen(["pdflatex", "--shell-escape", str(depends_on)])
+        subprocess.run(
+            ("pdflatex", "--shell-escape", depends_on.name), cwd=depends_on.parent
+        )
         time.sleep(1)
 
-    @pytask.mark.depends_on(SRC.joinpath(f"{tex_file}.png"))
+    @pytask.mark.depends_on(SRC.joinpath("latex", f"{tex_file}.png"))
     @pytask.mark.produces(FIGURES.joinpath(f"{tex_file}.png"))
     @pytask.mark.task(id=tex_file)
     def task_copy_png_to_figures(depends_on, produces):
