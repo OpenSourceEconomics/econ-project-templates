@@ -74,7 +74,7 @@ def main() -> None:
             )
         else:
             subprocess.run(
-                (conda_exe, "env", "create", "--force", "-f", "environment.yml"),
+                (conda_exe, "env", "create", "--force"),
                 check=True,
             )
 
