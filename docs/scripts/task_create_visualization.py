@@ -7,7 +7,7 @@ from pathlib import Path
 import pytask
 
 SRC = Path(__file__).parent.resolve()  # root/docs/scripts
-FIGURES = SRC.parent.resolve().joinpath("source", "figures").resolve()
+FIGURES = SRC.parent.resolve().joinpath("source", "figures", "generated").resolve()
 sys.path.append(str(SRC))
 
 from visualization_functions import visualize_organisational_steps  # noqa: E402
