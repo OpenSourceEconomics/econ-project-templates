@@ -5,19 +5,16 @@ concurrency:
   group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-
 on:
   push:
     branches:
-    - master
+      - master
   pull_request:
     branches:
-    - '*'
+      - "*"
 
 jobs:
-
   run-tests:
-
     name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     env:
@@ -26,8 +23,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-        python-version: ['3.8', '3.9', '3.10', '3.11']
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
       - uses: actions/checkout@v2
@@ -50,23 +47,21 @@ jobs:
         run: tox -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml -n auto
 
       - name: Upload coverage reports of end-to-end tests.
-        if: runner.os == 'Linux' && matrix.python-version == '3.9'
+        if: runner.os == 'Linux' && matrix.python-version == '3.11'
         shell: bash -l {0}
         run: bash <(curl -s https://codecov.io/bash) -F end_to_end -c
 
-
   pre-commit:
-
     name: Run pre-commit.
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python 3.9
+      - name: Set up Python 3.11
         uses: actions/setup-python@v1
         with:
-          python-version: 3.9
+          python-version: 3.11
 
       - name: Install dependencies
         run: pip install tox
@@ -74,9 +69,7 @@ jobs:
       - name: Run pre-commit
         run: tox -e pre-commit
 
-
   docs:
-
     name: Run documentation.
     runs-on: ubuntu-latest
 
@@ -85,7 +78,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
-          python-version: 3.9
+          python-version: 3.11
 
       - name: Install core dependencies.
         shell: bash -l {0}
@@ -94,4 +87,3 @@ jobs:
       - name: Build docs
         shell: bash -l {0}
         run: tox -e sphinx
-
