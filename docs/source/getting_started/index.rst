@@ -3,18 +3,21 @@
 Getting Started
 ===============
 
-Here, we first describe in :ref:`preparing_your_system` how you need to set up your
-computer so that everything plays well together. In :ref:`cookiecutter_dialogue`, you
-will find detailed explanations on what to do to configure the templates for your needs.
+How to get started depends on what your system looks like. Depending on that, you may
+want to jump to any of the sections in this part of the documentation:
 
-If you already have the template running but don't know how to use a second computer, or
-work together with a collaborator, you may want to jump directly to the section on
-:ref:`second_machine`.
+- In :ref:`preparing_your_system`, we describe what needs to be installed on your
+  computer so that you can use the templates.
+- Should you have done that already for a different project, you can directly go to
+  :ref:`cookiecutter_dialogue`, which describes the options you have when moving from
+  the template to your specific research project.
+- In case a project has been set up by you or a collaborator and you want to use it on a
+  different machine as well, you will find the explanations on how to do so in
+  :ref:`second_machine`.
 
-Once you are done with the steps in this section, check out the Documentation of the
-:ref:`example_project` to understand the details of the setup. In case you know those
-already, have a look in :ref:`guides_explanations` for guides on starting / porting
-projects and explanations of some of the auxiliary tools.
+Once you are set up in this fashion, you may want to read up on the background of the
+:ref:`background`. In case you know those already, have a look in
+:ref:`guides_explanations` for guides on starting new projects or porting existing ones.
 
 
 .. _preparing_your_system:
