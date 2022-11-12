@@ -101,12 +101,14 @@ Once you have edited the environment.yml file, run
 
 **Choosing between conda and pip**
 
-Generally it is recommended to use *conda* whenever possible (necessary for most
-scientific packages, they are usually not pure-Python code and that is all that pip can
-handle, roughly speaking). For pure-Python packages, we sometimes fall back on *pip*.
+Generally it is recommended to use *conda* whenever possible. It is a necessity for many
+scientific packages. These often are not pure-Python code and pip is built mainly for
+that. For pure-Python packages, sometimes nobody bothered to set up a conda package and
+we use *pip*.
+
 If you add a package under ``dependencies:`` in the environment.yml file, conda will try
-to install the package from Conda. If you add a package under ``pip:``, conda will try
-to install the package from pip.
+to install its own package. If you add a package under ``pip:``, conda will try to
+install the package via pip.
 
 
 Information about your conda environments
