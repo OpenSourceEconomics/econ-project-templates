@@ -11,7 +11,8 @@ your project. Within those scripts, it will execute functions that start with `t
 
 Have a look at its excellent `documentation <https://pytask-dev.readthedocs.io>`_. At
 present, there are additional plugins to run `R scripts
-<https://github.com/pytask-dev/pytask-r>`_, `Stata do-files
+<https://github.com/pytask-dev/pytask-r>`_, `Julia scripts
+<https://github.com/pytask-dev/pytask-julia>`_, `Stata do-files
 <https://github.com/pytask-dev/pytask-stata>`_, and to compile `documents via LaTeX
 <https://github.com/pytask-dev/pytask-latex>`_.
 
@@ -33,13 +34,13 @@ From a high-level perspective, pytask works in the following way:
     * Think of a dependency graph here.
     * pytask stops when it detects a circular dependency or ambiguous ways to build a
       target (e.g., you specify the same target twice).
-    * Both are major advantages over a *master-script*, let alone doing the dependency
+    * Both are major advantages over a *workflow script*, let alone doing the dependency
       tracking in your mind.
 
 
 #.  pytask decides which tasks need to be executed and performs the required actions.
 
-    * Minimal rebuilds are a huge speed gain compared to a *master-script*.
+    * Minimal rebuilds are a huge speed gain compared to a *workflow script*.
     * These gains are large enough to make projects break or succeed.
 
 We have just touched upon the tip of the iceberg here; pytask has many more goodies to

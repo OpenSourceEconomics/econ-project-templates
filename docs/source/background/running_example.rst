@@ -5,26 +5,31 @@ project. Its abstract might read:
     of education. We use the XXX data and run a logistic regression. Results are
     presented in this paper; you may also want to consult the accompanying slides.
 
-This means that  all these parts of the pipeline, these tasks, to build the project we
-need to perform the following steps:
+.. todo::
 
-1.  Download the data
-2.  Clean the data
-3.  Estimate a logistic model
-4.  Predict over the lifetime (for each of the categorical variables)
-5.  Visualize the results (for each of the categorical variables)
+    Add precise source of data
+
+We can translate this into tasks our code needs to perform:
+
+1.  Clean the data
+2.  Estimate a logistic model
+3.  For each of the categorical variables, predict the smoking propensity over the lifetime
+4.  Visualize the results
+5.  Create tables with the results
 6.  Include the results in documents for dissemination
 
-We categorize these tasks into
+In these templates, we categorize these tasks into four groups:
 
-* Data Management: tasks 1 & 2
-* Analysis: tasks 3 & 4
-* Final: task 5
+* Data Management: task 1
+* Analysis: tasks 2 & 3
+* Final: tasks 4 & 5
 * Paper: task 6
 
 Naturally, different projects have different needs. E.g., for a simulation study, you
 might want to discard the data management part. Doing so is trivial by just deleting the
-respective directory (once you do not need the example anymore). For most economics
+respective directory (once you do not need the example any more). For most economics
 research projects, however, the basic structure has proven to strike a good balance
 between keeping related code in one place and dividing it up into chunks of manageable
 size.
+
+The remainder of this section provides much more detail on why we made these choices.
