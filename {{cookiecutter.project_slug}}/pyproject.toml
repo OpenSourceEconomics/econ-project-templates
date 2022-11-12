@@ -6,7 +6,7 @@ requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
 write_to = "src/{{ cookiecutter.project_slug }}/_version.py"
 
 [tool.pytask.ini_options]
-paths = ["./src/{{ cookiecutter.project_slug }}", "./paper"]
+infer_latex_dependencies = true
 
 {% if cookiecutter.add_mypy == "yes" %}
 [tool.mypy]
