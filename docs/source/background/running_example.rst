@@ -2,12 +2,11 @@ The example project that will be installed with the templates is a simple empiri
 project. Its abstract might read:
 
     This paper estimates the probability of smoking given age, marital status, and level
-    of education. We use the XXX data and run a logistic regression. Results are
-    presented in this paper; you may also want to consult the accompanying slides.
+    of education. We use the stats4schools `Smoking dataset
+    <https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools>`_
+    and run a logistic regression. Results are presented in this paper; you may also
+    want to consult the accompanying slides.
 
-.. todo::
-
-    Add precise source of data
 
 We can translate this into tasks our code needs to perform:
 
