@@ -20,7 +20,7 @@ import os
 import subprocess
 
 # Run pytask before build ==============================================================
-subprocess.run(("pytask", "-x"), cwd="..")
+subprocess.run(("pytask", "-x"), cwd="scripts")
 # ======================================================================================
 
 

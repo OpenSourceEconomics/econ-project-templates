@@ -1,4 +1,4 @@
-docs/scripts/latex/*.png
+docs/source/scripts/latex/*.png
 docs/source/figures/generated/
 *-blx.bib
 *.asv
