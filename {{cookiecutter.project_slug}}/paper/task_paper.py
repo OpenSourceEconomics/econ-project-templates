@@ -1,7 +1,9 @@
 import shutil
 
 import pytask
+{% if cookiecutter.is_ci == 'no' %}
 from pytask_latex import compilation_steps as cs
+{% endif %}
 
 from {{cookiecutter.project_slug}}.config import BLD
 from {{cookiecutter.project_slug}}.config import PAPER_DIR
