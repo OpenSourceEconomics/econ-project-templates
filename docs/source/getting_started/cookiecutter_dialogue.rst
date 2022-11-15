@@ -40,7 +40,7 @@
 
    **version** -- The version of your project.
 
-   **python_version** -- The python version, tested with 3.8 - 3.10.
+   **python_version** -- The python version, tested with 3.9 - 3.11.
 
    **add_tox** -- Whether to add configuration files that allow testing of your project
    using tox.
