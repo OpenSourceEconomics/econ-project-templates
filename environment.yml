@@ -47,5 +47,4 @@ dependencies:
   - sphinxcontrib-bibtex
   - pydata-sphinx-theme>=0.3.0
   - myst-parser
-  - pip:
-      - kaleido
+  - python-kaleido

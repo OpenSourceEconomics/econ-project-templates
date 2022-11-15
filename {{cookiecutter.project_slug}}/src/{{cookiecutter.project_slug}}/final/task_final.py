@@ -16,7 +16,7 @@ for group in GROUPS:
     kwargs = {
         "group": group,
         "depends_on": {"predictions": BLD / "predictions" / f"{group}-predicted.csv"},
-        "produces": BLD / "figures" / f"{group}-figure.png",
+        "produces": FIGURES_DIR / f"{group}-figure.png",
     }
 
     @pytask.mark.depends_on(
@@ -35,7 +35,7 @@ for group in GROUPS:
 
 
 @pytask.mark.depends_on(BLD / "models" / "model.pickle")
-@pytask.mark.produces(BLD / "tables" / "estimation_table.tex")
+@pytask.mark.produces(TABLES_DIR / "estimation_table.tex")
 def task_create_estimation_table(depends_on, produces):
     model = load_model(depends_on)
     table = model.summary().as_latex()
