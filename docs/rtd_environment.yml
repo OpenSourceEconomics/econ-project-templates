@@ -3,7 +3,7 @@ channels:
   - nodefaults
 
 dependencies:
-  - python==3.9
+  - python==3.10
   - pip
   - setuptools_scm
   - toml
@@ -23,5 +23,4 @@ dependencies:
   - sphinxcontrib-bibtex
   - pydata-sphinx-theme>=0.3.0
   - myst-parser
-  - pip:
-    - kaleido
+  - python-kaleido

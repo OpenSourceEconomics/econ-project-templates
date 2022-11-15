@@ -45,6 +45,7 @@ dependencies:
   - pandas
   - statsmodels
   - python-graphviz
+  - python-kaleido
 {% if cookiecutter.add_r_example == 'y' %}
   - r-aer
   - r-aod
@@ -57,5 +58,4 @@ dependencies:
 {% endif %}
 
   - pip:
-    - kaleido
     - -e .  # installs the project
