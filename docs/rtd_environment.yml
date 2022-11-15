@@ -9,7 +9,6 @@ dependencies:
   - toml
 
   # Documentation
-  - pytask
   - furo
   - black
   - ipython
@@ -23,6 +22,3 @@ dependencies:
   - sphinxcontrib-bibtex
   - pydata-sphinx-theme>=0.3.0
   - myst-parser
-  - plotly
-  - pip:
-    - kaleido

@@ -17,11 +17,6 @@
 #
 import datetime as dt
 import os
-import subprocess
-
-# Run pytask before build ==============================================================
-subprocess.run(("pytask", "-x"), cwd="scripts")
-# ======================================================================================
 
 
 year = dt.datetime.now().year
