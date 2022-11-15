@@ -1,6 +1,7 @@
 import shutil
 
 import pytask
+from pytask_latex import compilation_steps as cs
 
 from {{cookiecutter.project_slug}}.config import BLD
 from {{cookiecutter.project_slug}}.config import PAPER_DIR
@@ -11,20 +12,28 @@ documents = ["{{cookiecutter.project_slug}}", "{{cookiecutter.project_slug}}_pre
 for document in documents:
 
 
-    @pytask.mark.depends_on(
-        [
-            BLD / "figures" / "marital_status-figure.png",
-            PAPER_DIR / "refs.bib",
-            BLD / "latex" / "estimation_table.tex",
-        ]
-    )
+    {% if cookiecutter.is_ci == 'no' %}
     @pytask.mark.latex(
         script=PAPER_DIR / f"{document}.tex",
-        document=BLD / "latex" / f"{document}.pdf"
+        document=BLD / "latex" / f"{document}.pdf",
+        compilation_steps=cs.latexmk(
+                options=("--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd")
+        )
     )
     @pytask.mark.task(id=document)
     def task_compile_documents():
         pass
+    {% endif %}
+
+    {% if cookiecutter.is_ci == 'yes' %}
+    @pytask.mark.latex(
+        script=PAPER_DIR / f"{document}.tex",
+        document=BLD / "latex" / f"{document}.pdf",
+    )
+    @pytask.mark.task(id=document)
+    def task_compile_documents():
+        pass
+    {% endif %}
 
     kwargs = {
         "depends_on": BLD / "latex" / f"{document}.pdf",

@@ -13,6 +13,7 @@ dependencies:
 
   # Package dependencies
   - cookiecutter
+  - pip
   - pytask>=0.2
   - pytask-latex
   - plotly>=5.5.0
@@ -45,3 +46,5 @@ dependencies:
   - sphinxcontrib-bibtex
   - pydata-sphinx-theme>=0.3.0
   - myst-parser
+  - pip:
+      - kaleido

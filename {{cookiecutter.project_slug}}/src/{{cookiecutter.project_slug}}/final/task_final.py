@@ -1,8 +1,10 @@
 import pandas as pd
 import pytask
 from {{cookiecutter.project_slug}}.config import BLD
+from {{cookiecutter.project_slug}}.config import FIGURES_DIR
 from {{cookiecutter.project_slug}}.config import GROUPS
 from {{cookiecutter.project_slug}}.config import SRC
+from {{cookiecutter.project_slug}}.config import TABLES_DIR
 from {{cookiecutter.project_slug}}.final import plot_regression_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 from {{cookiecutter.project_slug}}.analysis.model import load_model
@@ -33,7 +35,7 @@ for group in GROUPS:
 
 
 @pytask.mark.depends_on(BLD / "models" / "model.pickle")
-@pytask.mark.produces(BLD / "latex" / "estimation_table.tex")
+@pytask.mark.produces(BLD / "tables" / "estimation_table.tex")
 def task_create_estimation_table(depends_on, produces):
     model = load_model(depends_on)
     table = model.summary().as_latex()

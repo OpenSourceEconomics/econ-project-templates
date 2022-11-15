@@ -11,6 +11,8 @@ In case you are unsure about the use(fulness) of :ref:`environments` and
 :ref:`pre_commit_hooks` you will find concise explanations below.
 
 
+.. _starting_from_scratch:
+
 Starting a new project from scratch
 ***********************************
 

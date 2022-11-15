@@ -10,7 +10,3 @@ The design of the project templates is guided by the following main thoughts:
    particular task and to mix tools in a project.
 #. **Separation of inputs and outputs:** Required to find your way around in a complex
    project.
-
-I will not touch upon the last point until the section on how to organise the workflow
-below. The remainder of this page introduces an example and a general concept of how to
-think about the first four points.
