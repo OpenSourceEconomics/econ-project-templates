@@ -98,7 +98,7 @@ def main() -> None:
                 "executable was found."
             )
         else:
-            subprocess.run((conda_exe, "env", "create"), check=True)
+            subprocess.run((conda_exe, "env", "create", "--force"), check=True)
 
 
 if __name__ == "__main__":

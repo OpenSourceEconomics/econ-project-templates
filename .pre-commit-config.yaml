@@ -2,12 +2,12 @@
 exclude: ^(\.|\{\{cookiecutter\.project_slug\}\}/.+)
 repos:
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v2.6.0
+    rev: v3.8.5
     hooks:
       - id: reorder-python-imports
         args: [--unclassifiable-application-module=src]
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
+    rev: v4.3.0
     hooks:
       - id: check-yaml
       - id: check-added-large-files
@@ -20,7 +20,7 @@ repos:
         args: [--autofix, --no-sort-keys, --no-ensure-ascii]
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.31.0
+    rev: v3.1.0
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
@@ -31,12 +31,12 @@ repos:
         additional_dependencies: [black]
         files: '(\.md|\.rst)$'
   - repo: https://github.com/psf/black
-    rev: 22.3.0
+    rev: 22.10.0
     hooks:
       - id: black
         language_version: python3.9
   - repo: https://github.com/PyCQA/flake8
-    rev: 4.0.1
+    rev: 5.0.4
     hooks:
       - id: flake8
         exclude: docs/bld/example/r/r_example/src/documentation/conf.py
