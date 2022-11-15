@@ -1,5 +1,5 @@
 docs/scripts/latex/*.png
-docs/source/figures/generated
+docs/source/figures/generated/
 *-blx.bib
 *.asv
 *.aux
