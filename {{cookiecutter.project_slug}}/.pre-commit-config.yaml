@@ -87,7 +87,7 @@ repos:
     -   id: check-useless-excludes
     # -   id: identity  # Prints all files passed to pre-commits. Debugging.
 
-{% if cookiecutter.example_language == 'r' %}
+{% if cookiecutter.add_r_example == 'r' %}
 # All available hooks: https://pre-commit.com/hooks.html
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:

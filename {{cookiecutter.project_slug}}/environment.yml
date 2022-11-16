@@ -2,7 +2,7 @@ name: {{ cookiecutter.conda_environment_name }}
 channels:
   - conda-forge
   - plotly
-{% if cookiecutter.example_language == 'r' %}
+{% if cookiecutter.add_r_example == 'r' %}
   - r
 {% endif %}
   - nodefaults
@@ -19,13 +19,13 @@ dependencies:
   # Package dependencies
   - pytask>=0.2
   - pytask-latex>=0.2
-{% if cookiecutter.example_language == 'julia' %}
+{% if cookiecutter.add_julia_example == 'julia' %}
   - pytask-julia
 {% endif %}
-{% if cookiecutter.example_language == 'r' %}
+{% if cookiecutter.add_r_example == 'r' %}
   - pytask-r
 {% endif %}
-{% if cookiecutter.example_language == 'stata' %}
+{% if cookiecutter.add_stata_example == 'stata' %}
   - pytask-stata
 {% endif %}
 

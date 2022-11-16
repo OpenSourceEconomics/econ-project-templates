@@ -13,7 +13,10 @@ depends_on = config[["depends_on"]]
 # Main
 # ======================================================================================
 
-data_info = yaml::yaml.load_file(depends_on[["data_info"]])
+source(file.path(config[["SRC"]], "analysis", "predict.R"))
+group = config[["group"]]
+
+model = load_model(depends_on[["model"]])
 data = read.csv(depends_on[["data"]])
-model = fit_logit_model(data, data_info, model_type="linear")
-save(model, produces)
+predicted_prob = predict_prob_by_age(data, model, group)
+write.csv(predicted_prob, produces, row.names=FALSE)

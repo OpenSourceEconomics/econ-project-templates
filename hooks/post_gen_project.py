@@ -28,15 +28,13 @@ def main() -> None:
     """Apply post generation hooks."""
     project_path = Path.cwd()
 
-    example_language = "{{ cookiecutter.example_language }}"
-
     if "{{ cookiecutter.create_changelog }}" == "no":
         remove_file(project_path, "CHANGES.rst")
 
     if "{{ cookiecutter.open_source_license }}" == "Not open source":
         remove_file(project_path, "LICENSE")
 
-    if "{{ cookiecutter.add_tox }}" == "no" or example_language != "python":
+    if "{{ cookiecutter.add_tox }}" == "no":
         remove_directory(project_path, ".github", "workflows")
         remove_file("tox.ini")
 

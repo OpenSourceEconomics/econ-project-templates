@@ -43,11 +43,21 @@
     "yes",
     "no"
   ],
-  "example_language": [
-    "python",
-    "julia",
-    "r",
-    "stata"
+  "add_python_example": [
+    "yes",
+    "no"
+  ],
+  "add_julia_example": [
+    "yes",
+    "no"
+  ],
+  "add_r_example": [
+    "yes",
+    "no"
+  ],
+  "add_stata_example": [
+    "yes",
+    "no"
   ],
   "conda_environment_name": "{{ cookiecutter.project_slug }}",
   "create_conda_environment_at_finish": [
