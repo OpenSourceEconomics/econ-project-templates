@@ -1,7 +1,7 @@
 Your general strategy should be one of **divide and conquer**. If you are not used to
 thinking in computer science / software engineering terms, it will be hard to wrap your
-head around a lot of the things going on. So move one bit of code at a time to the
-template, understand what is going on, and move on.
+head around all of the things that are going on. So move one bit of code at a time to
+the template, understand what is happening and why, and move on.
 
 #. Assuming that you use Git, first move all the code in the existing project to a
    subdirectory called old_code. Commit.

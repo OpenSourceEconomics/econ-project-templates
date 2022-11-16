@@ -4,10 +4,6 @@
 {% if cookiecutter.add_github_actions == "yes" %}.. image:: https://img.shields.io/github/workflow/status/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/main/main
     :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/actions?query=branch%3Amain
 {% endif %}
-{% if cookiecutter.add_readthedocs == "yes" %}.. image:: https://readthedocs.org/projects/{{ cookiecutter.project_slug | replace("_", "-") }}/badge/?version=latest
-    :target: https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
-{% endif %}
 {% if cookiecutter.add_codecov == "yes" %}.. image:: https://codecov.io/gh/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/branch/main/graph/badge.svg
     :target: https://codecov.io/gh/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
 {% endif %}

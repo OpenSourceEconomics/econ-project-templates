@@ -40,7 +40,7 @@
 
    **version** -- The version of your project.
 
-   **python_version** -- The python version, tested with 3.8 - 3.10.
+   **python_version** -- The python version, tested with 3.9 - 3.11.
 
    **add_tox** -- Whether to add configuration files that allow testing of your project
    using tox.
@@ -48,9 +48,6 @@
    **add_github_actions** -- Whether to add GitHub actions configuration files.
 
    **add_mypy** -- Whether to add mypy configuration files.
-
-   **add_readthedocs** -- Whether to add configuration files that allow you to host the
-   documentation of the project on readthedocs.
 
    **add_codecov** -- Whether to add configuration files to collect the testing coverage
    of your project using codecov.
@@ -68,11 +65,24 @@
    **add_r_example** -- Whether to create the example project using the r programming
    language.
 
+   .. warning::
+      The R example project is currently under construction. Help is appreciated!
+      Selecting this option only installs R related packages, including pytask-R, to
+      the environment, and adds R related hooks to .pre-commit-config.yaml.
+
    **add_julia_example** -- Whether to create the example project using the julia
    programming language.
 
+   .. warning::
+      The Julia example project is not implemented yet. Help is appreciated! Selecting
+      this option only installs pytask-Julia to the environment.
+
    **add_stata_example** -- Whether to create the example project using the stata
    programming language.
+
+   .. warning::
+      The Stata example project is not implemented yet. Help is appreciated! Selecting
+      this option only installs pytask-Stata to the environment.
 
    **conda_environment_name** -- Name of your conda environment. This should not be too
    long, since you need to type it often.
@@ -94,9 +104,6 @@
 
    This will activate the newly created conda environment. You have to repeat the last
    step anytime you want to run your project from a new terminal window.
-
-   ..
-     comment:: everytime I close and reopen the project I need to do that?
 
 4. Pre-commit hooks have to be installed in order for them to have an effect. This step
    has to be repeated every time you work on your project **on a new machine**. To

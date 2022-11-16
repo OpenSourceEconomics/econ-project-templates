@@ -9,7 +9,8 @@
   "github_email": "{{ cookiecutter.email }}",
   "git_remote_url": "",
   "version": "0.0.1",
-  "python_version": "3.8",
+  "python_version": "3.11",
+  "is_ci": ["no", "yes"],
   "add_tox": [
     "yes",
     "no"
@@ -19,10 +20,6 @@
     "no"
   ],
   "add_mypy": [
-    "yes",
-    "no"
-  ],
-  "add_readthedocs": [
     "yes",
     "no"
   ],
