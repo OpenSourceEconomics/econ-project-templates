@@ -12,7 +12,6 @@ dependencies:
   - pip >=21.1
   - setuptools_scm
   - toml
-  - conda-build
 
   # Reproducibility
   - conda-lock
@@ -46,6 +45,7 @@ dependencies:
   - pandas
   - statsmodels
   - python-graphviz
+  - python-kaleido
 {% if cookiecutter.add_r_example == 'y' %}
   - r-aer
   - r-aod
@@ -57,17 +57,5 @@ dependencies:
   - r-sandwich
 {% endif %}
 
-  # Documentation
-  - furo
-  - nbsphinx
-  - sphinx
-  - sphinx-autoapi
-  - sphinx-click
-  - sphinx-copybutton
-  - sphinx-panels
-  - sphinxcontrib-bibtex
-
   - pip:
-    - kaleido
     - -e .  # installs the project
-

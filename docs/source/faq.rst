@@ -61,8 +61,9 @@ PATH environmental variable in Windows
 --------------------------------------
 
 In Windows, one has to oftentimes add the programs manually to the *PATH* environmental
-variable in the Advanced System Settings. How to exactly do that see `here
-<https://www.computerhope.com/issues/ch000549.htm>`_
+variable in the Advanced System Settings. See `here
+<https://www.computerhope.com/issues/ch000549.htm>`_ for a detailed explanation of how
+to do that.
 
 .. _path_mac:
 
@@ -119,9 +120,9 @@ editor of choice.
 When cookiecutter exits with an error
 -------------------------------------
 
-If cookiecutter breaks off, you will get a lengthy error message. It is important that
-you work through this and try to understand the error (the language used might seem
-funny, but it is precise...).
+If cookiecutter fails, you will get a lengthy error message. It is important that you
+work through this and try to understand the error (the language used might seem funny,
+but it is precise...).
 
 Then type:
 
@@ -129,13 +130,7 @@ Then type:
 
   $ code ~/.cookiecutter_replay/econ-project-templates-0.5.1.json
 
-..
-  comment:: Do I type this no matter what the error message says?
-
 If you are not using VS Code as your editor of choice, adjust the line accordingly.
-
-..
-  comment:: How do I adjust?
 
 This command should open your editor and show you a json file containing your answers to
 the previously filled out dialogue. You can fix your faulty settings in this file. If
@@ -148,41 +143,6 @@ When done, launch a new shell if necessary and type:
   $ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.5.1.zip
 
 
-
-.. _starting_programs_from_the_command_line:
-
-Starting stats/maths programmes from the shell
-----------------------------------------------
-
-`pytask` needs to be able to start your favourite (data) analysis programme from the
-command line, it might be worthwile trying that out yourself, too. These are the
-programme names that `pytask` looks for:
-
-*   R: ``RScript``, ``Rscript``
-*   Stata
-
-    * Windows: ``StataMP-64``, ``StataMP-ia``, ``StataMP``, ``StataSE-64``,
-      ``StataSE-ia``, ``StataSE``, ``Stata-64``, ``Stata-ia``, ``Stata``, ``WMPSTATA``,
-      ``WSESTATA``, ``WSTATA``
-
-    * MacOS: ``Stata64MP``, ``StataMP``, ``Stata64SE``, ``StataSE``, ``Stata64``,
-      ``Stata``
-    * Linux: ``stata-mp``, ``stata-se``, ``stata``
-
-*   Matlab: ``matlab``
-
-Remember that Mac/Linux are case-sensitive and Windows is not. If you get errors that
-the programme is not found for **all** of the possibilities on your platform, the most
-likely cause is that your path is not set correctly yet. You may check that by typing
-``echo $env:path`` (Windows) or ``echo $PATH`` (Mac/Linux). If the path to the programme
-you need is not included, you can adjust it as detailed above (:ref:`Windows
-<path_windows>`, :ref:`Mac/Linux <path_mac>`).
-
-If the name of your programme is not listed among the possibilities above, please file
-an issue <https://github.com/OpenSourceEconomics/econ-project-templates/issues>`_ on
-GitHub.
-
-
 .. _stata_failure_check_erase_log_file:
 
 Stata failure: FileNotFoundError
@@ -190,15 +150,16 @@ Stata failure: FileNotFoundError
 
 The following failure::
 
-    FileNotFoundError: No such file or directory: '/Users/xxx/econ/econ-project templates/bld/add_variables.log'
+    FileNotFoundError: No such file or directory: '/Users/xxx/econ/econ project templates/bld/add_variables.log'
 
 has a simple solution: **Get rid of all spaces in the path to the project.** (i.e.,
-``econ-project-templates`` instead of ``econ-project templates`` in this case). To do
+``econ-project-templates`` instead of ``econ project templates`` in this case). To do
 so, do **not** rename your user directory, that will cause havoc. Rather move the
 project folder to a different location.
 
 I have not been able to get Stata working with spaces in the path in batch mode, so this
-has nothing to do with Python/Pytask. If anybody finds a solution, please let me know.
+has nothing to do with Python or pytask. If anybody finds a solution, please let me
+know.
 
 
 Stata failure: missing file
