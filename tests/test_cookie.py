@@ -1,4 +1,3 @@
-import os
 import subprocess
 import sys
 
@@ -75,7 +74,6 @@ def test_remove_license(cookies):
 
 
 @pytest.mark.end_to_end
-@pytest.mark.skipif(os.environ.get("CI") is None, reason="Run only in CI.")
 def test_check_conda_environment_creation_and_run_all_checks(cookies):
     """Test that the conda environment is created and pre-commit passes."""
     result = cookies.bake(
@@ -98,12 +96,12 @@ def test_check_conda_environment_creation_and_run_all_checks(cookies):
 
         # Check linting, but not on the first try since formatters fix stuff.
         subprocess.run(
-            ("conda", "run", "-n", "__test__", "pre-commit", "run", "--all-files"),
+            ("bash", "-l", "-c", "conda run -n __test__ pre-commit run --all-files"),
             cwd=result.project_path,
             check=False,
         )
         subprocess.run(
-            ("conda", "run", "-n", "__test__", "pre-commit", "run", "--all-files"),
+            ("bash", "-l", "-c", "conda run -n __test__ pre-commit run --all-files"),
             cwd=result.project_path,
             check=True,
         )
