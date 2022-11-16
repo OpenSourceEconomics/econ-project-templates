@@ -5,7 +5,7 @@ channels:
   - nodefaults
 
 dependencies:
-  - python==3.10
+  - python==3.11
   - pip>=21.1
   - setuptools_scm
   - toml
@@ -19,18 +19,6 @@ dependencies:
   - pandas
   - ipykernel
   - jupyterlab
-
-  # Misc
-  - black
-  - ipython
-  - mypy
-  - pre-commit
-  - pytest
-  - pytest-cov
-  - pytest-xdist
-  - tox-conda
-  - pip:  # pytest-cookiecutter
-      - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
 
   # Documentation
   - furo
@@ -46,3 +34,15 @@ dependencies:
   - sphinxcontrib-bibtex
   - pydata-sphinx-theme>=0.3.0
   - myst-parser
+  - python-kaleido
+
+  # Misc
+  - black
+  - ipython
+  - pre-commit
+  - pytest
+  - pytest-cov
+  - pytest-xdist
+  - tox-conda
+  - pip: # pytest-cookiecutter
+      - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config

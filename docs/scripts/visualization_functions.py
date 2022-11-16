@@ -14,7 +14,7 @@ def visualize_organisational_steps(case):
     """
     fig = go.Figure()
 
-    # define coordinate dimenions
+    # define coordinate dimensions
     fig.add_trace(
         go.Scatter(
             x=[0.75, 4.3],
@@ -85,6 +85,7 @@ def update_fig_with_shape(case, fig):
                 )
     else:
         raise ValueError(
-            "Case must be in {'steps_only_full', 'model_steps_full', 'model_steps_select'}"
+            "Case must be in {'steps_only_full', 'model_steps_full', "
+            "'model_steps_select'}"
         )
     return fig

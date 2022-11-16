@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 def plot_regression_by_age(data, data_info, predictions, group):
     """Plot regression results by age.
-    
+
     Args:
         data (pandas.DataFrame): The data set.
         data_info (dict): Information on data set stored in data_info.yaml. The
@@ -19,10 +19,10 @@ def plot_regression_by_age(data, data_info, predictions, group):
         predictions (pandas.DataFrame): Model predictions for different age values.
         group (str): Categorical column in data set. We create predictions for each
             unique value in column data[group]. Cannot be 'age' or 'smoke'.
-    
+
     Returns:
         plotly.graph_objects.Figure: The figure.
-    
+
     """
     plot_data = predictions.melt(
         id_vars="age",

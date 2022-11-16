@@ -3,30 +3,21 @@
 Getting Started
 ===============
 
-Here, we first describe in :ref:`preparing_your_system` how you need to set up your
-computer so that everything plays well together. In :ref:`cookiecutter_dialogue`, you
-will find detailed explanations on what to do to configure the templates for your needs.
+How to get started depends on what your system looks like. Depending on that, you may
+want to jump to any of the sections in this part of the documentation:
 
-Once you are done with that, you may want to check the section on :ref:`starting a
-project from scratch <starting_from_scratch>` or on :ref:`porting an existing project
-<porting_existing_project>`.
+- In :ref:`preparing_your_system`, we describe what needs to be installed on your
+  computer so that you can use the templates.
+- Should you have done that already for a different project, you can directly go to
+  :ref:`cookiecutter_dialogue`, which describes the options you have when moving from
+  the template to your specific research project.
+- In case a project has been set up by you or a collaborator and you want to use it on a
+  different machine as well, you will find the explanations on how to do so in
+  :ref:`second_machine`.
 
-If you already have the template running but don't know how to use a second
-computer, or work together with a collaborator, you may want to jump directly to the
-section on :ref:`second_machine`.
-
-Finally, we provide some more detailed explainations of :ref:`environments` and
-:ref:`pre_commit_hooks`. You can click through the pages or jump straight to the
-corresponding sections.
-
-
-So, ...
-
-* If you want to first get an idea of whether this is the right thing for you, start by
-  reading through the :ref:`introduction` or the :ref:`example_project` section.
-* If you are hooked already and want to try it out, continue right here with
-  :ref:`preparing_your_system`.
-* If you have done this before, you can jump directly to :ref:`cookiecutter_dialogue`.
+Once you are set up in this fashion, you may want to read up on the background of the
+:ref:`background`. In case you know those already, have a look in
+:ref:`guides_explanations` for guides on starting new projects or porting existing ones.
 
 
 .. _preparing_your_system:
@@ -43,39 +34,6 @@ Customising the template for your needs
 ***************************************
 
 .. include:: cookiecutter_dialogue.rst
-
-
-.. _starting_from_scratch:
-
-Starting a new project from scratch
-***********************************
-
-.. include:: starting_from_scratch.rst
-
-
-.. _porting_existing_project:
-
-Porting an existing project
-***************************
-
-.. include:: porting_existing_project.rst
-
-
-.. _environments:
-
-Environments
-************
-
-.. include:: environments.rst
-
-
-.. _pre_commit_hooks:
-
-Pre-Commit Hooks
-****************
-
-.. include:: hooks.rst
-
 
 .. _second_machine:
 

@@ -43,29 +43,6 @@ def main() -> None:
     if "{{ cookiecutter.add_github_actions }}" == "no":
         remove_directory(project_path, ".github", "workflows")
 
-    if "{{ cookiecutter.add_readthedocs }}" == "no":
-        remove_file(project_path, ".readthedocs.yaml")
-
-    languages_to_remove = {"python", "julia", "r", "stata"}.difference(
-        [example_language]
-    )
-    for language in languages_to_remove:
-        suffix = {
-            "python": "py",
-            "julia": "jl",
-            "r": "r",
-            "stata": "do",
-        }[language]
-
-        for path in project_path.rglob(f"*.{suffix}"):
-            if language == "python":
-                if all(
-                    [x not in path.name for x in ("task_", "config.py", "__init__.py")]
-                ):
-                    remove_file(path)
-            else:
-                remove_file(path)
-
     subprocess.run(("git", "init"), check=True, capture_output=True)
 
     if "{{ cookiecutter.make_initial_commit }}" == "yes":
@@ -98,7 +75,10 @@ def main() -> None:
                 "executable was found."
             )
         else:
-            subprocess.run((conda_exe, "env", "create", "--force"), check=True)
+            subprocess.run(
+                (conda_exe, "env", "create", "--force"),
+                check=True,
+            )
 
 
 if __name__ == "__main__":

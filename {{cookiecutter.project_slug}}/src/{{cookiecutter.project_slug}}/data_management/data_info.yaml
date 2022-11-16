@@ -1,5 +1,4 @@
-url: "https://raw.githubusercontent.com/LOST-STATS/\
-    lost-stats.github.io/source/Model_Estimation/Matching/Data/smoking.csv"
+data_name: "smoking.csv"
 
 columns_to_drop:
     - nationality
