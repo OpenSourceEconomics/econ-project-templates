@@ -2,7 +2,7 @@ name: {{ cookiecutter.conda_environment_name }}
 channels:
   - conda-forge
   - plotly
-{% if cookiecutter.add_r_example == 'r' %}
+{% if cookiecutter.add_r_example == 'yes' %}
   - r
 {% endif %}
   - nodefaults
@@ -19,13 +19,13 @@ dependencies:
   # Package dependencies
   - pytask>=0.2
   - pytask-latex>=0.2
-{% if cookiecutter.add_julia_example == 'julia' %}
+{% if cookiecutter.add_julia_example == 'yes' %}
   - pytask-julia
 {% endif %}
-{% if cookiecutter.add_r_example == 'r' %}
+{% if cookiecutter.add_r_example == 'yes' %}
   - pytask-r
 {% endif %}
-{% if cookiecutter.add_stata_example == 'stata' %}
+{% if cookiecutter.add_stata_example == 'yes' %}
   - pytask-stata
 {% endif %}
 
@@ -37,6 +37,7 @@ dependencies:
   - pytest-xdist
   - tox-conda
 
+  - pdbpp
   - ipykernel
   - jupyterlab
   - pyyaml
@@ -45,17 +46,14 @@ dependencies:
   - statsmodels
   - python-graphviz
   - python-kaleido
-{% if cookiecutter.add_r_example == 'y' %}
-  - r-aer
-  - r-aod
-  - r-base
-  - r-car
-  - r-essentials
-  - r-rjson
-  - r-lmtest
-  - r-sandwich
-  - r-dplyr
-  - r-yaml
+{% if cookiecutter.add_r_example == 'yes' %}
+  - r-plyr
+  - r-reshape2
+  - r-xtable
+  - r-plotly
+  - r-reticulate
+  - r-webshot
+  - phantomjs
 {% endif %}
 
   - pip:

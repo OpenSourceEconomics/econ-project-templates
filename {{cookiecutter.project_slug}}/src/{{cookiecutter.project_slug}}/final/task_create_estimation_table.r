@@ -14,9 +14,6 @@ SRC = depends_on[["SRC"]]
 # Main
 # ======================================================================================
 
-source(file.path(SRC, "data_management", "clean_data.R"))  
-
-data_info = yaml::yaml.load_file(depends_on[["data_info"]])
-data = read.csv(depends_on[["data"]])
-data = clean_data(data, data_info)
-write.csv(data, file=produces, row.names=FALSE)
+model = readRDS(depends_on[["model"]])
+table = xtable::xtable(model)
+print(table, file=produces, compress=FALSE)

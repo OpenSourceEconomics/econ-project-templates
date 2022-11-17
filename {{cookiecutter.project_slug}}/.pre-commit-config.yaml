@@ -33,8 +33,7 @@ repos:
 -   repo: https://github.com/asottile/reorder_python_imports
     rev: v2.7.1
     hooks:
-    -   id: reorder-python-imports{% if cookiecutter.add_mypy == "yes" %}
-        args: [--py37-plus, --add-import, 'from __future__ import annotations']{% endif %}
+    -   id: reorder-python-imports
 -   repo: https://github.com/asottile/setup-cfg-fmt
     rev: v1.20.0
     hooks:
@@ -87,7 +86,7 @@ repos:
     -   id: check-useless-excludes
     # -   id: identity  # Prints all files passed to pre-commits. Debugging.
 
-{% if cookiecutter.add_r_example == 'r' %}
+{% if cookiecutter.add_r_example == 'yes' %}
 # All available hooks: https://pre-commit.com/hooks.html
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:

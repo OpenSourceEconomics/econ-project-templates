@@ -16,7 +16,7 @@
     \resizebox{10cm}{!}{\begin{tikzpicture}[node distance=1cm, auto]
         \node (1) [
             rectangle split,
-            rectangle split parts=8,
+            rectangle split parts=7,
             rectangle split part fill={
                 gray,
                 yellow!75,
@@ -38,16 +38,14 @@
             \nodepart{two}
                 \texttt{bld}
             \nodepart{three}
-                \texttt{docs}
-            \nodepart{four}
                 \texttt{paper}
-            \nodepart{five}
+            \nodepart{four}
                 \texttt{research\_paper.pdf}
-            \nodepart{six}
+            \nodepart{five}
                 \texttt{research\_pres\_30min.pdf}
-            \nodepart{seven}
+            \nodepart{six}
                 \texttt{src}
-            \nodepart{eight}
+            \nodepart{seven}
                 \texttt{tests}
         };
 
@@ -69,14 +67,14 @@
         {
             \nodepart{one}
                 \begin{small}
-                    bld
+                    bld/python
                 \end{small}
             \nodepart{two}
                 \texttt{data}
             \nodepart{three}
                 \texttt{figures}
             \nodepart{four}
-                \texttt{latex}
+                \texttt{tables}
             \nodepart{five}
                 \texttt{models}
             \nodepart{six}
@@ -85,7 +83,7 @@
 
         \node (3) [
             rectangle split,
-            rectangle split parts=9,
+            rectangle split parts=7,
             rectangle split part fill={
                 gray,
                 blue!75,
@@ -109,19 +107,15 @@
             \nodepart{two}
                 \texttt{analysis}
             \nodepart{three}
-                \texttt{data\_management}
+                \texttt{data}
             \nodepart{four}
-                \texttt{final}
+                \texttt{data\_management}
             \nodepart{five}
-                \texttt{config.py}
+                \texttt{final}
             \nodepart{six}
-                \texttt{utilities\{.py,.r,.jl,.do\}}
+                \texttt{config.py}
             \nodepart{seven}
-                \texttt{task\_data\_management.py}
-            \nodepart{eight}
-                \texttt{task\_analysis.py}
-            \nodepart{nine}
-                \texttt{task\_final.py}
+                \texttt{utilities\{.py,.r,.jl,.do\}}
         };
 
         \draw[-, out=14, in=150] (1) to (2);

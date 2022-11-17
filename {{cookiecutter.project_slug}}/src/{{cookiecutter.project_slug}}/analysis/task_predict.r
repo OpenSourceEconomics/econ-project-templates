@@ -8,15 +8,16 @@ config <- yaml::yaml.load_file(path_to_json)
 
 produces = config[["produces"]]
 depends_on = config[["depends_on"]]
+group = config[["group"]]
+SRC = depends_on[["SRC"]]
 
 # ======================================================================================
 # Main
 # ======================================================================================
 
-source(file.path(config[["SRC"]], "analysis", "predict.R"))
-group = config[["group"]]
+source(file.path(SRC, "analysis", "predict.R"))
 
-model = load_model(depends_on[["model"]])
+model = readRDS(depends_on[["model"]])
 data = read.csv(depends_on[["data"]])
 predicted_prob = predict_prob_by_age(data, model, group)
 write.csv(predicted_prob, produces, row.names=FALSE)

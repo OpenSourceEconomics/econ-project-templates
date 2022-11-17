@@ -47,8 +47,6 @@
 
    **add_github_actions** -- Whether to add GitHub actions configuration files.
 
-   **add_mypy** -- Whether to add mypy configuration files.
-
    **add_codecov** -- Whether to add configuration files to collect the testing coverage
    of your project using codecov.
 

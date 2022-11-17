@@ -3,24 +3,27 @@ predict_prob_by_age = function(data, model, group) {
   age_max = max(data[["age"]])
   age_grid = seq(age_min, age_max)
   
-  mode = .mode(df)
+  mode = lapply(data, .mode)
+  mode = data.frame(mode)
   
   new_data = data.frame(age=age_grid)
   
   cols_to_set = setdiff(colnames(data), c(group, "age", "smoke"))
-  new_data = ... # assign mode values to new_data frame
+  new_data = cbind(new_data, mode[cols_to_set])
   
   predicted = list(age=age_grid)
   for (group_value in unique(data[[group]])) {
-    .new_data = copy(new_data)
+    .new_data = data.frame(new_data)  # create a copy
     .new_data[[group]] = group_value
-    predicted[[group]] = predict(model, .new_data)
+    predicted[[group_value]] = predict(model, .new_data, type="response")
   }
   
   predicted = as.data.frame(predicted)
   return(predicted)
 }
 
-.mode = function(df) {
-  return(NULL)
+.mode = function(x) {
+  unique_values <- unique(x)
+  mode = unique_values[which.max(tabulate(match(x, unique_values)))]
+  return(mode)
 }

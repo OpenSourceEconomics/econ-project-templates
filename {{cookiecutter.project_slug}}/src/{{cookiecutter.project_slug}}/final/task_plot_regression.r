@@ -8,15 +8,18 @@ config <- yaml::yaml.load_file(path_to_json)
 
 produces = config[["produces"]]
 depends_on = config[["depends_on"]]
+group = config[["group"]]
 SRC = depends_on[["SRC"]]
 
 # ======================================================================================
 # Main
 # ======================================================================================
 
-source(file.path(SRC, "data_management", "clean_data.R"))  
+source(file.path(SRC, "final", "plot.R"))  
 
-data_info = yaml::yaml.load_file(depends_on[["data_info"]])
 data = read.csv(depends_on[["data"]])
-data = clean_data(data, data_info)
-write.csv(data, file=produces, row.names=FALSE)
+data_info = yaml::yaml.load_file(depends_on[["data_info"]])
+predictions = read.csv(depends_on[["predictions"]])
+
+fig = plot_regression_by_age(data, data_info, predictions, group)
+plotly::export(fig, produces)

@@ -10,16 +10,15 @@
   "git_remote_url": "",
   "version": "0.0.1",
   "python_version": "3.11",
-  "is_ci": ["no", "yes"],
+  "is_ci": [
+    "no",
+    "yes"
+  ],
   "add_tox": [
     "yes",
     "no"
   ],
   "add_github_actions": [
-    "yes",
-    "no"
-  ],
-  "add_mypy": [
     "yes",
     "no"
   ],
