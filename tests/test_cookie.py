@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 
@@ -84,6 +85,7 @@ def test_check_conda_environment_creation_and_run_all_checks(cookies):
             "make_initial_commit": "yes",
             "create_conda_environment_at_finish": "yes",
             "is_ci": "yes",
+            "add_r_examples": "no",
         }
     )
 
@@ -97,14 +99,18 @@ def test_check_conda_environment_creation_and_run_all_checks(cookies):
             ("git", "checkout", "-b", "test"), cwd=result.project_path, check=True
         )
 
+        conda_exe = os.environ["CONDA_EXE"]
+
         # Check linting, but not on the first try since formatters fix stuff.
         subprocess.run(
-            ("bash", "-l", "-c", "conda run -n __test__ pre-commit run --all-files"),
+            (conda_exe, "run", "-n", "__test__", "pre-commit", "run", "--all-files"),
             cwd=result.project_path,
             check=False,
+            env={},
         )
         subprocess.run(
-            ("bash", "-l", "-c", "conda run -n __test__ pre-commit run --all-files"),
+            (conda_exe, "run", "-n", "__test__", "pre-commit", "run", "--all-files"),
             cwd=result.project_path,
             check=True,
+            env={},
         )
