@@ -89,7 +89,7 @@
 
    **open_source_license** -- Whatever you prefer.
 
-   **_is_ci** -- Just ignore, required internally by templates (see issue #).
+   **is_ci** -- Just ignore, required internally by templates (see issue #).
 
    After successfully answering all the prompts, a folder named according to your
    project_slug will be created in your current directory. If you run into trouble,
