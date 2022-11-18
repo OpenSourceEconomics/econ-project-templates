@@ -13,7 +13,6 @@ documents = ["{{cookiecutter.project_slug}}", "{{cookiecutter.project_slug}}_pre
 
 for document in documents:
 
-
     {% if cookiecutter._is_ci == 'no' %}
     @pytask.mark.latex(
         script=PAPER_DIR / f"{document}.tex",
@@ -25,9 +24,8 @@ for document in documents:
     @pytask.mark.task(id=document)
     def task_compile_documents():
         pass
-    {% endif %}
 
-    {% if cookiecutter._is_ci == 'yes' %}
+    {% elif cookiecutter._is_ci == 'yes' %}
     @pytask.mark.latex(
         script=PAPER_DIR / f"{document}.tex",
         document=BLD / "latex" / f"{document}.pdf",

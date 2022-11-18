@@ -118,28 +118,6 @@ language.
 \end{table}
 {% endif %}
 
-{% if cookiecutter.add_r_example == 'yes' %}
-
-\begin{figure}[H]
-    
-    \centering
-    \includegraphics[width=0.85\textwidth]{../r/figures/marital_status-figure}
-    
-    \caption{\emph{R:} Model predictions of the smoking probability over
-       the lifetime. Each colored line represents a case where marital status
-       is fixed to one of the values present in the data set.}
-    \label{fig:r-predictions}
-    
-\end{figure}
-
-\input{../r/tables/estimation_table.tex}
-    \begin{center}
-    Table 2. \emph{R:} Estimation results of the
-    linear Logistic regression.
-\end{center}
-
-{% endif %}
-
 % section introduction (end)
 
 
