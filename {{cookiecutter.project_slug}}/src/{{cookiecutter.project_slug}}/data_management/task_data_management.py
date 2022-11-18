@@ -22,12 +22,11 @@ def task_clean_data_python(depends_on, produces):
 {% endif %}
 
 {% if cookiecutter.add_r_example == 'yes' %}
-@pytask.mark.r(script=SRC / "data_management" / "task_clean_data.r", serializer="yaml")
+@pytask.mark.r(script=SRC / "data_management" / "clean_data.r", serializer="yaml")
 @pytask.mark.depends_on(
     {
         "data_info": SRC / "data_management" / "data_info.yaml",
         "data": SRC / "data" / "data.csv",
-        "SRC": SRC,
     }
 )
 @pytask.mark.produces(BLD / "r" / "data" / "data_clean.csv")

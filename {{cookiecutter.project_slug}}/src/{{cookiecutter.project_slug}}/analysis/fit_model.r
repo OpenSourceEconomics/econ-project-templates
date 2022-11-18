@@ -2,18 +2,29 @@
 # Functions
 # ======================================================================================
 
-clean_data = function(data, data_info) {
-    data[data_info[["columns_to_drop"]]] = NULL
-    data = na.omit(data)
-    for (cat_col in data_info[["categorical_columns"]]) {
-        data[[cat_col]] = as.factor(data[[cat_col]])
+fit_logit_model = function(data, data_info, model_type) {
+    outcome_name = data_info[["outcome"]]
+    outcome_name_numerical = data_info[["outcome_numerical"]]
+    feature_names = setdiff(colnames(data), c(outcome_name, outcome_name_numerical))
+    
+    if (model_type == "linear") {
+        formula = paste(outcome_name_numerical,
+                        "~",
+                        paste(feature_names, collapse = "+"))
+        formula = as.formula(formula)
+    } else {
+        message = "Only 'linear' model_type is supported right now."
+        stop(message)
     }
-    data = plyr::rename(data, data_info[["column_rename_mapping"]])
     
-    numerical_outcome = ifelse(data[[data_info[["outcome"]]]] == "Yes", 1, 0)
-    data[data_info[["outcome_numerical"]]] = numerical_outcome
-    
-    return(data)
+    model = glm(
+        formula,
+        family = "binomial",
+        data = data,
+        model = FALSE,
+        y = FALSE
+    )
+    return(model)
 }
 
 # ======================================================================================
@@ -33,5 +44,5 @@ depends_on = config[["depends_on"]]
 
 data_info = yaml::yaml.load_file(depends_on[["data_info"]])
 data = read.csv(depends_on[["data"]])
-data = clean_data(data, data_info)
-write.csv(data, file = produces, row.names = FALSE)
+model = fit_logit_model(data, data_info, model_type="linear")
+saveRDS(model, file = produces)

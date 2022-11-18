@@ -45,12 +45,11 @@ for group in GROUPS:
 {% endif %}
 
 {% if cookiecutter.add_r_example == 'yes' %}
-@pytask.mark.r(script=SRC / "analysis" / "task_fit_model.r", serializer="yaml")
+@pytask.mark.r(script=SRC / "analysis" / "fit_model.r", serializer="yaml")
 @pytask.mark.depends_on(
     {
         "data": BLD / "r" / "data" / "data_clean.csv",
         "data_info": SRC / "data_management" / "data_info.yaml",
-        "SRC": SRC,
     }
 )
 @pytask.mark.produces(BLD / "r" / "models" / "model.rds")
@@ -69,11 +68,10 @@ for group in GROUPS:
         {
             "data": BLD / "r" / "data" / "data_clean.csv",
             "model": BLD / "r" / "models" / "model.rds",
-            "SRC": SRC,
         }
     )
     @pytask.mark.task(id=group, kwargs=kwargs)
-    @pytask.mark.r(script=SRC /  "analysis" / "task_predict.r", serializer="yaml")
+    @pytask.mark.r(script=SRC /  "analysis" / "predict.r", serializer="yaml")
     def task_predict_r():
         pass
 {% endif %}

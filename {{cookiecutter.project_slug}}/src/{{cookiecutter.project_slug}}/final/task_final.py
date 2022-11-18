@@ -54,18 +54,17 @@ for group in GROUPS:
         {
             "data_info": SRC / "data_management" / "data_info.yaml",
             "data": BLD / "r" / "data" / "data_clean.csv",
-            "SRC": SRC,
         }
     )
     @pytask.mark.task(id=group, kwargs=kwargs)
-    @pytask.mark.r(script=SRC / "final" / "task_plot_regression.r", serializer="yaml")
+    @pytask.mark.r(script=SRC / "final" / "plot_regression.r", serializer="yaml")
     def task_plot_regression_r():
         pass
 
 
 @pytask.mark.depends_on({"model": BLD / "r" / "models" / "model.rds", "SRC": SRC})
 @pytask.mark.produces(BLD / "r" / "tables" / "estimation_table.tex")
-@pytask.mark.r(script=SRC / "final" / "task_create_estimation_table.r", serializer="yaml")
+@pytask.mark.r(script=SRC / "final" / "create_estimation_table.r", serializer="yaml")
 def task_create_estimation_table_r():
     pass
 {% endif %}
