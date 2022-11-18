@@ -16,4 +16,4 @@ SRC = depends_on[["SRC"]]
 
 model = readRDS(depends_on[["model"]])
 table = xtable::xtable(model)
-print(table, file = produces, compress = FALSE)
+print(table, file=produces, compress=FALSE)

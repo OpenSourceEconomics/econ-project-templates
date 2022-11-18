@@ -1,7 +1,7 @@
 import shutil
 
 import pytask
-{% if cookiecutter.is_ci == 'no' %}
+{% if cookiecutter._is_ci == 'no' %}
 from pytask_latex import compilation_steps as cs
 {% endif %}
 
@@ -14,7 +14,7 @@ documents = ["{{cookiecutter.project_slug}}", "{{cookiecutter.project_slug}}_pre
 for document in documents:
 
 
-    {% if cookiecutter.is_ci == 'no' %}
+    {% if cookiecutter._is_ci == 'no' %}
     @pytask.mark.latex(
         script=PAPER_DIR / f"{document}.tex",
         document=BLD / "latex" / f"{document}.pdf",
@@ -27,7 +27,7 @@ for document in documents:
         pass
     {% endif %}
 
-    {% if cookiecutter.is_ci == 'yes' %}
+    {% if cookiecutter._is_ci == 'yes' %}
     @pytask.mark.latex(
         script=PAPER_DIR / f"{document}.tex",
         document=BLD / "latex" / f"{document}.pdf",

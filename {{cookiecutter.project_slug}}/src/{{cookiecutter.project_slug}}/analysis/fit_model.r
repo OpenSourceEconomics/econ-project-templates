@@ -45,4 +45,4 @@ depends_on = config[["depends_on"]]
 data_info = yaml::yaml.load_file(depends_on[["data_info"]])
 data = read.csv(depends_on[["data"]])
 model = fit_logit_model(data, data_info, model_type="linear")
-saveRDS(model, file = produces)
+saveRDS(model, file=produces)

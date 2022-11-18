@@ -38,24 +38,18 @@
 
    **git_remote_url** -- Paste your remote URL here if applicable.
 
+   **make_initial_commit** -- Whether we should make the first commit for you.
+
    **version** -- The version of your project.
 
    **python_version** -- The python version, tested with 3.9 - 3.11.
 
-   **add_tox** -- Whether to add configuration files that allow testing of your project
-   using tox.
+   **conda_environment_name** -- Name of your conda environment. This should not be too
+   long, since you need to type it often.
 
-   **add_github_actions** -- Whether to add GitHub actions configuration files.
-
-   **add_codecov** -- Whether to add configuration files to collect the testing coverage
-   of your project using codecov.
-
-   **create_changelog** -- Whether to create a CHANGES file where contributors note
-   their changes made to the project.
-
-   **open_source_license** -- Whatever you prefer.
-
-   **make_initial_commit** -- Whether we should make the first commit for you.
+   **create_conda_environment_at_finish** -- Just accept the default. If you don't, the
+   same caveat applies as for the *project_slug*. If you really do not want a conda
+   environment, type "x".
 
    **add_python_example** -- Whether to create the example project using the Python
    programming language.
@@ -82,12 +76,20 @@
       The Stata example project is not implemented yet. Help is appreciated! Selecting
       this option only installs pytask-Stata to the environment.
 
-   **conda_environment_name** -- Name of your conda environment. This should not be too
-   long, since you need to type it often.
+   **add_tox** -- Whether to add configuration files that allow testing of your project
+   using tox.
 
-   **create_conda_environment_at_finish** -- Just accept the default. If you don't, the
-   same caveat applies as for the *project_slug*. If you really do not want a conda
-   environment, type "x".
+   **add_github_actions** -- Whether to add GitHub actions configuration files.
+
+   **add_codecov** -- Whether to add configuration files to collect the testing coverage
+   of your project using codecov.
+
+   **create_changelog** -- Whether to create a CHANGES file where contributors note
+   their changes made to the project.
+
+   **open_source_license** -- Whatever you prefer.
+
+   **_is_ci** -- Just ignore, required internally by templates (see issue #).
 
    After successfully answering all the prompts, a folder named according to your
    project_slug will be created in your current directory. If you run into trouble,
