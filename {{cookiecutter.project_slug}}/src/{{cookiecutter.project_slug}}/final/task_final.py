@@ -40,31 +40,3 @@ def task_create_estimation_table_python(depends_on, produces):
     with open(produces, 'w') as f:
         f.writelines(table)
 {% endif %}
-
-{% if cookiecutter.add_r_example == 'yes' %}
-for group in GROUPS:
-
-    kwargs = {
-        "group": group,
-        "depends_on": {"predictions": BLD / "r" / "predictions" / f"{group}-predicted.csv"},
-        "produces": BLD / "r" / "figures" / f"{group}-figure.png",
-    }
-
-    @pytask.mark.depends_on(
-        {
-            "data_info": SRC / "data_management" / "data_info.yaml",
-            "data": BLD / "r" / "data" / "data_clean.csv",
-        }
-    )
-    @pytask.mark.task(id=group, kwargs=kwargs)
-    @pytask.mark.r(script=SRC / "final" / "plot_regression.r", serializer="yaml")
-    def task_plot_regression_r():
-        pass
-
-
-@pytask.mark.depends_on({"model": BLD / "r" / "models" / "model.rds", "SRC": SRC})
-@pytask.mark.produces(BLD / "r" / "tables" / "estimation_table.tex")
-@pytask.mark.r(script=SRC / "final" / "create_estimation_table.r", serializer="yaml")
-def task_create_estimation_table_r():
-    pass
-{% endif %}

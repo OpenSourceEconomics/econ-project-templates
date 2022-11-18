@@ -43,35 +43,3 @@ for group in GROUPS:
         predicted_prob = predict_prob_by_age(data, model, group)
         predicted_prob.to_csv(produces, index=False)
 {% endif %}
-
-{% if cookiecutter.add_r_example == 'yes' %}
-@pytask.mark.r(script=SRC / "analysis" / "fit_model.r", serializer="yaml")
-@pytask.mark.depends_on(
-    {
-        "data": BLD / "r" / "data" / "data_clean.csv",
-        "data_info": SRC / "data_management" / "data_info.yaml",
-    }
-)
-@pytask.mark.produces(BLD / "r" / "models" / "model.rds")
-def task_fit_model_r():
-    pass
-
-
-for group in GROUPS:
-
-    kwargs = {
-        "group": group,
-        "produces": BLD / "r" / "predictions" / f"{group}-predicted.csv",
-    }
-
-    @pytask.mark.depends_on(
-        {
-            "data": BLD / "r" / "data" / "data_clean.csv",
-            "model": BLD / "r" / "models" / "model.rds",
-        }
-    )
-    @pytask.mark.task(id=group, kwargs=kwargs)
-    @pytask.mark.r(script=SRC /  "analysis" / "predict.r", serializer="yaml")
-    def task_predict_r():
-        pass
-{% endif %}
