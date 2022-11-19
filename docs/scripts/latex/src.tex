@@ -23,7 +23,7 @@
                 blue!75,
                 blue!75,
                 blue!75,
-                blue!50,
+                blue!75,
                 blue!50,
                 blue!50,
                 blue!50,
@@ -35,7 +35,7 @@
         {
             \nodepart{one}
                 \begin{small}
-                    src
+                    src/\{project\_slug\}
                 \end{small}
             \nodepart{two}
                 \texttt{analysis}
@@ -51,7 +51,7 @@
                 \texttt{utilities\{.py,.r,.jl,.do\}}
         };
 
-        \node (4) [
+        \node (5) [
             rectangle split,
             rectangle split parts=4,
             rectangle split part fill={
@@ -77,7 +77,7 @@
                 \texttt{data\_info.yaml}
         };
 
-        \node (5) [
+        \node (4) [
             rectangle split,
             rectangle split parts=4,
             rectangle split part fill={
@@ -88,7 +88,7 @@
             },
             draw,
             text width=2.5cm,
-            above=of 4
+            above=of 5
         ]
         {
             \nodepart{one}
@@ -113,7 +113,7 @@
             },
             draw,
             text width=2.5cm,
-            below=of 4
+            below=of 5
         ]
         {
             \nodepart{one}
@@ -127,8 +127,8 @@
         };
 
         \draw[-, out=20, in=165] (3) to (4);
-        \draw[-, out=30, in=165] (3) to (5);
-        \draw[-, out=10, in=165] (3) to (6);
+        \draw[-, out=-2, in=165] (3) to (5);
+        \draw[-, out=-14, in=165] (3) to (6);
     \end{tikzpicture}}
 \end{tiny}
 

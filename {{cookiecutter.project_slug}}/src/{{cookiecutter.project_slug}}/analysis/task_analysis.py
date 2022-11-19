@@ -27,7 +27,7 @@ for group in GROUPS:
 
     kwargs = {
         "group": group,
-        "produces": BLD / "python" / "predictions" / f"{group}-predicted.csv",
+        "produces": BLD / "python" / "predictions" / f"{group}.csv",
     }
 
     @pytask.mark.depends_on(

@@ -26,6 +26,13 @@ for document in documents:
         pass
 
     {% elif cookiecutter.is_ci == 'yes' %}
+    @pytask.mark.depends_on(
+        [
+            BLD / "python" / "figures" / "smoking_by_marital_status.png",
+            PAPER_DIR / "refs.bib",
+            BLD / "python" / "tables" / "estimation_results.tex",
+        ]
+    )
     @pytask.mark.latex(
         script=PAPER_DIR / f"{document}.tex",
         document=BLD / "latex" / f"{document}.pdf",

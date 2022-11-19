@@ -106,8 +106,7 @@ Validating the installation paths
 
        $ code
 
-  If required, do the same for R, Julia or Stata — see :ref:`here
-  <starting_programs_from_the_command_line>` for the precise commands you may need.
+  If required, do the same for R, Julia, or Stata.
 
 
 Validating Git

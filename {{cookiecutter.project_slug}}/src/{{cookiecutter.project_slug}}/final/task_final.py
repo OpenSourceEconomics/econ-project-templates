@@ -13,8 +13,8 @@ for group in GROUPS:
 
     kwargs = {
         "group": group,
-        "depends_on": {"predictions": BLD / "python" / "predictions" / f"{group}-predicted.csv"},
-        "produces": BLD / "python" / "figures" / f"{group}-figure.png",
+        "depends_on": {"predictions": BLD / "python" / "predictions" / f"{group}.csv"},
+        "produces": BLD / "python" / "figures" / f"smoking_by_{group}.png",
     }
 
     @pytask.mark.depends_on(
@@ -33,8 +33,8 @@ for group in GROUPS:
 
 
 @pytask.mark.depends_on(BLD / "python" / "models" / "model.pickle")
-@pytask.mark.produces(BLD / "python" / "tables" / "estimation_table.tex")
-def task_create_estimation_table_python(depends_on, produces):
+@pytask.mark.produces(BLD / "python" / "tables" / "estimation_results.tex")
+def task_create_estimation_results_python(depends_on, produces):
     model = load_model(depends_on)
     table = model.summary().as_latex()
     with open(produces, 'w') as f:
