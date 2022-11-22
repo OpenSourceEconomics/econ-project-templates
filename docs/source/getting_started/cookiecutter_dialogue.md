@@ -3,13 +3,13 @@
 
    Navigate to the parent folder of your future project and type (i.e., copy & paste):
 
-   .. code-block:: console
-
-      $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.5.1.zip
+   ```console
+   $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.5.1.zip
+   ```
 
 2. The dialogue will move you through the installation. **Make sure to keep this page
    side-by-side during the process because if something is invalid, the whole process
-   will break off** (see :ref:`cookiecutter_trouble` on how to recover from there, but
+   will break off** (see {ref}`cookiecutter_trouble` on how to recover from there, but
    no need to push it). *Note that if you don't know how to answer a question, it's
    usually best to accept the default.*
 
@@ -65,24 +65,27 @@
    **add_r_example** -- Whether to create the example project using the r programming
    language.
 
-   .. warning::
-      The R example project is currently under construction. Help is appreciated!
-      Selecting this option only installs R related packages, including pytask-R, to
-      the environment, and adds R related hooks to .pre-commit-config.yaml.
+   :::{warning}
+   The R example project is currently under construction. Help is appreciated!
+   Selecting this option only installs R related packages, including pytask-R, to
+   the environment, and adds R related hooks to .pre-commit-config.yaml.
+   :::
 
    **add_julia_example** -- Whether to create the example project using the julia
    programming language.
 
-   .. warning::
-      The Julia example project is not implemented yet. Help is appreciated! Selecting
-      this option only installs pytask-Julia to the environment.
+   :::{warning}
+   The Julia example project is not implemented yet. Help is appreciated! Selecting
+   this option only installs pytask-Julia to the environment.
+   :::
 
    **add_stata_example** -- Whether to create the example project using the stata
    programming language.
 
-   .. warning::
-      The Stata example project is not implemented yet. Help is appreciated! Selecting
-      this option only installs pytask-Stata to the environment.
+   :::{warning}
+   The Stata example project is not implemented yet. Help is appreciated! Selecting
+   this option only installs pytask-Stata to the environment.
+   :::
 
    **conda_environment_name** -- Name of your conda environment. This should not be too
    long, since you need to type it often.
@@ -93,14 +96,13 @@
 
    After successfully answering all the prompts, a folder named according to your
    project_slug will be created in your current directory. If you run into trouble,
-   please follow the steps explained :ref:`cookiecutter_trouble`
-
+   please follow the steps explained {ref}`cookiecutter_trouble`
 
 3. **Skip this step if you did not opt for the conda environment.** Type:
 
-   .. code-block:: console
-
-     $ conda activate <conda_environment_name>
+   ```console
+   $ conda activate <conda_environment_name>
+   ```
 
    This will activate the newly created conda environment. You have to repeat the last
    step anytime you want to run your project from a new terminal window.
@@ -109,25 +111,24 @@
    has to be repeated every time you work on your project **on a new machine**. To
    install the pre-commit hooks, navigate to the project's folder in the shell and type:
 
-   .. code-block:: console
-
-     $ pre-commit install
+   ```console
+   $ pre-commit install
+   ```
 
 5. Navigate to the folder in the shell and type the following commands into your command
    line to see whether the examples are working:
 
-   .. code-block:: console
+   ```console
+   $ pytask
+   ```
 
-      $ pytask
-
-   ..
-     maybe show how it should look if everything works
+   % maybe show how it should look if everything works
 
    All programs used within this project template need to be found on your path, see
-   above (:ref:`preparing_your_system` and the :ref:`faq`).
+   above ({ref}`preparing_your_system` and the {ref}`faq`).
 
    If all went well, you are now ready to adapt the template to your project.
 
-Depending on what your needs are, move on with the section on :ref:`starting a project
-from scratch <starting_from_scratch>` or on :ref:`porting an existing project
+Depending on what your needs are, move on with the section on {ref}`starting a project
+from scratch <starting_from_scratch>` or on {ref}`porting an existing project
 <porting_existing_project>`.
