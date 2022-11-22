@@ -144,7 +144,7 @@ nbsphinx_prolog = r"""  # noqa: B950
 
     .. nbinfo::
         Download the notebook :download:`here
-        <https://nbviewer.jupyter.org/github/OpenSourceEconomics/econ-project-templates/blob/master/{{ docname }}>`
+        <https://nbviewer.jupyter.org/github/OpenSourceEconomics/econ-project-templates/blob/main/{{ docname }}>`
 """
 
 # -- Options for HTML output ----------------------------------------------

@@ -15,11 +15,11 @@ Templates for Reproducible Research Projects in Economics
 .. image:: https://github.com/OpenSourceEconomics/econ-project-templates/actions/workflows/continuous-integration-workflow.yml/badge.svg
    :target: https://github.com/OpenSourceEconomics/econ-project-templates/actions/workflows/continuous-integration-workflow.yml
 
-.. image:: https://codecov.io/gh/OpenSourceEconomics/econ-project-templates/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/OpenSourceEconomics/econ-project-templates/branch/main/graph/badge.svg
     :target: https://codecov.io/gh/OpenSourceEconomics/econ-project-templates
 
-.. image:: https://results.pre-commit.ci/badge/github/OpenSourceEconomics/econ-project-templates/master.svg
-    :target: https://results.pre-commit.ci/latest/github/OpenSourceEconomics/econ-project-templates/master
+.. image:: https://results.pre-commit.ci/badge/github/OpenSourceEconomics/econ-project-templates/main.svg
+    :target: https://results.pre-commit.ci/latest/github/OpenSourceEconomics/econ-project-templates/main
     :alt: pre-commit.ci status
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
