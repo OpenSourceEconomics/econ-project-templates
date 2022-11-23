@@ -3,22 +3,21 @@
 1. Make sure you have the following programs installed and that these can be found on
    your path. This template requires
 
-- [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda. Windows users:
-  please consult {ref}`windows_user`
+- [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda. Windows users: please
+  consult {ref}`windows_user`
 
-  :::{note}
-  This template is tested with python 3.7 and higher and conda version 4.7.12
-  and higher. Use conda 4.6-4.7.11 at your own risk; conda versions 4.5 and
-  below will not work under any circumstances.
-  :::
+  :::\{note} This template is tested with python 3.7 and higher and conda version 4.7.12
+  and higher. Use conda 4.6-4.7.11 at your own risk; conda versions 4.5 and below will
+  not work under any circumstances. :::
 
-- a modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/), [MacTex](http://tug.org/mactex), or [MikTex](http://miktex.org))
+- a modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
+  [MacTex](http://tug.org/mactex), or [MikTex](http://miktex.org))
 
 - [Git](https://git-scm.com/downloads), windows users please also consult
   {ref}`git_windows`
 
-- The text editor [VS Code](https://code.visualstudio.com/), unless you know what
-  you are doing.
+- The text editor [VS Code](https://code.visualstudio.com/), unless you know what you
+  are doing.
 
 ### Validating the installation paths
 
@@ -52,20 +51,20 @@
   your project (R, Julia, Stata). Otherwise add them by looking up their paths on your
   computer and follow the steps described here {ref}`path_windows` or {ref}`path_mac`.
 
-- If you added any directory to *PATH*, you need to close and reopen your shell, so
-  that this change is implemented.
+- If you added any directory to *PATH*, you need to close and reopen your shell, so that
+  this change is implemented.
 
-- To be on the safe side regarding your paths, you can check directly whether you
-  can launch the programmes. For Python, type:
+- To be on the safe side regarding your paths, you can check directly whether you can
+  launch the programmes. For Python, type:
 
   ```console
   $ python
   >>> exit()
   ```
 
-  This starts python in your shell and exits from it again. The top line should
-  indicate that you are using a Python distribution provided by Anaconda. Here is an
-  example output obtained using Windows PowerShell:
+  This starts python in your shell and exits from it again. The top line should indicate
+  that you are using a Python distribution provided by Anaconda. Here is an example
+  output obtained using Windows PowerShell:
 
   ```text
   Python 3.9.9 | packaged by conda-forge | (main, Dec 20 2021, 02:40:17)
@@ -102,8 +101,9 @@
   $ code
   ```
 
-  If required, do the same for R, Julia or Stata — see {ref}`here
-  <starting_programs_from_the_command_line>` for the precise commands you may need.
+  If required, do the same for R, Julia or Stata — see
+  {ref}`here <starting_programs_from_the_command_line>` for the precise commands you may
+  need.
 
 ### Validating Git
 
@@ -117,7 +117,7 @@
    does not have these special characters (e.g., on Windows, create a directory
    `C:\projects`. Do **not** rename your home directory).
 
-   Type  `git status` , this should yield the output:
+   Type `git status` , this should yield the output:
 
    ```console
    fatal: not a git repository (or any of the parent directories): .git
@@ -125,8 +125,8 @@
 
 ### Installing cookiecutter
 
-4. The template uses [cookiecutter](https://cookiecutter.readthedocs.io/en/latest/)
-   to enable personalized installations. Before you start, install cookiecutter on your
+4. The template uses [cookiecutter](https://cookiecutter.readthedocs.io/en/latest/) to
+   enable personalized installations. Before you start, install cookiecutter on your
    system.
 
    ```console
@@ -136,7 +136,5 @@
    All additional dependencies will be installed into a newly created conda environment
    upon project creation.
 
-   :::{warning}
-   If you do not opt for the conda environment later on, you need to take care of
-   these dependencies by yourself.
-   :::
+   :::\{warning} If you do not opt for the conda environment later on, you need to take
+   care of these dependencies by yourself. :::

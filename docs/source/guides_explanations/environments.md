@@ -3,8 +3,8 @@ time and spending the first {hours, days} updating your code to work with a new 
 of your favourite data analysis library. The same holds for debugging errors that occur
 only because your coauthor uses a slightly different setup.
 
-The solution is to have isolated environments on a per-project basis. [Conda
-environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
+The solution is to have isolated environments on a per-project basis.
+[Conda environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
 allow you to do precisely this. This page describes them a little bit and explains their
 use.
 
@@ -29,7 +29,8 @@ Repeat this step every time you want to run your project from a new terminal win
 
 If you want to create a clean environment we recommended specifying it through an
 environment.yml file. Below we show the contents of an example environment.yml file. A
-detailed explanation is given in the [Conda documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#create-env-file-manually).
+detailed explanation is given in the
+[Conda documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#create-env-file-manually).
 
 ```yaml
 name: <env_name>
@@ -92,8 +93,8 @@ that. For pure-Python packages, sometimes nobody bothered to set up a conda pack
 we use *pip*.
 
 If you add a package under `dependencies:` in the environment.yml file, conda will try
-to install its own package. If you add a package under `pip:`, conda will try to
-install the package via pip.
+to install its own package. If you add a package under `pip:`, conda will try to install
+the package via pip.
 
 ### Information about your conda environments
 
