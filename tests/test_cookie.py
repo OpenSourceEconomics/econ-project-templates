@@ -83,7 +83,6 @@ def test_remove_license(cookies):
     assert not license_.exists()
 
 
-@pytest.mark.skip
 @pytest.mark.end_to_end
 def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(cookies):
     """Test that the conda environment is created and pre-commit passes."""
