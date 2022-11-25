@@ -1,8 +1,15 @@
 import os
+import shutil
 import subprocess
 import sys
 
 import pytest
+
+is_ci = "yes" if os.environ.get("CI", None) == "true" else "no"
+if shutil.which("mamba") is not None:
+    conda_exe = shutil.which("mamba")
+else:
+    conda_exe = shutil.which("conda")
 
 
 @pytest.mark.end_to_end
@@ -36,7 +43,7 @@ def test_remove_readthedocs(cookies):
 
 @pytest.mark.end_to_end
 def test_remove_github_actions(cookies):
-    result = cookies.bake(extra_context={"add_github_actions": "no", "is_ci": "yes"})
+    result = cookies.bake(extra_context={"add_github_actions": "no", "is_ci": is_ci})
 
     ga_config = result.project_path.joinpath(".github", "workflows", "main.yml")
     readme = result.project_path.joinpath("README.rst").read_text()
@@ -50,7 +57,7 @@ def test_remove_github_actions(cookies):
 
 @pytest.mark.end_to_end
 def test_remove_tox(cookies):
-    result = cookies.bake(extra_context={"add_tox": "no", "is_ci": "yes"})
+    result = cookies.bake(extra_context={"add_tox": "no", "is_ci": is_ci})
 
     ga_config = result.project_path.joinpath(".github", "workflows", "main.yml")
     tox = result.project_path.joinpath("tox.ini")
@@ -65,7 +72,7 @@ def test_remove_tox(cookies):
 @pytest.mark.end_to_end
 def test_remove_license(cookies):
     result = cookies.bake(
-        extra_context={"open_source_license": "Not open source", "is_ci": "yes"}
+        extra_context={"open_source_license": "Not open source", "is_ci": is_ci}
     )
 
     license_ = result.project_path.joinpath("LICENSE")
@@ -76,6 +83,7 @@ def test_remove_license(cookies):
     assert not license_.exists()
 
 
+@pytest.mark.skip
 @pytest.mark.end_to_end
 def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(cookies):
     """Test that the conda environment is created and pre-commit passes."""
@@ -84,7 +92,7 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(co
             "conda_environment_name": "__test__",
             "make_initial_commit": "yes",
             "create_conda_environment_at_finish": "yes",
-            "is_ci": "yes",
+            "is_ci": is_ci,
         }
     )
 
@@ -123,7 +131,7 @@ def test_check_conda_environment_creation_for_python_only_and_run_all_checks(coo
             "conda_environment_name": "__test__",
             "make_initial_commit": "yes",
             "create_conda_environment_at_finish": "yes",
-            "is_ci": "yes",
+            "is_ci": is_ci,
             "add_r_examples": "no",
             "add_julia_examples": "no",
             "add_stata_examples": "no",
@@ -139,8 +147,6 @@ def test_check_conda_environment_creation_for_python_only_and_run_all_checks(coo
         subprocess.run(
             ("git", "checkout", "-b", "test"), cwd=result.project_path, check=True
         )
-
-        conda_exe = os.environ["CONDA_EXE"]
 
         # Check linting, but not on the first try since formatters fix stuff.
         subprocess.run(
