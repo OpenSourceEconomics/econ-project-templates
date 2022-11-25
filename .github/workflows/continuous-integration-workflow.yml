@@ -40,11 +40,19 @@ jobs:
 
       - name: Install core dependencies.
         shell: bash -l {0}
-        run: conda install -c conda-forge tox-conda coverage mamba
+        run: conda install -c conda-forge coverage mamba
 
+      - name: Install pytest dependencies.
+        shell: bash -l {0}
+        run: pip install pytest pytest-cov pytest-xdist cookiecutter git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
+          
       - name: Run end-to-end tests.
         shell: bash -l {0}
-        run: tox -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml -n auto
+        run: pytest tests -m end_to_end --cov=./ --cov-report=xml -n auto
+
+      # - name: Run end-to-end tests.
+      #   shell: bash -l {0}
+      #   run: tox -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml -n auto
 
       - name: Upload coverage reports of end-to-end tests.
         if: runner.os == 'Linux' && matrix.python-version == '3.11'

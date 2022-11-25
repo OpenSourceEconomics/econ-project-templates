@@ -5,7 +5,9 @@ import sys
 
 import pytest
 
+
 is_ci = "yes" if os.environ.get("CI", None) == "true" else "no"
+
 if shutil.which("mamba") is not None:
     conda_exe = shutil.which("mamba")
 else:
@@ -84,7 +86,7 @@ def test_remove_license(cookies):
 
 
 @pytest.mark.end_to_end
-def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(cookies):
+def test_check_conda_environment_creation_for_python_only_and_run_all_checks(cookies):
     """Test that the conda environment is created and pre-commit passes."""
     result = cookies.bake(
         extra_context={
@@ -92,6 +94,9 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(co
             "make_initial_commit": "yes",
             "create_conda_environment_at_finish": "yes",
             "is_ci": is_ci,
+            "add_r_examples": "no",
+            "add_julia_examples": "no",
+            "add_stata_examples": "no",
         }
     )
 
@@ -104,8 +109,6 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(co
         subprocess.run(
             ("git", "checkout", "-b", "test"), cwd=result.project_path, check=True
         )
-
-        conda_exe = os.environ["CONDA_EXE"]
 
         # Check linting, but not on the first try since formatters fix stuff.
         subprocess.run(
@@ -123,7 +126,7 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(co
 
 
 @pytest.mark.end_to_end
-def test_check_conda_environment_creation_for_python_only_and_run_all_checks(cookies):
+def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(cookies):
     """Test that the conda environment is created and pre-commit passes."""
     result = cookies.bake(
         extra_context={
@@ -131,9 +134,6 @@ def test_check_conda_environment_creation_for_python_only_and_run_all_checks(coo
             "make_initial_commit": "yes",
             "create_conda_environment_at_finish": "yes",
             "is_ci": is_ci,
-            "add_r_examples": "no",
-            "add_julia_examples": "no",
-            "add_stata_examples": "no",
         }
     )
 
