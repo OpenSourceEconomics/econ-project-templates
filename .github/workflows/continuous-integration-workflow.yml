@@ -52,7 +52,7 @@ jobs:
             
       - name: Run tests
         shell: bash -l {0}
-        run: pytest tests --cov=./ --cov-report=xml -n auto --ignore {{cookiecutter.project_slug}}
+        run: pytest tests --cov=./ --cov-report=xml -n auto --ignore={{cookiecutter.project_slug}}
           
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'

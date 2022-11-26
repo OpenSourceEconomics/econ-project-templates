@@ -125,17 +125,29 @@ def test_check_conda_environment_creation_for_python_only_and_run_all_checks(coo
         )
 
 
+TEST_CONTEXT = [
+    {},  # test all languages
+    {  # test only python
+        "add_r_examples": "no",
+        "add_julia_examples": "no",
+        "add_stata_examples": "no",
+    },
+]
+
+
 @pytest.mark.end_to_end
-def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(cookies):
+@pytest.mark.parametrize("test_context", TEST_CONTEXT)
+def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
+    cookies, test_context
+):
     """Test that the conda environment is created and pre-commit passes."""
-    result = cookies.bake(
-        extra_context={
-            "conda_environment_name": "__test__",
-            "make_initial_commit": "yes",
-            "create_conda_environment_at_finish": "yes",
-            "is_ci": is_ci,
-        }
-    )
+    extra_context = {
+        "conda_environment_name": "__test__",
+        "make_initial_commit": "yes",
+        "create_conda_environment_at_finish": "yes",
+        "is_ci": is_ci,
+    }
+    result = cookies.bake(extra_context={**extra_context, **test_context})
 
     assert result.exit_code == 0
     assert result.exception is None
