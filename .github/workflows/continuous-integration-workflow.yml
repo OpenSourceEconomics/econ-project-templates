@@ -50,6 +50,7 @@ jobs:
         uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: false
+          environment-name: gha-testing
           channels: conda-forge, nodefaults
           extra-specs: |
             python=${{ matrix.python-version }}
