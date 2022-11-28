@@ -3,13 +3,17 @@ A naive way to ensure reproducibility is to have a *workflow script* (do-file, m
 setup would be to have code for each step of the analysis and a loop over both
 categorical variables within each step:
 
-:::\{figure} ../figures/generated/steps_only_full.png :width: 35em :::
+```{figure} ../figures/generated/steps_only_full.png 
+    :width: 35em 
+```
 
 You will still need to manually keep track of whether you need to run a particular step
 after making changes, though. Or you run everything at once, all the time.
 Alternatively, you may have code that runs one step after the other for each variable:
 
-:::\{figure} ../figures/generated/model_steps_full.png :width: 35em :::
+```{figure} ../figures/generated/model_steps_full.png 
+    :width: 35em 
+```
 
 The equivalent comment applies here: Either keep track of which model needs to be run
 after making changes manually, or run everything at once.
@@ -23,7 +27,9 @@ they were...
 The figure shows you that even in this simple example, there are now quite a few parts
 to remember:
 
-:::\{figure} ../figures/generated/model_steps_select.png :width: 35em :::
+```{figure} ../figures/generated/model_steps_select.png 
+    :width: 35em 
+```
 
 This figure assumes that your data management is being done for all models at once,
 which is usually a good choice for me. Nevertheless, we need to remember 6 ways to start

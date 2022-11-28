@@ -39,8 +39,9 @@ Please follow these steps unless you know what you are doing.
    $ conda init
    ```
 
-:::\{warning} If you still run into problems when running conda and python from
-powershell, it is advisable to use the built-in Anaconda Prompt instead. :::
+```{warning} If you still run into problems when running conda and python from
+powershell, it is advisable to use the built-in Anaconda Prompt instead. 
+```
 
 (git_windows)=
 
