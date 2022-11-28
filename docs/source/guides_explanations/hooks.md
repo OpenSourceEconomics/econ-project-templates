@@ -10,13 +10,13 @@ while others work on a specific language. You can find a list of most hooks in t
   universal standard. Blackened code looks the same regardless of the project you're
   reading. Having black as a hook allows you to focus on the content while writing code
   and let the formatting be done automatically before each commit.
-- [check-yaml](https://github.com/pre-commit/pre-commit-hooks): Checks whether all
-  .yaml and .yml files within your project are valid yaml files. Similarly, having
-  check-yaml as a hook allows you to focus on the content while writing yaml files.
-  If you accidentally use a wrong syntax this hook will tell you before you commit.
-- [codespell](https://github.com/codespell-project/codespell): Fixes common
-  misspellings in text files. It's designed primarily for checking misspelled words in
-  source code, but it can be used with other files as well.
+- [check-yaml](https://github.com/pre-commit/pre-commit-hooks): Checks whether all .yaml
+  and .yml files within your project are valid yaml files. Similarly, having check-yaml
+  as a hook allows you to focus on the content while writing yaml files. If you
+  accidentally use a wrong syntax this hook will tell you before you commit.
+- [codespell](https://github.com/codespell-project/codespell): Fixes common misspellings
+  in text files. It's designed primarily for checking misspelled words in source code,
+  but it can be used with other files as well.
 
 If you want to skip the pre-commit hooks for a particular commit, you can run:
 

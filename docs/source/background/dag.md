@@ -1,17 +1,14 @@
-The way to specify dependencies between data, code and tasks to perform for a
-computer is a directed acyclic graph. A graph is simply a set of nodes (files,
-in our case) and edges that connect pairs of nodes (tasks to perform). Directed
-means that the order of how we connect a pair of nodes matters, we thus add
-arrows to all edges. Acyclic means that there are no directed cycles: When you
-traverse a graph in the direction of the arrows, there may not be a way to end
-up at the same node again.
+The way to specify dependencies between data, code and tasks to perform for a computer
+is a directed acyclic graph. A graph is simply a set of nodes (files, in our case) and
+edges that connect pairs of nodes (tasks to perform). Directed means that the order of
+how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic means
+that there are no directed cycles: When you traverse a graph in the direction of the
+arrows, there may not be a way to end up at the same node again.
 
 This is the dependency graph of the example project (open the image in a different
 window to zoom in)
 
-:::{figure} ../figures/dag.png
-:width: 50em
-:::
+:::\{figure} ../figures/dag.png :width: 50em :::
 
 The nodes have different shapes in order to distinguish tasks from files. The rectangles
 denote targets or dependencies like figures, data sets or stored models. The hexagons
@@ -30,10 +27,8 @@ together than this. But such a strategy does not scale to serious papers with ma
 different specifications. As a case in point, consider the DAG for an early version of
 {cite}`Gaudecker2015`:
 
-:::{figure} ../figures/pfefficiency.jpg
-:width: 50em
-:::
+:::\{figure} ../figures/pfefficiency.jpg :width: 50em :::
 
-Do you want to keep those dependencies in your head? Or would it be useful to
-specify them once and for all in order to have more time for thinking about
-research? The next section shows you how to do that.
+Do you want to keep those dependencies in your head? Or would it be useful to specify
+them once and for all in order to have more time for thinking about research? The next
+section shows you how to do that.

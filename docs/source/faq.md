@@ -13,35 +13,34 @@ Please follow these steps unless you know what you are doing.
 1. Download the [Graphical Installer](https://www.anaconda.com/distribution/#windows)
    for Python 3.x.
 
-2. Start the installer and click yourself through the menu. If you have administrator
+1. Start the installer and click yourself through the menu. If you have administrator
    privileges on your computer, it is preferable to install Anaconda for all users.
    Otherwise, you may run into problems when running python from your powershell.
 
-3. Make sure to (only) tick the following box:
+1. Make sure to (only) tick the following box:
 
    - ''Register Anaconda as my default Python 3.x''. Finish installation.
 
-4. Navigate to the folder containing your Anaconda distribution. This folder contains
+1. Navigate to the folder containing your Anaconda distribution. This folder contains
    multiple subfolders. Please add the path to the folder called `condabin` to your
    *PATH* environmental variable. This path should end in `Anaconda3/condabin`. You can
-   add paths to your *PATH* by following these [instructions](https://www.computerhope.com/issues/ch000549.htm).
+   add paths to your *PATH* by following these
+   [instructions](https://www.computerhope.com/issues/ch000549.htm).
 
-5. Please start Windows Powershell in administrator mode, and execute the following:
+1. Please start Windows Powershell in administrator mode, and execute the following:
 
    ```bash
    $ set-executionpolicy remotesigned
    ```
 
-6. Now (re-)open Windows Powershell and initialize it for full conda use by running
+1. Now (re-)open Windows Powershell and initialize it for full conda use by running
 
    ```bash
    $ conda init
    ```
 
-:::{warning}
-If you still run into problems when running conda and python from powershell, it is
-advisable to use the built-in Anaconda Prompt instead.
-:::
+:::\{warning} If you still run into problems when running conda and python from
+powershell, it is advisable to use the built-in Anaconda Prompt instead. :::
 
 (git_windows)=
 
@@ -56,8 +55,9 @@ install this as this makes your life easier.
 ### PATH environmental variable in Windows
 
 In Windows, one has to oftentimes add the programs manually to the *PATH* environmental
-variable in the Advanced System Settings. See [here](https://www.computerhope.com/issues/ch000549.htm) for a detailed explanation of how
-to do that.
+variable in the Advanced System Settings. See
+[here](https://www.computerhope.com/issues/ch000549.htm) for a detailed explanation of
+how to do that.
 
 (path_mac)=
 
@@ -71,8 +71,8 @@ it is hidden from your view by default.
 instead of `.bash_profile`.
 
 I will now provide a step-by-step guide of how to create / adjust this file using the
-editor called `code`. If you are familiar with editing text files, just use your
-editor of choice.
+editor called `code`. If you are familiar with editing text files, just use your editor
+of choice.
 
 1. Open a Terminal and type
 
@@ -83,10 +83,10 @@ editor of choice.
    If you use an editor other than [VS Code](https://code.visualstudio.com/), replace
    `code` by the respective editor.
 
-   If `.bash_profile` already existed, you will see some text at this point. If so,
-   use the arrow keys to scroll all the way to the bottom of the file.
+   If `.bash_profile` already existed, you will see some text at this point. If so, use
+   the arrow keys to scroll all the way to the bottom of the file.
 
-2. Add the following line at the end of the file
+1. Add the following line at the end of the file
 
    ```bash
    export PATH="${PATH}:/path/to/program/inside/package"
@@ -104,7 +104,7 @@ editor of choice.
 
    Similarly for Matlab or the likes.
 
-3. Press `Return` and then `ctrl+o` (= WriteOut = save) and `Return` once more.
+1. Press `Return` and then `ctrl+o` (= WriteOut = save) and `Return` once more.
 
 (cookiecutter_trouble)=
 
@@ -143,9 +143,9 @@ FileNotFoundError: No such file or directory: '/Users/xxx/econ/econ project temp
 ```
 
 has a simple solution: **Get rid of all spaces in the path to the project.** (i.e.,
-`econ-project-templates` instead of `econ project templates` in this case). To do
-so, do **not** rename your user directory, that will cause havoc. Rather move the
-project folder to a different location.
+`econ-project-templates` instead of `econ project templates` in this case). To do so, do
+**not** rename your user directory, that will cause havoc. Rather move the project
+folder to a different location.
 
 I have not been able to get Stata working with spaces in the path in batch mode, so this
 has nothing to do with Python or pytask. If anybody finds a solution, please let me
