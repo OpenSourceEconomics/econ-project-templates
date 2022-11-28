@@ -50,7 +50,7 @@ extensions = [
 ]
 
 # MyST
-myst_enable_extensions = ["dollarmath"]
+myst_enable_extensions = []
 
 
 autoapi_dirs = ["../../hooks"]
