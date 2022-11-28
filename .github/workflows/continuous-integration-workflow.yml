@@ -36,6 +36,7 @@ jobs:
         with:
           environment-file: false
           environment-name: gha-testing
+          use_lockfiles: false
           channels: conda-forge, nodefaults
           extra-specs: |
             python=${{ matrix.python-version }}
