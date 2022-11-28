@@ -74,14 +74,14 @@
    programming language.
 
    ```{warning} The Julia example project is not implemented yet. Help is appreciated!
-   Selecting this option only installs pytask-Julia to the environment. 
+   Selecting this option only installs pytask-Julia to the environment.
    ```
 
    **add_stata_example** -- Whether to create the example project using the stata
    programming language.
 
    ```{warning} The Stata example project is not implemented yet. Help is appreciated!
-   Selecting this option only installs pytask-Stata to the environment. 
+   Selecting this option only installs pytask-Stata to the environment.
    ```
 
    **conda_environment_name** -- Name of your conda environment. This should not be too

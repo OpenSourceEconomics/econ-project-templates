@@ -8,8 +8,10 @@ arrows, there may not be a way to end up at the same node again.
 This is the dependency graph of the example project (open the image in a different
 window to zoom in)
 
-```{figure} ../figures/dag.png 
-    :width: 50em 
+```{figure} ../figures/dag.png
+---
+width: 50em
+---
 ```
 
 The nodes have different shapes in order to distinguish tasks from files. The rectangles
@@ -29,8 +31,10 @@ together than this. But such a strategy does not scale to serious papers with ma
 different specifications. As a case in point, consider the DAG for an early version of
 {cite}`Gaudecker2015`:
 
-```{figure} ../figures/pfefficiency.jpg 
-    :width: 50em 
+```{figure} ../figures/pfefficiency.jpg
+---
+width: 50em
+---
 ```
 
 Do you want to keep those dependencies in your head? Or would it be useful to specify

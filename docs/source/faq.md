@@ -40,7 +40,7 @@ Please follow these steps unless you know what you are doing.
    ```
 
 ```{warning} If you still run into problems when running conda and python from
-powershell, it is advisable to use the built-in Anaconda Prompt instead. 
+powershell, it is advisable to use the built-in Anaconda Prompt instead.
 ```
 
 (git_windows)=

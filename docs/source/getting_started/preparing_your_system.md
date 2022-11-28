@@ -8,7 +8,7 @@
 
   ```{note} This template is tested with python 3.7 and higher and conda version 4.7.12
   and higher. Use conda 4.6-4.7.11 at your own risk; conda versions 4.5 and below will
-  not work under any circumstances. 
+  not work under any circumstances.
   ```
 
 - a modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
@@ -138,5 +138,5 @@
    upon project creation.
 
    ```{warning} If you do not opt for the conda environment later on, you need to take
-   care of these dependencies by yourself. 
+   care of these dependencies by yourself.
    ```
