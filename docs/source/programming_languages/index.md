@@ -12,7 +12,7 @@ The templates support a variety of programming languages.
 The base language is Python, which works out-of-the-box. In this section we show you how
 to use the other languages and explain some language specific caveats.
 
-```{note} 
+```{note}
 - When selecting a language in the cookiecutter {ref}`cookiecutter_dialogue`
 we install all the necessary software needed to use that language for you.
 - The usage of pytask with your chosen language should be illustrated in the
