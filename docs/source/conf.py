@@ -50,7 +50,7 @@ extensions = [
 ]
 
 # MyST
-myst_enable_extensions = ["colon_fence", "deflist", "dollarmath"]
+myst_enable_extensions = []
 
 
 autoapi_dirs = ["../../hooks"]
@@ -96,7 +96,11 @@ html_static_path = ["_static"]
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-source_suffix = ".rst"
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".txt": "restructuredtext",
+    ".md": "markdown",
+}
 
 # The master toctree document.
 master_doc = "index"
