@@ -43,15 +43,14 @@ though.
 Navigating this Documentation
 =============================
 
-.. todo::
-
-   Complete
-
-If you are a complete novice, you should read carefully through the entire documents. We
-suggest starting with the section :ref:`getting_started`. Once you've finished that we
-recommend reading the :ref:`background` section.
-
-
+When starting freshly, go to the next section for finding out how to prepare your
+machine and what is behind all the options in the `cookiecutter
+<https://cookiecutter.readthedocs.io/en/stable/>`_ dialogue that we set up. The
+:ref:`background` section explains many of the design choices; feel free to skip if you
+worked with the templates before. :ref:`guides_explanations` provides some tips and
+tricks and points you to some useful features of helper programmes that come with the
+templates. The documentation follows the Python version of the running example; see
+:ref:`programming_languages` for additional options.
 
 .. toctree::
     :maxdepth: 1
