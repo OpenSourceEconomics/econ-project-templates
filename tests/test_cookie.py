@@ -34,7 +34,7 @@ def test_remove_readthedocs(cookies):
     result = cookies.bake(extra_context={"add_readthedocs": "no"})
 
     rtd_config = result.project_path.joinpath(".readthedocs.yaml")
-    readme = result.project_path.joinpath("README.rst").read_text()
+    readme = result.project_path.joinpath("README.md").read_text()
 
     assert result.exit_code == 0
     assert result.exception is None
@@ -48,7 +48,7 @@ def test_remove_github_actions(cookies):
     result = cookies.bake(extra_context={"add_github_actions": "no", "is_ci": is_ci})
 
     ga_config = result.project_path.joinpath(".github", "workflows", "main.yml")
-    readme = result.project_path.joinpath("README.rst").read_text()
+    readme = result.project_path.joinpath("README.md").read_text()
 
     assert result.exit_code == 0
     assert result.exception is None

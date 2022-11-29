@@ -97,8 +97,7 @@ html_static_path = ["_static"]
 # You can specify multiple suffix as a list of string:
 #
 source_suffix = {
-    ".rst": "restructuredtext",
-    ".txt": "restructuredtext",
+    ".txt": "markdown",
     ".md": "markdown",
 }
 
