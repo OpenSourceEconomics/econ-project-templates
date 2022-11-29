@@ -53,25 +53,29 @@
     \frametitle{heading here}
     \begin{itemize}
         \item<+-> Please cite this template as: \citet{GaudeckerEconProjectTemplates}
-	\item<+-> Example data is taken from \url{https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools}
+    	\item<+-> Example data is taken from \url{https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools}
     \end{itemize}
     \note{~}
 \end{frame}
 
 
+{% if cookiecutter.add_python_example == 'yes' %}
 \begin{frame}[t]
     \begin{figure}[H]
 
         \centering
-        \includegraphics[width=0.5\textwidth]{../figures/marital_status-figure}
+        \includegraphics[width=0.5\textwidth]{../python/figures/smoking_by_marital_status}
 
-        \caption{Model predictions of the smoking probability over the lifetime. Each
-        colored line represents a case where marital status is fixed to one of the
-        values present in the data set.}
-        \label{fig:predictions}
+        \caption{\emph{Python:} Model predictions of the smoking probability over the
+        lifetime. Each colored line represents a case where marital status is fixed to
+        one of the values present in the data set.}
+        \label{fig:python-predictions}
 
     \end{figure}
 \end{frame}
+{% endif %}
+
+
 
 
 % Print black screen only in presentation mode for finishing up.

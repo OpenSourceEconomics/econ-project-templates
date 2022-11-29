@@ -97,8 +97,7 @@ html_static_path = ["_static"]
 # You can specify multiple suffix as a list of string:
 #
 source_suffix = {
-    ".rst": "restructuredtext",
-    ".txt": "restructuredtext",
+    ".txt": "markdown",
     ".md": "markdown",
 }
 
@@ -148,7 +147,7 @@ nbsphinx_prolog = r"""  # noqa: B950
 
     .. nbinfo::
         Download the notebook :download:`here
-        <https://nbviewer.jupyter.org/github/OpenSourceEconomics/econ-project-templates/blob/master/{{ docname }}>`
+        <https://nbviewer.jupyter.org/github/OpenSourceEconomics/econ-project-templates/blob/main/{{ docname }}>`
 """
 
 # -- Options for HTML output ----------------------------------------------

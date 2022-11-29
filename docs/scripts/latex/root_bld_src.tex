@@ -14,119 +14,109 @@
 
 \begin{tiny}
     \resizebox{10cm}{!}{\begin{tikzpicture}[node distance=1cm, auto]
-        \node (1) [
-            rectangle split,
-            rectangle split parts=8,
-            rectangle split part fill={
-                gray,
-                yellow!75,
-                yellow!75,
-                yellow!75,
-                yellow!50,
-                yellow!50,
-                blue!75,
-                blue!75,
-            },
-            draw,
-            text width=4.50cm
-        ]
-        {
-            \nodepart{one}
+            \node (1) [
+                rectangle split,
+                rectangle split parts=6,
+                rectangle split part fill={
+                        gray,
+                        yellow!75,
+                        yellow!50,
+                        yellow!50,
+                        blue!75,
+                        blue!75,
+                    },
+                draw,
+                text width=4.50cm
+            ]
+            {
+                \nodepart{one}
                 \begin{small}
                     project root
                 \end{small}
-            \nodepart{two}
+                \nodepart{two}
                 \texttt{bld}
-            \nodepart{three}
-                \texttt{docs}
-            \nodepart{four}
-                \texttt{paper}
-            \nodepart{five}
-                \texttt{research\_paper.pdf}
-            \nodepart{six}
-                \texttt{research\_pres\_30min.pdf}
-            \nodepart{seven}
+                \nodepart{three}
+                \texttt{\{project\_slug\}.pdf}
+                \nodepart{four}
+                \texttt{\{project\_slug\}\_pres.pdf}
+                \nodepart{five}
                 \texttt{src}
-            \nodepart{eight}
+                \nodepart{six}
                 \texttt{tests}
-        };
+            };
 
-        \node (2) [
-            rectangle split,
-            rectangle split parts=6,
-            rectangle split part fill={
-                gray,
-                yellow!75,
-                yellow!75,
-                yellow!75,
-                yellow!75,
-                yellow!75
-            },
-            draw,
-            text width=2.50cm,
-            right=of 1
-        ]
-        {
-            \nodepart{one}
+            \node (2) [
+                rectangle split,
+                rectangle split parts=6,
+                rectangle split part fill={
+                        gray,
+                        yellow!75,
+                        yellow!75,
+                        yellow!75,
+                        yellow!75,
+                        yellow!75
+                    },
+                draw,
+                text width=2.50cm,
+                right=of 1
+            ]
+            {
+                \nodepart{one}
                 \begin{small}
-                    bld
+                    bld/python
                 \end{small}
-            \nodepart{two}
+                \nodepart{two}
                 \texttt{data}
-            \nodepart{three}
+                \nodepart{three}
                 \texttt{figures}
-            \nodepart{four}
-                \texttt{latex}
-            \nodepart{five}
+                \nodepart{four}
+                \texttt{tables}
+                \nodepart{five}
                 \texttt{models}
-            \nodepart{six}
+                \nodepart{six}
                 \texttt{predictions}
-        };
+            };
 
-        \node (3) [
-            rectangle split,
-            rectangle split parts=9,
-            rectangle split part fill={
-                gray,
-                blue!75,
-                blue!75,
-                blue!75,
-                blue!50,
-                blue!50,
-                blue!50,
-                blue!50,
-                blue!50,
-            },
-            draw,
-            text width=2.50cm,
-            below=of 2
-        ]
-        {
-            \nodepart{one}
+            \node (3) [
+                rectangle split,
+                rectangle split parts=7,
+                rectangle split part fill={
+                        gray,
+                        blue!75,
+                        blue!75,
+                        blue!75,
+                        blue!50,
+                        blue!50,
+                        blue!50,
+                        blue!50,
+                        blue!50,
+                    },
+                draw,
+                text width=2.50cm,
+                below=of 2
+            ]
+            {
+                \nodepart{one}
                 \begin{small}
-                    src
+                    src/\{project\_slug\}
                 \end{small}
-            \nodepart{two}
+                \nodepart{two}
                 \texttt{analysis}
-            \nodepart{three}
+                \nodepart{three}
+                \texttt{data}
+                \nodepart{four}
                 \texttt{data\_management}
-            \nodepart{four}
+                \nodepart{five}
                 \texttt{final}
-            \nodepart{five}
+                \nodepart{six}
                 \texttt{config.py}
-            \nodepart{six}
+                \nodepart{seven}
                 \texttt{utilities\{.py,.r,.jl,.do\}}
-            \nodepart{seven}
-                \texttt{task\_data\_management.py}
-            \nodepart{eight}
-                \texttt{task\_analysis.py}
-            \nodepart{nine}
-                \texttt{task\_final.py}
-        };
+            };
 
-        \draw[-, out=14, in=150] (1) to (2);
-        \draw[-, out=-19, in=140] (1) to (3);
-    \end{tikzpicture}}
+            \draw[-, out=8, in=150] (1) to (2);
+            \draw[-, out=-13, in=140] (1) to (3);
+        \end{tikzpicture}}
 \end{tiny}
 
 \end{document}

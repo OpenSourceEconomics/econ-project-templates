@@ -1,4 +1,4 @@
-data_name: "smoking.csv"
+data_name: "data.csv"
 
 columns_to_drop:
     - nationality

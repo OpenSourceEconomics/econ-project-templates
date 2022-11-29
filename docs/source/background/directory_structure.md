@@ -1,13 +1,16 @@
 ### The big picture
 
 The following graph shows the contents of the example project root directory after
-executing `pytask`:
+executing `pytask`, when you only select the Python example:
 
 ```{figure} ../figures/generated/root_bld_src.png
 ---
 width: 45em
 ---
 ```
+
+All other languages work accordingly, just replace `python` by the respective language
+in the above path.
 
 Files and directories in yellow are constructed by pytask; those with a bluish
 background are added directly by the researcher. You immediately see the **separation of
@@ -16,7 +19,8 @@ inputs** and outputs (one of our guiding principles) at work:
 - All source code is in the src directory
 - All outputs are constructed in the bld directory
 
-```{note} The paper and presentation are moved to the root so they can be opened easily
+```{note} The paper and presentation are copied to the root so they can be opened easily
+
 ```
 
 The contents of both the root/bld and the root/src directories directly follow the steps

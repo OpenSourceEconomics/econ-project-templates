@@ -38,7 +38,7 @@ def plot_regression_by_age(data, data_info, predictions, group):
         x="age",
         y="prediction",
         color=group,
-        labels={"age": "Age", "predictions": "Probability of Smoking"},
+        labels={"age": "Age", "prediction": "Probability of Smoking"},
     )
 
     fig.add_traces(

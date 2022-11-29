@@ -6,15 +6,13 @@
 - [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda. Windows users: please
   consult {ref}`windows_user`
 
-  ```{note} This template is tested with python 3.7 and higher and conda version 4.7.12
-  and higher. Use conda 4.6-4.7.11 at your own risk; conda versions 4.5 and below will
-  not work under any circumstances.
+  ```{note} This template is tested with python 3.9 and higher and conda version 22.9
   ```
 
 - a modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
   [MacTex](http://tug.org/mactex), or [MikTex](http://miktex.org))
 
-- [Git](https://git-scm.com/downloads), windows users please also consult
+- [Git](https://git-scm.com/downloads), Windows users please also consult
   {ref}`git_windows`
 
 - The text editor [VS Code](https://code.visualstudio.com/), unless you know what you
@@ -102,9 +100,7 @@
   $ code
   ```
 
-  If required, do the same for R, Julia or Stata — see
-  {ref}`here <starting_programs_from_the_command_line>` for the precise commands you may
-  need.
+  If required, do the same for R, Julia, or Stata.
 
 ### Validating Git
 

@@ -92,23 +92,31 @@ We consider only 4 of the 12 features for the prediction of the variable
 \texttt{smoking}: \texttt{marital\_status}, \texttt{highest\_qualification},
 \texttt{gender} and \texttt{age}. We model the dependence using a Logistic model. All
 numerical features are included linearly, while categorical features are expanded into
-dummy variables. Figure \ref{fig:predictions} illustrates the model predictions over the
-lifetime.
+dummy variables. Figures below illustrate the model predictions over the lifetime. You
+will find one figure and one estimation summary table for each installed programming
+language.
 
+
+{% if cookiecutter.add_python_example == 'yes' %}
 \begin{figure}[H]
 
     \centering
-    \includegraphics[width=0.85\textwidth]{../figures/marital_status-figure}
+    \includegraphics[width=0.85\textwidth]{../python/figures/smoking_by_marital_status}
 
-    \caption{Model predictions of the smoking probability over the lifetime. Each
-    colored line represents a case where marital status is fixed to one of the values
-    present in the data set.}
-    \label{fig:predictions}
+    \caption{\emph{Python:} Model predictions of the smoking probability over the
+    lifetime. Each colored line represents a case where marital status is fixed to one
+    of the values present in the data set.}
+    \label{fig:python-predictions}
 
 \end{figure}
 
 
-\input{../tables/estimation_table.tex}
+\begin{table}[!h]
+    \input{../python/tables/estimation_results.tex}
+    \caption{\label{tab:python-summary}\emph{Python:} Estimation results of the
+    linear Logistic regression.}
+\end{table}
+{% endif %}
 
 % section introduction (end)
 

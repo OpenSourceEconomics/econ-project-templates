@@ -29,7 +29,7 @@ def main() -> None:
     project_path = Path.cwd()
 
     if "{{ cookiecutter.create_changelog }}" == "no":
-        remove_file(project_path, "CHANGES.rst")
+        remove_file(project_path, "CHANGES.md")
 
     if "{{ cookiecutter.open_source_license }}" == "Not open source":
         remove_file(project_path, "LICENSE")
@@ -40,6 +40,28 @@ def main() -> None:
 
     if "{{ cookiecutter.add_github_actions }}" == "no":
         remove_directory(project_path, ".github", "workflows")
+
+    if "{{ cookiecutter.add_python_example }}" == "no":
+        keep = ["__init__", "task_", "config"]
+        python_files = project_path.rglob("*.py")
+        for file in python_files:
+            if all([k not in file.name for k in keep]):
+                remove_file(file)
+
+    if "{{ cookiecutter.add_julia_example }}" == "no":
+        julia_files = project_path.rglob("*.jl")
+        for file in julia_files:
+            remove_file(file)
+
+    if "{{ cookiecutter.add_r_example }}" == "no":
+        r_files = project_path.rglob("*.r")
+        for file in r_files:
+            remove_file(file)
+
+    if "{{ cookiecutter.add_stata_example }}" == "no":
+        stata_files = project_path.rglob("*.do")
+        for file in stata_files:
+            remove_file(file)
 
     subprocess.run(("git", "init"), check=True, capture_output=True)
 
