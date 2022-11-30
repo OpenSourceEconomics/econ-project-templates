@@ -145,3 +145,16 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
             check=True,
             env={},
         )
+
+    subprocess.run(
+        (conda_exe, "run", "-n", env_name, "pytask", "-x"),
+        cwd=result.project_path,
+        check=True,
+        env={},
+    )
+
+    subprocess.run(
+        (conda_exe, "env", "remove", "-n", env_name),
+        check=True,
+        env={},
+    )
