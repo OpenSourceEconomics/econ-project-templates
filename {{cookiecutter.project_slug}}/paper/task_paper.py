@@ -28,9 +28,11 @@ for document in documents:
     {% elif cookiecutter.is_ci == 'yes' %}
     @pytask.mark.depends_on(
         [
-            BLD / "python" / "figures" / "smoking_by_marital_status.png",
             PAPER_DIR / "refs.bib",
+            {% if cookiecutter.add_python_example == 'yes' %}
+            BLD / "python" / "figures" / "smoking_by_marital_status.png",
             BLD / "python" / "tables" / "estimation_results.tex",
+            {% endif %}
         ]
     )
     @pytask.mark.latex(

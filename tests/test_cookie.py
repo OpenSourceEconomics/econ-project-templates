@@ -86,10 +86,10 @@ def test_remove_license(cookies):
 
 
 TEST_CONTEXT = [
-    ("all", {}),  # test all languages
+    ("all_examples", {}),
     (
         "only_python",
-        {  # test only python
+        {
             "add_r_examples": "no",
             "add_julia_examples": "no",
             "add_stata_examples": "no",
