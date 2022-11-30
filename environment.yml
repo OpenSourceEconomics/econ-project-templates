@@ -9,7 +9,7 @@ dependencies:
   - pip>=21.1
   - setuptools_scm
   - toml
-  - conda-build
+  - micromamba
 
   # Package dependencies
   - cookiecutter

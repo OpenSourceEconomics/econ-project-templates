@@ -101,41 +101,41 @@ language.
 \begin{figure}[H]
 
     \centering
-    \includegraphics[width=0.85\textwidth]{../python/figures/marital_status-figure}
+    \includegraphics[width=0.85\textwidth]{../python/figures/smoking_by_marital_status}
 
     \caption{\emph{Python:} Model predictions of the smoking probability over the
-    lifetime. Each colored line represents a case where marital status is fixed to one
-    of the values present in the data set.}
+        lifetime. Each colored line represents a case where marital status is fixed to one
+        of the values present in the data set.}
     \label{fig:python-predictions}
 
 \end{figure}
 
 
 \begin{table}[!h]
-\input{../python/tables/estimation_table.tex}
-\caption{\label{tab:python-summary}\emph{Python:} Estimation results of the
-linear Logistic regression.}
+    \input{../python/tables/estimation_results.tex}
+    \caption{\label{tab:python-summary}\emph{Python:} Estimation results of the
+        linear Logistic regression.}
 \end{table}
 {% endif %}
 
 {% if cookiecutter.add_r_example == 'yes' %}
 
 \begin{figure}[H]
-    
+
     \centering
-    \includegraphics[width=0.85\textwidth]{../r/figures/marital_status-figure}
-    
+    \includegraphics[width=0.85\textwidth]{../r/figures/smoking_by_marital_status}
+
     \caption{\emph{R:} Model predictions of the smoking probability over
-       the lifetime. Each colored line represents a case where marital status
-       is fixed to one of the values present in the data set.}
+        the lifetime. Each colored line represents a case where marital status
+        is fixed to one of the values present in the data set.}
     \label{fig:r-predictions}
-    
+
 \end{figure}
-    
-\input{../r/tables/estimation_table.tex}
+
+\input{../r/tables/estimation_results.tex}
 \begin{center}
-Table 2. \emph{R:} Estimation results of the
-linear Logistic regression.
+    Table 2. \emph{R:} Estimation results of the
+    linear Logistic regression.
 \end{center}
 
 {% endif %}
