@@ -44,6 +44,8 @@ jobs:
             cookiecutter
             pytest
             pytest-cov
+          condarc-options: |
+            use_lockfiles: false
 
       - name: Install pytest-cookies
         shell: bash -l {0}
@@ -51,7 +53,7 @@ jobs:
 
       - name: Run tests
         shell: bash -l {0}
-        run: pytest tests --cov=hooks --cov=tests --cov-report=xml
+        run: tox -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml -n auto
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
@@ -63,14 +65,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: mamba-org/provision-with-micromamba@main
         with:
-          auto-update-conda: true
-          python-version: 3.9
-
-      - name: Install core dependencies.
-        shell: bash -l {0}
-        run: conda install -c conda-forge tox-conda
+          environment-file: false
+          environment-name: gha-docs
+          channels: conda-forge, nodefaults
+          extra-specs: |
+            python=3.9
+            tox-conda
 
       - name: Build docs
         shell: bash -l {0}
