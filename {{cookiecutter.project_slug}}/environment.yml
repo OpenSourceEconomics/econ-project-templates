@@ -20,13 +20,13 @@ dependencies:
   - pytask>=0.2
   - pytask-latex>=0.2
 {% if cookiecutter.add_julia_example == 'yes' %}
-  - pytask-julia
+  - pytask-julia>=0.2
 {% endif %}
 {% if cookiecutter.add_r_example == 'yes' %}
-  - pytask-r
+  - pytask-r>=0.2
 {% endif %}
 {% if cookiecutter.add_stata_example == 'yes' %}
-  - pytask-stata
+  - pytask-stata>=0.2
 {% endif %}
 
   # Misc
