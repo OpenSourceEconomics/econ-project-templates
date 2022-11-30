@@ -30,7 +30,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-tinytex@v1
 
       - name: Install conda environment with micromamba
         uses: mamba-org/provision-with-micromamba@main
@@ -46,14 +45,13 @@ jobs:
             pytest
             pytest-cov
             tox-conda
-          condarc-options: |
-            use_lockfiles: false
 
       - name: Install pytest-cookies
         shell: bash -l {0}
         run: pip install git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
 
       - name: Run tests
+        uses: r-lib/actions/setup-tinytex@v1
         shell: bash -l {0}
         run: tox -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml
 
