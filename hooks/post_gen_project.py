@@ -1,7 +1,6 @@
 """This module contains hooks which are executed after the template is rendered."""
 from __future__ import annotations
 
-import os
 import shutil
 import subprocess
 import warnings
@@ -86,17 +85,20 @@ def main() -> None:
 
     if "{{ cookiecutter.create_conda_environment_at_finish }}" == "yes":
 
-        conda_exe = os.environ.get("CONDA_EXE")
-
-        if conda_exe is None:
-            warnings.warn(
-                "conda environment could not be created since no conda or mamba "
-                "executable was found."
-            )
+        if _mamba := shutil.which("mamba"):
+            conda_exe = _mamba
         else:
+            conda_exe = shutil.which("conda")
+
+        if conda_exe:
             subprocess.run(
                 (conda_exe, "env", "create", "--force"),
                 check=True,
+            )
+        else:
+            warnings.warn(
+                "conda environment could not be created since no conda or mamba "
+                "executable was found."
             )
 
 
