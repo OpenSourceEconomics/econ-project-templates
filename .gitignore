@@ -72,3 +72,4 @@ ___*
 !.pre-commit-config.yaml
 !.azure-pipelines.yaml
 !.readthedocs.yml
+hooks.egg-info
