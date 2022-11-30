@@ -45,7 +45,6 @@ jobs:
             pytest
             pytest-cov
             tox-conda
-            r-tinytex
 
       - name: Install pytest-cookies
         shell: bash -l {0}
