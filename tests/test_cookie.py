@@ -8,10 +8,7 @@ import pytest
 
 is_ci = "yes" if os.environ.get("CI", None) == "true" else "no"
 
-if shutil.which("mamba") is not None:
-    conda_exe = shutil.which("mamba")
-else:
-    conda_exe = shutil.which("conda")
+conda_exe = os.environ.get("CONDA_EXE")
 
 
 @pytest.mark.end_to_end

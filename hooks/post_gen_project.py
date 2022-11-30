@@ -86,12 +86,7 @@ def main() -> None:
 
     if "{{ cookiecutter.create_conda_environment_at_finish }}" == "yes":
 
-        raise ValueError(f'CONDA_EXE: {os.environ.get("CONDA_EXE")}')
-
-        if shutil.which("mamba") is not None:
-            conda_exe = shutil.which("mamba")
-        else:
-            conda_exe = shutil.which("conda")
+        conda_exe = os.environ.get("CONDA_EXE")
 
         if conda_exe is None:
             warnings.warn(

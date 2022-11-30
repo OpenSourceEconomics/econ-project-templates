@@ -45,6 +45,7 @@ jobs:
             cookiecutter
             pytest
             pytest-cov
+            tox-conda
           condarc-options: |
             use_lockfiles: false
 
