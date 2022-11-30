@@ -1,4 +1,5 @@
 import shutil
+import sys
 
 import pytask
 {% if cookiecutter.is_ci == 'no' %}
@@ -7,6 +8,10 @@ from pytask_latex import compilation_steps as cs
 
 from {{cookiecutter.project_slug}}.config import BLD
 from {{cookiecutter.project_slug}}.config import PAPER_DIR
+
+sys.stdout.write(f"""\n\n\ntask_paper: Checking for latexmk: {shutil.which("latexmk")}\n\n\n""")
+sys.stdout.write(f"""\n\n\ntask_paper: Checking for sys.path: {sys.path}\n\n\n""")
+
 
 
 documents = ["{{cookiecutter.project_slug}}", "{{cookiecutter.project_slug}}_pres"]
