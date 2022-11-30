@@ -121,6 +121,9 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
         f"""\n\n\ntest_cookie: Checking for latexmk: {shutil.which("latexmk")}\n\n\n"""
     )
     sys.stdout.write(f"""\n\n\ntest_cookie: Checking for sys.path: {sys.path}\n\n\n""")
+    sys.stdout.write(
+        f"""\n\n\ntest_cookie: Checking for os.environ["GITHUB_PATH"]: {os.environ.get("GITHUB_PATH", "not present")}\n\n\n"""
+    )
 
     if sys.platform != "win32":
         # Switch branch before pre-commit because otherwise failure because on main

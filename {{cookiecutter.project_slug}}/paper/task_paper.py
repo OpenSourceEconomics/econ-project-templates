@@ -1,3 +1,4 @@
+import os
 import shutil
 import sys
 
@@ -11,7 +12,7 @@ from {{cookiecutter.project_slug}}.config import PAPER_DIR
 
 sys.stdout.write(f"""\n\n\ntask_paper: Checking for latexmk: {shutil.which("latexmk")}\n\n\n""")
 sys.stdout.write(f"""\n\n\ntask_paper: Checking for sys.path: {sys.path}\n\n\n""")
-
+sys.stdout.write(f"""\n\n\ntask_paper: Checking for os.environ["GITHUB_PATH"]: {os.environ.get("GITHUB_PATH", "not present")}\n\n\n""")
 
 
 documents = ["{{cookiecutter.project_slug}}", "{{cookiecutter.project_slug}}_pres"]

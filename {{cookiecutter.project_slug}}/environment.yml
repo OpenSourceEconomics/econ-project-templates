@@ -28,9 +28,6 @@ dependencies:
 {% if cookiecutter.add_stata_example == 'yes' %}
   - pytask-stata>=0.2
 {% endif %}
-{% if cookiecutter.is_ci == 'yes' %}
-  - r-tinytex
-{% endif %}
 
   # Misc
   - black
