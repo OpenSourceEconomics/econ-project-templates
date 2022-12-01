@@ -39,7 +39,7 @@ jobs:
           cache-downloads: true
 
       - name: Run tests
-        run: micromamba run -n gha-testing pytest --cov=./ --cov-report=xml
+        run: micromamba run -n gha-testing pytest -x --cov=./ --cov-report=xml
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
