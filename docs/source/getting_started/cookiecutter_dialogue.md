@@ -89,8 +89,6 @@
 
    **open_source_license** -- Whatever you prefer.
 
-   **is_ci** -- Just ignore, required internally by templates (see issue #).
-
    After successfully answering all the prompts, a folder named according to your
    project_slug will be created in your current directory. If you run into trouble,
    please follow the steps explained {ref}`cookiecutter_trouble`

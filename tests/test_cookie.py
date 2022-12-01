@@ -1,12 +1,9 @@
-import os
 import shutil
 import subprocess
 import sys
 
 import pytest
 
-
-is_ci = "yes" if os.environ.get("CI", None) == "true" else "no"
 
 if _mamba := shutil.which("mamba"):
     conda_exe = _mamba
@@ -45,7 +42,7 @@ def test_remove_readthedocs(cookies):
 
 @pytest.mark.end_to_end
 def test_remove_github_actions(cookies):
-    result = cookies.bake(extra_context={"add_github_actions": "no", "is_ci": is_ci})
+    result = cookies.bake(extra_context={"add_github_actions": "no"})
 
     ga_config = result.project_path.joinpath(".github", "workflows", "main.yml")
     readme = result.project_path.joinpath("README.md").read_text()
@@ -59,7 +56,7 @@ def test_remove_github_actions(cookies):
 
 @pytest.mark.end_to_end
 def test_remove_tox(cookies):
-    result = cookies.bake(extra_context={"add_tox": "no", "is_ci": is_ci})
+    result = cookies.bake(extra_context={"add_tox": "no"})
 
     ga_config = result.project_path.joinpath(".github", "workflows", "main.yml")
     tox = result.project_path.joinpath("tox.ini")
@@ -73,9 +70,7 @@ def test_remove_tox(cookies):
 
 @pytest.mark.end_to_end
 def test_remove_license(cookies):
-    result = cookies.bake(
-        extra_context={"open_source_license": "Not open source", "is_ci": is_ci}
-    )
+    result = cookies.bake(extra_context={"open_source_license": "Not open source"})
 
     license_ = result.project_path.joinpath("LICENSE")
 
@@ -110,7 +105,6 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
         "conda_environment_name": env_name,
         "make_initial_commit": "yes",
         "create_conda_environment_at_finish": "yes",
-        "is_ci": is_ci,
     }
     result = cookies.bake(extra_context={**extra_context, **test_context})
 
