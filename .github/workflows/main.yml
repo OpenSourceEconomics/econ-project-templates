@@ -35,7 +35,7 @@ jobs:
 
       - name: Install additional LaTeX packages
         run: |
-          tlmgr install a4wide beamer biber biblatex afterpage rotating graphicx longtable booktabs tabularx fancyvrb moreverb relsize eurosym calc amssymb amsfonts amsthm bm
+          tlmgr install a4wide beamer biber biblatex afterpage rotating graphicx longtable booktabs tools fancyvrb moreverb relsize eurosym calc amssymb amsfonts amsthm bm caption mdwlist xfrac setspace xcolor subcaption minibox
           tlmgr list --only-installed
 
       - name: Install conda environment with micromamba
