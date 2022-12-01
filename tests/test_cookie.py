@@ -8,9 +8,7 @@ import pytest
 
 is_ci = "yes" if os.environ.get("CI", None) == "true" else "no"
 
-if _micromamba := shutil.which("micromamba"):
-    conda_exe = _micromamba
-elif _mamba := shutil.which("mamba"):
+if _mamba := shutil.which("mamba"):
     conda_exe = _mamba
 else:
     conda_exe = shutil.which("conda")
