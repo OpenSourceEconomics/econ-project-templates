@@ -8,7 +8,9 @@ import pytest
 
 is_ci = "yes" if os.environ.get("CI", None) == "true" else "no"
 
-if _mamba := shutil.which("mamba"):
+if _micromamba := shutil.which("micromamba"):
+    conda_exe = _micromamba
+elif _mamba := shutil.which("mamba"):
     conda_exe = _mamba
 else:
     conda_exe = shutil.which("conda")
@@ -122,7 +124,8 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
     )
     sys.stdout.write(f"""\n\n\ntest_cookie: Checking for sys.path: {sys.path}\n\n\n""")
     sys.stdout.write(
-        f"""\n\n\ntest_cookie: Checking for os.environ["GITHUB_PATH"]: {os.environ.get("GITHUB_PATH", "not present")}\n\n\n"""
+        """\n\n\ntest_cookie: Checking for os.environ["GITHUB_PATH"]: """
+        + f"""{os.environ.get("GITHUB_PATH", "not present")}\n\n\n"""
     )
 
     if sys.platform != "win32":

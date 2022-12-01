@@ -10,7 +10,7 @@
   ```
 
 - a modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
-  [MacTex](http://tug.org/mactex), or [MikTex](http://miktex.org))
+  [MacTex](https://tug.org/mactex/), or [MikTex](https://miktex.org/))
 
 - [Git](https://git-scm.com/downloads), Windows users please also consult
   {ref}`git_windows`

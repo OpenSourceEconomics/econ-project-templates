@@ -19,8 +19,6 @@ jobs:
 
     name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
-    env:
-      CONDA_EXE: mamba
 
     strategy:
       fail-fast: true
@@ -39,9 +37,6 @@ jobs:
           environment-name: gha-testing
           extra-specs: python=${{ matrix.python-version }}
           cache-downloads: true
-
-      - name: check path
-        run: echo "{path}" >> $GITHUB_PATH
 
       - name: Run tests
         run: micromamba run -n gha-testing pytest --cov=./ --cov-report=xml

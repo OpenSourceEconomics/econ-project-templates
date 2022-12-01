@@ -34,7 +34,7 @@ necessary. It is not. _\[although I am always_
 The templates support a variety of programming languages already. They can be easily
 extended to cover others. Everything is tied together by
 [pytask](https://pytask-dev.readthedocs.io), which is written in
-[Python](http://www.python.org/). You do not need to know a lot of Python to use these
+[Python](https://www.python.org/). You do not need to know a lot of Python to use these
 tools, though.
 
 ## Navigating this Documentation
