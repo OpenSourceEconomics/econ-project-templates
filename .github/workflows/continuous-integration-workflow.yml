@@ -35,20 +35,8 @@ jobs:
       - name: Install conda environment with micromamba
         uses: mamba-org/provision-with-micromamba@main
         with:
-          environment-file: false
-          environment-name: gha-testing
-          channels: conda-forge, nodefaults
-          extra-specs: |
-            python=${{ matrix.python-version }}
-            pip
-            mamba
-            cookiecutter
-            pytest
-            pytest-cov
-            tox-conda
-            pip: |
-              tox-current-env
-              git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
+          environment-file: environment.yml
+          extra-specs: python=${{ matrix.python-version }}
 
       - name: check path
         run: echo "{path}" >> $GITHUB_PATH
