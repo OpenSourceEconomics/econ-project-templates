@@ -102,7 +102,7 @@ def main() -> None:
                     "env",
                     "create",
                     "-f",
-                    project_path / "environment.yml",
+                    (project_path / "environment.yml").absolute().as_posix(),
                     "--force",
                 ),
                 check=True,
