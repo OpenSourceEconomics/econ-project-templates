@@ -85,17 +85,17 @@ TEST_CONTEXT = [
     (
         "only_python",
         {
-            "add_r_examples": "no",
-            "add_julia_examples": "no",
-            "add_stata_examples": "no",
+            "add_r_example": "no",
+            "add_julia_example": "no",
+            "add_stata_example": "no",
         },
     ),
     (
         "only_r",
         {
-            "add_python_examples": "no",
-            "add_julia_examples": "no",
-            "add_stata_examples": "no",
+            "add_python_example": "no",
+            "add_julia_example": "no",
+            "add_stata_example": "no",
         },
     ),
 ]
