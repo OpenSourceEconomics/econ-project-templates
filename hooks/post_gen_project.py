@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import sys
 import warnings
 from pathlib import Path
 
@@ -85,10 +86,14 @@ def main() -> None:
 
     if "{{ cookiecutter.create_conda_environment_at_finish }}" == "yes":
 
-        if _mamba := shutil.which("mamba"):
+        if _micromamba := shutil.which("micromamba"):
+            conda_exe = _micromamba
+        elif _mamba := shutil.which("mamba"):
             conda_exe = _mamba
         else:
             conda_exe = shutil.which("conda")
+
+        sys.stdout.write(f"""\n\n\\post_gen_project: conda_exe: {conda_exe}\n\n\n""")
 
         if conda_exe:
             subprocess.run(
