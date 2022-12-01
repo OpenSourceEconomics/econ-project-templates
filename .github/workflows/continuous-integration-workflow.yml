@@ -44,27 +44,32 @@ jobs:
         run: echo "{path}" >> $GITHUB_PATH
 
       - name: Run tests
-        run: micromamba run -n gha-testing tox --current-env --print-deps-only -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml
+        run: micromamba run -n gha-testing pytest --cov=./ --cov-report=xml
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
         uses: codecov/codecov-action@v3
 
-  # docs:
+  docs:
 
-  #   name: Run documentation.
-  #   runs-on: ubuntu-latest
+    name: Run documentation.
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: mamba-org/provision-with-micromamba@main
-  #       with:
-  #         environment-file: false
-  #         environment-name: gha-docs
-  #         channels: conda-forge, nodefaults
-  #         extra-specs: |
-  #           tox-conda
+    steps:
+      - uses: actions/checkout@v2
+      - uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: docs/rtd_environment.yml
+          environment-name: gha-docs
+          cache-downloads: true
 
-  #     - name: Build docs
-  #       shell: bash -l {0}
-  #       run: tox -e sphinx
+      - name: Build docs
+        shell: bash -l {0}
+        working-directory: docs/source
+        run: micromamba run -n gha-docs sphinx-build -T -b html -d ${RUNNER_TEMP}/doctrees . ${RUNNER_TEMP}/html
+
+      - name: Linkcheck
+        shell: bash -l {0}
+        working-directory: docs/source
+        run: micromamba run -n gha-docs sphinx-build -T -b linkcheck -d ${RUNNER_TEMP}/doctrees . ${RUNNER_TEMP}/linkcheck
+

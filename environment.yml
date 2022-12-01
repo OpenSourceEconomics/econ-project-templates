@@ -9,16 +9,15 @@ dependencies:
   - pip>=21.1
   - setuptools_scm
   - toml
-  - mamba
 
   # Package dependencies
   - cookiecutter
   - pytask>=0.2
-  - pytask-latex
-  - plotly>=5.5.0
   - pandas
   - ipykernel
   - jupyterlab
+  - plotly>=5.5.0
+  - python-kaleido
 
   # Documentation
   - furo
@@ -34,15 +33,10 @@ dependencies:
   - sphinxcontrib-bibtex
   - pydata-sphinx-theme>=0.3.0
   - myst-parser
-  - python-kaleido
 
   # Misc
-  - black
-  - ipython
   - pre-commit
   - pytest
   - pytest-cov
-  - tox-conda
-  - pip: # pytest-cookiecutter
-    - tox-current-env
+  - pip:
     - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
