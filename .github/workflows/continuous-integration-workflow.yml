@@ -38,12 +38,13 @@ jobs:
           environment-file: environment.yml
           environment-name: econ-project-templates
           extra-specs: python=${{ matrix.python-version }}
+          cache-downloads: true
 
       - name: check path
         run: echo "{path}" >> $GITHUB_PATH
 
       - name: Run tests
-        run: mamba run -n econ-project-templates tox --current-env -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml
+        run: micromamba run -n econ-project-templates tox --current-env -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
