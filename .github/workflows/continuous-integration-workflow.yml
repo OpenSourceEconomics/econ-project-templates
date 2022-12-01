@@ -36,7 +36,7 @@ jobs:
         uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: environment.yml
-          environment-name: econ-project-templates
+          environment-name: gha-testing
           extra-specs: python=${{ matrix.python-version }}
           cache-downloads: true
 
@@ -44,7 +44,7 @@ jobs:
         run: echo "{path}" >> $GITHUB_PATH
 
       - name: Run tests
-        run: micromamba run -n econ-project-templates tox --current-env -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml
+        run: micromamba run -n gha-testing tox --current-env --print-deps-only -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
