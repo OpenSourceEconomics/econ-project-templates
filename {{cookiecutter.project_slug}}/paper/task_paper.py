@@ -15,7 +15,7 @@ for document in documents:
         script=PAPER_DIR / f"{document}.tex",
         document=BLD / "latex" / f"{document}.pdf",
         compilation_steps=cs.latexmk(
-                options=("--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd")
+                options=("-f", "--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd")
         )
     )
     @pytask.mark.task(id=document)
