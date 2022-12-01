@@ -35,7 +35,7 @@ jobs:
 
       - name: Install additional LaTeX packages
         run: |
-          tlmgr install a4 a4wide beamer biber biblatex caption eurosym grfext minibox moreverb relsize setspace
+          tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb relsize setspace
           tlmgr list --only-installed
 
       - name: Install conda environment with micromamba
