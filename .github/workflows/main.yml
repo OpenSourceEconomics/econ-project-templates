@@ -27,8 +27,16 @@ jobs:
         python-version: ['3.9'] #, '3.10', '3.11']
 
     steps:
+
       - uses: actions/checkout@v3
-      - uses: r-lib/actions/setup-tinytex@v2
+
+      - name: Insall TinyTex
+        uses: r-lib/actions/setup-tinytex@v2
+
+      - name: Install additional LaTeX packages
+        run: |
+          tlmgr install a4wide
+          tlmgr list --only-installed
 
       - name: Install conda environment with micromamba
         uses: mamba-org/provision-with-micromamba@main
