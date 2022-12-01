@@ -31,18 +31,17 @@ for some immediate and clearly defined tasks.
    *inner project* is.
 
 1. We validate contributions in three ways. First, we have a test suite to check the
-   implementation of respy. Second, we correct for stylistic errors in code and
+   implementation the templates. Second, we correct for stylistic errors in code and
    documentation using linters. Third, we test whether the documentation builds
    successfully.
 
-   You can run all checks with `tox` by running
+   You can run all checks with `pytest` by running
 
    ```console
-   $ tox
+   $ pytest
    ```
 
-   This will run the complete test suite. To run only a subset of the suite you can use
-   the environments, `pytest`, `pre-commit` and `sphinx`, with the `-e` flag of tox.
+   This will run the complete test suite.
 
    Correct any errors displayed in the terminal.
 

@@ -21,9 +21,9 @@ This code base aims to provide two stepping stones to assist you in achieving th
    structure time and again, which typically happens when incrementally building up a
    new project. Put differently, instead of starting from scratch, you modify an example
    for your needs.
-1. A pre-configured instance of [pytask](https://pytask-dev.readthedocs.io), which
-   facilitates the reproducibility of your research findings from the beginning to the
-   end by letting the computer handle the project's workflow.
+1. A pre-configured instance of [pytask](https://pytask-dev.readthedocs.io/en/stable/),
+   which facilitates the reproducibility of your research findings from the beginning to
+   the end by letting the computer handle the project's workflow.
 
 The first should lure you in quickly. The second should convince you to stick to the
 tools in the long run – unless you have fought with large research projects before, at
@@ -33,8 +33,8 @@ necessary. It is not. _\[although I am always_
 
 The templates support a variety of programming languages already. They can be easily
 extended to cover others. Everything is tied together by
-[pytask](https://pytask-dev.readthedocs.io), which is written in
-[Python](http://www.python.org/). You do not need to know a lot of Python to use these
+[pytask](https://pytask-dev.readthedocs.io/en/stable/), which is written in
+[Python](https://www.python.org/). You do not need to know a lot of Python to use these
 tools, though.
 
 ## Navigating this Documentation

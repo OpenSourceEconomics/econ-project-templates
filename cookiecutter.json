@@ -29,6 +29,9 @@
     "GNU General Public License v3",
     "Not open source"
   ],
-  "is_ci": ["no", "yes"],
-  "_copy_without_render": [".github/workflows/main.yml", "*.bib", "*.ipynb"]
+  "_copy_without_render": [
+    ".github/workflows/main.yml",
+    "*.bib",
+    "*.ipynb"
+  ]
 }

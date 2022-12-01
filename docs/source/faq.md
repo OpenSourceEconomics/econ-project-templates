@@ -10,7 +10,7 @@
 
 Please follow these steps unless you know what you are doing.
 
-1. Download the [Graphical Installer](https://www.anaconda.com/distribution/#windows)
+1. Download the [Graphical Installer](https://www.anaconda.com/products/distribution)
    for Python 3.x.
 
 1. Start the installer and click yourself through the menu. If you have administrator

@@ -1,7 +1,7 @@
-[pytask](https://pytask-dev.readthedocs.io) is our tool of choice to automate the
-dependency tracking via a DAG (directed acyclic graph) structure. It has been written by
-Uni Bonn alumnus [Tobias Raabe](https://github.com/tobiasraabe) out of frustration with
-other tools.
+[pytask](https://pytask-dev.readthedocs.io/en/stable/) is our tool of choice to automate
+the dependency tracking via a DAG (directed acyclic graph) structure. It has been
+written by Uni Bonn alumnus [Tobias Raabe](https://github.com/tobiasraabe) out of
+frustration with other tools.
 
 pytask is inspired by pytest and leverages the same plugin system. If you are familiar
 with pytest, getting started with pytask should be a very smooth process.
@@ -9,9 +9,9 @@ with pytest, getting started with pytask should be a very smooth process.
 pytask will look for Python scripts named `task_[specifier].py` in all subdirectories of
 your project. Within those scripts, it will execute functions that start with `task_`.
 
-Have a look at its excellent [documentation](https://pytask-dev.readthedocs.io). At
-present, there are additional plugins to run
-[R scripts](https://github.com/pytask-dev/pytask-r),
+Have a look at its excellent
+[documentation](https://pytask-dev.readthedocs.io/en/stable/). At present, there are
+additional plugins to run [R scripts](https://github.com/pytask-dev/pytask-r),
 [Julia scripts](https://github.com/pytask-dev/pytask-julia),
 [Stata do-files](https://github.com/pytask-dev/pytask-stata), and to compile
 [documents via LaTeX](https://github.com/pytask-dev/pytask-latex).
@@ -41,4 +41,5 @@ From a high-level perspective, pytask works in the following way:
    - These gains are large enough to make projects break or succeed.
 
 We have just touched upon the tip of the iceberg here; pytask has many more goodies to
-offer. Its [documentation](https://pytask-dev.readthedocs.io) is an excellent source.
+offer. Its [documentation](https://pytask-dev.readthedocs.io/en/stable/) is an excellent
+source.

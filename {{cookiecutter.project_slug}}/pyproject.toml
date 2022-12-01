@@ -7,6 +7,4 @@ write_to = "src/{{ cookiecutter.project_slug }}/_version.py"
 
 [tool.pytask.ini_options]
 paths = ["./src/{{ cookiecutter.project_slug }}", "./paper"]
-{% if cookiecutter.is_ci == "no" %}
 infer_latex_dependencies = true
-{% endif %}
