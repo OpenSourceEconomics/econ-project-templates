@@ -36,33 +36,34 @@ jobs:
         uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: environment.yml
+          environment-name: econ-project-templates
           extra-specs: python=${{ matrix.python-version }}
 
       - name: check path
         run: echo "{path}" >> $GITHUB_PATH
 
       - name: Run tests
-        run: tox --current-env -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml
+        run: mamba run -n econ-project-templates tox --current-env -e pytest -- tests -m end_to_end --cov=./ --cov-report=xml
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
         uses: codecov/codecov-action@v3
 
-  docs:
+  # docs:
 
-    name: Run documentation.
-    runs-on: ubuntu-latest
+  #   name: Run documentation.
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: mamba-org/provision-with-micromamba@main
-        with:
-          environment-file: false
-          environment-name: gha-docs
-          channels: conda-forge, nodefaults
-          extra-specs: |
-            tox-conda
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: mamba-org/provision-with-micromamba@main
+  #       with:
+  #         environment-file: false
+  #         environment-name: gha-docs
+  #         channels: conda-forge, nodefaults
+  #         extra-specs: |
+  #           tox-conda
 
-      - name: Build docs
-        shell: bash -l {0}
-        run: tox -e sphinx
+  #     - name: Build docs
+  #       shell: bash -l {0}
+  #       run: tox -e sphinx
