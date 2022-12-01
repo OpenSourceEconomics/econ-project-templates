@@ -13,8 +13,7 @@ from {{cookiecutter.project_slug}}.config import PAPER_DIR
 sys.stdout.write(f"""\n\n\ntask_paper: Checking for latexmk: {shutil.which("latexmk")}\n\n\n""")
 sys.stdout.write(f"""\n\n\ntask_paper: Checking for sys.path: {sys.path}\n\n\n""")
 sys.stdout.write(
-    """\n\n\ntask_paper: Checking for os.environ["GITHUB_PATH"]:"""
-    +f"""{os.environ.get("GITHUB_PATH", "not present")}\n\n\n"""
+    f"""\n\n\ntask_paper: os.environ: {os.environ}\n\n\n"""
 )
 
 
