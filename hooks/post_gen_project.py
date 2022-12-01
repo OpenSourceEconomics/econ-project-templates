@@ -97,8 +97,16 @@ def main() -> None:
 
         if conda_exe:
             subprocess.run(
-                (conda_exe, "env", "create", "--force"),
+                (
+                    conda_exe,
+                    "env",
+                    "create",
+                    "-f",
+                    project_path / "environment.yml",
+                    "--force",
+                ),
                 check=True,
+                capture_output=True,
             )
         else:
             warnings.warn(
