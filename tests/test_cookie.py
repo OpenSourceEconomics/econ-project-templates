@@ -105,7 +105,7 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
 ):
     """Test that the conda environment is created and pre-commit passes."""
 
-    env_name = "__test__" + name
+    env_name = f"__test__{name}__"
     extra_context = {
         "conda_environment_name": env_name,
         "make_initial_commit": "yes",
@@ -151,7 +151,6 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
         (conda_exe, "run", "-n", env_name, "pytask", "-x"),
         cwd=result.project_path,
         check=True,
-        env={},
     )
 
     subprocess.run(
