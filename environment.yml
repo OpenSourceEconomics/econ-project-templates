@@ -9,7 +9,7 @@ dependencies:
   - pip>=21.1
   - setuptools_scm
   - toml
-  - micromamba
+  - mamba
 
   # Package dependencies
   - cookiecutter
@@ -42,7 +42,7 @@ dependencies:
   - pre-commit
   - pytest
   - pytest-cov
-  - pytest-xdist
   - tox-conda
   - pip: # pytest-cookiecutter
-      - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
+    - tox-current-env
+    - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
