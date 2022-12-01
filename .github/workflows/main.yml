@@ -52,7 +52,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: mamba-org/provision-with-micromamba@main
+      - name: Install conda environment with micromamba
+        uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: docs/rtd_environment.yml
           environment-name: gha-docs

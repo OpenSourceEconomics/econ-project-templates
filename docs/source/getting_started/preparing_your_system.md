@@ -3,8 +3,8 @@
 1. Make sure you have the following programs installed and that these can be found on
    your path. This template requires
 
-- [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda. Windows users: please
-  consult {ref}`windows_user`
+- [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or Anaconda. Windows
+  users: please consult {ref}`windows_user`
 
   ```{note} This template is tested with python 3.9 and higher and conda version 22.9
   ```
