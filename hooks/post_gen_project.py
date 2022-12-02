@@ -4,24 +4,21 @@ from __future__ import annotations
 import shutil
 import subprocess
 import warnings
+from contextlib import suppress
 from pathlib import Path
 
 
 def remove_file(*filepath: str | Path) -> None:
     """Remove a file."""
-    try:
+    with suppress(FileNotFoundError):
         Path(*filepath).unlink()
-    except FileNotFoundError:
-        pass
 
 
 def remove_directory(*filepath: str | Path) -> None:
     """Remove a directory."""
-    try:
+    with suppress(FileNotFoundError):
         path = Path(*filepath)
         shutil.rmtree(path)
-    except FileNotFoundError:
-        pass
 
 
 def main() -> None:
@@ -63,7 +60,9 @@ def main() -> None:
         for file in stata_files:
             remove_file(file)
 
-    subprocess.run(("git", "init"), check=True, capture_output=True)
+    subprocess.run(
+        ("git", "init", "--initial-branch", "main"), check=True, capture_output=True
+    )
 
     if "{{ cookiecutter.make_initial_commit }}" == "yes":
         # Create an initial commit on the main branch and restore global default name.
@@ -81,7 +80,6 @@ def main() -> None:
             check=True,
             capture_output=True,
         )
-        subprocess.run(("git", "branch", "-m", "main"), check=True)
 
     if "{{ cookiecutter.create_conda_environment_at_finish }}" == "yes":
 
