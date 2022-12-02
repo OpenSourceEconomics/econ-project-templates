@@ -76,6 +76,23 @@
 {% endif %}
 
 
+{% if cookiecutter.add_r_example == 'yes' %}
+\begin{frame}[t]
+    \begin{figure}[H]
+
+        \centering
+        \includegraphics[width=0.5\textwidth]{../r/figures/smoking_by_marital_status}
+
+        \caption{\emph{R:} Model predictions of the smoking probability over the
+        lifetime. Each colored line represents a case where marital status is fixed to
+        one of the values present in the data set.}
+        \label{fig:r-predictions}
+
+    \end{figure}
+\end{frame}
+{% endif %}
+
+
 % Print black screen only in presentation mode for finishing up.
 \mode<beamer> {
     \beamersetaveragebackground{black}

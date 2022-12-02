@@ -91,6 +91,14 @@ TEST_CONTEXT = [
             "add_stata_example": "no",
         },
     ),
+    (
+        "only_r",
+        {
+            "add_python_example": "no",
+            "add_julia_example": "no",
+            "add_stata_example": "no",
+        },
+    ),
 ]
 
 

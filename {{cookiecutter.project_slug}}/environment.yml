@@ -46,6 +46,15 @@ dependencies:
   - statsmodels
   - python-graphviz
   - python-kaleido
+{% if cookiecutter.add_r_example == 'yes' %}
+  - r-plyr
+  - r-reshape2
+  - r-xtable
+  - r-plotly
+  - r-reticulate
+  - r-webshot
+  - phantomjs
+{% endif %}
 
   - pip:
     - -e .  # installs the project
