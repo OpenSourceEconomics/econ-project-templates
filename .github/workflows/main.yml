@@ -11,23 +11,20 @@ on:
       - main
   pull_request:
     branches:
-    - '*'
+      - "*"
 
 jobs:
-
   run-tests:
-
     name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-        python-version: ['3.9', '3.10', '3.11']
+        os: ["ubuntu-latest"] #, 'macos-latest', 'windows-latest']
+        python-version: ["3.9"] #, '3.10', '3.11']
 
     steps:
-
       - uses: actions/checkout@v3
 
       - name: Install TinyTex
@@ -53,27 +50,26 @@ jobs:
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
         uses: codecov/codecov-action@v3
 
-  docs:
+  # docs:
 
-    name: Run documentation.
-    runs-on: ubuntu-latest
+  #   name: Run documentation.
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install conda environment with micromamba
-        uses: mamba-org/provision-with-micromamba@main
-        with:
-          environment-file: docs/rtd_environment.yml
-          environment-name: gha-docs
-          cache-downloads: true
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Install conda environment with micromamba
+  #       uses: mamba-org/provision-with-micromamba@main
+  #       with:
+  #         environment-file: docs/rtd_environment.yml
+  #         environment-name: gha-docs
+  #         cache-downloads: true
 
-      - name: Build docs
-        shell: bash -l {0}
-        working-directory: docs/source
-        run: micromamba run -n gha-docs sphinx-build -T -b html -d ${RUNNER_TEMP}/doctrees . ${RUNNER_TEMP}/html
+  #     - name: Build docs
+  #       shell: bash -l {0}
+  #       working-directory: docs/source
+  #       run: micromamba run -n gha-docs sphinx-build -T -b html -d ${RUNNER_TEMP}/doctrees . ${RUNNER_TEMP}/html
 
-      - name: Linkcheck
-        shell: bash -l {0}
-        working-directory: docs/source
-        run: micromamba run -n gha-docs sphinx-build -T -b linkcheck -d ${RUNNER_TEMP}/doctrees . ${RUNNER_TEMP}/linkcheck
-
+  #     - name: Linkcheck
+  #       shell: bash -l {0}
+  #       working-directory: docs/source
+  #       run: micromamba run -n gha-docs sphinx-build -T -b linkcheck -d ${RUNNER_TEMP}/doctrees . ${RUNNER_TEMP}/linkcheck
