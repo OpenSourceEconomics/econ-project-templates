@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 import sys
@@ -120,8 +121,7 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
     assert result.exception is None
 
     if sys.platform != "win32":
-        # Switch branch before pre-commit because otherwise failure because on main
-        # branch.
+        # Switch branch before pre-commit to prevent failure due to being on 'main'.
         subprocess.run(
             ("git", "checkout", "-b", "test"), cwd=result.project_path, check=True
         )
@@ -146,8 +146,9 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
         check=True,
     )
 
-    subprocess.run(
-        (conda_exe, "env", "remove", "-n", env_name),
-        check=True,
-        env={},
-    )
+    # Remove environment only on non-CI machines.
+    if not os.environ.get("CI"):
+        subprocess.run(
+            (conda_exe, "env", "remove", "-n", env_name),
+            check=True,
+        )
