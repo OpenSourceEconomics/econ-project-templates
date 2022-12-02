@@ -37,11 +37,11 @@ for group in GROUPS:
 def task_create_estimation_results_python(depends_on, produces):
     model = load_model(depends_on)
     table = model.summary().as_latex()
-    with open(produces, 'w') as f:
+    with open(produces, "w") as f:
         f.writelines(table)
-{% endif %}
+{% endif %}{% if cookiecutter.add_r_example == 'yes' %}
 
-{% if cookiecutter.add_r_example == 'yes' %}
+
 for group in GROUPS:
 
     kwargs = {

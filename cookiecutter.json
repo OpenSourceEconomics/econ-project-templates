@@ -8,19 +8,49 @@
   "github_username": "{{ cookiecutter.author.lower().replace(' ', '') }}",
   "github_email": "{{ cookiecutter.email }}",
   "git_remote_url": "",
-  "make_initial_commit": ["yes", "no"],
+  "make_initial_commit": [
+    "yes",
+    "no"
+  ],
   "version": "0.0.1",
   "python_version": "3.11",
   "conda_environment_name": "{{ cookiecutter.project_slug }}",
-  "create_conda_environment_at_finish": ["no", "yes"],
-  "add_python_example": ["yes", "no"],
-  "add_r_example": ["yes", "no"],
-  "add_julia_example": ["yes", "no"],
-  "add_stata_example": ["yes", "no"],
-  "add_tox": ["yes", "no"],
-  "add_github_actions": ["yes", "no"],
-  "add_codecov": ["yes", "no"],
-  "create_changelog": ["yes", "no"],
+  "create_conda_environment_at_finish": [
+    "no",
+    "yes"
+  ],
+  "add_python_example": [
+    "yes",
+    "no"
+  ],
+  "add_r_example": [
+    "yes",
+    "no"
+  ],
+  "add_julia_example": [
+    "yes",
+    "no"
+  ],
+  "add_stata_example": [
+    "yes",
+    "no"
+  ],
+  "add_tox": [
+    "yes",
+    "no"
+  ],
+  "add_github_actions": [
+    "yes",
+    "no"
+  ],
+  "add_codecov": [
+    "yes",
+    "no"
+  ],
+  "create_changelog": [
+    "yes",
+    "no"
+  ],
   "open_source_license": [
     "MIT",
     "BSD",

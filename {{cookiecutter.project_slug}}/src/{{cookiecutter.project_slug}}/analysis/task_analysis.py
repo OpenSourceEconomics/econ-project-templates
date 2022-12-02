@@ -9,6 +9,7 @@ from {{cookiecutter.project_slug}}.analysis.model import load_model
 from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
+
 @pytask.mark.depends_on(
     {
         "data": BLD / "python" / "data" / "data_clean.csv",
@@ -42,9 +43,9 @@ for group in GROUPS:
         data = pd.read_csv(depends_on["data"])
         predicted_prob = predict_prob_by_age(data, model, group)
         predicted_prob.to_csv(produces, index=False)
-{% endif %}
+{% endif %}{% if cookiecutter.add_r_example == 'yes' %}
 
-{% if cookiecutter.add_r_example == 'yes' %}
+
 @pytask.mark.r(script=SRC / "analysis" / "fit_model.r", serializer="yaml")
 @pytask.mark.depends_on(
     {

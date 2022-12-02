@@ -1,7 +1,6 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
-
 from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
 
 
@@ -30,6 +29,7 @@ def model():
                     prob = 0.4
             prob = prob * data["age"]
             return prob
+
     return ModelClass
 
 

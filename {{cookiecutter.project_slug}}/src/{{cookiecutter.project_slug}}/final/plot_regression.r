@@ -9,14 +9,14 @@ plot_regression_by_age = function(data, data_info, predictions, group) {
         value.name = "prediction",
         variable.name = group
     )
-    
+
     outcomes = data[data_info[["outcome_numerical"]]]
-    
+
     marker_data = data.frame(age = data[["age"]], outcome = outcomes)
     colnames(marker_data) = c("age", "outcome")
-    
+
     group = parse(text = group)
-    
+
     fig = plotly::plot_ly()
     fig = plotly::add_lines(
         fig,
@@ -38,7 +38,7 @@ plot_regression_by_age = function(data, data_info, predictions, group) {
         yaxis = list(title = "Probability of Smoking"),
         xaxis = list(title = "Age")
     )
-    
+
     return(fig)
 }
 
