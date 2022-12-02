@@ -8,9 +8,7 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/main.svg)](https://results.pre-commit.ci/latest/github/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/main)
 [![image](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-
-Usage
------
+## Usage
 
 To get started, create and activate the environment with
 
@@ -25,9 +23,7 @@ Now you can build the project using
 
     $ pytask
 
-
-Credits
--------
+## Credits
 
 This project was created with [cookiecutter](https://github.com/audreyr/cookiecutter)
 and the

@@ -1,0 +1,79 @@
+name: main
+
+# Automatically cancel a previous run.
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+    - '*'
+
+jobs:
+
+  run-tests:
+
+    name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        python-version: ['3.11']
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Install TinyTex
+        uses: r-lib/actions/setup-tinytex@v2
+
+      - name: Install additional LaTeX packages
+        run: |
+          tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb ntgclass relsize setspace
+          tlmgr list --only-installed
+
+      - name: Install conda environment with micromamba
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: environment.yml
+          environment-name: gha-testing
+          extra-specs: python=${{ matrix.python-version }}
+          cache-downloads: true
+
+      - name: Run tests
+        run: micromamba run -n gha-testing pytest -v --cov=./ --cov-report=xml
+
+      - name: Upload coverage reports
+        if: runner.os == 'Linux' && matrix.python-version == '3.11'
+        uses: codecov/codecov-action@v3
+
+  docs:
+
+    name: Run documentation.
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install conda environment with micromamba
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: docs/rtd_environment.yml
+          environment-name: gha-docs
+          cache-downloads: true
+
+      - name: Build docs
+        shell: bash -l {0}
+        working-directory: docs/source
+        run: micromamba run -n gha-docs sphinx-build -T -b html -d ${RUNNER_TEMP}/doctrees . ${RUNNER_TEMP}/html
+
+      - name: Linkcheck
+        shell: bash -l {0}
+        working-directory: docs/source
+        run: micromamba run -n gha-docs sphinx-build -T -b linkcheck -d ${RUNNER_TEMP}/doctrees . ${RUNNER_TEMP}/linkcheck
+

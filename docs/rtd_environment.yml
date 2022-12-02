@@ -3,7 +3,7 @@ channels:
   - nodefaults
 
 dependencies:
-  - python==3.9
+  - python
   - pip
   - setuptools_scm
   - toml

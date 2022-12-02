@@ -2,7 +2,6 @@
 \usepackage{a4wide}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{textcomp,textgreek}
 \usepackage{float, afterpage, rotating, graphicx}
 \usepackage{epstopdf}
 \usepackage{longtable, booktabs, tabularx}
@@ -76,14 +75,15 @@
 \begin{abstract}
     Some abstract here.
 \end{abstract}
+
 \clearpage
+
 
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
 If you are using this template, please cite this item from the references:
 \citet{GaudeckerEconProjectTemplates}.
-
 
 The data set for the example project is taken from
 \url{https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools}.
@@ -104,8 +104,8 @@ language.
     \includegraphics[width=0.85\textwidth]{../python/figures/smoking_by_marital_status}
 
     \caption{\emph{Python:} Model predictions of the smoking probability over the
-    lifetime. Each colored line represents a case where marital status is fixed to one
-    of the values present in the data set.}
+        lifetime. Each colored line represents a case where marital status is fixed to one
+        of the values present in the data set.}
     \label{fig:python-predictions}
 
 \end{figure}
@@ -114,7 +114,7 @@ language.
 \begin{table}[!h]
     \input{../python/tables/estimation_results.tex}
     \caption{\label{tab:python-summary}\emph{Python:} Estimation results of the
-    linear Logistic regression.}
+        linear Logistic regression.}
 \end{table}
 {% endif %}
 

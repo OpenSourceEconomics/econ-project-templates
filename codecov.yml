@@ -11,6 +11,4 @@ coverage:
         threshold: 1%
 
 ignore:
-  - "{{cookiecutter.project_slug}}"
-  - ".tox"
-  - "setup.py"
+  - "{{cookiecutter.project_slug}}/**/*"

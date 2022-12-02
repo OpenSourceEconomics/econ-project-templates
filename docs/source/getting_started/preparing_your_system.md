@@ -3,14 +3,14 @@
 1. Make sure you have the following programs installed and that these can be found on
    your path. This template requires
 
-- [Miniconda](http://conda.pydata.org/miniconda.html) or Anaconda. Windows users: please
-  consult {ref}`windows_user`
+- [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or Anaconda. Windows
+  users: please consult {ref}`windows_user`
 
   ```{note} This template is tested with python 3.9 and higher and conda version 22.9
   ```
 
 - a modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
-  [MacTex](http://tug.org/mactex), or [MikTex](http://miktex.org))
+  [MacTex](https://tug.org/mactex/), or [MikTex](https://miktex.org/))
 
 - [Git](https://git-scm.com/downloads), Windows users please also consult
   {ref}`git_windows`
