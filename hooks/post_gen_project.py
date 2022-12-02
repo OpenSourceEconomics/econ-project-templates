@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import shutil
 import subprocess
-import sys
 import warnings
 from pathlib import Path
 
@@ -90,8 +89,6 @@ def main() -> None:
             conda_exe = _mamba
         else:
             conda_exe = shutil.which("conda")
-
-        sys.stdout.write(f"""\n\n\\post_gen_project: conda_exe: {conda_exe}\n\n\n""")
 
         if conda_exe:
             subprocess.run(
