@@ -9,6 +9,7 @@ from {{cookiecutter.project_slug}}.analysis.model import load_model
 from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
+
 @pytask.mark.depends_on(
     {
         "data": BLD / "python" / "data" / "data_clean.csv",
