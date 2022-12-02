@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-        python-version: ['3.9', '3.10', '3.11']
+        python-version: ['3.11']
 
     steps:
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Install additional LaTeX packages
         run: |
-          tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb relsize setspace
+          tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb ntgclass relsize setspace
           tlmgr list --only-installed
 
       - name: Install conda environment with micromamba
