@@ -51,28 +51,29 @@
    same caveat applies as for the *project_slug*. If you really do not want a conda
    environment, type "x".
 
-   **add_python_example** -- Whether to create the example project using the Python
+   **add_python_example** -- Whether to set up the example project in the Python
    programming language.
 
-   **add_r_example** -- Whether to create the example project using the r programming
+   **add_r_example** -- Whether to set up the example project in the R programming
    language.
 
-   ```{warning} The R example project is currently under construction. Help is
-   appreciated! Selecting this option only installs R related packages, including
-   pytask-R, to the environment, and adds R related hooks to .pre-commit-config.yaml.
+   ```{warning} The R example project is a very recent addition and has not been
+   battle-tested. Feedback is greatly appreciated!
    ```
 
-   **add_julia_example** -- Whether to create the example project using the julia
+   **add_julia_example** -- Whether to set up the example project in the Julia
    programming language.
 
-   ```{warning} The Julia example project is not implemented yet. Help is appreciated!
+   ```{warning} The Julia example project is not implemented yet. Help is appreciated,
+   see [Issue #123](https://github.com/OpenSourceEconomics/econ-project-templates/issues/123)!
    Selecting this option only installs pytask-Julia to the environment.
    ```
 
-   **add_stata_example** -- Whether to create the example project using the stata
+   **add_stata_example** -- Whether to set up the example project in the Stata
    programming language.
 
-   ```{warning} The Stata example project is not implemented yet. Help is appreciated!
+   ```{warning} The Stata example project is not implemented yet. Help is appreciated,
+   see [Issue #124](https://github.com/OpenSourceEconomics/econ-project-templates/issues/124)!
    Selecting this option only installs pytask-Stata to the environment.
    ```
 
