@@ -3,7 +3,7 @@
 *_version.py
 *.pyc
 *__pycache__
-.tox/
+.mypy_cache
 
 # pytask
 .pytask.sqlite3

@@ -63,8 +63,6 @@ repos:
     rev: v0.0.205
     hooks:
       - id: ruff
-        args: [hooks, tests]
-        pass_filenames: false
   - repo: https://github.com/dosisod/refurb
     rev: v1.9.1
     hooks:
@@ -79,11 +77,11 @@ repos:
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
-    # -   id: identity  # Prints all files passed to pre-commits. Debugging.
+      # - id: identity  # Prints all files passed to pre-commits. Debugging.
 
 {% if cookiecutter.add_r_example == 'yes' %}
-# All available hooks: https://pre-commit.com/hooks.html
-# R specific hooks: https://github.com/lorenzwalthert/precommit
+  # All available hooks: https://pre-commit.com/hooks.html
+  # R specific hooks: https://github.com/lorenzwalthert/precommit
   - repo: https://github.com/lorenzwalthert/precommit
     rev: v0.3.2
     hooks:
@@ -133,7 +131,7 @@ repos:
   - repo: https://github.com/pre-commit-ci/pre-commit-ci-config
     rev: v1.5.1
     hooks:
-    # Only required when https://pre-commit.ci is used for config validation
+      # Only required when https://pre-commit.ci is used for config validation
       - id: check-pre-commit-ci-config
   - repo: local
     hooks:
