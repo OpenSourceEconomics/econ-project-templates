@@ -60,6 +60,11 @@ def main() -> None:
         ("git", "init", "--initial-branch", "main"), check=True, capture_output=True
     )
 
+    if "{{ cookiecutter.git_remote_url }}" != "":
+        subprocess.call(
+            ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"]
+        )
+
     if "{{ cookiecutter.make_initial_commit }}" == "yes":
         # Create an initial commit on the main branch and restore global default name.
         subprocess.run(
