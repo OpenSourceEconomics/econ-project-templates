@@ -13,7 +13,7 @@ sys.path.append(str(SRC))
 from visualization_functions import visualize_organisational_steps  # noqa: E402
 
 
-for case in ["model_steps_full", "model_steps_select", "steps_only_full"]:
+for case in ("model_steps_full", "model_steps_select", "steps_only_full"):
 
     kwargs = {
         "case": case,
@@ -26,7 +26,7 @@ for case in ["model_steps_full", "model_steps_select", "steps_only_full"]:
         fig.write_image(produces)
 
 
-for tex_file in ["root_bld_src", "src"]:
+for tex_file in ("root_bld_src", "src"):
 
     @pytask.mark.depends_on(SRC.joinpath("latex", f"{tex_file}.tex"))
     @pytask.mark.produces(SRC.joinpath("latex", f"{tex_file}.png"))
