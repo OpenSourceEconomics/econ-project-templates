@@ -84,7 +84,7 @@ repos:
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
 
-# {% if cookiecutter.add_r_example == 'yes' %}
+{% if cookiecutter.add_r_example == 'yes' %}
   # All available hooks: https://pre-commit.com/hooks.html
   # R specific hooks: https://github.com/lorenzwalthert/precommit
   - repo: https://github.com/lorenzwalthert/precommit
@@ -149,6 +149,6 @@ repos:
         language: fail
         files: \.(Rhistory|RData|Rds|rds)$
         # `exclude: <regex>` to allow committing specific files
-# {% endif %}
+{% endif %}
 ci:
   autoupdate_schedule: monthly

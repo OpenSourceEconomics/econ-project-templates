@@ -1,5 +1,5 @@
 ---
-name: {{★cookiecutter.conda_environment_name★: null}: null}
+name: {{ cookiecutter.conda_environment_name }}
 channels:
   - conda-forge
   - plotly
