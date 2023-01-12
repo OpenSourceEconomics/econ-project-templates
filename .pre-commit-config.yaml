@@ -9,7 +9,8 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-added-large-files
-        args: [--maxkb=25]
+        args:
+          - --maxkb=25
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: check-vcs-permalinks
@@ -19,12 +20,15 @@ repos:
       - id: fix-byte-order-marker
       - id: mixed-line-ending
       - id: no-commit-to-branch
-        args: [--branch, main]
+        args:
+          - --branch
+          - main
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.28.0
     hooks:
       - id: yamllint
+        exclude: ^\.github/workflows/main.yml
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.9.0
     hooks:
@@ -38,7 +42,8 @@ repos:
     rev: v3.3.1
     hooks:
       - id: pyupgrade
-        args: [--py37-plus]
+        args:
+          - --py37-plus
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.9.0
     hooks:
@@ -62,13 +67,17 @@ repos:
     rev: v0.0.205
     hooks:
       - id: ruff
-        args: [hooks, tests]
+        args:
+          - hooks
+          - tests
         pass_filenames: false
   - repo: https://github.com/dosisod/refurb
     rev: v1.9.1
     hooks:
       - id: refurb
-        args: [--ignore, FURB126]
+        args:
+          - --ignore
+          - FURB126
   - repo: https://github.com/econchick/interrogate
     rev: 1.5.0
     hooks:
@@ -85,15 +94,23 @@ repos:
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-gfm, mdformat-black]
-        args: [--wrap, '88']
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-black
+        args:
+          - --wrap
+          - '88'
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-myst, mdformat-black]
-        args: [--wrap, '88']
+        additional_dependencies:
+          - mdformat-myst
+          - mdformat-black
+        args:
+          - --wrap
+          - '88'
         files: (docs/.)
         # Exclude files with admonitions.
         # exclude: |
@@ -104,12 +121,13 @@ repos:
     rev: v2.2.2
     hooks:
       - id: codespell
-        args: [--skip="**.ipynb"]
+        args:
+          - --skip="**.ipynb"
   - repo: meta
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
-    # -   id: identity  # Prints all files passed to pre-commits. Debugging.
+      # - id: identity  # Prints all files passed to pre-commits. Debugging.
 
 ci:
   autoupdate_schedule: monthly

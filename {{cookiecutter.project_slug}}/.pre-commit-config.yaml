@@ -8,7 +8,8 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-added-large-files
-        args: [--maxkb=25]
+        args:
+          - --maxkb=25
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: check-vcs-permalinks
@@ -35,7 +36,8 @@ repos:
     rev: v3.3.1
     hooks:
       - id: pyupgrade
-        args: [--py37-plus]
+        args:
+          - --py37-plus
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.9.0
     hooks:
@@ -67,26 +69,31 @@ repos:
     rev: v1.9.1
     hooks:
       - id: refurb
-        args: [--ignore, FURB126]
+        args:
+          - --ignore
+          - FURB126
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.2
     hooks:
       - id: codespell
-        args: [--skip="**.ipynb"]
+        args:
+          - --skip="**.ipynb"
   - repo: meta
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
 
-{% if cookiecutter.add_r_example == 'yes' %}
+# {% if cookiecutter.add_r_example == 'yes' %}
   # All available hooks: https://pre-commit.com/hooks.html
   # R specific hooks: https://github.com/lorenzwalthert/precommit
   - repo: https://github.com/lorenzwalthert/precommit
     rev: v0.3.2
     hooks:
       - id: style-files
-        args: [--style_pkg=styler, --style_fun=tidyverse_style]
+        args:
+          - --style_pkg=styler
+          - --style_fun=tidyverse_style
       - id: spell-check
         exclude: >
           (?x)^(
@@ -125,7 +132,8 @@ repos:
     rev: v1.2.3
     hooks:
       - id: check-added-large-files
-        args: [--maxkb=200]
+        args:
+          - --maxkb=200
       - id: end-of-file-fixer
         exclude: \.Rd
   - repo: https://github.com/pre-commit-ci/pre-commit-ci-config
@@ -141,6 +149,6 @@ repos:
         language: fail
         files: \.(Rhistory|RData|Rds|rds)$
         # `exclude: <regex>` to allow committing specific files
-{% endif %}
+# {% endif %}
 ci:
   autoupdate_schedule: monthly

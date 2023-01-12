@@ -1,7 +1,9 @@
 ---
 name: econ-project-templates
 
-channels: [conda-forge, nodefaults]
+channels:
+  - conda-forge
+  - nodefaults
 
 dependencies:
   - python

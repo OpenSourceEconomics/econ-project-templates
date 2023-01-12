@@ -42,3 +42,7 @@ extend-ignore = [
 [tool.ruff.pydocstyle]
 convention = "numpy"
 
+[tool.yamlfix]
+line_length = 88
+flow_style_sequence = false
+none_representation = "null"
