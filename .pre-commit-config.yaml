@@ -58,25 +58,17 @@ repos:
           - --wrap-descriptions
           - '88'
           - --blank
-  - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.205
     hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-alfred
-          - flake8-bugbear
-          - flake8-builtins
-          - flake8-comprehensions
-          - flake8-eradicate
-          - flake8-print
-          - flake8-pytest-style
-          - flake8-todo
-          - flake8-typing-imports
-          - flake8-unused-arguments
-          - pep8-naming
-          - pydocstyle
-          - Pygments
-        args: [--exclude, 'conf.py, docs/']
+      - id: ruff
+        args: [hooks, tests]
+        pass_filenames: false
+  - repo: https://github.com/dosisod/refurb
+    rev: v1.9.1
+    hooks:
+      - id: refurb
+        args: [--ignore, FURB126]
   - repo: https://github.com/econchick/interrogate
     rev: 1.5.0
     hooks:
