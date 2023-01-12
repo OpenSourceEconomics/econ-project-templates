@@ -58,6 +58,7 @@
   "_copy_without_render": [
     ".github/workflows/main.yml",
     "*.bib",
-    "*.ipynb"
+    "*.ipynb",
+    "inst/*"
   ]
 }
