@@ -17,13 +17,13 @@ def model():
     class ModelClass:
         @staticmethod
         def predict(data):
-            if "high-school" in data["education"].values:
-                if "low" in data["income"].values:
+            if "high-school" in data["education"].to_numpy():
+                if "low" in data["income"].to_numpy():
                     prob = 0.1
                 else:
                     prob = 0.2
             else:
-                if "low" in data["income"].values:
+                if "low" in data["income"].to_numpy():
                     prob = 0.3
                 else:
                     prob = 0.4

@@ -25,7 +25,7 @@ def test_clean_data_drop_columns(data, data_info):
 
 def test_clean_data_dropna(data, data_info):
     data_clean = clean_data(data, data_info)
-    assert not data_clean.isnull().any(axis=None)
+    assert not data_clean.isna().any(axis=None)
 
 
 def test_clean_data_categorical_columns(data, data_info):
