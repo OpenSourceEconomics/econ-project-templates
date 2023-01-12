@@ -18,6 +18,7 @@ dependencies:
 
   # Package dependencies
   - pytask>=0.2
+  - pytask-parallel>=0.2
   - pytask-latex>=0.2
 {% if cookiecutter.add_julia_example == 'yes' %}
   - pytask-julia>=0.2
@@ -35,7 +36,6 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-xdist
-  - tox-conda
 
   - pdbpp
   - ipykernel

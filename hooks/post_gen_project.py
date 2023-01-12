@@ -31,10 +31,6 @@ def main() -> None:
     if "{{ cookiecutter.open_source_license }}" == "Not open source":
         remove_file(project_path, "LICENSE")
 
-    if "{{ cookiecutter.add_tox }}" == "no":
-        remove_directory(project_path, ".github", "workflows")
-        remove_file("tox.ini")
-
     if "{{ cookiecutter.add_github_actions }}" == "no":
         remove_directory(project_path, ".github", "workflows")
 

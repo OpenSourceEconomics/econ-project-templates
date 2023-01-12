@@ -76,9 +76,6 @@
    Selecting this option only installs pytask-Stata to the environment.
    ```
 
-   **add_tox** -- Whether to add configuration files that allow testing of your project
-   using tox.
-
    **add_github_actions** -- Whether to add GitHub actions configuration files.
 
    **add_codecov** -- Whether to add configuration files to collect the testing coverage

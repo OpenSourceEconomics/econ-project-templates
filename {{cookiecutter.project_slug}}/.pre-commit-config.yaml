@@ -62,7 +62,6 @@ repos:
             flake8-bugbear,
             flake8-builtins,
             flake8-comprehensions,
-            flake8-docstrings,
             flake8-eradicate,
             flake8-print,
             flake8-pytest-style,
@@ -78,10 +77,6 @@ repos:
     hooks:
       - id: codespell
         args: [--skip="**.ipynb"]
-  - repo: https://github.com/guilatrova/tryceratops
-    rev: v1.1.0
-    hooks:
-      - id: tryceratops
   - repo: meta
     hooks:
       - id: check-hooks-apply
