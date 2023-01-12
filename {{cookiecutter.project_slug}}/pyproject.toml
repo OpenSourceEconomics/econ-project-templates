@@ -33,7 +33,6 @@ extend-ignore = [
     "FBT",      # flake8-boolean-trap
     "EM",       # flake8-errmsg
     "ANN401",   # flake8-annotate typing.Any
-    "PD",       # pandas-vet
 ]
 
 [tool.ruff.per-file-ignores]
