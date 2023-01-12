@@ -1,3 +1,4 @@
+---
 name: {{ cookiecutter.conda_environment_name }}
 channels:
   - conda-forge
@@ -57,4 +58,4 @@ dependencies:
 {% endif %}
 
   - pip:
-    - -e .  # installs the project
+      - -e .  # installs the project

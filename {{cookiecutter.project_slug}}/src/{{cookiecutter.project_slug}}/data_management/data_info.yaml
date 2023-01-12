@@ -1,22 +1,23 @@
-data_name: "data.csv"
+---
+data_name: data.csv
 
 columns_to_drop:
-    - nationality
-    - ethnicity
-    - region
-    - amt_weekends
-    - amt_weekdays
-    - type
-    - gross_income
+  - nationality
+  - ethnicity
+  - region
+  - amt_weekends
+  - amt_weekdays
+  - type
+  - gross_income
 
 categorical_columns:
-    - gender
-    - marital_status
-    - highest_qualification
-    - smoke
+  - gender
+  - marital_status
+  - highest_qualification
+  - smoke
 
 column_rename_mapping:
-    highest_qualification: qualification
+  highest_qualification: qualification
 
 outcome: smoke
-outcome_numerical: smoke_numerical  # this variable is created in the clean_data step
+outcome_numerical: smoke_numerical  # created during the clean_data step
