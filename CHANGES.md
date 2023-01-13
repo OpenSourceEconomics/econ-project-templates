@@ -1,5 +1,17 @@
 # Release Notes
 
+## v0.6.2 -- January 2023
+
+Incorporate feedback from EPP students, @janosg, @tobiasraabe.
+
+* Update warning message for R, better explanations for examples and links to issues.
+* Add scripts as explicit dependencies.
+* Use git_remote_url option again.
+* Add yaml linters, run them. Update versions of pre-commit hooks also in inner project.
+* Ditch flake8 in favor of ruff.
+* Get rid of refurb's complaints.
+* Ignore complexity in post_gen_project.
+
 ## v0.6 -- December 2022
 
 - Add R example (#105, @carolinalvarez, @timmens)

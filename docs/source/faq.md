@@ -118,7 +118,7 @@ but it is precise...).
 Then type:
 
 ```bash
-$ code ~/.cookiecutter_replay/econ-project-templates-0.6.1.json
+$ code ~/.cookiecutter_replay/econ-project-templates-0.6.2.json
 ```
 
 If you are not using VS Code as your editor of choice, adjust the line accordingly.
@@ -130,7 +130,7 @@ you have spaces or special characters in your path, you need to adjust your path
 When done, launch a new shell if necessary and type:
 
 ```bash
-$ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.6.1.zip
+$ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.6.2.zip
 ```
 
 (stata_failure_check_erase_log_file)=
