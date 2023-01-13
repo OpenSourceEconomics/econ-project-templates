@@ -31,10 +31,6 @@ def main() -> None:
     if "{{ cookiecutter.open_source_license }}" == "Not open source":
         remove_file(project_path, "LICENSE")
 
-    if "{{ cookiecutter.add_tox }}" == "no":
-        remove_directory(project_path, ".github", "workflows")
-        remove_file("tox.ini")
-
     if "{{ cookiecutter.add_github_actions }}" == "no":
         remove_directory(project_path, ".github", "workflows")
 
@@ -63,6 +59,11 @@ def main() -> None:
     subprocess.run(
         ("git", "init", "--initial-branch", "main"), check=True, capture_output=True
     )
+
+    if "{{ cookiecutter.git_remote_url }}" != "":
+        subprocess.call(
+            ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"]
+        )
 
     if "{{ cookiecutter.make_initial_commit }}" == "yes":
         # Create an initial commit on the main branch and restore global default name.

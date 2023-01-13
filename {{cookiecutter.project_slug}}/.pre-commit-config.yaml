@@ -1,9 +1,15 @@
+---
 repos:
+  - repo: https://github.com/lyz-code/yamlfix
+    rev: 1.2.0
+    hooks:
+      - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
       - id: check-added-large-files
-        args: ["--maxkb=25"]
+        args:
+          - --maxkb=25
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: check-vcs-permalinks
@@ -13,6 +19,10 @@ repos:
       - id: fix-byte-order-marker
       - id: mixed-line-ending
       - id: trailing-whitespace
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.28.0
+    hooks:
+      - id: yamllint
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.9.0
     hooks:
@@ -23,10 +33,11 @@ repos:
       - id: python-use-type-annotations
       - id: text-unicode-replacement-char
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.2.2
+    rev: v3.3.1
     hooks:
       - id: pyupgrade
-        args: [--py37-plus]
+        args:
+          - --py37-plus
   - repo: https://github.com/asottile/reorder_python_imports
     rev: v3.9.0
     hooks:
@@ -36,68 +47,54 @@ repos:
     hooks:
       - id: setup-cfg-fmt
   - repo: https://github.com/psf/black
-    rev: 22.10.0
+    rev: 22.12.0
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/docformatter
-    rev: v1.5.0
+    rev: v1.5.1
     hooks:
       - id: docformatter
         args:
-          [
-            --in-place,
-            --wrap-summaries,
-            "88",
-            --wrap-descriptions,
-            "88",
-            --blank,
-          ]
-  - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
+          - --in-place
+          - --wrap-summaries
+          - '88'
+          - --wrap-descriptions
+          - '88'
+          - --blank
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.205
     hooks:
-      - id: flake8
-        additional_dependencies:
-          [
-            flake8-alfred,
-            flake8-bugbear,
-            flake8-builtins,
-            flake8-comprehensions,
-            flake8-docstrings,
-            flake8-eradicate,
-            flake8-print,
-            flake8-pytest-style,
-            flake8-todo,
-            flake8-typing-imports,
-            flake8-unused-arguments,
-            pep8-naming,
-            pydocstyle,
-            Pygments,
-          ]
+      - id: ruff
+  - repo: https://github.com/dosisod/refurb
+    rev: v1.9.1
+    hooks:
+      - id: refurb
+        args:
+          - --ignore
+          - FURB126
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.2
     hooks:
       - id: codespell
-        args: [--skip="**.ipynb"]
-  - repo: https://github.com/guilatrova/tryceratops
-    rev: v1.1.0
-    hooks:
-      - id: tryceratops
+        args:
+          - --skip="**.ipynb"
   - repo: meta
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
-    # -   id: identity  # Prints all files passed to pre-commits. Debugging.
+      # - id: identity  # Prints all files passed to pre-commits. Debugging.
 
 {% if cookiecutter.add_r_example == 'yes' %}
-# All available hooks: https://pre-commit.com/hooks.html
-# R specific hooks: https://github.com/lorenzwalthert/precommit
-repos:
--   repo: https://github.com/lorenzwalthert/precommit
+  # All available hooks: https://pre-commit.com/hooks.html
+  # R specific hooks: https://github.com/lorenzwalthert/precommit
+  - repo: https://github.com/lorenzwalthert/precommit
     rev: v0.3.2
     hooks:
-    -   id: style-files
-        args: [--style_pkg=styler, --style_fun=tidyverse_style]
-    -   id: spell-check
+      - id: style-files
+        args:
+          - --style_pkg=styler
+          - --style_fun=tidyverse_style
+      - id: spell-check
         exclude: >
           (?x)^(
           .*\.[rR]|
@@ -127,31 +124,30 @@ repos:
           \.github/workflows/.*|
           data/.*|
           )$
-    -   id: readme-rmd-rendered
-    -   id: parsable-R
-    -   id: no-browser-statement
-    -   id: no-debug-statement
--   repo: https://github.com/pre-commit/pre-commit-hooks
+      - id: readme-rmd-rendered
+      - id: parsable-R
+      - id: no-browser-statement
+      - id: no-debug-statement
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v1.2.3
     hooks:
-    -   id: check-added-large-files
-        args: ['--maxkb=200']
-    -   id: end-of-file-fixer
-        exclude: '\.Rd'
--   repo: https://github.com/pre-commit-ci/pre-commit-ci-config
+      - id: check-added-large-files
+        args:
+          - --maxkb=200
+      - id: end-of-file-fixer
+  - repo: https://github.com/pre-commit-ci/pre-commit-ci-config
     rev: v1.5.1
     hooks:
-    # Only reuiqred when https://pre-commit.ci is used for config validation
-    -   id: check-pre-commit-ci-config
--   repo: local
+      # Only required when https://pre-commit.ci is used for config validation
+      - id: check-pre-commit-ci-config
+  - repo: local
     hooks:
-    -   id: forbid-to-commit
+      - id: forbid-to-commit
         name: Don't commit common R artifacts
         entry: Cannot commit .Rhistory, .RData, .Rds or .rds.
         language: fail
-        files: '\.(Rhistory|RData|Rds|rds)$'
+        files: \.(Rhistory|RData|Rds|rds)$
         # `exclude: <regex>` to allow committing specific files
-
-ci:
-    autoupdate_schedule: monthly
 {% endif %}
+ci:
+  autoupdate_schedule: monthly

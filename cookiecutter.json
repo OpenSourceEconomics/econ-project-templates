@@ -35,10 +35,6 @@
     "yes",
     "no"
   ],
-  "add_tox": [
-    "yes",
-    "no"
-  ],
   "add_github_actions": [
     "yes",
     "no"
@@ -62,6 +58,7 @@
   "_copy_without_render": [
     ".github/workflows/main.yml",
     "*.bib",
-    "*.ipynb"
+    "*.ipynb",
+    "inst/*"
   ]
 }

@@ -56,20 +56,6 @@ def test_remove_github_actions(cookies):
 
 
 @pytest.mark.end_to_end
-def test_remove_tox(cookies):
-    result = cookies.bake(extra_context={"add_tox": "no"})
-
-    ga_config = result.project_path.joinpath(".github", "workflows", "main.yml")
-    tox = result.project_path.joinpath("tox.ini")
-
-    assert result.exit_code == 0
-    assert result.exception is None
-
-    assert not ga_config.exists()
-    assert not tox.exists()
-
-
-@pytest.mark.end_to_end
 def test_remove_license(cookies):
     result = cookies.bake(extra_context={"open_source_license": "Not open source"})
 

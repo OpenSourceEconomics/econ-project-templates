@@ -74,12 +74,12 @@ def update_fig_with_shape(case, fig):
                 fillcolor="blue",
             )
     elif case == "model_steps_select":
-        for k in [0, 3]:
+        for k in (0, 3):
             fig = fig.add_shape(
                 type="rect", x0=0.75 + k, x1=1.25 + k, y0=0.75, y1=2.25, fillcolor="red"
             )
-        for k in [1, 2]:
-            for y0, y1 in [(0.75, 1.25), (1.75, 2.25)]:
+        for k in (1, 2):
+            for y0, y1 in ((0.75, 1.25), (1.75, 2.25)):
                 fig = fig.add_shape(
                     type="rect", x0=0.75 + k, x1=1.25 + k, y0=y0, y1=y1, fillcolor="red"
                 )

@@ -1,10 +1,9 @@
+---
 name: {{ cookiecutter.conda_environment_name }}
 channels:
   - conda-forge
-  - plotly
-{% if cookiecutter.add_r_example == 'yes' %}
-  - r
-{% endif %}
+  - plotly{% if cookiecutter.add_r_example == 'yes' %}
+  - r{% endif %}
   - nodefaults
 
 dependencies:
@@ -18,16 +17,11 @@ dependencies:
 
   # Package dependencies
   - pytask>=0.2
-  - pytask-latex>=0.2
-{% if cookiecutter.add_julia_example == 'yes' %}
-  - pytask-julia>=0.2
-{% endif %}
-{% if cookiecutter.add_r_example == 'yes' %}
-  - pytask-r>=0.2
-{% endif %}
-{% if cookiecutter.add_stata_example == 'yes' %}
-  - pytask-stata>=0.2
-{% endif %}
+  - pytask-parallel>=0.2
+  - pytask-latex>=0.2{% if cookiecutter.add_julia_example == 'yes' %}
+  - pytask-julia>=0.2{% endif %}{% if cookiecutter.add_r_example == 'yes' %}
+  - pytask-r>=0.2{% endif %}{% if cookiecutter.add_stata_example == 'yes' %}
+  - pytask-stata>=0.2{% endif %}
 
   # Misc
   - black
@@ -35,8 +29,6 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-xdist
-  - tox-conda
-
   - pdbpp
   - ipykernel
   - jupyterlab
@@ -45,16 +37,14 @@ dependencies:
   - pandas
   - statsmodels
   - python-graphviz
-  - python-kaleido
-{% if cookiecutter.add_r_example == 'yes' %}
+  - python-kaleido{% if cookiecutter.add_r_example == 'yes' %}
   - r-plyr
   - r-reshape2
   - r-xtable
   - r-plotly
   - r-reticulate
   - r-webshot
-  - phantomjs
-{% endif %}
+  - phantomjs{% endif %}
 
   - pip:
-    - -e .  # installs the project
+      - -e .  # installs the project

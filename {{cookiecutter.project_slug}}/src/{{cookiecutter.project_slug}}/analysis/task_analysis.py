@@ -12,6 +12,7 @@ from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 @pytask.mark.depends_on(
     {
+        "scripts": ["model.py", "predict.py"],
         "data": BLD / "python" / "data" / "data_clean.csv",
         "data_info": SRC / "data_management" / "data_info.yaml",
     }
@@ -46,9 +47,10 @@ for group in GROUPS:
 {% endif %}{% if cookiecutter.add_r_example == 'yes' %}
 
 
-@pytask.mark.r(script=SRC / "analysis" / "fit_model.r", serializer="yaml")
+@pytask.mark.r(script=SRC / "analysis" / "model.r", serializer="yaml")
 @pytask.mark.depends_on(
     {
+        "scripts": ["predict.r"],
         "data": BLD / "r" / "data" / "data_clean.csv",
         "data_info": SRC / "data_management" / "data_info.yaml",
     }

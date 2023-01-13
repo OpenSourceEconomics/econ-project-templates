@@ -1,3 +1,4 @@
+---
 name: econ-project-templates
 
 channels:
@@ -42,4 +43,4 @@ dependencies:
   - pytest
   - pytest-cov
   - pip:
-    - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
+      - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config

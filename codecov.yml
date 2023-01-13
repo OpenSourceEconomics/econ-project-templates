@@ -1,3 +1,4 @@
+---
 codecov:
   branch: main
 
@@ -11,4 +12,4 @@ coverage:
         threshold: 1%
 
 ignore:
-  - "{{cookiecutter.project_slug}}/**/*"
+  - '{{cookiecutter.project_slug}}/**/*'
