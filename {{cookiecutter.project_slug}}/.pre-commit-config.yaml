@@ -1,5 +1,10 @@
 ---
 repos:
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+      # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
     rev: 1.2.0
     hooks:
@@ -78,11 +83,6 @@ repos:
       - id: codespell
         args:
           - --skip="**.ipynb"
-  - repo: meta
-    hooks:
-      - id: check-hooks-apply
-      - id: check-useless-excludes
-      # - id: identity  # Prints all files passed to pre-commits. Debugging.
 
 {% if cookiecutter.add_r_example == 'yes' %}
   # All available hooks: https://pre-commit.com/hooks.html
