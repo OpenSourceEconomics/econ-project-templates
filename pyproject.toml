@@ -1,3 +1,17 @@
+[tool.nbqa.config]
+isort = "setup.cfg"
+black = "pyproject.toml"
+
+[tool.nbqa.mutate]
+isort = 1
+black = 1
+pyupgrade = 1
+
+
+[tool.nbqa.addopts]
+isort = ["--treat-comment-as-code", "# %%", "--profile=black"]
+pyupgrade = ["--py37-plus"]
+
 [tool.mypy]
 files = ["hooks", "tests"]
 exclude = "{{cookiecutter.project_slug}}"
@@ -47,6 +61,23 @@ extend-ignore = [
 
 [tool.ruff.pydocstyle]
 convention = "numpy"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:Using or importing the ABCs from 'collections'",
+    "ignore:the imp module is deprecated",
+    "ignore:indexing past lexsort depth may impact performance.",
+    "ignore:Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.",
+    "ignore:In a future version of pandas all arguments of concat except for the argument 'objs' will be keyword-only",
+    "ignore:Only a subset of the cartis_roberts",
+    "ignore:Please use `MemoizeJac` from the `scipy.optimize` namespace",
+    "ignore:Some algorithms did not converge. Their walltime has been set to a very high value instead of infinity because Timedeltas do notsupport infinite values",
+    "ignore:In a future version, the Index constructor will not infer numeric dtypes when passed object-dtype sequences",
+    "ignore:distutils Version classes are deprecated. Use packaging.version instead",
+    "ignore:Standard matrix inversion failed due to LinAlgError",
+    "ignore:Tranquilo is extremely experimental",
+    "ignore:delta_grad == 0.0",
+]
 
 [tool.yamlfix]
 line_length = 88
