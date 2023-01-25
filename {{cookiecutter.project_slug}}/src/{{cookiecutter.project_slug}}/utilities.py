@@ -7,7 +7,8 @@ def read_yaml(path):
     Args:
         path (str or pathlib.Path): Path to file.
 
-    Returns:
+    Returns
+    -------
         dict: The parsed YAML file.
 
     """

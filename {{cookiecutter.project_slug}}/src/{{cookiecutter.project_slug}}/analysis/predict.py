@@ -15,7 +15,8 @@ def predict_prob_by_age(data, model, group):
         group (str): Categorical column in data set. We create predictions for each
             unique value in column data[group]. Cannot be 'age' or 'smoke'.
 
-    Returns:
+    Returns
+    -------
         pandas.DataFrame: Predictions. Has columns 'age' and one column for each
             category in column group.
 

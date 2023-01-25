@@ -18,7 +18,8 @@ def clean_data(data, data_info):
                 stored in a dictionary with design: {'old_name': 'new_name'}
             - 'url': URL to data set
 
-    Returns:
+    Returns
+    -------
         pandas.DataFrame: The cleaned data set.
 
     """

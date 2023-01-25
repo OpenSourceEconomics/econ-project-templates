@@ -5,20 +5,16 @@ import sys
 
 import pytest
 
-
-if _mamba := shutil.which("mamba"):
-    conda_exe = _mamba
-else:
-    conda_exe = shutil.which("conda")
+conda_exe = _mamba if (_mamba := shutil.which("mamba")) else shutil.which("conda")
 
 
-@pytest.mark.end_to_end
+@pytest.mark.end_to_end()
 def test_bake_project(cookies):
     major, minor = sys.version_info[:2]
     python_version = f"{major}.{minor}"
 
     result = cookies.bake(
-        extra_context={"project_slug": "helloworld", "python_version": python_version}
+        extra_context={"project_slug": "helloworld", "python_version": python_version},
     )
 
     assert result.exit_code == 0
@@ -27,7 +23,7 @@ def test_bake_project(cookies):
     assert result.project_path.is_dir()
 
 
-@pytest.mark.end_to_end
+@pytest.mark.end_to_end()
 def test_remove_readthedocs(cookies):
     result = cookies.bake(extra_context={"add_readthedocs": "no"})
 
@@ -41,7 +37,7 @@ def test_remove_readthedocs(cookies):
     assert "readthedocs" not in readme
 
 
-@pytest.mark.end_to_end
+@pytest.mark.end_to_end()
 def test_remove_github_actions(cookies):
     result = cookies.bake(extra_context={"add_github_actions": "no"})
 
@@ -55,7 +51,7 @@ def test_remove_github_actions(cookies):
     assert "github/workflow/status" not in readme
 
 
-@pytest.mark.end_to_end
+@pytest.mark.end_to_end()
 def test_remove_license(cookies):
     result = cookies.bake(extra_context={"open_source_license": "Not open source"})
 
@@ -88,13 +84,14 @@ TEST_CONTEXT = [
 ]
 
 
-@pytest.mark.end_to_end
-@pytest.mark.parametrize("name, test_context", TEST_CONTEXT)
+@pytest.mark.end_to_end()
+@pytest.mark.parametrize(("name", "test_context"), TEST_CONTEXT)
 def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
-    cookies, name, test_context
+    cookies,
+    name,
+    test_context,
 ):
     """Test that the conda environment is created and pre-commit passes."""
-
     env_name = f"__test__{name}__"
     extra_context = {
         "conda_environment_name": env_name,
@@ -109,7 +106,9 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
     if sys.platform != "win32":
         # Switch branch before pre-commit to prevent failure due to being on 'main'.
         subprocess.run(
-            ("git", "checkout", "-b", "test"), cwd=result.project_path, check=True
+            ("git", "checkout", "-b", "test"),
+            cwd=result.project_path,
+            check=True,
         )
 
         # Check linting, but not on the first try since formatters fix stuff.

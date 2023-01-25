@@ -1,4 +1,4 @@
-"""This module contains hooks which are executed after the template is rendered."""
+"""Hooks which are executed after the template is rendered."""
 from __future__ import annotations
 
 import shutil
@@ -57,12 +57,14 @@ def main() -> None:
             remove_file(file)
 
     subprocess.run(
-        ("git", "init", "--initial-branch", "main"), check=True, capture_output=True
+        ("git", "init", "--initial-branch", "main"),
+        check=True,
+        capture_output=True,
     )
 
     if "{{ cookiecutter.git_remote_url }}" != "":
         subprocess.call(
-            ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"]
+            ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"],
         )
 
     if "{{ cookiecutter.make_initial_commit }}" == "yes":
@@ -105,7 +107,7 @@ def main() -> None:
         else:
             warnings.warn(
                 "conda environment could not be created since no conda or mamba "
-                "executable was found."
+                "executable was found.",
             )
 
 

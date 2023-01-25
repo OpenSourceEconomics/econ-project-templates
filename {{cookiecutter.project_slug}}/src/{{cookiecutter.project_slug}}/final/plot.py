@@ -20,7 +20,8 @@ def plot_regression_by_age(data, data_info, predictions, group):
         group (str): Categorical column in data set. We create predictions for each
             unique value in column data[group]. Cannot be 'age' or 'smoke'.
 
-    Returns:
+    Returns
+    -------
         plotly.graph_objects.Figure: The figure.
 
     """

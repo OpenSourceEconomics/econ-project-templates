@@ -21,7 +21,8 @@ def fit_logit_model(data, data_info, model_type):
             - 'linear': Numerical covariates enter the regression linearly, and
             categorical covariates are expanded to dummy variables.
 
-    Returns:
+    Returns
+    -------
         statsmodels.base.model.Results: The fitted model.
 
     """
@@ -46,7 +47,8 @@ def load_model(path):
     Args:
         path (str or pathlib.Path): Path to model file.
 
-    Returns:
+    Returns
+    -------
         statsmodels.base.model.Results: The stored model.
 
     """
