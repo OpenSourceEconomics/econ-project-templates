@@ -3,7 +3,7 @@ exclude: ^(\.|{{cookiecutter\.project_slug}})/.+
 repos:
   - repo: meta
     hooks:
-      - id: check-hooks-apply
+      # - id: check-hooks-apply  # Leave nbqa in here.
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
@@ -20,43 +20,40 @@ repos:
       - id: check-merge-conflict
       - id: check-vcs-permalinks
       - id: check-yaml
+      - id: check-toml
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
+        types:
+          - text
+      - id: forbid-submodules
       - id: mixed-line-ending
+        args:
+          - --fix=lf
+        description: Forces to replace line ending by the UNIX 'lf' character.
+      - id: name-tests-test
+        args:
+          - --pytest-test-first
       - id: no-commit-to-branch
         args:
           - --branch
           - main
       - id: trailing-whitespace
+      - id: check-ast
+      - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.28.0
     hooks:
       - id: yamllint
-        exclude: ^\.github/workflows/main.yml
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
-    hooks:
-      - id: python-check-blanket-noqa
-      - id: python-check-mock-methods
-      - id: python-no-eval
-      - id: python-no-log-warn
-      - id: python-use-type-annotations
-      - id: text-unicode-replacement-char
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-      - id: pyupgrade
-        args:
-          - --py37-plus
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
-    hooks:
-      - id: reorder-python-imports
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
       - id: black
+        language_version: python3.10
+  - repo: https://github.com/asottile/blacken-docs
+    rev: 1.13.0
+    hooks:
+      - id: blacken-docs
   - repo: https://github.com/PyCQA/docformatter
     rev: v1.5.1
     hooks:
@@ -69,32 +66,23 @@ repos:
           - '88'
           - --blank
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.205
+    rev: v0.0.230
     hooks:
       - id: ruff
-        args:
-          - hooks
-          - tests
-        pass_filenames: false
-  - repo: https://github.com/dosisod/refurb
-    rev: v1.9.1
+      #   args:
+      #     - --verbose
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
     hooks:
-      - id: refurb
+      - id: nbstripout
         args:
-          - --ignore
-          - FURB126
-  - repo: https://github.com/econchick/interrogate
-    rev: 1.5.0
+          - --extra-keys
+          - metadata.kernelspec metadata.language_info.version metadata.vscode
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.6.1
     hooks:
-      - id: interrogate
-        args:
-          - -v
-          - --fail-under=40
-          - --config
-          - pyproject.toml
-          - --exclude
-          - '{{cookiecutter.project_slug}}/'
-        pass_filenames: false
+      - id: nbqa-black
+      - id: nbqa-ruff
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
@@ -117,11 +105,6 @@ repos:
           - --wrap
           - '88'
         files: (docs/.)
-        # Exclude files with admonitions.
-        # exclude: |
-        #     (?x)^(
-        #         path/to/file.py
-        #     )$
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.2
     hooks:
