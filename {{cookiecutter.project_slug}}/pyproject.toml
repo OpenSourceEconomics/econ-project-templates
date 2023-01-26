@@ -13,50 +13,34 @@ target-version = "py311"
 select = ["ALL"]
 fix = true
 extend-ignore = [
-    # Numpy docstyle
-    "D107",
-    "D203",
-    "D212",
-    "D213",
-    "D402",
-    "D413",
-    "D415",
-    "D416",
-    "D417",
-    # Others.
-    "D100",     # Missing docstring in public module
-    "D103",     # Missing docstring in public function
-    "D404",     # Do not start module docstring with "This"
-    "RET504",   # unnecessary variable assignment before return
-    "S101",     # raise errors for asserts
-    "I",        # ignore isort
-    "ANN001",   # type annotating variables
-    "ANN101",   # type annotating self
-    "ANN102",   # type annotating cls
-    "ANN201",   # Missing return type annotation
-    "FBT",      # flake8-boolean-trap
-    "EM",       # flake8-errmsg
-    "ANN401",   # flake8-annotate typing
+    "S101",  # Use of `assert` detected.
+    "ANN",  # Missing type annotations
 ]
 
 [tool.ruff.per-file-ignores]
-"tests/*" = ["D", "ANN", "PD011"]
+"tests/*" = ["D", "PD011"]
+"task_*.py" = ["ANN"]
 
 [tool.ruff.pydocstyle]
-convention = "numpy"
+convention = "google"
+
+
+[tool.nbqa.config]
+black = "pyproject.toml"
+
+[tool.nbqa.mutate]
+black = 1
+
 
 [tool.pytest.ini_options]
-filterwarnings = [
-    "ignore:the imp module is deprecated",
-    "ignore:Using or importing the ABCs from 'collections'",
-    "ignore: The (parser|symbol) module is deprecated and will be removed in future",
-]
+filterwarnings = []
 markers = [
     "wip: Tests that are work-in-progress.",
     "unit: Flag for unit tests which target mainly a single function.",
     "integration: Flag for integration tests which may comprise of multiple unit tests.",
     "end_to_end: Flag for tests that cover the whole program.",
 ]
+norecursedirs = ["docs"]
 
 [tool.yamlfix]
 line_length = 88

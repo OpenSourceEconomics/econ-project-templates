@@ -1,3 +1,5 @@
+"""Utilities used in various parts of the project."""
+
 import yaml
 
 
@@ -7,8 +9,7 @@ def read_yaml(path):
     Args:
         path (str or pathlib.Path): Path to file.
 
-    Returns
-    -------
+    Returns:
         dict: The parsed YAML file.
 
     """

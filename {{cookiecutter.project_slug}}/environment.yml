@@ -1,50 +1,41 @@
 ---
 name: {{ cookiecutter.conda_environment_name }}
 channels:
-  - conda-forge
-  - plotly{% if cookiecutter.add_r_example == 'yes' %}
+  - conda-forge{% if cookiecutter.add_r_example == 'yes' %}
   - r{% endif %}
   - nodefaults
 
 dependencies:
-  - python={{ cookiecutter.python_version }}
+  - {% if cookiecutter.add_r_example == 'yes' %}r-plyr
+  - {% endif %}conda-lock
+  - ipykernel
+  - jupyterlab
+  - pandas
+  - pdbpp{% if cookiecutter.add_r_example == 'yes' %}
+  - phantomjs{% endif %}
   - pip >=21.1
-  - setuptools_scm
-  - toml
-
-  # Reproducibility
-  - conda-lock
-
-  # Package dependencies
+  - plotly>=5.13.0
+  - pre-commit{% if cookiecutter.add_julia_example == 'yes' %}
+  - pytask-julia{% endif %}
+  - pytask-latex
+  - pytask-parallel{% if cookiecutter.add_r_example == 'yes' %}
+  - pytask-r{% endif %}{% if cookiecutter.add_stata_example == 'yes' %}
+  - pytask-stata{% endif %}
   - pytask>=0.2
-  - pytask-parallel>=0.2
-  - pytask-latex>=0.2{% if cookiecutter.add_julia_example == 'yes' %}
-  - pytask-julia>=0.2{% endif %}{% if cookiecutter.add_r_example == 'yes' %}
-  - pytask-r>=0.2{% endif %}{% if cookiecutter.add_stata_example == 'yes' %}
-  - pytask-stata>=0.2{% endif %}
-
-  # Misc
-  - black
-  - pre-commit
   - pytest
   - pytest-cov
   - pytest-xdist
-  - pdbpp
-  - ipykernel
-  - jupyterlab
-  - pyyaml
-  - plotly>=5.5.0
-  - pandas
-  - statsmodels
   - python-graphviz
-  - python-kaleido{% if cookiecutter.add_r_example == 'yes' %}
-  - r-plyr
-  - r-reshape2
-  - r-xtable
+  - python={{ cookiecutter.python_version }}
+  - pyyaml{% if cookiecutter.add_r_example == 'yes' %}
   - r-plotly
+  - r-reshape2
   - r-reticulate
   - r-webshot
-  - phantomjs{% endif %}
-
+  - r-xtable{% endif %}
+  - setuptools_scm
+  - statsmodels
+  - toml
   - pip:
-      - -e .  # installs the project
+      - -e .
+      - kaleido

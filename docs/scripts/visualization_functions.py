@@ -8,8 +8,7 @@ def visualize_organisational_steps(case):
         case (str): Must be in {'steps_only_full', 'model_steps_full',
             'model_steps_select'}
 
-    Returns
-    -------
+    Returns:
         fig (plotly.graph_objects.Figure): Figure object.
 
     """

@@ -1,3 +1,5 @@
+"""Functions plotting results."""
+
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -20,8 +22,7 @@ def plot_regression_by_age(data, data_info, predictions, group):
         group (str): Categorical column in data set. We create predictions for each
             unique value in column data[group]. Cannot be 'age' or 'smoke'.
 
-    Returns
-    -------
+    Returns:
         plotly.graph_objects.Figure: The figure.
 
     """
@@ -50,6 +51,6 @@ def plot_regression_by_age(data, data_info, predictions, group):
             marker_color="black",
             marker_opacity=0.1,
             name="Data",
-        )
+        ),
     )
     return fig
