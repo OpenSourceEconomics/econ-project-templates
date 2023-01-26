@@ -1,4 +1,4 @@
-"""This module contains hooks which are executed before the template is rendered."""
+"""Hooks which are executed before the template is rendered."""
 import re
 
 MODULE_REGEX = r"^[_a-zA-Z][_a-zA-Z0-9]*$"
@@ -41,7 +41,7 @@ def main() -> None:
 
     if not re.match(PYTHONVERSION_REGEX, python_version):
         raise ValueError(
-            EXCEPTION_MSG_PYTHONVERSION.format(PYTHONVERSION_MIN, python_version)
+            EXCEPTION_MSG_PYTHONVERSION.format(PYTHONVERSION_MIN, python_version),
         )
 
 

@@ -12,7 +12,6 @@ sys.path.append(str(SRC))
 
 from visualization_functions import visualize_organisational_steps  # noqa: E402
 
-
 for case in ("model_steps_full", "model_steps_select", "steps_only_full"):
 
     kwargs = {
@@ -33,11 +32,13 @@ for tex_file in ("root_bld_src", "src"):
     @pytask.mark.task(id=tex_file)
     def task_compile_latex(depends_on):
         subprocess.run(
-            ("pdflatex", "--shell-escape", depends_on.name), cwd=depends_on.parent
+            ("pdflatex", "--shell-escape", depends_on.name),
+            cwd=depends_on.parent,
         )
         time.sleep(1)
         subprocess.run(
-            ("pdflatex", "--shell-escape", depends_on.name), cwd=depends_on.parent
+            ("pdflatex", "--shell-escape", depends_on.name),
+            cwd=depends_on.parent,
         )
         time.sleep(1)
 

@@ -1,3 +1,5 @@
+"""Functions for fitting the regression model."""
+
 import statsmodels.formula.api as smf
 from statsmodels.iolib.smpickle import load_pickle
 
@@ -36,8 +38,7 @@ def fit_logit_model(data, data_info, model_type):
         message = "Only 'linear' model_type is supported right now."
         raise ValueError(message)
 
-    model = smf.logit(formula, data=data).fit()
-    return model
+    return smf.logit(formula, data=data).fit()
 
 
 def load_model(path):
@@ -50,5 +51,4 @@ def load_model(path):
         statsmodels.base.model.Results: The stored model.
 
     """
-    model = load_pickle(path)
-    return model
+    return load_pickle(path)

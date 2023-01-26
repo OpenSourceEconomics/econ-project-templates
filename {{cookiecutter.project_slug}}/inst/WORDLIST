@@ -23,6 +23,7 @@ ci
 cirmmt
 cls
 conda
+config
 cookiecutter
 cov
 CSE
@@ -80,6 +81,8 @@ ini
 ipykernel
 isort
 jrothstein
+julia
+Julia
 jupyterlab
 kaleido
 KellyHookSanders
@@ -106,8 +109,10 @@ Merali
 MERCHANTABILITY
 Montojo
 NaN
+nbqa
 nodefaults
 NONINFRINGEMENT
+norecursedirs
 Numpy
 numpy
 O'Reilly
@@ -129,6 +134,7 @@ prefhet
 Pryce
 py
 pydocstyle
+pyproject
 Pyrenean
 pytask
 pytest
@@ -156,6 +162,8 @@ Springer
 src
 Stachurski
 StachurskiSargent
+stata
+Stata
 statsmodels
 Steinberg
 sublicense

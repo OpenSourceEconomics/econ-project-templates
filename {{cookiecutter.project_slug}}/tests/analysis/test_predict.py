@@ -1,3 +1,5 @@
+"""Tests for the prediction model."""
+
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
@@ -18,17 +20,10 @@ def model():
         @staticmethod
         def predict(data):
             if "high-school" in data["education"].to_numpy():
-                if "low" in data["income"].to_numpy():
-                    prob = 0.1
-                else:
-                    prob = 0.2
+                prob = 0.1 if "low" in data["income"].to_numpy() else 0.2
             else:
-                if "low" in data["income"].to_numpy():
-                    prob = 0.3
-                else:
-                    prob = 0.4
-            prob = prob * data["age"]
-            return prob
+                prob = 0.3 if "low" in data["income"].to_numpy() else 0.4
+            return prob * data["age"]
 
     return ModelClass
 

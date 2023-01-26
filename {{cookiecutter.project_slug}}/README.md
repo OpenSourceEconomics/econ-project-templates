@@ -1,5 +1,4 @@
-{{ cookiecutter.project_name }}
-{% for _ in cookiecutter.project_name %}={% endfor %}
+# {{ cookiecutter.project_name }}
 
 {% if cookiecutter.add_github_actions == "yes" %}[![image](https://img.shields.io/github/workflow/status/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/main/main)](https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/actions?query=branch%3Amain)
 {% endif %}
@@ -16,6 +15,7 @@ To get started, create and activate the environment with
 $ conda/mamba env create
 $ conda activate {{ cookiecutter.conda_environment_name }}
 ```
+
 Now you can build the project using
 
 ```console
@@ -26,4 +26,4 @@ $ pytask
 
 This project was created with [cookiecutter](https://github.com/audreyr/cookiecutter)
 and the
-econ-project-templates](https://github.com/OpenSourceEconomics/econ-project-templates).
+[econ-project-templates](https://github.com/OpenSourceEconomics/econ-project-templates).

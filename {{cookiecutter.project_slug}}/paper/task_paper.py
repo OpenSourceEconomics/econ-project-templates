@@ -1,10 +1,9 @@
+"""Tasks for compiling the paper and presentation(s)."""
 import shutil
 
 import pytask
 from pytask_latex import compilation_steps as cs
-from {{cookiecutter.project_slug}}.config import BLD
-from {{cookiecutter.project_slug}}.config import PAPER_DIR
-
+from {{cookiecutter.project_slug}}.config import BLD, PAPER_DIR
 
 documents = ["{{cookiecutter.project_slug}}", "{{cookiecutter.project_slug}}_pres"]
 
@@ -14,12 +13,12 @@ for document in documents:
         script=PAPER_DIR / f"{document}.tex",
         document=BLD / "latex" / f"{document}.pdf",
         compilation_steps=cs.latexmk(
-            options=("--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd")
+            options=("--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd"),
         ),
     )
     @pytask.mark.task(id=document)
-    def task_compile_documents():
-        pass
+    def task_compile_document():
+        """Compile the document specified in the latex decorator."""
 
     kwargs = {
         "depends_on": BLD / "latex" / f"{document}.pdf",
@@ -28,4 +27,5 @@ for document in documents:
 
     @pytask.mark.task(id=document, kwargs=kwargs)
     def task_copy_to_root(depends_on, produces):
+        """Copy a document to the root directory for easier retrieval."""
         shutil.copy(depends_on, produces)

@@ -18,7 +18,6 @@
 import datetime as dt
 import os
 
-
 year = dt.datetime.now().year
 
 author = "Hans-Martin von Gaudecker"
@@ -43,7 +42,6 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
-    "nbsphinx",
     "sphinxcontrib.bibtex",
     "sphinx_panels",
     "myst_parser",
@@ -137,18 +135,6 @@ else:
     todo_include_todos = True
     todo_emit_warnings = True
 
-# -- Options for nbsphinx  ----------------------------------------
-# Execute notebooks before conversion: 'always', 'never', 'auto' (default)
-nbsphinx_execute = "never"
-nbsphinx_prolog = r"""  # noqa: B950
-{% set docname = 'docs/source/' + env.doc2path(env.docname, base=None) %}
-
-.. only:: html
-
-    .. nbinfo::
-        Download the notebook :download:`here
-        <https://nbviewer.jupyter.org/github/OpenSourceEconomics/econ-project-templates/blob/main/{{ docname }}>`
-"""
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -156,7 +142,6 @@ nbsphinx_prolog = r"""  # noqa: B950
 # a list of builtin themes.
 html_theme = "pydata_sphinx_theme"
 
-# html_logo = "_static/images/logo.svg"  # to be made
 
 html_theme_options = {
     "github_url": "https://github.com/OpenSourceEconomics/econ-project-templates",
@@ -168,7 +153,6 @@ html_css_files = ["css/custom.css"]
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-# html_static_path = ["_static"]  # noqa: E800
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -179,5 +163,5 @@ html_sidebars = {
     "**": [
         "relations.html",  # needs 'show_related': True theme option to display
         "searchbox.html",
-    ]
+    ],
 }

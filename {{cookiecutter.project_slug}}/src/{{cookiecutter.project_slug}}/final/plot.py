@@ -1,3 +1,5 @@
+"""Functions plotting results."""
+
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -49,6 +51,6 @@ def plot_regression_by_age(data, data_info, predictions, group):
             marker_color="black",
             marker_opacity=0.1,
             name="Data",
-        )
+        ),
     )
     return fig

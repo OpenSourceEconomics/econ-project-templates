@@ -6,41 +6,34 @@ channels:
   - nodefaults
 
 dependencies:
-  - python
-  - mamba
-  - conda=22.9
-  - pip>=22.3
-  - setuptools_scm
-  - toml
-
-  # Package dependencies
+  - conda
   - cookiecutter
-  - pytask>=0.2
-  - pandas
-  - ipykernel
-  - jupyterlab
-  - plotly>=5.5.0
-  - python-kaleido
-
-  # Documentation
   - furo
-  - black
-  - ipython
+  - ipykernel
   - ipython_genutils
+  - ipywidgets
+  - jupyterlab
+  - mamba
+  - myst-parser
   - nbsphinx
+  - pandas
+  - pdbpp
+  - pip
+  - plotly>=5.13.0
+  - pre-commit
+  - pydata-sphinx-theme>=0.3.0
+  - pytask>=0.2
+  - pytest
+  - pytest-cov
+  - python
+  - setuptools_scm
   - sphinx
   - sphinx-autoapi
   - sphinx-click
   - sphinx-copybutton
   - sphinx-panels
   - sphinxcontrib-bibtex
-  - pydata-sphinx-theme>=0.3.0
-  - myst-parser
-
-  # Misc
-  - pdbpp
-  - pre-commit
-  - pytest
-  - pytest-cov
+  - toml
   - pip:
+      - kaleido
       - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config

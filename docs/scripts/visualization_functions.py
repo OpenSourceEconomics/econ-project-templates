@@ -20,7 +20,7 @@ def visualize_organisational_steps(case):
             x=[0.75, 4.3],
             y=[0.60, 2.5],
             mode="text",  # this tells plotly to hide the 'data points'
-        )
+        ),
     )
 
     # add shapes
@@ -76,16 +76,26 @@ def update_fig_with_shape(case, fig):
     elif case == "model_steps_select":
         for k in (0, 3):
             fig = fig.add_shape(
-                type="rect", x0=0.75 + k, x1=1.25 + k, y0=0.75, y1=2.25, fillcolor="red"
+                type="rect",
+                x0=0.75 + k,
+                x1=1.25 + k,
+                y0=0.75,
+                y1=2.25,
+                fillcolor="red",
             )
         for k in (1, 2):
             for y0, y1 in ((0.75, 1.25), (1.75, 2.25)):
                 fig = fig.add_shape(
-                    type="rect", x0=0.75 + k, x1=1.25 + k, y0=y0, y1=y1, fillcolor="red"
+                    type="rect",
+                    x0=0.75 + k,
+                    x1=1.25 + k,
+                    y0=y0,
+                    y1=y1,
+                    fillcolor="red",
                 )
     else:
         raise ValueError(
             "Case must be in {'steps_only_full', 'model_steps_full', "
-            "'model_steps_select'}"
+            "'model_steps_select'}",
         )
     return fig

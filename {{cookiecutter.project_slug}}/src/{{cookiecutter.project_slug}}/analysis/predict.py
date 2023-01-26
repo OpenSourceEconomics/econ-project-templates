@@ -1,3 +1,5 @@
+"""Functions for predicting outcomes based on the estimated model."""
+
 import numpy as np
 import pandas as pd
 

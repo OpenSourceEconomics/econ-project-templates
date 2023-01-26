@@ -1,21 +1,19 @@
 import numpy as np
 import pandas as pd
 import pytest
-from {{cookiecutter.project_slug}}.data_management import clean_data
 from {{cookiecutter.project_slug}}.config import TEST_DIR
+from {{cookiecutter.project_slug}}.data_management import clean_data
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
 @pytest.fixture()
 def data():
-    data = pd.read_csv(TEST_DIR / "data_management" / "data_fixture.csv")
-    return data
+    return pd.read_csv(TEST_DIR / "data_management" / "data_fixture.csv")
 
 
 @pytest.fixture()
 def data_info():
-    data_info = read_yaml(TEST_DIR / "data_management" / "data_info_fixture.yaml")
-    return data_info
+    return read_yaml(TEST_DIR / "data_management" / "data_info_fixture.yaml")
 
 
 def test_clean_data_drop_columns(data, data_info):

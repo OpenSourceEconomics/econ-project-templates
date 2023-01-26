@@ -1,5 +1,10 @@
 ---
 repos:
+  - repo: meta
+    hooks:
+      # - id: check-hooks-apply  # Leave nbqa in here.
+      - id: check-useless-excludes
+      # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
     rev: 1.2.0
     hooks:
@@ -14,42 +19,36 @@ repos:
       - id: check-merge-conflict
       - id: check-vcs-permalinks
       - id: check-yaml
+      - id: check-toml
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
+        types:
+          - text
+      - id: forbid-submodules
       - id: mixed-line-ending
+        args:
+          - --fix=lf
+        description: Forces to replace line ending by the UNIX 'lf' character.
+      - id: name-tests-test
+        args:
+          - --pytest-test-first
       - id: trailing-whitespace
+      - id: check-ast
+      - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.28.0
     hooks:
       - id: yamllint
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
-    hooks:
-      - id: python-check-blanket-noqa
-      - id: python-check-mock-methods
-      - id: python-no-eval
-      - id: python-no-log-warn
-      - id: python-use-type-annotations
-      - id: text-unicode-replacement-char
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-      - id: pyupgrade
-        args:
-          - --py37-plus
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
-    hooks:
-      - id: reorder-python-imports
-  - repo: https://github.com/asottile/setup-cfg-fmt
-    rev: v1.20.0
-    hooks:
-      - id: setup-cfg-fmt
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
       - id: black
+        language_version: python3.11
+  - repo: https://github.com/asottile/blacken-docs
+    rev: 1.13.0
+    hooks:
+      - id: blacken-docs
   - repo: https://github.com/PyCQA/docformatter
     rev: v1.5.1
     hooks:
@@ -62,30 +61,56 @@ repos:
           - '88'
           - --blank
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.205
+    rev: v0.0.230
     hooks:
       - id: ruff
-  - repo: https://github.com/dosisod/refurb
-    rev: v1.9.1
+      #   args:
+      #     - --verbose
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
     hooks:
-      - id: refurb
+      - id: nbstripout
         args:
-          - --ignore
-          - FURB126
+          - --extra-keys
+          - metadata.kernelspec metadata.language_info.version metadata.vscode
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.6.1
+    hooks:
+      - id: nbqa-black
+      - id: nbqa-ruff
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.16
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-black
+        args:
+          - --wrap
+          - '88'
+        files: (README\.md)
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.16
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-myst
+          - mdformat-black
+        args:
+          - --wrap
+          - '88'
+        files: (docs/.)
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.2
     hooks:
       - id: codespell
         args:
           - --skip="**.ipynb"
-  - repo: meta
+  - repo: https://github.com/asottile/setup-cfg-fmt
+    rev: v2.2.0
     hooks:
-      - id: check-hooks-apply
-      - id: check-useless-excludes
-      # - id: identity  # Prints all files passed to pre-commits. Debugging.
-
+      - id: setup-cfg-fmt
 {% if cookiecutter.add_r_example == 'yes' %}
-  # All available hooks: https://pre-commit.com/hooks.html
   # R specific hooks: https://github.com/lorenzwalthert/precommit
   - repo: https://github.com/lorenzwalthert/precommit
     rev: v0.3.2
@@ -128,18 +153,6 @@ repos:
       - id: parsable-R
       - id: no-browser-statement
       - id: no-debug-statement
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v1.2.3
-    hooks:
-      - id: check-added-large-files
-        args:
-          - --maxkb=200
-      - id: end-of-file-fixer
-  - repo: https://github.com/pre-commit-ci/pre-commit-ci-config
-    rev: v1.5.1
-    hooks:
-      # Only required when https://pre-commit.ci is used for config validation
-      - id: check-pre-commit-ci-config
   - repo: local
     hooks:
       - id: forbid-to-commit
