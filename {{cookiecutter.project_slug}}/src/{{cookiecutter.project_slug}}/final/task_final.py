@@ -39,8 +39,8 @@ def task_create_results_table_python(depends_on, produces):
     model = load_model(depends_on)
     table = model.summary().as_latex()
     with open(produces, "w") as f:
-        f.writelines(table){% endif %}{% if cookiecutter.add_r_example == 'yes' %}
-
+        f.writelines(table){% endif %}{% if cookiecutter.add_python_example == 'yes' and cookiecutter.add_r_example == 'yes' %}
+{% endif %}{% if cookiecutter.add_r_example == 'yes' %}
 
 for group in GROUPS:
 
@@ -54,12 +54,12 @@ for group in GROUPS:
         {
             "data_info": SRC / "data_management" / "data_info.yaml",
             "data": BLD / "r" / "data" / "data_clean.csv",
-        }
+        },
     )
     @pytask.mark.task(id=group, kwargs=kwargs)
     @pytask.mark.r(script=SRC / "final" / "plot_regression.r", serializer="yaml")
     def task_plot_results_by_age_r():
-        """Plot the regression results by age (R version)"""
+        """Plot the regression results by age (R version)."""
 
 
 @pytask.mark.depends_on({"model": BLD / "r" / "models" / "model.rds", "SRC": SRC})

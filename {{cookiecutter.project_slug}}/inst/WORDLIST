@@ -23,6 +23,7 @@ ci
 cirmmt
 cls
 conda
+config
 cookiecutter
 cov
 CSE
@@ -108,8 +109,10 @@ Merali
 MERCHANTABILITY
 Montojo
 NaN
+nbqa
 nodefaults
 NONINFRINGEMENT
+norecursedirs
 Numpy
 numpy
 O'Reilly
@@ -131,6 +134,7 @@ prefhet
 Pryce
 py
 pydocstyle
+pyproject
 Pyrenean
 pytask
 pytest

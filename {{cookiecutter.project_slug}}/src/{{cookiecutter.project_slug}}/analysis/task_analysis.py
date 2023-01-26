@@ -3,9 +3,9 @@
 {% if cookiecutter.add_python_example == 'yes' %}import pandas as pd
 {% endif %}import pytask
 
-from {{cookiecutter.project_slug}}.analysis.model import fit_logit_model, load_model
+{% if cookiecutter.add_python_example == 'yes' %}from {{cookiecutter.project_slug}}.analysis.model import fit_logit_model, load_model
 from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
-from {{cookiecutter.project_slug}}.config import BLD, GROUPS, SRC{% if cookiecutter.add_python_example == 'yes' %}
+{% endif %}from {{cookiecutter.project_slug}}.config import BLD, GROUPS, SRC{% if cookiecutter.add_python_example == 'yes' %}
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
@@ -53,7 +53,7 @@ for group in GROUPS:
         "scripts": ["predict.r"],
         "data": BLD / "r" / "data" / "data_clean.csv",
         "data_info": SRC / "data_management" / "data_info.yaml",
-    }
+    },
 )
 @pytask.mark.produces(BLD / "r" / "models" / "model.rds")
 def task_fit_model_r():
@@ -71,9 +71,9 @@ for group in GROUPS:
         {
             "data": BLD / "r" / "data" / "data_clean.csv",
             "model": BLD / "r" / "models" / "model.rds",
-        }
+        },
     )
     @pytask.mark.task(id=group, kwargs=kwargs)
-    @pytask.mark.r(script=SRC /  "analysis" / "predict.r", serializer="yaml")
+    @pytask.mark.r(script=SRC / "analysis" / "predict.r", serializer="yaml")
     def task_predict_r():
         """Predict based on the model estimates (R version)."""{% endif %}

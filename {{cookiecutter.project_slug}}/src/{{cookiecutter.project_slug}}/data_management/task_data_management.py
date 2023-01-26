@@ -33,5 +33,4 @@ def task_clean_data_python(depends_on, produces):
 )
 @pytask.mark.produces(BLD / "r" / "data" / "data_clean.csv")
 def task_clean_data_r():
-    """Clean the data (R version)."""
-{% endif %}
+    """Clean the data (R version)."""{% endif %}
