@@ -34,6 +34,9 @@ def main() -> None:
     if "{{ cookiecutter.add_github_actions }}" == "no":
         remove_directory(project_path, ".github", "workflows")
 
+    if "{{ cookiecutter.add_codecov }}" == "no":
+        remove_file(project_path, "codecov.yml")
+
     if "{{ cookiecutter.add_python_example }}" == "no":
         keep = ["__init__", "task_", "config"]
         python_files = project_path.rglob("*.py")
