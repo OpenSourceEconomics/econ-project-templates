@@ -77,10 +77,11 @@
    Selecting this option only installs pytask-Stata to the environment.
    ```
 
-   **add_github_actions** -- Whether to add GitHub actions configuration files.
+   **add_linters** -- Whether to add tools to pre-commit hook that check your code
+   quality, but cannot fix your code automatically. Not recommended for inexperienced
+   programmers.
 
-   **add_codecov** -- Whether to add configuration files to collect the testing coverage
-   of your project using codecov.
+   **add_github_actions** -- Whether to add GitHub actions configuration files.
 
    **create_changelog** -- Whether to create a CHANGES file where contributors note
    their changes made to the project.

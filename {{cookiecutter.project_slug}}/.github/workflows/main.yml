@@ -1,11 +1,10 @@
 ---
 name: main
-
 # Automatically cancel a previous run.
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
-
+# yamllint disable-line rule:truthy
 on:
   push:
     branches:
@@ -13,7 +12,6 @@ on:
   pull_request:
     branches:
     - '*'
-
 jobs:
   run-tests:
     name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
@@ -41,9 +39,9 @@ jobs:
         shell: bash -l {0}
         run: |
           micromamba activate gettsim
-          pytest --cov-report=xml --cov=./ --ignore=dashboard/{% if cookiecutter.add_codecov == 'yes' %}
+          pytest --cov-report=xml --cov=./ --ignore=dashboard/
       - name: Upload coverage report.
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
         uses: codecov/codecov-action@v3
         # with:
-        #   token: ${{ secrets.CODECOV_TOKEN }}{% endif %}
+        #   token: ${{ secrets.CODECOV_TOKEN }}

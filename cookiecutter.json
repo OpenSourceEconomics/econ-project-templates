@@ -35,11 +35,11 @@
     "yes",
     "no"
   ],
-  "add_github_actions": [
-    "yes",
-    "no"
+  "add_linters": [
+    "no",
+    "yes"
   ],
-  "add_codecov": [
+  "add_github_actions": [
     "yes",
     "no"
   ],

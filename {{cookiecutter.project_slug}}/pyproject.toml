@@ -11,7 +11,8 @@ infer_latex_dependencies = true
 [tool.ruff]
 target-version = "py311"
 select = ["ALL"]
-fix = true
+fix = true{% if cookiecutter.add_linters == 'no' %}
+fix-only = true # No linting errors will be reported{% endif %}
 extend-ignore = [
     "S101",  # Use of `assert` detected.
     "ANN",  # Missing type annotations

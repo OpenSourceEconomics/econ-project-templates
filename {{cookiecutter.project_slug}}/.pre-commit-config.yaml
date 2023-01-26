@@ -35,11 +35,11 @@ repos:
           - --pytest-test-first
       - id: trailing-whitespace
       - id: check-ast
-      - id: check-docstring-first
+      - id: check-docstring-first{% if cookiecutter.add_linters == 'yes' %}
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.28.0
     hooks:
-      - id: yamllint
+      - id: yamllint{% endif %}
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
