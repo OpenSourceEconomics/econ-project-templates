@@ -1,5 +1,12 @@
 # Release Notes
 
+## v0.6.3 -- January 2023
+
+Incorporate more feedback from EPP students, @janosg:
+
+- Do not add linters by default, but give an option to add them.
+- Add github actions back in, make codecov meaningful.
+
 ## v0.6.2 -- January 2023
 
 Incorporate feedback from EPP students, @janosg, @tobiasraabe.

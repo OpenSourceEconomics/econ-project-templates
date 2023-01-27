@@ -4,7 +4,7 @@
    Navigate to the parent folder of your future project and type (i.e., copy & paste):
 
    ```console
-   $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.6.2.zip
+   $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.6.3.zip
    ```
 
 1. The dialogue will move you through the installation. **Make sure to keep this page
