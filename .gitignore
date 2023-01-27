@@ -39,10 +39,7 @@ waf3-*
 *latexmk
 *synctex.gz
 .*
-!.environment.osx.yml
-!.environment.windows.yml
-!.environment.linux.yml
-!.env
+!.github
 .*pdfsvn
 *__pycache__
 analysis_out
@@ -64,13 +61,7 @@ Thumbs.db
 ___*
 .vscode
 !.gitignore
-!.mywaflib
-.env/workaround.bat
-.env/installed_conda_pkgs
-.env/installed_pip_pkgs
-.env/installed_spec.json
 !.pre-commit-config.yaml
-!.azure-pipelines.yaml
 !.readthedocs.yml
 hooks.egg-info
 coverage.xml

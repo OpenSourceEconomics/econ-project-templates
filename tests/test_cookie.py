@@ -24,20 +24,6 @@ def test_bake_project(cookies):
 
 
 @pytest.mark.end_to_end()
-def test_remove_readthedocs(cookies):
-    result = cookies.bake(extra_context={"add_readthedocs": "no"})
-
-    rtd_config = result.project_path.joinpath(".readthedocs.yaml")
-    readme = result.project_path.joinpath("README.md").read_text()
-
-    assert result.exit_code == 0
-    assert result.exception is None
-
-    assert not rtd_config.exists()
-    assert "readthedocs" not in readme
-
-
-@pytest.mark.end_to_end()
 def test_remove_github_actions(cookies):
     result = cookies.bake(extra_context={"add_github_actions": "no"})
 
@@ -49,6 +35,28 @@ def test_remove_github_actions(cookies):
 
     assert not ga_config.exists()
     assert "github/workflow/status" not in readme
+
+
+@pytest.mark.end_to_end()
+def test_add_linters(cookies):
+    result = cookies.bake(extra_context={"add_linters": "yes"})
+
+    actions = result.project_path.joinpath(".pre-commit-config.yaml").read_text()
+    assert "yamllint" in actions
+
+    toml = result.project_path.joinpath("pyproject.toml").read_text()
+    assert "fix-only = true # No linting errors will be reported" not in toml
+
+
+@pytest.mark.end_to_end()
+def test_dont_add_linters_by_default(cookies):
+    result = cookies.bake()
+
+    actions = result.project_path.joinpath(".pre-commit-config.yaml").read_text()
+    assert "yamllint" not in actions
+
+    toml = result.project_path.joinpath("pyproject.toml").read_text()
+    assert "fix-only = true # No linting errors will be reported" in toml
 
 
 @pytest.mark.end_to_end()
