@@ -1,7 +1,6 @@
 ---
 codecov:
   branch: main
-
 coverage:
   precision: 2
   round: down
@@ -10,6 +9,4 @@ coverage:
     project:
       default:
         threshold: 1%
-
-ignore:
-  - '{{cookiecutter.project_slug}}/**/*'
+ignore: ['{{cookiecutter.project_slug}}/**/*']

@@ -39,7 +39,7 @@ def main() -> None:
         keep = ["__init__", "task_", "config"]
         python_files = project_path.rglob("*.py")
         for file in python_files:
-            if all([k not in file.name for k in keep]):
+            if all(k not in file.name for k in keep):
                 remove_file(file)
 
     if "{{ cookiecutter.add_julia_example }}" == "no":
@@ -86,7 +86,6 @@ def main() -> None:
         )
 
     if "{{ cookiecutter.create_conda_environment_at_finish }}" == "yes":
-
         if _mamba := shutil.which("mamba"):
             conda_exe = _mamba
         else:
