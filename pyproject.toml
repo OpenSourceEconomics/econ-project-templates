@@ -48,5 +48,4 @@ omit = [
 
 [tool.yamlfix]
 line_length = 88
-flow_style_sequence = false
 none_representation = "null"
