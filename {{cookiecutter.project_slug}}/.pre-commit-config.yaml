@@ -6,7 +6,7 @@ repos:
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.2.0
+    rev: 1.9.0
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -37,11 +37,11 @@ repos:
       - id: check-ast
       - id: check-docstring-first{% if cookiecutter.add_linters == 'yes' %}
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.28.0
+    rev: v1.30.0
     hooks:
       - id: yamllint{% endif %}
   - repo: https://github.com/psf/black
-    rev: 22.12.0
+    rev: 23.1.0
     hooks:
       - id: black
         language_version: python3.11
@@ -61,7 +61,7 @@ repos:
           - '88'
           - --blank
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.230
+    rev: v0.0.259
     hooks:
       - id: ruff
       #   args:
@@ -74,7 +74,7 @@ repos:
           - --extra-keys
           - metadata.kernelspec metadata.language_info.version metadata.vscode
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.6.1
+    rev: 1.6.4
     hooks:
       - id: nbqa-black
       - id: nbqa-ruff
@@ -101,7 +101,7 @@ repos:
           - '88'
         files: (docs/.)
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.2
+    rev: v2.2.4
     hooks:
       - id: codespell
         args:
