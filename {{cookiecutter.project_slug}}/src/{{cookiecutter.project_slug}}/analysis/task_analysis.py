@@ -26,7 +26,6 @@ def task_fit_model_python(depends_on, produces):
 
 
 for group in GROUPS:
-
     kwargs = {
         "group": group,
         "produces": BLD / "python" / "predictions" / f"{group}.csv",
@@ -61,7 +60,6 @@ def task_fit_model_r():
 
 
 for group in GROUPS:
-
     kwargs = {
         "group": group,
         "produces": BLD / "r" / "predictions" / f"{group}.csv",

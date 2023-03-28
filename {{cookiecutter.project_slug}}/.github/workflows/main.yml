@@ -7,11 +7,9 @@ concurrency:
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - "*"
+    branches: ['*']
 jobs:
   run-tests:
     name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
@@ -19,12 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-        python-version:
-          - "3.11"
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.11']
     steps:
       - uses: actions/checkout@v3
       - name: create build environment
