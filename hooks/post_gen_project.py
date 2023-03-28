@@ -63,7 +63,7 @@ def main() -> None:
         capture_output=True,
     )
 
-    if "{{ cookiecutter.git_remote_url }}" != "":
+    if "{{ cookiecutter.git_remote_url }}":
         subprocess.call(
             ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"],
         )
@@ -108,6 +108,7 @@ def main() -> None:
             warnings.warn(
                 "conda environment could not be created since no conda or mamba "
                 "executable was found.",
+                stacklevel=2,
             )
 
 
