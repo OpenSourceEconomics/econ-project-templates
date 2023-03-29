@@ -7,11 +7,9 @@ concurrency:
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-    - main
+    branches: [main]
   pull_request:
-    branches:
-    - '*'
+    branches: ['*']
 jobs:
   run-tests:
     name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
@@ -19,27 +17,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-        python-version:
-          - '3.11'
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.11']
     steps:
       - uses: actions/checkout@v3
       - name: create build environment
         uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: environment.yml
-          environment-name: "{{ cookiecutter.project_slug }}"
+          environment-name: gha-testing
           cache-env: true
           extra-specs: |
             python=${{ matrix.python-version }}
       - name: run pytest
         shell: bash -l {0}
         run: |
-          micromamba activate gettsim
-          pytest --cov-report=xml --cov=./ --ignore=dashboard/
+          micromamba activate gha-testing
+          pytest --cov-report=xml --cov=./
       - name: Upload coverage report.
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
         uses: codecov/codecov-action@v3

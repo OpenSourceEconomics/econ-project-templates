@@ -9,7 +9,6 @@ from {{cookiecutter.project_slug}}.final import plot_regression_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 for group in GROUPS:
-
     kwargs = {
         "group": group,
         "depends_on": {"predictions": BLD / "python" / "predictions" / f"{group}.csv"},
@@ -43,7 +42,6 @@ def task_create_results_table_python(depends_on, produces):
 {% endif %}{% if cookiecutter.add_r_example == 'yes' %}
 
 for group in GROUPS:
-
     kwargs = {
         "group": group,
         "depends_on": {"predictions": BLD / "r" / "predictions" / f"{group}.csv"},

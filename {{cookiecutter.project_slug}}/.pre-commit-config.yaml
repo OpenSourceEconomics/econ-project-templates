@@ -2,19 +2,18 @@
 repos:
   - repo: meta
     hooks:
-      # - id: check-hooks-apply  # Leave nbqa in here.
       - id: check-useless-excludes
+      # - id: check-hooks-apply  # Leave nbqa in here.
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.2.0
+    rev: 1.9.0
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
       - id: check-added-large-files
-        args:
-          - --maxkb=25
+        args: [--maxkb=25]
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: check-vcs-permalinks
@@ -23,25 +22,22 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
-        types:
-          - text
+        types: [text]
       - id: forbid-submodules
       - id: mixed-line-ending
-        args:
-          - --fix=lf
+        args: [--fix=lf]
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: name-tests-test
-        args:
-          - --pytest-test-first
+        args: [--pytest-test-first]
       - id: trailing-whitespace
       - id: check-ast
       - id: check-docstring-first{% if cookiecutter.add_linters == 'yes' %}
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.28.0
+    rev: v1.30.0
     hooks:
       - id: yamllint{% endif %}
   - repo: https://github.com/psf/black
-    rev: 22.12.0
+    rev: 23.1.0
     hooks:
       - id: black
         language_version: python3.11
@@ -61,7 +57,7 @@ repos:
           - '88'
           - --blank
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.230
+    rev: v0.0.259
     hooks:
       - id: ruff
       #   args:
@@ -74,7 +70,7 @@ repos:
           - --extra-keys
           - metadata.kernelspec metadata.language_info.version metadata.vscode
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.6.1
+    rev: 1.6.4
     hooks:
       - id: nbqa-black
       - id: nbqa-ruff
@@ -82,43 +78,31 @@ repos:
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies:
-          - mdformat-gfm
-          - mdformat-black
-        args:
-          - --wrap
-          - '88'
+        additional_dependencies: [mdformat-gfm, mdformat-black]
+        args: [--wrap, '88']
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
       - id: mdformat
-        additional_dependencies:
-          - mdformat-myst
-          - mdformat-black
-        args:
-          - --wrap
-          - '88'
+        additional_dependencies: [mdformat-myst, mdformat-black]
+        args: [--wrap, '88']
         files: (docs/.)
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.2
+    rev: v2.2.4
     hooks:
       - id: codespell
-        args:
-          - --skip="**.ipynb"
+        args: [--skip="**.ipynb"]
   - repo: https://github.com/asottile/setup-cfg-fmt
     rev: v2.2.0
     hooks:
-      - id: setup-cfg-fmt
-{% if cookiecutter.add_r_example == 'yes' %}
+      - id: setup-cfg-fmt{% if cookiecutter.add_r_example == 'yes' %}
   # R specific hooks: https://github.com/lorenzwalthert/precommit
   - repo: https://github.com/lorenzwalthert/precommit
     rev: v0.3.2
     hooks:
       - id: style-files
-        args:
-          - --style_pkg=styler
-          - --style_fun=tidyverse_style
+        args: [--style_pkg=styler, --style_fun=tidyverse_style]
       - id: spell-check
         exclude: >
           (?x)^(
@@ -160,7 +144,6 @@ repos:
         entry: Cannot commit .Rhistory, .RData, .Rds or .rds.
         language: fail
         files: \.(Rhistory|RData|Rds|rds)$
-        # `exclude: <regex>` to allow committing specific files
-{% endif %}
+        # `exclude: <regex>` to allow committing specific files{% endif %}
 ci:
   autoupdate_schedule: monthly

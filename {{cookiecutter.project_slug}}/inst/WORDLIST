@@ -12,6 +12,7 @@ arxiv
 Baiocchi
 beamer
 Behaviour
+behaviour
 berkeley
 Brandl
 BTEC
@@ -43,6 +44,7 @@ doi
 Dubois
 edu
 emph
+ENH
 errmsg
 favour
 FBT
@@ -121,6 +123,7 @@ OSI
 osx
 Packt
 Panko
+pastable
 pdbpp
 Petter
 phantomjs
@@ -139,6 +142,7 @@ Pyrenean
 pytask
 pytest
 pyyaml
+QST
 quant
 README
 Rebecca
@@ -150,6 +154,7 @@ Rosenbluth
 rosenbluth
 Rothstein
 Roundtable
+rst
 scm
 SCons
 Sebastopol
@@ -168,6 +173,7 @@ statsmodels
 Steinberg
 sublicense
 Thursby
+Todo
 toml
 tox
 truthy

@@ -13,7 +13,6 @@ sys.path.append(str(SRC))
 from visualization_functions import visualize_organisational_steps  # noqa: E402
 
 for case in ("model_steps_full", "model_steps_select", "steps_only_full"):
-
     kwargs = {
         "case": case,
         "produces": FIGURES / f"{case}.png",

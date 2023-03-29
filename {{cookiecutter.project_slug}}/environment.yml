@@ -1,10 +1,6 @@
 ---
 name: {{ cookiecutter.conda_environment_name }}
-channels:
-  - conda-forge{% if cookiecutter.add_r_example == 'yes' %}
-  - r{% endif %}
-  - nodefaults
-
+channels: [conda-forge, {% if cookiecutter.add_r_example == 'yes' %}r, {% endif %}nodefaults]
 dependencies:
   - {% if cookiecutter.add_r_example == 'yes' %}r-plyr
   - {% endif %}conda-lock
@@ -36,6 +32,4 @@ dependencies:
   - setuptools_scm
   - statsmodels
   - toml
-  - pip:
-      - -e .
-      - kaleido
+  - pip: [-e ., kaleido]
