@@ -1,5 +1,14 @@
 # Release Notes
 
+## v0.6.4 -- March 2023
+
+Incorporate more feedback from EPP students, @janosg:
+
+- Fix paths for LaTeX files (#133).
+- Fix GHA workflow (#134).
+- Pre-commit autoupdate / fix ruff complaints.
+- Use default sequence style of yamlfix.
+
 ## v0.6.3 -- January 2023
 
 Incorporate more feedback from EPP students, @janosg:
