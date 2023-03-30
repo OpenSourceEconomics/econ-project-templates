@@ -45,17 +45,6 @@ repos:
     rev: 1.13.0
     hooks:
       - id: blacken-docs
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.5.1
-    hooks:
-      - id: docformatter
-        args:
-          - --in-place
-          - --wrap-summaries
-          - '88'
-          - --wrap-descriptions
-          - '88'
-          - --blank
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.259
     hooks:
