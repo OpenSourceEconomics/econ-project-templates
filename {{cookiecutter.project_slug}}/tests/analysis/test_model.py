@@ -10,12 +10,12 @@ DESIRED_PRECISION = 10e-2
 
 @pytest.fixture()
 def data():
-    np.random.seed(0)
-    x = np.random.normal(size=100_000)
+    np.random.default_rng(seed=0)
+    x = np.random.Generator.normal(size=100_000)
     coef = 2.0
     prob = 1 / (1 + np.exp(-coef * x))
     return pd.DataFrame(
-        {"outcome_numerical": np.random.binomial(1, prob), "covariate": x},
+        {"outcome_numerical": np.random.Generator.binomial(1, prob), "covariate": x},
     )
 
 
