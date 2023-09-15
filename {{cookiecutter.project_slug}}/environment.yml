@@ -13,7 +13,7 @@ dependencies:
   - plotly>=5.13.0
   - pre-commit{% if cookiecutter.add_julia_example == 'yes' %}
   - pytask-julia{% endif %}
-  - pytask-latex
+  # - pytask-latex
   - pytask-parallel{% if cookiecutter.add_r_example == 'yes' %}
   - pytask-r{% endif %}{% if cookiecutter.add_stata_example == 'yes' %}
   - pytask-stata{% endif %}
@@ -24,7 +24,9 @@ dependencies:
   - python-graphviz
   - python={{ cookiecutter.python_version }}
   - pyyaml{% if cookiecutter.add_r_example == 'yes' %}
+  - plotly-orca
   - r-plotly
+  - r-processx
   - r-reshape2
   - r-reticulate
   - r-webshot
@@ -32,4 +34,4 @@ dependencies:
   - setuptools_scm
   - statsmodels
   - toml
-  - pip: [-e ., kaleido]
+  - pip: [-e ., kaleido, git+https://github.com/pytask-dev/pytask.git@main]

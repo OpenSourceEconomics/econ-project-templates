@@ -9,20 +9,18 @@ from {{cookiecutter.project_slug}}.final import plot_regression_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 for group in GROUPS:
-    kwargs = {
-        "group": group,
-        "depends_on": {"predictions": BLD / "python" / "predictions" / f"{group}.csv"},
-        "produces": BLD / "python" / "figures" / f"smoking_by_{group}.png",
+    deps = {
+        "predictions": BLD / "python" / "predictions" / f"{group}.csv",
+        "data_info": SRC / "data_management" / "data_info.yaml",
+        "data": BLD / "python" / "data" / "data_clean.csv",
     }
 
-    @pytask.mark.depends_on(
-        {
-            "data_info": SRC / "data_management" / "data_info.yaml",
-            "data": BLD / "python" / "data" / "data_clean.csv",
-        },
-    )
-    @pytask.mark.task(id=group, kwargs=kwargs)
-    def task_plot_results_by_age_python(depends_on, group, produces):
+    @pytask.mark.task
+    def task_plot_results_by_age_python(
+        group=group,
+        depends_on=deps,
+        produces=BLD / "python" / "figures" / f"smoking_by_{group}.png",
+    ):
         """Plot the regression results by age (Python version)."""
         data_info = read_yaml(depends_on["data_info"])
         data = pd.read_csv(depends_on["data"])
@@ -31,9 +29,10 @@ for group in GROUPS:
         fig.write_image(produces)
 
 
-@pytask.mark.depends_on(BLD / "python" / "models" / "model.pickle")
-@pytask.mark.produces(BLD / "python" / "tables" / "estimation_results.tex")
-def task_create_results_table_python(depends_on, produces):
+def task_create_results_table_python(
+    depends_on=BLD / "python" / "models" / "model.pickle",
+    produces=BLD / "python" / "tables" / "estimation_results.tex",
+):
     """Store a table in LaTeX format with the estimation results (Python version)."""
     model = load_model(depends_on)
     table = model.summary().as_latex()

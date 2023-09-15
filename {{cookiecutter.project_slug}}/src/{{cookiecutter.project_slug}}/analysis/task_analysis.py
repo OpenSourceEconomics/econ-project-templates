@@ -1,5 +1,7 @@
 """Tasks running the core analyses."""
 
+from pathlib import Path
+
 {% if cookiecutter.add_python_example == 'yes' %}import pandas as pd
 {% endif %}import pytask
 
@@ -9,15 +11,16 @@ from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
 
-@pytask.mark.depends_on(
-    {
-        "scripts": ["model.py", "predict.py"],
-        "data": BLD / "python" / "data" / "data_clean.csv",
-        "data_info": SRC / "data_management" / "data_info.yaml",
-    },
-)
-@pytask.mark.produces(BLD / "python" / "models" / "model.pickle")
-def task_fit_model_python(depends_on, produces):
+fit_model_deps = {
+    "scripts": [Path("model.py"), Path("predict.py")],
+    "data": BLD / "python" / "data" / "data_clean.csv",
+    "data_info": SRC / "data_management" / "data_info.yaml",
+}
+
+def task_fit_model_python(
+    depends_on=fit_model_deps,
+    produces=BLD / "python" / "models" / "model.pickle",
+):
     """Fit a logistic regression model (Python version)."""
     data_info = read_yaml(depends_on["data_info"])
     data = pd.read_csv(depends_on["data"])
@@ -26,19 +29,16 @@ def task_fit_model_python(depends_on, produces):
 
 
 for group in GROUPS:
-    kwargs = {
-        "group": group,
-        "produces": BLD / "python" / "predictions" / f"{group}.csv",
+    predict_deps = {
+        "data": BLD / "python" / "data" / "data_clean.csv",
+        "model": BLD / "python" / "models" / "model.pickle",
     }
-
-    @pytask.mark.depends_on(
-        {
-            "data": BLD / "python" / "data" / "data_clean.csv",
-            "model": BLD / "python" / "models" / "model.pickle",
-        },
-    )
-    @pytask.mark.task(id=group, kwargs=kwargs)
-    def task_predict_python(depends_on, group, produces):
+    @pytask.mark.task
+    def task_predict_python(
+        group=group,
+        depends_on=predict_deps,
+        produces=BLD / "python" / "predictions" / f"{group}.csv",
+    ):
         """Predict based on the model estimates (Python version)."""
         model = load_model(depends_on["model"])
         data = pd.read_csv(depends_on["data"])
