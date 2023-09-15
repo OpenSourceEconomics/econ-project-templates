@@ -20,6 +20,7 @@ dependencies:
   - pydata-sphinx-theme>=0.3.0
   - pytask>=0.2
   - pytest
+  - pytest-cookies
   - pytest-cov
   - python
   - setuptools_scm
@@ -30,6 +31,4 @@ dependencies:
   - sphinx-panels
   - sphinxcontrib-bibtex
   - toml
-  - pip:
-      - kaleido
-      - git+https://github.com/andriihomiak/pytest-cookies.git@fix/quotes_in_user_config
+  - pip: [kaleido]

@@ -29,8 +29,8 @@ def test_clean_data_dropna(data, data_info):
 def test_clean_data_categorical_columns(data, data_info):
     data_clean = clean_data(data, data_info)
     for cat_col in data_info["categorical_columns"]:
-        cat_col = data_info["column_rename_mapping"].get(cat_col, cat_col)
-        assert data_clean[cat_col].dtype == "category"
+        renamed_col = data_info["column_rename_mapping"].get(cat_col, cat_col)
+        assert data_clean[renamed_col].dtype == "category"
 
 
 def test_clean_data_column_rename(data, data_info):

@@ -3,8 +3,10 @@ target-version = "py311"
 select = ["ALL"]
 fix = true
 extend-ignore = [
-    "PLR0133"  # Constants being compared, always happening with cookiecutter.
-]
+    "PLR0133",  # Constants being compared, always happening with cookiecutter.
+    "S603",  # `subprocess` call: check for execution of untrusted input
+    "S607",  # Starting a process with a partial executable path
+ ]
 exclude = [
     "docs/scripts"
 ]
