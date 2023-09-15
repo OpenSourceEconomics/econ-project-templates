@@ -65,3 +65,5 @@ ___*
 !.readthedocs.yml
 hooks.egg-info
 coverage.xml
+tmp*
+pytest-of-hmg

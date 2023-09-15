@@ -39,5 +39,4 @@ def predict_prob_by_age(data, model, group):
         _new_data[group] = group_value
         predicted[group_value] = model.predict(_new_data)
 
-    predicted = pd.DataFrame(predicted)
-    return predicted
+    return pd.DataFrame(predicted)
