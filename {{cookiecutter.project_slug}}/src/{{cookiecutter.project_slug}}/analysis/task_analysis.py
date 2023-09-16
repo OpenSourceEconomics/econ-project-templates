@@ -33,7 +33,7 @@ for group in GROUPS:
         "data": BLD / "python" / "data" / "data_clean.csv",
         "model": BLD / "python" / "models" / "model.pickle",
     }
-    @pytask.mark.task
+    @pytask.task(id=group)
     def task_predict_python(
         group=group,
         depends_on=predict_deps,
@@ -71,7 +71,7 @@ for group in GROUPS:
             "model": BLD / "r" / "models" / "model.rds",
         },
     )
-    @pytask.mark.task(id=group, kwargs=kwargs)
+    @pytask.task(id=group, kwargs=kwargs)
     @pytask.mark.r(script=SRC / "analysis" / "predict.r", serializer="yaml")
     def task_predict_r():
         """Predict based on the model estimates (R version)."""{% endif %}

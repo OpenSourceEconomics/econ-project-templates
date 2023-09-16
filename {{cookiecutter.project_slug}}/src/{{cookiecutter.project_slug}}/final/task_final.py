@@ -15,7 +15,7 @@ for group in GROUPS:
         "data": BLD / "python" / "data" / "data_clean.csv",
     }
 
-    @pytask.mark.task
+    @pytask.task(id=group)
     def task_plot_results_by_age_python(
         group=group,
         depends_on=deps,
@@ -53,7 +53,7 @@ for group in GROUPS:
             "data": BLD / "r" / "data" / "data_clean.csv",
         },
     )
-    @pytask.mark.task(id=group, kwargs=kwargs)
+    @pytask.task(id=group, kwargs=kwargs)
     @pytask.mark.r(script=SRC / "final" / "plot_regression.r", serializer="yaml")
     def task_plot_results_by_age_r():
         """Plot the regression results by age (R version)."""
