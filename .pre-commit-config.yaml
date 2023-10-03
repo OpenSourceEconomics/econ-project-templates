@@ -59,8 +59,8 @@ repos:
           - --wrap-descriptions
           - '88'
           - --blank
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.289
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.0.292
     hooks:
       - id: ruff
       #   args:
@@ -92,7 +92,7 @@ repos:
         args: [--wrap, '88']
         files: (docs/.)
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
+    rev: v2.2.6
     hooks:
       - id: codespell
         args: [--skip="**.ipynb"]
