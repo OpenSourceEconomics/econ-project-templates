@@ -4,6 +4,7 @@ import re
 MODULE_REGEX = r"^[_a-zA-Z][_a-zA-Z0-9]*$"
 ENVIRON_REGEX = r"^[-_a-zA-Z0-9]*$"
 PYTHON_VERSION_REGEX = r"^(3)\.(11)"
+# If bumping this, also bump the version in "test_invalid_python_version"
 PYTHON_VERSION_MIN = "3.11"
 
 
