@@ -48,7 +48,7 @@ Incorporate feedback from EPP students, @janosg, @tobiasraabe.
 
 - Much improved documentation (@raholler)
 - Extensive instructions for use on Windows (@raholler)
-- Re-use previously-entered data when cookiecutter fails
+- Reuse previously-entered data when cookiecutter fails
   (@tobiasraabe, @raholler)
 - Fix Stata template by setting <span
   class="title-ref">--shell-escape=1</span> (#63, @raholler)
