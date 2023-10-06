@@ -1,5 +1,10 @@
 # Release Notes
 
+## v0.x.x -- October 2023
+
+- Update required pytask to version 0.4 and adjust code accordingly.
+- Pre-commit autoupdate / fix ruff complaints.
+
 ## v0.6.4 -- March 2023
 
 Incorporate more feedback from EPP students, @janosg:
