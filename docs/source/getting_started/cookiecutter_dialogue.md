@@ -1,11 +1,17 @@
 1. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
    terminal.
 
-   Navigate to the parent folder of your future project and type (i.e., copy & paste):
+   1. Navigate to the parent folder of your future project.
 
-   ```console
-   $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.6.5.zip
-   ```
+   1. If you are using conda environments, make sure that you are in the base
+      environment before proceeding. If in doubt, type `conda deactivate`, possibly
+      multiple times.
+
+   1. Type (i.e., copy & paste):
+
+      ```console
+      cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.6.5.zip
+      ```
 
 1. The dialogue will move you through the installation. **Make sure to keep this page
    side-by-side during the process because if something is invalid, the whole process

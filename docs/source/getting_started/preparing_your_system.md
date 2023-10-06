@@ -126,6 +126,11 @@
    enable personalized installations. Before you start, install cookiecutter on your
    system.
 
+   ```{warning} If you are using conda environments, make sure that you are in the base
+   environment before installing cookiecutter (`conda deactivate`, possibly multiple
+   times). Else you may get a nested environment later on, this can be annoying.
+   ```
+
    ```console
    $ pip install cookiecutter
    ```
