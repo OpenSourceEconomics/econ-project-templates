@@ -42,7 +42,7 @@
 
    **version** -- The version of your project.
 
-   **python_version** -- The python version, tested with 3.9 - 3.11.
+   **python_version** -- The python version, min 3.10, tested with 3.10 - 3.11.
 
    **conda_environment_name** -- Name of your conda environment. This should not be too
    long, since you need to type it often.

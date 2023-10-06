@@ -10,12 +10,12 @@ from {{cookiecutter.project_slug}}.analysis.predict import predict_prob_by_age
 {% endif %}from {{cookiecutter.project_slug}}.config import BLD, GROUPS, SRC{% if cookiecutter.add_python_example == 'yes' %}
 from {{cookiecutter.project_slug}}.utilities import read_yaml
 
-
 fit_model_deps = {
     "scripts": [Path("model.py"), Path("predict.py")],
     "data": BLD / "python" / "data" / "data_clean.csv",
     "data_info": SRC / "data_management" / "data_info.yaml",
 }
+
 
 def task_fit_model_python(
     depends_on=fit_model_deps,
@@ -33,6 +33,7 @@ for group in GROUPS:
         "data": BLD / "python" / "data" / "data_clean.csv",
         "model": BLD / "python" / "models" / "model.pickle",
     }
+
     @pytask.task(id=group)
     def task_predict_python(
         group=group,

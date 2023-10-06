@@ -1,6 +1,6 @@
 ---
 name: {{ cookiecutter.conda_environment_name }}
-channels: [conda-forge, {% if cookiecutter.add_r_example == 'yes' %}r, {% endif %}nodefaults]
+channels: [conda-forge, conda-forge/label/pytask_rc, conda-forge/label/pytask_parallel_rc, {% if cookiecutter.add_r_example == 'yes' %}r, {% endif %}nodefaults]
 dependencies:
   - {% if cookiecutter.add_r_example == 'yes' %}r-plyr
   - {% endif %}conda-lock
@@ -14,10 +14,10 @@ dependencies:
   - pre-commit{% if cookiecutter.add_julia_example == 'yes' %}
   - pytask-julia{% endif %}
   # - pytask-latex
-  - pytask-parallel{% if cookiecutter.add_r_example == 'yes' %}
+  - pytask-parallel>=0.4.0rc1{% if cookiecutter.add_r_example == 'yes' %}
   - pytask-r{% endif %}{% if cookiecutter.add_stata_example == 'yes' %}
   - pytask-stata{% endif %}
-  - pytask>=0.2
+  - pytask>=0.4.0rc4
   - pytest
   - pytest-cov
   - pytest-xdist
@@ -34,4 +34,4 @@ dependencies:
   - setuptools_scm
   - statsmodels
   - toml
-  - pip: [-e ., kaleido, git+https://github.com/pytask-dev/pytask.git@main]
+  - pip: [-e ., kaleido, git+https://github.com/pytask-dev/pytask-latex.git@pytaskv4]

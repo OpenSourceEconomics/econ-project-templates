@@ -92,6 +92,9 @@ def main() -> None:
             conda_exe = shutil.which("conda")
 
         if conda_exe:
+            print(
+                "\nStarting to create conda environment, might take a while.",
+            )
             subprocess.run(
                 (
                     conda_exe,
@@ -104,6 +107,7 @@ def main() -> None:
                 check=True,
                 capture_output=True,
             )
+            print("Finished creating conda environment.")
         else:
             warnings.warn(
                 "conda environment could not be created since no conda or mamba "
