@@ -1,11 +1,12 @@
 # Release Notes
 
-## v0.x.x -- October 2023
+## v0.7.0 -- October 2023
 
-- Update required pytask to version 0.4 and adjust code accordingly.
+- Update required pytask to version 0.4 and adjust code accordingly (only Python
+  example).
 - Pre-commit autoupdate / fix ruff complaints.
 
-## v0.6.4 -- March 2023
+## v0.6.5 -- March 2023
 
 Incorporate more feedback from EPP students, @janosg:
 
