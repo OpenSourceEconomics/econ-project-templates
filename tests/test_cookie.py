@@ -8,6 +8,22 @@ import pytest
 conda_exe = _mamba if (_mamba := shutil.which("mamba")) else shutil.which("conda")
 
 
+def test_invalid_module_name(cookies):
+    result = cookies.bake(extra_context={"project_slug": "hello-world"})
+    assert str(result.exception).startswith("Hook script failed")
+
+
+def test_invalid_environment_name(cookies):
+    result = cookies.bake(extra_context={"project_slug": "hello-world"})
+    assert str(result.exception).startswith("Hook script failed")
+
+
+def test_invalid_python_version(cookies):
+    result = cookies.bake(extra_context={"python_version": "3.10"})
+    assert result.exception is not None
+    assert str(result.exception).startswith("Hook script failed")
+
+
 @pytest.mark.end_to_end()
 def test_bake_project(cookies):
     major, minor = sys.version_info[:2]
@@ -119,19 +135,14 @@ def test_check_conda_environment_creation_for_all_examples_and_run_all_checks(
             check=True,
         )
 
-        # Check linting, but not on the first try since formatters fix stuff.
-        subprocess.run(
-            (conda_exe, "run", "-n", env_name, "pre-commit", "run", "--all-files"),
-            cwd=result.project_path,
-            check=False,
-            env={},
-        )
-        subprocess.run(
-            (conda_exe, "run", "-n", env_name, "pre-commit", "run", "--all-files"),
-            cwd=result.project_path,
-            check=True,
-            env={},
-        )
+        # Check linting, but not on the first two tries since formatters fix stuff.
+        for check in False, False, True:
+            subprocess.run(
+                (conda_exe, "run", "-n", env_name, "pre-commit", "run", "--all-files"),
+                cwd=result.project_path,
+                check=check,
+                env={},
+            )
 
     subprocess.run(
         (conda_exe, "run", "-n", env_name, "pytask", "-x"),

@@ -13,16 +13,14 @@ dependencies:
   - myst-parser
   - nbsphinx
   - pandas
-  - pdbpp
   - pip
   - plotly>=5.13.0
   - pre-commit
   - pydata-sphinx-theme>=0.3.0
-  - pytask>=0.2
   - pytest
   - pytest-cookies
   - pytest-cov
-  - python
+  - python=3.11
   - setuptools_scm
   - sphinx
   - sphinx-autoapi
@@ -31,4 +29,4 @@ dependencies:
   - sphinx-panels
   - sphinxcontrib-bibtex
   - toml
-  - pip: [kaleido]
+  - pip: [kaleido, pdbp]

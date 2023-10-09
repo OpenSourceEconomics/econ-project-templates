@@ -58,5 +58,6 @@ guides_explanations/index
 programming_languages/index
 faq
 development/index
+release_notes
 zreferences
 ```

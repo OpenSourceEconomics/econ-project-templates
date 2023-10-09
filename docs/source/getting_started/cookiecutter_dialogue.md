@@ -1,11 +1,17 @@
 1. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
    terminal.
 
-   Navigate to the parent folder of your future project and type (i.e., copy & paste):
+   1. Navigate to the parent folder of your future project.
 
-   ```console
-   $ cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.6.5.zip
-   ```
+   1. If you are using conda environments, make sure that you are in the base
+      environment before proceeding. If in doubt, type `conda deactivate`, possibly
+      multiple times.
+
+   1. Type (i.e., copy & paste):
+
+      ```console
+      cookiecutter https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.7.0.zip
+      ```
 
 1. The dialogue will move you through the installation. **Make sure to keep this page
    side-by-side during the process because if something is invalid, the whole process
@@ -42,14 +48,14 @@
 
    **version** -- The version of your project.
 
-   **python_version** -- The python version, tested with 3.9 - 3.11.
+   **python_version** -- The python version, min 3.10, tested with 3.10 - 3.11.
 
    **conda_environment_name** -- Name of your conda environment. This should not be too
-   long, since you need to type it often.
+   long, since you need to type it often. Typically just the same as *project_slug*.
 
-   **create_conda_environment_at_finish** -- Just accept the default. If you don't, the
-   same caveat applies as for the *project_slug*. If you really do not want a conda
-   environment, type "x".
+   **create_conda_environment_at_finish** -- You can do so for convenience, but often it
+   is useful to add packages to the environment file first so that it will serve your
+   needs.
 
    **add_python_example** -- Whether to set up the example project in the Python
    programming language.

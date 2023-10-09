@@ -1,6 +1,12 @@
 # Release Notes
 
-## v0.6.4 -- March 2023
+## v0.7.0 -- October 2023
+
+- Update required pytask to version 0.4 and adjust code accordingly (only Python
+  example).
+- Pre-commit autoupdate / fix ruff complaints.
+
+## v0.6.5 -- March 2023
 
 Incorporate more feedback from EPP students, @janosg:
 
@@ -48,7 +54,7 @@ Incorporate feedback from EPP students, @janosg, @tobiasraabe.
 
 - Much improved documentation (@raholler)
 - Extensive instructions for use on Windows (@raholler)
-- Re-use previously-entered data when cookiecutter fails
+- Reuse previously-entered data when cookiecutter fails
   (@tobiasraabe, @raholler)
 - Fix Stata template by setting <span
   class="title-ref">--shell-escape=1</span> (#63, @raholler)

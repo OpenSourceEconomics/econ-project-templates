@@ -56,8 +56,8 @@ repos:
           - --wrap-descriptions
           - '88'
           - --blank
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.289
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.0.292
     hooks:
       - id: ruff
       #   args:
@@ -75,7 +75,7 @@ repos:
       - id: nbqa-black
         additional_dependencies: [black==23.9.1]
       - id: nbqa-ruff
-        additional_dependencies: [ruff==v0.0.289]
+        additional_dependencies: [ruff==v0.0.292]
         args: ['--ignore=B018,T201']
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.17
@@ -92,7 +92,7 @@ repos:
         args: [--wrap, '88']
         files: (docs/.)
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
+    rev: v2.2.6
     hooks:
       - id: codespell
         args: [--skip="**.ipynb"]

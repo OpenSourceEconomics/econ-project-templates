@@ -13,18 +13,20 @@ dependencies:
   - plotly>=5.13.0
   - pre-commit{% if cookiecutter.add_julia_example == 'yes' %}
   - pytask-julia{% endif %}
-  - pytask-latex
-  - pytask-parallel{% if cookiecutter.add_r_example == 'yes' %}
+  - pytask-latex>=0.4.0
+  - pytask-parallel>=0.4.0{% if cookiecutter.add_r_example == 'yes' %}
   - pytask-r{% endif %}{% if cookiecutter.add_stata_example == 'yes' %}
   - pytask-stata{% endif %}
-  - pytask>=0.2
+  - pytask>=0.4.0
   - pytest
   - pytest-cov
   - pytest-xdist
   - python-graphviz
   - python={{ cookiecutter.python_version }}
   - pyyaml{% if cookiecutter.add_r_example == 'yes' %}
+  - plotly-orca
   - r-plotly
+  - r-processx
   - r-reshape2
   - r-reticulate
   - r-webshot

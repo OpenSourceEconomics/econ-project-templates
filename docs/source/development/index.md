@@ -7,6 +7,3 @@
 parser: myst_parser.sphinx_
 ---
 ```
-
-```{include} changes.md
-```

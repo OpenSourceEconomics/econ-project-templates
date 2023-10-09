@@ -24,16 +24,16 @@
     "no"
   ],
   "add_r_example": [
-    "yes",
-    "no"
+    "no",
+    "yes"
   ],
   "add_julia_example": [
-    "yes",
-    "no"
+    "no",
+    "yes"
   ],
   "add_stata_example": [
-    "yes",
-    "no"
+    "no",
+    "yes"
   ],
   "add_linters": [
     "no",
