@@ -7,7 +7,6 @@ dependencies:
   - ipykernel
   - jupyterlab
   - pandas
-  - pdbpp{% if cookiecutter.add_r_example == 'yes' %}
   - phantomjs{% endif %}
   - pip >=21.1
   - plotly>=5.13.0
@@ -34,4 +33,4 @@ dependencies:
   - setuptools_scm
   - statsmodels
   - toml
-  - pip: [-e ., kaleido]
+  - pip: [-e ., kaleido, pdbp]
