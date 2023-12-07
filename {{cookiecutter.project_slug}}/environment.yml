@@ -6,7 +6,7 @@ dependencies:
   - {% endif %}conda-lock
   - ipykernel
   - jupyterlab
-  - pandas
+  - pandas{% if cookiecutter.add_r_example == 'yes' %}
   - phantomjs{% endif %}
   - pip >=21.1
   - plotly>=5.13.0
