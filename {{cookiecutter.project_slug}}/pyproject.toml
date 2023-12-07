@@ -35,6 +35,7 @@ black = 1
 
 
 [tool.pytest.ini_options]
+addopts = "--pdbcls=pdbp:Pdb"
 filterwarnings = []
 markers = [
     "wip: Tests that are work-in-progress.",
