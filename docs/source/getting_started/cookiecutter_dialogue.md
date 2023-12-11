@@ -38,9 +38,11 @@
 
    **project_description** -- Briefly describe your project.
 
-   **github_username** -- Your GitHub username.
+   **github_username** -- Your GitHub username (only relevant for your local machine,
+   will be different for coauthors / other group members).
 
-   **github_email** -- The email linked to your GitHub account.
+   **github_email** -- The email linked to your GitHub account (only relevant for your
+   local machine, will be different for coauthors / other group members).
 
    **git_remote_url** -- Paste your remote URL here if applicable.
 
