@@ -7,6 +7,7 @@ write_to = "src/{{ cookiecutter.project_slug }}/_version.py"
 [tool.pytask.ini_options]
 paths = ["./src/{{ cookiecutter.project_slug }}", "./paper"]
 infer_latex_dependencies = true
+pdbcls = "pdbp:Pdb"
 
 [tool.ruff]
 target-version = "py311"
@@ -34,6 +35,7 @@ black = 1
 
 
 [tool.pytest.ini_options]
+addopts = "--pdbcls=pdbp:Pdb"
 filterwarnings = []
 markers = [
     "wip: Tests that are work-in-progress.",
