@@ -1,9 +1,14 @@
 # Release Notes
 
+## v0.7.1 -- December 2023
+
+- Replace `Pdb++` by `Pdb+` (#142, @janosg).
+- Fix a problem with LaTeX paths, noted by Berlin students (#143).
+
 ## v0.7.0 -- October 2023
 
 - Update required pytask to version 0.4 and adjust code accordingly (only Python
-  example).
+  example) (#139).
 - Pre-commit autoupdate / fix ruff complaints.
 
 ## v0.6.5 -- March 2023
