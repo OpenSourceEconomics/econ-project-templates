@@ -44,7 +44,10 @@
    **github_email** -- The email linked to your GitHub account (only relevant for your
    local machine, will be different for coauthors / other group members).
 
-   **git_remote_url** -- Paste your remote URL here if applicable.
+   **git_remote_url** -- Paste your GIT remote URL here if applicable. Must be of the
+   form `https://github.com/<user or organisation name>/<repo name>`. I.e., a
+   `https://`-link and without `.git` at the end. This is required because it will be
+   used in multiple places. Need not be github.
 
    **make_initial_commit** -- Whether we should make the first commit for you.
 
