@@ -24,6 +24,22 @@ def test_invalid_python_version(cookies):
     assert str(result.exception).startswith("Hook script failed")
 
 
+def test_valid_non_empty_git_remote_url(cookies):
+    result = cookies.bake(extra_context={"git_remote_url": "https://a.b/x/y"})
+    assert result.exit_code == 0
+    assert result.exception is None
+
+
+def test_invalid_git_remote_url_not_https(cookies):
+    result = cookies.bake(extra_context={"git_remote_url": "ssh://a.b/x/y"})
+    assert result.exception is not None
+
+
+def test_invalid_git_remote_url_ends_with_git(cookies):
+    result = cookies.bake(extra_context={"git_remote_url": "https://a.b/x/y.git"})
+    assert result.exception is not None
+
+
 @pytest.mark.end_to_end()
 def test_bake_project(cookies):
     major, minor = sys.version_info[:2]

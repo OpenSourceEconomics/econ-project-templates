@@ -1,6 +1,7 @@
 """Hooks which are executed after the template is rendered."""
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 import warnings
@@ -64,8 +65,14 @@ def main() -> None:
     )
 
     if "{{ cookiecutter.git_remote_url }}":
+        assert re.match(r"https://(?!.+\.git$)", "{{ cookiecutter.git_remote_url }}"), (
+            "The git remote url does not follow the form "
+            "`https://github.com/<user or organisation name>/<repo name>`. "
+            "I.e., a `https://`-link and without `.git` at the end. This is required "
+            "because it will be used in multiple places. Need not be github."
+        )
         subprocess.call(
-            ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}"],
+            ["git", "remote", "add", "origin", "{{ cookiecutter.git_remote_url }}.git"],
         )
 
     if "{{ cookiecutter.make_initial_commit }}" == "yes":
