@@ -1,0 +1,6 @@
+@Unpublished{ExampleProject,
+    Title  = Example Project,
+    Author = Hans-Martin von Gaudecker,
+    Year   = 2024,
+    Url    = https://github.com/opensourceeconomics/econ-project-templates,
+}

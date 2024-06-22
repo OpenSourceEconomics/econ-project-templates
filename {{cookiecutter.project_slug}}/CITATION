@@ -1,6 +1,0 @@
-@Unpublished{{ "{" }}{{ cookiecutter.project_slug }}{% now 'local', '%Y' %},
-    Title  = {{ "{" }}{{ cookiecutter.project_description }}{{ "}" }},
-    Author = {{ "{" }}{{ cookiecutter.author }}{{ "}" }},
-    Year   = {{ "{" }}{% now 'local', '%Y' %}{{ "}" }},
-    Url    = {{ "{" }}https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}{{ "}" }}
-{{ "}" }}

@@ -1,32 +1,36 @@
 ---
-name: econ-project-templates
-channels: [conda-forge, nodefaults]
+name: example_project
+channels: [conda-forge, r, nodefaults]
 dependencies:
-  - conda
-  - cookiecutter
-  - furo
+  - python=3.12
+  - r-plyr
+  - conda-lock
   - ipykernel
-  - ipython_genutils
-  - ipywidgets
   - jupyterlab
-  - mamba
-  - myst-parser
-  - nbsphinx
   - pandas
-  - pip
+  - phantomjs
+  - pip >=21.1
   - plotly>=5.13.0
   - pre-commit
-  - pydata-sphinx-theme>=0.3.0
+  - pytask-r
+  - pytask-julia
+  - pytask-latex>=0.4.0
+  - pytask-parallel>=0.4.0
+  - pytask-stata
+  - pytask>=0.4.0
   - pytest
-  - pytest-cookies
   - pytest-cov
-  - python=3.11
+  - pytest-xdist
+  - python-graphviz
+  - pyyaml
+  - plotly-orca
+  - r-plotly
+  - r-processx
+  - r-reshape2
+  - r-reticulate
+  - r-webshot
+  - r-xtable
   - setuptools_scm
-  - sphinx
-  - sphinx-autoapi
-  - sphinx-click
-  - sphinx-copybutton
-  - sphinx-panels
-  - sphinxcontrib-bibtex
+  - statsmodels
   - toml
-  - pip: [kaleido, pdbp]
+  - pip: [-e ., kaleido, pdbp]

@@ -75,7 +75,7 @@ for some immediate and clearly defined tasks.
 ## Working on the inner project
 
 We differentiate between the *inner project*, which is the example project located in
-{{cookiecutter.project_slug}}, and the *outer project*, which is everything else.
+example_project, and the *outer project*, which is everything else.
 
 To work on the inner project we recommend the following workflow:
 
@@ -90,4 +90,4 @@ To work on the inner project we recommend the following workflow:
 1. Repeat step 3
 
 1. Transfer changes to the official repository by changing example names to
-   {{cookiecutter.project_slug}} etc.
+   example_project etc.

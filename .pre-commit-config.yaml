@@ -1,5 +1,4 @@
 ---
-exclude: ^(\.|{{cookiecutter\.project_slug}})/.+
 repos:
   - repo: meta
     hooks:
@@ -7,11 +6,11 @@ repos:
       # - id: check-hooks-apply  # Leave nbqa in here.
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.16.0
+    rev: 1.13.0
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.4.0
     hooks:
       - id: check-added-large-files
         args: [--maxkb=25]
@@ -30,17 +29,15 @@ repos:
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: name-tests-test
         args: [--pytest-test-first]
-      - id: no-commit-to-branch
-        args: [--branch, main]
       - id: trailing-whitespace
       - id: check-ast
       - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.33.0
+    rev: v1.32.0
     hooks:
       - id: yamllint
   - repo: https://github.com/psf/black
-    rev: 23.11.0
+    rev: 23.9.1
     hooks:
       - id: black
         language_version: python3.11
@@ -60,7 +57,7 @@ repos:
           - '88'
           - --blank
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
+    rev: v0.0.292
     hooks:
       - id: ruff
       #   args:
@@ -73,12 +70,12 @@ repos:
           - --extra-keys
           - metadata.kernelspec metadata.language_info.version metadata.vscode
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.7.1
+    rev: 1.7.0
     hooks:
       - id: nbqa-black
-        additional_dependencies: [black==23.11.0]
+        additional_dependencies: [black==23.9.1]
       - id: nbqa-ruff
-        additional_dependencies: [ruff==v0.1.6]
+        additional_dependencies: [ruff==v0.0.292]
         args: ['--ignore=B018,T201']
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.17
@@ -99,5 +96,57 @@ repos:
     hooks:
       - id: codespell
         args: [--skip="**.ipynb"]
+  - repo: https://github.com/asottile/setup-cfg-fmt
+    rev: v2.2.0
+    hooks:
+      - id: setup-cfg-fmt
+  # R specific hooks: https://github.com/lorenzwalthert/precommit
+  - repo: https://github.com/lorenzwalthert/precommit
+    rev: v0.3.2
+    hooks:
+      - id: style-files
+        args: [--style_pkg=styler, --style_fun=tidyverse_style]
+      - id: spell-check
+        exclude: >
+          (?x)^(
+          .*\.[rR]|
+          .*\.feather|
+          .*\.jpeg|
+          .*\.pdf|
+          .*\.png|
+          .*\.py|
+          .*\.RData|
+          .*\.rds|
+          .*\.Rds|
+          .*\.Rproj|
+          .*\.sh|
+          (.*/|)\.gitignore|
+          (.*/|)\.gitlab-ci\.yml|
+          (.*/|)\.lintr|
+          (.*/|)\.pre-commit-.*|
+          (.*/|)\.Rbuildignore|
+          (.*/|)\.Renviron|
+          (.*/|)\.Rprofile|
+          (.*/|)\.travis\.yml|
+          (.*/|)appveyor\.yml|
+          (.*/|)NAMESPACE|
+          (.*/|)renv/settings\.dcf|
+          (.*/|)renv\.lock|
+          (.*/|)WORDLIST|
+          \.github/workflows/.*|
+          data/.*|
+          )$
+      - id: readme-rmd-rendered
+      - id: parsable-R
+      - id: no-browser-statement
+      - id: no-debug-statement
+  - repo: local
+    hooks:
+      - id: forbid-to-commit
+        name: Don't commit common R artifacts
+        entry: Cannot commit .Rhistory, .RData, .Rds or .rds.
+        language: fail
+        files: \.(Rhistory|RData|Rds|rds)$
+        # `exclude: <regex>` to allow committing specific files{% endif %}
 ci:
   autoupdate_schedule: monthly
