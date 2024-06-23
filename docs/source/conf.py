@@ -15,7 +15,7 @@
 import datetime as dt
 import os
 
-year = dt.datetime.now().year
+year = dt.datetime.now(tz=None).year  # noqa: DTZ005, ignores missing of timezone info
 
 author = "Hans-Martin von Gaudecker"
 
