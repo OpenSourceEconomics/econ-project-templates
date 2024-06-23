@@ -1,35 +1,41 @@
 ---
 name: template_project
-channels: [conda-forge, r, nodefaults]
+channels: [conda-forge, r]
 dependencies:
-  - r-plyr
+  - python=3.12
+  - pip >=21.1
+
+  # Development dependencies
   - conda-lock
   - ipykernel
   - jupyterlab
-  - pandas
-  - phantomjs
-  - pip >=21.1
-  - plotly>=5.13.0
   - pre-commit
-  - pytask-r
+  - pytask >=0.5.0
+  - pytask-latex >=0.4.2
+  - pytask-parallel >=0.5.0
   - pytask-julia
-  - pytask-latex>=0.4.0
-  - pytask-parallel>=0.4.0
   - pytask-stata
-  - pytask>=0.4.0
   - pytest
   - pytest-cov
   - pytest-xdist
-  - python-graphviz
+
+  # Python template project dependencies
   - pyyaml
-  - plotly-orca
+  - statsmodels
+  - numpy
+  - pandas >=2.2
+  - pdbpp
+  - python-kaleido
+  - plotly >=5.2.0,<6
+
+  # R template project dependencies
+  - pytask-r >=0.4.1
   - r-plotly
+  - r-plyr
   - r-processx
   - r-reshape2
   - r-reticulate
-  - r-webshot
   - r-xtable
-  - setuptools_scm
-  - statsmodels
-  - toml
-  - pip: [-e ., kaleido, pdbp]
+
+  # Install project
+  - pip: [-e .]
