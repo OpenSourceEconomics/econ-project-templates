@@ -80,7 +80,7 @@ repos:
     rev: 0.7.17
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-gfm, mdformat-black]
+        additional_dependencies: [mdformat-gfm, mdformat-gfm-alerts, mdformat-black]
         args: [--wrap, '88']
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat

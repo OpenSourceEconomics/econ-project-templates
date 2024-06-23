@@ -5,10 +5,10 @@ from pathlib import Path
 import pandas as pd
 import pytask
 
-from example_project.analysis.model import load_model
-from example_project.config import BLD, GROUPS, SRC
-from example_project.final.plot import plot_regression_by_age
-from example_project.utilities import read_yaml
+from template_project.analysis.model import load_model
+from template_project.config import BLD, GROUPS, SRC
+from template_project.final.plot import plot_regression_by_age
+from template_project.utilities import read_yaml
 
 for group in GROUPS:
     deps = {

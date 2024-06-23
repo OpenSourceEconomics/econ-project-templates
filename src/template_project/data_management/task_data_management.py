@@ -5,9 +5,9 @@ from pathlib import Path
 import pandas as pd
 import pytask
 
-from example_project.config import BLD, SRC
-from example_project.data_management.clean_data import clean_data
-from example_project.utilities import read_yaml
+from template_project.config import BLD, SRC
+from template_project.data_management.clean_data import clean_data
+from template_project.utilities import read_yaml
 
 
 def task_clean_data_python(

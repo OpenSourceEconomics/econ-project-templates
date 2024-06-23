@@ -5,10 +5,10 @@ from pathlib import Path
 import pandas as pd
 import pytask
 
-from example_project.analysis.model import fit_logit_model, load_model
-from example_project.analysis.predict import predict_prob_by_age
-from example_project.config import BLD, GROUPS, SRC
-from example_project.utilities import read_yaml
+from template_project.analysis.model import fit_logit_model, load_model
+from template_project.analysis.predict import predict_prob_by_age
+from template_project.config import BLD, GROUPS, SRC
+from template_project.utilities import read_yaml
 
 
 def task_fit_model_python(

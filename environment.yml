@@ -1,5 +1,5 @@
 ---
-name: example_project
+name: template_project
 channels: [conda-forge, r, nodefaults]
 dependencies:
   - r-plyr

@@ -3,10 +3,10 @@
 import shutil
 
 import pytask
-from example_project.config import BLD, PAPER_DIR
 from pytask_latex import compilation_steps as cs
+from template_project.config import BLD, PAPER_DIR
 
-documents = ["example_project", "example_project_pres"]
+documents = ["template_project", "template_project_pres"]
 
 for document in documents:
 
