@@ -21,15 +21,15 @@ plot_regression_by_age <- function(data, data_info, predictions, group) {
   fig <- plotly::add_lines(
     fig,
     data = plot_data,
-    x =  ~age,
-    y =  ~prediction,
-    color =  ~ eval(group)
+    x = ~age,
+    y = ~prediction,
+    color = ~ eval(group)
   )
   fig <- plotly::add_markers(
     fig,
     data = marker_data,
-    x =  ~age,
-    y =  ~outcome,
+    x = ~age,
+    y = ~outcome,
     marker = list(color = "black", opacity = 0.1),
     name = "Data"
   )

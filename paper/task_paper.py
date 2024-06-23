@@ -1,4 +1,5 @@
 """Tasks for compiling the paper and presentation(s)."""
+
 import shutil
 
 import pytask
