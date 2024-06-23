@@ -28,7 +28,7 @@ for tex_file in ("root_bld_src", "src"):
     @pytask.mark.task(id=tex_file)
     def task_compile_latex(
         depends_on: Path = SRC / "latex" / f"{tex_file}.tex",
-        produces: Path = SRC / "latex" / f"{tex_file}.png",  # noqa: ARG001
+        produces: Path = SRC / "latex" / f"{tex_file}.png",
     ):
         subprocess.run(
             ("pdflatex", "--shell-escape", depends_on.name),

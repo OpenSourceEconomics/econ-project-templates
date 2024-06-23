@@ -7,7 +7,7 @@ import pytask
 
 from example_project.analysis.model import load_model
 from example_project.config import BLD, GROUPS, SRC
-from example_project.final import plot_regression_by_age
+from example_project.final.plot import plot_regression_by_age
 from example_project.utilities import read_yaml
 
 for group in GROUPS:
@@ -38,7 +38,7 @@ def task_create_results_table_python(
     """Store a table in LaTeX format with the estimation results (Python version)."""
     model = load_model(depends_on)
     table = model.summary().as_latex()
-    with open(produces, "w") as f:
+    with produces.open("w") as f:
         f.writelines(table)
 
 

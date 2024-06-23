@@ -3,15 +3,17 @@
 *_version.py
 *.pyc
 *__pycache__
+
+# python tools
 .mypy_cache
+.pytest_cache
+.ruff_cache
+.pytask.sqlite3
+.pytask
 
 # R
 .RData
 .Rhistory
-
-# pytask
-.pytask.sqlite3
-.pytask
 
 # bld
 bld/
@@ -31,9 +33,6 @@ bld/
 *.nav
 *.snm
 *.toc
-
-# docs
-docs/scripts/latex/*.png
 
 # local
 .vscode

@@ -95,7 +95,6 @@ repos:
     rev: v2.2.6
     hooks:
       - id: codespell
-        args: [--skip="**.ipynb"]
   - repo: https://github.com/asottile/setup-cfg-fmt
     rev: v2.2.0
     hooks:

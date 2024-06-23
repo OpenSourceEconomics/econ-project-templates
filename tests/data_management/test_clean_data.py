@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 from example_project.config import TEST_DIR
-from example_project.data_management import clean_data
+from example_project.data_management.clean_data import clean_data
 from example_project.utilities import read_yaml
 
 
