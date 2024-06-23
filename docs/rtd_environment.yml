@@ -1,0 +1,32 @@
+---
+name: ept-docs
+channels: [conda-forge, nodefaults]
+dependencies:
+  - conda
+  - cookiecutter
+  - furo
+  - ipykernel
+  - ipython_genutils
+  - ipywidgets
+  - jupyterlab
+  - mamba
+  - myst-parser
+  - nbsphinx
+  - pandas
+  - pip
+  - plotly>=5.13.0
+  - pre-commit
+  - pydata-sphinx-theme>=0.3.0
+  - pytest
+  - pytest-cookies
+  - pytest-cov
+  - python=3.11
+  - setuptools_scm
+  - sphinx
+  - sphinx-autoapi
+  - sphinx-click
+  - sphinx-copybutton
+  - sphinx-panels
+  - sphinxcontrib-bibtex
+  - toml
+  - pip: [kaleido, pdbp]

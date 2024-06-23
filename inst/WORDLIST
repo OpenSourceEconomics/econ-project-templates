@@ -286,6 +286,7 @@ aT
 aU
 aua
 aUl
+autoapi
 aV
 AvA
 aVu
@@ -361,6 +362,7 @@ bH̬
 BhAR
 bHĨ
 bI
+bibtex
 bIy
 BJ
 Bj
@@ -524,8 +526,10 @@ cȌ
 codespell
 COjK
 conda
+conf
 config
 cookiecutter
+copybutton
 cov
 cP
 cp
@@ -889,6 +893,7 @@ eP
 ep
 ȄP
 ĒPL
+ept
 EQ
 Eq
 eQ
@@ -1086,6 +1091,7 @@ fU
 fu
 fulness
 fŬO
+furo
 FV
 fV
 fv
@@ -1152,6 +1158,7 @@ ge
 GeB
 GEeH
 Geh
+genutils
 Georg
 Gf
 gF
@@ -1515,6 +1522,8 @@ ip
 ipj
 ipykernel
 ipynb
+ipython
+ipywidgets
 iQ
 iqR
 iR
@@ -2011,6 +2020,7 @@ MǼ
 mailto
 Makefile
 makefile
+mambaforge
 MAЕ
 mB
 mb
@@ -2105,6 +2115,7 @@ mY
 mYd
 MYLK
 myȍ
+myst
 MYطiXI
 mz
 Mzm
@@ -2143,6 +2154,7 @@ nb
 n̼B
 nbqa
 Nbsp
+nbsphinx
 nbZ
 ncI
 nD
@@ -2374,6 +2386,7 @@ oR
 orca
 ord
 oS
+os
 Ȏs
 Osc
 ose
@@ -2547,6 +2560,7 @@ pxY
 py
 pY
 pycI
+pydata
 pydocstyle
 pyproject
 Pyrenean
@@ -2836,6 +2850,7 @@ rŞ
 rsQ
 rst
 rsV
+rtd
 rtM
 ru
 RuJ
@@ -2960,6 +2975,7 @@ SȢ
 sP
 sp
 SPHINXBUILD
+sphinxcontrib
 SPHINXOPTS
 spM
 Springer
@@ -3221,6 +3237,7 @@ ua
 UB
 ub
 Ůb
+ubuntu
 UC
 Uc
 uc
