@@ -2,7 +2,6 @@
 name: example_project
 channels: [conda-forge, r, nodefaults]
 dependencies:
-  - python=3.12
   - r-plyr
   - conda-lock
   - ipykernel
