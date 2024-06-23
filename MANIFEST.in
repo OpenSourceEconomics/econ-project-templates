@@ -1,8 +1,0 @@
-include CITATION
-include LICENSE
-
-exclude *.yaml
-exclude *.yml
-
-prune docs
-prune tests

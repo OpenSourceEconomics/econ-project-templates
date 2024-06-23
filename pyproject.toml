@@ -1,17 +1,85 @@
-[build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
+# ======================================================================================
+# Project metadata
+# ======================================================================================
 
-[tool.setuptools_scm]
-write_to = "src/template_project/_version.py"
+[project]
+name = "template_project"
+description = "Template for reproducible research projects in economics"
+requires-python = ">=3.11"
+dynamic = ["version"]
+keywords = [
+    "Reproducible Research",
+    "Economics",
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+authors = [
+    { name = "Hans-Martin von Gaudecker", email = "hmgaudecker@uni-bonn.de" },
+]
+maintainers = [
+    { name = "Hans-Martin von Gaudecker", email = "hmgaudecker@uni-bonn.de" },
+]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+Changelog = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Documentation = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Github = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Tracker = "https://github.com/OpenSourceEconomics/econ-project-templates/issues"
+
+# ======================================================================================
+# Build system configuration
+# ======================================================================================
+
+[build-system]
+requires = ["hatchling", "hatch_vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/template_project/_version.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["tests"]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src"]
+sources = ["src"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+# ======================================================================================
+# Pytask configuration
+# ======================================================================================
 
 [tool.pytask.ini_options]
 paths = ["./src/template_project", "./paper"]
 pdbcls = "pdbp:Pdb"
 
+# ======================================================================================
+# Ruff configuration
+# ======================================================================================
+
 [tool.ruff]
 target-version = "py312"
 fix = true
-
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -30,6 +98,9 @@ extend-ignore = [
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
+# ======================================================================================
+# Miscellaneous tools configuration
+# ======================================================================================
 
 [tool.nbqa.config]
 black = "pyproject.toml"
@@ -49,9 +120,11 @@ markers = [
 ]
 norecursedirs = ["docs"]
 
+
 [tool.yamlfix]
 line_length = 88
 none_representation = "null"
+
 
 [tool.codespell]
 skip = "*.ipynb,inst/WORDLIST"
