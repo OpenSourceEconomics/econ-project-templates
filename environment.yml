@@ -2,7 +2,7 @@
 name: template_project
 channels: [conda-forge, r]
 dependencies:
-  - python=3.12
+  - python >=3.11
   - pip >=21.1
 
   # Development dependencies
