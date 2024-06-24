@@ -1,7 +1,55 @@
+import shutil
+import subprocess
+import time
+
 import plotly.graph_objects as go
+import pytask
+from template_project.config import DOCS_DIR
+
+DOCS_SRC = DOCS_DIR / "scripts"
+DOCS_FIGURES_BLD = DOCS_DIR / "source" / "figures" / "generated"
 
 
-def visualize_organisational_steps(case):
+for case in ("model_steps_full", "model_steps_select", "steps_only_full"):
+
+    @pytask.task(id=case)
+    def task_visualize_organisational_steps(
+        case=case,
+        produces=DOCS_FIGURES_BLD / f"{case}.png",
+    ):
+        fig = _visualize_organisational_steps(case)
+        fig.write_image(produces)
+
+
+for tex_file in ("root_bld_src", "src"):
+
+    @pytask.task(id=tex_file)
+    def task_compile_latex(
+        depends_on=DOCS_SRC / "latex" / f"{tex_file}.tex",
+        produces=DOCS_SRC / "latex" / f"{tex_file}.png",
+    ):
+        subprocess.run(
+            ("pdflatex", "--shell-escape", depends_on.name),
+            cwd=depends_on.parent,
+            check=True,
+        )
+        time.sleep(1)
+        subprocess.run(
+            ("pdflatex", "--shell-escape", depends_on.name),
+            cwd=depends_on.parent,
+            check=True,
+        )
+        time.sleep(1)
+
+    @pytask.task(id=tex_file)
+    def task_copy_png_to_figures(
+        depends_on=DOCS_SRC / "latex" / f"{tex_file}.png",
+        produces=DOCS_FIGURES_BLD / f"{tex_file}.png",
+    ):
+        shutil.copyfile(str(depends_on), str(produces))
+
+
+def _visualize_organisational_steps(case):
     """Create pipeline sketch dependent on {case}.
 
     Args:
@@ -24,7 +72,7 @@ def visualize_organisational_steps(case):
     )
 
     # add shapes
-    fig = update_fig_with_shape(case, fig)
+    fig = _update_fig_with_shape(case, fig)
 
     fig.update_xaxes(
         tickvals=[1, 2, 3, 4],
@@ -49,7 +97,7 @@ def visualize_organisational_steps(case):
     return fig
 
 
-def update_fig_with_shape(case, fig):
+def _update_fig_with_shape(case, fig):
     """Takes figure object and adds a shape on top."""
     fig = go.Figure(fig)  # copy
 

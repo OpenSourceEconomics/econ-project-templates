@@ -10,11 +10,11 @@ dependencies:
   - ipykernel
   - jupyterlab
   - pre-commit
+
+  # Language agnostic template project dependencies
   - pytask >=0.5.0
   - pytask-latex >=0.4.2
   - pytask-parallel >=0.5.0
-  - pytask-julia
-  - pytask-stata
   - pytest
   - pytest-cov
   - pytest-xdist

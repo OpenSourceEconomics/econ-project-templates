@@ -34,5 +34,9 @@ bld/
 *.snm
 *.toc
 
+# documentation
+docs/build/
+docs/scripts/latex/*.png
+
 # local
 .vscode
