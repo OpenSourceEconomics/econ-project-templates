@@ -1,7 +1,5 @@
 """Tasks running the core analyses."""
 
-from pathlib import Path
-
 import pandas as pd
 import pytask
 
@@ -12,10 +10,10 @@ from template_project.utilities import read_yaml
 
 
 def task_fit_model_python(
-    script: Path = SRC / "analysis" / "model.py",
-    data: Path = BLD / "python" / "data" / "data_clean.csv",
-    data_info: Path = SRC / "data_management" / "data_info.yaml",
-    produces: Path = BLD / "python" / "models" / "model.pickle",
+    script=SRC / "analysis" / "model.py",
+    data=BLD / "python" / "data" / "data_clean.csv",
+    data_info=SRC / "data_management" / "data_info.yaml",
+    produces=BLD / "python" / "models" / "model.pickle",
 ):
     """Fit a logistic regression model (Python version)."""
     data_info = read_yaml(data_info)
@@ -32,11 +30,11 @@ for group in GROUPS:
 
     @pytask.task(id=group)
     def task_predict_python(
-        script: Path = SRC / "analysis" / "predict.py",
-        group: str = group,
-        data_path: Path = BLD / "python" / "data" / "data_clean.csv",
-        model_path: Path = BLD / "python" / "models" / "model.pickle",
-        produces: Path = BLD / "python" / "predictions" / f"{group}.csv",
+        script=SRC / "analysis" / "predict.py",
+        group=group,
+        data_path=BLD / "python" / "data" / "data_clean.csv",
+        model_path=BLD / "python" / "models" / "model.pickle",
+        produces=BLD / "python" / "predictions" / f"{group}.csv",
     ):
         """Predict based on the model estimates (Python version)."""
         model = load_model(model_path)
@@ -47,9 +45,9 @@ for group in GROUPS:
 
 @pytask.mark.r(script=SRC / "analysis" / "model.r", serializer="yaml")
 def task_fit_model_r(
-    data: Path = BLD / "r" / "data" / "data_clean.csv",
-    data_info: Path = SRC / "data_management" / "data_info.yaml",
-    produces: Path = BLD / "r" / "models" / "model.rds",
+    data=BLD / "r" / "data" / "data_clean.csv",
+    data_info=SRC / "data_management" / "data_info.yaml",
+    produces=BLD / "r" / "models" / "model.rds",
 ):
     """Fit a logistic regression model (R version)."""
 
@@ -59,9 +57,9 @@ for group in GROUPS:
     @pytask.task(id=group)
     @pytask.mark.r(script=SRC / "analysis" / "predict.r", serializer="yaml")
     def task_predict_r(
-        group: str = group,
-        data_path: Path = BLD / "r" / "data" / "data_clean.csv",
-        model_path: Path = BLD / "r" / "models" / "model.rds",
-        produces: Path = BLD / "r" / "predictions" / f"{group}.csv",
+        group=group,
+        data_path=BLD / "r" / "data" / "data_clean.csv",
+        model_path=BLD / "r" / "models" / "model.rds",
+        produces=BLD / "r" / "predictions" / f"{group}.csv",
     ):
         """Predict based on the model estimates (R version)."""

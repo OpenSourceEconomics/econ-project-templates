@@ -1,7 +1,5 @@
 """Tasks running the results formatting (tables, figures)."""
 
-from pathlib import Path
-
 import pandas as pd
 import pytask
 
@@ -47,18 +45,18 @@ for group in GROUPS:
     @pytask.task(id=group)
     @pytask.mark.r(script=SRC / "final" / "plot_regression.r", serializer="yaml")
     def task_plot_results_by_age_r(
-        group: str = group,
-        data_info: Path = SRC / "data_management" / "data_info.yaml",
-        data: Path = BLD / "r" / "data" / "data_clean.csv",
-        predictions: Path = BLD / "r" / "predictions" / f"{group}.csv",
-        produces: Path = BLD / "r" / "figures" / f"smoking_by_{group}.png",
+        group=group,
+        data_info=SRC / "data_management" / "data_info.yaml",
+        data=BLD / "r" / "data" / "data_clean.csv",
+        predictions=BLD / "r" / "predictions" / f"{group}.csv",
+        produces=BLD / "r" / "figures" / f"smoking_by_{group}.png",
     ):
         """Plot the regression results by age (R version)."""
 
 
 @pytask.mark.r(script=SRC / "final" / "create_estimation_table.r", serializer="yaml")
 def task_create_results_table_r(
-    model: Path = BLD / "r" / "models" / "model.rds",
-    produces: Path = BLD / "r" / "tables" / "estimation_results.tex",
+    model=BLD / "r" / "models" / "model.rds",
+    produces=BLD / "r" / "tables" / "estimation_results.tex",
 ):
     """Store a table in LaTeX format with the estimation results (R version)."""

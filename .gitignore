@@ -5,7 +5,6 @@
 *__pycache__
 
 # python tools
-.mypy_cache
 .pytest_cache
 .ruff_cache
 .pytask.sqlite3
