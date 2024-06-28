@@ -83,6 +83,9 @@ placeholder names, email addresses, and repository links with your own:
 
 - `environment.yml`
 
+  Here you can remove the packages that your project does not require and add
+  dependencies that are not already listed.
+
 - `CITATION`
 
 - `.gitignore`
