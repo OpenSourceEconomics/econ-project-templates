@@ -59,28 +59,28 @@
    is useful to add packages to the environment file first so that it will serve your
    needs.
 
-   **add_python_example** -- Whether to set up the example project in the Python
+   **add_python_example** -- Whether to set up the template project in the Python
    programming language.
 
-   **add_r_example** -- Whether to set up the example project in the R programming
+   **add_r_example** -- Whether to set up the template project in the R programming
    language.
 
-   ```{warning} The R example project is a very recent addition and has not been
+   ```{warning} The R template project is a very recent addition and has not been
    battle-tested. Feedback is greatly appreciated!
    ```
 
-   **add_julia_example** -- Whether to set up the example project in the Julia
+   **add_julia_example** -- Whether to set up the template project in the Julia
    programming language.
 
-   ```{warning} The Julia example project is not implemented yet. Help is appreciated,
+   ```{warning} The Julia template project is not implemented yet. Help is appreciated,
    see [Issue #123](https://github.com/OpenSourceEconomics/econ-project-templates/issues/123)!
    Selecting this option only installs pytask-Julia to the environment.
    ```
 
-   **add_stata_example** -- Whether to set up the example project in the Stata
+   **add_stata_example** -- Whether to set up the template project in the Stata
    programming language.
 
-   ```{warning} The Stata example project is not implemented yet. Help is appreciated,
+   ```{warning} The Stata template project is not implemented yet. Help is appreciated,
    see [Issue #124](https://github.com/OpenSourceEconomics/econ-project-templates/issues/124)!
    Selecting this option only installs pytask-Stata to the environment.
    ```

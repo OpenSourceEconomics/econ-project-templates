@@ -1,7 +1,7 @@
 Pre-commit hooks are checks and syntax formatters that run upon every commit. If one of
 the hooks fails, the commit is aborted and you have to commit again after you resolved
 the issues raised by the hooks. Pre-commit hooks are defined in the
-*.pre-commit-config.yaml*. The example project contains most hooks you will need. Below
+*.pre-commit-config.yaml*. The template project contains most hooks you will need. Below
 we present three common hooks. Note that some hooks are programming language agnostic
 while others work on a specific language. You can find a list of most hooks in the
 [pre-commit documentation](https://pre-commit.com/index.html) under Supported hooks.

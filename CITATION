@@ -1,6 +1,6 @@
-@Unpublished{Gaudecker2024,
+@Unpublished{DOE2024,
     Title  = "Template Project",
-    Author = "Hans-Martin von Gaudecker",
+    Author = "JANE DOE",
     Year   = "2024",
     Url    = "https://github.com/opensourceeconomics/econ-project-templates",
 }

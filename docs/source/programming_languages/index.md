@@ -16,7 +16,7 @@ to use the other languages and explain some language specific caveats.
 - When selecting a language in the cookiecutter {ref}`cookiecutter_dialogue`
 we install all the necessary software needed to use that language for you.
 - The usage of pytask with your chosen language should be illustrated in the
-example project that was downloaded. At the moment the example project is not
+template project that was downloaded. At the moment the template project is not
 implemented for R, Julia and Stata (but under more or less active development, help
 appreciated!). This is why we clarify the basics here.
 ```

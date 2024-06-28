@@ -5,7 +5,7 @@ import pytask
 
 from template_project.analysis.model import fit_logit_model, load_model
 from template_project.analysis.predict import predict_prob_by_age
-from template_project.config import BLD, GROUPS, SRC
+from template_project.config import BLD, SRC, TEMPLATE_GROUPS
 from template_project.utilities import read_yaml
 
 
@@ -22,7 +22,7 @@ def task_fit_model_python(
     model.save(produces)
 
 
-for group in GROUPS:
+for group in TEMPLATE_GROUPS:
     predict_deps = {
         "data": BLD / "python" / "data" / "data_clean.csv",
         "model": BLD / "python" / "models" / "model.pickle",
@@ -52,7 +52,7 @@ def task_fit_model_r(
     """Fit a logistic regression model (R version)."""
 
 
-for group in GROUPS:
+for group in TEMPLATE_GROUPS:
 
     @pytask.task(id=group)
     @pytask.mark.r(script=SRC / "analysis" / "predict.r", serializer="yaml")

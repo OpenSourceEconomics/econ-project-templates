@@ -1,13 +1,13 @@
 ---
 
 name: Submit Question
-about: Ask a general question about the example project
+about: Ask a general question about the template project
 title: "QST:"
 labels: "question"
 
 ---
 
-#### Question about the example project
+#### Question about the template project
 
 **Note**: If you'd still like to submit a question, please read [this guide](
 https://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports) detailing how to

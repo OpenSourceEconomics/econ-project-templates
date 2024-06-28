@@ -4,11 +4,11 @@ import pandas as pd
 import pytask
 
 from template_project.analysis.model import load_model
-from template_project.config import BLD, GROUPS, SRC
+from template_project.config import BLD, SRC, TEMPLATE_GROUPS
 from template_project.final.plot import plot_regression_by_age
 from template_project.utilities import read_yaml
 
-for group in GROUPS:
+for group in TEMPLATE_GROUPS:
     deps = {
         "predictions": BLD / "python" / "predictions" / f"{group}.csv",
         "data_info": SRC / "data_management" / "data_info.yaml",
@@ -40,7 +40,7 @@ def task_create_results_table_python(
         f.writelines(table)
 
 
-for group in GROUPS:
+for group in TEMPLATE_GROUPS:
 
     @pytask.task(id=group)
     @pytask.mark.r(script=SRC / "final" / "plot_regression.r", serializer="yaml")

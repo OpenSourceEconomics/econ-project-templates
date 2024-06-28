@@ -9,6 +9,5 @@ ROOT = SRC.joinpath("..", "..").resolve()
 
 TEST_DIR = ROOT.joinpath("tests").resolve()
 PAPER_DIR = ROOT.joinpath("paper").resolve()
-DOCS_DIR = ROOT.joinpath("docs").resolve()
 
-GROUPS = ["marital_status", "qualification"]
+TEMPLATE_GROUPS = ["marital_status", "qualification"]

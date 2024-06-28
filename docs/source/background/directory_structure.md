@@ -1,6 +1,6 @@
 ### The big picture
 
-The following graph shows the contents of the example project root directory after
+The following graph shows the contents of the template project root directory after
 executing `pytask`, when you only select the Python example:
 
 ```{figure} ../figures/generated/root_bld_src.png

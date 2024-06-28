@@ -5,7 +5,7 @@ how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic
 that there are no directed cycles: When you traverse a graph in the direction of the
 arrows, there may not be a way to end up at the same node again.
 
-This is the dependency graph of the example project (open the image in a different
+This is the dependency graph of the template project (open the image in a different
 window to zoom in)
 
 ```{figure} ../figures/dag.png
@@ -16,7 +16,7 @@ width: 50em
 
 The nodes have different shapes in order to distinguish tasks from files. The rectangles
 denote targets or dependencies like figures, data sets or stored models. The hexagons
-denote task files. Even in this simple example project we already see that the
+denote task files. Even in this simple template project we already see that the
 dependency structure can be complex.
 
 In a first run, all targets have to be generated, of course. In later runs, a target

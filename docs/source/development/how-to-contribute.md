@@ -74,18 +74,18 @@ for some immediate and clearly defined tasks.
 
 ## Working on the inner project
 
-We differentiate between the *inner project*, which is the example project located in
+We differentiate between the *inner project*, which is the template project located in
 template_project, and the *outer project*, which is everything else.
 
 To work on the inner project we recommend the following workflow:
 
-1. Use `cookiecutter econ-project-templates` locally to create an example project
+1. Use `cookiecutter econ-project-templates` locally to create an template project
 
-1. Create a conda environment in this local example project
+1. Create a conda environment in this local template project
 
-1. Make sure that pytask builds the example project and that the tests run
+1. Make sure that pytask builds the template project and that the tests run
 
-1. Apply changes to the example project
+1. Apply changes to the template project
 
 1. Repeat step 3
 

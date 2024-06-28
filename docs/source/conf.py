@@ -17,7 +17,7 @@ import os
 
 year = dt.datetime.now(tz=None).year  # noqa: DTZ005, ignores missing of timezone info
 
-author = "Hans-Martin von Gaudecker"
+author = "JANE DOE"
 
 # Set variable so that todos are shown in local build
 on_rtd = os.environ.get("READTHEDOCS") == "True"
