@@ -1,13 +1,14 @@
 import shutil
 import subprocess
 import time
+from pathlib import Path
 
 import plotly.graph_objects as go
 import pytask
-from template_project.config import DOCS_DIR
 
-DOCS_SRC = DOCS_DIR / "scripts"
-DOCS_FIGURES_BLD = DOCS_DIR / "source" / "figures" / "generated"
+DOCS = Path(__file__).parent.parent.parent.resolve()  # root/docs
+DOCS_SCRIPTS = DOCS / "scripts"
+FIGURES = DOCS / "source" / "figures" / "generated"
 
 
 for case in ("model_steps_full", "model_steps_select", "steps_only_full"):
@@ -15,7 +16,7 @@ for case in ("model_steps_full", "model_steps_select", "steps_only_full"):
     @pytask.task(id=case)
     def task_visualize_organisational_steps(
         case=case,
-        produces=DOCS_FIGURES_BLD / f"{case}.png",
+        produces=FIGURES / f"{case}.png",
     ):
         fig = _visualize_organisational_steps(case)
         fig.write_image(produces)
@@ -25,8 +26,8 @@ for tex_file in ("root_bld_src", "src"):
 
     @pytask.task(id=tex_file)
     def task_compile_latex(
-        depends_on=DOCS_SRC / "latex" / f"{tex_file}.tex",
-        produces=DOCS_SRC / "latex" / f"{tex_file}.png",
+        depends_on=DOCS_SCRIPTS / "latex" / f"{tex_file}.tex",
+        produces=DOCS_SCRIPTS / "latex" / f"{tex_file}.png",
     ):
         subprocess.run(
             ("pdflatex", "--shell-escape", depends_on.name),
@@ -43,8 +44,8 @@ for tex_file in ("root_bld_src", "src"):
 
     @pytask.task(id=tex_file)
     def task_copy_png_to_figures(
-        depends_on=DOCS_SRC / "latex" / f"{tex_file}.png",
-        produces=DOCS_FIGURES_BLD / f"{tex_file}.png",
+        depends_on=DOCS_SCRIPTS / "latex" / f"{tex_file}.png",
+        produces=FIGURES / f"{tex_file}.png",
     ):
         shutil.copyfile(str(depends_on), str(produces))
 

@@ -3,6 +3,7 @@ name: ept-docs
 channels: [conda-forge]
 dependencies:
   - python >=3.11
+  # Dependencies for building the documentation
   - furo
   - myst-parser
   - nbsphinx
@@ -13,3 +14,7 @@ dependencies:
   - sphinx-copybutton
   - sphinx-panels
   - sphinxcontrib-bibtex
+  # Dependencies necessary to generate visualizations for the documentation
+  - pytask >=0.5.0
+  - python-kaleido
+  - plotly >=5.2.0,<6
