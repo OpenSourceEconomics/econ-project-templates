@@ -27,7 +27,7 @@ This code base aims to provide two stepping stones to assist you in achieving th
 
 The first should lure you in quickly. The second should convince you to stick to the
 tools in the long run – unless you have fought with large research projects before, at
-this point you nay think that all of this is overkill and far more difficult than
+this point you may think that all of this is overkill and far more difficult than
 necessary. It is not. _\[although I am always_
 [happy to hear](https://www.wiwi.uni-bonn.de/gaudecker/) _about easier alternatives\]_
 
@@ -40,13 +40,12 @@ tools, though.
 ## Navigating this Documentation
 
 When starting freshly, go to the next section for finding out how to prepare your
-machine and what is behind all the options in the
-[cookiecutter](https://cookiecutter.readthedocs.io/en/stable) dialogue that we set up.
-The {ref}`background` section explains many of the design choices; feel free to skip if
-you worked with the templates before. {ref}`guides_explanations` provides some tips and
-tricks and points you to some useful features of helper programmes that come with the
-templates. The documentation follows the Python version of the running example; see
-{ref}`programming_languages` for additional options.
+machine and how to get started with the template. The {ref}`background` section explains
+many of the design choices; feel free to skip if you worked with the templates before.
+{ref}`guides_explanations` provides some tips and tricks and points you to some useful
+features of helper programmes that come with the templates. The documentation follows
+the Python version of the running example; see {ref}`programming_languages` for
+additional options.
 
 ```{toctree}
 ---

@@ -107,32 +107,6 @@ of choice.
 
 1. Press `Return` and then `ctrl+o` (= WriteOut = save) and `Return` once more.
 
-(cookiecutter_trouble)=
-
-### When cookiecutter exits with an error
-
-If cookiecutter fails, you will get a lengthy error message. It is important that you
-work through this and try to understand the error (the language used might seem funny,
-but it is precise...).
-
-Then type:
-
-```bash
-$ code ~/.cookiecutter_replay/econ-project-templates-0.7.1.json
-```
-
-If you are not using VS Code as your editor of choice, adjust the line accordingly.
-
-This command should open your editor and show you a json file containing your answers to
-the previously filled out dialogue. You can fix your faulty settings in this file. If
-you have spaces or special characters in your path, you need to adjust your path.
-
-When done, launch a new shell if necessary and type:
-
-```bash
-$ cookiecutter --replay https://github.com/OpenSourceEconomics/econ-project-templates/archive/v0.7.1.zip
-```
-
 (stata_failure_check_erase_log_file)=
 
 ### Stata failure: FileNotFoundError

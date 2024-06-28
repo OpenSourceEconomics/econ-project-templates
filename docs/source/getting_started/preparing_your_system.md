@@ -3,8 +3,9 @@
 1. Make sure you have the following programs installed and that these can be found on
    your path. This template requires
 
-- [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or Anaconda. Windows
-  users: please consult {ref}`windows_user`
+- [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or
+  [Micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html) or
+  Anaconda. Windows users: please consult {ref}`windows_user`
 
   ```{note} This template is tested with python 3.9 and higher and conda version 22.9
   ```
@@ -84,8 +85,8 @@
   fatal: not a git repository (or any of the parent directories): .git
   ```
 
-  If a Git repository is present, delete it or go to another directory before starting
-  cookiecutter below.
+  If a Git repository is present, delete it or go to another directory before proceeding
+  further.
 
   To start and exit pdflatex.
 
@@ -120,24 +121,12 @@
    fatal: not a git repository (or any of the parent directories): .git
    ```
 
-### Installing cookiecutter
+### Installing the template
 
-4. The template uses [cookiecutter](https://cookiecutter.readthedocs.io/en/latest/) to
-   enable personalized installations. Before you start, install cookiecutter on your
-   system.
+4. To install the template repository, first go to the
+   [econ-project-templates](https://github.com/OpenSourceEconomics/econ-project-templates)
+   repo.
 
-   ```{warning} If you are using conda environments, make sure that you are in the base
-   environment before installing cookiecutter (`conda deactivate`, possibly multiple
-   times). Else you may get a nested environment later on, this can be annoying.
-   ```
-
-   ```console
-   $ pip install cookiecutter
-   ```
-
-   All additional dependencies will be installed into a newly created conda environment
-   upon project creation.
-
-   ```{warning} If you do not opt for the conda environment later on, you need to take
-   care of these dependencies by yourself.
-   ```
+   Now follow the official
+   [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template)
+   on how to create a new repository from a template repository.

@@ -13,12 +13,10 @@ The base language is Python, which works out-of-the-box. In this section we show
 to use the other languages and explain some language specific caveats.
 
 ```{note}
-- When selecting a language in the cookiecutter {ref}`cookiecutter_dialogue`
-we install all the necessary software needed to use that language for you.
-- The usage of pytask with your chosen language should be illustrated in the
-template project that was downloaded. At the moment the template project is not
-implemented for R, Julia and Stata (but under more or less active development, help
-appreciated!). This is why we clarify the basics here.
+The usage of pytask with your chosen language should be illustrated in the template
+project that was downloaded. At the moment the template project is not implemented for
+Julia and Stata (but under more or less active development, help appreciated!). This is
+why we clarify the basics here.
 ```
 
 ```{warning} The use of pytask with Python differs from the other languages. While in

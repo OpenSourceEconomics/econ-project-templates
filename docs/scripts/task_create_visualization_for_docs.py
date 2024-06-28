@@ -6,7 +6,7 @@ from pathlib import Path
 import plotly.graph_objects as go
 import pytask
 
-DOCS = Path(__file__).parent.parent.parent.resolve()  # root/docs
+DOCS = Path(__file__).parent.parent.resolve()  # root/docs
 DOCS_SCRIPTS = DOCS / "scripts"
 FIGURES = DOCS / "source" / "figures" / "generated"
 

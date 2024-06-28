@@ -23,19 +23,39 @@ for some immediate and clearly defined tasks.
 
    ```console
    $ conda env create -f environment.yml
-   $ conda activate cp
+   $ conda activate template_project
    ```
 
-1. Implement the fix or new feature. If you work on the *inner project* please read
-   about our recommend workflow in the next section. There we also explain what the
-   *inner project* is.
+1. In case you work on the documentation, you also have to install and activate the
+   documentation environment:
+
+```console
+$ conda env create -f docs/rtd_environment.yml
+$ conda activate ept-docs
+```
+
+You can build the documentation using
+
+```console
+$ cd docs
+$ make html
+```
+
+The newly created documentation can be opened using (replace "browser" with your browser
+of choice)
+
+```console
+$ browser docs/build/html/index.html
+```
+
+1. Implement the fix or new feature.
 
 1. We validate contributions in three ways. First, we have a test suite to check the
-   implementation the templates. Second, we correct for stylistic errors in code and
-   documentation using linters. Third, we test whether the documentation builds
+   implementation of the template project. Second, we correct for stylistic errors in
+   code and documentation using linters. Third, we test whether the documentation builds
    successfully.
 
-   You can run all checks with `pytest` by running
+   You can run the checks on the template project with `pytest` by running
 
    ```console
    $ pytest
@@ -43,11 +63,12 @@ for some immediate and clearly defined tasks.
 
    This will run the complete test suite.
 
-   Correct any errors displayed in the terminal.
+   You should correct any errors displayed in the terminal.
 
    To correct stylistic errors, you can also install the linters as a pre-commit with
 
    ```console
+   $ conda activate template_project
    $ pre-commit install
    ```
 
@@ -71,23 +92,3 @@ for some immediate and clearly defined tasks.
    your changes.
 
 1. The final PR will be merged by one of the main contributors.
-
-## Working on the inner project
-
-We differentiate between the *inner project*, which is the template project located in
-template_project, and the *outer project*, which is everything else.
-
-To work on the inner project we recommend the following workflow:
-
-1. Use `cookiecutter econ-project-templates` locally to create an template project
-
-1. Create a conda environment in this local template project
-
-1. Make sure that pytask builds the template project and that the tests run
-
-1. Apply changes to the template project
-
-1. Repeat step 3
-
-1. Transfer changes to the official repository by changing example names to
-   template_project etc.
