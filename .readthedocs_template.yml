@@ -5,8 +5,8 @@ build:
   tools:
     python: mambaforge-4.10
 conda:
-  environment: docs/rtd_environment.yml
+  environment: docs_template/rtd_environment.yml
 sphinx:
   builder: html
-  configuration: docs/source/conf.py
+  configuration: docs_template/source/conf.py
   fail_on_warning: false

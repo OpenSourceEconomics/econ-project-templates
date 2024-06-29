@@ -89,7 +89,7 @@ repos:
       - id: mdformat
         additional_dependencies: [mdformat-myst, mdformat-black]
         args: [--wrap, '88']
-        files: (docs/.)
+        files: (docs_template/.)
   - repo: https://github.com/codespell-project/codespell
     rev: v2.3.0
     hooks:

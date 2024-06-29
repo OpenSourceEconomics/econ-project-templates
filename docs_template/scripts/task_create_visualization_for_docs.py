@@ -14,7 +14,7 @@ FIGURES = DOCS / "source" / "figures" / "generated"
 for case in ("model_steps_full", "model_steps_select", "steps_only_full"):
 
     @pytask.task(id=case)
-    def task_visualize_organisational_steps(
+    def task_visualize_organisational_steps(  # noqa: D103
         case=case,
         produces=FIGURES / f"{case}.png",
     ):
@@ -25,25 +25,25 @@ for case in ("model_steps_full", "model_steps_select", "steps_only_full"):
 for tex_file in ("root_bld_src", "src"):
 
     @pytask.task(id=tex_file)
-    def task_compile_latex(
+    def task_compile_latex(  # noqa: D103
         depends_on=DOCS_SCRIPTS / "latex" / f"{tex_file}.tex",
         produces=DOCS_SCRIPTS / "latex" / f"{tex_file}.png",
     ):
         subprocess.run(
-            ("pdflatex", "--shell-escape", depends_on.name),
+            ("pdflatex", "--shell-escape", depends_on.name),  # noqa: S603
             cwd=depends_on.parent,
             check=True,
         )
         time.sleep(1)
         subprocess.run(
-            ("pdflatex", "--shell-escape", depends_on.name),
+            ("pdflatex", "--shell-escape", depends_on.name),  # noqa: S603
             cwd=depends_on.parent,
             check=True,
         )
         time.sleep(1)
 
     @pytask.task(id=tex_file)
-    def task_copy_png_to_figures(
+    def task_copy_png_to_figures(  # noqa: D103
         depends_on=DOCS_SCRIPTS / "latex" / f"{tex_file}.png",
         produces=FIGURES / f"{tex_file}.png",
     ):

@@ -66,9 +66,9 @@ If all went well, you are now ready to adapt the template to your project.
 Before proceeding, delete the following items as they are not part of the essential
 template:
 
-- `docs` folder
-- `.readthedocs.yml` file
-- `CHANGES.md` file
+- `docs_template` folder
+- `.readthedocs_template.yml` file
+- `CHANGES_template.md` file
 
 #### Content updates
 
@@ -94,8 +94,8 @@ placeholder names, email addresses, and repository links with your own:
 
   ```
   # documentation
-  docs/build/
-  docs/scripts/latex/*.png
+  docs_template/build/
+  docs_template/scripts/latex/*.png
   ```
 
   and add any file or folder that is specific to your project which should not be

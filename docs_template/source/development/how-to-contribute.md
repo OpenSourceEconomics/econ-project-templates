@@ -30,14 +30,14 @@ for some immediate and clearly defined tasks.
    documentation environment:
 
 ```console
-$ conda env create -f docs/rtd_environment.yml
+$ conda env create -f docs_template/rtd_environment.yml
 $ conda activate ept-docs
 ```
 
 You can build the documentation using
 
 ```console
-$ cd docs
+$ cd docs_template
 $ make html
 ```
 
@@ -45,7 +45,7 @@ The newly created documentation can be opened using (replace "browser" with your
 of choice)
 
 ```console
-$ browser docs/build/html/index.html
+$ browser docs_template/build/html/index.html
 ```
 
 1. Implement the fix or new feature.
