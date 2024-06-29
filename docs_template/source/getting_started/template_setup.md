@@ -67,7 +67,7 @@ Before proceeding, delete the following items as they are not part of the essent
 template:
 
 - `docs_template` folder
-- `.readthedocs_template.yml` file
+- `.readthedocs.yml` file
 - `CHANGES_template.md` file
 
 #### Content updates
