@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 import yaml
 from template_project.config import TEST_DIR
-from template_project.data_management.clean_data import clean_data
+from template_project.data_management.clean_data_template import clean_data
 
 
 @pytest.fixture()
