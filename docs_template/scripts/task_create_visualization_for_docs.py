@@ -29,13 +29,13 @@ for tex_file in ("root_bld_src", "src"):
         depends_on=DOCS_SCRIPTS / "latex" / f"{tex_file}.tex",
         produces=DOCS_SCRIPTS / "latex" / f"{tex_file}.png",
     ):
-        subprocess.run(
+        subprocess.run(  # noqa: S603
             ("pdflatex", "--shell-escape", depends_on.name),
             cwd=depends_on.parent,
             check=True,
         )
         time.sleep(1)
-        subprocess.run(
+        subprocess.run(  # noqa: S603
             ("pdflatex", "--shell-escape", depends_on.name),
             cwd=depends_on.parent,
             check=True,
