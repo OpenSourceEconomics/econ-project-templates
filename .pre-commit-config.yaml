@@ -42,7 +42,7 @@ repos:
       - id: black
         language_version: python3.12
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.16.0
+    rev: 1.18.0
     hooks:
       - id: blacken-docs
   - repo: https://github.com/PyCQA/docformatter
@@ -57,7 +57,7 @@ repos:
           - '88'
           - --blank
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.10
+    rev: v0.5.0
     hooks:
       - id: ruff
       #   args:
@@ -75,7 +75,7 @@ repos:
       - id: nbqa-black
         additional_dependencies: [black==24.4.2]
       - id: nbqa-ruff
-        additional_dependencies: [ruff==v0.4.10]
+        additional_dependencies: [ruff==v0.5.0]
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.17
     hooks:
