@@ -36,10 +36,6 @@ Some differences:
 
 - The directory root/src contains many more subdirectories and files:
 
-  - utilities.py provides code that may be used by different steps of the project.
-    Little code snippets for input / output or stuff that is not directly related to the
-    model would go here.
-
 ### Zooming in
 
 Lets go one step deeper and consider the root/src directory in more detail:

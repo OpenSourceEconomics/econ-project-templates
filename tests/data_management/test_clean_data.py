@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 import pytest
+import yaml
 from template_project.config import TEST_DIR
 from template_project.data_management.clean_data import clean_data
-from template_project.utilities import read_yaml
 
 
 @pytest.fixture()
@@ -13,7 +13,8 @@ def data():
 
 @pytest.fixture()
 def data_info():
-    return read_yaml(TEST_DIR / "data_management" / "data_info_fixture.yaml")
+    with (TEST_DIR / "data_management" / "data_info_fixture.yaml").open() as file:
+        return yaml.safe_load(file)
 
 
 def test_clean_data_drop_columns(data, data_info):

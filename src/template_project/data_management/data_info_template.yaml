@@ -1,5 +1,5 @@
 ---
-data_name: data.csv
+data_name: data_template.csv
 columns_to_drop:
   - nationality
   - ethnicity

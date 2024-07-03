@@ -9,7 +9,7 @@ def fit_logit_model(data, data_info, model_type):
 
     Args:
         data (pandas.DataFrame): The data set.
-        data_info (dict): Information on data set stored in data_info.yaml. The
+        data_info (dict): Information on data set stored in data_info_template.yaml. The
             following keys can be accessed:
             - 'outcome': Name of dependent variable column in data
             - 'outcome_numerical': Name to be given to the numerical version of outcome

@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 import pytest
-from template_project.analysis.model import fit_logit_model
+from template_project.analysis.model_template import fit_logit_model
 
 DESIRED_PRECISION = 10e-2
 
