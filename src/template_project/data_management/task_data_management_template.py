@@ -8,13 +8,13 @@ from template_project.config import BLD, SRC
 from template_project.data_management.clean_data_template import clean_data
 
 
-def task_clean_data_python(
+def task_clean_data(
     script=SRC / "data_management" / "clean_data_template.py",
     data_info=SRC / "data_management" / "data_info_template.yaml",
     data=SRC / "data" / "data_template.csv",
-    produces=BLD / "python" / "data" / "data_clean.csv",
+    produces=BLD / "data" / "data_clean.csv",
 ):
-    """Clean the data (Python version)."""
+    """Clean the data."""
     with data_info.open() as file:
         data_info = yaml.safe_load(file)
     data = pd.read_csv(data)
@@ -29,6 +29,6 @@ def task_clean_data_python(
 def task_clean_data_r(
     data_info=SRC / "data_management" / "data_info_template.yaml",
     data=SRC / "data" / "data_template.csv",
-    produces=BLD / "r" / "data" / "data_clean.csv",
+    produces=BLD / "data" / "data_clean_r.csv",
 ):
     """Clean the data (R version)."""

@@ -30,12 +30,9 @@ dependencies:
 
   # R template project dependencies
   - pytask-r >=0.4.1
-  - r-plotly
   - r-plyr
-  - r-processx
-  - r-reshape2
-  - r-reticulate
-  - r-xtable
+  - r-precommit
+  - r-yaml
 
   # Install project
   - pip: [-e .]

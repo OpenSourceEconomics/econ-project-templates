@@ -11,18 +11,18 @@ from template_project.final.plot_template import plot_regression_by_age
 for group in TEMPLATE_GROUPS:
     deps = {
         "script": SRC / "final" / "plot_template.py",
-        "predictions": BLD / "python" / "predictions" / f"{group}.csv",
+        "predictions": BLD / "predictions" / f"{group}.csv",
         "data_info": SRC / "data_management" / "data_info_template.yaml",
-        "data": BLD / "python" / "data" / "data_clean.csv",
+        "data": BLD / "data" / "data_clean.csv",
     }
 
     @pytask.task(id=group)
-    def task_plot_results_by_age_python(
+    def task_plot_results_by_age(
         group=group,
         depends_on=deps,
-        produces=BLD / "python" / "figures" / f"smoking_by_{group}.png",
+        produces=BLD / "figures" / f"smoking_by_{group}.png",
     ):
-        """Plot the regression results by age (Python version)."""
+        """Plot the regression results by age."""
         with depends_on["data_info"].open() as file:
             data_info = yaml.safe_load(file)
         data = pd.read_csv(depends_on["data"])
@@ -31,41 +31,13 @@ for group in TEMPLATE_GROUPS:
         fig.write_image(produces)
 
 
-def task_create_results_table_python(
+def task_create_results_table(
     script=SRC / "final" / "plot_template.py",
-    depends_on=BLD / "python" / "models" / "model.pickle",
-    produces=BLD / "python" / "tables" / "estimation_results.tex",
+    depends_on=BLD / "models" / "model.pickle",
+    produces=BLD / "tables" / "estimation_results.tex",
 ):
-    """Store a table in LaTeX format with the estimation results (Python version)."""
+    """Store a table in LaTeX format with the estimation results)."""
     model = load_model(depends_on)
     table = model.summary().as_latex()
     with produces.open("w") as f:
         f.writelines(table)
-
-
-for group in TEMPLATE_GROUPS:
-
-    @pytask.task(id=group)
-    @pytask.mark.r(
-        script=SRC / "final" / "plot_regression_template.r",
-        serializer="yaml",
-    )
-    def task_plot_results_by_age_r(
-        group=group,
-        data_info=SRC / "data_management" / "data_info_template.yaml",
-        data=BLD / "r" / "data" / "data_clean.csv",
-        predictions=BLD / "r" / "predictions" / f"{group}.csv",
-        produces=BLD / "r" / "figures" / f"smoking_by_{group}.png",
-    ):
-        """Plot the regression results by age (R version)."""
-
-
-@pytask.mark.r(
-    script=SRC / "final" / "create_estimation_table_template.r",
-    serializer="yaml",
-)
-def task_create_results_table_r(
-    model=BLD / "r" / "models" / "model.rds",
-    produces=BLD / "r" / "tables" / "estimation_results.tex",
-):
-    """Store a table in LaTeX format with the estimation results (R version)."""
