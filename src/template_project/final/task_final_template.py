@@ -11,9 +11,9 @@ from template_project.final.plot_template import plot_regression_by_age
 for group in TEMPLATE_GROUPS:
     deps = {
         "script": SRC / "final" / "plot_template.py",
-        "predictions": BLD / "predictions" / f"{group}.csv",
+        "predictions": BLD / "predictions" / f"{group}.pickle",
         "data_info": SRC / "data_management" / "data_info_template.yaml",
-        "data": BLD / "data" / "data_clean.csv",
+        "data": BLD / "data" / "data_clean.pickle",
     }
 
     @pytask.task(id=group)
@@ -25,8 +25,8 @@ for group in TEMPLATE_GROUPS:
         """Plot the regression results by age."""
         with depends_on["data_info"].open() as file:
             data_info = yaml.safe_load(file)
-        data = pd.read_csv(depends_on["data"])
-        predictions = pd.read_csv(depends_on["predictions"])
+        data = pd.read_pickle(depends_on["data"])
+        predictions = pd.read_pickle(depends_on["predictions"])
         fig = plot_regression_by_age(data, data_info, predictions, group)
         fig.write_image(produces)
 

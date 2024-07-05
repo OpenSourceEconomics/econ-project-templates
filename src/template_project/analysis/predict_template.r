@@ -44,6 +44,6 @@ config <- yaml::yaml.load_file(path_to_yaml)
 # ======================================================================================
 
 model <- readRDS(config[["model_path"]])
-data <- read.csv(config[["data_path"]])
+data <- readRDS(config[["data_path"]])
 predicted_prob <- predict_prob_by_age(data, model, config[["group"]])
-write.csv(predicted_prob, config[["produces"]], row.names = FALSE)
+saveRDS(predicted_prob, config[["produces"]])

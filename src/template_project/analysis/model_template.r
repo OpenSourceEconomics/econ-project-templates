@@ -45,6 +45,6 @@ depends_on <- config[["depends_on"]]
 # ======================================================================================
 
 data_info <- yaml::yaml.load_file(config[["data_info"]])
-data <- read.csv(config[["data"]])
+data <- readRDS(config[["data"]])
 model <- fit_logit_model(data, data_info, model_type = "linear")
 saveRDS(model, file = config[["produces"]])
