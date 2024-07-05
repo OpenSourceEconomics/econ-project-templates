@@ -4,14 +4,14 @@ import shutil
 
 import pytask
 from pytask_latex import compilation_steps as cs
-from template_project.config import BLD, PAPER_DIR
+from template_project.config import BLD, DOCUMENTS
 
-documents = ["template_project", "template_project_pres"]
+documents = ["paper", "presentation"]
 
 for document in documents:
 
     @pytask.mark.latex(
-        script=PAPER_DIR / f"{document}.tex",
+        script=DOCUMENTS / f"{document}.tex",
         document=BLD / "latex" / f"{document}.pdf",
         compilation_steps=cs.latexmk(
             options=("--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd"),

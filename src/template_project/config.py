@@ -7,7 +7,7 @@ BLD = SRC.joinpath("..", "..", "bld").resolve()
 
 ROOT = SRC.joinpath("..", "..").resolve()
 
-TEST_DIR = ROOT.joinpath("tests").resolve()
-PAPER_DIR = ROOT.joinpath("paper").resolve()
+TESTS = ROOT.joinpath("tests").resolve()
+DOCUMENTS = ROOT.joinpath("documents").resolve()
 
 TEMPLATE_GROUPS = ["marital_status", "qualification"]

@@ -77,7 +77,7 @@ def _visualize_organisational_steps(case):
 
     fig.update_xaxes(
         tickvals=[1, 2, 3, 4],
-        ticktext=["Data mgmt.", "Analysis", "Final", "Paper"],
+        ticktext=["Data mgmt.", "Analysis", "Final", "Documents"],
         title="Steps to be performed",
     )
     fig.update_yaxes(

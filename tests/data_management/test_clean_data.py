@@ -2,18 +2,18 @@ import numpy as np
 import pandas as pd
 import pytest
 import yaml
-from template_project.config import TEST_DIR
+from template_project.config import TESTS
 from template_project.data_management.clean_data_template import clean_data
 
 
 @pytest.fixture()
 def data():
-    return pd.read_csv(TEST_DIR / "data_management" / "data_fixture.csv")
+    return pd.read_csv(TESTS / "data_management" / "data_fixture.csv")
 
 
 @pytest.fixture()
 def data_info():
-    with (TEST_DIR / "data_management" / "data_info_fixture.yaml").open() as file:
+    with (TESTS / "data_management" / "data_info_fixture.yaml").open() as file:
         return yaml.safe_load(file)
 
 

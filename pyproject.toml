@@ -70,7 +70,7 @@ allow-direct-references = true
 # ======================================================================================
 
 [tool.pytask.ini_options]
-paths = ["./src/template_project", "./paper"]
+paths = ["./src/template_project", "./documents"]
 pdbcls = "pdbp:Pdb"
 
 # ======================================================================================

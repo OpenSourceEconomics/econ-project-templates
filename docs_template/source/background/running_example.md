@@ -22,7 +22,7 @@ In these templates, we categorize these tasks into four groups:
 - Data Management: task 1
 - Analysis: tasks 2 & 3
 - Final: tasks 4 & 5
-- Paper: task 6
+- Documents: task 6
 
 Naturally, different projects have different needs. E.g., for a simulation study, you
 might want to discard the data management part. Doing so is trivial by just deleting the
