@@ -30,6 +30,7 @@ dependencies:
 
   # R template project dependencies
   - pytask-r >=0.4.1
+  - pyreadr
   - r-plyr
   - r-precommit
   - r-yaml
