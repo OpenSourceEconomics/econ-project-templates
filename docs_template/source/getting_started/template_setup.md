@@ -6,7 +6,8 @@ others, and modifying the configuration settings.
 
 Before changing anything else, you should rename the project. In your preferred editor
 search for `"template_project"` and replace it with a concise version of your project's
-name
+name. Importantly, you also need to rename the folder `src/template_project` to
+`src/<new_project_name>`!
 
 ```{warning}
 This shortened project name must be a valid Python identifier, i.e., no spaces, hyphens,
@@ -30,11 +31,13 @@ changes you make rather than the original template.
 1. Activate the installed environment
 
    ```console
-   $ conda activate template_project
+   $ conda activate <new_project_name>
    ```
 
    ```{note}
-   Remember to activate the environment whenever you start a new terminal session.
+   Remember to activate the environment whenever you start a new terminal session. In
+   case the environment is not found, check the `name` attribute in `environment.yml`
+   and make sure you've spelled it correctly.
    ```
 
 1. Install the pre-commit hooks
@@ -103,8 +106,8 @@ placeholder names, email addresses, and repository links with your own:
 #### Changing adjustments
 
 The included pre-commit hooks (specified in `.pre-commit-config.yaml`) may require
-adjustments to align with your project's needs. Refer to {ref}`pre_commit_hooks` for
-more details.
+adjustments to align with your project's needs. Refer to the {ref}`pre_commit_hooks`
+section for more details.
 
 ### Next steps
 
