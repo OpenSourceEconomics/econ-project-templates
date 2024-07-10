@@ -13,9 +13,9 @@ We can translate this into tasks our code needs to perform:
 1. Estimate a logistic model
 1. For each of the categorical variables, predict the smoking propensity over the
    lifetime
-1. Visualize the results
+1. Create figures visualizing the results
 1. Create tables with the results
-1. Include the results in documents for dissemination
+1. Include the results in documents for dissemination (paper, presentation)
 
 In these templates, we categorize these tasks into four groups:
 

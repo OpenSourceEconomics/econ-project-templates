@@ -21,7 +21,7 @@ existing ones.
 
 (preparing_your_system)=
 
-## Preparing your system
+## Preparing your system and getting the template
 
 ```{include} preparing_your_system.md
 ```
@@ -30,7 +30,7 @@ existing ones.
 
 ## Customising the template for your needs
 
-```{include} template_setup.md
+```{include} customising_the_template.md
 ```
 
 (second_machine)=

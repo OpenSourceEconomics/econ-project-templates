@@ -24,8 +24,8 @@ changes you make rather than the original template.
    dependencies:
 
    ```console
-   $ cd /to/root/of/template
-   $ conda env create -f environment.yml
+   $ cd /to/root/of/template_project
+   $ conda env create
    ```
 
 1. Activate the installed environment

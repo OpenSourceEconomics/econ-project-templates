@@ -1,7 +1,7 @@
-### Program installation
+### Programme installation
 
-1. Make sure you have the following programs installed and that these can be found on
-   your path. This template requires
+Make sure you have the following programs installed and that these can be found on your
+path. This template requires
 
 - [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or
   [Micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html) or
@@ -21,12 +21,12 @@
 
 ### Validating the installation paths
 
-2. If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
-   terminal. As everything will be started from the Powershell/Terminal, you need to
-   make sure that all programmes you need in your project (for sure Anaconda Python,
-   Git, and LaTeX; potentially VS Code, R, Julia, Stata) can be found on your *PATH*.
-   That is, these need to be accessible from your shell. This often requires a bit of
-   manual work, in particular on Windows.
+If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
+terminal. As everything will be started from the Powershell/Terminal, you need to make
+sure that all programmes you need in your project (for sure Anaconda Python, Git, and
+LaTeX; potentially VS Code, R, Julia, Stata) can be found on your *PATH*. That is, these
+need to be accessible from your shell. This often requires a bit of manual work, in
+particular on Windows.
 
 - To see which programmes can be found on your path, type (leave out the leading dollar
   sign, this is just standard notation for a command line prompt):
@@ -64,29 +64,12 @@
 
   This starts python in your shell and exits from it again. The top line should indicate
   that you are using a Python distribution provided by Anaconda. Here is an example
-  output obtained using Windows PowerShell:
+  output obtained on Linux:
 
   ```text
-  Python 3.9.9 | packaged by conda-forge | (main, Dec 20 2021, 02:40:17)
-  [GCC 9.4.0] on linux
+  Python 3.12.4 | packaged by conda-forge | (main, Jun 17 2024, 10:23:07) [GCC 12.3.0] on linux
   Type "help", "copyright", "credits" or "license" for more information.
   ```
-
-  For Git, type:
-
-  ```console
-  $ git status
-  ```
-
-  Unless you are in a location where you expect a Git repository, this should yield the
-  output:
-
-  ```console
-  fatal: not a git repository (or any of the parent directories): .git
-  ```
-
-  If a Git repository is present, delete it or go to another directory before proceeding
-  further.
 
   To start and exit pdflatex.
 
@@ -103,30 +86,30 @@
 
   If required, do the same for R, Julia, or Stata.
 
-### Validating Git
+### Navigating to the parent folder and validating Git
 
-3. In the Powershell/Terminal, navigate to the parent folder of your future project.
+In the Powershell/Terminal, navigate to the parent folder of your future project.
 
-   Now type `pwd`, which prints the absolute path to your present working directory.
-   **There must not be any spaces or special characters in the path** (for instance ä,
-   ü, é, Chinese or Cyrillic characters).
+Now type `pwd`, which prints the absolute path to your present working directory.
+**There must not be any spaces or special characters in the path** (for instance ä, ü,
+é, Chinese or Cyrillic characters).
 
-   If you have any spaces or special characters on your path, change to a folder that
-   does not have these special characters (e.g., on Windows, create a directory
-   `C:\projects`. Do **not** rename your home directory).
+If you have any spaces or special characters on your path, change to a folder that does
+not have these special characters (e.g., on Windows, create a directory `C:\projects`.
+Do **not** rename your home directory).
 
-   Type `git status` , this should yield the output:
+Type `git status` , this should yield the output:
 
-   ```console
-   fatal: not a git repository (or any of the parent directories): .git
-   ```
+```console
+fatal: not a git repository (or any of the parent directories): .git
+```
 
 ### Installing the template
 
-4. To install the template repository, first go to the
-   [econ-project-templates](https://github.com/OpenSourceEconomics/econ-project-templates)
-   repo.
+To install the template repository, first go to the
+[econ-project-templates](https://github.com/OpenSourceEconomics/econ-project-templates)
+repo.
 
-   Now follow the official
-   [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template)
-   on how to create a new repository from a template repository.
+Now follow the official
+[instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template)
+on how to create a new repository from a template repository.

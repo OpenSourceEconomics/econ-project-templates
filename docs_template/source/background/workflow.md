@@ -23,10 +23,10 @@ The equivalent comment applies here: Either keep track of which model needs to b
 after making changes manually, or run everything at once.
 
 Ideally though, you want to be even more fine-grained than this and only run individual
-elements. This is particularly true when your entire computations take some time. In
-this case, running all steps every time via the *workflow script* simply is not an
-option. All my research projects ended up running for a long time, no matter how simple
-they were...
+elements. This is particularly true when your computations take some time. In this case,
+running all steps every time via the *workflow script* simply is not an option. All my
+research projects ended up running for a long time (anything between several minutes and
+days), no matter how simple they were...
 
 The figure shows you that even in this simple example, there are now quite a few parts
 to remember:

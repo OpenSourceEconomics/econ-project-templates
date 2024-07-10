@@ -21,6 +21,10 @@ This code base aims to provide two stepping stones to assist you in achieving th
    structure time and again, which typically happens when incrementally building up a
    new project. Put differently, instead of starting from scratch, you modify an example
    for your needs.
+1. Pre-configured useful tools such as [pre-commit hooks](#pre_commit_hooks), a
+   [conda environment](#environments), and
+   [pytask](https://pytask-dev.readthedocs.io/en/stable/). These tools help you to
+   maintain a clean code base and to automate the workflow of your project.
 1. A pre-configured instance of [pytask](https://pytask-dev.readthedocs.io/en/stable/),
    which facilitates the reproducibility of your research findings from the beginning to
    the end by letting the computer handle the project's workflow.
@@ -42,10 +46,11 @@ tools, though.
 When starting freshly, go to the next section for finding out how to prepare your
 machine and how to get started with the template. The {ref}`background` section explains
 many of the design choices; feel free to skip if you worked with the templates before.
-{ref}`guides_explanations` provides some tips and tricks and points you to some useful
-features of helper programmes that come with the templates. The documentation follows
-the Python version of the running example; see {ref}`programming_languages` for
-additional options.
+{ref}`guides_explanations` provides some tips and tricks for usage, depending on whether
+you want to start a new project from scratch or port existing code into the structure
+suggested in this project. The page also points you to some useful features of helper
+programmes that come with the templates. The documentation follows the Python version of
+the running example; see {ref}`programming_languages` for additional options.
 
 ```{toctree}
 ---

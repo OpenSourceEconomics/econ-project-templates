@@ -63,7 +63,7 @@
             {
                 \nodepart{one}
                 \begin{footnotesize}
-                    bld/python
+                    bld
                 \end{footnotesize}
                 \nodepart{two}
                 \texttt{data}
@@ -79,13 +79,12 @@
 
             \node (3) [
                 rectangle split,
-                rectangle split parts=7,
+                rectangle split parts=6,
                 rectangle split part fill={
                         gray,
                         blue!75,
                         blue!75,
                         blue!75,
-                        blue!50,
                         blue!50,
                         blue!50,
                         blue!50,
@@ -110,8 +109,6 @@
                 \texttt{final}
                 \nodepart{six}
                 \texttt{config.py}
-                \nodepart{seven}
-                \texttt{utilities\{.py,.r,.jl,.do\}}
             };
 
             \draw[-, out=8, in=150] (1) to (2);
