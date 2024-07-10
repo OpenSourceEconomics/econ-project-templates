@@ -12,7 +12,7 @@ for document in documents:
 
     @pytask.mark.latex(
         script=DOCUMENTS / f"{document}.tex",
-        document=BLD / "latex" / f"{document}.pdf",
+        document=BLD / "documents" / f"{document}.pdf",
         compilation_steps=cs.latexmk(
             options=("--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd"),
         ),
@@ -22,7 +22,7 @@ for document in documents:
         """Compile the document specified in the latex decorator."""
 
     kwargs = {
-        "depends_on": BLD / "latex" / f"{document}.pdf",
+        "depends_on": BLD / "documents" / f"{document}.pdf",
         "produces": BLD.parent.resolve() / f"{document}.pdf",
     }
 
