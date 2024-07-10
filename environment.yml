@@ -1,6 +1,6 @@
 ---
 name: template_project
-channels: [conda-forge, r]
+channels: [conda-forge, r, nodefaults]
 dependencies:
   - python >=3.11
   - pip >=21.1
