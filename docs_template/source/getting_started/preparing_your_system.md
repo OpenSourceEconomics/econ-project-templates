@@ -7,7 +7,7 @@ path. This template requires
   [Micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html) or
   Anaconda. Windows users: please consult {ref}`windows_user`
 
-  ```{note} This template is tested with python 3.9 and higher and conda version 22.9
+  ```{note} This template is tested with python 3.12 and higher and conda 24.5
   ```
 
 - a modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),

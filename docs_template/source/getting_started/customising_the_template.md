@@ -1,16 +1,12 @@
 Once you've created a new repository from the template, you can begin customising it to
 meet your specific needs.
 
-```{important}
-Before changing anything else, you need to rename the project, as described in the first
-step below.
-```
+### First step: Rename the project
 
-### First step
-
-In your preferred editor search for `template_project` in the entire codebase and
-replace it with a concise version of your project's name. Importantly, you also need to
-rename the folder `src/template_project` to `src/<new_project_name>`!
+Open the entire directory in VS Code. Search for `template_project` in the entire
+codebase and replace it with `new_project_name`, i.e., a concise version of your
+project's name (often called a "slug"). Rename the folder `src/template_project` to
+`src/<new_project_name>`!
 
 ```{warning}
 This shortened project name must be a valid Python identifier, i.e., no spaces, hyphens,
@@ -19,9 +15,9 @@ or the like. Just letters, numbers, underscores. Do not start with a number.
 
 ### Running the project
 
-Prior to modifying the template, confirm that the project functions correctly on your
-system. This step is essential to ensure that any subsequent issues can be attributed to
-changes you make rather than the original template.
+Prior to modifying anything but the slug, confirm that the template can be executed on
+your system. This step is essential to ensure that any subsequent issues can be
+attributed to changes you make rather than the original template.
 
 1. Open a terminal, navigate to the project root, and install the necessary
    dependencies:
@@ -60,8 +56,8 @@ changes you make rather than the original template.
    $ pytask
    ```
 
-All programs used within this project template need to be found on your path, see above
-({ref}`preparing_your_system` and the {ref}`faq`).
+   All programs used within this project template need to be found on your path, see
+   above ({ref}`preparing_your_system` and the {ref}`faq`).
 
 If all went well, you are now ready to adapt the template to your project.
 
@@ -78,7 +74,7 @@ not the template itself.
 
 #### Find and replace placeholders
 
-Now, find and replace the following placeholders in the entire codebase.
+Now, search for and replace the following placeholders in the entire codebase.
 
 | Placeholder                                                   | Replacement                                       |
 | ------------------------------------------------------------- | ------------------------------------------------- |
@@ -98,7 +94,7 @@ the following files.
 | `README.md`       | Remove the entire content and replace it with a README for your project                                                                                              |
 | `pyproject.toml`  | Update the project description                                                                                                                                       |
 | `LICENSE`         | Update the year and name with the current year and your name                                                                                                         |
-| `environment.yml` | Remove any packages you do not need and add any dependencies you need                                                                                                |
+| `environment.yml` | Add any dependencies you will need                                                                                                                                   |
 | `.gitignore`      | 1. Remove the part that is not relevant to your project, that includes all lines that start with `docs_template`<br> 2. Add any files you need to be ignored by git. |
 
 #### Changing tool options
