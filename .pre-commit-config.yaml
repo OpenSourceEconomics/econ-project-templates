@@ -36,26 +36,6 @@ repos:
     rev: v1.35.1
     hooks:
       - id: yamllint
-  - repo: https://github.com/psf/black
-    rev: 24.4.2
-    hooks:
-      - id: black
-        language_version: python3.12
-  - repo: https://github.com/asottile/blacken-docs
-    rev: 1.18.0
-    hooks:
-      - id: blacken-docs
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.5
-    hooks:
-      - id: docformatter
-        args:
-          - --in-place
-          - --wrap-summaries
-          - '88'
-          - --wrap-descriptions
-          - '88'
-          - --blank
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.5.1
     hooks:
@@ -78,14 +58,14 @@ repos:
     rev: 0.7.17
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-gfm, mdformat-gfm-alerts, mdformat-black]
+        additional_dependencies: [mdformat-gfm, mdformat-gfm-alerts, mdformat-ruff]
         args: [--wrap, '88']
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.17
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-myst, mdformat-black]
+        additional_dependencies: [mdformat-myst, mdformat-ruff]
         args: [--wrap, '88']
         files: (docs_template/.)
   - repo: https://github.com/codespell-project/codespell
