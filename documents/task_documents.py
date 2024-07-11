@@ -4,7 +4,7 @@ import shutil
 
 import pytask
 from pytask_latex import compilation_steps as cs
-from template_project.config import BLD, DOCUMENTS
+from template_project.config import BLD, DOCUMENTS, ROOT
 
 documents = ["paper", "presentation"]
 
@@ -23,7 +23,7 @@ for document in documents:
 
     kwargs = {
         "depends_on": BLD / "documents" / f"{document}.pdf",
-        "produces": BLD.parent.resolve() / f"{document}.pdf",
+        "produces": ROOT / f"{document}.pdf",
     }
 
     @pytask.task(id=document, kwargs=kwargs)
