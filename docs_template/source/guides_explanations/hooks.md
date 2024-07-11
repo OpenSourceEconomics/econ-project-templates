@@ -6,10 +6,11 @@ present three common hooks. Note that some hooks are programming language agnost
 others work on a specific language. You can find a list of most hooks in the
 [pre-commit documentation](https://pre-commit.com/index.html) under Supported hooks.
 
-- [black](https://github.com/psf/black): Reformats your python code according to a
-  universal standard. Blackened code looks the same regardless of the project you're
-  reading. Having black as a hook allows you to focus on the content while writing code
-  and let the formatting be done automatically before each commit.
+- [ruff](https://docs.astral.sh/ruff/): Formats your Python code and checks for errors.
+  Ruff-formatted code looks the same regardless of the project you're reading. Having
+  ruff as a hook allows you to focus on the content while writing code and let the
+  formatting along with catching of many errors be done automatically before each
+  commit.
 - [check-yaml](https://github.com/pre-commit/pre-commit-hooks): Checks whether all .yaml
   and .yml files within your project are valid yaml files. Similarly, having check-yaml
   as a hook allows you to focus on the content while writing yaml files. If you
