@@ -9,8 +9,9 @@ project's name (often called a "slug"). Rename the folder `src/template_project`
 `src/<new_project_name>`!
 
 ```{warning}
-This shortened project name must be a valid Python identifier, i.e., no spaces, hyphens,
-or the like. Just letters, numbers, underscores. Do not start with a number.
+Your project slug `new_project_name` must be a valid Python identifier, i.e., it must
+consist of letters, numbers, and underscores only. Do not start with a number. There
+must not be any spaces, hyphens, or the like in the slug.
 ```
 
 ### Running the project
