@@ -37,15 +37,13 @@ name: <env_name>
 
 channels:
   - conda-forge
-  - defaults
+  - nodefaults
 
 dependencies:
-  - python=3.10
+  - python=3.12
   - numpy
   - pandas
   - pip
-  - pip:
-    - black
 ```
 
 If the environment.yml file exists you can create the environment using
