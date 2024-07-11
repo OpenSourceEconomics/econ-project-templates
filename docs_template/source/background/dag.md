@@ -5,8 +5,8 @@ how we connect a pair of nodes matters, we thus add arrows to all edges. Acyclic
 that there are no directed cycles: When you traverse a graph in the direction of the
 arrows, there may not be a way to end up at the same node again.
 
-This is the dependency graph of the template project (open the image in a different
-window to zoom in)
+This is the dependency graph of template_project (open the image in a different window
+to zoom in)
 
 ```{figure} ../figures/dag.png
 ---

@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.11', '3.12']
+        python-version: ['3.12']
     steps:
       - uses: actions/checkout@v4
       - name: Install TinyTex
@@ -39,5 +39,5 @@ jobs:
       - name: Run tests
         run: micromamba run -n gha-testing pytest -v --cov=./ --cov-report=xml
       - name: Upload coverage reports
-        if: runner.os == 'Linux' && matrix.python-version == '3.11'
+        if: runner.os == 'Linux' && matrix.python-version == '3.12'
         uses: codecov/codecov-action@v3

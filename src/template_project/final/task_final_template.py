@@ -10,7 +10,6 @@ from template_project.config import BLD, SRC, TEMPLATE_GROUPS
 from template_project.final.plot_template import plot_regression_by_age
 
 for language in ["python", "r"]:
-
     extension = "pickle" if language == "python" else "rds"
 
     for group in TEMPLATE_GROUPS:

@@ -51,11 +51,11 @@ $ browser docs_template/build/html/index.html
 1. Implement the fix or new feature.
 
 1. We validate contributions in three ways. First, we have a test suite to check the
-   implementation of the template project. Second, we correct for stylistic errors in
-   code and documentation using linters. Third, we test whether the documentation builds
+   implementation of template_project. Second, we correct for stylistic errors in code
+   and documentation using linters. Third, we test whether the documentation builds
    successfully.
 
-   You can run the checks on the template project with `pytest` by running
+   You can run the checks on template_project with `pytest` by running
 
    ```console
    $ pytest

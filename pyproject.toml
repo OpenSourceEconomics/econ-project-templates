@@ -103,12 +103,6 @@ convention = "google"
 # Miscellaneous tools configuration
 # ======================================================================================
 
-[tool.nbqa.config]
-black = "pyproject.toml"
-
-[tool.nbqa.mutate]
-black = 1
-
 
 [tool.pytest.ini_options]
 addopts = "--pdbcls=pdbp:Pdb"

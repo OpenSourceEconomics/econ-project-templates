@@ -1,7 +1,7 @@
 ---
 
 name: Bug Report
-about: Create a bug report to help us improve the template project
+about: Create a bug report to help us improve template_project
 title: "BUG:"
 labels: "bug"
 
@@ -9,9 +9,9 @@ labels: "bug"
 
 - [ ] I have checked that this issue has not already been reported.
 
-- [ ] I have confirmed this bug exists on the latest version of the template project.
+- [ ] I have confirmed this bug exists on the latest version of template_project.
 
-- [ ] (optional) I have confirmed this bug exists on the `main` branch of the template project.
+- [ ] (optional) I have confirmed this bug exists on the `main` branch of template_project.
 
 ---
 
