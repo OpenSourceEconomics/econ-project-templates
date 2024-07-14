@@ -2,7 +2,7 @@
 name: template_project
 channels: [conda-forge, r, nodefaults]
 dependencies:
-  - python >=3.11
+  - python ==3.12
   - pip >=21.1
 
   # Development dependencies
@@ -25,7 +25,6 @@ dependencies:
   - numpy
   - pandas >=2.2
   - pdbpp
-  - python-kaleido
   - plotly >=5.2.0,<6
 
   # R template project dependencies
@@ -36,4 +35,4 @@ dependencies:
   - r-yaml
 
   # Install project
-  - pip: [-e .]
+  - pip: [-e ., kaleido]

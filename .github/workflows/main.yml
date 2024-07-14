@@ -32,14 +32,16 @@ jobs:
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: environment.yml
-          environment-name: gha-testing
           create-args: python=${{ matrix.python-version }}
           cache-environment: true
-          cache-downloads: true
       - name: Run pytask (to be deleted)
-        run: micromamba run -n gha-testing pytask
+        run: |
+          micromamba activate template_project
+          pytask
       - name: Run tests
-        run: micromamba run -n gha-testing pytest -v --cov=./ --cov-report=xml
+        run: |
+          micromamba activate template_project
+          pytest -v --cov=./ --cov-report=xml
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.12'
         uses: codecov/codecov-action@v3
