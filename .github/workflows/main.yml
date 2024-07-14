@@ -35,10 +35,12 @@ jobs:
           create-args: python=${{ matrix.python-version }}
           cache-environment: true
       - name: Run pytask (to be deleted)
+        shell: bash -l {0}
         run: |
           micromamba activate template_project
           pytask
       - name: Run tests
+        shell: bash -l {0}
         run: |
           micromamba activate template_project
           pytest -v --cov=./ --cov-report=xml
