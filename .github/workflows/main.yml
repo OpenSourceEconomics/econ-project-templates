@@ -28,6 +28,7 @@ jobs:
           tlmgr update --self
           tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb ntgclass relsize setspace xfrac
           tlmgr list --only-installed
+          latexmk documents/paper.tex
       - name: Install conda environment with micromamba
         uses: mamba-org/setup-micromamba@v1
         with:
