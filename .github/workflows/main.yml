@@ -34,8 +34,8 @@ jobs:
           environment-file: environment.yml
           environment-name: gha-testing
           create-args: python=${{ matrix.python-version }}
-          # cache-environment: true
-          # cache-downloads: true
+          cache-environment: true
+          cache-downloads: true
       - name: Run pytask (to be deleted)
         run: micromamba run -n gha-testing pytask
       - name: Run tests
