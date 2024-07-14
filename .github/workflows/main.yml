@@ -28,7 +28,6 @@ jobs:
           tlmgr update --self
           tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb ntgclass relsize setspace xfrac
           tlmgr list --only-installed
-          latexmk documents/paper.tex
       - name: Install conda environment with micromamba
         uses: mamba-org/setup-micromamba@v1
         with:
@@ -37,6 +36,8 @@ jobs:
           create-args: python=${{ matrix.python-version }}
           cache-environment: true
           cache-downloads: true
+      - name: Run pytask (to be deleted)
+        run: micromamba run -n gha-testing pytask
       - name: Run tests
         run: micromamba run -n gha-testing pytest -v --cov=./ --cov-report=xml
       - name: Upload coverage reports
