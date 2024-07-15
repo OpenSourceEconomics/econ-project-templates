@@ -1,53 +1,125 @@
-[tool.ruff]
-target-version = "py311"
-select = ["ALL"]
-fix = true
-extend-ignore = [
-    "PLR0133",  # Constants being compared, always happening with cookiecutter.
-    "S603",  # `subprocess` call: check for execution of untrusted input
-    "S607",  # Starting a process with a partial executable path
- ]
-exclude = [
-    "docs/scripts"
+# ======================================================================================
+# Project metadata
+# ======================================================================================
+
+[project]
+name = "template_project"
+description = "Template for reproducible research projects in economics"
+requires-python = ">=3.11"
+dynamic = ["version"]
+keywords = [
+    "Reproducible Research",
+    "Economics",
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+authors = [
+    { name = "JANE DOE", email = "janedoe@example-university.com" },
+]
+maintainers = [
+    { name = "JANE DOE", email = "janedoe@example-university.com" },
 ]
 
-[tool.ruff.per-file-ignores]
-"tests/*" = ["S101", "ANN", "D100", "D103"]
-"hooks/post_gen_project.py" = ["C901", "PLR0912", "T201"]
-"docs/source/conf.py" = ["DTZ005", "D100"]
-"docs/source/__init__.py" = ["D104"]
-"hooks/__init__.py" = ["D104"]
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
 
-[tool.ruff.pydocstyle]
-convention = "numpy"
+[project.license]
+text = "MIT"
 
+[project.urls]
+Changelog = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Documentation = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Github = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Tracker = "https://github.com/OpenSourceEconomics/econ-project-templates/issues"
 
-[tool.nbqa.config]
-black = "pyproject.toml"
+# ======================================================================================
+# Build system configuration
+# ======================================================================================
 
-[tool.nbqa.mutate]
-black = 1
+[build-system]
+requires = ["hatchling", "hatch_vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/template_project/_version.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["tests"]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src"]
+sources = ["src"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+# ======================================================================================
+# Pytask configuration
+# ======================================================================================
+
+[tool.pytask.ini_options]
+paths = ["./src/template_project", "./documents"]
+pdbcls = "pdbp:Pdb"
+
+# ======================================================================================
+# Ruff configuration
+# ======================================================================================
+
+[tool.ruff]
+target-version = "py312"
+fix = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+extend-ignore = [
+    "S101",  # Use of `assert` detected.
+    "ANN",  # Missing type annotations
+    "D100",  # Missing docstring in public module
+    "D104",  # Missing docstring in public package (__init__.py files)
+    "S301",  # pickle module is unsafe
+    "PLR0913",  # Too many arguments in function definition
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D", "PD011"]
+"task_*.py" = ["ANN", "ARG001"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+# ======================================================================================
+# Miscellaneous tools configuration
+# ======================================================================================
 
 
 [tool.pytest.ini_options]
+addopts = "--pdbcls=pdbp:Pdb"
 filterwarnings = []
-addopts = ["--doctest-modules"]
 markers = [
     "wip: Tests that are work-in-progress.",
     "unit: Flag for unit tests which target mainly a single function.",
     "integration: Flag for integration tests which may comprise of multiple unit tests.",
     "end_to_end: Flag for tests that cover the whole program.",
 ]
-norecursedirs = ["docs", "{{cookiecutter.project_slug}}"]
-
-
-[tool.coverage.report]
-omit = [
-    "{{cookiecutter.project_slug}}",
-    "docs",
-]
+norecursedirs = ["docs"]
 
 
 [tool.yamlfix]
 line_length = 88
 none_representation = "null"
+
+
+[tool.codespell]
+skip = "*.ipynb,inst/WORDLIST"

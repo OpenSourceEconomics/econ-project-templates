@@ -1,32 +1,38 @@
 ---
-name: econ-project-templates
-channels: [conda-forge, nodefaults]
+name: template_project
+channels: [conda-forge, r, nodefaults]
 dependencies:
-  - conda
-  - cookiecutter
-  - furo
+  - python ==3.12
+  - pip >=21.1
+
+  # Development dependencies
+  - conda-lock
   - ipykernel
-  - ipython_genutils
-  - ipywidgets
   - jupyterlab
-  - mamba
-  - myst-parser
-  - nbsphinx
-  - pandas
-  - pip
-  - plotly>=5.13.0
   - pre-commit
-  - pydata-sphinx-theme>=0.3.0
+
+  # Language agnostic template project dependencies
+  - pytask >=0.5.0
+  - pytask-latex >=0.4.2
+  - pytask-parallel >=0.5.0
   - pytest
-  - pytest-cookies
   - pytest-cov
-  - python=3.11
-  - setuptools_scm
-  - sphinx
-  - sphinx-autoapi
-  - sphinx-click
-  - sphinx-copybutton
-  - sphinx-panels
-  - sphinxcontrib-bibtex
-  - toml
-  - pip: [kaleido, pdbp]
+  - pytest-xdist
+
+  # Python template project dependencies
+  - pyyaml
+  - statsmodels
+  - numpy
+  - pandas >=2.2
+  - pdbpp
+  - plotly >=5.2.0,<6
+
+  # R template project dependencies
+  - pytask-r >=0.4.1
+  - pyreadr
+  - r-plyr
+  - r-precommit
+  - r-yaml
+
+  # Install project
+  - pip: [-e ., kaleido]

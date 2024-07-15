@@ -6,31 +6,35 @@
 [![image](https://github.com/OpenSourceEconomics/econ-project-templates/actions/workflows/main.yml/badge.svg)](https://github.com/OpenSourceEconomics/econ-project-templates/actions/workflows/main.yml)
 [![image](https://codecov.io/gh/OpenSourceEconomics/econ-project-templates/branch/main/graph/badge.svg)](https://codecov.io/gh/OpenSourceEconomics/econ-project-templates)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/OpenSourceEconomics/econ-project-templates/main.svg)](https://results.pre-commit.ci/latest/github/OpenSourceEconomics/econ-project-templates/main)
-[![image](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-This project aims to provide project templates for economists that make it easy to
-produce reproducible research using one or more of the most frequently used programming
-languages in economics (i.e Python, R, Julia, Stata).
+This project provides a template for economists aimed at facilitating the production of
+reproducible research using the most commonly used programming languages in the field,
+such as Python, R, Julia, and Stata.
 
-Users and curious visitors please take a look at the
-[documentation](https://econ-project-templates.readthedocs.io/en/stable/). This
-repository is for developing the templates rather than using them.
+> [!NOTE]
+> Although the underlying architecture supports all listed programming languages, the
+> current template implementation is limited to Python and R.
+
+## Getting Started
+
+You can find all necessary resources to get started on our
+[documentation](https://econ-project-templates.readthedocs.io/en/stable/).
 
 ## Contributing
 
-We welcome suggestions on anything: improving the documentation, bug reports, feature
-requests. Please open an
+We welcome suggestions on anything from improving the documentation to reporting bugs
+and requesting new features. Please open an
 [issue](https://github.com/OpenSourceEconomics/econ-project-templates/issues) in these
 cases.
 
 If you want to work on a specific feature, we are more than happy to get you started!
-Please [get in touch briefly](https://www.wiwi.uni-bonn.de/gaudecker/personal_cv.html),
-this is a small team so there is no need for a detailed formal process.
+Please [get in touch briefly](https://www.wiwi.uni-bonn.de/gaudecker), this is a small
+team so there is no need for a detailed formal process.
 
-## Contributors
+### Contributors
 
 @hmgaudecker @timmens @tobiasraabe @mj023
 
-## Former Contributors
+### Former Contributors
 
 @janosg @PKEuS @philippmuller @julienschat @raholler

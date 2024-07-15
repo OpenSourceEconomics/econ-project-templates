@@ -9,4 +9,4 @@ coverage:
     project:
       default:
         threshold: 1%
-ignore: ['{{cookiecutter.project_slug}}/**/*']
+ignore: [tests/**/*]
