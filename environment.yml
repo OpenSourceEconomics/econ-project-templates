@@ -33,6 +33,7 @@ dependencies:
   - r-plyr
   - r-precommit
   - r-yaml
+  - r-forcats
 
   # Install project
   - pip: [-e ., kaleido]

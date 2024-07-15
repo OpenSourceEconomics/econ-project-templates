@@ -1,19 +1,62 @@
 # ======================================================================================
 # Functions
 # ======================================================================================
+clean_data <- function(data) {
+  clean <- data.frame(
+    gender = clean_gender(data$gender),
+    marital_status = clean_marital_status(data$marital_status),
+    smoke = clean_smoke(data$smoke),
+    smoke_numerical = convert_smoke_to_numerical(data$smoke),
+    highest_qualification = clean_highest_qualification(data$highest_qualification),
+    age = as.integer(data$age)
+  )
 
-clean_data <- function(data, data_info) {
-  data[data_info[["columns_to_drop"]]] <- NULL
-  data <- na.omit(data)
-  for (cat_col in data_info[["categorical_columns"]]) {
-    data[[cat_col]] <- as.factor(data[[cat_col]])
-  }
-  data <- plyr::rename(data, data_info[["column_rename_mapping"]])
+  return(clean)
+}
 
-  numerical_outcome <- ifelse(data[[data_info[["outcome"]]]] == "Yes", 1, 0)
-  data[data_info[["outcome_numerical"]]] <- numerical_outcome
+convert_smoke_to_numerical <- function(smoke) {
+  return(as.integer(as.factor(smoke)) - 1)
+}
 
-  return(data)
+clean_gender <- function(sr) {
+  return(clean_unordered_categorical(sr, c("Male", "Female")))
+}
+
+clean_marital_status <- function(sr) {
+  return(
+    clean_unordered_categorical(
+      sr,
+      c("Single", "Married", "Divorced", "Widowed", "Separated")
+    )
+  )
+}
+
+clean_smoke <- function(sr) {
+  return(clean_unordered_categorical(sr, c("No", "Yes")))
+}
+
+clean_highest_qualification <- function(sr) {
+  replace_mapping <- c(
+    "GCSE/CSE or GCSE/O Level" = "GCSE/CSE",
+    "GCSE/CSE or GCSE/O Level" = "GCSE/O Level",
+    "Other or Higher/Sub Degree" = "Other/Sub Degree",
+    "Other or Higher/Sub Degree" = "Higher/Sub Degree"
+  )
+  ordered_qualifications <- c(
+    "No Qualification",
+    "GCSE/CSE or GCSE/O Level",
+    "ONC/BTEC",
+    "Other or Higher/Sub Degree",
+    "A Levels",
+    "Degree"
+  )
+  recoded <- forcats::fct_recode(sr, !!!replace_mapping)
+  cleaned <- factor(recoded, levels = ordered_qualifications, ordered = TRUE)
+  return(cleaned)
+}
+
+clean_unordered_categorical <- function(sr, categories) {
+  return(factor(sr, levels = categories, ordered = FALSE))
 }
 
 # ======================================================================================
@@ -28,7 +71,6 @@ config <- yaml::yaml.load_file(path_to_yaml)
 # Main
 # ======================================================================================
 
-data_info <- yaml::yaml.load_file(config[["data_info"]])
 data <- read.csv(config[["data"]])
-data <- clean_data(data, data_info)
+data <- clean_data(data)
 saveRDS(data, file = config[["produces"]])
