@@ -26,24 +26,25 @@ def clean_data(data):
     return clean
 
 
-def _clean_unordered_categorical(sr, categories):
-    dtype = pd.CategoricalDtype(categories, ordered=False)
+def _clean_categorical(sr, categories, ordered):
+    dtype = pd.CategoricalDtype(categories, ordered=ordered)
     return sr.astype(dtype)
 
 
 def _clean_gender(sr):
-    return _clean_unordered_categorical(sr, categories=["Female", "Male"])
+    return _clean_categorical(sr, categories=["Female", "Male"], ordered=False)
 
 
 def _clean_marital_status(sr):
-    return _clean_unordered_categorical(
+    return _clean_categorical(
         sr,
         categories=["Single", "Married", "Separated", "Divorced", "Widowed"],
+        ordered=False,
     )
 
 
 def _clean_smoke(sr):
-    return _clean_unordered_categorical(sr, categories=["No", "Yes"])
+    return _clean_categorical(sr, categories=["No", "Yes"], ordered=True)
 
 
 def _clean_highest_qualification(sr):
@@ -62,5 +63,4 @@ def _clean_highest_qualification(sr):
         "Degree",
     ]
     sr = sr.replace(replace_mapping)
-    dtype = pd.CategoricalDtype(ordered_qualifications, ordered=True)
-    return sr.astype(dtype)
+    return _clean_categorical(sr, ordered_qualifications, ordered=True)

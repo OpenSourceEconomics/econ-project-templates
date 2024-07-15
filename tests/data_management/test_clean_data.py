@@ -93,7 +93,7 @@ def test_clean_smoke(data):
         pd.Categorical(
             4 * ["Yes"] + 4 * ["No"],
             categories=["No", "Yes"],
-            ordered=False,
+            ordered=True,
         ),
         name="smoke",
     )
