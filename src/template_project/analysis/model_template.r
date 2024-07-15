@@ -3,8 +3,8 @@
 # ======================================================================================
 
 fit_logit_model <- function(data, formula, model_type) {
-  if (model_type != "linear") {
-    message <- "Only 'linear' model_type is supported right now."
+  if (model_type != "linear_index") {
+    message <- "Only 'linear_index' model_type is supported right now."
     stop(message)
   }
 
@@ -34,6 +34,8 @@ depends_on <- config[["depends_on"]]
 # ======================================================================================
 
 data <- readRDS(config[["data"]])
-formula <- "smoke_numerical ~ gender + marital_status + age + highest_qualification"
-model <- fit_logit_model(data, formula = formula, model_type = "linear")
+formula <- (
+  "current_smoker_numerical ~ gender + marital_status + age + highest_qualification"
+)
+model <- fit_logit_model(data, formula = formula, model_type = "linear_index")
 saveRDS(model, file = config[["produces"]])

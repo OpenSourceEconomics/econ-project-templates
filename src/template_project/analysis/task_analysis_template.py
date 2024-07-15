@@ -16,8 +16,11 @@ def task_fit_model(
     """Fit a logistic regression model."""
     data = pd.read_pickle(data)
     # smf.logit expects the binary outcome to be numerical
-    formula = "smoke_numerical ~ gender + marital_status + age + highest_qualification"
-    model = fit_logit_model(data, formula, model_type="linear")
+    formula = (
+        "current_smoker_numerical ~ "
+        "gender + marital_status + age + highest_qualification"
+    )
+    model = fit_logit_model(data, formula, model_type="linear_index")
     model.save(produces)
 
 

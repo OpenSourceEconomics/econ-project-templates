@@ -21,7 +21,7 @@ def data():
 
 def test_fit_logit_model_recover_coefficients(data):
     formula = "outcome_numerical ~ covariate"
-    model = fit_logit_model(data, formula=formula, model_type="linear")
+    model = fit_logit_model(data, formula=formula, model_type="linear_index")
     params = model.params
     assert np.abs(params["Intercept"]) < DESIRED_PRECISION
     assert np.abs(params["covariate"] - 2.0) < DESIRED_PRECISION

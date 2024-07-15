@@ -11,7 +11,7 @@ def plot_regression_by_age(data, predictions, group):
         data (pandas.DataFrame): The data set.
         predictions (pandas.DataFrame): Model predictions for different age values.
         group (str): Categorical column in data set. We create predictions for each
-            unique value in column data[group]. Cannot be 'age' or 'smoke'.
+            unique value in column data[group]. Cannot be 'age' or 'current_smoker'.
 
     Returns:
         plotly.graph_objects.Figure: The figure.
@@ -36,7 +36,7 @@ def plot_regression_by_age(data, predictions, group):
     fig.add_traces(
         go.Scatter(
             x=data["age"],
-            y=data["smoke_numerical"],
+            y=data["current_smoker_numerical"],
             mode="markers",
             marker_color="black",
             marker_opacity=0.1,

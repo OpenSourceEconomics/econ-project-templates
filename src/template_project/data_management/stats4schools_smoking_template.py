@@ -3,7 +3,7 @@
 import pandas as pd
 
 
-def clean_smoking_stats4schools(data):
+def clean_stats4schools_smoking(data):
     """Clean the smoking data set from stats4schools.
 
     Original source of the data can be found here: https://www.stem.org.uk/rxvt6.
@@ -19,8 +19,8 @@ def clean_smoking_stats4schools(data):
 
     clean["gender"] = _clean_gender(data["gender"])
     clean["marital_status"] = _clean_marital_status(data["marital_status"])
-    clean["smoke"] = _clean_smoke(data["smoke"])
-    clean["smoke_numerical"] = clean["smoke"].cat.codes
+    clean["current_smoker"] = _clean_current_smoker(data["smoke"])
+    clean["current_smoker_numerical"] = clean["current_smoker"].cat.codes
     clean["highest_qualification"] = _clean_highest_qualification(
         data["highest_qualification"],
     )
@@ -40,7 +40,14 @@ def _clean_marital_status(sr):
     )
 
 
-def _clean_smoke(sr):
+def _clean_current_smoker(sr):
+    """Clean the current smoke variable.
+
+    We guessed the precise meaning of the variable. Which is why we rename it from
+    'smoke' to 'current_smoker'. It is very important to signal the meaning of a
+    variable in its name.
+
+    """
     return pd.Categorical(sr, categories=["No", "Yes"], ordered=True)
 
 

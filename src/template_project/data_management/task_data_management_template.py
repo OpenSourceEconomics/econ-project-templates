@@ -5,7 +5,7 @@ import pytask
 
 from template_project.config import BLD, SRC
 from template_project.data_management.stats4schools_smoking_template import (
-    clean_smoking_stats4schools,
+    clean_stats4schools_smoking,
 )
 
 
@@ -16,7 +16,7 @@ def task_clean_stats4schools_smoking_data(
 ):
     """Clean the stats4schools smoking data set."""
     data = pd.read_csv(data)
-    data = clean_smoking_stats4schools(data)
+    data = clean_stats4schools_smoking(data)
     data.to_pickle(produces)
 
 

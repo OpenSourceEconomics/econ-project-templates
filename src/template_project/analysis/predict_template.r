@@ -11,7 +11,7 @@ predict_prob_by_age <- function(data, model, group) {
   mode <- data.frame(mode)
 
   new_data <- data.frame(age = age_grid)
-  cols_to_set <- setdiff(colnames(data), c(group, "age", "smoke"))
+  cols_to_set <- setdiff(colnames(data), c(group, "age", "current_smoker"))
   new_data <- cbind(new_data, mode[cols_to_set])
 
   predicted <- list(age = age_grid)

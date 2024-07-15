@@ -15,7 +15,7 @@ def predict_prob_by_age(data, model, group):
         data (pandas.DataFrame): The data set.
         model (statsmodels.base.model.Results): The fitted model.
         group (str): Categorical column in data set. We create predictions for each
-            unique value in column data[group]. Cannot be 'age' or 'smoke'.
+            unique value in column data[group]. Cannot be 'age' or 'current_smoker'.
 
     Returns:
         pandas.DataFrame: Predictions. Has columns 'age' and one column for each
@@ -30,7 +30,7 @@ def predict_prob_by_age(data, model, group):
 
     new_data = pd.DataFrame(age_grid, columns=["age"])
 
-    cols_to_set = list(set(data.columns) - {group, "age", "smoke"})
+    cols_to_set = list(set(data.columns) - {group, "age", "current_smoker"})
     new_data = new_data.assign(**dict(mode.loc[0, cols_to_set]))
 
     predicted = {"age": age_grid}

@@ -1,21 +1,20 @@
 # ======================================================================================
 # Functions
 # ======================================================================================
-clean_data <- function(data) {
-  clean <- data.frame(
-    gender = clean_gender(data$gender),
-    marital_status = clean_marital_status(data$marital_status),
-    smoke = clean_smoke(data$smoke),
-    smoke_numerical = convert_smoke_to_numerical(data$smoke),
-    highest_qualification = clean_highest_qualification(data$highest_qualification),
-    age = as.integer(data$age)
-  )
+clean_stats4schools_smoking <- function(data) {
+  clean <- data.frame(matrix(nrow = nrow(data), ncol = 0))
 
+  clean["gender"] <- clean_gender(data$gender)
+  clean["marital_status"] <- clean_marital_status(data$marital_status)
+  clean["current_smoker"] <- clean_current_smoker(data$smoke)
+  clean["current_smoker_numerical"] <- convert_current_smoker_to_numerical(clean$current_smoker)
+  clean["highest_qualification"] <- clean_highest_qualification(data$highest_qualification)
+  clean["age"] <- as.integer(data$age)
   return(clean)
 }
 
-convert_smoke_to_numerical <- function(smoke) {
-  return(as.integer(as.factor(smoke)) - 1)
+convert_current_smoker_to_numerical <- function(current_smoker) {
+  return(as.integer(as.factor(current_smoker)) - 1)
 }
 
 clean_gender <- function(sr) {
@@ -32,7 +31,7 @@ clean_marital_status <- function(sr) {
   )
 }
 
-clean_smoke <- function(sr) {
+clean_current_smoker <- function(sr) {
   return(factor(sr, levels = c("No", "Yes"), ordered = TRUE))
 }
 
@@ -68,5 +67,5 @@ config <- yaml::yaml.load_file(path_to_yaml)
 # ======================================================================================
 
 data <- read.csv(config[["data"]])
-data <- clean_data(data)
+data <- clean_stats4schools_smoking(data)
 saveRDS(data, file = config[["produces"]])

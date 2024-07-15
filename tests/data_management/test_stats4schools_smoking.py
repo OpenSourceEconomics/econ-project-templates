@@ -2,11 +2,11 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
 from template_project.data_management.stats4schools_smoking_template import (
+    _clean_current_smoker,
     _clean_gender,
     _clean_highest_qualification,
     _clean_marital_status,
-    _clean_smoke,
-    clean_smoking_stats4schools,
+    clean_stats4schools_smoking,
 )
 
 
@@ -45,14 +45,14 @@ def data():
 
 
 def test_age_is_integer(data):
-    got = clean_smoking_stats4schools(data)["age"]
+    got = clean_stats4schools_smoking(data)["age"]
     exp = pd.Series(8 * [20], name="age")
     assert_series_equal(got, exp)
 
 
-def test_smoke_numerical_is_numerical(data):
-    got = clean_smoking_stats4schools(data)["smoke_numerical"]
-    exp = pd.Series(4 * [1] + 4 * [0], name="smoke_numerical", dtype="int8")
+def test_current_smoker_numerical_is_numerical(data):
+    got = clean_stats4schools_smoking(data)["current_smoker_numerical"]
+    exp = pd.Series(4 * [1] + 4 * [0], name="current_smoker_numerical", dtype="int8")
     assert_series_equal(got, exp)
 
 
@@ -85,8 +85,8 @@ def test_clean_marital_status(data):
     assert_categorical_equal(got, exp)
 
 
-def test_clean_smoke(data):
-    got = _clean_smoke(data["smoke"])
+def test_clean_current_smoker(data):
+    got = _clean_current_smoker(data["smoke"])
     exp = pd.Categorical(
         4 * ["Yes"] + 4 * ["No"],
         categories=["No", "Yes"],
@@ -121,3 +121,11 @@ def test_clean_highest_qualification(data):
         ordered=True,
     )
     assert_categorical_equal(got, exp)
+
+
+def test_invalid_qualification(data):
+    data = clean_stats4schools_smoking(data)
+    qualification = data["highest_qualification"]
+    qualification.update(["Degree"])  # this is a valid category
+    with pytest.raises(TypeError, match="Cannot setitem on a Categorical with a new"):
+        qualification.update(["Doctorate"])  # this is not a valid category
