@@ -19,21 +19,21 @@ convert_smoke_to_numerical <- function(smoke) {
 }
 
 clean_gender <- function(sr) {
-  return(clean_categorical(sr, c("Male", "Female"), ordered = FALSE))
+  return(factor(sr, levels = c("Male", "Female"), ordered = FALSE))
 }
 
 clean_marital_status <- function(sr) {
   return(
-    clean_categorical(
+    factor(
       sr,
-      c("Single", "Married", "Divorced", "Widowed", "Separated"),
+      levels = c("Single", "Married", "Divorced", "Widowed", "Separated"),
       ordered = FALSE
     )
   )
 }
 
 clean_smoke <- function(sr) {
-  return(clean_categorical(sr, c("No", "Yes"), ordered = TRUE))
+  return(factor(sr, levels = c("No", "Yes"), ordered = TRUE))
 }
 
 clean_highest_qualification <- function(sr) {
@@ -52,11 +52,7 @@ clean_highest_qualification <- function(sr) {
     "Degree"
   )
   sr <- forcats::fct_recode(sr, !!!replace_mapping)
-  return(clean_categorical(sr, ordered_qualifications, ordered = TRUE))
-}
-
-clean_categorical <- function(sr, categories, ordered) {
-  return(factor(sr, levels = categories, ordered = ordered))
+  return(factor(sr, levels = ordered_qualifications, ordered = TRUE))
 }
 
 # ======================================================================================

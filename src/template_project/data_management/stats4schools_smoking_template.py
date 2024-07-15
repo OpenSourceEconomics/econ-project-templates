@@ -28,17 +28,12 @@ def clean_smoking_stats4schools(data):
     return clean
 
 
-def _clean_categorical(sr, categories, ordered):
-    dtype = pd.CategoricalDtype(categories, ordered=ordered)
-    return sr.astype(dtype)
-
-
 def _clean_gender(sr):
-    return _clean_categorical(sr, categories=["Female", "Male"], ordered=False)
+    return pd.Categorical(sr, categories=["Female", "Male"], ordered=False)
 
 
 def _clean_marital_status(sr):
-    return _clean_categorical(
+    return pd.Categorical(
         sr,
         categories=["Single", "Married", "Separated", "Divorced", "Widowed"],
         ordered=False,
@@ -46,7 +41,7 @@ def _clean_marital_status(sr):
 
 
 def _clean_smoke(sr):
-    return _clean_categorical(sr, categories=["No", "Yes"], ordered=True)
+    return pd.Categorical(sr, categories=["No", "Yes"], ordered=True)
 
 
 def _clean_highest_qualification(sr):
@@ -65,4 +60,4 @@ def _clean_highest_qualification(sr):
         "Degree",
     ]
     sr = sr.replace(replace_mapping)
-    return _clean_categorical(sr, ordered_qualifications, ordered=True)
+    return pd.Categorical(sr, categories=ordered_qualifications, ordered=True)

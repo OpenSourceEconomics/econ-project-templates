@@ -9,7 +9,7 @@ from template_project.data_management.stats4schools_smoking_template import (
 )
 
 
-def task_clean_data(
+def task_clean_stats4schools_smoking_data(
     script=SRC / "data_management" / "stats4schools_smoking_template.py",
     data=SRC / "data" / "stats4schools_smoking_template.csv",
     produces=BLD / "data" / "stats4schools_smoking.pickle",
@@ -24,7 +24,7 @@ def task_clean_data(
     script=SRC / "data_management" / "stats4schools_smoking_template.r",
     serializer="yaml",
 )
-def task_clean_data_r(
+def task_clean_stats4schools_smoking_data_r(
     data=SRC / "data" / "stats4schools_smoking_template.csv",
     produces=BLD / "data" / "stats4schools_smoking.rds",
 ):

@@ -10,6 +10,10 @@ from template_project.data_management.stats4schools_smoking_template import (
 )
 
 
+def assert_categorical_equal(left, right):
+    assert_series_equal(pd.Series(left), pd.Series(right))
+
+
 @pytest.fixture()
 def data():
     data = {
@@ -54,50 +58,41 @@ def test_smoke_numerical_is_numerical(data):
 
 def test_clean_gender(data):
     got = _clean_gender(data["gender"])
-    exp = pd.Series(
-        pd.Categorical(
-            4 * ["Male"] + 4 * ["Female"],
-            categories=["Female", "Male"],
-            ordered=False,
-        ),
-        name="gender",
+    exp = pd.Categorical(
+        4 * ["Male"] + 4 * ["Female"],
+        categories=["Female", "Male"],
+        ordered=False,
     )
-    assert_series_equal(got, exp)
+    assert_categorical_equal(got, exp)
 
 
 def test_clean_marital_status(data):
     got = _clean_marital_status(data["marital_status"])
-    exp = pd.Series(
-        pd.Categorical(
-            [
-                "Divorced",
-                "Widowed",
-                "Separated",
-                "Single",
-                "Married",
-                "Widowed",
-                "Separated",
-                "Married",
-            ],
-            categories=["Single", "Married", "Separated", "Divorced", "Widowed"],
-            ordered=False,
-        ),
-        name="marital_status",
+    exp = pd.Categorical(
+        [
+            "Divorced",
+            "Widowed",
+            "Separated",
+            "Single",
+            "Married",
+            "Widowed",
+            "Separated",
+            "Married",
+        ],
+        categories=["Single", "Married", "Separated", "Divorced", "Widowed"],
+        ordered=False,
     )
-    assert_series_equal(got, exp)
+    assert_categorical_equal(got, exp)
 
 
 def test_clean_smoke(data):
     got = _clean_smoke(data["smoke"])
-    exp = pd.Series(
-        pd.Categorical(
-            4 * ["Yes"] + 4 * ["No"],
-            categories=["No", "Yes"],
-            ordered=True,
-        ),
-        name="smoke",
+    exp = pd.Categorical(
+        4 * ["Yes"] + 4 * ["No"],
+        categories=["No", "Yes"],
+        ordered=True,
     )
-    assert_series_equal(got, exp)
+    assert_categorical_equal(got, exp)
 
 
 def test_clean_highest_qualification(data):
@@ -113,19 +108,16 @@ def test_clean_highest_qualification(data):
         "A Levels",
         "Degree",
     ]
-    exp = pd.Series(
-        pd.Categorical(
-            exp_vals,
-            categories=[
-                "No Qualification",
-                "GCSE/CSE or GCSE/O Level",
-                "ONC/BTEC",
-                "Other/Sub or Higher/Sub Degree",
-                "A Levels",
-                "Degree",
-            ],
-            ordered=True,
-        ),
-        name="highest_qualification",
+    exp = pd.Categorical(
+        exp_vals,
+        categories=[
+            "No Qualification",
+            "GCSE/CSE or GCSE/O Level",
+            "ONC/BTEC",
+            "Other/Sub or Higher/Sub Degree",
+            "A Levels",
+            "Degree",
+        ],
+        ordered=True,
     )
-    assert_series_equal(got, exp)
+    assert_categorical_equal(got, exp)
