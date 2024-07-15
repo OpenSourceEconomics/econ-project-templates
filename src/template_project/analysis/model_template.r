@@ -2,19 +2,8 @@
 # Functions
 # ======================================================================================
 
-fit_logit_model <- function(data, data_info, model_type) {
-  outcome_name <- data_info[["outcome"]]
-  outcome_name_numerical <- data_info[["outcome_numerical"]]
-  feature_names <- setdiff(colnames(data), c(outcome_name, outcome_name_numerical))
-
-  if (model_type == "linear") {
-    formula <- paste(
-      outcome_name_numerical,
-      "~",
-      paste(feature_names, collapse = "+")
-    )
-    formula <- as.formula(formula)
-  } else {
+fit_logit_model <- function(data, formula, model_type) {
+  if (model_type != "linear") {
     message <- "Only 'linear' model_type is supported right now."
     stop(message)
   }
@@ -44,7 +33,7 @@ depends_on <- config[["depends_on"]]
 # Main
 # ======================================================================================
 
-data_info <- yaml::yaml.load_file(config[["data_info"]])
 data <- readRDS(config[["data"]])
-model <- fit_logit_model(data, data_info, model_type = "linear")
+formula <- "smoke_numerical ~ gender + marital_status + age + highest_qualification"
+model <- fit_logit_model(data, formula = formula, model_type = "linear")
 saveRDS(model, file = config[["produces"]])

@@ -2,7 +2,6 @@
 
 import pandas as pd
 import pytask
-import yaml
 
 from template_project.analysis.model_template import fit_logit_model, load_model
 from template_project.analysis.predict_template import predict_prob_by_age
@@ -12,14 +11,13 @@ from template_project.config import BLD, SRC, TEMPLATE_GROUPS
 def task_fit_model(
     script=SRC / "analysis" / "model_template.py",
     data=BLD / "data" / "data_clean.pickle",
-    data_info=SRC / "data_management" / "data_info_template.yaml",
     produces=BLD / "models" / "model.pickle",
 ):
     """Fit a logistic regression model."""
-    with data_info.open() as file:
-        data_info = yaml.safe_load(file)
     data = pd.read_pickle(data)
-    model = fit_logit_model(data, data_info, model_type="linear")
+    # smf.logit expects the binary outcome to be numerical
+    formula = "smoke_numerical ~ gender + marital_status + age + highest_qualification"
+    model = fit_logit_model(data, formula, model_type="linear")
     model.save(produces)
 
 
@@ -47,7 +45,6 @@ for group in TEMPLATE_GROUPS:
 @pytask.mark.r(script=SRC / "analysis" / "model_template.r", serializer="yaml")
 def task_fit_model_r(
     data=BLD / "data" / "data_clean.rds",
-    data_info=SRC / "data_management" / "data_info_template.yaml",
     produces=BLD / "models" / "model.rds",
 ):
     """Fit a logistic regression model (R version)."""
