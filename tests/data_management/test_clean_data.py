@@ -1,12 +1,12 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from template_project.data_management.clean_data_template import (
+from template_project.data_management.clean_smoking_stats4schools_template import (
     _clean_gender,
     _clean_highest_qualification,
     _clean_marital_status,
     _clean_smoke,
-    clean_data,
+    clean_smoking_stats4schools,
 )
 
 
@@ -41,13 +41,13 @@ def data():
 
 
 def test_age_is_integer(data):
-    got = clean_data(data)["age"]
+    got = clean_smoking_stats4schools(data)["age"]
     exp = pd.Series(8 * [20], name="age")
     assert_series_equal(got, exp)
 
 
 def test_smoke_numerical_is_numerical(data):
-    got = clean_data(data)["smoke_numerical"]
+    got = clean_smoking_stats4schools(data)["smoke_numerical"]
     exp = pd.Series(4 * [1] + 4 * [0], name="smoke_numerical", dtype="int8")
     assert_series_equal(got, exp)
 

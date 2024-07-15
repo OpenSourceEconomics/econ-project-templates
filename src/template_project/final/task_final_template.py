@@ -19,7 +19,7 @@ for language in ["python", "r"]:
             language=language,
             group=group,
             predictions_path=BLD / "predictions" / f"{group}.{extension}",
-            data_path=BLD / "data" / f"data_clean.{extension}",
+            data_path=BLD / "data" / f"smoking_stats4schools.{extension}",
             produces=BLD / "figures" / f"smoking_by_{group}_using_{language}.png",
         ):
             """Plot the regression results by age."""

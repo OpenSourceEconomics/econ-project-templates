@@ -3,11 +3,13 @@
 import pandas as pd
 
 
-def clean_data(data):
-    """Clean the data set.
+def clean_smoking_stats4schools(data):
+    """Clean the smoking data set from stats4schools.
+
+    Original source of the data can be found here: https://www.stem.org.uk/rxvt6.
 
     Args:
-        data (pandas.DataFrame): The (uncleaned) data set.
+        data (pandas.DataFrame): The (uncleaned) stats4schools smoking data set.
 
     Returns:
         pandas.DataFrame: The cleaned data set.
