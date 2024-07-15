@@ -23,7 +23,6 @@ def task_clean_data(
     serializer="yaml",
 )
 def task_clean_data_r(
-    data_info=SRC / "data_management" / "data_info_template.yaml",
     data=SRC / "data" / "data_template.csv",
     produces=BLD / "data" / "data_clean.rds",
 ):

@@ -33,7 +33,7 @@ def _clean_gender(sr):
 def _clean_marital_status(sr):
     return _clean_unordered_categorical(
         sr,
-        categories=["Single", "Married", "Divorced", "Widowed", "Separated"],
+        categories=["Divorced", "Widowed", "Separated", "Single", "Married"],
     )
 
 

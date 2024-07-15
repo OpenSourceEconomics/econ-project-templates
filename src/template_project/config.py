@@ -8,7 +8,6 @@ ROOT = SRC.joinpath("..", "..").resolve()
 BLD = ROOT.joinpath("bld").resolve()
 
 
-TESTS = ROOT.joinpath("tests").resolve()
 DOCUMENTS = ROOT.joinpath("documents").resolve()
 
 TEMPLATE_GROUPS = ["marital_status", "highest_qualification"]
