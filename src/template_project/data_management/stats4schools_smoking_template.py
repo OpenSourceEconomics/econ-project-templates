@@ -43,9 +43,10 @@ def _clean_marital_status(sr):
 def _clean_current_smoker(sr):
     """Clean the current smoke variable.
 
-    We guessed the precise name 'current_smoker' of the variable, as we could not find
-    its meaning in the data description. Since signaling the meaning of a variable in
-    its name is important, to set a good example, we took the liberty to rename it.
+    The original variable name 'smoke' was ambiguous, so it has been renamed to
+    'current_smoker' for clarity. Note that this interpretation of the variable's
+    meaning may not be accurate, as we could not find an interpretation of the variable
+    in the data description.
 
     """
     return pd.Categorical(sr, categories=["No", "Yes"], ordered=True)
