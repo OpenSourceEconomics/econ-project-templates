@@ -38,8 +38,8 @@ jobs:
         shell: bash -l {0}
         run: |
           micromamba activate template_project
-          pytask -k "not documents"
-          pytask -k "documents"
+          pytask -k "not documents" -v 2 -x
+          pytask -k "documents" -v 2 -x
       - name: Run tests
         shell: bash -l {0}
         run: |
