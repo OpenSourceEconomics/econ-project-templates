@@ -1,5 +1,13 @@
 # Release Notes
 
+## v0.7.2 -- July 2024
+
+Complete re-write of how to obtain templates, simplifying the example project, and
+aligning the data management part with that of the newest EPP iteration.
+
+- Remove cookiecutter (#149, @timmens, @hmgaudecker)
+- Update data management (#152, @timmens, @hmgaudecker)
+
 ## v0.7.1 -- December 2023
 
 - Replace `Pdb++` by `Pdb+` (#142, @janosg).
