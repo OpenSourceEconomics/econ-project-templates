@@ -26,14 +26,19 @@ def clean_data(data):
     return clean
 
 
+def _clean_unordered_categorical(sr, categories):
+    dtype = pd.CategoricalDtype(categories, ordered=False)
+    return sr.astype(dtype)
+
+
 def _clean_gender(sr):
-    return _clean_unordered_categorical(sr, categories=["Male", "Female"])
+    return _clean_unordered_categorical(sr, categories=["Female", "Male"])
 
 
 def _clean_marital_status(sr):
     return _clean_unordered_categorical(
         sr,
-        categories=["Divorced", "Widowed", "Separated", "Single", "Married"],
+        categories=["Single", "Married", "Separated", "Divorced", "Widowed"],
     )
 
 
@@ -45,22 +50,17 @@ def _clean_highest_qualification(sr):
     replace_mapping = {
         "GCSE/CSE": "GCSE/CSE or GCSE/O Level",
         "GCSE/O Level": "GCSE/CSE or GCSE/O Level",
-        "Other/Sub Degree": "Other or Higher/Sub Degree",
-        "Higher/Sub Degree": "Other or Higher/Sub Degree",
+        "Other/Sub Degree": "Other/Sub or Higher/Sub Degree",
+        "Higher/Sub Degree": "Other/Sub or Higher/Sub Degree",
     }
     ordered_qualifications = [
         "No Qualification",
         "GCSE/CSE or GCSE/O Level",
         "ONC/BTEC",
-        "Other or Higher/Sub Degree",
+        "Other/Sub or Higher/Sub Degree",
         "A Levels",
         "Degree",
     ]
     sr = sr.replace(replace_mapping)
     dtype = pd.CategoricalDtype(ordered_qualifications, ordered=True)
-    return sr.astype(dtype)
-
-
-def _clean_unordered_categorical(sr, categories):
-    dtype = pd.CategoricalDtype(categories, ordered=False)
     return sr.astype(dtype)

@@ -39,14 +39,14 @@ clean_highest_qualification <- function(sr) {
   replace_mapping <- c(
     "GCSE/CSE or GCSE/O Level" = "GCSE/CSE",
     "GCSE/CSE or GCSE/O Level" = "GCSE/O Level",
-    "Other or Higher/Sub Degree" = "Other/Sub Degree",
-    "Other or Higher/Sub Degree" = "Higher/Sub Degree"
+    "Other/Sub or Higher/Sub Degree" = "Other/Sub Degree",
+    "Other/Sub or Higher/Sub Degree" = "Higher/Sub Degree"
   )
   ordered_qualifications <- c(
     "No Qualification",
     "GCSE/CSE or GCSE/O Level",
     "ONC/BTEC",
-    "Other or Higher/Sub Degree",
+    "Other/Sub or Higher/Sub Degree",
     "A Levels",
     "Degree"
   )
