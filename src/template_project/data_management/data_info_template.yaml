@@ -10,6 +10,6 @@ columns_to_drop:
   - gross_income
 categorical_columns: [gender, marital_status, highest_qualification, smoke]
 column_rename_mapping:
-  highest_qualification: qualification
+  highest_qualification: highest_qualification
 outcome: smoke
 outcome_numerical: smoke_numerical  # created during the clean_data step

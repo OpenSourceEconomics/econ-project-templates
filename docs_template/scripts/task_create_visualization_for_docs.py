@@ -82,7 +82,7 @@ def _visualize_organisational_steps(case):
     )
     fig.update_yaxes(
         tickvals=[1, 2],
-        ticktext=["marital-status", "qualification"],
+        ticktext=["marital-status", "highest-qualification"],
         title="Variable",
     )
 
