@@ -10,7 +10,7 @@ from template_project.config import BLD, SRC, TEMPLATE_GROUPS
 
 def task_fit_model(
     script=SRC / "analysis" / "model_template.py",
-    data=BLD / "data" / "smoking_stats4schools.pickle",
+    data=BLD / "data" / "stats4schools_smoking.pickle",
     produces=BLD / "models" / "model.pickle",
 ):
     """Fit a logistic regression model."""
@@ -23,7 +23,7 @@ def task_fit_model(
 
 for group in TEMPLATE_GROUPS:
     predict_deps = {
-        "data": BLD / "data" / "smoking_stats4schools.pickle",
+        "data": BLD / "data" / "stats4schools_smoking.pickle",
         "model": BLD / "models" / "model.pickle",
     }
 
@@ -31,7 +31,7 @@ for group in TEMPLATE_GROUPS:
     def task_predict(
         script=SRC / "analysis" / "predict_template.py",
         group=group,
-        data_path=BLD / "data" / "smoking_stats4schools.pickle",
+        data_path=BLD / "data" / "stats4schools_smoking.pickle",
         model_path=BLD / "models" / "model.pickle",
         produces=BLD / "predictions" / f"{group}.pickle",
     ):
@@ -44,7 +44,7 @@ for group in TEMPLATE_GROUPS:
 
 @pytask.mark.r(script=SRC / "analysis" / "model_template.r", serializer="yaml")
 def task_fit_model_r(
-    data=BLD / "data" / "smoking_stats4schools.rds",
+    data=BLD / "data" / "stats4schools_smoking.rds",
     produces=BLD / "models" / "model.rds",
 ):
     """Fit a logistic regression model (R version)."""
@@ -56,7 +56,7 @@ for group in TEMPLATE_GROUPS:
     @pytask.mark.r(script=SRC / "analysis" / "predict_template.r", serializer="yaml")
     def task_predict_r(
         group=group,
-        data_path=BLD / "data" / "smoking_stats4schools.rds",
+        data_path=BLD / "data" / "stats4schools_smoking.rds",
         model_path=BLD / "models" / "model.rds",
         produces=BLD / "predictions" / f"{group}.rds",
     ):

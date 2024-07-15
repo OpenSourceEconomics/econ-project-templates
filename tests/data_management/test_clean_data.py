@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
-from template_project.data_management.clean_smoking_stats4schools_template import (
+from template_project.data_management.stats4schools_smoking_template import (
     _clean_gender,
     _clean_highest_qualification,
     _clean_marital_status,
