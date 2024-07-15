@@ -9,8 +9,11 @@ the template, understand what is happening and why, and move on.
 1. Start with the data management code and move your data files to the spot where they
    belong under the new structure.
 1. Move (the first steps of) your data management code to the folder under the
-   templates. Modify the `task_xxx` files accordingly or create new ones.
+   templates. Create new `task_...` files.
 1. Run `pytask`, adjusting the code for the errors you'll likely see.
 1. Move on step-by-step like this.
-1. Delete the example files and the corresponding sections of the `task_xxx` files / the
-   entire files in case you created new ones.
+1. Once you feel secure enough that you do not need the template files any more, delete
+   all files carrying a `_template` in their names. You will also need to adjust the
+   documents so they do not refer to figures and tables created by the template any
+   more. Delete the build directory to make sure you do not rely on outputs from tasks
+   that you removed.
