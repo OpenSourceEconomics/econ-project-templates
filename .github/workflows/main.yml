@@ -34,17 +34,18 @@ jobs:
           environment-file: environment.yml
           create-args: python=${{ matrix.python-version }}
           cache-environment: true
-      - name: Run pytask (to be deleted)
-        shell: bash -l {0}
-        run: |
-          micromamba activate template_project
-          pytask -k "not documents" -v 2 -x
-          pytask -k "documents" -v 2 -x
-      - name: Run tests
+      - name: Run full test suite on MacOS and Linux
         shell: bash -l {0}
         run: |
           micromamba activate template_project
           pytest -v --cov=./ --cov-report=xml
+        if: runner.os != 'Windows'
+      - name: Run test suite except for pytask build on Windows
+        shell: bash -l {0}
+        run: |
+          micromamba activate template_project
+          pytest -v -k "not pytask"
+        if: runner.os == 'Windows'
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.12'
         uses: codecov/codecov-action@v3
