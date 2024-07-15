@@ -57,7 +57,7 @@ def test_clean_gender(data):
     exp = pd.Series(
         pd.Categorical(
             4 * ["Male"] + 4 * ["Female"],
-            categories=["Male", "Female"],
+            categories=["Female", "Male"],
             ordered=False,
         ),
         name="gender",
@@ -79,7 +79,7 @@ def test_clean_marital_status(data):
                 "Separated",
                 "Married",
             ],
-            categories=["Divorced", "Widowed", "Separated", "Single", "Married"],
+            categories=["Single", "Married", "Separated", "Divorced", "Widowed"],
             ordered=False,
         ),
         name="marital_status",
@@ -108,8 +108,8 @@ def test_clean_highest_qualification(data):
         "GCSE/CSE or GCSE/O Level",
         "GCSE/CSE or GCSE/O Level",
         "ONC/BTEC",
-        "Other or Higher/Sub Degree",
-        "Other or Higher/Sub Degree",
+        "Other/Sub or Higher/Sub Degree",
+        "Other/Sub or Higher/Sub Degree",
         "A Levels",
         "Degree",
     ]
@@ -120,7 +120,7 @@ def test_clean_highest_qualification(data):
                 "No Qualification",
                 "GCSE/CSE or GCSE/O Level",
                 "ONC/BTEC",
-                "Other or Higher/Sub Degree",
+                "Other/Sub or Higher/Sub Degree",
                 "A Levels",
                 "Degree",
             ],
