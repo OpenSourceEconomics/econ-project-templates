@@ -35,7 +35,7 @@ for language in ["python", "r"]:
 
 def task_create_results_table(
     script=SRC / "final" / "plot_template.py",
-    model_path=BLD / "models" / "model.pickle",
+    model_path=BLD / "estimation_results" / "baseline.pickle",
     produces=BLD / "tables" / "estimation_results.tex",
 ):
     """Store a table in LaTeX format with the estimation results)."""

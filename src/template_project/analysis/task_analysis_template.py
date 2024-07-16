@@ -20,8 +20,9 @@ formula = (
 
 def task_fit_model(
     script=SRC / "analysis" / "model_template.py",
+    formula=formula,
     data=BLD / "data" / "stats4schools_smoking.pickle",
-    produces=BLD / "models" / "model.pickle",
+    produces=BLD / "estimation_results" / "baseline.pickle",
 ):
     """Fit a logistic regression model."""
     data = pd.read_pickle(data)
@@ -37,7 +38,7 @@ def task_fit_model(
 for group in TEMPLATE_GROUPS:
     predict_deps = {
         "data": BLD / "data" / "stats4schools_smoking.pickle",
-        "model": BLD / "models" / "model.pickle",
+        "model": BLD / "estimation_results" / "baseline.pickle",
     }
 
     @pytask.task(id=group)
@@ -45,7 +46,7 @@ for group in TEMPLATE_GROUPS:
         script=SRC / "analysis" / "predict_template.py",
         group=group,
         data_path=BLD / "data" / "stats4schools_smoking.pickle",
-        model_path=BLD / "models" / "model.pickle",
+        model_path=BLD / "estimation_results" / "baseline.pickle",
         produces=BLD / "predictions" / f"{group}.pickle",
     ):
         """Predict based on the model estimates."""
@@ -59,7 +60,7 @@ for group in TEMPLATE_GROUPS:
 def task_fit_model_r(
     formula=formula,
     data=BLD / "data" / "stats4schools_smoking.rds",
-    produces=BLD / "models" / "model.rds",
+    produces=BLD / "estimation_results" / "baseline.rds",
 ):
     """Fit a logistic regression model (R version)."""
 
@@ -71,7 +72,7 @@ for group in TEMPLATE_GROUPS:
     def task_predict_r(
         group=group,
         data_path=BLD / "data" / "stats4schools_smoking.rds",
-        model_path=BLD / "models" / "model.rds",
+        model_path=BLD / "estimation_results" / "baseline.rds",
         produces=BLD / "predictions" / f"{group}.rds",
     ):
         """Predict based on the model estimates (R version)."""
