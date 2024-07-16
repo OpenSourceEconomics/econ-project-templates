@@ -3,9 +3,19 @@
 import pandas as pd
 import pytask
 
-from template_project.analysis.model_template import fit_logit_model, load_model
+from template_project.analysis.model_template import fit_logit_model
 from template_project.analysis.predict_template import predict_prob_by_age
 from template_project.config import BLD, SRC, TEMPLATE_GROUPS
+
+# In practical scenarios, fitting multiple models for different formulas is common. With
+# pytask, we can iterate over these formulas to fit each model using the same code block
+# and storing the results in different locations. For simplicity, this example uses a
+# single formula.
+formula = (
+    # logit functions in Python and R expect the binary outcome to be numerical
+    "current_smoker_numerical ~ "
+    "gender + marital_status + age + highest_qualification"
+)
 
 
 def task_fit_model(
@@ -15,12 +25,12 @@ def task_fit_model(
 ):
     """Fit a logistic regression model."""
     data = pd.read_pickle(data)
-    # smf.logit expects the binary outcome to be numerical
-    formula = (
-        "current_smoker_numerical ~ "
-        "gender + marital_status + age + highest_qualification"
-    )
-    model = fit_logit_model(data, formula, model_type="linear_index")
+    # Realistic projects often involve complex model fitting. Here, the
+    # `fit_logit_model` function simplifies this process by encapsulating it into a
+    # single call. Ideally, tasks should be streamlined to load data, execute one main
+    # function, and save the output, no matter how simple or complex the underlying
+    # functionality is.
+    model = fit_logit_model(data, formula)
     model.save(produces)
 
 
@@ -39,7 +49,7 @@ for group in TEMPLATE_GROUPS:
         produces=BLD / "predictions" / f"{group}.pickle",
     ):
         """Predict based on the model estimates."""
-        model = load_model(model_path)
+        model = pd.read_pickle(model_path)
         data = pd.read_pickle(data_path)
         predicted_prob = predict_prob_by_age(data, model, group)
         predicted_prob.to_pickle(produces)
@@ -47,6 +57,7 @@ for group in TEMPLATE_GROUPS:
 
 @pytask.mark.r(script=SRC / "analysis" / "model_template.r", serializer="yaml")
 def task_fit_model_r(
+    formula=formula,
     data=BLD / "data" / "stats4schools_smoking.rds",
     produces=BLD / "models" / "model.rds",
 ):

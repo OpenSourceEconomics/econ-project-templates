@@ -4,7 +4,6 @@ import pandas as pd
 import pyreadr
 import pytask
 
-from template_project.analysis.model_template import load_model
 from template_project.config import BLD, SRC, TEMPLATE_GROUPS
 from template_project.final.plot_template import plot_regression_by_age
 
@@ -40,7 +39,7 @@ def task_create_results_table(
     produces=BLD / "tables" / "estimation_results.tex",
 ):
     """Store a table in LaTeX format with the estimation results)."""
-    model = load_model(model_path)
+    model = pd.read_pickle(model_path)
     table = model.summary().as_latex()
     with produces.open("w") as f:
         f.writelines(table)

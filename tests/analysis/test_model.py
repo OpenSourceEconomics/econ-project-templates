@@ -21,12 +21,7 @@ def data():
 
 def test_fit_logit_model_recover_coefficients(data):
     formula = "outcome_numerical ~ covariate"
-    model = fit_logit_model(data, formula=formula, model_type="linear_index")
+    model = fit_logit_model(data, formula=formula)
     params = model.params
     assert np.abs(params["Intercept"]) < DESIRED_PRECISION
     assert np.abs(params["covariate"] - 2.0) < DESIRED_PRECISION
-
-
-def test_fit_logit_model_error_model_type(data):
-    with pytest.raises(ValueError):  # noqa: PT011
-        assert fit_logit_model(data, formula=None, model_type="quadratic")

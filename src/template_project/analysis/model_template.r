@@ -2,12 +2,7 @@
 # Functions
 # ======================================================================================
 
-fit_logit_model <- function(data, formula, model_type) {
-  if (model_type != "linear_index") {
-    message <- "Only 'linear_index' model_type is supported right now."
-    stop(message)
-  }
-
+fit_logit_model <- function(data, formula) {
   model <- glm(
     formula,
     family = "binomial",
@@ -34,8 +29,5 @@ depends_on <- config[["depends_on"]]
 # ======================================================================================
 
 data <- readRDS(config[["data"]])
-formula <- (
-  "current_smoker_numerical ~ gender + marital_status + age + highest_qualification"
-)
-model <- fit_logit_model(data, formula = formula, model_type = "linear_index")
+model <- fit_logit_model(data, formula = config[["formula"]])
 saveRDS(model, file = config[["produces"]])

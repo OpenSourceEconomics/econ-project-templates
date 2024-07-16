@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
@@ -123,9 +124,19 @@ def test_clean_highest_qualification(data):
     assert_categorical_equal(got, exp)
 
 
-def test_invalid_qualification(data):
-    data = clean_stats4schools_smoking(data)
-    qualification = data["highest_qualification"]
-    qualification.update(["Degree"])  # this is a valid category
+def test_clean_invalid_qualification():
+    qualification = pd.Series(
+        [
+            "Degree",  # valid category
+            "Doctorate",  # invalid category
+        ],
+    )
+    assert _clean_highest_qualification(qualification).tolist() == ["Degree", np.nan]
+
+
+def test_set_invalid_qualification(data):
+    clean = clean_stats4schools_smoking(data)
+    qualification = clean["highest_qualification"]
+    qualification.update(["Degree"])  # valid category
     with pytest.raises(TypeError, match="Cannot setitem on a Categorical with a new"):
-        qualification.update(["Doctorate"])  # this is not a valid category
+        qualification.update(["Doctorate"])  # invalid category
