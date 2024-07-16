@@ -11,5 +11,8 @@ in {ref}`template_setup`, my recommendation would be as follows.
    necessary or create new ones.
 1. Remove the build directory regularly to make sure you do not rely on outputs from
    tasks that do not exist any more — this is a frequent source of confusion.
-1. Once you got the hang of how things work, remove the examples (both the data files
-   and the code in the `task_xxx` files). Also remove the build directory.
+1. Once you feel secure enough that you do not need the template files any more, delete
+   all files carrying a `_template` in their names. You will also need to adjust the
+   documents so they do not refer to figures and tables created by the template any
+   more. Delete the build directory to make sure you do not rely on outputs from tasks
+   that you removed.

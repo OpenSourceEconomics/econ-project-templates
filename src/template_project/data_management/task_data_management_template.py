@@ -2,33 +2,30 @@
 
 import pandas as pd
 import pytask
-import yaml
 
 from template_project.config import BLD, SRC
-from template_project.data_management.clean_data_template import clean_data
+from template_project.data_management.stats4schools_smoking_template import (
+    clean_stats4schools_smoking,
+)
 
 
-def task_clean_data(
-    script=SRC / "data_management" / "clean_data_template.py",
-    data_info=SRC / "data_management" / "data_info_template.yaml",
-    data=SRC / "data" / "data_template.csv",
-    produces=BLD / "data" / "data_clean.pickle",
+def task_clean_stats4schools_smoking_data(
+    script=SRC / "data_management" / "stats4schools_smoking_template.py",
+    data=SRC / "data" / "stats4schools_smoking_template.csv",
+    produces=BLD / "data" / "stats4schools_smoking.pickle",
 ):
-    """Clean the data."""
-    with data_info.open() as file:
-        data_info = yaml.safe_load(file)
+    """Clean the stats4schools smoking data set."""
     data = pd.read_csv(data)
-    data = clean_data(data, data_info)
+    data = clean_stats4schools_smoking(data)
     data.to_pickle(produces)
 
 
 @pytask.mark.r(
-    script=SRC / "data_management" / "clean_data_template.r",
+    script=SRC / "data_management" / "stats4schools_smoking_template.r",
     serializer="yaml",
 )
-def task_clean_data_r(
-    data_info=SRC / "data_management" / "data_info_template.yaml",
-    data=SRC / "data" / "data_template.csv",
-    produces=BLD / "data" / "data_clean.rds",
+def task_clean_stats4schools_smoking_data_r(
+    data=SRC / "data" / "stats4schools_smoking_template.csv",
+    produces=BLD / "data" / "stats4schools_smoking.rds",
 ):
-    """Clean the data (R version)."""
+    """Clean the stats4schools smoking data set (R version)."""
