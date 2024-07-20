@@ -29,6 +29,8 @@ repos:
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: name-tests-test
         args: [--pytest-test-first]
+      - id: no-commit-to-branch
+        args: [--branch, main]
       - id: trailing-whitespace
       - id: check-ast
       - id: check-docstring-first
