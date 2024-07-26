@@ -1,5 +1,9 @@
 # Release Notes
 
+## v0.8.1 -- July 2024
+
+Display the correct version number in the rendered docs.
+
 ## v0.8.0 -- July 2024
 
 Complete re-write of how to obtain templates, simplifying the example project, and

@@ -23,7 +23,6 @@ dependencies:
   - statsmodels
   - numpy
   - pandas >=2.2
-  - pdbpp
   - plotly >=5.2.0,<6
 
   # R template project dependencies
@@ -35,4 +34,4 @@ dependencies:
   - r-forcats
 
   # Install project
-  - pip: [-e ., kaleido]
+  - pip: [-e ., pdbp, kaleido]
