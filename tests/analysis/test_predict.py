@@ -3,10 +3,11 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
+
 from template_project.analysis.predict_template import predict_prob_by_age
 
 
-@pytest.fixture()
+@pytest.fixture
 def data():
     out = pd.DataFrame([1, 2, 3], columns=["age"])
     out["education"] = ["high-school", "high-school", "university"]
@@ -14,7 +15,7 @@ def data():
     return out
 
 
-@pytest.fixture()
+@pytest.fixture
 def model():
     class ModelClass:
         @staticmethod

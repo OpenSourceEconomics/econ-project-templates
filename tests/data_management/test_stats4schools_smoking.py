@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 from pandas.testing import assert_series_equal
+
 from template_project.data_management.stats4schools_smoking_template import (
     _clean_current_smoker,
     _clean_gender,
@@ -15,7 +16,7 @@ def assert_categorical_equal(left, right):
     assert_series_equal(pd.Series(left), pd.Series(right))
 
 
-@pytest.fixture()
+@pytest.fixture
 def data():
     data = {
         "highest_qualification": [

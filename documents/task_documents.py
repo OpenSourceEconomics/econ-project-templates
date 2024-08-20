@@ -4,6 +4,7 @@ import shutil
 
 import pytask
 from pytask_latex import compilation_steps as cs
+
 from template_project.config import BLD, DOCUMENTS, ROOT
 
 documents = ["paper", "presentation"]
