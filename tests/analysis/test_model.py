@@ -3,12 +3,13 @@
 import numpy as np
 import pandas as pd
 import pytest
+
 from template_project.analysis.model_template import fit_logit_model
 
 DESIRED_PRECISION = 10e-2
 
 
-@pytest.fixture()
+@pytest.fixture
 def data():
     rng = np.random.default_rng(seed=0)
     x = rng.normal(size=100_000)

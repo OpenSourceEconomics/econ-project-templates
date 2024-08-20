@@ -1,5 +1,6 @@
 import pytask
 from _pytask.outcomes import ExitCode
+
 from template_project import config
 from template_project.config import ROOT
 
