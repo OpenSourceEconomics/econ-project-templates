@@ -6,51 +6,6 @@
 
 ## Tips and Tricks for Windows Users
 
-**Anaconda Installation Notes for Windows Users**
-
-Please follow these steps unless you know what you are doing.
-
-1. Download the [Graphical Installer](https://www.anaconda.com/products/distribution)
-   for Python 3.x.
-
-1. Start the installer and click yourself through the menu. If you have administrator
-   privileges on your computer, it is preferable to install Anaconda for all users.
-   Otherwise, you may run into problems when running python from your powershell.
-
-1. Make sure to (only) tick the following box:
-
-   - ''Register Anaconda as my default Python 3.x''. Finish installation.
-
-1. Navigate to the folder containing your Anaconda distribution. This folder contains
-   multiple subfolders. Please add the path to the folder called `condabin` to your
-   *PATH* environmental variable. This path should end in `Anaconda3/condabin`. You can
-   add paths to your *PATH* by following these
-   [instructions](https://www.computerhope.com/issues/ch000549.htm).
-
-1. Please start Windows Powershell in administrator mode, and execute the following:
-
-   ```bash
-   $ set-executionpolicy remotesigned
-   ```
-
-1. Now (re-)open Windows Powershell and initialize it for full conda use by running
-
-   ```bash
-   $ conda init
-   ```
-
-```{warning} If you still run into problems when running conda and python from
-powershell, it is advisable to use the built-in Anaconda Prompt instead.
-```
-
-(git_windows)=
-
-### Integrating git tab completion in Windows Powershell
-
-Powershell does not support tab completion for git automatically. However, there is a
-nice utility called [posh-git](https://github.com/dahlbyk/posh-git). We advise you to
-install this as this makes your life easier.
-
 (path_windows)=
 
 ### PATH environmental variable in Windows
@@ -64,38 +19,41 @@ how to do that.
 
 ### Adding directories to the PATH: MacOS and Linux
 
-Open the program **Terminal**. You will need to add a line to the file `.bash_profile`
-and potentially create the file. This file lives in your home directory, in the Finder
-it is hidden from your view by default.
+Open the program **Terminal**. First, you will need to determine the shell you are
+using:
 
-**Linux users**: For most distributions, everything here applies to the file `.bashrc`
-instead of `.bash_profile`.
+```zsh
+echo $SHELL
+```
 
-I will now provide a step-by-step guide of how to create / adjust this file using the
-editor called `code`. If you are familiar with editing text files, just use your editor
-of choice.
+The output will be something like `/bin/bash` or `/bin/zsh`. Depending on the output,
+the below applies either to the file `.bashrc` or `.zshrc`. Both of them live in your
+home directory and are read every time you open a new terminal.
+
+I will now provide a step-by-step guide of how to create / adjust the file `.zshrc`
+using the editor [VS Code](https://code.visualstudio.com/), which you can typically
+start from a shell by typing `code`. If you are familiar with editing text files, just
+use your editor of choice. If you are using a `bash` shell, replace `.zshrc` with
+`.bashrc` in the following.
 
 1. Open a Terminal and type
 
-   ```bash
-   code ~/.bash_profile
+   ```zsh
+   code ~/.zshrc
    ```
 
-   If you use an editor other than [VS Code](https://code.visualstudio.com/), replace
-   `code` by the respective editor.
-
-   If `.bash_profile` already existed, you will see some text at this point. If so, use
-   the arrow keys to scroll all the way to the bottom of the file.
+   If `.zshrc` already existed, you will see some text at this point. If so, use the
+   arrow keys to scroll all the way to the bottom of the file.
 
 1. Add the following line at the end of the file
 
-   ```bash
+   ```zsh
    export PATH="${PATH}:/path/to/program/inside/package"
    ```
 
    You will need to follow the same steps as before. Example for Stata:
 
-   ```bash
+   ```zsh
    # Stata directory
    export PATH="${PATH}:/Applications/Stata/StataMP.app/Contents/MacOS/"
    ```

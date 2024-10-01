@@ -23,10 +23,10 @@ path. This template requires
 
 If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
 terminal. As everything will be started from the Powershell/Terminal, you need to make
-sure that all programmes you need in your project (for sure Anaconda Python, Git, and
-LaTeX; potentially VS Code, R, Julia, Stata) can be found on your *PATH*. That is, these
-need to be accessible from your shell. This often requires a bit of manual work, in
-particular on Windows.
+sure that all programmes you need in your project (for sure Python obtained via
+Miniforge, Git, and LaTeX; potentially VS Code, R, Julia, Stata) can be found on your
+*PATH*. That is, these need to be accessible from your shell. This often requires a bit
+of manual work, in particular on Windows.
 
 - To see which programmes can be found on your path, type (leave out the leading dollar
   sign, this is just standard notation for a command line prompt):
@@ -46,10 +46,11 @@ particular on Windows.
   This gives you a list of directories that are available on your *PATH*.
 
 - Check that this list contains the path to the programs you want to use in your
-  project, in particular, Anaconda (this contains your Python distribution), a LaTeX
-  distribution, the text editor VS Code, Git, and any other program that you need for
-  your project (R, Julia, Stata). Otherwise add them by looking up their paths on your
-  computer and follow the steps described here {ref}`path_windows` or {ref}`path_mac`.
+  project, in particular, Miniforge (this contains the required Python distribution), a
+  LaTeX distribution, the text editor VS Code, Git, and any other program that you need
+  for your project (R, Julia, Stata). Otherwise, add them by looking up their paths on
+  your computer and follow the steps described here {ref}`path_windows` or
+  {ref}`path_mac`.
 
 - If you added any directory to *PATH*, you need to close and reopen your shell, so that
   this change is implemented.
@@ -63,7 +64,7 @@ particular on Windows.
   ```
 
   This starts python in your shell and exits from it again. The top line should indicate
-  that you are using a Python distribution provided by Anaconda. Here is an example
+  that you are using a Python distribution provided by conda-forge. Here is an example
   output obtained on Linux:
 
   ```text

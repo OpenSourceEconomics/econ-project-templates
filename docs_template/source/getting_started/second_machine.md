@@ -3,7 +3,7 @@ very easy to invite a collaborator or to use a second machine. Importantly you d
 need to create the template repository again.
 
 On the second machine prepare the system and open a terminal on Mac/Linux or the
-Anaconda prompt on Windows. Then type
+Powershell on Windows. Then type
 
 ```console
 $ git clone <url_of_your_repository>
