@@ -90,6 +90,9 @@ extend-ignore = [
     "D104",  # Missing docstring in public package (__init__.py files)
     "S301",  # pickle module is unsafe
     "PLR0913",  # Too many arguments in function definition
+    # ignore because conflict with ruff-format
+    "COM812",
+    "ISC001",
 ]
 
 [tool.ruff.lint.per-file-ignores]

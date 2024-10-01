@@ -3,14 +3,10 @@
 Make sure you have the following programs installed and that these can be found on your
 path. This template requires
 
-- [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or
-  [Micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html) or
-  Anaconda. Windows users: please consult {ref}`windows_user`
+- Python, which you must install using the installation instructions
+  [here](https://effective-programming-practices.vercel.app/python_installation_execution/index.html).
 
-  ```{note} This template is tested with python 3.12 and higher and conda 24.5
-  ```
-
-- a modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
+- A modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
   [MacTex](https://tug.org/mactex/), or [MikTex](https://miktex.org/))
 
 - [Git](https://git-scm.com/downloads), Windows users please also consult
