@@ -6,6 +6,14 @@
 
 ## Tips and Tricks for Windows Users
 
+(git_windows)=
+
+### Integrating git tab completion in Windows Powershell
+
+Powershell does not support tab completion for git automatically. However, there is a
+nice utility called [posh-git](https://github.com/dahlbyk/posh-git). We advise you to
+install this as this makes your life easier.
+
 (path_windows)=
 
 ### PATH environmental variable in Windows
