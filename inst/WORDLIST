@@ -1110,6 +1110,7 @@ iR
 IrqM
 Irt
 iS
+ISC
 iSL
 isort
 iT
@@ -1570,6 +1571,7 @@ mI
 Micromamba
 MikTex
 Miniconda
+Miniforge
 minimises
 mIw
 mj
@@ -2865,6 +2867,7 @@ Wsd
 WseQ
 wsj
 WSJ
+WSL
 wT
 wu
 wU

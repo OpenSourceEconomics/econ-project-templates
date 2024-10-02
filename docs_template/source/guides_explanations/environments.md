@@ -8,8 +8,7 @@ The solution is to have isolated environments on a per-project basis.
 allow you to do precisely this. This page describes them a little bit and explains their
 use.
 
-The following commands can either be executed in a terminal or the Anaconda prompt
-(Windows).
+The following commands can either be executed in a terminal or the Powershell (Windows).
 
 ### Using the environment
 
