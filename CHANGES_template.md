@@ -1,5 +1,15 @@
 # Release Notes
 
+
+## v0.8.3 -- October 2024
+
+Display the correct version number in the rendered docs.
+
+## v0.8.2 -- October 2024
+
+- Just point to installation section of Effective Programming Practices for main installation part.
+- Remove all traces of Anaconda throughout, replace by Miniforge.
+
 ## v0.8.1 -- July 2024
 
 Display the correct version number in the rendered docs.
