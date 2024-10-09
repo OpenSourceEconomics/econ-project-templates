@@ -22,7 +22,7 @@ for some immediate and clearly defined tasks.
    repo):
 
    ```console
-   $ conda env create -f environment.yml
+   $ mamba env create -f environment.yml
    $ conda activate template_project
    ```
 
@@ -30,7 +30,7 @@ for some immediate and clearly defined tasks.
    documentation environment:
 
 ```console
-$ conda env create -f docs_template/rtd_environment.yml
+$ mamba env create -f docs_template/rtd_environment.yml
 $ conda activate ept-docs
 ```
 
