@@ -79,7 +79,7 @@ If you want to add a package to your environment, add it to the environment.yml 
 Once you have edited the environment.yml file, run
 
 ```console
-$ conda env update -f environment.yml
+$ mamba env update -f environment.yml
 ```
 
 **Choosing between conda and pip**

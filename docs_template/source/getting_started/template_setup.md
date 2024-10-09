@@ -25,7 +25,7 @@ changes you make rather than the original template.
 
    ```console
    $ cd /to/root/of/template
-   $ conda env create -f environment.yml
+   $ mamba env create -f environment.yml
    ```
 
 1. Activate the installed environment
