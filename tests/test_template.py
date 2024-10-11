@@ -12,5 +12,6 @@ def test_pytask_build(monkeypatch, tmp_path):
     session = pytask.build(
         config=ROOT / "pyproject.toml",
         force=True,
+        s=True,
     )
     assert session.exit_code == ExitCode.OK
