@@ -35,18 +35,18 @@ jobs:
           create-args: python=${{ matrix.python-version }}
           cache-environment: true
           micromamba-version: 1.5.6-0
-      - name: Run full test suite on MacOS and Linux
+      - name: Run test suite with coverage on Linux & Python 3.12
         shell: bash -l {0}
         run: |
           micromamba activate template_project
           pytest -v --cov=./ --cov-report=xml
-        if: runner.os != 'Windows'
-      - name: Run test suite except for pytask build on Windows
-        shell: bash -l {0}
-        run: |
-          micromamba activate template_project
-          pytest -v -k "not pytask"
-        if: runner.os == 'Windows'
+        if: runner.os == 'Linux' && matrix.python-version == '3.12'
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.12'
         uses: codecov/codecov-action@v3
+      - name: Run test suite
+        shell: bash -l {0}
+        run: |
+          micromamba activate template_project
+          pytest -v
+        if: runner.os != 'Linux' || matrix.python-version != '3.12'
