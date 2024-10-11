@@ -25,7 +25,7 @@ attributed to changes you make rather than the original template.
 
    ```console
    $ cd /to/root/of/template_project
-   $ conda env create
+   $ mamba env create
    ```
 
 1. Activate the installed environment

@@ -8,7 +8,7 @@ Powershell on Windows. Then type
 ```console
 $ git clone <url_of_your_repository>
 $ cd <name_of_your_project>
-$ conda env create -f environment.yml
+$ mamba env create -f environment.yml
 $ conda activate <conda_environment_name>
 $ pre-commit install
 ```

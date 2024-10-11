@@ -84,15 +84,15 @@ fix = true
 [tool.ruff.lint]
 select = ["ALL"]
 extend-ignore = [
-    "S101",  # Use of `assert` detected.
     "ANN",  # Missing type annotations
-    "D100",  # Missing docstring in public module
-    "D104",  # Missing docstring in public package (__init__.py files)
-    "S301",  # pickle module is unsafe
+    "COM812", # Conflict with ruff-format
+    "D10",  # Missing docstrings
+    "ISC001", # Conflict with ruff-format
+    "PD901", # df is a great name with functional data management
     "PLR0913",  # Too many arguments in function definition
-    # ignore because conflict with ruff-format
-    "COM812",
-    "ISC001",
+    "RET504", # Don't force to calculate upon return
+    "S101",  # Use of `assert` detected.
+    "S301",  # pickle module is unsafe
 ]
 
 [tool.ruff.lint.per-file-ignores]
