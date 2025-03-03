@@ -13,8 +13,7 @@ from template_project.config import BLD, SRC, TEMPLATE_GROUPS
 # single formula.
 formula = (
     # logit functions in Python and R expect the binary outcome to be numerical
-    "current_smoker_numerical ~ "
-    "gender + marital_status + age + highest_qualification"
+    "current_smoker_numerical ~ gender + marital_status + age + highest_qualification"
 )
 
 
