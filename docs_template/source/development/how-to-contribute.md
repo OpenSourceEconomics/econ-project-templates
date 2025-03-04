@@ -9,6 +9,8 @@ for some immediate and clearly defined tasks.
 
 **Please read the following steps carefully before contributing!**
 
+1. Download [pixi](https://pixi.sh/latest/#installation).
+
 1. Fork the
    [repository](https://github.com/OpenSourceEconomics/econ-project-templates/). This
    will create a copy of the repository where you have write access. Your fix will be
@@ -17,22 +19,17 @@ for some immediate and clearly defined tasks.
    contributor we can give you push access to unprotected branches, which makes the
    process more convenient for you.
 
-1. Clone the repository to your disk. Download
-   [pixi](https://pixi.sh/latest/#installation).
+1. Clone the repository to your disk.
 
-1. In case you work on the documentation, you also have to install and activate the
-   documentation conda environment:
-
-```console
-$ mamba env create -f docs_template/rtd_environment.yml
+```{note}
+We use `pixi` to manage the project. This means that you have to prepend all commands
+with `pixi run`.
 ```
 
 You can build the documentation using
 
 ```console
-$ conda activate ept-docs
-$ cd docs_template
-$ make html
+$ pixi run build-docs
 ```
 
 The newly created documentation can be opened using (replace "browser" with your browser
@@ -52,7 +49,7 @@ $ browser docs_template/build/html/index.html
    You can run the checks on template_project with `pytest` by running
 
    ```console
-   $ pytest
+   $ pixi run pytest
    ```
 
    This will run the complete test suite.
@@ -62,15 +59,18 @@ $ browser docs_template/build/html/index.html
    To correct stylistic errors, you can also install the linters as a pre-commit with
 
    ```console
-   $ conda activate template_project
+   $ pixi global install pre-commit
    $ pre-commit install
    ```
 
-   Then, all the linters are executed before each commit and the commit is aborted if
-   one of the check fails. You can also manually run the linters with
+   This installs the pre-commit tool globally and installs the hooks into the
+   repository. Then, all the linters are executed before each commit and the commit is
+   aborted if one of the check fails.
+
+   You can also manually run the linters with
 
    ```console
-   $ pre-commit run -a
+   $ pre-commit run --all-files
    ```
 
 1. If the tests pass, push your changes to your repository. Go to the Github page of

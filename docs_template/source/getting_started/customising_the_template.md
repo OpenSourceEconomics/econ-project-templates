@@ -20,29 +20,16 @@ Prior to modifying anything but the slug, confirm that the template can be execu
 your system. This step is essential to ensure that any subsequent issues can be
 attributed to changes you make rather than the original template.
 
-1. Open a terminal, navigate to the project root, and install the necessary
-   dependencies:
+1. Open a terminal and navigate to the project root
 
    ```console
    $ cd /to/root/of/template_project
-   $ mamba env create
-   ```
-
-1. Activate the installed environment
-
-   ```console
-   $ conda activate <new_project_name>
-   ```
-
-   ```{note}
-   Remember to activate the environment whenever you start a new terminal session. In
-   case the environment is not found, check the `name` attribute in `environment.yml`
-   and make sure you've spelled it correctly.
    ```
 
 1. Install the pre-commit hooks
 
    ```console
+   $ pixi global install pre-commit
    $ pre-commit install
    ```
 
@@ -54,7 +41,7 @@ attributed to changes you make rather than the original template.
 1. Run the project
 
    ```console
-   $ pytask
+   $ pixi run pytask
    ```
 
    All programs used within this project template need to be found on your path, see
@@ -90,13 +77,12 @@ Now, search for and replace the following placeholders in the entire codebase.
 Once you are done with the replacement of placeholders, you can update the contents of
 the following files.
 
-| File              | What to do                                                                                                                                                           |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `README.md`       | Remove the entire content and replace it with a README for your project                                                                                              |
-| `pyproject.toml`  | Update the project description                                                                                                                                       |
-| `LICENSE`         | Update the year and name with the current year and your name                                                                                                         |
-| `environment.yml` | Add any dependencies you will need                                                                                                                                   |
-| `.gitignore`      | 1. Remove the part that is not relevant to your project, that includes all lines that start with `docs_template`<br> 2. Add any files you need to be ignored by git. |
+| File             | What to do                                                                                                                                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `README.md`      | Remove the entire content and replace it with a README for your project                                                                                              |
+| `pyproject.toml` | Update the project description and add any dependencies you will need                                                                                                |
+| `LICENSE`        | Update the year and name with the current year and your name                                                                                                         |
+| `.gitignore`     | 1. Remove the part that is not relevant to your project, that includes all lines that start with `docs_template`<br> 2. Add any files you need to be ignored by git. |
 
 #### Changing tool options
 

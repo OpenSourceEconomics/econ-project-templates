@@ -20,29 +20,16 @@ Prior to modifying the template, confirm that the project functions correctly on
 system. This step is essential to ensure that any subsequent issues can be attributed to
 changes you make rather than the original template.
 
-1. Open a terminal, navigate to the project root, and install the necessary
-   dependencies:
+1. Open a terminal and navigate to the project root
 
    ```console
    $ cd /to/root/of/template
-   $ mamba env create -f environment.yml
-   ```
-
-1. Activate the installed environment
-
-   ```console
-   $ conda activate <new_project_name>
-   ```
-
-   ```{note}
-   Remember to activate the environment whenever you start a new terminal session. In
-   case the environment is not found, check the `name` attribute in `environment.yml`
-   and make sure you've spelled it correctly.
    ```
 
 1. Install the pre-commit hooks
 
    ```console
+   $ pixi global install pre-commit
    $ pre-commit install
    ```
 
@@ -54,7 +41,7 @@ changes you make rather than the original template.
 1. Run the project
 
    ```console
-   $ pytask
+   $ pixi run pytask
    ```
 
 All programs used within this project template need to be found on your path, see above
@@ -82,8 +69,6 @@ placeholder names, email addresses, and repository links with your own:
 - `pyproject.toml`
 
 - `LICENSE`
-
-- `environment.yml`
 
   Here you can remove the packages that your project does not require and add
   dependencies that are not already listed.
