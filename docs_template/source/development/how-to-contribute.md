@@ -25,12 +25,12 @@ for some immediate and clearly defined tasks.
 
 ```console
 $ mamba env create -f docs_template/rtd_environment.yml
-$ conda activate ept-docs
 ```
 
 You can build the documentation using
 
 ```console
+$ conda activate ept-docs
 $ cd docs_template
 $ make html
 ```

@@ -109,6 +109,26 @@ kaleido = "*"
 [tool.pixi.target.win-64.pypi-dependencies]
 kaleido = "==0.1.0.post1"
 
+[tool.pixi.feature.docs.dependencies]
+furo = "*"
+myst-parser = "*"
+nbsphinx = "*"
+pydata-sphinx-theme = ">=0.3.0"
+sphinx = "*"
+sphinx-autoapi = "*"
+sphinx-click = "*"
+sphinx-copybutton = "*"
+sphinx-panels = "*"
+sphinxcontrib-bibtex = "*"
+
+[tool.pixi.feature.docs.tasks]
+build-docs = { cmd = "sphinx-build -T -b html -d $READTHEDOCS_OUTPUT/doctrees -D language=en . $READTHEDOCS_OUTPUT/html", cwd = "docs_template/source" , env = {READTHEDOCS_OUTPUT = "../build"}}
+
+
+[tool.pixi.environments]
+docs = {features = ["docs"], solve-group = "default"}
+
+
 # ======================================================================================
 # Pytask configuration
 # ======================================================================================
