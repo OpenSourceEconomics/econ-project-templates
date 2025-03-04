@@ -17,17 +17,11 @@ for some immediate and clearly defined tasks.
    contributor we can give you push access to unprotected branches, which makes the
    process more convenient for you.
 
-1. Clone the repository to your disk. Set up the project environment with conda. The
-   commands for this are (in a terminal in the root of your local econ-project-templates
-   repo):
-
-   ```console
-   $ mamba env create -f environment.yml
-   $ conda activate template_project
-   ```
+1. Clone the repository to your disk. Download
+   [pixi](https://pixi.sh/latest/#installation).
 
 1. In case you work on the documentation, you also have to install and activate the
-   documentation environment:
+   documentation conda environment:
 
 ```console
 $ mamba env create -f docs_template/rtd_environment.yml

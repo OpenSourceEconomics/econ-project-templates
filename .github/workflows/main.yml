@@ -22,11 +22,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install TinyTex
         uses: r-lib/actions/setup-tinytex@v2
+        if: runner.os != 'Windows'
       - name: Install additional LaTeX packages
         run: |
           tlmgr update --self
           tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb ntgclass relsize setspace xfrac
           tlmgr list --only-installed
+        if: runner.os != 'Windows'
       - uses: prefix-dev/setup-pixi@v0.8.1
         with:
           pixi-version: v0.41.4
@@ -34,15 +36,15 @@ jobs:
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
           frozen: true
-      - name: Run pytest (on MacOS and Windows)
+      - name: Run pytest on MacOS
         shell: bash {0}
         run: pixi run pytest
-        if: runner.os != 'Linux' && runner.os != 'Windows'
-      - name: Run pytask on Windows
+        if: runner.os == 'MacOS'
+      - name: Run tests (except pytask) on Windows
         shell: bash {0}
-        run: pixi run pytask
+        run: pixi run pytest -k "not pytask"
         if: runner.os == 'Windows'
-      - name: Run pytest with coverage (on Linux)
+      - name: Run pytest (with coverage) on Linux
         shell: bash {0}
         run: pixi run pytest --cov-report=xml --cov=./
         if: runner.os == 'Linux'
