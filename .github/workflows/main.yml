@@ -34,9 +34,9 @@ jobs:
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
           frozen: true
-      - name: Run pytest
+      - name: Run pytest (on MacOS and Windows)
         shell: bash {0}
-        run: pixi run pytest (on MacOS and Windows)
+        run: pixi run pytest
         if: runner.os != 'Linux'
       - name: Run pytest with coverage (on Linux)
         shell: bash {0}
