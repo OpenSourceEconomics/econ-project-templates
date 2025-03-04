@@ -122,6 +122,9 @@ sphinx-panels = "*"
 sphinxcontrib-bibtex = "*"
 
 [tool.pixi.feature.docs.tasks]
+# This command can be used to build the docs locally or on ReadTheDocs. The env variable
+# READTHEDOCS_OUTPUT is set by ReadTheDocs. If it is not set, the default value is used,
+# which is what we want for local builds.
 build-docs = { cmd = "sphinx-build -T -b html -d $READTHEDOCS_OUTPUT/doctrees -D language=en . $READTHEDOCS_OUTPUT/html", cwd = "docs_template/source" , env = {READTHEDOCS_OUTPUT = "../build"}}
 
 
