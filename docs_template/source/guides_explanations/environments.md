@@ -4,101 +4,67 @@ of your favourite data analysis library. The same holds for debugging errors tha
 only because your coauthor uses a slightly different setup.
 
 The solution is to have isolated environments on a per-project basis.
-[Conda environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
-allow you to do precisely this. This page describes them a little bit and explains their
-use.
+[Pixi environments](https://pixi.sh/latest/tutorials/python/) allow you to do precisely
+this. This page describes them a little bit and explains their use.
 
 The following commands can either be executed in a terminal or the Powershell (Windows).
 
 ### Using the environment
 
-In the installation process of the template a new environment was created if it was not
-explicitly declined. It took its specification from the environment.yml file in your
-projects root folder.
-
-To activate it, execute:
-
-```console
-$ conda activate <env_name>
-```
-
-Repeat this step every time you want to run your project from a new terminal window.
+Pixi environments are created automatically when a command is run via `pixi run [...]`,
+or when one manually runs `pixi install`. The environment is downloaded into the hidden
+folder `.pixi` in your project root.
 
 ### Setting up a new environment
 
-If you want to create a clean environment we recommended specifying it through an
-environment.yml file. Below we show the contents of an example environment.yml file. A
-detailed explanation is given in the
-[Conda documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#create-env-file-manually).
+A pixi environment is always created on a per-project basis. That means, it only makes
+sense to create a new environment, if you create a new project.
 
-```yaml
-name: <env_name>
-
-channels:
-  - conda-forge
-  - nodefaults
-
-dependencies:
-  - python=3.12
-  - numpy
-  - pandas
-  - pip
-```
-
-If the environment.yml file exists you can create the environment using
-
-```console
-$ conda create -f path/to/environment.yml
-```
+If you want to do this, you can simply follow the instructions in the
+[template setup guide](../getting_started/template_setup.md).
 
 ### Updating packages
 
-Make sure you activated the environment by `conda activate <env_name>`. Then run
+Make sure that you are in the project root and run
 
 ```console
-$ conda update [package]
+$ pixi update
 ```
 
-to update a specific `[package]`, or run
+to update all packages, or run
 
 ```console
-$ conda update --all
+$ pixi update [package]
 ```
 
-to update all packages.
+to update a specific `[package]`.
 
 ### Installing additional packages
 
 To list installed packages, activate the environment and type
 
 ```console
-$ conda list
+$ pixi list
 ```
 
-If you want to add a package to your environment, add it to the environment.yml file.
-Once you have edited the environment.yml file, run
+If you want to add a package to your environment, you can add the package to the
+`[tool.pixi.dependencies]` section in the pyproject.toml file. Alternatively, you can
+run
 
 ```console
-$ mamba env update -f environment.yml
+$ pixi add [package]
 ```
 
-**Choosing between conda and pip**
+You will notice that the pixi section in the pyproject.toml file is then also updated
+with the added package.
 
-Generally it is recommended to use *conda* whenever possible. It is a necessity for many
-scientific packages. These often are not pure-Python code and pip is built mainly for
-that. For pure-Python packages, sometimes nobody bothered to set up a conda package and
-we use *pip*.
+**Choosing between conda-forge and PyPI**
 
-If you add a package under `dependencies:` in the environment.yml file, conda will try
-to install its own package. If you add a package under `pip:`, conda will try to install
-the package via pip.
+Generally it is recommended to use *conda-forge* whenever possible. It is a necessity
+for many scientific packages. These often are not pure-Python code and pip is built
+mainly for that. For pure-Python packages, sometimes nobody bothered to set up a
+conda-forge package and we use *pip*.
 
-### Information about your conda environments
-
-For listing your installed conda environments, type
-
-```console
-$ conda info --envs
-```
-
-The currently activated one will be marked.
+If you add a package under `[tool.pixi.dependencies]` in the pyproject.toml file, pixi
+will try to install the package via conda-forge. If you add a package under
+`[tool.pixi.pypi-dependencies]`, pixi will try to install the package from PyPI.
