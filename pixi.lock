@@ -6210,7 +6210,7 @@ packages:
   requires_dist:
   - pygments>=2.18.0
   - tabcompleter>=1.4.0
-  - colorama>=0.4.6 ; platform_system == 'Windows'
+  - colorama>=0.4.6 ; sys_platform == 'win32'
   requires_python: '>=3.8'
 - conda: https://conda.anaconda.org/conda-forge/noarch/pexpect-4.9.0-pyhd8ed1ab_1.conda
   sha256: 202af1de83b585d36445dc1fda94266697341994d1a3328fabde4989e1b3d07a
@@ -8976,7 +8976,7 @@ packages:
   version: 1.4.0
   sha256: d744aa735b49c0a6cc2fb8fcd40077fec47425e4388301010b14e6ce3311368b
   requires_dist:
-  - pyreadline3 ; platform_system == 'Windows'
+  - pyreadline3 ; sys_platform == 'win32'
   requires_python: '>=3.8'
 - conda: https://conda.anaconda.org/conda-forge/osx-64/tapi-1300.6.5-h390ca13_0.conda
   sha256: f97372a1c75b749298cb990405a690527e8004ff97e452ed2c59e4bc6a35d132
@@ -9017,8 +9017,8 @@ packages:
   timestamp: 1732982860332
 - pypi: .
   name: template-project
-  version: 0.8.5.dev0+g67d3a18.d20250211
-  sha256: dc83576ed048492240c40056fa2e72954ba48496f86d70342e0043f909bfbc8f
+  version: 0.8.5.dev5+g7cbe1c1.d20250304
+  sha256: fbdb8b4198a94a4a8fda86e2b6103bb218b3f236831dd5235110b75a194b1121
   requires_python: '>=3.11'
   editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/tenacity-9.0.0-pyhd8ed1ab_1.conda

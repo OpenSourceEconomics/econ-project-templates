@@ -37,7 +37,11 @@ jobs:
       - name: Run pytest (on MacOS and Windows)
         shell: bash {0}
         run: pixi run pytest
-        if: runner.os != 'Linux'
+        if: runner.os != 'Linux' && runner.os != 'Windows'
+      - name: Run pytask on Windows
+        shell: bash {0}
+        run: pixi run pytask
+        if: runner.os == 'Windows'
       - name: Run pytest with coverage (on Linux)
         shell: bash {0}
         run: pixi run pytest --cov-report=xml --cov=./
@@ -47,9 +51,3 @@ jobs:
         if: runner.os == 'Linux'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Run test suite except for pytask build on Windows
-        shell: bash -l {0}
-        run: |
-          micromamba activate template_project
-          pytest -v -k "not pytask"
-        if: runner.os == 'Windows'

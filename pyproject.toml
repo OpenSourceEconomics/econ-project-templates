@@ -107,7 +107,7 @@ pdbp = "*"
 kaleido = "*"
 
 [tool.pixi.target.win-64.pypi-dependencies]
-kaleido = ">=0.1.0.post1,<=0.1.0.post1"
+kaleido = "==0.1.0.post1"
 
 # ======================================================================================
 # Pytask configuration
