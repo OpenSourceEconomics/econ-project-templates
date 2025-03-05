@@ -22,7 +22,7 @@ This code base aims to provide two stepping stones to assist you in achieving th
    new project. Put differently, instead of starting from scratch, you modify an example
    for your needs.
 1. Pre-configured useful tools such as [pre-commit hooks](#pre_commit_hooks), a
-   [conda environment](#environments), and
+   [pixi environment](#environments), and
    [pytask](https://pytask-dev.readthedocs.io/en/stable/). These tools help you to
    maintain a clean code base and to automate the workflow of your project.
 1. A pre-configured instance of [pytask](https://pytask-dev.readthedocs.io/en/stable/),

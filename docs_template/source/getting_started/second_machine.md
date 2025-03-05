@@ -8,8 +8,7 @@ Powershell on Windows. Then type
 ```console
 $ git clone <url_of_your_repository>
 $ cd <name_of_your_project>
-$ mamba env create -f environment.yml
-$ conda activate <conda_environment_name>
+$ pixi global install pre-commit
 $ pre-commit install
 ```
 

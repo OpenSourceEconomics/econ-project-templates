@@ -46,11 +46,10 @@ of manual work, in particular on Windows.
   This gives you a list of directories that are available on your *PATH*.
 
 - Check that this list contains the path to the programs you want to use in your
-  project, in particular, Miniforge (this contains the required Python distribution), a
-  LaTeX distribution, the text editor VS Code, Git, and any other program that you need
-  for your project (R, Julia, Stata). Otherwise, add them by looking up their paths on
-  your computer and follow the steps described here {ref}`path_windows` or
-  {ref}`path_mac`.
+  project, in particular, pixi (this contains the required Python distribution), a LaTeX
+  distribution, the text editor VS Code, Git, and any other program that you need for
+  your project (R, Julia, Stata). Otherwise, add them by looking up their paths on your
+  computer and follow the steps described here {ref}`path_windows` or {ref}`path_mac`.
 
 - If you added any directory to *PATH*, you need to close and reopen your shell, so that
   this change is implemented.
@@ -59,7 +58,7 @@ of manual work, in particular on Windows.
   launch the programmes. For Python, type:
 
   ```console
-  $ python
+  $ pixi run python
   >>> exit()
   ```
 

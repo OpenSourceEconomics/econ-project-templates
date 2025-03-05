@@ -1,10 +1,13 @@
 # Release Notes
 
+## v0.9.0 -- March 2025
+
+- Switch to pixi
+
 ## v0.8.4 -- October 2024
 
 - Make hooks more permissive (docstrings, pandas naming, computing on return or not).
 - Docs: Replace `conda` by `mamba` where appropriate.
-
 
 ## v0.8.3 -- October 2024
 

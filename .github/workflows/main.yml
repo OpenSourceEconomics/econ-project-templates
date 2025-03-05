@@ -12,41 +12,44 @@ on:
     branches: ['*']
 jobs:
   run-tests:
-    name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
+    name: Run tests for ${{ matrix.os }} on Python 3.13
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.12']
     steps:
       - uses: actions/checkout@v4
       - name: Install TinyTex
         uses: r-lib/actions/setup-tinytex@v2
+        if: runner.os != 'Windows'
       - name: Install additional LaTeX packages
         run: |
           tlmgr update --self
           tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb ntgclass relsize setspace xfrac
           tlmgr list --only-installed
-      - name: Install conda environment with micromamba
-        uses: mamba-org/setup-micromamba@v1
-        with:
-          environment-file: environment.yml
-          create-args: python=${{ matrix.python-version }}
-          cache-environment: true
-          micromamba-version: 1.5.6-0
-      - name: Run full test suite on MacOS and Linux
-        shell: bash -l {0}
-        run: |
-          micromamba activate template_project
-          pytest -v --cov=./ --cov-report=xml
         if: runner.os != 'Windows'
-      - name: Run test suite except for pytask build on Windows
-        shell: bash -l {0}
-        run: |
-          micromamba activate template_project
-          pytest -v -k "not pytask"
+      - uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          pixi-version: v0.41.4
+          cache: true
+          cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+          activate-environment: true
+          frozen: true
+      - name: Run pytest on MacOS
+        shell: bash {0}
+        run: pixi run pytest
+        if: runner.os == 'MacOS'
+      - name: Run tests (except pytask) on Windows
+        shell: bash {0}
+        run: pixi run pytest -k "not pytask"
         if: runner.os == 'Windows'
+      - name: Run pytest (with coverage) on Linux
+        shell: bash {0}
+        run: pixi run pytest --cov-report=xml --cov=./
+        if: runner.os == 'Linux'
       - name: Upload coverage reports
-        if: runner.os == 'Linux' && matrix.python-version == '3.12'
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
+        if: runner.os == 'Linux'
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -27,7 +27,7 @@ In case you are unsure about the use(fulness) of {ref}`environments` and
 
 (environments)=
 
-## Conda Environments
+## Pixi Environments
 
 ```{include} environments.md
 

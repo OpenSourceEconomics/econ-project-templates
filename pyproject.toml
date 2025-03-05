@@ -66,6 +66,74 @@ source = "vcs"
 allow-direct-references = true
 
 # ======================================================================================
+# Pixi configuration
+# ======================================================================================
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+[tool.pixi.dependencies]
+python = "~=3.13"
+# Development dependencies
+ipykernel = "*"
+jupyterlab = "*"
+pre-commit = "*"
+# Language agnostic template project dependencies
+pytask  = ">=0.5.0"
+pytask-latex = ">=0.4.2"
+pytask-parallel = ">=0.5.0"
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+# Python template project dependencies
+statsmodels = "*"
+numpy = "*"
+pandas = ">=2.2"
+plotly = ">=5.2.0,<6"
+# R template project dependencies
+pytask-r = ">=0.4.1"
+pyreadr = "*"
+r-plyr = "*"
+r-precommit = "*"
+r-yaml = "*"
+r-forcats = "*"
+
+[tool.pixi.pypi-dependencies]
+template_project = {path = ".", editable = true}
+pdbp = "*"
+
+[tool.pixi.target.unix.pypi-dependencies]
+kaleido = "*"
+
+[tool.pixi.target.win-64.pypi-dependencies]
+kaleido = "==0.1.0.post1"
+
+[tool.pixi.feature.docs.dependencies]
+furo = "*"
+myst-parser = "*"
+nbsphinx = "*"
+pydata-sphinx-theme = ">=0.3.0"
+sphinx = "*"
+sphinx-autoapi = "*"
+sphinx-click = "*"
+sphinx-copybutton = "*"
+sphinx-panels = "*"
+sphinxcontrib-bibtex = "*"
+standard-imghdr = "*"
+
+[tool.pixi.feature.docs.tasks]
+# This command can be used to build the docs locally or on ReadTheDocs. The env variable
+# READTHEDOCS_OUTPUT is set by ReadTheDocs. If it is not set, the default value is used,
+# which is what we want for local builds.
+build-docs = { cmd = "sphinx-build -T -b html -d $READTHEDOCS_OUTPUT/doctrees -D language=en . $READTHEDOCS_OUTPUT/html", cwd = "docs_template/source" , env = {READTHEDOCS_OUTPUT = "../build"}}
+
+
+[tool.pixi.environments]
+docs = {features = ["docs"], solve-group = "default"}
+
+
+# ======================================================================================
 # Pytask configuration
 # ======================================================================================
 

@@ -3,12 +3,14 @@
 *_version.py
 *.pyc
 *__pycache__
+*.ipynb_checkpoints
 
 # python tools
 .pytest_cache
 .ruff_cache
 .pytask.sqlite3
 .pytask
+.pixi
 
 # R
 .RData
