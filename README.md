@@ -13,7 +13,7 @@ such as Python, R, Julia, and Stata.
 
 > [!NOTE]
 > Although the underlying architecture supports all listed programming languages, the
-> current template implementation is limited to Python and R.
+> current template implementation is limited to Python.
 
 ## Getting Started
 
