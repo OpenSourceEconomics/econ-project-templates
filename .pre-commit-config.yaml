@@ -73,13 +73,5 @@ repos:
     hooks:
       - id: codespell
         exclude: pixi.lock
-  - repo: local
-    hooks:
-      - id: forbid-to-commit
-        name: Don't commit common R artifacts
-        entry: Cannot commit .Rhistory, .RData, .Rds or .rds.
-        language: fail
-        files: \.(Rhistory|RData|Rds|rds)$
-        # `exclude: <regex>` to allow committing specific files{% endif %}
 ci:
   autoupdate_schedule: monthly

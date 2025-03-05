@@ -12,10 +12,6 @@
 .pytask
 .pixi
 
-# R
-.RData
-.Rhistory
-
 # bld
 bld/
 
