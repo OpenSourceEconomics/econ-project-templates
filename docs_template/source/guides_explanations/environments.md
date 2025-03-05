@@ -13,7 +13,7 @@ The following commands can either be executed in a terminal or the Powershell (W
 
 - The templates ship with a pre-configured environment.
 
-- You can inspect the contents in the [tool.pixi.xxx] sections.
+- You can inspect the contents in the `[tool.pixi.xxx]` sections.
 
 - When you type `pixi run ...` or `pixi install`, the packages are downloaded to the
   `.pixi` folder in the project root.
