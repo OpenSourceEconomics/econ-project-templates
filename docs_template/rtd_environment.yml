@@ -18,3 +18,5 @@ dependencies:
   - pytask >=0.5.0
   - python-kaleido
   - plotly >=5.2.0,<6
+  - pip
+  - pip: [../]
