@@ -11,21 +11,18 @@ The following commands can either be executed in a terminal or the Powershell (W
 
 ### Using the environment
 
-Pixi environments are created automatically when a command is run via `pixi run [...]`,
-or when one manually runs `pixi install`. The environment is downloaded into the hidden
-folder `.pixi` in your project root.
+- The templates ship with a pre-configured environment.
 
-### Setting up a new environment
+- You can inspect the contents in the [tool.pixi.xxx] sections.
 
-A pixi environment is always created on a per-project basis. That means, it only makes
-sense to create a new environment, if you create a new project.
-
-If you want to do this, you can simply follow the instructions in the
-[template setup guide](../getting_started/template_setup.md).
+- When you type `pixi run ...` or `pixi install`, the packages are downloaded to the
+  `.pixi` folder in the project root.
 
 ### Updating packages
 
-Make sure that you are in the project root and run
+Precise versions of packages are pinned down in the file `pixi.lock`, ensuring
+reproducibility. If you want to update a package, make sure that you are in the project
+root and run
 
 ```console
 $ pixi update
@@ -41,7 +38,7 @@ to update a specific `[package]`.
 
 ### Installing additional packages
 
-To list installed packages, activate the environment and type
+To list installed packages, type
 
 ```console
 $ pixi list
@@ -60,11 +57,12 @@ with the added package.
 
 **Choosing between conda-forge and PyPI**
 
+If you add a package under `[tool.pixi.dependencies]` in the pyproject.toml file, pixi
+will try to install the package via [conda-forge](https://conda-forge.org/). If you add
+a package under `[tool.pixi.pypi-dependencies]`, pixi will try to install the package
+from [PyPI](https://pypi.org/).
+
 Generally it is recommended to use *conda-forge* whenever possible. It is a necessity
 for many scientific packages. These often are not pure-Python code and pip is built
 mainly for that. For pure-Python packages, sometimes nobody bothered to set up a
 conda-forge package and we use *pip*.
-
-If you add a package under `[tool.pixi.dependencies]` in the pyproject.toml file, pixi
-will try to install the package via conda-forge. If you add a package under
-`[tool.pixi.pypi-dependencies]`, pixi will try to install the package from PyPI.

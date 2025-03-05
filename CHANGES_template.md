@@ -1,6 +1,6 @@
 # Release Notes
 
-## v0.8.5 -- March 2025
+## v0.9.0 -- March 2025
 
 - Switch to pixi
 

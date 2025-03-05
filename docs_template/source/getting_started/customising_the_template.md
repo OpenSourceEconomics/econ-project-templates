@@ -57,6 +57,7 @@ Before proceeding, delete the following items as they correspond to the meta pro
 not the template itself.
 
 - `docs_template` folder
+- `.github` folder
 - `CHANGES_template.md` file
 - `tests/test_template.py` file
 

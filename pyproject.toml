@@ -74,7 +74,7 @@ channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
 [tool.pixi.dependencies]
-python = ">=3.12,<3.13"
+python = "~=3.13"
 # Development dependencies
 ipykernel = "*"
 jupyterlab = "*"
@@ -120,6 +120,7 @@ sphinx-click = "*"
 sphinx-copybutton = "*"
 sphinx-panels = "*"
 sphinxcontrib-bibtex = "*"
+standard-imghdr = "*"
 
 [tool.pixi.feature.docs.tasks]
 # This command can be used to build the docs locally or on ReadTheDocs. The env variable

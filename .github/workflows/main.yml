@@ -12,7 +12,7 @@ on:
     branches: ['*']
 jobs:
   run-tests:
-    name: Run tests for ${{ matrix.os }} on Python 3.12
+    name: Run tests for ${{ matrix.os }} on Python 3.13
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
