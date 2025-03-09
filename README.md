@@ -8,8 +8,8 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/OpenSourceEconomics/econ-project-templates/main.svg)](https://results.pre-commit.ci/latest/github/OpenSourceEconomics/econ-project-templates/main)
 
 This project provides a template for economists aimed at facilitating the production of
-reproducible research using Python. We provide a directory structure, a workeed example,
-ioand many helpful modern tools. At its core, the computational pipeline uses
+reproducible research using Python. We provide a directory structure, a worked example,
+and many helpful modern tools. At its core, the computational pipeline uses
 [pytask](https://pytask-dev.readthedocs.io/en/stable/index.html) to ensure
 reproducibility. While the example focuses on Python, running
 [R](https://github.com/pytask-dev/pytask-r),
