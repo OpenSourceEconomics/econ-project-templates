@@ -21,13 +21,10 @@ This code base aims to provide two stepping stones to assist you in achieving th
    structure time and again, which typically happens when incrementally building up a
    new project. Put differently, instead of starting from scratch, you modify an example
    for your needs.
-1. Pre-configured useful tools such as [pre-commit hooks](#pre_commit_hooks), a
-   [pixi environment](#environments), and
-   [pytask](https://pytask-dev.readthedocs.io/en/stable/). These tools help you to
-   maintain a clean code base and to automate the workflow of your project.
-1. A pre-configured instance of [pytask](https://pytask-dev.readthedocs.io/en/stable/),
-   which facilitates the reproducibility of your research findings from the beginning to
-   the end by letting the computer handle the project's workflow.
+1. A pre-configured [computational environment](#environments) including useful tools
+   [pytask](https://pytask-dev.readthedocs.io/en/stable/) and
+   [pre-commit hooks](#pre_commit_hooks). These tools help you to automate the workflow
+   of your project and to maintain a clean code base.
 
 The first should lure you in quickly. The second should convince you to stick to the
 tools in the long run – unless you have fought with large research projects before, at
@@ -35,11 +32,17 @@ this point you may think that all of this is overkill and far more difficult tha
 necessary. It is not. _\[although I am always_
 [happy to hear](https://www.wiwi.uni-bonn.de/gaudecker/) _about easier alternatives\]_
 
-The templates support a variety of programming languages already. They can be easily
-extended to cover others. Everything is tied together by
-[pytask](https://pytask-dev.readthedocs.io/en/stable/), which is written in
-[Python](https://www.python.org/). You do not need to know a lot of Python to use these
-tools, though.
+The example uses Python code also for the "research part". However,
+[pytask](https://pytask-dev.readthedocs.io/en/stable/) supports several popular
+languages ([R](https://github.com/pytask-dev/pytask-r),
+[Julia](https://github.com/pytask-dev/pytask-julia),
+[Stata](https://github.com/pytask-dev/pytask-stata)). Since pytask does not require a
+whole lot of Python knowledge, you may find the template useful in order to make your
+pipeline reproducible in languages you are more comfortable with. It is also an easy
+option in order to mix languages in your project. In fact, until
+[version 0.9](https://econ-project-templates.readthedocs.io/en/v0.9.0/), the template
+included its worked example in R, too. We dropped it purely for lack of resources to
+maintain it.
 
 ## Navigating this Documentation
 

@@ -16,8 +16,8 @@ reproducibility. While the example focuses on Python, running
 [Julia](https://github.com/pytask-dev/pytask-julia), or
 [Stata](https://github.com/pytask-dev/pytask-stata) is very easy, too. In fact, until
 [version 0.9](https://econ-project-templates.readthedocs.io/en/v0.9.0/), the template
-also included the worked example in R, too. We dropped it purely for lack of resources
-to maintain it.
+included its worked example in R, too. We dropped it purely for lack of resources to
+maintain it.
 
 ## Getting Started
 
@@ -37,8 +37,12 @@ team so there is no need for a detailed formal process.
 
 ### Contributors
 
-@hmgaudecker @timmens @tobiasraabe @mj023
+@hmgaudecker @timmens
+
+### Former Contributor and Creator of pytask
+
+@tobiasraabe
 
 ### Former Contributors
 
-@janosg @PKEuS @philippmuller @julienschat @raholler
+@janosg @PKEuS @philippmuller @julienschat @raholler @mj023
