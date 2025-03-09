@@ -75,29 +75,18 @@ platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
 [tool.pixi.dependencies]
 python = "~=3.13"
-# Development dependencies
-ipykernel = "*"
 jupyterlab = "*"
 pre-commit = "*"
-# Language agnostic template project dependencies
 pytask  = ">=0.5.0"
 pytask-latex = ">=0.4.2"
 pytask-parallel = ">=0.5.0"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
-# Python template project dependencies
 statsmodels = "*"
 numpy = "*"
 pandas = ">=2.2"
 plotly = ">=5.2.0,<6"
-# R template project dependencies
-pytask-r = ">=0.4.1"
-pyreadr = "*"
-r-plyr = "*"
-r-precommit = "*"
-r-yaml = "*"
-r-forcats = "*"
 
 [tool.pixi.pypi-dependencies]
 template_project = {path = ".", editable = true}

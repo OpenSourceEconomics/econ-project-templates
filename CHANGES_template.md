@@ -1,5 +1,9 @@
 # Release Notes
 
+## v0.9.1 -- March 2025
+
+- Remove R example.
+
 ## v0.9.0 -- March 2025
 
 - Switch to pixi

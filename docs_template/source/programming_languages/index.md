@@ -2,47 +2,17 @@
 
 # Programming Languages
 
-The templates support a variety of programming languages. Python and R are
-pre-configured in the template, you can create your own task functions by adjusting
-those.
+The templates are pre-configured to use Python, but support a variety of programming
+languages via pytask.
 
-Julia and Stata basically work like R, but are not pre-configured in the template. See
-tiny examples below, and the links to the respective pytask plugins for more
-information.
+To run code written in other languages (R, Julia, Stata), you can use the respective
+pytask plugins. All of the plugins can be installed via `pixi`. You can find how-to
+guides in the respective README files of the plugins:
 
-## Julia
+- [pytask-r](https://github.com/pytask-dev/pytask-r)
+- [pytask-julia](https://github.com/pytask-dev/pytask-julia)
+- [pytask-stata](https://github.com/pytask-dev/pytask-stata)
 
-The following is copied from [pytask-julia](https://github.com/pytask-dev/pytask-julia).
-
-To create a task which runs a Julia script, define a task function with the
-`@mark.julia` decorator. The `script` keyword provides an absolute path or path relative
-to the task module to the Julia script.
-
-```python
-from pathlib import Path
-from pytask import mark, task
-
-
-@task(kwargs={"path": Path("out.csv")})
-@mark.julia(script="script.jl")
-def task_run_jl_script():
-    pass
-```
-
-## Stata
-
-The following is copied from [pytask-stata](https://github.com/pytask-dev/pytask-stata).
-
-To create a task which runs a Stata script, define a task function with the
-`@mark.stata` decorator. The `script` keyword provides an absolute path or path relative
-to the task module to the Stata script.
-
-```python
-import pytask
-
-
-@task(kwargs={"path": Path("auto.dta")})
-@mark.stata(script="script.do")
-def task_run_do_file():
-    pass
-```
+In fact, until [version 0.9](https://econ-project-templates.readthedocs.io/en/v0.9.0/),
+the template included its worked example in R, too. We dropped it purely for lack of
+resources to maintain it.

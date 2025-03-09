@@ -8,12 +8,16 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/OpenSourceEconomics/econ-project-templates/main.svg)](https://results.pre-commit.ci/latest/github/OpenSourceEconomics/econ-project-templates/main)
 
 This project provides a template for economists aimed at facilitating the production of
-reproducible research using the most commonly used programming languages in the field,
-such as Python, R, Julia, and Stata.
-
-> [!NOTE]
-> Although the underlying architecture supports all listed programming languages, the
-> current template implementation is limited to Python and R.
+reproducible research using Python. We provide a directory structure, a worked example,
+and many helpful modern tools. At its core, the computational pipeline uses
+[pytask](https://pytask-dev.readthedocs.io/en/stable/index.html) to ensure
+reproducibility. While the example focuses on Python, running
+[R](https://github.com/pytask-dev/pytask-r),
+[Julia](https://github.com/pytask-dev/pytask-julia), or
+[Stata](https://github.com/pytask-dev/pytask-stata) is very easy, too. In fact, until
+[version 0.9](https://econ-project-templates.readthedocs.io/en/v0.9.0/), the template
+included its worked example in R, too. We dropped it purely for lack of resources to
+maintain it.
 
 ## Getting Started
 
@@ -33,8 +37,12 @@ team so there is no need for a detailed formal process.
 
 ### Contributors
 
-@hmgaudecker @timmens @tobiasraabe @mj023
+@hmgaudecker @timmens
+
+### Former Contributor and Creator of pytask
+
+@tobiasraabe
 
 ### Former Contributors
 
-@janosg @PKEuS @philippmuller @julienschat @raholler
+@janosg @PKEuS @philippmuller @julienschat @raholler @mj023

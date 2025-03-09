@@ -31,7 +31,7 @@ jobs:
         if: runner.os != 'Windows'
       - uses: prefix-dev/setup-pixi@v0.8.1
         with:
-          pixi-version: v0.41.4
+          pixi-version: v0.42.1
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
