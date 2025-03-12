@@ -72,6 +72,6 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
-        exclude: pixi.lock
+        exclude: pixi\.lock|inst/WORDLIST
 ci:
   autoupdate_schedule: monthly
