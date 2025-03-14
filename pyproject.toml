@@ -179,7 +179,3 @@ norecursedirs = ["docs"]
 [tool.yamlfix]
 line_length = 88
 none_representation = "null"
-
-
-[tool.codespell]
-skip = "*.ipynb,inst/WORDLIST"
