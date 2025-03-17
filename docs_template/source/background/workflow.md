@@ -1,3 +1,7 @@
+(workflow)=
+
+## How to Organize the Workflow?
+
 A naive way to ensure reproducibility is to have a *workflow script* (do-file, m-file,
 ...) that runs each file one after the other. One way to implement that for the above
 setup would be to have code for each step of the analysis and a loop over both

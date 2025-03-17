@@ -10,8 +10,7 @@ path. This template requires
 - A modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
   [MacTex](https://tug.org/mactex/), or [MikTex](https://miktex.org/))
 
-- [Git](https://git-scm.com/downloads), Windows users please also consult
-  {ref}`git_windows`
+- [Git](https://git-scm.com/downloads).
 
 - The text editor [VS Code](https://code.visualstudio.com/), unless you know what you
   are doing.

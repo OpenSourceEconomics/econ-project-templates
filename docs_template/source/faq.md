@@ -4,19 +4,9 @@
 
 (windows_user)=
 
-## Tips and Tricks for Windows Users
-
-(git_windows)=
-
-### Integrating git tab completion in Windows Powershell
-
-Powershell does not support tab completion for git automatically. However, there is a
-nice utility called [posh-git](https://github.com/dahlbyk/posh-git). We advise you to
-install this as this makes your life easier.
-
 (path_windows)=
 
-### PATH environmental variable in Windows
+## PATH environmental variable in Windows
 
 In Windows, one has to oftentimes add the programs manually to the *PATH* environmental
 variable in the Advanced System Settings. See
@@ -25,7 +15,7 @@ how to do that.
 
 (path_mac)=
 
-### Adding directories to the PATH: MacOS and Linux
+## Adding directories to the PATH: MacOS and Linux
 
 Open the program **Terminal**. First, you will need to determine the shell you are
 using:
