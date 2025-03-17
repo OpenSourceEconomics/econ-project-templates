@@ -7076,8 +7076,8 @@ packages:
   timestamp: 1732982860332
 - pypi: .
   name: template-project
-  version: 0.10.1.dev1+gfc2f34f.d20250317
-  sha256: 4ce63b2695445d980cd1dd09de4336d5a088ad9f4584109aa667ffaacf340851
+  version: 0.10.1.dev3+gb079642
+  sha256: 53c76ffba2134646c29627701ba8c632c1e9b15ca33685631c4a72fb362b3ae2
   requires_python: '>=3.11'
   editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/tenacity-9.0.0-pyhd8ed1ab_1.conda

@@ -3,12 +3,9 @@
 Make sure you have the following programs installed and that these can be found on your
 path. This template requires
 
-- Python, which you must install using the following instructions
-
-  - [Installing Python on Mac](https://effective-programming-practices.vercel.app/python_installation_execution/installation_mac/instructions.html)
-  - [Installing Python on Windows](https://effective-programming-practices.vercel.app/python_installation_execution/installation_windows/instructions.html)
-  - [Installing Python on WSL (for the adventurous)](https://effective-programming-practices.vercel.app/python_installation_execution/installation_wsl/instructions.html)
-  - [Installing Python on Linux](https://effective-programming-practices.vercel.app/python_installation_execution/installation_linux/instructions.html)
+- The package manager [pixi](https://pixi.sh/latest/#installation) (an introduction to
+  pixi is given here:
+  [Installation and introduction to Pixi](https://effective-programming-practices.vercel.app/python_installation_execution/installation_executing_py_shell/objectives_materials.html))
 
 - A modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
   [MacTex](https://tug.org/mactex/), or [MikTex](https://miktex.org/))
