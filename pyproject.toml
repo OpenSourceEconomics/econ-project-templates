@@ -112,10 +112,13 @@ sphinxcontrib-bibtex = "*"
 standard-imghdr = "*"
 
 [tool.pixi.feature.docs.tasks]
-# This command can be used to build the docs locally or on ReadTheDocs. The env variable
-# READTHEDOCS_OUTPUT is set by ReadTheDocs. If it is not set, the default value is used,
-# which is what we want for local builds.
+# The 'build-docs' command can be used to build the docs locally or on ReadTheDocs. The
+# env variable READTHEDOCS_OUTPUT is set by ReadTheDocs. If it is not set, the default
+# value is used, which is what we want for local builds.
 build-docs = { cmd = "sphinx-build -T -b html -d $READTHEDOCS_OUTPUT/doctrees -D language=en . $READTHEDOCS_OUTPUT/html", cwd = "docs_template/source" , env = {READTHEDOCS_OUTPUT = "../build"}}
+# The 'check-docs-urls' command is only run locally and on the CI. It checks all URLs in
+# the documentation for validity.
+check-docs-urls = { cmd = "sphinx-build -T -b linkcheck -d ../build/doctrees -D language=en . ../build/linkcheck", cwd = "docs_template/source" }
 
 
 [tool.pixi.environments]

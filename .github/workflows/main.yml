@@ -53,3 +53,21 @@ jobs:
         if: runner.os == 'Linux'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+  run-docs:
+    name: Run docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          pixi-version: v0.42.1
+          cache: true
+          cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+          activate-environment: true
+          frozen: true
+      - name: Build docs
+        shell: bash {0}
+        run: pixi run build-docs
+      - name: Check validity of URLs
+        shell: bash {0}
+        run: pixi run check-docs-urls
