@@ -3,15 +3,13 @@
 Make sure you have the following programs installed and that these can be found on your
 path. This template requires
 
-- The package manager [pixi](https://pixi.sh/latest/#installation) (an introduction to
-  pixi is given here:
-  [Installation and introduction to Pixi](https://effective-programming-practices.vercel.app/python_installation_execution/installation_executing_py_shell/objectives_materials.html))
+- The package manager [pixi](https://pixi.sh/latest/#installation)
+  ([video on installation of and introduction to pixi](https://effective-programming-practices.vercel.app/python_installation_execution/installation_executing_py_shell/objectives_materials.html))
 
 - A modern LaTeX distribution (e.g. [TeXLive](https://tug.org/texlive/),
   [MacTex](https://tug.org/mactex/), or [MikTex](https://miktex.org/))
 
-- [Git](https://git-scm.com/downloads), Windows users please also consult
-  {ref}`git_windows`
+- [Git](https://git-scm.com/downloads).
 
 - The text editor [VS Code](https://code.visualstudio.com/), unless you know what you
   are doing.
@@ -64,7 +62,7 @@ of manual work, in particular on Windows.
   output obtained on Linux:
 
   ```text
-  Python 3.12.4 | packaged by conda-forge | (main, Jun 17 2024, 10:23:07) [GCC 12.3.0] on linux
+  Python 3.13.2 | packaged by conda-forge | (main, Feb 17 2025, 14:10:22) [GCC 13.3.0] on linux
   Type "help", "copyright", "credits" or "license" for more information.
   ```
 

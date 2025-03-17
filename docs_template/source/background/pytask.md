@@ -1,3 +1,7 @@
+(pytask)=
+
+## Introduction to pytask
+
 [pytask](https://pytask-dev.readthedocs.io/en/stable/) is our tool of choice to automate
 the dependency tracking via a DAG (directed acyclic graph) structure. It has been
 written by Uni Bonn alumnus [Tobias Raabe](https://github.com/tobiasraabe) out of

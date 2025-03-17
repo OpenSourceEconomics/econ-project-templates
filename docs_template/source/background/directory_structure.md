@@ -1,3 +1,7 @@
+(directory_structure)=
+
+## Directory Structure
+
 ### The big picture
 
 The following graph shows the contents of template_project root directory after
