@@ -29,13 +29,16 @@ jobs:
           tlmgr install a4wide beamer biber biblatex caption eurosym grfext minibox moreverb ntgclass relsize setspace xfrac
           tlmgr list --only-installed
         if: runner.os != 'Windows'
-      - uses: prefix-dev/setup-pixi@v0.8.1
+      - uses: prefix-dev/setup-pixi@v0.8.3
         with:
-          pixi-version: v0.42.1
+          pixi-version: v0.47.0
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
           frozen: true
+      - name: Install Chrome for Kaleido
+        shell: bash {0}
+        run: pixi run kaleido_get_chrome -v
       - name: Run pytest on MacOS
         shell: bash {0}
         run: pixi run pytest
