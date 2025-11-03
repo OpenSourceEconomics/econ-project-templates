@@ -6,11 +6,11 @@ repos:
       # - id: check-hooks-apply  # Leave nbqa in here.
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.17.0
+    rev: 1.19.0
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
         args: [--maxkb=25]
@@ -33,11 +33,11 @@ repos:
       - id: check-ast
       - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.35.1
+    rev: v1.37.1
     hooks:
       - id: yamllint
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.9
+    rev: v0.14.3
     hooks:
       # Run the linter.
       - id: ruff
@@ -55,14 +55,14 @@ repos:
           - --extra-keys
           - metadata.kernelspec metadata.language_info.version metadata.vscode
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.22
+    rev: 1.0.0
     hooks:
       - id: mdformat
         additional_dependencies: [mdformat-gfm, mdformat-gfm-alerts, mdformat-ruff]
         args: [--wrap, '88']
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.22
+    rev: 1.0.0
     hooks:
       - id: mdformat
         additional_dependencies: [mdformat-myst, mdformat-ruff]
