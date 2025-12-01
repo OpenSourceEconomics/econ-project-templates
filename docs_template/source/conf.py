@@ -83,6 +83,7 @@ intersphinx_mapping = {
 
 linkcheck_ignore = [
     r"https://tinyurl\.com/*.",
+    r"https://www\.computerhope\.com/.*",  # Returns 403 for bots but works in browser
 ]
 
 # Add any paths that contain templates here, relative to this directory.
