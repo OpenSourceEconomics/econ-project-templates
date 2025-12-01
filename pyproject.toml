@@ -69,7 +69,7 @@ allow-direct-references = true
 # Pixi configuration
 # ======================================================================================
 
-[tool.pixi.project]
+[tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
@@ -78,7 +78,7 @@ python = "~=3.13.0"
 jupyterlab = "*"
 pre-commit = "*"
 pytask  = ">=0.5.0"
-pytask-latex = ">=0.4.2"
+pytask-latex = ">=0.4.3"
 pytask-parallel = ">=0.5.0"
 pytest = "*"
 pytest-cov = "*"
@@ -86,7 +86,7 @@ pytest-xdist = "*"
 statsmodels = "*"
 numpy = "*"
 pandas = ">=2.2"
-plotly = ">=6.1"
+plotly = ">=6.1.1"
 
 [tool.pixi.pypi-dependencies]
 template_project = {path = ".", editable = true}
