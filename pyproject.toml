@@ -86,18 +86,12 @@ pytest-xdist = "*"
 statsmodels = "*"
 numpy = "*"
 pandas = ">=2.2"
+plotly = ">=6.1"
 
 [tool.pixi.pypi-dependencies]
 template_project = {path = ".", editable = true}
 pdbp = "*"
-
-[tool.pixi.target.unix.pypi-dependencies]
-plotly = ">=6.1"
 kaleido = ">=1.1"
-
-[tool.pixi.target.win-64.pypi-dependencies]
-plotly = ">=5.2.0,<6"
-kaleido = "==0.1.0.post1"
 
 [tool.pixi.feature.docs.dependencies]
 furo = "*"
