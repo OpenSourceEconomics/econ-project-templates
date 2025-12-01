@@ -74,7 +74,7 @@ channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
 [tool.pixi.dependencies]
-python = "~=3.13"
+python = "~=3.13.0"
 jupyterlab = "*"
 pre-commit = "*"
 pytask  = ">=0.5.0"
@@ -138,7 +138,7 @@ pdbcls = "pdbp:Pdb"
 # ======================================================================================
 
 [tool.ruff]
-target-version = "py312"
+target-version = "py313"
 fix = true
 
 [tool.ruff.lint]
