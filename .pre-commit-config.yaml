@@ -36,6 +36,7 @@ repos:
     rev: v1.37.1
     hooks:
       - id: yamllint
+        exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.7
     hooks:
