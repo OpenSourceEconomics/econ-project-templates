@@ -13,5 +13,5 @@ build:
     build:
       html:
         - echo $READTHEDOCS_OUTPUT
-        - pixi run sphinx-build -T -b html -d $READTHEDOCS_OUTPUT/doctrees -D language=en
+        - pixi run python -m sphinx-build -T -b html -d $READTHEDOCS_OUTPUT/doctrees -D language=en
           . $READTHEDOCS_OUTPUT/html
