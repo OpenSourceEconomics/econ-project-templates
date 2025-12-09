@@ -87,6 +87,7 @@ statsmodels = "*"
 numpy = "*"
 pandas = ">=2.2"
 plotly = ">=6.1.1"
+nodejs = "*"
 
 [tool.pixi.pypi-dependencies]
 template_project = {path = ".", editable = true}
