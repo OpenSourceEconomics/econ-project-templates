@@ -13,20 +13,22 @@ def task_compile_paper(
     depends_on=DOCUMENTS / "paper.md",
     produces=BLD / "documents" / "paper.pdf",
 ):
-    """Compile the paper from MyST Markdown to PDF."""
-    # MyST can be built using jupyter-book or myst CLI
-    # Try myst build first, fallback to jupyter-book if needed
-    try:
-        subprocess.run(
-            ("myst", "build", str(depends_on), "--pdf", str(produces)),
-            check=True,
-        )
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        # Fallback to jupyter-book build
-        subprocess.run(
-            ("jupyter-book", "build", str(depends_on.parent), "--builder", "pdfhtml"),
-            check=True,
-        )
+    """Compile the paper from MyST Markdown to PDF using Jupyter Book."""
+    # Ensure output directory exists
+    produces.parent.mkdir(parents=True, exist_ok=True)
+    # Jupyter Book requires a _toc.yml file and _config.yml for the build
+    # Build PDF directly to the produces path
+    subprocess.run(
+        (
+            "jupyter-book",
+            "build",
+            str(depends_on),
+            "--pdf",
+            "--output",
+            str(produces),
+        ),
+        check=True,
+    )
 
 
 @pytask.task(id="paper")
@@ -45,8 +47,9 @@ def task_compile_presentation(
 ):
     """Compile the presentation from Slidev Markdown to PDF."""
     # Slidev export command - need to run from documents directory
+    # Use npx to run slidev if not globally installed
     subprocess.run(
-        ("slidev", "export", depends_on.name, "--output", str(produces)),
+        ("npx", "slidev", "export", depends_on.name, "--output", str(produces)),
         cwd=depends_on.parent,
         check=True,
     )
