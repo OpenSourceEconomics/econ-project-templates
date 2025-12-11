@@ -28,7 +28,7 @@ status over the lifetime. Table :ref:`tab:summary` contains the estimation resul
 the linear Logistic regression.
 
 
-:::{figure} public/smoking_by_marital_status.svg
+:::{figure} public/smoking_by_marital_status.png
 :width: 85%
 :label: fig:predictions
 

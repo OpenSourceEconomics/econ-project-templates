@@ -13,7 +13,7 @@ def task_compile_paper(
     paper_md=DOCUMENTS / "paper.md",
     myst_yml=DOCUMENTS / "myst.yml",
     refs=DOCUMENTS / "refs.bib",
-    figure=DOCUMENTS / "public" / "smoking_by_marital_status.svg",
+    figure=DOCUMENTS / "public" / "smoking_by_marital_status.png",
     table=DOCUMENTS / "tables" / "estimation_results.md",
     produces=ROOT / "paper.pdf",
 ):
@@ -39,7 +39,7 @@ def task_compile_paper(
 @pytask.task(id="presentation")
 def task_compile_presentation(
     pres_md=DOCUMENTS / "presentation.md",
-    figure=DOCUMENTS / "public" / "smoking_by_marital_status.svg",
+    figure=DOCUMENTS / "public" / "smoking_by_marital_status.png",
     produces=ROOT / "presentation.pdf",
 ):
     """Compile the presentation from Slidev Markdown to PDF."""

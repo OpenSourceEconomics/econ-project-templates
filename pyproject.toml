@@ -79,7 +79,7 @@ jupyterlab = "*"
 nodejs = "*"
 numpy = "*"
 pandas = ">=2.2"
-plotly = ">=6.1.1"
+plotly = ">=6.5"
 pre-commit = "*"
 pytask  = ">=0.5.0"
 pytask-latex = ">=0.4.3"
@@ -88,12 +88,12 @@ pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
 python = "~=3.13.0"
+python-kaleido = ">=1.1"
 statsmodels = "*"
 
 [tool.pixi.pypi-dependencies]
 template_project = {path = ".", editable = true}
 pdbp = "*"
-kaleido = ">=1.1"
 tabulate = "*"
 
 [tool.pixi.feature.docs.dependencies]

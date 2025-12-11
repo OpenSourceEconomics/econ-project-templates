@@ -34,9 +34,6 @@ jobs:
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
           frozen: true
-      - name: Install Chrome
-        shell: bash {0}
-        run: pixi run plotly_get_chrome -y
       - name: Install npm packages
         shell: bash {0}
         run: pixi run npm install

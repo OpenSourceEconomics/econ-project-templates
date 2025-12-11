@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pytask
+import plotly.io as pio
 
 from template_project.config import BLD, DOCUMENTS, SRC, TEMPLATE_GROUPS
 from template_project.final.plot_template import plot_regression_by_age
@@ -14,13 +15,14 @@ for group in TEMPLATE_GROUPS:
         group=group,
         predictions_path=BLD / "predictions" / f"{group}.pickle",
         data_path=BLD / "data" / "stats4schools_smoking.pickle",
-        produces=DOCUMENTS / "public" / f"smoking_by_{group}.svg",
+        produces=DOCUMENTS / "public" / f"smoking_by_{group}.png",
     ):
         """Plot the regression results by age."""
         data = pd.read_pickle(data_path)
         predictions = pd.read_pickle(predictions_path)
 
         fig = plot_regression_by_age(data, predictions, group)
+        pio.get_chrome()
         fig.write_image(produces)
 
 

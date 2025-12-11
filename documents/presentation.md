@@ -42,7 +42,7 @@ EXAMPLE UNIVERSITY
 ---
 
 <center>
-<img src="/smoking_by_marital_status.svg" width=500>
+<img src="/smoking_by_marital_status.png" width=500>
 </center>
 
 <br/>
