@@ -43,6 +43,10 @@ def task_compile_presentation(
     produces=ROOT / "presentation.pdf",
 ):
     """Compile the presentation from Slidev Markdown to PDF."""
+    if sys.platform == "win32":
+        shell = True
+    else:
+        shell = False
     subprocess.run(
         (
             "npx",
@@ -53,5 +57,5 @@ def task_compile_presentation(
             produces.absolute(),
         ),
         check=True,
-        shell=True,  # Required for npx command on Windows
+        shell=shell
     )
