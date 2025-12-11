@@ -20,12 +20,13 @@ def task_compile_paper(
     # Build PDF directly to the produces path
     subprocess.run(
         (
-            "jupyter-book",
+            "jupyter",
+            "book",
             "build",
-            str(depends_on),
+            depends_on.absolute(),
             "--pdf",
             "--output",
-            str(produces),
+            produces.absolute(),
         ),
         check=True,
     )
@@ -49,8 +50,14 @@ def task_compile_presentation(
     # Slidev export command - need to run from documents directory
     # Use npx to run slidev if not globally installed
     subprocess.run(
-        ("npx", "slidev", "export", depends_on.name, "--output", str(produces)),
-        cwd=depends_on.parent,
+        (
+            "npx",
+            "slidev",
+            "export",
+            depends_on.absolute(),
+            "--output",
+            produces.absolute(),
+        ),
         check=True,
     )
 
