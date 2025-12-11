@@ -53,4 +53,5 @@ def task_compile_presentation(
             produces.absolute(),
         ),
         check=True,
+        shell=True,  # Required for npx command on Windows
     )
