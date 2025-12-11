@@ -1,5 +1,6 @@
 ---
 theme: academic
+coverDate: ""
 class: text-center
 highlighter: shiki
 lineNumbers: false
@@ -8,9 +9,11 @@ info: |
   Academic presentation with Slidev
 drawings:
   persist: false
-transition: slide-left
+transition: fade
 title: EXAMPLE PROJECT
 mdc: true
+defaults:
+  layout: center
 ---
 
 # EXAMPLE PROJECT
@@ -20,33 +23,31 @@ JANE DOE
 EXAMPLE UNIVERSITY
 
 ---
-layout: default
----
 
-# heading here
+# Heading here
 
-- Please cite this template as: GaudeckerEconProjectTemplates
-- Example data is taken from <https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools>
+- Example data is taken from [stats4schools website](https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools)
 
----
-layout: default
----
+- Please cite this template as:
 
-# Figure
-
-<div class="flex justify-center">
-
-![Python: Model predictions of the smoking probability over the lifetime. Each colored line represents a case where marital status is fixed to one of the values present in the data set.](../figures/smoking_by_marital_status)
-
-</div>
+  ```bibtex
+  @unpublished{GaudeckerEconProjectTemplates,
+    author = {Hans-Martin von Gaudecker},
+    note   = {\url{https://doi.org/10.5281/zenodo.2533240}},
+    title  = {Templates for Reproducible Research Projects in Economics},
+    year   = {2019--}
+  }
+  ```
 
 ---
-layout: default
----
 
-# References
+<center>
+<img src="/smoking_by_marital_status.svg" width=500>
+</center>
 
-See `refs.bib` for the bibliography.
+<br/>
+
+Model predictions of the smoking probability over the lifetime. Each colored line represents a case where marital status is fixed to one of the values present in the data set.
 
 ---
 layout: end

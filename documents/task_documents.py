@@ -43,18 +43,17 @@ def task_copy_paper_to_root(
 
 @pytask.task(id="presentation")
 def task_compile_presentation(
-    depends_on=DOCUMENTS / "presentation.md",
+    pres_md=DOCUMENTS / "presentation.md",
+    figure=DOCUMENTS / "public" / "smoking_by_marital_status.svg",
     produces=BLD / "documents" / "presentation.pdf",
 ):
     """Compile the presentation from Slidev Markdown to PDF."""
-    # Slidev export command - need to run from documents directory
-    # Use npx to run slidev if not globally installed
     subprocess.run(
         (
             "npx",
             "slidev",
             "export",
-            depends_on.absolute(),
+            pres_md.absolute(),
             "--output",
             produces.absolute(),
         ),

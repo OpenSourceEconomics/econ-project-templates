@@ -1,0 +1,124 @@
+/* Überschriften */
+h1, h2, h3, h4, h5 {
+  font-family: 'Noto Sans';
+  line-height: 2 !important;
+}
+h1 {
+  font-size: 2.7rem !important;
+  font-weight: 600 !important;
+}
+h2 {
+  font-size: 2.7rem !important;
+  font-weight: 600 !important;
+}
+h3 {
+  font-size: 2.025rem !important;
+  font-weight: 600 !important;
+}
+h4 {
+  font-size: 2.025rem !important;
+  font-weight: 400 !important;
+}
+h5 {
+  font-size: 1.35rem !important;
+  font-weight: 600 !important;
+}
+/* Textabsätze und Listeneinträge */
+p, li {
+  font-family: 'Noto Sans';
+  font-weight: 400;
+  font-size: 1.35rem !important;
+  line-height: 1.25 !important;
+}
+li {
+  margin-bottom: .35rem !important;
+}
+code {
+  font-size: 1.0rem !important;
+}
+
+.slidev-code code {
+  font-size: 0.8rem !important;
+}
+
+table {
+  margin: 0;
+  font-family: "Helvetica", "Helvetica", sans-serif;
+  border-collapse: collapse;
+  border: none;
+  font-size: 80%;
+}
+
+table caption {
+  caption-side: bottom;
+}
+
+table td {
+  padding: 0.25em !important;
+  padding-left: 1em !important;
+  padding-right: 1em !important;
+}
+
+table th {
+  font-weight: bold !important;
+  text-align: right !important;
+  padding: 0.25em !important;
+  padding-left: 1em !important;
+  padding-right: 1em !important;
+}
+
+table code {
+  font-size: 1rem !important;
+  background: transparent !important;
+  padding-left: 0em !important;
+  padding-right: 0em !important;
+}
+
+
+html.dark {
+  /* Darkmode Tables */
+  table {
+    color: white;
+  }
+  table thead {
+    background-color: #3d3d3d;
+  }
+  table tbody tr:nth-child(even) {
+    background-color: #3d3d3d;
+  }
+  table tbody tr:nth-child(odd) {
+    background-color: #565656;
+  }
+
+}
+
+html:not(.dark) {
+  /* Lightmode Tables */
+  table {
+    color: #5b5b5b;
+  }
+  table thead {
+    background-color: white;
+  }
+  table tbody tr:nth-child(even) {
+    background-color: white;
+  }
+  table tbody tr:nth-child(odd) {
+    background-color: white;
+  }
+
+  /* Lightmode Code blocks */
+  .slidev-code {
+    background: white;
+  }
+
+  .slidev-code code {
+    font-weight: normal !important;
+  }
+
+  code {
+    font-weight: bold !important;
+    background: white !important;
+    color: #0065bd !important;
+  }
+}
