@@ -5,47 +5,42 @@ import subprocess
 
 import pytask
 
-from template_project.config import BLD, DOCUMENTS, ROOT
+from template_project.config import DOCUMENTS, ROOT
 
 
 @pytask.task(id="paper")
 def task_compile_paper(
-    depends_on=DOCUMENTS / "paper.md",
-    produces=BLD / "documents" / "paper.pdf",
+    paper_md=DOCUMENTS / "paper.md",
+    myst_yml=DOCUMENTS / "myst.yml",
+    refs=DOCUMENTS / "refs.bib",
+    figure=DOCUMENTS / "public" / "smoking_by_marital_status.svg",
+    table=DOCUMENTS / "tables" / "estimation_results.md",
+    produces=ROOT / "paper.pdf",
 ):
-    """Compile the paper from MyST Markdown to PDF using Jupyter Book."""
-    # Ensure output directory exists
-    produces.parent.mkdir(parents=True, exist_ok=True)
-    # Jupyter Book requires a _toc.yml file and _config.yml for the build
-    # Build PDF directly to the produces path
+    """Compile the paper from MyST Markdown to PDF using Jupyter Book 2.0."""
+    # Jupyter Book 2.0 uses myst.yml and builds from the project directory
+    # The export is defined in myst.yml, so we build from the documents directory
     subprocess.run(
         (
             "jupyter",
             "book",
             "build",
-            depends_on.absolute(),
             "--pdf",
-            "--output",
-            produces.absolute(),
         ),
         check=True,
+        cwd=DOCUMENTS.absolute(),
     )
-
-
-@pytask.task(id="paper")
-def task_copy_paper_to_root(
-    depends_on=BLD / "documents" / "paper.pdf",
-    produces=ROOT / "paper.pdf",
-):
-    """Copy the paper to the root directory for easier retrieval."""
-    shutil.copy(depends_on, produces)
+    # Jupyter Book creates PDF in _build/exports/paper.pdf or _build/temp/*/paper.pdf
+    # Find and copy to produces location
+    build_pdf = DOCUMENTS / "_build" / "exports" / "paper.pdf"
+    shutil.copy(build_pdf, produces)
 
 
 @pytask.task(id="presentation")
 def task_compile_presentation(
     pres_md=DOCUMENTS / "presentation.md",
     figure=DOCUMENTS / "public" / "smoking_by_marital_status.svg",
-    produces=BLD / "documents" / "presentation.pdf",
+    produces=ROOT / "presentation.pdf",
 ):
     """Compile the presentation from Slidev Markdown to PDF."""
     subprocess.run(
@@ -59,12 +54,3 @@ def task_compile_presentation(
         ),
         check=True,
     )
-
-
-@pytask.task(id="presentation")
-def task_copy_presentation_to_root(
-    depends_on=BLD / "documents" / "presentation.pdf",
-    produces=ROOT / "presentation.pdf",
-):
-    """Copy the presentation to the root directory for easier retrieval."""
-    shutil.copy(depends_on, produces)

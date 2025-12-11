@@ -94,6 +94,7 @@ statsmodels = "*"
 template_project = {path = ".", editable = true}
 pdbp = "*"
 kaleido = ">=1.1"
+tabulate = "*"
 
 [tool.pixi.feature.docs.dependencies]
 furo = "*"

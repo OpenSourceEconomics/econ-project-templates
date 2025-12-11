@@ -1,7 +1,0 @@
----
-# Table of contents for Jupyter Book
-# This file defines the structure of the paper
-format: jb-book
-root: paper
-sections:
-  - file: paper
