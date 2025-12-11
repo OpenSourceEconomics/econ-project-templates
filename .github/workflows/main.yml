@@ -25,7 +25,7 @@ jobs:
       - name: Install additional LaTeX packages
         run: |
           tlmgr update --self
-          tlmgr install a4wide beamer biber biblatex caption datetime booktabs units microtype natbib doi eurosym grfext minibox moreverb ntgclass relsize setspace xfrac xetex xunicode
+          tlmgr install a4wide biber biblatex booktabs caption datetime doi eurosym fancyhdr grfext microtype minibox moreverb natbib ntgclass relsize setspace units xetex xfrac xunicode
           tlmgr list --only-installed
       - uses: prefix-dev/setup-pixi@v0.9.3
         with:
