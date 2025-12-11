@@ -18,7 +18,10 @@ Have a look at its excellent
 additional plugins to run [R scripts](https://github.com/pytask-dev/pytask-r),
 [Julia scripts](https://github.com/pytask-dev/pytask-julia),
 [Stata do-files](https://github.com/pytask-dev/pytask-stata), and to compile
-[documents via LaTeX](https://github.com/pytask-dev/pytask-latex).
+[documents via LaTeX](https://github.com/pytask-dev/pytask-latex). This template uses
+pytask to compile documents written in [MyST Markdown](https://mystmd.org/) (for papers)
+and [Slidev](https://sli.dev/) (for presentations) to PDF using
+[Jupyter Book 2.0](https://jupyterbook.org/) and Slidev's export functionality.
 
 We will have more to say about the directory structure in the {ref}`directory_structure`
 section. For now, we note that a step towards achieving the goal of clearly separating
