@@ -73,6 +73,6 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
-        exclude: pixi.lock|inst/WORDLIST|ipynb
+        exclude: package-lock.json|node_modules|pixi.lock|inst/WORDLIST|ipynb
 ci:
   autoupdate_schedule: monthly
