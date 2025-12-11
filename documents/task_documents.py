@@ -57,5 +57,5 @@ def task_compile_presentation(
             produces.absolute(),
         ),
         check=True,
-        shell=shell
+        shell=shell,
     )
