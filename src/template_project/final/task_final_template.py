@@ -1,8 +1,8 @@
 """Tasks running the results formatting (tables, figures)."""
 
 import pandas as pd
-import pytask
 import plotly.io as pio
+import pytask
 
 from template_project.config import BLD, DOCUMENTS, SRC, TEMPLATE_GROUPS
 from template_project.final.plot_template import plot_regression_by_age
