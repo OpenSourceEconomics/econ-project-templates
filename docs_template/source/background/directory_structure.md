@@ -7,11 +7,10 @@
 The following graph shows the contents of template_project root directory after
 executing `pytask`
 
-```{figure} ../figures/generated/root_bld_src.png
----
-width: 45em
----
+````{mermaid}
+```{include} ../figures/root_bld_src.mmd
 ```
+````
 
 Files and directories in yellow are constructed by pytask; those with a bluish
 background are added directly by the researcher. You immediately see the **separation of
@@ -68,11 +67,10 @@ Markdown directives (e.g., `{figure}` and `{include}`).
 
 Lets go one step deeper and consider the root/src directory in more detail:
 
-```{figure} ../figures/generated/src.png
----
-width: 40em
----
+````{mermaid}
+```{include} ../figures/src.mmd
 ```
+````
 
 It is imperative that you do all the task handling inside the `task_xxx.py`-scripts,
 using the [pathlib](https://realpython.com/python-pathlib/) library. This ensures that
