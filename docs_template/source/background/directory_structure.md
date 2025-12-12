@@ -1,5 +1,3 @@
-(directory_structure)=
-
 ## Directory Structure
 
 ### The big picture
@@ -7,10 +5,42 @@
 The following graph shows the contents of template_project root directory after
 executing `pytask`
 
-````{mermaid}
-```{include} ../figures/root_bld_src.mmd
+```{mermaid}
+flowchart TD
+    Root["project root<br/>(gray: project structure)"]
+
+    Bld["bld<br/>(yellow: build outputs)"]
+    Documents["documents<br/>(green: documents / figures / tables)"]
+    Paper["paper.pdf<br/>(yellow: build outputs)"]
+    Presentation["presentation.pdf<br/>(yellow: build outputs)"]
+    Src["src<br/>(blue: source code)"]
+    Tests["tests<br/>(blue: source code)"]
+
+    BldSub["data<br/>figures<br/>tables<br/>models<br/>predictions<br/>documents"]
+    SrcSub["template_project<br/>(blue: source code)"]
+
+    SrcSubDir["analysis<br/>data<br/>data_management<br/>final<br/>config.py"]
+
+    Root --> Bld
+    Root --> Paper
+    Root --> Presentation
+    Root --> Src
+    Root --> Tests
+
+    Bld --> BldSub
+    Src --> SrcSub
+    SrcSub --> SrcSubDir
+
+    style Root fill:#8A9384,stroke:#333,stroke-width:2px,color:#fff
+    style Bld fill:#FBBB06,stroke:#333,stroke-width:2px,color:#000
+    style Paper fill:#FBBB06,stroke:#333,stroke-width:2px,color:#000
+    style Presentation fill:#FBBB06,stroke:#333,stroke-width:2px,color:#000
+    style Src fill:#04539C,stroke:#333,stroke-width:2px,color:#fff
+    style Tests fill:#04539C,stroke:#333,stroke-width:2px,color:#fff
+    style BldSub fill:#FBBB06,stroke:#333,stroke-width:1px,color:#000
+    style SrcSub fill:#04539C,stroke:#333,stroke-width:2px,color:#fff
+    style SrcSubDir fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
 ```
-````
 
 Files and directories in yellow are constructed by pytask; those with a bluish
 background are added directly by the researcher. You immediately see the **separation of
@@ -67,10 +97,40 @@ Markdown directives (e.g., `{figure}` and `{include}`).
 
 Lets go one step deeper and consider the root/src directory in more detail:
 
-````{mermaid}
-```{include} ../figures/src.mmd
+```{mermaid}
+flowchart TD
+    Root["src/template_project<br/>(gray: source code)"]
+
+    Analysis["analysis<br/>(blue: source code)"]
+    Data["data<br/>(blue: source code)"]
+    DataMgmt["data_management<br/>(blue: source code)"]
+    Final["final<br/>(blue: source code)"]
+    Config["config.py<br/>(blue: source code)"]
+
+    AnalysisFiles["__init__.py<br/>model.py<br/>predict.py"]
+    DataMgmtFiles["__init__.py<br/>clean_data.py"]
+    FinalFiles["__init__.py<br/>plot.py"]
+
+    Root --> Analysis
+    Root --> Data
+    Root --> DataMgmt
+    Root --> Final
+    Root --> Config
+
+    Analysis --> AnalysisFiles
+    DataMgmt --> DataMgmtFiles
+    Final --> FinalFiles
+
+    style Root fill:#8A9384,stroke:#333,stroke-width:2px,color:#fff
+    style Analysis fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
+    style Data fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
+    style DataMgmt fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
+    style Final fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
+    style Config fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
+    style AnalysisFiles fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
+    style DataMgmtFiles fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
+    style FinalFiles fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
 ```
-````
 
 It is imperative that you do all the task handling inside the `task_xxx.py`-scripts,
 using the [pathlib](https://realpython.com/python-pathlib/) library. This ensures that

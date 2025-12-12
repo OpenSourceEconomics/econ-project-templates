@@ -1,5 +1,3 @@
-(dag)=
-
 ## Directed Acyclic Graphs
 
 The way to specify dependencies between data, code and tasks to perform for a computer

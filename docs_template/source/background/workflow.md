@@ -1,5 +1,3 @@
-(workflow)=
-
 ## How to Organize the Workflow?
 
 A naive way to ensure reproducibility is to have a *workflow script* (do-file, m-file,

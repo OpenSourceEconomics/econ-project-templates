@@ -2,8 +2,6 @@
 
 # FAQ
 
-(windows_user)=
-
 (path_windows)=
 
 ## PATH environmental variable in Windows

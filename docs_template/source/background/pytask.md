@@ -1,5 +1,3 @@
-(pytask)=
-
 ## Introduction to pytask
 
 [pytask](https://pytask-dev.readthedocs.io/en/stable/) is our tool of choice to automate

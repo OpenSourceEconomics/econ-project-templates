@@ -21,9 +21,9 @@ This code base aims to provide two stepping stones to assist you in achieving th
    structure time and again, which typically happens when incrementally building up a
    new project. Put differently, instead of starting from scratch, you modify an example
    for your needs.
-1. A pre-configured [computational environment](environments) including useful tools
+1. A pre-configured [computational environment](#environments) including useful tools
    [pytask](https://pytask-dev.readthedocs.io/en/stable/) and
-   [pre-commit hooks](pre_commit_hooks). These tools help you to automate the workflow
+   [pre-commit hooks](#pre_commit_hooks). These tools help you to automate the workflow
    of your project and to maintain a clean code base.
 
 The first should lure you in quickly. The second should convince you to stick to the
