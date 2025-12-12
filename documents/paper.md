@@ -10,12 +10,12 @@ If you are using this template, please cite this item from the references:
 
 +++
 
-:::{raw} latex
+```{raw} latex
 \clearpage
-:::
+```
 
-The data set for the template project is taken from the [stats4schools
-website](https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools).
+The data set for the template project is taken from the
+[stats4schools website](https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools).
 It contains data on smoking habits in the UK, with 1691 observations and 12 variables.
 
 We consider only 4 of the 12 features for the prediction of the variable `smoking`:
@@ -27,25 +27,25 @@ Figure :ref:`fig:predictions` illustrates the model of smoking propensity by mar
 status over the lifetime. Table :ref:`tab:summary` contains the estimation results of
 the linear Logistic regression.
 
-
-:::{figure} public/smoking_by_marital_status.png
-:width: 85%
-:label: fig:predictions
-
+```{figure} public/smoking_by_marital_status.png
+---
+width: 85%
+label: fig:predictions
+---
 Model predictions of the smoking probability over the lifetime. Each
 colored line represents a case where marital status is fixed to one of the
 values present in the data set.
-:::
+```
 
-::::{table} Estimation results of the linear Logistic regression.
-:label: tab:summary
-:align: center
+````{table} Estimation results of the linear Logistic regression.
+---
+label: tab:summary
+align: center
+---
+```{include} tables/estimation_results.md
+```
 
-:::{include} tables/estimation_results.md
-:::
+````
 
-::::
-
-
-:::{bibliography}
-:::
+```{bibliography}
+```

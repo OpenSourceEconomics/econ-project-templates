@@ -35,7 +35,7 @@ EXAMPLE UNIVERSITY
     author = {Hans-Martin von Gaudecker},
     note   = {\url{https://doi.org/10.5281/zenodo.2533240}},
     title  = {Templates for Reproducible Research Projects in Economics},
-    year   = {2019--}
+    year   = {2025}
   }
   ```
 
