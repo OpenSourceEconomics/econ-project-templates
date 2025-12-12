@@ -81,6 +81,7 @@ numpy = "*"
 pandas = ">=2.2"
 plotly = ">=6.5"
 pre-commit = "*"
+pygraphviz = "*"
 pytask  = ">=0.5.0"
 pytask-latex = ">=0.4.3"
 pytask-parallel = ">=0.5.0"
@@ -106,7 +107,7 @@ mystmd = "*"
 # For ReadTheDocs, we build and then copy to the expected output location
 build-docs = {cmd = "./build-docs.sh", cwd = "docs_template/source"}
 check-docs-urls = {cmd = "jupyter book build --html --check-links --strict", cwd = "docs_template/source"}
-
+recreate-dag = {cmd = "pixi run pytask dag --rank-direction TB --output-path docs_template/source/figures/dag.svg"}
 
 
 [tool.pixi.environments]

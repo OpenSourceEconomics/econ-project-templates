@@ -6,45 +6,52 @@ The following graph shows the contents of template_project root directory after
 executing `pytask`
 
 ```{mermaid}
-flowchart TD
-    Root["project root<br/>(gray: project structure)"]
+flowchart LR
+    Root["project root"]
 
-    Bld["bld<br/>(yellow: build outputs)"]
-    Documents["documents<br/>(green: documents / figures / tables)"]
-    Paper["paper.pdf<br/>(yellow: build outputs)"]
-    Presentation["presentation.pdf<br/>(yellow: build outputs)"]
-    Src["src<br/>(blue: source code)"]
-    Tests["tests<br/>(blue: source code)"]
+    Src["src/"]
+    SrcSub["template_project/"]
+    SrcSubDir["analysis/<br/>data/<br/>data_management/<br/>final/<br/>\_\_init\_\_.py<br/>config.py"]
+    Tests["tests/"]
+    Documents["documents/"]
+    DocumentsSource["paper.md<br/>presentation.md<br/>myst.yml<br/>refs.bib"]
+    DocumentsOutput["public/<br/>tables/"]
+    Bld["bld/"]
+    BldSub["data/<br/>figures/<br/>tables/<br/>models/<br/>predictions/<br/>documents/"]
+    Paper["paper.pdf"]
+    Presentation["presentation.pdf"]
 
-    BldSub["data<br/>figures<br/>tables<br/>models<br/>predictions<br/>documents"]
-    SrcSub["template_project<br/>(blue: source code)"]
-
-    SrcSubDir["analysis<br/>data<br/>data_management<br/>final<br/>config.py"]
-
-    Root --> Bld
     Root --> Paper
     Root --> Presentation
+    Root --> Bld
+    Root --> Documents
     Root --> Src
     Root --> Tests
 
     Bld --> BldSub
+    Documents --> DocumentsSource
+    Documents --> DocumentsOutput
     Src --> SrcSub
     SrcSub --> SrcSubDir
 
-    style Root fill:#8A9384,stroke:#333,stroke-width:2px,color:#fff
+    style Root fill:#04A96D,stroke:#333,stroke-width:2px,color:#fff
     style Bld fill:#FBBB06,stroke:#333,stroke-width:2px,color:#000
+    style Documents fill:#04A96D,stroke:#333,stroke-width:2px,color:#fff
     style Paper fill:#FBBB06,stroke:#333,stroke-width:2px,color:#000
     style Presentation fill:#FBBB06,stroke:#333,stroke-width:2px,color:#000
-    style Src fill:#04539C,stroke:#333,stroke-width:2px,color:#fff
-    style Tests fill:#04539C,stroke:#333,stroke-width:2px,color:#fff
+    style Src fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
+    style Tests fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style BldSub fill:#FBBB06,stroke:#333,stroke-width:1px,color:#000
-    style SrcSub fill:#04539C,stroke:#333,stroke-width:2px,color:#fff
+    style DocumentsSource fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
+    style DocumentsOutput fill:#04A96D,stroke:#333,stroke-width:1px,color:#fff
+    style SrcSub fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style SrcSubDir fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
 ```
 
-Files and directories in yellow are constructed by pytask; those with a bluish
-background are added directly by the researcher. You immediately see the **separation of
-inputs** and outputs (one of our guiding principles) at work:
+Files and directories in the `bld/` directory (yellow) are constructed by pytask; those
+in `src/` and `tests/` (blue) are added directly by the researcher. The `documents/`
+directory (green) contains source files for papers and presentations. You immediately
+see the **separation of inputs** and outputs (one of our guiding principles) at work:
 
 - All source code is in the src directory
 - All outputs are constructed in the bld directory
@@ -53,18 +60,17 @@ inputs** and outputs (one of our guiding principles) at work:
 
 ```
 
-The contents of both the root/bld and the root/src directories directly follow the steps
-of the analysis from the workflow section.
+The contents of the root/src/template_project directory follow the steps of the analysis
+workflow, with subdirectories for data management, analysis, and final output
+generation.
 
-The idea is that everything that needs to be run during the, say, **analysis** step, is
-specified in root/src/analysis and all its output is placed in root/bld/analysis.
+All outputs from these steps are placed in the root/bld directory, organized by type:
 
-Some differences:
-
-- Because they are accessed frequently, figures and the like get extra directories in
-  root/bld
-
-- The directory root/src contains many more subdirectories and files:
+- Data processing outputs go to root/bld/data
+- Model outputs go to root/bld/models and root/bld/predictions
+- Final figures go to root/bld/figures
+- Final tables go to root/bld/tables
+- Compiled documents go to root/bld/documents
 
 ### Documents directory structure
 
@@ -98,18 +104,19 @@ Markdown directives (e.g., `{figure}` and `{include}`).
 Lets go one step deeper and consider the root/src directory in more detail:
 
 ```{mermaid}
-flowchart TD
-    Root["src/template_project<br/>(gray: source code)"]
+flowchart LR
+    Root["src/template_project/"]
 
-    Analysis["analysis<br/>(blue: source code)"]
-    Data["data<br/>(blue: source code)"]
-    DataMgmt["data_management<br/>(blue: source code)"]
-    Final["final<br/>(blue: source code)"]
-    Config["config.py<br/>(blue: source code)"]
+    Analysis["analysis/"]
+    Data["data/"]
+    DataMgmt["data_management/"]
+    Final["final/"]
+    Config["\_\_init\_\_.py<br/>config.py"]
 
-    AnalysisFiles["__init__.py<br/>model.py<br/>predict.py"]
-    DataMgmtFiles["__init__.py<br/>clean_data.py"]
-    FinalFiles["__init__.py<br/>plot.py"]
+    AnalysisFiles["\_\_init\_\_.py<br/>model_template.py<br/>predict_template.py<br/>task_analysis_template.py"]
+    DataFiles["stats4schools_smoking_template.csv"]
+    DataMgmtFiles["\_\_init\_\_.py<br/>stats4schools_smoking_template.py<br/>task_data_management_template.py"]
+    FinalFiles["\_\_init\_\_.py<br/>plot_template.py<br/>task_final_template.py"]
 
     Root --> Analysis
     Root --> Data
@@ -118,16 +125,18 @@ flowchart TD
     Root --> Config
 
     Analysis --> AnalysisFiles
+    Data --> DataFiles
     DataMgmt --> DataMgmtFiles
     Final --> FinalFiles
 
-    style Root fill:#8A9384,stroke:#333,stroke-width:2px,color:#fff
+    style Root fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style Analysis fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style Data fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style DataMgmt fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style Final fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style Config fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style AnalysisFiles fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
+    style DataFiles fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
     style DataMgmtFiles fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
     style FinalFiles fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
 ```
