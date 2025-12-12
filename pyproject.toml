@@ -105,6 +105,8 @@ mystmd = "*"
 # Jupyter Book 2.0 builds site content to _build/html by default
 # For ReadTheDocs, we build and then copy to the expected output location
 build-docs = {cmd = "./build-docs.sh", cwd = "docs_template/source"}
+check-docs-urls = {cmd = "jupyter book build --html --check-links --strict", cwd = "docs_template/source"}
+
 
 
 [tool.pixi.environments]
