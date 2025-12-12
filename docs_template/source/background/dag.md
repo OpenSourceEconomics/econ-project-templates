@@ -26,9 +26,10 @@ dependency structure can be complex.
 In a first run, all targets have to be generated, of course. In later runs, a target
 only needs to be re-generated if one of its direct **dependencies** changes. E.g. when
 we alter `documents/presentation.md` (mid-right) we need to rebuild only the
-presentation pdf file. If we alter `rrt/data_management/data_info_template.yaml`
-(top-right), however, we need to rebuild everything. Note, that the only important thing
-at this point is to understand the general idea.
+presentation pdf file. If we alter
+`src/template_project/data_management/task_data_management_template.py` (top-right),
+however, we need to rebuild everything. Note, that the only important thing at this
+point is to understand the general idea.
 
 Of course this is overkill for a simple example -- we could easily keep the code closer
 together than this. But such a strategy does not scale to serious papers with many
