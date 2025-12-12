@@ -1,10 +1,11 @@
 # Release Notes
 
 
-## v0.11 —
+## v0.11 — December 2025
 
 - Remove LaTeX in favor of Jupyter Book / MyST and Slidev.
 - Switch docs from Sphinx to Jupyter Book.
+- Many improvements to the documentation.
 
 ## v0.10.1 — March 2025
 
