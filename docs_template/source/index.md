@@ -54,17 +54,3 @@ you want to start a new project from scratch or port existing code into the stru
 suggested in this project. The page also points you to some useful features of helper
 programmes that come with the templates. The documentation follows the Python version of
 the running example; see {ref}`programming_languages` for additional options.
-
-```{toctree}
----
-maxdepth: 1
----
-getting_started/index
-background/index
-guides_explanations/index
-programming_languages/index
-faq
-development/index
-release_notes
-zreferences
-```

@@ -1,12 +1,25 @@
 # Release Notes
 
-## v0.9.1 -- March 2025
+
+## v0.11 --
+
+- Remove LaTeX in favor of Jupyter Book / MyST and Slidev.
+- Switch docs from Sphinx to Jupyter Book.
+
+## v0.10.1 -- March 2025
+
+- Fix codespell ignore.
+- Update documentation testing.
+- Fix some references and clean up heading level.
+
+
+## v0.10.0 -- March 2025
 
 - Remove R example.
 
 ## v0.9.0 -- March 2025
 
-- Switch to pixi
+- Switch to pixi.
 
 ## v0.8.4 -- October 2024
 

@@ -1,0 +1,16 @@
+---
+# Jupyter Book 2.0 configuration
+# See: https://jupyterbook.org/stable/get-started/init/
+version: 1
+project:
+  id: econ-project-templates
+  title: Templates for Reproducible Research
+  description: Template for reproducible research projects in economics
+  authors:
+    - name: JANE DOE
+      email: janedoe@example-university.com
+  keywords: [reproducible-research, economics, pytask, python]
+site:
+  template: book-theme
+  options:
+    bibtex: refs.bib

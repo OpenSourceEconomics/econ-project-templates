@@ -97,26 +97,14 @@ pdbp = "*"
 tabulate = "*"
 
 [tool.pixi.feature.docs.dependencies]
-furo = "*"
-myst-parser = "*"
-nbsphinx = "*"
-pydata-sphinx-theme = ">=0.3.0"
-sphinx = "*"
-sphinx-autoapi = "*"
-sphinx-click = "*"
-sphinx-copybutton = "*"
-sphinx-panels = "*"
-sphinxcontrib-bibtex = "*"
-standard-imghdr = "*"
+jupyter-book = ">=2.0"
+mystmd = "*"
 
 [tool.pixi.feature.docs.tasks]
-# The 'build-docs' command can be used to build the docs locally or on ReadTheDocs. The
-# env variable READTHEDOCS_OUTPUT is set by ReadTheDocs. If it is not set, the default
-# value is used, which is what we want for local builds.
-build-docs = { cmd = "sphinx-build -T -b html -d {{ READTHEDOCS_OUTPUT }}/doctrees -D language=en . {{ READTHEDOCS_OUTPUT }}/html", cwd = "docs_template/source" , args = [{"arg" = "READTHEDOCS_OUTPUT", "default" = "../build"}]}
-# The 'check-docs-urls' command is only run locally and on the CI. It checks all URLs in
-# the documentation for validity.
-check-docs-urls = { cmd = "sphinx-build -T -b linkcheck -d ../build/doctrees -D language=en . ../build/linkcheck", cwd = "docs_template/source" }
+# The 'build-docs' command can be used to build the docs locally or on ReadTheDocs.
+# Jupyter Book 2.0 builds site content to _build/html by default
+# For ReadTheDocs, we build and then copy to the expected output location
+build-docs = {cmd = "./build-docs.sh", cwd = "docs_template/source"}
 
 
 [tool.pixi.environments]
