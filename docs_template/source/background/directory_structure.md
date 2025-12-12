@@ -54,9 +54,14 @@ directory (green) contains source files for papers and presentations. You immedi
 see the **separation of inputs** and outputs (one of our guiding principles) at work:
 
 - All source code is in the src directory
-- All outputs are constructed in the bld directory
+- All outputs are constructed in the bld directory.
+- The exception are figures and tables for the paper and presentation. Tools expect
+  these to be close (and the "public" directory is a fixed name for slidev).
 
-```{note} The paper and presentation are copied to the root so they can be opened easily
+```{note}
+
+The paper and presentation are copied from `bld/documents` to the root
+directory so they can be opened easily
 
 ```
 
@@ -146,8 +151,9 @@ using the [pathlib](https://realpython.com/python-pathlib/) library. This ensure
 your project can be used on different machines and it minimises the potential for
 cross-platform errors.
 
-For running Python source code from pytask, simply include `depends_on` and `produces`
-as inputs to your function.
+For running Python source code from pytask, simply include `pathlib.Path`s to the
+dependencies and similar path(s) for the special keyword `produces` as the default
+arguments to your function.
 
 For running scripts in other languages, pass all required files (inputs, log files,
 outputs) as arguments to the `@pytask.mark.[x]`-decorator. You can then read them in.
