@@ -1,4 +1,8 @@
-### Programme installation
+(preparing_your_system)=
+
+# Preparing your system and getting the template
+
+## Programme installation
 
 Make sure you have the following programs installed and that these can be found on your
 path. This template requires

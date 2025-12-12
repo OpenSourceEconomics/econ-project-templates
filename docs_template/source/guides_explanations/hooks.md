@@ -1,3 +1,7 @@
+(pre_commit_hooks)=
+
+# Pre-Commit Hooks
+
 Pre-commit hooks are checks and syntax formatters that run upon every commit. If one of
 the hooks fails, the commit is aborted and you have to commit again after you resolved
 the issues raised by the hooks. Pre-commit hooks are defined in the

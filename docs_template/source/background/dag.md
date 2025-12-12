@@ -1,4 +1,6 @@
-## Directed Acyclic Graphs
+(dag)=
+
+# Directed Acyclic Graphs
 
 The way to specify dependencies between data, code and tasks to perform for a computer
 is a directed acyclic graph. A graph is simply a set of nodes (files, in our case) and

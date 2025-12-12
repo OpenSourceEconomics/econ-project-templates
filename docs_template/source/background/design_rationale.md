@@ -1,4 +1,6 @@
-## Design Rationale
+(design_rationale)=
+
+# Design Rationale
 
 The design of the project templates is guided by the following main thoughts:
 

@@ -7,33 +7,3 @@ This includes a short explanation of the content of the pre-installed example, t
 design rationale, discussion of the workflow, the directory structure we chose, and a
 little background on directed acyclic graphs and pytask. There is not much reference to
 code or a particular programming language here, this is relegated to the next section.
-
-(running_example)=
-
-```{include} running_example.md
-```
-
-(design_rationale)=
-
-```{include} design_rationale.md
-```
-
-(workflow)=
-
-```{include} workflow.md
-```
-
-(directory_structure)=
-
-```{include} directory_structure.md
-```
-
-(dag)=
-
-```{include} dag.md
-```
-
-(pytask)=
-
-```{include} pytask.md
-```

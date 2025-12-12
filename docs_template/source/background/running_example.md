@@ -1,4 +1,6 @@
-## Running example
+(running_example)=
+
+# Running example
 
 `template_project` that will be installed with the templates is a simple empirical
 project. Its abstract might read:

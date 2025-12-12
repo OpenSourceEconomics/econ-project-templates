@@ -18,24 +18,3 @@ Once you are set up in this fashion, you may want to read up on some additional
 information in the {ref}`background` section. In case you know those already, have a
 look in {ref}`guides_explanations` for guides on starting new projects or porting
 existing ones.
-
-(preparing_your_system)=
-
-## Preparing your system and getting the template
-
-```{include} preparing_your_system.md
-```
-
-(template_setup)=
-
-## Customising the template for your needs
-
-```{include} customising_the_template.md
-```
-
-(second_machine)=
-
-## How to get started on a second machine
-
-```{include} second_machine.md
-```

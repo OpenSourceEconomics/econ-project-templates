@@ -1,4 +1,6 @@
-## Directory Structure
+(directory_structure)=
+
+# Directory Structure
 
 ### The big picture
 
