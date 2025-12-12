@@ -14,4 +14,4 @@ build:
       html: [pixi run -e docs build-docs]
     post_build:
       - mkdir --parents $READTHEDOCS_OUTPUT/html/
-      - cp -r doc_templates/_build/html/* $READTHEDOCS_OUTPUT/html/
+      - cp -r docs_template/source/_build/html/* $READTHEDOCS_OUTPUT/html/

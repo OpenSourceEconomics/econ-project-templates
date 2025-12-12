@@ -4,12 +4,14 @@
 version: 1
 project:
   id: econ-project-templates
-  title: Templates for Reproducible Research
-  description: Template for reproducible research projects in economics
+  title: Templates for Reproducible Research Projects in Economics
+  description: >-
+    A sensible directory structure and pre-configured computational environment, tied
+    together by pytask.
   authors:
-    - name: JANE DOE
-      email: janedoe@example-university.com
-  keywords: [reproducible-research, economics, pytask, python]
+    - name: Hans-Martin von Gaudecker
+      email: hmgaudecker@uni-bonn.de
+  keywords: [reproducible research, economics, pytask, python]
 site:
   template: book-theme
   options:
