@@ -2,6 +2,10 @@
 
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.io as pio
+
+# pio.templates.default = "plotly_dark+presentation" # noqa: ERA001
+pio.templates.default = "plotly_white+presentation"
 
 
 def plot_regression_by_age(data, predictions, group):

@@ -1,3 +1,7 @@
+(environments)=
+
+# Pixi Environments
+
 Progammes change. Few things are as frustrating as coming back to a project after a long
 time and spending the first {hours, days} updating your code to work with a new version
 of your favourite data analysis library. The same holds for debugging errors that occur

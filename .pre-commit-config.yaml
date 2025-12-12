@@ -68,11 +68,12 @@ repos:
       - id: mdformat
         additional_dependencies: [mdformat-myst, mdformat-ruff]
         args: [--wrap, '88']
-        files: (docs_template/.)
+        files: (docs_template/.|documents/.)
+        exclude: (documents/presentation.md)
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
       - id: codespell
-        exclude: pixi.lock|inst/WORDLIST|ipynb
+        exclude: package-lock.json|node_modules|pixi.lock|inst/WORDLIST|ipynb
 ci:
   autoupdate_schedule: monthly

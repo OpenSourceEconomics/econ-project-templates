@@ -9,6 +9,9 @@ build:
       - asdf plugin add pixi
       - asdf install pixi latest
       - asdf global pixi latest
-    install: [pixi install -e docs]
+    install: [pixi install, pixi run npm install]
     build:
-      html: [pixi run -e docs build-docs $READTHEDOCS_OUTPUT]
+      html: [pixi run -e docs build-docs]
+    post_build:
+      - mkdir --parents $READTHEDOCS_OUTPUT/html/
+      - cp -r docs_template/source/_build/html/* $READTHEDOCS_OUTPUT/html/

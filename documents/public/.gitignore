@@ -1,0 +1,5 @@
+*.svg
+*.png
+*.jpg
+# Override for static figures with
+!image.svg

@@ -1,0 +1,52 @@
+---
+# Jupyter Book 2.0 configuration
+# See: https://jupyterbook.org/stable/get-started/init/
+version: 1
+project:
+  id: econ-project-templates
+  title: Templates for Reproducible Research Projects in Economics
+  description: >-
+    A sensible directory structure and pre-configured computational environment, tied
+    together by pytask.
+  authors:
+    - name: Hans-Martin von Gaudecker
+      email: hmgaudecker@uni-bonn.de
+  keywords: [reproducible research, economics, pytask, python]
+  toc:
+    - file: index.md
+    - file: getting_started/introduction.md
+      children:
+        - file: getting_started/preparing_your_system.md
+        - file: getting_started/customising_the_template.md
+        - file: getting_started/second_machine.md
+    - file: background/introduction.md
+      children:
+        - file: background/running_example.md
+        - file: background/design_rationale.md
+        - file: background/workflow.md
+        - file: background/directory_structure.md
+        - file: background/dag.md
+        - file: background/pytask.md
+    - file: guides_explanations/introduction.md
+      children:
+        - file: guides_explanations/starting_from_scratch.md
+        - file: guides_explanations/porting_existing_project.md
+        - file: guides_explanations/environments.md
+        - file: guides_explanations/hooks.md
+    - file: programming_languages/index.md
+    - file: faq.md
+    - file: development/introduction.md
+      children:
+        - file: development/how-to-contribute.md
+    - file: release_notes.md
+    - file: references.md
+  error_rules:
+    - rule: math-eqnarray-replaced
+      severity: ignore
+    - rule: link-resolves
+      severity: ignore
+      keys: ['https://www.computerhope.com/**']
+site:
+  template: book-theme
+  options:
+    bibtex: refs.bib

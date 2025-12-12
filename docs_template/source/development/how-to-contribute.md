@@ -1,3 +1,5 @@
+# How to contribute
+
 Contributions are always welcome. Everything ranging from small extensions of the
 documentation to implementing new features is appreciated. Of course, the bigger the
 change the more it is necessary to reach out to us in advance for an discussion. You can

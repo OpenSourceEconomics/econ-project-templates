@@ -1,0 +1,10 @@
+{
+  "name": "template_project",
+  "version": "0.0.1",
+  "dependencies": {
+    "@slidev/cli": "*",
+    "@slidev/theme-default": "*",
+    "playwright-chromium": "*",
+    "slidev-theme-academic": "^1.3.0"
+  }
+}

@@ -1,6 +1,6 @@
 (workflow)=
 
-## How to Organize the Workflow?
+# How to Organize the Workflow?
 
 A naive way to ensure reproducibility is to have a *workflow script* (do-file, m-file,
 ...) that runs each file one after the other. One way to implement that for the above

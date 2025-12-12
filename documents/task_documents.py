@@ -1,33 +1,63 @@
 """Tasks for compiling the paper and presentation(s)."""
 
 import shutil
+import subprocess
+import sys
 
 import pytask
-from pytask_latex import compilation_steps as cs
 
-from template_project.config import BLD, DOCUMENTS, ROOT
+from template_project.config import DOCUMENTS, ROOT
 
-documents = ["paper", "presentation"]
 
-for document in documents:
-
-    @pytask.mark.latex(
-        script=DOCUMENTS / f"{document}.tex",
-        document=BLD / "documents" / f"{document}.pdf",
-        compilation_steps=cs.latexmk(
-            options=("--pdf", "--interaction=nonstopmode", "--synctex=1", "--cd"),
+@pytask.task(id="paper")
+def task_compile_paper(
+    paper_md=DOCUMENTS / "paper.md",
+    myst_yml=DOCUMENTS / "myst.yml",
+    refs=DOCUMENTS / "refs.bib",
+    figure=DOCUMENTS / "public" / "smoking_by_marital_status.png",
+    table=DOCUMENTS / "tables" / "estimation_results.md",
+    produces=ROOT / "paper.pdf",
+):
+    """Compile the paper from MyST Markdown to PDF using Jupyter Book 2.0."""
+    # Jupyter Book 2.0 uses myst.yml and builds from the project directory
+    # The export is defined in myst.yml, so we build from the documents directory
+    subprocess.run(
+        (
+            "jupyter",
+            "book",
+            "build",
+            "--pdf",
         ),
+        check=True,
+        cwd=DOCUMENTS.absolute(),
     )
-    @pytask.task(id=document)
-    def task_compile_document():
-        """Compile the document specified in the latex decorator."""
+    # Jupyter Book creates PDF in _build/exports/paper.pdf or _build/temp/*/paper.pdf
+    # Find and copy to produces location
+    build_pdf = DOCUMENTS / "_build" / "exports" / "paper.pdf"
+    shutil.copy(build_pdf, produces)
 
-    kwargs = {
-        "depends_on": BLD / "documents" / f"{document}.pdf",
-        "produces": ROOT / f"{document}.pdf",
-    }
 
-    @pytask.task(id=document, kwargs=kwargs)
-    def task_copy_to_root(depends_on, produces):
-        """Copy a document to the root directory for easier retrieval."""
-        shutil.copy(depends_on, produces)
+@pytask.task(id="presentation")
+def task_compile_presentation(
+    pres_md=DOCUMENTS / "presentation.md",
+    table=DOCUMENTS / "tables" / "estimation_results.md",
+    figure=DOCUMENTS / "public" / "smoking_by_marital_status.png",
+    produces=ROOT / "presentation.pdf",
+):
+    """Compile the presentation from Slidev Markdown to PDF."""
+    if sys.platform == "win32":
+        shell = True
+    else:
+        shell = False
+    subprocess.run(
+        (
+            "npx",
+            "slidev",
+            "export",
+            pres_md.absolute(),
+            "--output",
+            produces.absolute(),
+        ),
+        check=True,
+        shell=shell,
+    )

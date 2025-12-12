@@ -1,4 +1,8 @@
-### Programme installation
+(preparing_your_system)=
+
+# Preparing your system and getting the template
+
+## Programme installation
 
 Make sure you have the following programs installed and that these can be found on your
 path. This template requires
@@ -44,7 +48,9 @@ of manual work, in particular on Windows.
   project, in particular, pixi (this contains the required Python distribution), a LaTeX
   distribution, the text editor VS Code, Git, and any other program that you need for
   your project (R, Julia, Stata). Otherwise, add them by looking up their paths on your
-  computer and follow the steps described here {ref}`path_windows` or {ref}`path_mac`.
+  computer and follow the steps described in the {ref}`faq` section (see the sections on
+  "PATH environmental variable in Windows" and "Adding directories to the PATH: MacOS
+  and Linux").
 
 - If you added any directory to *PATH*, you need to close and reopen your shell, so that
   this change is implemented.

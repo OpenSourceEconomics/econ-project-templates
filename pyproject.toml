@@ -74,46 +74,40 @@ channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
 [tool.pixi.dependencies]
-python = "~=3.13.0"
+jupyter-book = ">=2.0"
 jupyterlab = "*"
+nodejs = "*"
+numpy = "*"
+pandas = ">=2.2"
+plotly = ">=6.5"
 pre-commit = "*"
+pygraphviz = "*"
 pytask  = ">=0.5.0"
 pytask-latex = ">=0.4.3"
 pytask-parallel = ">=0.5.0"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
+python = "~=3.13.0"
+python-kaleido = ">=1.1"
 statsmodels = "*"
-numpy = "*"
-pandas = ">=2.2"
-plotly = ">=6.1.1"
 
 [tool.pixi.pypi-dependencies]
 template_project = {path = ".", editable = true}
 pdbp = "*"
-kaleido = ">=1.1"
+tabulate = "*"
 
 [tool.pixi.feature.docs.dependencies]
-furo = "*"
-myst-parser = "*"
-nbsphinx = "*"
-pydata-sphinx-theme = ">=0.3.0"
-sphinx = "*"
-sphinx-autoapi = "*"
-sphinx-click = "*"
-sphinx-copybutton = "*"
-sphinx-panels = "*"
-sphinxcontrib-bibtex = "*"
-standard-imghdr = "*"
+jupyter-book = ">=2.0"
+mystmd = "*"
 
 [tool.pixi.feature.docs.tasks]
-# The 'build-docs' command can be used to build the docs locally or on ReadTheDocs. The
-# env variable READTHEDOCS_OUTPUT is set by ReadTheDocs. If it is not set, the default
-# value is used, which is what we want for local builds.
-build-docs = { cmd = "sphinx-build -T -b html -d {{ READTHEDOCS_OUTPUT }}/doctrees -D language=en . {{ READTHEDOCS_OUTPUT }}/html", cwd = "docs_template/source" , args = [{"arg" = "READTHEDOCS_OUTPUT", "default" = "../build"}]}
-# The 'check-docs-urls' command is only run locally and on the CI. It checks all URLs in
-# the documentation for validity.
-check-docs-urls = { cmd = "sphinx-build -T -b linkcheck -d ../build/doctrees -D language=en . ../build/linkcheck", cwd = "docs_template/source" }
+# The 'build-docs' command can be used to build the docs locally or on ReadTheDocs.
+# Jupyter Book 2.0 builds site content to _build/html by default
+# For ReadTheDocs, we build and then copy to the expected output location
+build-docs = {cmd = "./build-docs.sh", cwd = "docs_template/source"}
+check-docs-urls = {cmd = "jupyter book build --html --check-links --strict", cwd = "docs_template/source"}
+recreate-dag = {cmd = "pixi run pytask dag --rank-direction TB --output-path docs_template/source/figures/dag.svg"}
 
 
 [tool.pixi.environments]
@@ -143,7 +137,6 @@ extend-ignore = [
     "COM812", # Conflict with ruff-format
     "D10",  # Missing docstrings
     "ISC001", # Conflict with ruff-format
-    "PD901", # df is a great name with functional data management
     "PLR0913",  # Too many arguments in function definition
     "RET504", # Don't force to calculate upon return
     "S101",  # Use of `assert` detected.
@@ -152,7 +145,7 @@ extend-ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["D", "PD011"]
-"task_*.py" = ["ANN", "ARG001"]
+"task_*.py" = ["ANN", "ARG001", "S603"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
@@ -177,3 +170,4 @@ norecursedirs = ["docs"]
 [tool.yamlfix]
 line_length = 88
 none_representation = "null"
+preserve_quotes = true

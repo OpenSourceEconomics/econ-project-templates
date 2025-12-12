@@ -1,7 +1,11 @@
+(template_setup)=
+
+# Customising the template for your needs
+
 Once you've created a new repository from the template, you can begin customising it to
 meet your specific needs.
 
-### First step: Rename the project
+## First step: Rename the project
 
 Open the entire directory in VS Code. Search for `template_project` in the entire
 codebase and replace it with `new_project_name`, i.e., a concise version of your
