@@ -40,6 +40,7 @@ def task_compile_paper(
 @pytask.task(id="presentation")
 def task_compile_presentation(
     pres_md=DOCUMENTS / "presentation.md",
+    table=DOCUMENTS / "tables" / "estimation_results.md",
     figure=DOCUMENTS / "public" / "smoking_by_marital_status.png",
     produces=ROOT / "presentation.pdf",
 ):

@@ -37,7 +37,16 @@ def task_create_results_table(
     summary = model.summary()
     coef_table = summary.tables[1]
 
-    coef_df = pd.DataFrame(coef_table.data[1:], columns=coef_table.data[0])
+    coef_df = pd.DataFrame(coef_table.data[1:], columns=coef_table.data[0]).set_index(
+        ""
+    )
+
+    # Escape special Markdown characters in column names and index
+    for char in "|", "[", "]":
+        escaped = f"\\{char}"
+        coef_df.columns = coef_df.columns.str.replace(char, escaped, regex=False)
+        coef_df.index = coef_df.index.str.replace(char, escaped, regex=False)
+
     # Write as markdown table using pandas to_markdown
     with produces.open("w") as f:
-        f.write(coef_df.to_markdown(index=False))
+        f.write(coef_df.to_markdown(index=True))

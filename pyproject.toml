@@ -96,19 +96,6 @@ template_project = {path = ".", editable = true}
 pdbp = "*"
 tabulate = "*"
 
-[tool.pixi.feature.docs.dependencies]
-furo = "*"
-myst-parser = "*"
-nbsphinx = "*"
-pydata-sphinx-theme = ">=0.3.0"
-sphinx = "*"
-sphinx-autoapi = "*"
-sphinx-click = "*"
-sphinx-copybutton = "*"
-sphinx-panels = "*"
-sphinxcontrib-bibtex = "*"
-standard-imghdr = "*"
-
 [tool.pixi.feature.docs.tasks]
 # The 'build-docs' command can be used to build the docs locally or on ReadTheDocs. The
 # env variable READTHEDOCS_OUTPUT is set by ReadTheDocs. If it is not set, the default

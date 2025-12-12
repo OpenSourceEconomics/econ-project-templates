@@ -50,5 +50,10 @@ EXAMPLE UNIVERSITY
 Model predictions of the smoking probability over the lifetime. Each colored line represents a case where marital status is fixed to one of the values present in the data set.
 
 ---
+src: ./tables/estimation_results.md
+---
+
+
+---
 layout: end
 ---
