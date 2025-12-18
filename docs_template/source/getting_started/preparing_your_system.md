@@ -18,7 +18,7 @@ path. This template requires
 - The text editor [VS Code](https://code.visualstudio.com/), unless you know what you
   are doing.
 
-### Validating the installation paths
+## Validating the installation paths
 
 If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
 terminal. As everything will be started from the Powershell/Terminal, you need to make
@@ -87,7 +87,7 @@ of manual work, in particular on Windows.
 
   If required, do the same for R, Julia, or Stata.
 
-### Navigating to the parent folder and validating Git
+## Navigating to the parent folder and validating Git
 
 In the Powershell/Terminal, navigate to the parent folder of your future project.
 
@@ -105,7 +105,7 @@ Type `git status` , this should yield the output:
 fatal: not a git repository (or any of the parent directories): .git
 ```
 
-### Installing the template
+## Installing the template
 
 To install the template repository, first go to the
 [econ-project-templates](https://github.com/OpenSourceEconomics/econ-project-templates)

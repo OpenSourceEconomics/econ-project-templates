@@ -13,7 +13,7 @@ this. This page describes them a little bit and explains their use.
 
 The following commands can either be executed in a terminal or the Powershell (Windows).
 
-### Using the environment
+## Using the environment
 
 - The templates ship with a pre-configured environment.
 
@@ -22,7 +22,7 @@ The following commands can either be executed in a terminal or the Powershell (W
 - When you type `pixi run ...` or `pixi install`, the packages are downloaded to the
   `.pixi` folder in the project root.
 
-### Updating packages
+## Updating packages
 
 Precise versions of packages are pinned down in the file `pixi.lock`, ensuring
 reproducibility. If you want to update a package, make sure that you are in the project
@@ -40,7 +40,7 @@ $ pixi update [package]
 
 to update a specific `[package]`.
 
-### Installing additional packages
+## Installing additional packages
 
 To list installed packages, type
 
@@ -59,6 +59,7 @@ $ pixi add [package]
 You will notice that the pixi section in the pyproject.toml file is then also updated
 with the added package.
 
+```{note}
 **Choosing between conda-forge and PyPI**
 
 If you add a package under `[tool.pixi.dependencies]` in the pyproject.toml file, pixi
@@ -70,3 +71,4 @@ Generally it is recommended to use *conda-forge* whenever possible. It is a nece
 for many scientific packages. These often are not pure-Python code and pip is built
 mainly for that. For pure-Python packages, sometimes nobody bothered to set up a
 conda-forge package and we use *pip*.
+```

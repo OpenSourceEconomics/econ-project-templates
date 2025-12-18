@@ -30,7 +30,7 @@ there (including intermediate output), it is never kept under version control, a
 can be safely removed -- everything in it will be reconstructed automatically the next
 time you run `pytask`.
 
-### Pytask Overview
+## Pytask Overview
 
 From a high-level perspective, pytask works in the following way:
 

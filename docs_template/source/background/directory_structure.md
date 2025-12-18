@@ -2,7 +2,7 @@
 
 # Directory Structure
 
-### The big picture
+## The big picture
 
 The following graph shows the contents of template_project root directory after
 executing `pytask`
@@ -79,7 +79,7 @@ All outputs from these steps are placed in the root/bld directory, organized by 
 - Final tables go to root/bld/tables
 - Compiled documents go to root/bld/documents
 
-### Documents directory structure
+## Documents directory structure
 
 The `documents/` directory contains the source files for papers and presentations:
 
@@ -106,7 +106,7 @@ The tasks in `src/template_project/final/task_final_template.py` generate:
 These generated files are then included in the paper and presentation using MyST
 Markdown directives (e.g., `{figure}` and `{include}`).
 
-### Zooming in
+## Zooming in
 
 Lets go one step deeper and consider the root/src directory in more detail:
 
