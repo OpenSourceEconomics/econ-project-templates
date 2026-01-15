@@ -1,7 +1,5 @@
 """Functions for predicting outcomes based on the estimated model."""
 
-from typing import Any
-
 import numpy as np
 import pandas as pd
 from numpy.typing import NDArray
@@ -41,10 +39,10 @@ def predict_prob_by_age(
     cols_to_set = list(set(data.columns) - {group, "age", "current_smoker"})
     new_data = new_data.assign(**dict(mode.loc[0, cols_to_set]))
 
-    predicted: dict[str, Any] = {"age": age_grid}
+    result = pd.DataFrame({"age": age_grid})
     for group_value in data[group].unique():
         _new_data = new_data.copy()
         _new_data[group] = group_value
-        predicted[group_value] = model.predict(_new_data)
+        result[group_value] = model.predict(_new_data)
 
-    return pd.DataFrame(predicted)
+    return result
