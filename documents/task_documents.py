@@ -24,12 +24,13 @@ for fmt, produces in {
         produces: Path = produces,
     ) -> None:
         """Compile the paper from MyST Markdown using Jupyter Book 2.0."""
+        fmt = produces.suffix.lstrip(".")
         subprocess.run(
-            ("jupyter", "book", "build", f"--{produces.suffix}"),
+            ("jupyter", "book", "build", f"--{fmt}"),
             check=True,
             cwd=DOCUMENTS.absolute(),
         )
-        if produces.suffix == "pdf":
+        if fmt == "pdf":
             build_pdf = DOCUMENTS / "_build" / "exports" / "paper.pdf"
             shutil.copy(build_pdf, produces)
 
