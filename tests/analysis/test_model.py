@@ -6,11 +6,11 @@ import pytest
 
 from template_project.analysis.model_template import fit_logit_model
 
-DESIRED_PRECISION = 10e-2
+DESIRED_PRECISION: float = 10e-2
 
 
 @pytest.fixture
-def data():
+def data() -> pd.DataFrame:
     rng = np.random.default_rng(seed=0)
     x = rng.normal(size=100_000)
     coef = 2.0
@@ -20,7 +20,7 @@ def data():
     )
 
 
-def test_fit_logit_model_recover_coefficients(data):
+def test_fit_logit_model_recover_coefficients(data: pd.DataFrame) -> None:
     formula = "outcome_numerical ~ covariate"
     model = fit_logit_model(data, formula=formula)
     params = model.params

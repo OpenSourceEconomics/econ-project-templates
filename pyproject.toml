@@ -77,20 +77,20 @@ platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 jupyter-book = ">=2.0"
 jupyterlab = "*"
 nodejs = "*"
-numpy = "*"
+numpy = ">=2.4"
 pandas = ">=2.2"
 plotly = ">=6.5"
 pre-commit = "*"
 pygraphviz = "*"
-pytask  = ">=0.5.0"
-pytask-latex = ">=0.4.3"
-pytask-parallel = ">=0.5.0"
+pytask  = "*"
+pytask-parallel = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
-python = "~=3.13.0"
+python = "~=3.14.0"
 python-kaleido = ">=1.1"
 statsmodels = "*"
+ty = "*"
 
 [tool.pixi.pypi-dependencies]
 template_project = {path = ".", editable = true}
@@ -127,7 +127,7 @@ pdbcls = "pdbp:Pdb"
 # ======================================================================================
 
 [tool.ruff]
-target-version = "py313"
+target-version = "py314"
 fix = true
 
 [tool.ruff.lint]
@@ -139,8 +139,11 @@ extend-ignore = [
     "ISC001", # Conflict with ruff-format
     "PLR0913",  # Too many arguments in function definition
     "RET504", # Don't force to calculate upon return
-    "S101",  # Use of `assert` detected.
+    "S101",  # U13se of `assert` detected.
     "S301",  # pickle module is unsafe
+    "TC002",  # Move third-party import into a type-checking block
+    "TC003",  # Move standard library import into a type-checking block
+
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -149,6 +152,35 @@ extend-ignore = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+# ======================================================================================
+# ty configuration
+# ======================================================================================
+
+[tool.ty.environment]
+root = ["."]
+
+[tool.ty.src]
+include = ["src/", "tests/"]
+
+[tool.ty.rules]
+ambiguous-protocol-member = "error"
+deprecated = "error"
+division-by-zero = "error"
+ignore-comment-unknown-rule = "error"
+invalid-argument-type = "error"
+invalid-ignore-comment = "error"
+invalid-return-type = "error"
+possibly-missing-attribute = "error"
+possibly-missing-implicit-call = "error"
+possibly-missing-import = "error"
+possibly-unresolved-reference = "error"
+redundant-cast = "error"
+undefined-reveal = "error"
+unresolved-global = "error"
+unsupported-base = "error"
+unused-ignore-comment = "error"
+useless-overload-body = "error"
 
 # ======================================================================================
 # Miscellaneous tools configuration

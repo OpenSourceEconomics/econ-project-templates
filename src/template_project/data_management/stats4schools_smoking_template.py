@@ -3,7 +3,7 @@
 import pandas as pd
 
 
-def clean_stats4schools_smoking(data):
+def clean_stats4schools_smoking(data: pd.DataFrame) -> pd.DataFrame:
     """Clean the smoking data set from stats4schools.
 
     Original source of the data can be found here: https://www.stem.org.uk/rxvt6.
@@ -28,11 +28,11 @@ def clean_stats4schools_smoking(data):
     return clean
 
 
-def _clean_gender(sr):
+def _clean_gender(sr: pd.Series) -> pd.Categorical:
     return pd.Categorical(sr, categories=["Female", "Male"], ordered=False)
 
 
-def _clean_marital_status(sr):
+def _clean_marital_status(sr: pd.Series) -> pd.Categorical:
     return pd.Categorical(
         sr,
         categories=["Single", "Married", "Separated", "Divorced", "Widowed"],
@@ -40,7 +40,7 @@ def _clean_marital_status(sr):
     )
 
 
-def _clean_current_smoker(sr):
+def _clean_current_smoker(sr: pd.Series) -> pd.Categorical:
     """Clean the current smoke variable.
 
     The original variable name 'smoke' was ambiguous, so it has been renamed to
@@ -52,7 +52,7 @@ def _clean_current_smoker(sr):
     return pd.Categorical(sr, categories=["No", "Yes"], ordered=True)
 
 
-def _clean_highest_qualification(sr):
+def _clean_highest_qualification(sr: pd.Series) -> pd.Categorical:
     replace_mapping = {
         "GCSE/CSE": "GCSE/CSE or GCSE/O Level",
         "GCSE/O Level": "GCSE/CSE or GCSE/O Level",
