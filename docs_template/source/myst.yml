@@ -45,7 +45,10 @@ project:
       severity: ignore
     - rule: link-resolves
       severity: ignore
-      keys: ['https://www.computerhope.com/**']
+      keys:
+        - 'https://www.computerhope.com/**'
+        - 'https://www.stem.org.uk/**'
+        - 'http://localhost:*/**'
 site:
   template: book-theme
   options:
