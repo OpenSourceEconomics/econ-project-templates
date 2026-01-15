@@ -9065,8 +9065,8 @@ packages:
   timestamp: 1762510341121
 - pypi: ./
   name: template-project
-  version: 0.11.2.dev1+g49b3924b1.d20260115
-  sha256: c6050bf36c3fffc0fde8ac470a43f151e48c252ee19330ebd7075252b5fffdf3
+  version: 0.11.2.dev4+g9a33c72bb.d20260115
+  sha256: 01f9a9fc347201131975923387542888cc16b3eede00cff20ebf3dbb24fb3cf8
   requires_python: '>=3.11'
   editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/terminado-0.18.1-pyh0d859eb_0.conda

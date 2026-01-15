@@ -97,6 +97,9 @@ template_project = {path = ".", editable = true}
 pdbp = "*"
 tabulate = "*"
 
+[tool.pixi.tasks]
+serve-paper = {cmd = "python -m http.server -d documents/_build/html", description = "Serve the HTML paper locally at http://localhost:8000/paper.html"}
+
 [tool.pixi.feature.docs.dependencies]
 jupyter-book = ">=2.0"
 mystmd = "*"

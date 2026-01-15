@@ -10,8 +10,8 @@ import pytask
 from template_project.config import DOCUMENTS, ROOT
 
 
-@pytask.task(id="paper")
-def task_compile_paper(
+@pytask.task(id="paper-pdf")
+def task_compile_paper_pdf(
     paper_md: Path = DOCUMENTS / "paper.md",
     myst_yml: Path = DOCUMENTS / "myst.yml",
     refs: Path = DOCUMENTS / "refs.bib",
@@ -20,22 +20,30 @@ def task_compile_paper(
     produces: Path = ROOT / "paper.pdf",
 ) -> None:
     """Compile the paper from MyST Markdown to PDF using Jupyter Book 2.0."""
-    # Jupyter Book 2.0 uses myst.yml and builds from the project directory
-    # The export is defined in myst.yml, so we build from the documents directory
     subprocess.run(
-        (
-            "jupyter",
-            "book",
-            "build",
-            "--pdf",
-        ),
+        ("jupyter", "book", "build", "--pdf"),
         check=True,
         cwd=DOCUMENTS.absolute(),
     )
-    # Jupyter Book creates PDF in _build/exports/paper.pdf or _build/temp/*/paper.pdf
-    # Find and copy to produces location
     build_pdf = DOCUMENTS / "_build" / "exports" / "paper.pdf"
     shutil.copy(build_pdf, produces)
+
+
+@pytask.task(id="paper-html")
+def task_compile_paper_html(
+    paper_md: Path = DOCUMENTS / "paper.md",
+    myst_yml: Path = DOCUMENTS / "myst.yml",
+    refs: Path = DOCUMENTS / "refs.bib",
+    figure: Path = DOCUMENTS / "public" / "smoking_by_marital_status.png",
+    table: Path = DOCUMENTS / "tables" / "estimation_results.md",
+    produces: Path = DOCUMENTS / "_build" / "html" / "paper.html",
+) -> None:
+    """Compile the paper from MyST Markdown to HTML using Jupyter Book 2.0."""
+    subprocess.run(
+        ("jupyter", "book", "build", "--html"),
+        check=True,
+        cwd=DOCUMENTS.absolute(),
+    )
 
 
 @pytask.task(id="presentation")

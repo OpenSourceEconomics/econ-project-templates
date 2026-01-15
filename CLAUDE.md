@@ -30,6 +30,9 @@ pixi run recreate-dag
 
 # Install Node.js dependencies (for Slidev presentations)
 pixi run npm install
+
+# Serve the HTML paper locally (after running pytask)
+pixi run serve-paper  # then open http://localhost:8000/paper.html
 ```
 
 ## Architecture
@@ -50,7 +53,7 @@ The project follows a task-based pipeline where each `task_*.py` file defines co
    - Generates results tables (Markdown format)
 
 4. **Documents** (`documents/task_documents.py`)
-   - Compiles paper (MyST Markdown → PDF via Jupyter Book 2.0)
+   - Compiles paper to PDF and HTML (MyST Markdown via Jupyter Book 2.0)
    - Compiles presentation (Slidev → PDF)
 
 ### Key Configuration
