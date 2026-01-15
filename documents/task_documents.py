@@ -9,41 +9,30 @@ import pytask
 
 from template_project.config import DOCUMENTS, ROOT
 
+for fmt, output in {
+    "pdf": ROOT / "paper.pdf",
+    "html": DOCUMENTS / "_build" / "html" / "paper.html",
+}.items():
 
-@pytask.task(id="paper-pdf")
-def task_compile_paper_pdf(
-    paper_md: Path = DOCUMENTS / "paper.md",
-    myst_yml: Path = DOCUMENTS / "myst.yml",
-    refs: Path = DOCUMENTS / "refs.bib",
-    figure: Path = DOCUMENTS / "public" / "smoking_by_marital_status.png",
-    table: Path = DOCUMENTS / "tables" / "estimation_results.md",
-    produces: Path = ROOT / "paper.pdf",
-) -> None:
-    """Compile the paper from MyST Markdown to PDF using Jupyter Book 2.0."""
-    subprocess.run(
-        ("jupyter", "book", "build", "--pdf"),
-        check=True,
-        cwd=DOCUMENTS.absolute(),
-    )
-    build_pdf = DOCUMENTS / "_build" / "exports" / "paper.pdf"
-    shutil.copy(build_pdf, produces)
-
-
-@pytask.task(id="paper-html")
-def task_compile_paper_html(
-    paper_md: Path = DOCUMENTS / "paper.md",
-    myst_yml: Path = DOCUMENTS / "myst.yml",
-    refs: Path = DOCUMENTS / "refs.bib",
-    figure: Path = DOCUMENTS / "public" / "smoking_by_marital_status.png",
-    table: Path = DOCUMENTS / "tables" / "estimation_results.md",
-    produces: Path = DOCUMENTS / "_build" / "html" / "paper.html",
-) -> None:
-    """Compile the paper from MyST Markdown to HTML using Jupyter Book 2.0."""
-    subprocess.run(
-        ("jupyter", "book", "build", "--html"),
-        check=True,
-        cwd=DOCUMENTS.absolute(),
-    )
+    @pytask.task(id=f"paper-{fmt}")
+    def task_compile_paper(
+        paper_md: Path = DOCUMENTS / "paper.md",
+        myst_yml: Path = DOCUMENTS / "myst.yml",
+        refs: Path = DOCUMENTS / "refs.bib",
+        figure: Path = DOCUMENTS / "public" / "smoking_by_marital_status.png",
+        table: Path = DOCUMENTS / "tables" / "estimation_results.md",
+        produces: Path = output,
+        fmt: str = fmt,
+    ) -> None:
+        """Compile the paper from MyST Markdown using Jupyter Book 2.0."""
+        subprocess.run(
+            ("jupyter", "book", "build", f"--{fmt}"),
+            check=True,
+            cwd=DOCUMENTS.absolute(),
+        )
+        if fmt == "pdf":
+            build_pdf = DOCUMENTS / "_build" / "exports" / "paper.pdf"
+            shutil.copy(build_pdf, produces)
 
 
 @pytask.task(id="presentation")
