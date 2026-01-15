@@ -142,11 +142,9 @@ extend-ignore = [
     "ISC001", # Conflict with ruff-format
     "PLR0913",  # Too many arguments in function definition
     "RET504", # Don't force to calculate upon return
-    "S101",  # U13se of `assert` detected.
+    "S101",  # Use of `assert` detected.
     "S301",  # pickle module is unsafe
-    "TC002",  # Move third-party import into a type-checking block
-    "TC003",  # Move standard library import into a type-checking block
-
+    "TC",  # Let type checking be optional.
 ]
 
 [tool.ruff.lint.per-file-ignores]
