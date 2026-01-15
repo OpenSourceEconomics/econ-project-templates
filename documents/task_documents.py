@@ -9,9 +9,9 @@ import pytask
 
 from template_project.config import DOCUMENTS, ROOT
 
-for fmt, output in {
+for fmt, produces in {
     "pdf": ROOT / "paper.pdf",
-    "html": DOCUMENTS / "_build" / "html" / "paper.html",
+    "html": DOCUMENTS / "_build" / "html" / "index.html",
 }.items():
 
     @pytask.task(id=f"paper-{fmt}")
@@ -21,16 +21,15 @@ for fmt, output in {
         refs: Path = DOCUMENTS / "refs.bib",
         figure: Path = DOCUMENTS / "public" / "smoking_by_marital_status.png",
         table: Path = DOCUMENTS / "tables" / "estimation_results.md",
-        produces: Path = output,
-        fmt: str = fmt,
+        produces: Path = produces,
     ) -> None:
         """Compile the paper from MyST Markdown using Jupyter Book 2.0."""
         subprocess.run(
-            ("jupyter", "book", "build", f"--{fmt}"),
+            ("jupyter", "book", "build", f"--{produces.suffix}"),
             check=True,
             cwd=DOCUMENTS.absolute(),
         )
-        if fmt == "pdf":
+        if produces.suffix == "pdf":
             build_pdf = DOCUMENTS / "_build" / "exports" / "paper.pdf"
             shutil.copy(build_pdf, produces)
 
