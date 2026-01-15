@@ -1,11 +1,14 @@
+from pathlib import Path
+
 import pytask
+import pytest
 from _pytask.outcomes import ExitCode
 
 from template_project import config
 from template_project.config import ROOT
 
 
-def test_pytask_build(monkeypatch, tmp_path):
+def test_pytask_build(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     monkeypatch.setattr(config, "ROOT", tmp_path)
     monkeypatch.setattr(config, "BLD", tmp_path / "bld")
 

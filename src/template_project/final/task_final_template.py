@@ -1,5 +1,7 @@
 """Tasks running the results formatting (tables, figures)."""
 
+from pathlib import Path
+
 import pandas as pd
 import plotly.io as pio
 import pytask
@@ -11,12 +13,12 @@ for group in TEMPLATE_GROUPS:
 
     @pytask.task(id=group)
     def task_plot_results_by_age(
-        script=SRC / "final" / "plot_template.py",
-        group=group,
-        predictions_path=BLD / "predictions" / f"{group}.pickle",
-        data_path=BLD / "data" / "stats4schools_smoking.pickle",
-        produces=DOCUMENTS / "public" / f"smoking_by_{group}.png",
-    ):
+        script: Path = SRC / "final" / "plot_template.py",
+        group: str = group,
+        predictions_path: Path = BLD / "predictions" / f"{group}.pickle",
+        data_path: Path = BLD / "data" / "stats4schools_smoking.pickle",
+        produces: Path = DOCUMENTS / "public" / f"smoking_by_{group}.png",
+    ) -> None:
         """Plot the regression results by age."""
         data = pd.read_pickle(data_path)
         predictions = pd.read_pickle(predictions_path)
@@ -27,10 +29,10 @@ for group in TEMPLATE_GROUPS:
 
 
 def task_create_results_table(
-    script=SRC / "final" / "plot_template.py",
-    model_path=BLD / "estimation_results" / "baseline.pickle",
-    produces=DOCUMENTS / "tables" / "estimation_results.md",
-):
+    script: Path = SRC / "final" / "plot_template.py",
+    model_path: Path = BLD / "estimation_results" / "baseline.pickle",
+    produces: Path = DOCUMENTS / "tables" / "estimation_results.md",
+) -> None:
     """Store a table in Markdown format with the estimation results."""
     model = pd.read_pickle(model_path)
     # Get summary as DataFrame

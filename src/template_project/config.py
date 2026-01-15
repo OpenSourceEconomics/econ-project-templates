@@ -2,12 +2,12 @@
 
 from pathlib import Path
 
-SRC = Path(__file__).parent.resolve()
-ROOT = SRC.joinpath("..", "..").resolve()
+SRC: Path = Path(__file__).parent.resolve()
+ROOT: Path = SRC.joinpath("..", "..").resolve()
 
-BLD = ROOT.joinpath("bld").resolve()
+BLD: Path = ROOT.joinpath("bld").resolve()
 
 
-DOCUMENTS = ROOT.joinpath("documents").resolve()
+DOCUMENTS: Path = ROOT.joinpath("documents").resolve()
 
-TEMPLATE_GROUPS = ["marital_status", "highest_qualification"]
+TEMPLATE_GROUPS: tuple[str, ...] = ("marital_status", "highest_qualification")

@@ -17,7 +17,7 @@ flowchart LR
     Tests["tests/"]
     Documents["documents/"]
     DocumentsSource["paper.md<br/>presentation.md<br/>myst.yml<br/>refs.bib"]
-    DocumentsOutput["public/<br/>tables/"]
+    DocumentsOutput["public/<br/>tables/<br/>_build/html/"]
     Bld["bld/"]
     BldSub["data/<br/>figures/<br/>tables/<br/>models/<br/>predictions/<br/>documents/"]
     Paper["paper.pdf"]
@@ -45,7 +45,7 @@ flowchart LR
     style Tests fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style BldSub fill:#FBBB06,stroke:#333,stroke-width:1px,color:#000
     style DocumentsSource fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
-    style DocumentsOutput fill:#04A96D,stroke:#333,stroke-width:1px,color:#fff
+    style DocumentsOutput fill:#FBBB06,stroke:#333,stroke-width:1px,color:#fff
     style SrcSub fill:#4d7f9c,stroke:#333,stroke-width:2px,color:#fff
     style SrcSubDir fill:#4d7f9c,stroke:#333,stroke-width:1px,color:#fff
 ```
@@ -62,10 +62,20 @@ see the **separation of inputs** and outputs (one of our guiding principles) at 
 
 ```{note}
 
-The paper and presentation are copied from `bld/documents` to the root
-directory so they can be opened easily
+The paper PDF and presentation PDF are copied to the root directory so they can be
+opened easily. The paper is also available as HTML in `documents/_build/html/`.
 
 ```
+
+## Viewing the HTML paper
+
+The paper is built in both PDF and HTML formats. To view the HTML version locally:
+
+```bash
+pixi run serve-paper
+```
+
+Then open <http://localhost:8000/paper.html> in your browser.
 
 The contents of the root/src/template_project directory follow the steps of the analysis
 workflow, with subdirectories for data management, analysis, and final output

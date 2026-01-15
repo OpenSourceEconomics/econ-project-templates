@@ -2,9 +2,15 @@
 
 import numpy as np
 import pandas as pd
+from numpy.typing import NDArray
+from statsmodels.discrete.discrete_model import BinaryResultsWrapper
 
 
-def predict_prob_by_age(data, model, group):
+def predict_prob_by_age(
+    data: pd.DataFrame,
+    model: BinaryResultsWrapper,
+    group: str,
+) -> pd.DataFrame:
     """Predict smoking probability for varying age values.
 
     For each group value in column data[group] we create new data that runs through a
@@ -22,21 +28,21 @@ def predict_prob_by_age(data, model, group):
             category in column group.
 
     """
-    age_min = data["age"].min()
-    age_max = data["age"].max()
-    age_grid = np.arange(age_min, age_max + 1)
+    age_min: int = data["age"].min()
+    age_max: int = data["age"].max()
+    age_grid: NDArray[np.int_] = np.arange(age_min, age_max + 1)
 
     mode = data.mode()
 
-    new_data = pd.DataFrame(age_grid, columns=["age"])
+    new_data = pd.DataFrame(age_grid, columns=pd.Index(["age"]))
 
     cols_to_set = list(set(data.columns) - {group, "age", "current_smoker"})
     new_data = new_data.assign(**dict(mode.loc[0, cols_to_set]))
 
-    predicted = {"age": age_grid}
+    result = pd.DataFrame({"age": age_grid})
     for group_value in data[group].unique():
         _new_data = new_data.copy()
         _new_data[group] = group_value
-        predicted[group_value] = model.predict(_new_data)
+        result[group_value] = model.predict(_new_data)
 
-    return pd.DataFrame(predicted)
+    return result

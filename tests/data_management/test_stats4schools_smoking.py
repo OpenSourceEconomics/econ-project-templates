@@ -12,12 +12,12 @@ from template_project.data_management.stats4schools_smoking_template import (
 )
 
 
-def assert_categorical_equal(left, right):
+def assert_categorical_equal(left: pd.Categorical, right: pd.Categorical) -> None:
     assert_series_equal(pd.Series(left), pd.Series(right))
 
 
 @pytest.fixture
-def data():
+def data() -> pd.DataFrame:
     data = {
         "highest_qualification": [
             "No Qualification",
@@ -46,19 +46,19 @@ def data():
     return pd.DataFrame(data)
 
 
-def test_age_is_integer(data):
+def test_age_is_integer(data: pd.DataFrame) -> None:
     got = clean_stats4schools_smoking(data)["age"]
     exp = pd.Series(8 * [20], name="age")
     assert_series_equal(got, exp)
 
 
-def test_current_smoker_numerical_is_numerical(data):
+def test_current_smoker_numerical_is_numerical(data: pd.DataFrame) -> None:
     got = clean_stats4schools_smoking(data)["current_smoker_numerical"]
     exp = pd.Series(4 * [1] + 4 * [0], name="current_smoker_numerical", dtype="int8")
     assert_series_equal(got, exp)
 
 
-def test_clean_gender(data):
+def test_clean_gender(data: pd.DataFrame) -> None:
     got = _clean_gender(data["gender"])
     exp = pd.Categorical(
         4 * ["Male"] + 4 * ["Female"],
@@ -68,7 +68,7 @@ def test_clean_gender(data):
     assert_categorical_equal(got, exp)
 
 
-def test_clean_marital_status(data):
+def test_clean_marital_status(data: pd.DataFrame) -> None:
     got = _clean_marital_status(data["marital_status"])
     exp = pd.Categorical(
         [
@@ -87,7 +87,7 @@ def test_clean_marital_status(data):
     assert_categorical_equal(got, exp)
 
 
-def test_clean_current_smoker(data):
+def test_clean_current_smoker(data: pd.DataFrame) -> None:
     got = _clean_current_smoker(data["smoke"])
     exp = pd.Categorical(
         4 * ["Yes"] + 4 * ["No"],
@@ -97,7 +97,7 @@ def test_clean_current_smoker(data):
     assert_categorical_equal(got, exp)
 
 
-def test_clean_highest_qualification(data):
+def test_clean_highest_qualification(data: pd.DataFrame) -> None:
     got = _clean_highest_qualification(data["highest_qualification"])
 
     exp_vals = [
@@ -125,7 +125,7 @@ def test_clean_highest_qualification(data):
     assert_categorical_equal(got, exp)
 
 
-def test_clean_invalid_qualification():
+def test_clean_invalid_qualification() -> None:
     qualification = pd.Series(
         [
             "Degree",  # valid category
@@ -135,7 +135,7 @@ def test_clean_invalid_qualification():
     assert _clean_highest_qualification(qualification).tolist() == ["Degree", np.nan]
 
 
-def test_set_invalid_qualification(data):
+def test_set_invalid_qualification(data: pd.DataFrame) -> None:
     clean = clean_stats4schools_smoking(data)
     qualification = clean["highest_qualification"]
     qualification.update(["Degree"])  # valid category

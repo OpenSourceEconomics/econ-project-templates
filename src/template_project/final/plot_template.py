@@ -1,5 +1,6 @@
 """Functions plotting results."""
 
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
@@ -8,7 +9,11 @@ import plotly.io as pio
 pio.templates.default = "plotly_white+presentation"
 
 
-def plot_regression_by_age(data, predictions, group):
+def plot_regression_by_age(
+    data: pd.DataFrame,
+    predictions: pd.DataFrame,
+    group: str,
+) -> go.Figure:
     """Plot regression results by age.
 
     Args:

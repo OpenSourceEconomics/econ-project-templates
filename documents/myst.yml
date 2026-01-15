@@ -20,3 +20,6 @@ project:
   exclude: [presentation.md, tables/*, public/*]
 site:
   template: book-theme
+  options:
+    favicon: null
+    logo: null

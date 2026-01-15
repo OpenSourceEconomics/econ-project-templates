@@ -1,5 +1,7 @@
 """Tasks running the core analyses."""
 
+from pathlib import Path
+
 import pandas as pd
 import pytask
 
@@ -11,26 +13,26 @@ from template_project.config import BLD, SRC, TEMPLATE_GROUPS
 # pytask, we can iterate over these formulas to fit each model using the same code block
 # and storing the results in different locations. For simplicity, this example uses a
 # single formula.
-formula = (
+FORMULA: str = (
     # logit functions in statsmodels expect the binary outcome to be numerical
     "current_smoker_numerical ~ gender + marital_status + age + highest_qualification"
 )
 
 
 def task_fit_model(
-    script=SRC / "analysis" / "model_template.py",
-    formula=formula,
-    data=BLD / "data" / "stats4schools_smoking.pickle",
-    produces=BLD / "estimation_results" / "baseline.pickle",
-):
+    script: Path = SRC / "analysis" / "model_template.py",
+    formula: str = FORMULA,
+    data: Path = BLD / "data" / "stats4schools_smoking.pickle",
+    produces: Path = BLD / "estimation_results" / "baseline.pickle",
+) -> None:
     """Fit a logistic regression model."""
-    data = pd.read_pickle(data)
+    df = pd.read_pickle(data)
     # Realistic projects often involve complex model fitting. Here, the
     # `fit_logit_model` function simplifies this process by encapsulating it into a
     # single call. Ideally, tasks should be streamlined to load data, execute one main
     # function, and save the output, no matter how simple or complex the underlying
     # functionality is.
-    model = fit_logit_model(data, formula)
+    model = fit_logit_model(df, formula)
     model.save(produces)
 
 
@@ -42,12 +44,12 @@ for group in TEMPLATE_GROUPS:
 
     @pytask.task(id=group)
     def task_predict(
-        script=SRC / "analysis" / "predict_template.py",
-        group=group,
-        data_path=BLD / "data" / "stats4schools_smoking.pickle",
-        model_path=BLD / "estimation_results" / "baseline.pickle",
-        produces=BLD / "predictions" / f"{group}.pickle",
-    ):
+        script: Path = SRC / "analysis" / "predict_template.py",
+        group: str = group,
+        data_path: Path = BLD / "data" / "stats4schools_smoking.pickle",
+        model_path: Path = BLD / "estimation_results" / "baseline.pickle",
+        produces: Path = BLD / "predictions" / f"{group}.pickle",
+    ) -> None:
         """Predict based on the model estimates."""
         model = pd.read_pickle(model_path)
         data = pd.read_pickle(data_path)
