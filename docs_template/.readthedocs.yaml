@@ -11,7 +11,9 @@ build:
       - asdf global pixi latest
     install: [pixi install, pixi run npm install]
     build:
-      html: [pixi run -e docs build-docs]
+      html: [pixi run -e docs docs]
     post_build:
+      # Jupyter Book 2.0 builds site content to _build/html.
+      # For ReadTheDocs, we build and then copy to the expected output location.
       - mkdir --parents $READTHEDOCS_OUTPUT/html/
       - cp -r docs_template/source/_build/html/* $READTHEDOCS_OUTPUT/html/

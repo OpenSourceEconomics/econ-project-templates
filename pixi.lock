@@ -5,6 +5,8 @@ environments:
     - url: https://conda.anaconda.org/conda-forge/
     indexes:
     - https://pypi.org/simple
+    options:
+      pypi-prerelease-mode: if-necessary-or-explicit
     packages:
       linux-64:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
@@ -1037,6 +1039,8 @@ environments:
     - url: https://conda.anaconda.org/conda-forge/
     indexes:
     - https://pypi.org/simple
+    options:
+      pypi-prerelease-mode: if-necessary-or-explicit
     packages:
       linux-64:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
@@ -9065,10 +9069,9 @@ packages:
   timestamp: 1762510341121
 - pypi: ./
   name: template-project
-  version: 0.11.2.dev4+g9a33c72bb.d20260115
-  sha256: 01f9a9fc347201131975923387542888cc16b3eede00cff20ebf3dbb24fb3cf8
+  version: 0.11.2.dev2+g3698e7c3b.d20260116
+  sha256: 2b9388d8cd7c5a5a09c66a35c8e289634bada2b2f196bad80a598d86334e90f7
   requires_python: '>=3.11'
-  editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/terminado-0.18.1-pyh0d859eb_0.conda
   sha256: b300557c0382478cf661ddb520263508e4b3b5871b471410450ef2846e8c352c
   md5: efba281bbdae5f6b0a1d53c6d4a97c93

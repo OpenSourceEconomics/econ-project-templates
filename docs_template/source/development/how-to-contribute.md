@@ -31,7 +31,7 @@ with `pixi run`.
 You can build the documentation using
 
 ```console
-$ pixi run build-docs
+$ pixi run docs
 ```
 
 The newly created documentation can be opened using (replace "browser" with your browser

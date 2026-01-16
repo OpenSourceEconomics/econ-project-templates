@@ -23,7 +23,7 @@ pixi run pytest tests/analysis/test_predict_template.py::test_predict_prob_by_mo
 pixi run pre-commit run --all-files
 
 # Build documentation (Jupyter Book 2.0)
-pixi run build-docs
+pixi run docs
 
 # Regenerate the DAG visualization
 pixi run recreate-dag

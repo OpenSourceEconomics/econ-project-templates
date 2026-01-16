@@ -105,11 +105,8 @@ jupyter-book = ">=2.0"
 mystmd = "*"
 
 [tool.pixi.feature.docs.tasks]
-# The 'build-docs' command can be used to build the docs locally or on ReadTheDocs.
-# Jupyter Book 2.0 builds site content to _build/html by default
-# For ReadTheDocs, we build and then copy to the expected output location
-build-docs = {cmd = "./build-docs.sh", cwd = "docs_template/source"}
-check-docs-urls = {cmd = "jupyter book build --html --check-links --strict", cwd = "docs_template/source"}
+docs = {cmd = "./build-docs.sh", cwd = "docs_template/source"}
+docs-check-urls = {cmd = "jupyter book build --html --check-links --strict", cwd = "docs_template/source"}
 recreate-dag = {cmd = "pixi run pytask dag --rank-direction TB --output-path docs_template/source/figures/dag.svg"}
 
 
