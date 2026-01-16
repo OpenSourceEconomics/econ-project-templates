@@ -68,7 +68,7 @@ of manual work, in particular on Windows.
   output obtained on Linux:
 
   ```text
-  Python 3.13.2 | packaged by conda-forge | (main, Feb 17 2025, 14:10:22) [GCC 13.3.0] on linux
+  Python 3.14.0 | packaged by conda-forge | (main, Jan 10 2026, 12:00:00) [GCC 14.2.0] on linux
   Type "help", "copyright", "credits" or "license" for more information.
   ```
 

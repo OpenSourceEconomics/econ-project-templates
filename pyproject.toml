@@ -5,7 +5,7 @@
 [project]
 name = "template_project"
 description = "Template for reproducible research projects in economics"
-requires-python = ">=3.11"
+requires-python = ">=3.14"
 dynamic = ["version"]
 keywords = [
     "Reproducible Research",

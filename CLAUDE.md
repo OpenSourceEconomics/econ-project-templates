@@ -87,7 +87,7 @@ for group in TEMPLATE_GROUPS:
 - **Linting/Formatting**: Ruff with strict settings (`select = ["ALL"]`)
 - **Pre-commit**: Ruff, yamlfix, yamllint, mdformat (MyST), nbstripout, codespell
 - **Docstrings**: Google convention
-- **Python version**: 3.13 (requires >=3.11)
+- **Python version**: 3.14 (requires >=3.14)
 
 ## Testing
 
