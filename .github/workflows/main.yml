@@ -71,4 +71,4 @@ jobs:
         run: pixi run docs
       - name: Check validity of URLs
         shell: bash {0}
-        run: pixi run docs-check-urls
+        run: pixi run check-urls
