@@ -38,7 +38,7 @@ repos:
       - id: yamllint
         exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.11
+    rev: v0.14.13
     hooks:
       - id: ruff-check
         types_or: [python, jupyter]
@@ -46,7 +46,7 @@ repos:
       - id: ruff-format
         types_or: [python, jupyter]
   - repo: https://github.com/kynan/nbstripout
-    rev: 0.8.2
+    rev: 0.9.0
     hooks:
       - id: nbstripout
         args:

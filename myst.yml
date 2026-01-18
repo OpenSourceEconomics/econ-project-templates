@@ -10,14 +10,16 @@ project:
       affiliations: [EXAMPLE UNIVERSITY]
       email: janedoe@example-university.de
   keywords: [economics, reproducible research]
+  toc:
+    - file: documents/paper.md
   exports:
     - format: pdf
       template: arxiv_nips
-      articles: paper.md
+      articles: documents/paper.md
       parts:
         abstract: abstract
-      bibtex: refs.bib
-  exclude: [presentation.md, tables/*, public/*]
+      bibtex: documents/refs.bib
+  exclude: [documents/presentation.md, documents/tables/*, documents/public/*]
 site:
   template: book-theme
   options:

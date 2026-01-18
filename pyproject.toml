@@ -98,7 +98,8 @@ pdbp = "*"
 tabulate = "*"
 
 [tool.pixi.tasks]
-serve-paper = {cmd = "python -m http.server -d documents/_build/html", description = "Serve the HTML paper locally at http://localhost:8000/paper.html"}
+view-paper = {cmd = "jupyter book start", description = "View the HTML paper in browser"}
+view-pres = {cmd = "npx slidev documents/presentation.md", description = "View the presentation in browser"}
 
 [tool.pixi.feature.docs.dependencies]
 jupyter-book = ">=2.0"
