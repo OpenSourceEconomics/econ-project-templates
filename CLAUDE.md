@@ -23,16 +23,18 @@ pixi run pytest tests/analysis/test_predict_template.py::test_predict_prob_by_mo
 pixi run pre-commit run --all-files
 
 # Build documentation (Jupyter Book 2.0)
-pixi run docs
+pixi run -e docs docs
+
+# View documentation, paper, and presentation interactively
+pixi run -e docs view-docs   # Project documentation
+pixi run view-paper          # Paper (HTML with live reload)
+pixi run view-pres           # Presentation (Slidev with live reload)
 
 # Regenerate the DAG visualization
-pixi run recreate-dag
+pixi run -e docs recreate-dag
 
 # Install Node.js dependencies (for Slidev presentations)
 pixi run npm install
-
-# Serve the HTML paper locally (after running pytask)
-pixi run serve-paper  # then open http://localhost:8000/paper.html
 ```
 
 ## Architecture
@@ -60,7 +62,7 @@ The project follows a task-based pipeline where each `task_*.py` file defines co
 
 - `src/template_project/config.py`: Central path definitions (`SRC`, `ROOT`, `BLD`, `DOCUMENTS`) and `TEMPLATE_GROUPS` for iterative task generation
 - `pyproject.toml`: All tool configurations (Pixi, pytask, Ruff, pytest)
-- `documents/myst.yml`: Jupyter Book 2.0 configuration for PDF export
+- `myst.yml`: Jupyter Book 2.0 configuration for PDF export (in project root)
 
 ### Directory Conventions
 

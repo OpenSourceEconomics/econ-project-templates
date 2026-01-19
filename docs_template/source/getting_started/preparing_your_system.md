@@ -22,10 +22,10 @@ path. This template requires
 
 If you are on Windows, please open the Windows Powershell. On Mac or Linux, open a
 terminal. As everything will be started from the Powershell/Terminal, you need to make
-sure that all programmes you need in your project (for sure Python obtained via
-Miniforge, Git, and LaTeX; potentially VS Code, R, Julia, Stata) can be found on your
-*PATH*. That is, these need to be accessible from your shell. This often requires a bit
-of manual work, in particular on Windows.
+sure that all programmes you need in your project (for sure pixi, Git, and LaTeX;
+potentially VS Code, R, Julia, Stata) can be found on your *PATH*. That is, these need
+to be accessible from your shell. This often requires a bit of manual work, in
+particular on Windows.
 
 - To see which programmes can be found on your path, type (leave out the leading dollar
   sign, this is just standard notation for a command line prompt):

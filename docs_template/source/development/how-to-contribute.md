@@ -31,14 +31,13 @@ with `pixi run`.
 You can build the documentation using
 
 ```console
-$ pixi run docs
+$ pixi run -e docs docs
 ```
 
-The newly created documentation can be opened using (replace "browser" with your browser
-of choice)
+To view the documentation interactively with live reload:
 
 ```console
-$ browser docs_template/build/html/index.html
+$ pixi run -e docs view-docs
 ```
 
 1. Implement the fix or new feature.
