@@ -57,21 +57,19 @@ $ pixi run -e docs view-docs
 
    You should correct any errors displayed in the terminal.
 
-   To correct stylistic errors, you can also install the linters as a pre-commit with
+   To correct stylistic errors, you can install the linters as pre-commit hooks:
 
    ```console
-   $ pixi global install pre-commit
-   $ pre-commit install
+   $ pixi run pre-commit install
    ```
 
-   This installs the pre-commit tool globally and installs the hooks into the
-   repository. Then, all the linters are executed before each commit and the commit is
-   aborted if one of the check fails.
+   This installs the hooks into the repository. Then, all linters are executed before
+   each commit and the commit is aborted if any check fails.
 
    You can also manually run the linters with
 
    ```console
-   $ pre-commit run --all-files
+   $ pixi run pre-commit run --all-files
    ```
 
 1. If the tests pass, push your changes to your repository. Go to the Github page of
