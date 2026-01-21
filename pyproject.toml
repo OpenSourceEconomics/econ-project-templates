@@ -143,7 +143,8 @@ extend-ignore = [
     "RET504", # Don't force to calculate upon return
     "S101",  # Use of `assert` detected.
     "S301",  # pickle module is unsafe
-    "TC",  # Let type checking be optional.
+    "TC002",  # Move third-party import into a type-checking block
+    "TC003",  # Move standard library import into a type-checking block
 ]
 
 [tool.ruff.lint.per-file-ignores]

@@ -1,20 +1,20 @@
 # python
 *.egg-info
-*_version.py
+*.ipynb_checkpoints
 *.pyc
 *__pycache__
-*.ipynb_checkpoints
+*_version.py
 
 # python tools
+.pixi
+.pytask
+.pytask.sqlite3
 .pytest_cache
 .ruff_cache
-.pytask.sqlite3
-.pytask
-.pixi
 
 # bld
-bld/
 _build/
+bld/
 
 # latex
 *.aux
@@ -24,12 +24,12 @@ _build/
 *.fdb_latexmk
 *.fls
 *.log
+*.nav
 *.out
 *.pdf
 *.run.xml
-*.synctex.gz
-*.nav
 *.snm
+*.synctex.gz
 *.toc
 
 # documentation
@@ -40,6 +40,3 @@ node_modules/
 
 # local
 .vscode
-
-# MyST build outputs
-_build
