@@ -1,56 +1,44 @@
-# Templates for Reproducible Research: Documentation
+# Econ Project Templates: Modern, Reproducible Research in Economics
 
 (introduction)=
 
-## Introduction
+## Why Reproducibility Matters
 
-An empirical or computational research project only becomes a useful building block for
-science and policy when all steps can be easily repeated and modified by others.
+We are in the midst of a reproducibility crisis in the social sciences. Journals like
+the *AER* now mandate rigorous data and code availability policies, and the days of
+"trust me, I ran the regression" are over. But beyond compliance, reproducibility is
+about **your peace of mind**. It means knowing that if you find a mistake in your raw
+data three days before submission, you can re-run your entire project—tables, figures,
+and paper—with a single command. It means your future self (and your co-authors) can
+understand and run your code on a new machine without spending a week fighting
+dependency hell.
 
-Hence, some actions should be absent as much as possible. This includes copying and
-pasting, pointing and clicking with a mouse, or other forms of interactive input, which
-are not stored as part of the project.
+## The Solution
 
-The idea behind these templates is that the researcher specifies a set of tasks, which
-are executed in the correct order as required. The only input for (re-)producing results
-will be the action setting this pipeline to run.
+This template is a "batteries-included" starting point for professional economic
+research. It replaces fragile, manual workflows with a robust, automated pipeline. By
+combining **Pixi** for hermetic environment management, **Pytask** for workflow
+automation, and **MyST** for integrated writing, we provide a structure where code and
+text live in harmony. You don't build an environment; you define it. You don't "paste"
+results into LaTeX; you generate a dynamic document. This project gives you the tooling
+of a senior software engineer with an interface designed for economists.
 
-This code base aims to provide two stepping stones to assist you in achieving this goal:
-
-1. A sensible directory structure. This will save you a bunch of thinking about this
-   structure time and again, which typically happens when incrementally building up a
-   new project. Put differently, instead of starting from scratch, you modify an example
-   for your needs.
-1. A pre-configured [computational environment](#environments) including useful tools
-   [pytask](https://pytask-dev.readthedocs.io/en/stable/) and
-   [pre-commit hooks](#pre_commit_hooks). These tools help you to automate the workflow
-   of your project and to maintain a clean code base.
-
-The first should lure you in quickly. The second should convince you to stick to the
-tools in the long run – unless you have fought with large research projects before, at
-this point you may think that all of this is overkill and far more difficult than
-necessary. It is not. _\[although I am always_
-[happy to hear](https://www.wiwi.uni-bonn.de/gaudecker/) _about easier alternatives\]_
-
-The example uses Python code also for the "research part". However,
-[pytask](https://pytask-dev.readthedocs.io/en/stable/) supports several popular
-languages ([R](https://github.com/pytask-dev/pytask-r),
-[Julia](https://github.com/pytask-dev/pytask-julia),
-[Stata](https://github.com/pytask-dev/pytask-stata)). Since pytask does not require a
-whole lot of Python knowledge, you may find the template useful in order to make your
-pipeline reproducible in languages you are more comfortable with. It is also an easy
-option in order to mix languages in your project. In fact, until
-[version 0.9](https://econ-project-templates.readthedocs.io/en/v0.9.0/), the template
-included its worked example in R, too. We dropped it purely for lack of resources to
-maintain it.
+______________________________________________________________________
 
 ## Navigating this Documentation
 
-When starting freshly, go to the next section for finding out how to prepare your
-machine and how to get started with the template. The {ref}`background` section explains
-many of the design choices; feel free to skip if you worked with the templates before.
-{ref}`guides_explanations` provides some tips and tricks for usage, depending on whether
-you want to start a new project from scratch or port existing code into the structure
-suggested in this project. The page also points you to some useful features of helper
-programmes that come with the templates. The documentation follows the Python version of
-the running example; see {ref}`programming_languages` for additional options.
+We have structured our documentation to get you working immediately, regardless of your
+experience level.
+
+- **{ref}`getting_started` (Start Here):** This is the "magic" section. We show you how
+  to install one tool (`pixi`) and run one command to build the entire paper and
+  presentation. **Read this first** to verify your system is ready.
+- **{ref}`background` (Under the Hood):** For those who want to understand the design
+  choices and architecture. Here we explain *why* we use Directed Acyclic Graphs (DAGs),
+  how the workflow is structured, and the philosophy behind our folder structure.
+- **{ref}`guides_explanations` (How-to Guides):** For the researcher in the middle of a
+  project. When you need to know "How do I add a new Python package?" or "How do I start
+  from scratch?", look here. These are short, recipe-style answers.
+- **{ref}`programming_languages`:** While the example focuses on Python, we explain how
+  to integrate other languages like R, Julia, or Stata.
+- **{ref}`development`:** Information on how to contribute to this project.

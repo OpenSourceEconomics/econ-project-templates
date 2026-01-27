@@ -52,4 +52,6 @@ project:
 site:
   template: book-theme
   options:
+    logo: figures/ose-logo.png
+    logo_dark: figures/ose-logo.png
     bibtex: refs.bib

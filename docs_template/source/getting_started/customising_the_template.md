@@ -35,8 +35,7 @@ attributed to changes you make rather than the original template.
 1. Install the pre-commit hooks
 
    ```console
-   $ pixi global install pre-commit
-   $ pre-commit install
+   $ pixi run prek install
    ```
 
    ```{note}
@@ -99,9 +98,9 @@ the following files.
 
 ### Changing tool options
 
-Finally, you can update options of the included tools. The pre-commit hooks (specified
-in `.pre-commit-config.yaml`) may require adjustments to align with your project's
-needs. Refer to the {ref}`pre_commit_hooks` section for more details.
+Finally, you can update options of the included tools. The hooks (specified in
+`.pre-commit-config.yaml`) may require adjustments to align with your project's needs.
+Refer to the {ref}`pre_commit_hooks` section for more details.
 
 ## Next steps
 

@@ -2,19 +2,36 @@
 
 # Getting Started
 
-How to get started depends on what your system looks like. Depending on that, you may
-want to jump to any of the sections in this part of the documentation:
+The goal of this project is to get you from a fresh clone to a working research paper in
+less than five minutes.
 
-- In {ref}`preparing_your_system`, we describe what needs to be installed on your
-  computer so that you can use the templates.
-- Should you have done that already for a different project, you can directly go to
-  {ref}`template_setup`, which describes how to customize the template to your specific
-  research project.
-- In case a project has been set up by you or a collaborator and you want to use it on a
-  different machine as well, you will find the explanations on how to do so in
-  {ref}`second_machine`.
+## The "Magic" Moment
 
-Once you are set up in this fashion, you may want to read up on some additional
-information in the {ref}`background` section. In case you know those already, have a
-look in {ref}`guides_explanations` for guides on starting new projects or porting
-existing ones.
+Once your system is {ref}`prepared <preparing_your_system>`, you can experience the
+reproducibility of this template by running a single command.
+
+1. **Clone the repository** (or your new project).
+1. **Run the analysis and view the results**:
+
+```bash
+# View the research paper in your browser
+pixi run view-paper
+
+# View the presentation slides
+pixi run view-pres
+```
+
+These commands will automatically:
+
+- Download and install all necessary dependencies (Python, Node.js, libraries) into a
+  private project environment.
+- Run the entire computational pipeline (data cleaning, analysis, figure generation).
+- Launch a local web server to display the final outputs.
+
+## Next Steps
+
+Once you have verified that the template runs on your machine, you can proceed to:
+
+- {ref}`preparing_your_system`: Detailed instructions on installing Pixi.
+- {ref}`customising_the_template`: How to adapt this structure for your own research.
+- {ref}`second_machine`: How to ensure your co-authors can run your project.

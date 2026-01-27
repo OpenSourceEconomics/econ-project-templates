@@ -11,13 +11,13 @@ from template_project.config import DOCUMENTS, ROOT
 
 for fmt, produces in {
     "pdf": ROOT / "paper.pdf",
-    "html": DOCUMENTS / "_build" / "html" / "index.html",
+    "html": ROOT / "_build" / "html" / "index.html",
 }.items():
 
     @pytask.task(id=f"paper-{fmt}")
     def task_compile_paper(
         paper_md: Path = DOCUMENTS / "paper.md",
-        myst_yml: Path = DOCUMENTS / "myst.yml",
+        myst_yml: Path = ROOT / "myst.yml",
         refs: Path = DOCUMENTS / "refs.bib",
         figure: Path = DOCUMENTS / "public" / "smoking_by_marital_status.png",
         table: Path = DOCUMENTS / "tables" / "estimation_results.md",
@@ -28,10 +28,10 @@ for fmt, produces in {
         subprocess.run(
             ("jupyter", "book", "build", f"--{fmt}"),
             check=True,
-            cwd=DOCUMENTS.absolute(),
+            cwd=ROOT.absolute(),
         )
         if fmt == "pdf":
-            build_pdf = DOCUMENTS / "_build" / "exports" / "paper.pdf"
+            build_pdf = ROOT / "_build" / "exports" / "paper.pdf"
             shutil.copy(build_pdf, produces)
 
 

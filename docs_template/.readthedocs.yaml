@@ -3,15 +3,17 @@ version: 2
 build:
   os: ubuntu-24.04
   tools:
-    python: '3.13'
+    python: '3.14'
+    nodejs: '20'
   jobs:
     create_environment:
       - asdf plugin add pixi
       - asdf install pixi latest
       - asdf global pixi latest
-    install: [pixi install, pixi run npm install]
-    build:
-      html: [pixi run -e docs build-docs]
+    install: [pixi install -e docs, pixi run npm install]
     post_build:
+      # Jupyter Book 2.0 builds site content to _build/html.
+      # For ReadTheDocs, we build and then copy to the expected output location.
       - mkdir --parents $READTHEDOCS_OUTPUT/html/
-      - cp -r docs_template/source/_build/html/* $READTHEDOCS_OUTPUT/html/
+      - BASE_URL="/$READTHEDOCS_LANGUAGE/$READTHEDOCS_VERSION" pixi run -e docs docs
+      - cp -a docs_template/source/_build/html/. "$READTHEDOCS_OUTPUT/html" && rm -r docs_template/source/_build
