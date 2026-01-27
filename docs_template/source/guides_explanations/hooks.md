@@ -9,8 +9,8 @@ the issues raised by the hooks. Pre-commit hooks are defined in the
 help maintain code quality and consistency. You can find additional hooks in the
 [pre-commit documentation](https://pre-commit.com/index.html).
 
-The template uses [prek](https://github.com/pre-commit/prek) to manage pre-commit hooks,
-which simplifies installation and usage.
+The template uses [prek](https://prek.j178.dev/) to manage pre-commit hooks, which
+simplifies installation and usage.
 
 ## Python and Jupyter
 
