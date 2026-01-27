@@ -2,9 +2,12 @@
 repos:
   - repo: meta
     hooks:
+      # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
-      # - id: check-hooks-apply  # Leave nbqa in here.
-      # - id: identity  # Prints all files passed to pre-commits. Debugging.
+  - repo: https://github.com/tox-dev/tox-toml-fmt
+    rev: v1.2.2
+    hooks:
+      - id: tox-toml-fmt
   - repo: https://github.com/lyz-code/yamlfix
     rev: 1.19.1
     hooks:
@@ -14,11 +17,13 @@ repos:
     hooks:
       - id: check-added-large-files
         args: [--maxkb=25]
+      - id: check-ast
       - id: check-case-conflict
+      - id: check-docstring-first
       - id: check-merge-conflict
+      - id: check-toml
       - id: check-vcs-permalinks
       - id: check-yaml
-      - id: check-toml
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
@@ -29,22 +34,22 @@ repos:
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: name-tests-test
         args: [--pytest-test-first]
+      - id: no-commit-to-branch
+        args: [--branch, main]
       - id: trailing-whitespace
-      - id: check-ast
-      - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.38.0
     hooks:
       - id: yamllint
         exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.13
+    rev: v0.14.14
     hooks:
       - id: ruff-check
-        types_or: [python, jupyter]
         args: [--fix]
+        types_or: [jupyter, pyi, python]
       - id: ruff-format
-        types_or: [python, jupyter]
+        types_or: [jupyter, pyi, python]
   - repo: https://github.com/kynan/nbstripout
     rev: 0.9.0
     hooks:
@@ -57,20 +62,19 @@ repos:
     hooks:
       - id: mdformat
         additional_dependencies: [mdformat-gfm, mdformat-gfm-alerts, mdformat-ruff]
-        args: [--wrap, '88']
-        files: (README\.md)
+        args: [--wrap, "88"]
+        files: (CLAUDE\.md|README\.md)
   - repo: https://github.com/executablebooks/mdformat
     rev: 1.0.0
     hooks:
       - id: mdformat
         additional_dependencies: [mdformat-myst, mdformat-ruff]
-        args: [--wrap, '88']
+        args: [--wrap, "88"]
         files: (docs_template/.|documents/.)
         exclude: (documents/presentation.md)
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
       - id: codespell
-        exclude: package-lock.json|node_modules|pixi.lock|inst/WORDLIST|ipynb
 ci:
   autoupdate_schedule: monthly

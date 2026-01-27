@@ -12,8 +12,7 @@ Powershell on Windows. Then type
 ```console
 $ git clone <url_of_your_repository>
 $ cd <name_of_your_project>
-$ pixi global install pre-commit
-$ pre-commit install
+$ pixi run prek install
 ```
 
 Now your're all set!

@@ -2,4 +2,4 @@
 # as the configuration file.
 
 [tool.pytask.ini_options]
-paths = ["./"]
+paths = [ "./" ]

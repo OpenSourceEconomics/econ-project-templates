@@ -60,7 +60,7 @@ $ pixi run -e docs view-docs
    To correct stylistic errors, you can install the linters as pre-commit hooks:
 
    ```console
-   $ pixi run pre-commit install
+   $ pixi run prek install
    ```
 
    This installs the hooks into the repository. Then, all linters are executed before
@@ -69,7 +69,7 @@ $ pixi run -e docs view-docs
    You can also manually run the linters with
 
    ```console
-   $ pixi run pre-commit run --all-files
+   $ pixi run prek
    ```
 
 1. If the tests pass, push your changes to your repository. Go to the Github page of

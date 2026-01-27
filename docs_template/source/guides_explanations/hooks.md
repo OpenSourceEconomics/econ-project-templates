@@ -9,6 +9,9 @@ the issues raised by the hooks. Pre-commit hooks are defined in the
 help maintain code quality and consistency. You can find additional hooks in the
 [pre-commit documentation](https://pre-commit.com/index.html).
 
+The template uses [prek](https://github.com/pre-commit/prek) to manage pre-commit hooks,
+which simplifies installation and usage.
+
 ## Python and Jupyter
 
 - **[ruff](https://docs.astral.sh/ruff/)**: A fast Python linter and formatter that
@@ -59,7 +62,7 @@ If you want to run the pre-commit hooks manually on all files (not just the ones
 have changed), you can run:
 
 ```console
-$ pre-commit run --all-files
+$ pixi run prek
 ```
 
 If you want to skip the pre-commit hooks for a particular commit, you can run:
