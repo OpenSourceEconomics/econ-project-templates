@@ -4,10 +4,10 @@ repos:
     hooks:
       # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
-  - repo: https://github.com/tox-dev/tox-toml-fmt
-    rev: v1.3.0
+  - repo: https://github.com/tox-dev/pyproject-fmt
+    rev: v2.12.1
     hooks:
-      - id: tox-toml-fmt
+      - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
     rev: 1.19.1
     hooks:
