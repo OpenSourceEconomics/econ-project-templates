@@ -26,6 +26,9 @@ Experience the reproducibility of this template in less than five minutes:
 1. **Run and view the results**:
 
 ```bash
+# Data cleaning, analysis, plotting, etc
+pixi run pytask
+
 # View the research paper in your browser
 pixi run view-paper
 

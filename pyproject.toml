@@ -1,52 +1,39 @@
-# ======================================================================================
-# Project metadata
-# ======================================================================================
+[build-system]
+build-backend = "hatchling.build"
+requires = [ "hatch-vcs", "hatchling" ]
 
 [project]
-name = "template_project"
+name = "template-project"
 description = "Template for reproducible research projects in economics"
-requires-python = "==3.14"
-dynamic = [ "version" ]
+readme.content-type = "text/markdown"
+readme.file = "README.md"
 keywords = [
-  "Reproducible Research",
   "Economics",
+  "Reproducible Research",
 ]
+license.text = "MIT"
+maintainers = [
+  { name = "JANE DOE", email = "janedoe@example-university.com" },
+]
+
+authors = [
+  { name = "JANE DOE", email = "janedoe@example-university.com" },
+]
+requires-python = "==3.14"
 classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
   "Operating System :: MacOS :: MacOS X",
   "Operating System :: Microsoft :: Windows",
   "Operating System :: POSIX",
-  "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.14",
 ]
-authors = [
-  { name = "JANE DOE", email = "janedoe@example-university.com" },
-]
-maintainers = [
-  { name = "JANE DOE", email = "janedoe@example-university.com" },
-]
-
-[project.readme]
-file = "README.md"
-content-type = "text/markdown"
-
-[project.license]
-text = "MIT"
-
-[project.urls]
-Changelog = "https://github.com/OpenSourceEconomics/econ-project-templates"
-Documentation = "https://github.com/OpenSourceEconomics/econ-project-templates"
-Github = "https://github.com/OpenSourceEconomics/econ-project-templates"
-Tracker = "https://github.com/OpenSourceEconomics/econ-project-templates/issues"
-
-# ======================================================================================
-# Build system configuration
-# ======================================================================================
-
-[build-system]
-requires = [ "hatchling", "hatch_vcs" ]
-build-backend = "hatchling.build"
+dynamic = [ "version" ]
+urls.Changelog = "https://github.com/OpenSourceEconomics/econ-project-templates"
+urls.Documentation = "https://github.com/OpenSourceEconomics/econ-project-templates"
+urls.Github = "https://github.com/OpenSourceEconomics/econ-project-templates"
+urls.Tracker = "https://github.com/OpenSourceEconomics/econ-project-templates/issues"
 
 [tool.hatch.build.hooks.vcs]
 version-file = "src/template_project/_version.py"
@@ -59,79 +46,18 @@ only-packages = true
 only-include = [ "src" ]
 sources = [ "src" ]
 
-[tool.hatch.version]
-source = "vcs"
-
 [tool.hatch.metadata]
 allow-direct-references = true
 
-# ======================================================================================
-# Pixi configuration
-# ======================================================================================
-
-[tool.pixi.workspace]
-channels = [ "conda-forge" ]
-platforms = [ "linux-64", "osx-64", "osx-arm64", "win-64" ]
-
-[tool.pixi.dependencies]
-jupyter-book = ">=2.0"
-jupyterlab = "*"
-nodejs = "*"
-numpy = ">=2.4"
-pandas = ">=2.2"
-plotly = ">=6.5"
-prek = "*"
-pygraphviz = "*"
-pytask = "*"
-pytask-parallel = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
-python-kaleido = ">=1.1"
-statsmodels = "*"
-ty = "*"
-
-[tool.pixi.pypi-dependencies]
-template_project = { path = ".", editable = true }
-pdbp = "*"
-tabulate = "*"
-
-[tool.pixi.tasks]
-ty = { cmd = "ty check", description = "Check typing" }
-view-paper = { cmd = "jupyter book start", description = "View the HTML paper in browser" }
-view-pres = { cmd = "npx slidev documents/presentation.md", description = "View the presentation in browser" }
-[tool.pixi.feature.docs.dependencies]
-jupyter-book = ">=2.0"
-mystmd = "*"
-
-[tool.pixi.feature.docs.tasks]
-docs = { cmd = "jupyter book build --html", cwd = "docs_template/source" }
-view-docs = { cmd = "jupyter book start", cwd = "docs_template/source" }
-check-urls = { cmd = "jupyter book build --html --check-links --strict", cwd = "docs_template/source" }
-recreate-dag = { cmd = "pixi run pytask dag --rank-direction TB --output-path docs_template/source/figures/dag.svg" }
-
-[tool.pixi.environments]
-docs = { features = [ "docs" ], solve-group = "default" }
-
-# ======================================================================================
-# Pytask configuration
-# ======================================================================================
-
-[tool.pytask.ini_options]
-paths = [ "./src/template_project", "./documents" ]
-pdbcls = "pdbp:Pdb"
-
-# ======================================================================================
-# Ruff configuration
-# ======================================================================================
+[tool.hatch.version]
+source = "vcs"
 
 [tool.ruff]
 target-version = "py314"
 fix = true
 
-[tool.ruff.lint]
-select = [ "ALL" ]
-extend-ignore = [
+lint.select = [ "ALL" ]
+lint.extend-ignore = [
   "ANN",     # Missing type annotations
   "COM812",  # Conflict with ruff-format
   "D10",     # Missing docstrings
@@ -144,23 +70,27 @@ extend-ignore = [
   "TC002",   # Move third-party import into a type-checking block
   "TC003",   # Move standard library import into a type-checking block
 ]
+lint.per-file-ignores."task_*.py" = [ "ANN", "ARG001", "S603" ]
+lint.per-file-ignores."tests/*" = [ "D", "PD011" ]
+lint.pydocstyle.convention = "google"
 
-[tool.ruff.lint.per-file-ignores]
-"tests/*" = [ "D", "PD011" ]
-"task_*.py" = [ "ANN", "ARG001", "S603" ]
+[tool.codespell]
+ignore-words = ".codespell-ignore-words"
+skip = "package-lock.json,node_modules,pixi.lock,.codespell-ignore-words"
 
-[tool.ruff.lint.pydocstyle]
-convention = "google"
-
-# ======================================================================================
-# ty configuration
-# ======================================================================================
+[tool.pytest.ini_options]
+addopts = "--pdbcls=pdbp:Pdb"
+filterwarnings = [  ]
+markers = [
+  "wip: Tests that are work-in-progress.",
+  "unit: Flag for unit tests which target mainly a single function.",
+  "integration: Flag for integration tests which may comprise of multiple unit tests.",
+  "end_to_end: Flag for tests that cover the whole program.",
+]
+norecursedirs = [ "docs" ]
 
 [tool.ty.environment]
 root = [ "." ]
-
-[tool.ty.src]
-include = [ "src/", "tests/" ]
 
 [tool.ty.rules]
 ambiguous-protocol-member = "error"
@@ -181,24 +111,59 @@ unsupported-base = "error"
 unused-ignore-comment = "error"
 useless-overload-body = "error"
 
-# ======================================================================================
-# Miscellaneous tools configuration
-# ======================================================================================
+[tool.ty.src]
+include = [ "src/", "tests/" ]
 
-[tool.pytest.ini_options]
-addopts = "--pdbcls=pdbp:Pdb"
-filterwarnings = [  ]
-markers = [
-  "wip: Tests that are work-in-progress.",
-  "unit: Flag for unit tests which target mainly a single function.",
-  "integration: Flag for integration tests which may comprise of multiple unit tests.",
-  "end_to_end: Flag for tests that cover the whole program.",
-]
-norecursedirs = [ "docs" ]
+[tool.pixi.dependencies]
+jupyter-book = ">=2.0"
+jupyterlab = "*"
+nodejs = "*"
+numpy = ">=2.4"
+pandas = ">=2.2"
+plotly = ">=6.5"
+prek = "*"
+pygraphviz = "*"
+pytask = "*"
+pytask-parallel = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+python-kaleido = ">=1.1"
+statsmodels = "*"
+ty = "*"
 
-[tool.codespell]
-ignore-words = ".codespell-ignore-words"
-skip = "package-lock.json,node_modules,pixi.lock,.codespell-ignore-words"
+[tool.pixi.environments]
+docs = { features = [ "docs" ], solve-group = "default" }
+
+[tool.pixi.feature.docs.dependencies]
+jupyter-book = ">=2.0"
+mystmd = "*"
+
+[tool.pixi.feature.docs.tasks]
+docs = { cmd = "jupyter book build --html", cwd = "docs_template/source" }
+view-docs = { cmd = "jupyter book start", cwd = "docs_template/source" }
+check-urls = { cmd = "jupyter book build --html --check-links --strict", cwd = "docs_template/source" }
+recreate-dag = { cmd = "pixi run pytask dag --rank-direction TB --output-path docs_template/source/figures/dag.svg" }
+
+[tool.pixi.pypi-dependencies]
+template_project = { path = ".", editable = true }
+pdbp = "*"
+tabulate = "*"
+
+[tool.pixi.tasks]
+tests = { cmd = "pytest", description = "Run tests" }
+tests-with-cov = { cmd = "pytest --cov-report=xml --cov=./", description = "Run tests with coverage" }
+ty = { cmd = "ty check", description = "Check typing" }
+view-paper = { cmd = "jupyter book start", description = "View the HTML paper in browser" }
+view-pres = { cmd = "npx slidev documents/presentation.md", description = "View the presentation in browser" }
+
+[tool.pixi.workspace]
+channels = [ "conda-forge" ]
+platforms = [ "linux-64", "osx-64", "osx-arm64", "win-64" ]
+
+[tool.pytask.ini_options]
+paths = [ "./src/template_project", "./documents" ]
+pdbcls = "pdbp:Pdb"
 
 [tool.yamlfix]
 line_length = 88
