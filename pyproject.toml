@@ -151,6 +151,8 @@ pdbp = "*"
 tabulate = "*"
 
 [tool.pixi.tasks]
+tests = { cmd = "pytest", description = "Run tests" }
+tests-with-cov = { cmd = "pytest --cov-report=xml --cov=./", description = "Run tests with coverage" }
 ty = { cmd = "ty check", description = "Check typing" }
 view-paper = { cmd = "jupyter book start", description = "View the HTML paper in browser" }
 view-pres = { cmd = "npx slidev documents/presentation.md", description = "View the presentation in browser" }
