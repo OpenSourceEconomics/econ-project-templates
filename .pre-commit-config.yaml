@@ -5,7 +5,7 @@ repos:
       # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
   - repo: https://github.com/tox-dev/tox-toml-fmt
-    rev: v1.2.2
+    rev: v1.3.0
     hooks:
       - id: tox-toml-fmt
   - repo: https://github.com/lyz-code/yamlfix
