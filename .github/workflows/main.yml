@@ -37,14 +37,10 @@ jobs:
       - name: Install npm packages
         shell: bash {0}
         run: pixi run npm install
-      - name: Run pytest on MacOS
+      - name: Run pytest
         shell: bash {0}
         run: pixi run pytest
-        if: runner.os == 'MacOS'
-      - name: Run tests on Windows
-        shell: bash {0}
-        run: pixi run pytest
-        if: runner.os == 'Windows'
+        if: runner.os != 'Linux'
       - name: Run pytest (with coverage) on Linux
         shell: bash {0}
         run: pixi run pytest --cov-report=xml --cov=./

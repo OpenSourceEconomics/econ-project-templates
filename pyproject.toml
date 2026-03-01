@@ -18,7 +18,7 @@ maintainers = [
 authors = [
   { name = "JANE DOE", email = "janedoe@example-university.com" },
 ]
-requires-python = "==3.14"
+requires-python = ">=3.14,<3.15"
 classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
@@ -105,6 +105,10 @@ line_length = 88
 none_representation = "null"
 preserve_quotes = true
 
+[tool.pytask]
+ini_options.paths = [ "./src/template_project", "./documents" ]
+ini_options.pdbcls = "pdbp:Pdb"
+
 [tool.pixi]
 dependencies.jupyter-book = ">=2.0"
 dependencies.jupyterlab = "*"
@@ -112,6 +116,7 @@ dependencies.nodejs = "*"
 dependencies.numpy = ">=2.4"
 dependencies.pandas = ">=2.2"
 dependencies.plotly = ">=6.5"
+dependencies.pyarrow = "*"
 dependencies.prek = "*"
 dependencies.pygraphviz = "*"
 dependencies.pytask = "*"
@@ -139,7 +144,3 @@ tasks.view-paper = { cmd = "jupyter book start", description = "View the HTML pa
 tasks.view-pres = { cmd = "npx slidev documents/presentation.md", description = "View the presentation in browser" }
 workspace.channels = [ "conda-forge" ]
 workspace.platforms = [ "linux-64", "osx-64", "osx-arm64", "win-64" ]
-
-[tool.pytask]
-ini_options.paths = [ "./src/template_project", "./documents" ]
-ini_options.pdbcls = "pdbp:Pdb"

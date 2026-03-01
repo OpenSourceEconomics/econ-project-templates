@@ -15,13 +15,13 @@ for group in TEMPLATE_GROUPS:
     def task_plot_results_by_age(
         script: Path = SRC / "final" / "plot_template.py",
         group: str = group,
-        predictions_path: Path = BLD / "predictions" / f"{group}.pickle",
-        data_path: Path = BLD / "data" / "stats4schools_smoking.pickle",
+        predictions_path: Path = BLD / "predictions" / f"{group}.feather",
+        data_path: Path = BLD / "data" / "stats4schools_smoking.feather",
         produces: Path = DOCUMENTS / "public" / f"smoking_by_{group}.png",
     ) -> None:
         """Plot the regression results by age."""
-        data = pd.read_pickle(data_path)
-        predictions = pd.read_pickle(predictions_path)
+        data = pd.read_feather(data_path)
+        predictions = pd.read_feather(predictions_path)
 
         fig = plot_regression_by_age(data, predictions, group)
         pio.get_chrome()
@@ -29,7 +29,6 @@ for group in TEMPLATE_GROUPS:
 
 
 def task_create_results_table(
-    script: Path = SRC / "final" / "plot_template.py",
     model_path: Path = BLD / "estimation_results" / "baseline.pickle",
     produces: Path = DOCUMENTS / "tables" / "estimation_results.md",
 ) -> None:

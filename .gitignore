@@ -1,6 +1,8 @@
 # Data files
+*.feather
 *.parquet
 *.pkl
+*.pickle
 
 # Distribution / packaging
 *.egg

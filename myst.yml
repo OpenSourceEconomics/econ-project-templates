@@ -8,7 +8,7 @@ project:
   authors:
     - name: JANE DOE
       affiliations: [EXAMPLE UNIVERSITY]
-      email: janedoe@example-university.de
+      email: janedoe@example-university.com
   keywords: [economics, reproducible research]
   toc:
     - file: documents/paper.md

@@ -50,7 +50,7 @@ computational steps:
 1. **Data Management**
    (`src/template_project/data_management/task_data_management_template.py`)
 
-   - Loads raw CSV data, cleans it, saves as pickle to `bld/data/`
+   - Loads raw CSV data, cleans it, saves as feather to `bld/data/`
 
 1. **Analysis** (`src/template_project/analysis/task_analysis_template.py`)
 
@@ -100,7 +100,7 @@ for group in TEMPLATE_GROUPS:
 - **Linting/Formatting**: Ruff with strict settings (`select = ["ALL"]`)
 - **Pre-commit**: Ruff, yamlfix, yamllint, mdformat (MyST), nbstripout, codespell
 - **Docstrings**: Google convention
-- **Python version**: 3.14 (requires >=3.14)
+- **Python version**: 3.14 (requires >=3.14, \<3.15)
 
 ## Testing
 
