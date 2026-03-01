@@ -1,5 +1,6 @@
+[tool.pytask]
 # This file is necessary for pytask not to automatically use the root pyproject.toml
+
 # as the configuration file.
 
-[tool.pytask.ini_options]
-paths = [ "./" ]
+ini_options.paths = [ "./" ]

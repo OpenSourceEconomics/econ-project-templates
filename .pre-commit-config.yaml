@@ -5,7 +5,7 @@ repos:
       # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.12.1
+    rev: v2.16.2
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
@@ -43,7 +43,7 @@ repos:
       - id: yamllint
         exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.14
+    rev: v0.15.4
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -51,7 +51,7 @@ repos:
       - id: ruff-format
         types_or: [jupyter, pyi, python]
   - repo: https://github.com/kynan/nbstripout
-    rev: 0.9.0
+    rev: 0.9.1
     hooks:
       - id: nbstripout
         args:
@@ -76,5 +76,6 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
+        additional_dependencies: [tomli]
 ci:
   autoupdate_schedule: monthly
