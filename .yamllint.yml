@@ -1,5 +1,4 @@
 ---
-yaml-files: ['*.yaml', '*.yml', .yamllint]
 rules:
   braces: enable
   brackets: enable
@@ -20,9 +19,9 @@ rules:
   key-duplicates: enable
   key-ordering: disable
   line-length:
-    max: 88
+    allow-non-breakable-inline-mappings: true
     allow-non-breakable-words: true
-    allow-non-breakable-inline-mappings: false
+    max: 88
   new-line-at-end-of-file: enable
   new-lines:
     type: unix
@@ -31,3 +30,7 @@ rules:
   trailing-spaces: enable
   truthy:
     level: warning
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+  - .yamllint
