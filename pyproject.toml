@@ -5,20 +5,11 @@ requires = [ "hatch-vcs", "hatchling" ]
 [project]
 name = "template-project"
 description = "Template for reproducible research projects in economics"
-readme.content-type = "text/markdown"
-readme.file = "README.md"
 keywords = [
   "Economics",
   "Reproducible Research",
 ]
-license.text = "MIT"
-maintainers = [
-  { name = "JANE DOE", email = "janedoe@example-university.com" },
-]
 
-authors = [
-  { name = "JANE DOE", email = "janedoe@example-university.com" },
-]
 requires-python = "==3.14"
 classifiers = [
   "Intended Audience :: Science/Research",
@@ -30,10 +21,22 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dynamic = [ "version" ]
-urls.Changelog = "https://github.com/OpenSourceEconomics/econ-project-templates"
-urls.Documentation = "https://github.com/OpenSourceEconomics/econ-project-templates"
-urls.Github = "https://github.com/OpenSourceEconomics/econ-project-templates"
-urls.Tracker = "https://github.com/OpenSourceEconomics/econ-project-templates/issues"
+[[project.authors]]
+name = "JANE DOE"
+email = "janedoe@example-university.com"
+[project.license]
+text = "MIT"
+[[project.maintainers]]
+name = "JANE DOE"
+email = "janedoe@example-university.com"
+[project.readme]
+content-type = "text/markdown"
+file = "README.md"
+[project.urls]
+Changelog = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Documentation = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Github = "https://github.com/OpenSourceEconomics/econ-project-templates"
+Tracker = "https://github.com/OpenSourceEconomics/econ-project-templates/issues"
 
 [tool.hatch.build.hooks.vcs]
 version-file = "src/template_project/_version.py"
@@ -55,42 +58,44 @@ source = "vcs"
 [tool.ruff]
 target-version = "py314"
 fix = true
-
-lint.select = [ "ALL" ]
-lint.extend-ignore = [
-  "ANN",     # Missing type annotations
-  "COM812",  # Conflict with ruff-format
-  "D10",     # Missing docstrings
-  "ISC001",  # Conflict with ruff-format
-  "PLR0913", # Too many arguments in function definition
-  "RET504",  # Don't force to calculate upon return
-  "S101",    # Use of `assert` detected.
-  "S301",    # pickle module is unsafe
+unsafe-fixes = false
+[tool.ruff.lint]
+select = [ "ALL" ]
+extend-ignore = [
+  "COM812",  # Conflicts with ruff-format
+  "EM101",   # Exception must not use a string literal
+  "EM102",   # Exception must not use an f-string literal
+  "FIX002",  # Line contains TODO
+  "ISC001",  # Conflicts with ruff-format
   "TC001",   # Move application import into a type-checking block
   "TC002",   # Move third-party import into a type-checking block
   "TC003",   # Move standard library import into a type-checking block
+  "TRY003",  # Long messages outside exception class
+  "ANN",
+  "D10",
+  "PLR0913",
+  "RET504",
+  "S101",
+  "S301",
 ]
-lint.per-file-ignores."task_*.py" = [ "ANN", "ARG001", "S603" ]
-lint.per-file-ignores."tests/*" = [ "D", "PD011" ]
-lint.pydocstyle.convention = "google"
+per-file-ignores."task_*.py" = [ "ANN", "ARG001", "S603" ]
+per-file-ignores."tests/*" = [ "D", "INP001", "PD011", "S101" ]
+pydocstyle.convention = "google"
 
 [tool.codespell]
 ignore-words = ".codespell-ignore-words"
 skip = "package-lock.json,node_modules,pixi.lock,.codespell-ignore-words"
 
-[tool.pytest.ini_options]
-addopts = "--pdbcls=pdbp:Pdb"
-filterwarnings = [  ]
-markers = [
-  "wip: Tests that are work-in-progress.",
-  "unit: Flag for unit tests which target mainly a single function.",
-  "integration: Flag for integration tests which may comprise of multiple unit tests.",
-  "end_to_end: Flag for tests that cover the whole program.",
-]
-norecursedirs = [ "docs" ]
+[tool.pyproject-fmt]
+column_width = 88
+max_supported_python = "3.14"
+table_format = "long"
+collapse_tables = [ "tool.hatch" ]
 
-[tool.ty.environment]
-root = [ "." ]
+[tool.pytest.ini_options]
+addopts = [ "--pdbcls=pdbp:Pdb" ]
+filterwarnings = [  ]
+norecursedirs = [ "docs" ]
 
 [tool.ty.rules]
 ambiguous-protocol-member = "error"
@@ -110,9 +115,6 @@ unresolved-global = "error"
 unsupported-base = "error"
 unused-ignore-comment = "error"
 useless-overload-body = "error"
-
-[tool.ty.src]
-include = [ "src/", "tests/" ]
 
 [tool.pixi.dependencies]
 jupyter-book = ">=2.0"
@@ -168,4 +170,4 @@ pdbcls = "pdbp:Pdb"
 [tool.yamlfix]
 line_length = 88
 none_representation = "null"
-preserve_quotes = true
+sequence_style = "block_style"

@@ -1,3 +1,6 @@
+# Claude Code
+.claude/
+
 # Data files
 *.parquet
 *.pkl
@@ -16,17 +19,15 @@ sdist/
 wheels/
 
 # Documentation
-_build/
 docs/_build/
-docs_template/build/
-docs_template/scripts/latex/*.png
 
 # IDE
 .idea/
 .vscode/
 
-# Jupyter
+# Jupyter / Jupyter Book
 .ipynb_checkpoints/
+_build
 
 # LaTeX
 *-blx.bib
@@ -36,19 +37,13 @@ docs_template/scripts/latex/*.png
 *.blg
 *.fls
 *.log
-*.nav
 *.out
-*.pdf
 *.run.xml
-*.snm
 *.synctex.gz
 *.toc
 
 # macOS
 .DS_Store
-
-# Node
-node_modules/
 
 # pixi
 .pixi/
@@ -64,6 +59,7 @@ __pycache__/
 .pytask.sqlite3
 bld/
 out/
+
 
 # Ruff
 .ruff_cache/
