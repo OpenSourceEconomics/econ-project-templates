@@ -30,7 +30,4 @@ rules:
   trailing-spaces: enable
   truthy:
     level: warning
-yaml-files:
-  - '*.yaml'
-  - '*.yml'
-  - .yamllint
+yaml-files: ['*.yaml', '*.yml', .yamllint]
