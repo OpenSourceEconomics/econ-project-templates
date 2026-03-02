@@ -42,7 +42,7 @@ jobs:
       - name: Install npm packages
         shell: bash {0}
         run: pixi run npm install
-      - name: Run pytest
+      - name: Run pytest on MacOS / Windows
         shell: bash {0}
         run: pixi run pytest
         if: runner.os != 'Linux'
@@ -84,7 +84,6 @@ jobs:
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           frozen: true
-          environments: py314
       - name: Run ty
         run: pixi run ty
         shell: bash -el {0}
