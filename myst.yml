@@ -7,9 +7,12 @@ project:
   description: Template for reproducible research projects in economics
   authors:
     - name: JANE DOE
-      affiliations: [EXAMPLE UNIVERSITY]
+      affiliations:
+        - EXAMPLE UNIVERSITY
       email: janedoe@example-university.com
-  keywords: [economics, reproducible research]
+  keywords:
+    - economics
+    - reproducible research
   toc:
     - file: documents/paper.md
   exports:
@@ -19,7 +22,10 @@ project:
       parts:
         abstract: abstract
       bibtex: documents/refs.bib
-  exclude: [documents/presentation.md, documents/tables/*, documents/public/*]
+  exclude:
+    - documents/presentation.md
+    - documents/tables/*
+    - documents/public/*
 site:
   template: book-theme
   options:

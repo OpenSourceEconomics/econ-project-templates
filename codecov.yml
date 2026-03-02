@@ -9,4 +9,5 @@ coverage:
     project:
       default:
         threshold: 1%
-ignore: [tests/**/*]
+ignore:
+  - tests/**/*
