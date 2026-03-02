@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 import pytask
+import statsmodels.iolib.smpickle
 
 from template_project.analysis.model_template import fit_logit_model
 from template_project.analysis.predict_template import predict_prob_by_age
@@ -47,7 +48,7 @@ for group in TEMPLATE_GROUPS:
         produces: Path = BLD / "predictions" / f"{group}.feather",
     ) -> None:
         """Predict based on the model estimates."""
-        model = pd.read_pickle(model_path)
+        model = statsmodels.iolib.smpickle.load_pickle(model_path)
         data = pd.read_feather(data_path)
         predicted_prob = predict_prob_by_age(data, model, group)
         predicted_prob.to_feather(produces)
