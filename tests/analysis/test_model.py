@@ -6,7 +6,7 @@ import pytest
 
 from template_project.analysis.model_template import fit_logit_model
 
-DESIRED_PRECISION: float = 10e-2
+DESIRED_PRECISION: float = 0.1
 
 
 @pytest.fixture

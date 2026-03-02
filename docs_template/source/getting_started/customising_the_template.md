@@ -1,4 +1,4 @@
-(template_setup)=
+(customising_the_template)=
 
 # Customising the template for your needs
 

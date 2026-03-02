@@ -5,7 +5,7 @@ repos:
       # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.12.1
+    rev: v2.16.2
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
@@ -16,7 +16,8 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
-        args: [--maxkb=25]
+        args:
+          - --maxkb=25
       - id: check-ast
       - id: check-case-conflict
       - id: check-docstring-first
@@ -27,15 +28,20 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
-        types: [text]
+        types:
+          - text
       - id: forbid-submodules
       - id: mixed-line-ending
-        args: [--fix=lf]
+        args:
+          - --fix=lf
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: name-tests-test
-        args: [--pytest-test-first]
+        args:
+          - --pytest-test-first
       - id: no-commit-to-branch
-        args: [--branch, main]
+        args:
+          - --branch
+          - main
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.38.0
@@ -43,15 +49,22 @@ repos:
       - id: yamllint
         exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.14
+    rev: v0.15.4
     hooks:
       - id: ruff-check
-        args: [--fix]
-        types_or: [jupyter, pyi, python]
+        args:
+          - --fix
+        types_or:
+          - jupyter
+          - pyi
+          - python
       - id: ruff-format
-        types_or: [jupyter, pyi, python]
+        types_or:
+          - jupyter
+          - pyi
+          - python
   - repo: https://github.com/kynan/nbstripout
-    rev: 0.9.0
+    rev: 0.9.1
     hooks:
       - id: nbstripout
         args:
@@ -61,20 +74,31 @@ repos:
     rev: 1.0.0
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-gfm, mdformat-gfm-alerts, mdformat-ruff]
-        args: [--wrap, "88"]
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-gfm-alerts
+          - mdformat-ruff
+        args:
+          - --wrap
+          - "88"
         files: (CLAUDE\.md|README\.md)
   - repo: https://github.com/executablebooks/mdformat
     rev: 1.0.0
     hooks:
       - id: mdformat
-        additional_dependencies: [mdformat-myst, mdformat-ruff]
-        args: [--wrap, "88"]
+        additional_dependencies:
+          - mdformat-myst
+          - mdformat-ruff
+        args:
+          - --wrap
+          - "88"
         files: (docs_template/.|documents/.)
         exclude: (documents/presentation.md)
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
       - id: codespell
+        additional_dependencies:
+          - tomli
 ci:
   autoupdate_schedule: monthly

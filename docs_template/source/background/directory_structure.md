@@ -19,7 +19,7 @@ flowchart LR
     DocumentsSource["paper.md<br/>presentation.md<br/>refs.bib"]
     DocumentsOutput["public/<br/>tables/"]
     Bld["bld/"]
-    BldSub["data/<br/>figures/<br/>tables/<br/>models/<br/>predictions/"]
+    BldSub["data/<br/>estimation_results/<br/>predictions/"]
     Build["_build/"]
     BuildSub["html/<br/>exports/"]
     Paper["paper.pdf"]
@@ -108,9 +108,10 @@ subdirectories for data management, analysis, and final output generation.
 All outputs from these steps are placed in the `bld/` directory, organized by type:
 
 - Data processing outputs go to `bld/data/`
-- Model outputs go to `bld/models/` and `bld/predictions/`
-- Final figures go to `bld/figures/`
-- Final tables go to `bld/tables/`
+- Model outputs go to `bld/estimation_results/`
+- Prediction outputs go to `bld/predictions/`
+- Final figures go to `documents/public/`
+- Final tables go to `documents/tables/`
 
 Document build outputs (HTML site and PDF exports) go to `_build/` at the project root.
 

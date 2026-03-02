@@ -10,7 +10,9 @@ build:
       - asdf plugin add pixi
       - asdf install pixi latest
       - asdf global pixi latest
-    install: [pixi install -e docs, pixi run npm install]
+    install:
+      - pixi install -e docs
+      - pixi run npm install
     post_build:
       # Jupyter Book 2.0 builds site content to _build/html.
       # For ReadTheDocs, we build and then copy to the expected output location.

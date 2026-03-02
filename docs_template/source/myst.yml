@@ -11,7 +11,11 @@ project:
   authors:
     - name: Hans-Martin von Gaudecker
       email: hmgaudecker@uni-bonn.de
-  keywords: [reproducible research, economics, pytask, python]
+  keywords:
+    - reproducible research
+    - economics
+    - pytask
+    - python
   toc:
     - file: index.md
     - file: getting_started/getting_started.md

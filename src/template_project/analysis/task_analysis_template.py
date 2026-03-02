@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 import pytask
+import statsmodels.iolib.smpickle
 
 from template_project.analysis.model_template import fit_logit_model
 from template_project.analysis.predict_template import predict_prob_by_age
@@ -22,11 +23,11 @@ FORMULA: str = (
 def task_fit_model(
     script: Path = SRC / "analysis" / "model_template.py",
     formula: str = FORMULA,
-    data: Path = BLD / "data" / "stats4schools_smoking.pickle",
+    data: Path = BLD / "data" / "stats4schools_smoking.feather",
     produces: Path = BLD / "estimation_results" / "baseline.pickle",
 ) -> None:
     """Fit a logistic regression model."""
-    df = pd.read_pickle(data)
+    df = pd.read_feather(data)
     # Realistic projects often involve complex model fitting. Here, the
     # `fit_logit_model` function simplifies this process by encapsulating it into a
     # single call. Ideally, tasks should be streamlined to load data, execute one main
@@ -37,21 +38,17 @@ def task_fit_model(
 
 
 for group in TEMPLATE_GROUPS:
-    predict_deps = {
-        "data": BLD / "data" / "stats4schools_smoking.pickle",
-        "model": BLD / "estimation_results" / "baseline.pickle",
-    }
 
     @pytask.task(id=group)
     def task_predict(
         script: Path = SRC / "analysis" / "predict_template.py",
         group: str = group,
-        data_path: Path = BLD / "data" / "stats4schools_smoking.pickle",
+        data_path: Path = BLD / "data" / "stats4schools_smoking.feather",
         model_path: Path = BLD / "estimation_results" / "baseline.pickle",
-        produces: Path = BLD / "predictions" / f"{group}.pickle",
+        produces: Path = BLD / "predictions" / f"{group}.feather",
     ) -> None:
         """Predict based on the model estimates."""
-        model = pd.read_pickle(model_path)
-        data = pd.read_pickle(data_path)
+        model = statsmodels.iolib.smpickle.load_pickle(model_path)
+        data = pd.read_feather(data_path)
         predicted_prob = predict_prob_by_age(data, model, group)
-        predicted_prob.to_pickle(produces)
+        predicted_prob.to_feather(produces)
