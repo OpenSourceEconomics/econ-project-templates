@@ -46,89 +46,6 @@ build.targets.wheel.sources = [ "src" ]
 metadata.allow-direct-references = true
 version.source = "vcs"
 
-[tool.ruff]
-target-version = "py314"
-fix = true
-[tool.ruff.lint]
-select = [ "ALL" ]
-extend-ignore = [
-  "ANN",     # Missing type annotations
-  "COM812",  # Conflict with ruff-format
-  "D10",     # Missing docstrings
-  "ISC001",  # Conflict with ruff-format
-  "PLR0913", # Too many arguments in function definition
-  "RET504",  # Don't force to calculate upon return
-  "S101",    # Use of `assert` detected.
-  "S301",    # pickle module is unsafe
-  "TC001",   # Move application import into a type-checking block
-  "TC002",   # Move third-party import into a type-checking block
-  "TC003",   # Move standard library import into a type-checking block
-]
-per-file-ignores."task_*.py" = [ "ANN", "ARG001", "S603" ]
-per-file-ignores."tests/*" = [ "D", "PD011" ]
-pydocstyle.convention = "google"
-
-[tool.codespell]
-ignore-words = ".codespell-ignore-words"
-skip = "package-lock.json,node_modules,pixi.lock,.codespell-ignore-words"
-
-[tool.pyproject-fmt]
-column_width = 88
-max_supported_python = "3.14"
-table_format = "long"
-collapse_tables = [ "tool.hatch", "tool.pytest", "tool.pytask", "tool.ty" ]
-expand_tables = [
-  "tool.pixi.dependencies",
-  "tool.pixi.environments",
-  "tool.pixi.feature.docs.dependencies",
-  "tool.pixi.feature.docs.tasks",
-  "tool.pixi.pypi-dependencies",
-  "tool.pixi.tasks",
-  "tool.pixi.workspace",
-]
-
-[tool.pytest]
-ini_options.addopts = "--pdbcls=pdbp:Pdb"
-ini_options.filterwarnings = []
-ini_options.markers = [
-  "wip: Tests that are work-in-progress.",
-  "unit: Flag for unit tests which target mainly a single function.",
-  "integration: Flag for integration tests which may comprise of multiple unit tests.",
-  "end_to_end: Flag for tests that cover the whole program.",
-]
-ini_options.norecursedirs = [ "docs" ]
-
-[tool.ty]
-environment.root = [ "." ]
-rules.ambiguous-protocol-member = "error"
-rules.deprecated = "error"
-rules.division-by-zero = "error"
-rules.ignore-comment-unknown-rule = "error"
-rules.invalid-argument-type = "error"
-rules.invalid-ignore-comment = "error"
-rules.invalid-return-type = "error"
-rules.possibly-missing-attribute = "error"
-rules.possibly-missing-implicit-call = "error"
-rules.possibly-missing-import = "error"
-rules.possibly-unresolved-reference = "error"
-rules.redundant-cast = "error"
-rules.undefined-reveal = "error"
-rules.unresolved-global = "error"
-rules.unsupported-base = "error"
-rules.unused-ignore-comment = "error"
-rules.useless-overload-body = "error"
-src.include = [ "src/", "tests/" ]
-
-[tool.yamlfix]
-line_length = 88
-none_representation = "null"
-preserve_quotes = true
-sequence_style = "block_style"
-
-[tool.pytask]
-ini_options.paths = [ "./src/template_project", "./documents" ]
-ini_options.pdbcls = "pdbp:Pdb"
-
 [tool.pixi.dependencies]
 jupyter-book = ">=2.0"
 jupyterlab = "*"
@@ -170,3 +87,96 @@ view-pres = { cmd = "npx slidev documents/presentation.md", description = "View 
 [tool.pixi.workspace]
 channels = [ "conda-forge" ]
 platforms = [ "linux-64", "osx-64", "osx-arm64", "win-64" ]
+
+[tool.ruff]
+fix = true
+[tool.ruff.lint]
+select = [ "ALL" ]
+extend-ignore = [
+  "ANN",     # Missing type annotations
+  "COM812",  # Conflicts with ruff-format
+  "D10",     # Missing docstrings
+  "EM101",   # Exception must not use a string literal
+  "EM102",   # Exception must not use an f-string literal
+  "FIX002",  # Line contains TODO
+  "ISC001",  # Conflicts with ruff-format
+  "PLR0913", # Too many arguments in function definition
+  "RET504",  # Don't force to calculate upon return
+  "S101",    # Use of `assert` detected
+  "S301",    # pickle module (standard intermediate format)
+  # TC001-TC003: TYPE_CHECKING guards. Always ignore for Python 3.14+ projects
+  # (PEP 649 deferred evaluation makes them unnecessary).
+  "TC001",   # Move application import into a type-checking block
+  "TC002",   # Move third-party import into a type-checking block
+  "TC003",   # Move standard library import into a type-checking block
+  "TRY003",  # Long messages outside exception class
+]
+per-file-ignores."task_*.py" = [
+  "ANN",    # Missing type annotations
+  "ARG001", # Unused function argument (pytask signatures)
+  "S603",   # subprocess call (pytask tasks need it)
+]
+per-file-ignores."tests/*" = [
+  "D",       # Docstrings
+  "INP001",  # Implicit namespace packages
+  "PD011",   # Use `.to_numpy()` instead of `.values`
+  "PLR2004", # Magic value used in comparison
+  "S101",    # Use of assert
+]
+pydocstyle.convention = "google"
+
+[tool.codespell]
+ignore-words = ".codespell-ignore-words"
+skip = "package-lock.json,node_modules,pixi.lock,.codespell-ignore-words"
+
+[tool.pyproject-fmt]
+column_width = 88
+max_supported_python = "3.14"
+table_format = "long"
+collapse_tables = [ "tool.hatch", "tool.pytest", "tool.pytask", "tool.ty" ]
+expand_tables = [
+  "tool.pixi.dependencies",
+  "tool.pixi.environments",
+  "tool.pixi.feature.docs.dependencies",
+  "tool.pixi.feature.docs.tasks",
+  "tool.pixi.pypi-dependencies",
+  "tool.pixi.tasks",
+  "tool.pixi.workspace",
+]
+
+[tool.ty]
+environment.root = [ "." ]
+rules.ambiguous-protocol-member = "error"
+rules.deprecated = "error"
+rules.division-by-zero = "error"
+rules.ignore-comment-unknown-rule = "error"
+rules.ineffective-final = "error"
+rules.invalid-enum-member-annotation = "error"
+rules.invalid-ignore-comment = "error"
+rules.invalid-legacy-positional-parameter = "error"
+rules.possibly-missing-submodule = "error"
+rules.redundant-cast = "error"
+rules.unused-awaitable = "error"
+rules.unused-ignore-comment = "error"
+src.include = [ "src/", "tests/" ]
+
+[tool.pytest]
+ini_options.addopts = "--pdbcls=pdbp:Pdb"
+ini_options.filterwarnings = []
+ini_options.markers = [
+  "wip: Tests that are work-in-progress.",
+  "unit: Flag for unit tests which target mainly a single function.",
+  "integration: Flag for integration tests which may comprise of multiple unit tests.",
+  "end_to_end: Flag for tests that cover the whole program.",
+]
+ini_options.norecursedirs = [ "docs" ]
+
+[tool.yamlfix]
+line_length = 88
+none_representation = "null"
+preserve_quotes = true
+sequence_style = "block_style"
+
+[tool.pytask]
+ini_options.paths = [ "./src/template_project", "./documents" ]
+ini_options.pdbcls = "pdbp:Pdb"
