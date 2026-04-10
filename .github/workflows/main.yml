@@ -32,9 +32,9 @@ jobs:
           tlmgr update --self
           tlmgr install a4wide biber biblatex booktabs caption datetime doi eurosym fancyhdr fmtcount grfext microtype minibox moreverb natbib ntgclass relsize setspace units xetex xfrac xunicode
           tlmgr list --only-installed
-      - uses: prefix-dev/setup-pixi@v0.9.4
+      - uses: prefix-dev/setup-pixi@v0.9.5
         with:
-          pixi-version: v0.66.0
+          pixi-version: v0.67.0
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
@@ -51,7 +51,7 @@ jobs:
         run: pixi run pytest --cov-report=xml --cov=./
         if: runner.os == 'Linux'
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         if: runner.os == 'Linux'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -60,9 +60,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: prefix-dev/setup-pixi@v0.9.4
+      - uses: prefix-dev/setup-pixi@v0.9.5
         with:
-          pixi-version: v0.66.0
+          pixi-version: v0.67.0
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
@@ -78,9 +78,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: prefix-dev/setup-pixi@v0.9.4
+      - uses: prefix-dev/setup-pixi@v0.9.5
         with:
-          pixi-version: v0.66.0
+          pixi-version: v0.67.0
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           frozen: true

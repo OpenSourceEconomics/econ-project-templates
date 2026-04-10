@@ -2,7 +2,7 @@
 repos:
   - repo: meta
     hooks:
-      # - id: check-hooks-apply  # Leave nbstripout in here.
+      # - id: check-hooks-apply  # Disabled: nbstripout has no .ipynb files yet
       - id: check-useless-excludes
   - repo: https://github.com/tox-dev/pyproject-fmt
     rev: v2.21.0
@@ -30,7 +30,6 @@ repos:
       - id: fix-byte-order-marker
         types:
           - text
-      - id: forbid-submodules
       - id: mixed-line-ending
         args:
           - --fix=lf
@@ -48,6 +47,10 @@ repos:
     hooks:
       - id: yamllint
         exclude: ^(docs_template/\.readthedocs.yaml)$
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.37.1
+    hooks:
+      - id: check-github-workflows
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.10
     hooks:
@@ -69,7 +72,7 @@ repos:
       - id: nbstripout
         args:
           - --extra-keys
-          - metadata.kernelspec metadata.language_info.version metadata.vscode
+          - metadata.language_info.version metadata.vscode
   - repo: https://github.com/executablebooks/mdformat
     rev: 1.0.0
     hooks:
@@ -81,7 +84,7 @@ repos:
         args:
           - --wrap
           - "88"
-        files: (CLAUDE\.md|README\.md)
+        files: (AGENTS\.md|CLAUDE\.md|README\.md)
   - repo: https://github.com/executablebooks/mdformat
     rev: 1.0.0
     hooks:

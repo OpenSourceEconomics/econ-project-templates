@@ -37,13 +37,20 @@ _build
 *.bbl
 *.bcf
 *.blg
+*.fdb_latexmk
 *.fls
+*.lof
 *.log
+*.lot
+*.nav
 *.out
 *.pdf
 *.run.xml
+*.snm
 *.synctex.gz
 *.toc
+*.vrb
+*.xdv
 
 # macOS
 .DS_Store
@@ -63,7 +70,6 @@ __pycache__/
 .pytask.sqlite3
 bld/
 out/
-
 
 # Ruff
 .ruff_cache/

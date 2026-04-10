@@ -12430,8 +12430,8 @@ packages:
   timestamp: 1767886839029
 - pypi: ./
   name: template-project
-  version: 0.12.3.dev1+g9b458fa05.d20260410
-  sha256: b62a834139e945de75b976abba678071cf80f8b06ec907ab6e8d6259d79c6120
+  version: 0.12.3.dev2+gcce77989c.d20260410
+  sha256: d905179a70e286cd755904715567aaa554be69353e2d2b8eb050a540289d65d4
   requires_python: '>=3.14,<3.15'
 - conda: https://conda.anaconda.org/conda-forge/noarch/terminado-0.18.1-pyh6dadd2b_1.conda
   sha256: b375e8df0d5710717c31e7c8e93c025c37fa3504aea325c7a55509f64e5d4340

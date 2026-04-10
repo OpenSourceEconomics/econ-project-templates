@@ -1,0 +1,3 @@
+[submodule ".ai-instructions"]
+	path = .ai-instructions
+	url = https://github.com/OpenSourceEconomics/ai-instructions

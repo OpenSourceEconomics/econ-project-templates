@@ -89,25 +89,40 @@ channels = [ "conda-forge" ]
 platforms = [ "linux-64", "osx-64", "osx-arm64", "win-64" ]
 
 [tool.ruff]
-target-version = "py314"
 fix = true
 [tool.ruff.lint]
 select = [ "ALL" ]
 extend-ignore = [
   "ANN",     # Missing type annotations
-  "COM812",  # Conflict with ruff-format
+  "COM812",  # Conflicts with ruff-format
   "D10",     # Missing docstrings
-  "ISC001",  # Conflict with ruff-format
+  "EM101",   # Exception must not use a string literal
+  "EM102",   # Exception must not use an f-string literal
+  "FIX002",  # Line contains TODO
+  "ISC001",  # Conflicts with ruff-format
   "PLR0913", # Too many arguments in function definition
   "RET504",  # Don't force to calculate upon return
-  "S101",    # Use of `assert` detected.
-  "S301",    # pickle module is unsafe
+  "S101",    # Use of `assert` detected
+  "S301",    # pickle module (standard intermediate format)
+  # TC001-TC003: TYPE_CHECKING guards. Always ignore for Python 3.14+ projects
+  # (PEP 649 deferred evaluation makes them unnecessary).
   "TC001",   # Move application import into a type-checking block
   "TC002",   # Move third-party import into a type-checking block
   "TC003",   # Move standard library import into a type-checking block
+  "TRY003",  # Long messages outside exception class
 ]
-per-file-ignores."task_*.py" = [ "ANN", "ARG001", "S603" ]
-per-file-ignores."tests/*" = [ "D", "PD011" ]
+per-file-ignores."task_*.py" = [
+  "ANN",    # Missing type annotations
+  "ARG001", # Unused function argument (pytask signatures)
+  "S603",   # subprocess call (pytask tasks need it)
+]
+per-file-ignores."tests/*" = [
+  "D",       # Docstrings
+  "INP001",  # Implicit namespace packages
+  "PD011",   # Use `.to_numpy()` instead of `.values`
+  "PLR2004", # Magic value used in comparison
+  "S101",    # Use of assert
+]
 pydocstyle.convention = "google"
 
 [tool.codespell]
