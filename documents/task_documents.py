@@ -25,8 +25,9 @@ for fmt, produces in {
     ) -> None:
         """Compile the paper from MyST Markdown using Jupyter Book 2.0."""
         fmt = produces.suffix.lstrip(".")
+        jupyter_path = shutil.which("jupyter")
         subprocess.run(
-            ("jupyter", "book", "build", f"--{fmt}"),
+            (jupyter_path, "book", "build", f"--{fmt}"),
             check=True,
             cwd=ROOT.absolute(),
         )
@@ -47,9 +48,10 @@ def task_compile_presentation(
         shell = True
     else:
         shell = False
+    npx_path = shutil.which("npx")
     subprocess.run(
         (
-            "npx",
+            npx_path,
             "slidev",
             "export",
             pres_md.absolute(),
