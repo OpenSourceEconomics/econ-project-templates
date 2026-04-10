@@ -50,6 +50,8 @@ project:
     - rule: link-resolves
       severity: ignore
       keys:
+        - 'https://jupyterbook.org/**'
+        - 'https://sli.dev/**'
         - 'https://www.computerhope.com/**'
         - 'https://www.stem.org.uk/**'
         - 'http://localhost:*/**'
