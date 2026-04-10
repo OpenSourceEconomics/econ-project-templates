@@ -2,7 +2,7 @@
 repos:
   - repo: meta
     hooks:
-      # - id: check-hooks-apply  # Disabled: nbstripout has no .ipynb files yet
+      # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
   - repo: https://github.com/tox-dev/pyproject-fmt
     rev: v2.21.0
