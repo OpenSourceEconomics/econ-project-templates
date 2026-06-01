@@ -38,13 +38,13 @@ Github = "https://github.com/OpenSourceEconomics/econ-project-templates"
 Tracker = "https://github.com/OpenSourceEconomics/econ-project-templates/issues"
 
 [tool.hatch]
+version.source = "vcs"
+metadata.allow-direct-references = true
 build.hooks.vcs.version-file = "src/template_project/_version.py"
 build.targets.sdist.exclude = [ "tests" ]
 build.targets.sdist.only-packages = true
 build.targets.wheel.only-include = [ "src" ]
 build.targets.wheel.sources = [ "src" ]
-metadata.allow-direct-references = true
-version.source = "vcs"
 
 [tool.pixi.dependencies]
 jupyter-book = ">=2.0"
@@ -145,6 +145,7 @@ expand_tables = [
 ]
 
 [tool.ty]
+src.include = [ "src/", "tests/" ]
 environment.root = [ "." ]
 rules.ambiguous-protocol-member = "error"
 rules.deprecated = "error"
@@ -158,18 +159,17 @@ rules.possibly-missing-submodule = "error"
 rules.redundant-cast = "error"
 rules.unused-awaitable = "error"
 rules.unused-ignore-comment = "error"
-src.include = [ "src/", "tests/" ]
 
 [tool.pytest]
-ini_options.addopts = "--pdbcls=pdbp:Pdb"
-ini_options.filterwarnings = []
-ini_options.markers = [
-  "wip: Tests that are work-in-progress.",
-  "unit: Flag for unit tests which target mainly a single function.",
-  "integration: Flag for integration tests which may comprise of multiple unit tests.",
-  "end_to_end: Flag for tests that cover the whole program.",
-]
 ini_options.norecursedirs = [ "docs" ]
+ini_options.addopts = "--pdbcls=pdbp:Pdb"
+ini_options.markers = [
+  "end_to_end: Flag for tests that cover the whole program.",
+  "integration: Flag for integration tests which may comprise of multiple unit tests.",
+  "unit: Flag for unit tests which target mainly a single function.",
+  "wip: Tests that are work-in-progress.",
+]
+ini_options.filterwarnings = []
 
 [tool.yamlfix]
 line_length = 88
