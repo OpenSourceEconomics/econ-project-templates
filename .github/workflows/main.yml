@@ -24,7 +24,7 @@ jobs:
           - macos-latest
           - windows-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install TinyTex
         uses: r-lib/actions/setup-tinytex@v2
       - name: Install additional LaTeX packages
@@ -32,7 +32,7 @@ jobs:
           tlmgr update --self
           tlmgr install a4wide biber biblatex booktabs caption datetime doi eurosym fancyhdr fmtcount grfext microtype minibox moreverb natbib ntgclass relsize setspace units xetex xfrac xunicode
           tlmgr list --only-installed
-      - uses: prefix-dev/setup-pixi@v0.9.5
+      - uses: prefix-dev/setup-pixi@v0.10.0
         with:
           pixi-version: v0.67.0
           cache: true
@@ -51,7 +51,7 @@ jobs:
         run: pixi run pytest --cov-report=xml --cov=./
         if: runner.os == 'Linux'
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         if: runner.os == 'Linux'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -59,8 +59,8 @@ jobs:
     name: Run docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: prefix-dev/setup-pixi@v0.9.5
+      - uses: actions/checkout@v7
+      - uses: prefix-dev/setup-pixi@v0.10.0
         with:
           pixi-version: v0.67.0
           cache: true
@@ -77,8 +77,8 @@ jobs:
     name: Run ty
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: prefix-dev/setup-pixi@v0.9.5
+      - uses: actions/checkout@v7
+      - uses: prefix-dev/setup-pixi@v0.10.0
         with:
           pixi-version: v0.67.0
           cache: true
