@@ -1,6 +1,32 @@
 # Release Notes
 
 
+## v0.12.4 — July 2026
+
+- Type-check with `ty` as a pre-commit hook instead of a pixi task.
+- Refresh the environment (pixi 0.72, full lock update) and pre-commit hooks.
+- Update the `.ai-instructions` submodule.
+- Pin `nodejs < 26` to dodge a node-fetch/keep-alive regression that breaks the
+  docs build.
+
+## v0.12.3 — April 2026
+
+- Environment update.
+
+## v0.12.2 — March 2026
+
+- Update environment and fix inconsistencies.
+
+## v0.12.1 — February 2026
+
+- README: make clear that pytask is required to build the project.
+
+## v0.12.0 — January 2026
+
+- Switch pre-commit tooling to `prek`; simplify the docs and `pyproject.toml`.
+- Typing improvements; remove type checking from ruff.
+- View the paper in HTML format.
+
 ## v0.11 — December 2025
 
 - Remove LaTeX in favor of Jupyter Book / MyST and Slidev.
