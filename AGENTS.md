@@ -20,11 +20,11 @@ pixi run tests
 pixi run pytest tests/test_template.py
 pixi run pytest tests/analysis/test_predict_template.py::test_predict_prob_by_model
 
-# Run pre-commit hooks on all files
+# Run pre-commit hooks on all files (lint, format, and type-check with ty)
 pixi run prek
 
-# Type checking
-pixi run ty
+# Type checking only (ty runs as a pre-commit hook, not a pixi task)
+pixi run prek run ty --all-files
 
 # Build documentation (Jupyter Book 2.0)
 pixi run -e docs docs
@@ -99,7 +99,9 @@ for group in TEMPLATE_GROUPS:
 ## Code Quality
 
 - **Linting/Formatting**: Ruff with strict settings (`select = ["ALL"]`)
-- **Pre-commit**: Ruff, yamlfix, yamllint, mdformat (MyST), nbstripout, codespell
+- **Type checking**: ty (via the `ty-pre-commit` hook; resolves imports from the pixi
+  env named in `[tool.ty] environment.python`)
+- **Pre-commit**: Ruff, ty, yamlfix, yamllint, mdformat (MyST), nbstripout, codespell
 - **Docstrings**: Google convention
 - **Python version**: 3.14 (requires >=3.14, \<3.15)
 
