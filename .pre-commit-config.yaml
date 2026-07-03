@@ -5,7 +5,7 @@ repos:
       # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.21.0
+    rev: v2.25.1
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
@@ -48,11 +48,11 @@ repos:
       - id: yamllint
         exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.37.1
+    rev: 0.37.4
     hooks:
       - id: check-github-workflows
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.10
+    rev: v0.15.20
     hooks:
       - id: ruff-check
         args:
@@ -66,6 +66,15 @@ repos:
           - jupyter
           - pyi
           - python
+  - repo: https://github.com/astral-sh/ty-pre-commit
+    rev: v0.0.56
+    hooks:
+      - id: ty
+        # `--no-project` stops uv from creating a `.venv`/`uv.lock` in this
+        # pixi-managed repo; ty resolves third-party imports from the env named
+        # in `[tool.ty] environment.python` (run `pixi install` once).
+        args:
+          - --no-project
   - repo: https://github.com/kynan/nbstripout
     rev: 0.9.1
     hooks:
@@ -105,3 +114,7 @@ repos:
           - tomli
 ci:
   autoupdate_schedule: monthly
+  # pre-commit.ci has no pixi environments and blocks network at hook runtime;
+  # the GitHub Actions `run-ty` job covers type checking.
+  skip:
+    - ty

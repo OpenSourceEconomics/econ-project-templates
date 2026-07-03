@@ -38,18 +38,26 @@ Github = "https://github.com/OpenSourceEconomics/econ-project-templates"
 Tracker = "https://github.com/OpenSourceEconomics/econ-project-templates/issues"
 
 [tool.hatch]
+version.source = "vcs"
+metadata.allow-direct-references = true
 build.hooks.vcs.version-file = "src/template_project/_version.py"
 build.targets.sdist.exclude = [ "tests" ]
 build.targets.sdist.only-packages = true
 build.targets.wheel.only-include = [ "src" ]
 build.targets.wheel.sources = [ "src" ]
-metadata.allow-direct-references = true
-version.source = "vcs"
 
 [tool.pixi.dependencies]
 jupyter-book = ">=2.0"
 jupyterlab = "*"
-nodejs = "*"
+# Pin <26 (TEMPORARY): the node 26.x line carries a security backport
+# (response-queue-poisoning guard on idle http.Agent sockets) that trips a
+# latent node-fetch@2 keep-alive+gzip bug, so mystmd's book-theme favicon fetch
+# dies with ERR_STREAM_PREMATURE_CLOSE and the docs build fails. See
+# https://github.com/nodejs/node/issues/63989 (fix: PR #64004, merged to main
+# 2026-06-20 but not yet in a released 26.x). node 25.9 is unaffected only
+# because it predates the backport -- it is EOL (2026-06-01), so move to a fixed
+# 26.x and drop this pin as soon as conda-forge ships one.
+nodejs = "<26"
 numpy = ">=2.4"
 pandas = ">=2.2"
 plotly = ">=6.5"
@@ -63,7 +71,6 @@ pytest-cov = "*"
 pytest-xdist = "*"
 python-kaleido = ">=1.1"
 statsmodels = "*"
-ty = "*"
 [tool.pixi.environments]
 docs = { features = [ "docs" ], solve-group = "default" }
 [tool.pixi.feature.docs.dependencies]
@@ -81,7 +88,6 @@ tabulate = "*"
 [tool.pixi.tasks]
 tests = { cmd = "pytest", description = "Run tests" }
 tests-with-cov = { cmd = "pytest --cov-report=xml --cov=./", description = "Run tests with coverage" }
-ty = { cmd = "ty check", description = "Check typing" }
 view-paper = { cmd = "jupyter book start", description = "View the HTML paper in browser" }
 view-pres = { cmd = "npx slidev documents/presentation.md", description = "View the presentation in browser" }
 [tool.pixi.workspace]
@@ -145,7 +151,11 @@ expand_tables = [
 ]
 
 [tool.ty]
-environment.root = [ "." ]
+src.include = [ "src/", "tests/" ]
+# ty resolves third-party imports from this pixi env (the official ty-pre-commit hook
+# runs with `--no-project`, so uv neither creates a `.venv` nor resolves deps). Run
+# `pixi install` once.
+environment.python = ".pixi/envs/default"
 rules.ambiguous-protocol-member = "error"
 rules.deprecated = "error"
 rules.division-by-zero = "error"
@@ -158,18 +168,17 @@ rules.possibly-missing-submodule = "error"
 rules.redundant-cast = "error"
 rules.unused-awaitable = "error"
 rules.unused-ignore-comment = "error"
-src.include = [ "src/", "tests/" ]
 
 [tool.pytest]
-ini_options.addopts = "--pdbcls=pdbp:Pdb"
-ini_options.filterwarnings = []
-ini_options.markers = [
-  "wip: Tests that are work-in-progress.",
-  "unit: Flag for unit tests which target mainly a single function.",
-  "integration: Flag for integration tests which may comprise of multiple unit tests.",
-  "end_to_end: Flag for tests that cover the whole program.",
-]
 ini_options.norecursedirs = [ "docs" ]
+ini_options.addopts = "--pdbcls=pdbp:Pdb"
+ini_options.markers = [
+  "end_to_end: Flag for tests that cover the whole program.",
+  "integration: Flag for integration tests which may comprise of multiple unit tests.",
+  "unit: Flag for unit tests which target mainly a single function.",
+  "wip: Tests that are work-in-progress.",
+]
+ini_options.filterwarnings = []
 
 [tool.yamlfix]
 line_length = 88
