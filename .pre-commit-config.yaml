@@ -5,7 +5,7 @@ repos:
       # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.25.1
+    rev: v2.26.0
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
@@ -52,7 +52,7 @@ repos:
     hooks:
       - id: check-github-workflows
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.20
+    rev: v0.16.1
     hooks:
       - id: ruff-check
         args:
@@ -67,7 +67,7 @@ repos:
           - pyi
           - python
   - repo: https://github.com/astral-sh/ty-pre-commit
-    rev: v0.0.56
+    rev: v0.0.65
     hooks:
       - id: ty
         # `--no-project` stops uv from creating a `.venv`/`uv.lock` in this
@@ -107,7 +107,7 @@ repos:
         files: (docs_template/.|documents/.)
         exclude: (documents/presentation.md)
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell
         additional_dependencies:
