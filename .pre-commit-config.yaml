@@ -165,8 +165,11 @@ repos:
 ci:
   autoupdate_schedule: monthly
   # pre-commit.ci has no pixi environments and blocks network at hook runtime;
-  # the GitHub Actions `run-ty` job covers type checking, and pixi-lock-check
-  # needs a pixi binary that pre-commit.ci does not provide.
+  # the GitHub Actions `run-ty` job covers type checking, pixi-lock-check needs
+  # a pixi binary that pre-commit.ci does not provide, and pre-push-hooks-installed
+  # always fails there since pre-commit.ci's ephemeral clone never runs
+  # `prek install -t pre-push` — that step is a per-developer-clone concern.
   skip:
     - ty
     - pixi-lock-check
+    - pre-push-hooks-installed
