@@ -43,20 +43,16 @@ attributed to changes you make rather than the original template.
    step on each new machine where you work on the project.
    ```
 
-1. Install the node.js dependencies for the slides
-
-   ```console
-   $ pixi run npm install
-   ```
-
 1. Run the project
 
    ```console
    $ pixi run pytask
    ```
 
-   All programs used within this project template need to be found on your path, see
-   above ({ref}`preparing_your_system` and the {ref}`faq`).
+   This automatically installs the node.js dependencies for the slides before building
+   them (via the `install-npm` pixi task). All programs used within this project
+   template need to be found on your path, see above ({ref}`preparing_your_system` and
+   the {ref}`faq`).
 
 If all went well, you are now ready to adapt the template to your project.
 

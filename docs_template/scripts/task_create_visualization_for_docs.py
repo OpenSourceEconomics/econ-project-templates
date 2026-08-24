@@ -113,7 +113,7 @@ def _update_fig_with_shape(case, fig):
     else:
         msg = (
             "Case must be in {'steps_only_full', 'model_steps_full', "
-            "'model_steps_select'}",
+            "'model_steps_select'}"
         )
         raise ValueError(msg)
     return fig
