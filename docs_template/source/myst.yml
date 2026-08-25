@@ -52,6 +52,7 @@ project:
       keys:
         - 'https://jupyterbook.org/**'
         - 'https://sli.dev/**'
+        - 'https://miktex.org/**'
         - 'https://www.computerhope.com/**'
         - 'https://www.stem.org.uk/**'
         - 'http://localhost:*/**'
