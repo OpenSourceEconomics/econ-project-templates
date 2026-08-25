@@ -31,7 +31,7 @@ with `pixi run`.
 You can build the documentation using
 
 ```console
-$ pixi run -e docs docs
+$ pixi run -e docs build-docs
 ```
 
 To view the documentation interactively with live reload:

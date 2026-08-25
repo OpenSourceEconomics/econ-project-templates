@@ -5,7 +5,7 @@ repos:
       # - id: check-hooks-apply  # Leave nbstripout in here.
       - id: check-useless-excludes
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.25.1
+    rev: v2.28.0
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/lyz-code/yamlfix
@@ -48,11 +48,11 @@ repos:
       - id: yamllint
         exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.37.4
+    rev: 0.38.0
     hooks:
       - id: check-github-workflows
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.20
+    rev: v0.16.4
     hooks:
       - id: ruff-check
         args:
@@ -67,7 +67,7 @@ repos:
           - pyi
           - python
   - repo: https://github.com/astral-sh/ty-pre-commit
-    rev: v0.0.56
+    rev: v0.0.74
     hooks:
       - id: ty
         # `--no-project` stops uv from creating a `.venv`/`uv.lock` in this
@@ -107,14 +107,69 @@ repos:
         files: (docs_template/.|documents/.)
         exclude: (documents/presentation.md)
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell
         additional_dependencies:
           - tomli
+  - repo: local
+    hooks:
+      # Runs at pre-commit stage and fails if the config declares pre-push hooks
+      # that this clone never installed — otherwise they look active and silently
+      # never fire.
+      - id: pre-push-hooks-installed
+        name: pre-push hooks are installed in this clone
+        entry: .ai-instructions/hooks/check_pre_push_installed.py
+        language: script
+        pass_filenames: false
+        always_run: true
+      # `--check` re-solves and compares without writing, so it cannot dirty the
+      # worktree. pre-push, not pre-commit: a mid-branch commit may legitimately
+      # lag the lock, but a push with a stale lock burns a CI cycle.
+      - id: pixi-lock-check
+        name: pixi.lock is in sync with the manifest
+        entry: pixi lock --check
+        language: system
+        pass_filenames: false
+        files: ^(pyproject\.toml|pixi\.toml|pixi\.lock)$
+        stages:
+          - pre-push
+      - id: notebook-cell-source-format
+        name: notebook cell source is a JSON array of lines
+        entry: .ai-instructions/hooks/fix_notebook_cell_source.py
+        language: script
+        types:
+          - jupyter
+      - id: no-hardcoded-user-paths
+        name: no hardcoded user-specific absolute paths
+        language: pygrep
+        entry: (/home/[A-Za-z0-9_.-]+/|/Users/[A-Za-z0-9_.-]+/|[A-Za-z]:\\Users\\)
+        types_or:
+          - python
+          - toml
+      - id: no-section-separator-comments
+        name: no decorative section-separator comments
+        language: pygrep
+        entry: ^\s*#\s*[-=#_*]{10,}\s*$
+        types:
+          - python
+      # Catches the labelled forms only — PR/issue numbers, `E<n>`/`F<n>`
+      # finding labels, `round-<n>`, `pre-fix`. Prose that rehearses history
+      # without a label stays a review responsibility.
+      - id: no-internal-references
+        name: no references a reader cannot reach from the checkout
+        language: pygrep
+        entry: '(?:^|[\s(\[])\#[0-9]{2,5}\b(?!\.[0-9])|(?i:\b(?:round|wave)-[0-9]+\b)|(?i:\b(?:audit|review|finding|witness|defect|bug|fix|guard)\s+)(?:finding\s+)?[EF][0-9]{1,2}\b|\b[EF][0-9]{1,2}(?i:\s+(?:fix|guard|bug|defect|witness|signature|regression|finding|audit)\b)|(?:^|\s)\((?:the\s+)?(?!(?:F8|F16|F32|F64)\b)[EF][0-9]{1,2}[''’]?(?:\s*[,/]\s*[EF][0-9]{1,2}[''’]?)*(?:[,)\s])|(?i:\b(?:pre|post)-fix\b)'
+        types:
+          - python
 ci:
   autoupdate_schedule: monthly
   # pre-commit.ci has no pixi environments and blocks network at hook runtime;
-  # the GitHub Actions `run-ty` job covers type checking.
+  # the GitHub Actions `run-ty` job covers type checking, pixi-lock-check needs
+  # a pixi binary that pre-commit.ci does not provide, and pre-push-hooks-installed
+  # always fails there since pre-commit.ci's ephemeral clone never runs
+  # `prek install -t pre-push` — that step is a per-developer-clone concern.
   skip:
     - ty
+    - pixi-lock-check
+    - pre-push-hooks-installed

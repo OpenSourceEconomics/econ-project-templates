@@ -24,7 +24,7 @@ jobs:
           - macos-latest
           - windows-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       - name: Install TinyTex
         uses: r-lib/actions/setup-tinytex@v2
       - name: Install additional LaTeX packages
@@ -32,16 +32,16 @@ jobs:
           tlmgr update --self
           tlmgr install a4wide biber biblatex booktabs caption datetime doi eurosym fancyhdr fmtcount grfext microtype minibox moreverb natbib ntgclass relsize setspace units xetex xfrac xunicode
           tlmgr list --only-installed
-      - uses: prefix-dev/setup-pixi@v0.10.0
+      - uses: prefix-dev/setup-pixi@v0.10.1
         with:
-          pixi-version: v0.72.0
+          pixi-version: v0.77.0
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
           frozen: true
       - name: Install npm packages
         shell: bash {0}
-        run: pixi run npm install
+        run: pixi run install-npm
       - name: Run pytest on MacOS / Windows
         shell: bash {0}
         run: pixi run pytest
@@ -51,7 +51,7 @@ jobs:
         run: pixi run pytest --cov-report=xml --cov=./
         if: runner.os == 'Linux'
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@v7.0.0
         if: runner.os == 'Linux'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -59,17 +59,17 @@ jobs:
     name: Run docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: prefix-dev/setup-pixi@v0.10.0
+      - uses: actions/checkout@v7.0.1
+      - uses: prefix-dev/setup-pixi@v0.10.1
         with:
-          pixi-version: v0.72.0
+          pixi-version: v0.77.0
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           activate-environment: true
           frozen: true
       - name: Build docs
         shell: bash {0}
-        run: pixi run docs
+        run: pixi run build-docs
       - name: Check validity of URLs
         shell: bash {0}
         run: pixi run check-urls
@@ -77,10 +77,10 @@ jobs:
     name: Run ty
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: prefix-dev/setup-pixi@v0.10.0
+      - uses: actions/checkout@v7.0.1
+      - uses: prefix-dev/setup-pixi@v0.10.1
         with:
-          pixi-version: v0.72.0
+          pixi-version: v0.77.0
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           frozen: true

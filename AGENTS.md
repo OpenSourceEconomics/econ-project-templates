@@ -27,7 +27,7 @@ pixi run prek
 pixi run prek run ty --all-files
 
 # Build documentation (Jupyter Book 2.0)
-pixi run -e docs docs
+pixi run -e docs build-docs
 
 # View documentation, paper, and presentation interactively
 pixi run -e docs view-docs   # Project documentation
@@ -36,10 +36,11 @@ pixi run view-pres           # Presentation (Slidev with live reload)
 
 # Regenerate the DAG visualization
 pixi run -e docs recreate-dag
-
-# Install Node.js dependencies (for Slidev presentations)
-pixi run npm install
 ```
+
+Node.js dependencies for Slidev presentations install automatically as a dependency of
+`pixi run pytask` and `pixi run view-pres` (via the `install-npm` pixi task); no manual
+step is needed.
 
 ## Architecture
 
